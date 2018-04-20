@@ -21,5 +21,7 @@ namespace SparqlForHumans.Core.Utilities
                     yield return unzip.ReadLine();
                 }
         }
+
+        
     }
 }

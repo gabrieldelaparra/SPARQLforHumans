@@ -2,9 +2,13 @@
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.QueryParsers;
+using Lucene.Net.Search;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Utilities;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VDS.RDF;
@@ -20,41 +24,295 @@ namespace SparqlForHumans.CLI
         static string propertyIRI = "http://www.wikidata.org/prop/direct/";
 
         static string labelIRI = "http://www.w3.org/2000/01/rdf-schema#label";
-        static string prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
-        static string nameIRI = "http://schema.org/name";
+        //static string prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel";
+        //static string nameIRI = "http://schema.org/name";
         static string alt_labelIRI = "http://www.w3.org/2004/02/skos/core#altLabel";
 
         static string descriptionIRI = "http://schema.org/description";
 
         static string instanceOf = "P31";
-        static string image = "P18";
+        //static string image = "P18";
 
-        
+
         static void Main(string[] args)
         {
-            FilterTriples(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz", @"C:\Users\admin\Desktop\DCC\SparqlForHumans\Out\filtered-triples.nt");
+            //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
 
+            //FilterTriples(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz", @"C:\Users\admin\Desktop\DCC\SparqlForHumans\Out\filtered-triples.nt");
+            //FilterTriples(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt", @"C:\Users\admin\Desktop\DCC\SparqlForHumans\Out\filtered-triples.nt");
+
+            //CreateLuceneIndex(@"C:\Users\admin\Desktop\DCC\SparqlForHumans\Out\filtered-triples.nt");
+
+            //Optimize();
+
+            Search("Barack Obama");
+        }
+
+        public static void Search(string input, string fieldName = "")
+        {
+            if (string.IsNullOrEmpty(input)) return;
+
+            var terms = input.Trim()
+                .Replace("-", " ")
+                .Split(' ')
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Select(x => x.Trim() + "*");
+
+            input = string.Join(" ", terms);
+
+            _search(input, fieldName);
+        }
+
+
+
+        private static void _search(string searchQuery, string searchField = "")
+        {
+            // validation
+            if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", ""))) return;
+
+            using (var searcher = new IndexSearcher(LuceneIndexDirectory, true))
+            {
+                searcher.SetDefaultFieldSortScoring(true, true);
+
+                var hits_limit = 1000;
+                var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+
+                QueryParser parser;
+
+                if (!string.IsNullOrEmpty(searchField))
+                {
+                    parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
+                }
+                else
+                {
+                    parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
+                                                        new[] { "Label", "Description" },
+                                                        analyzer);
+                }
+
+                var query = parseQuery(searchQuery, parser);
+                var hits = searcher.Search(query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
+
+                foreach (var hit in hits)
+                {
+                    var doc = searcher.Doc(hit.Doc);
+                    var item = mapLuceneDocumentToData(doc);
+                    Console.WriteLine($"{item.Label}\n\tDoc: {hit.Doc} - Scode: {hit.Score}\n\tName: {item.Name}\n\tType: {item.Type}\n\tDesc: {item.Description}\n");
+                }
+
+                //var docs = hits.Select(x => searcher.Doc(x.Doc)).ToList();
+                //var res = mapLuceneDocumentToData(docs);
+
+                //foreach (var item in res)
+                //{
+                //    Console.WriteLine($"{item.Label} \n\t({item.Name}) \n\tType:{item.Type} \n\tDesc:{item.Description}\n");
+                //}
+
+                analyzer.Close();
+                searcher.Dispose();
+
+                Console.ReadLine();
+            }
+        }
+
+        private static IEnumerable<(string Name, string Type, string Label, string Description)> mapLuceneDocumentToData(IEnumerable<Document> documents)
+        {
+            foreach (var doc in documents)
+            {
+                yield return mapLuceneDocumentToData(doc);
+            }
+        }
+
+        private static (string Name, string Type, string Label, string Description) mapLuceneDocumentToData(Document document)
+        {
+            return (document.Get("Name"), document.Get("Type"), document.Get("Label"), document.Get("Description"));
+        }
+
+        private static Query parseQuery(string searchQuery, QueryParser parser)
+        {
+            Query query;
+            try
+            {
+                query = parser.Parse(searchQuery.Trim());
+            }
+            catch (ParseException)
+            {
+                query = parser.Parse(QueryParser.Escape(searchQuery.Trim()));
+            }
+            return query;
+        }
+
+        public static void Optimize()
+        {
+            var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            using (var writer = new IndexWriter(LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                analyzer.Close();
+                writer.Optimize();
+                writer.Dispose();
+            }
+        }
+
+        static IEnumerable<string> ReadLines(string filename)
+        {
+            using (StreamReader streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
+                while (!streamReader.EndOfStream)
+                {
+                    yield return streamReader.ReadLine();
+                }
+        }
+
+        static Analyzer analyzer;
+        static string indexPath = @"LuceneIndex";
+
+        static private Lucene.Net.Store.Directory luceneIndexDirectory;
+        static public Lucene.Net.Store.Directory LuceneIndexDirectory
+        {
+            get
+            {
+                if (luceneIndexDirectory == null) luceneIndexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
+                if (IndexWriter.IsLocked(luceneIndexDirectory)) IndexWriter.Unlock(luceneIndexDirectory);
+                var lockFilePath = Path.Combine(indexPath, "write.lock");
+                if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
+                return luceneIndexDirectory;
+            }
         }
 
         static void CreateLuceneIndex(string inputTriples)
         {
-            //var directory = FSDirectory.GetDirectory("LuceneIndex");
-            //var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_CURRENT);
-            //var writer = new IndexWriter(directory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED);
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
 
+            var notifyTicks = 100000;
+            var readCount = 0;
 
-            //Document doc = new Document();
-            //doc.Add(new Field("id", i.ToString(), Field.Store.YES, Field.Index.NO));
-            //doc.Add(new Field("postBody", text, Field.Store.YES, Field.Index.ANALYZED));
-            //writer.AddDocument(doc);
+            analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            Options.InternUris = false;
+            var lines = ReadLines(inputTriples);
 
-            //writer.Optimize();
-            ////Close the writer
-            ////writer.Flush();
-            //writer.Close();
+            string lastNode = string.Empty;
+            var doc = new Document();
+            var ps = new List<string>();
 
-            //directory.Close();
+            using (var logStreamWriter = new StreamWriter(new FileStream("IndexProgressLog.txt", FileMode.Create)))
+            using (var errorStreamWriter = new StreamWriter(new FileStream("IndexErrorsLog.txt", FileMode.Create)))
+            using (var writer = new IndexWriter(LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                foreach (var line in lines)
+                {
+                    readCount++;
+                    if (readCount % notifyTicks == 0)
+                    {
+                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount}");
+                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / (double)21488204) * 100}");
+                    }
+                    var g = new NonIndexedGraph();
+                    StringParser.Parse(g, line);
+                    var statement = g.Triples.Last();
+
+                    var ntSubject = statement.Subject.ToSafeString();
+                    var ntPredicate = statement.Predicate.ToSafeString();
+                    var ntObject = statement.Object;
+
+                    // NEW SUBJECT
+                    if (string.IsNullOrEmpty(lastNode))
+                    {
+                        lastNode = ntSubject;
+                        var name = lastNode.Replace(entityIRI, string.Empty);
+                        doc = new Document();
+                        ps = new List<string>();
+                        doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                    }
+
+                    // NEW SUBJECT
+                    if (!lastNode.Equals(ntSubject))
+                    {
+                        lastNode = ntSubject;
+                        try
+                        {
+                            writer.AddDocument(doc);
+                        }
+                        catch (Exception e)
+                        {
+                            errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{line},{e.Message}");
+                            Console.WriteLine(e.Message);
+                        }
+                        var name = lastNode.Replace(entityIRI, string.Empty);
+                        doc = new Document();
+                        ps = new List<string>();
+                        doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                    }
+
+                    if (ntPredicate.Contains(propertyIRI))
+                    {
+                        string p = ntPredicate.Replace(propertyIRI, "");
+                        if (!ps.Contains(p))
+                        {
+                            ps.Add(p);
+                            doc.Add(new Field("Property", p, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        }
+
+                        string value = ntObject.ToSafeString().Replace(entityIRI, "");
+                        if (p.Equals(instanceOf))
+                        {
+                            doc.Add(new Field("Type", value, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        }
+                        if (value.StartsWith(entityPrefix))
+                        {
+                            String po = p + "##" + value;
+                            doc.Add(new Field("PO", po, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        }
+                    }
+                    else
+                    {
+                        // LITERAL VALUES
+                        if (ntObject.NodeType != NodeType.Literal) continue;
+                        var value = ((LiteralNode)ntObject).Value;
+
+                        if (ntPredicate.Equals(labelIRI))
+                        {
+                            doc.Add(new Field("Label", value, Field.Store.YES, Field.Index.ANALYZED));
+                        }
+                        else if (ntPredicate.Equals(descriptionIRI))
+                        {
+                            doc.Add(new Field("Description", value, Field.Store.YES, Field.Index.ANALYZED));
+                        }
+                        else if (ntPredicate.Equals(alt_labelIRI))
+                        {
+                            doc.Add(new Field("AltLabel", value, Field.Store.YES, Field.Index.ANALYZED));
+                        }
+                    }
+                }
+                writer.AddDocument(doc);
+                writer.Dispose();
+                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount}");
+            }
+            analyzer.Close();
+            stopwatch.Stop();
         }
+
+        static void GetLineCount(string inputTriples)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            using (var logStreamWriter = new StreamWriter(new FileStream("LineCountLog.txt", FileMode.Create)))
+            {
+                var notifyTicks = 100000;
+                var lineCount = 0;
+                var lines = GZipHandler.ReadGZip(inputTriples);
+                foreach (var item in lines)
+                {
+                    lineCount++;
+                    if (lineCount % notifyTicks == 0)
+                    {
+                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
+                    }
+                }
+                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
+            }
+            stopwatch.Stop();
+        }
+
 
         /// <summary>
         /// Reads an Wikidata GZipped N-triples dump.
@@ -70,6 +328,8 @@ namespace SparqlForHumans.CLI
         /// <param name="outputTriples">Filtered Wikidata (Non-GZipped) N-triples dump</param>
         static void FilterTriples(string inputTriples, string outputTriples)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             if (!new FileInfo(inputTriples).Exists) return;
 
             var outputFileInfo = new FileInfo(outputTriples);
@@ -78,28 +338,35 @@ namespace SparqlForHumans.CLI
 
             Options.InternUris = false;
             //Read GZip File
-            var lines = GZipHandler.ReadGZip(inputTriples);
+            //var wikidataDumpLines = GZipHandler.ReadGZip(inputTriples);
+            var wikidataDumpLines = ReadLines(inputTriples);
             var notifyTicks = 100000;
             var readCount = 0;
             var writeCount = 0;
 
-            using (var logStreamWriter = new StreamWriter(new FileStream("Process.log", FileMode.Create)))
-            using (var errorStreamWriter = new StreamWriter(new FileStream("Errors.log", FileMode.Create)))
-            using (var fileStream = new FileStream(outputTriples, FileMode.Create))
-            using (var filteredWriter = new StreamWriter(fileStream))
+            using (var logStreamWriter = new StreamWriter(new FileStream("ProgressLog.txt", FileMode.Create)))
+            using (var errorStreamWriter = new StreamWriter(new FileStream("ErrorsLog.txt", FileMode.Create)))
+            using (var filteredStreamWriter = new StreamWriter(new FileStream(outputTriples, FileMode.Create)))
             {
-                logStreamWriter.WriteLine("DateTime,Read,Write");
-                foreach (var item in lines)
+                logStreamWriter.AutoFlush = true;
+                errorStreamWriter.AutoFlush = true;
+                filteredStreamWriter.AutoFlush = true;
+
+                logStreamWriter.WriteLine("ElapsedTime,Read,Write");
+                foreach (var line in wikidataDumpLines)
                 {
                     readCount++;
                     if (readCount % notifyTicks == 0)
                     {
-                        logStreamWriter.WriteLine($"{DateTime.Now},{readCount},{writeCount}");
+                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
+                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / (double)447622549) * 100}");
+                        //DEBUG:
+                        //if (readCount == 100 * notifyTicks) break;
                     }
                     try
                     {
                         var g = new NonIndexedGraph();
-                        StringParser.Parse(g, item);
+                        StringParser.Parse(g, line);
                         var statement = g.Triples.Last();
 
                         if (statement.Subject.NodeType != NodeType.Uri) continue;
@@ -131,16 +398,18 @@ namespace SparqlForHumans.CLI
                         if (ntObject.NodeType == NodeType.Literal)
                             if (!((LiteralNode)ntObject).Language.Equals("en")) continue;
 
-                        filteredWriter.WriteLine(item);
+                        filteredStreamWriter.WriteLine(line);
                         writeCount++;
                     }
                     catch (Exception e)
                     {
-                        errorStreamWriter.WriteLine($"{DateTime.Now},{readCount},{item},{e.Message}");
+                        errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{line},{e.Message}");
+                        //errorStreamWriter.Flush();
                     }
                 }
-                logStreamWriter.WriteLine($"{DateTime.Now},{readCount},{writeCount}");
+                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
             }
+            stopwatch.Stop();
         }
     }
 }
