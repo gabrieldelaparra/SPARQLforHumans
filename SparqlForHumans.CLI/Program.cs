@@ -5,6 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
+using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,22 @@ namespace SparqlForHumans.CLI
 {
     class Program
     {
+        static Analyzer analyzer;
+        static string indexPath = @"LuceneIndex";
+
+        static private Lucene.Net.Store.Directory luceneIndexDirectory;
+        static public Lucene.Net.Store.Directory LuceneIndexDirectory
+        {
+            get
+            {
+                if (luceneIndexDirectory == null) luceneIndexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
+                if (IndexWriter.IsLocked(luceneIndexDirectory)) IndexWriter.Unlock(luceneIndexDirectory);
+                var lockFilePath = Path.Combine(indexPath, "write.lock");
+                if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
+                return luceneIndexDirectory;
+            }
+        }
+
         static string entityIRI = "http://www.wikidata.org/entity/";
         static string entityPrefix = "Q";
 
@@ -45,102 +62,10 @@ namespace SparqlForHumans.CLI
 
             //Optimize();
 
-            Search("Barack Obama");
+            SearchIndex.Search("Barack Obama");
         }
 
-        public static void Search(string input, string fieldName = "")
-        {
-            if (string.IsNullOrEmpty(input)) return;
-
-            var terms = input.Trim()
-                .Replace("-", " ")
-                .Split(' ')
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Select(x => x.Trim() + "*");
-
-            input = string.Join(" ", terms);
-
-            _search(input, fieldName);
-        }
-
-
-
-        private static void _search(string searchQuery, string searchField = "")
-        {
-            // validation
-            if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", ""))) return;
-
-            using (var searcher = new IndexSearcher(LuceneIndexDirectory, true))
-            {
-                searcher.SetDefaultFieldSortScoring(true, true);
-
-                var hits_limit = 1000;
-                var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-
-                QueryParser parser;
-
-                if (!string.IsNullOrEmpty(searchField))
-                {
-                    parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
-                }
-                else
-                {
-                    parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
-                                                        new[] { "Label", "Description" },
-                                                        analyzer);
-                }
-
-                var query = parseQuery(searchQuery, parser);
-                var hits = searcher.Search(query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
-
-                foreach (var hit in hits)
-                {
-                    var doc = searcher.Doc(hit.Doc);
-                    var item = mapLuceneDocumentToData(doc);
-                    Console.WriteLine($"{item.Label}\n\tDoc: {hit.Doc} - Scode: {hit.Score}\n\tName: {item.Name}\n\tType: {item.Type}\n\tDesc: {item.Description}\n");
-                }
-
-                //var docs = hits.Select(x => searcher.Doc(x.Doc)).ToList();
-                //var res = mapLuceneDocumentToData(docs);
-
-                //foreach (var item in res)
-                //{
-                //    Console.WriteLine($"{item.Label} \n\t({item.Name}) \n\tType:{item.Type} \n\tDesc:{item.Description}\n");
-                //}
-
-                analyzer.Close();
-                searcher.Dispose();
-
-                Console.ReadLine();
-            }
-        }
-
-        private static IEnumerable<(string Name, string Type, string Label, string Description)> mapLuceneDocumentToData(IEnumerable<Document> documents)
-        {
-            foreach (var doc in documents)
-            {
-                yield return mapLuceneDocumentToData(doc);
-            }
-        }
-
-        private static (string Name, string Type, string Label, string Description) mapLuceneDocumentToData(Document document)
-        {
-            return (document.Get("Name"), document.Get("Type"), document.Get("Label"), document.Get("Description"));
-        }
-
-        private static Query parseQuery(string searchQuery, QueryParser parser)
-        {
-            Query query;
-            try
-            {
-                query = parser.Parse(searchQuery.Trim());
-            }
-            catch (ParseException)
-            {
-                query = parser.Parse(QueryParser.Escape(searchQuery.Trim()));
-            }
-            return query;
-        }
+        
 
         public static void Optimize()
         {
@@ -162,21 +87,7 @@ namespace SparqlForHumans.CLI
                 }
         }
 
-        static Analyzer analyzer;
-        static string indexPath = @"LuceneIndex";
-
-        static private Lucene.Net.Store.Directory luceneIndexDirectory;
-        static public Lucene.Net.Store.Directory LuceneIndexDirectory
-        {
-            get
-            {
-                if (luceneIndexDirectory == null) luceneIndexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
-                if (IndexWriter.IsLocked(luceneIndexDirectory)) IndexWriter.Unlock(luceneIndexDirectory);
-                var lockFilePath = Path.Combine(indexPath, "write.lock");
-                if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
-                return luceneIndexDirectory;
-            }
-        }
+        
 
         static void CreateLuceneIndex(string inputTriples)
         {

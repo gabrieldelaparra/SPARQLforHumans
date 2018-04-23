@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<h1>AutoComplete</h1>
+Search on the Lucene Index
+<p />
+<div>
+    <label>Search: </label>
+    <input type="text" id="LuceneAutocomplete" data-autocomplete="@Url.Action("Autocomplete","Lucene")" autocomplete="on" />
+    <br /><br /><br />
+    <label>Selected Item:</label>
+    <h2 id="txtLabel"></h2>
+    <h3 id="txtDescription"></h3>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#LuceneAutocomplete").each(function () {
+            $(this).autocomplete({
+                source: $(this).attr("data-autocomplete"),
+                minLength: 2,
+                select: function (event, ui) {
+                    console.log(ui.item);
+                    $('#txtLabel').text(ui.item["label"]);
+                    $('#txtDescription').text(ui.item["description"]);
+                    return false;
+                }
+            });
+        });
+    });
+</script>

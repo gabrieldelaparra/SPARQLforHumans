@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.CLI", "Spar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.Core", "SparqlForHumans.Core\SparqlForHumans.Core.csproj", "{B3D66871-7C52-4BD5-B44F-2BC551EE325F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.Server", "SparqlForHumans.Server\SparqlForHumans.Server.csproj", "{524588CA-4E60-469D-88A6-F721B5B19B87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B3D66871-7C52-4BD5-B44F-2BC551EE325F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3D66871-7C52-4BD5-B44F-2BC551EE325F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3D66871-7C52-4BD5-B44F-2BC551EE325F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{524588CA-4E60-469D-88A6-F721B5B19B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{524588CA-4E60-469D-88A6-F721B5B19B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{524588CA-4E60-469D-88A6-F721B5B19B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{524588CA-4E60-469D-88A6-F721B5B19B87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
