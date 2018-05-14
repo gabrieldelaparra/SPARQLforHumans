@@ -16,6 +16,8 @@ Search on the Lucene Index
     <label>Selected Item:</label>
     <h2 id="txtLabel"></h2>
     <h3 id="txtDescription"></h3>
+    <br />
+    <ul id="txtProperties"></ul>
 </div>
 
 <script>
@@ -37,13 +39,17 @@ Search on the Lucene Index
                     console.log(ui.item);
                     $('#txtLabel').text(ui.item.label);
                     $('#txtDescription').text(ui.item.description);
+                    $.each(ui.item.properties, function (index, value) {
+                        console.log(value);
+                        $('#txtProperties').append("<li>" + value.item2 + " (" + value.item1 + ")</li>");
+                    });
                     return false;
                 }
             }).autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
                     .append("<div>" + item.label + " (" + item.typeLabel + ") </div>")
                     .appendTo(ul);
-                };;
+            };;
         });
     });
 </script>

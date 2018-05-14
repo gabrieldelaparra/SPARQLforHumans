@@ -15,6 +15,9 @@ namespace SparqlForHumans.Core.Services
 
         static Analyzer analyzer;
 
+        static Dictionary<string, string> typeLabels = new Dictionary<string, string>();
+        static Dictionary<string, string> propertyLabels = new Dictionary<string, string>();
+
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText)
         {
             if (string.IsNullOrEmpty(labelText))
@@ -35,40 +38,7 @@ namespace SparqlForHumans.Core.Services
 
             return string.Join(" ", terms); ;
         }
-
-        public static IEnumerable<LuceneQuery> GetTypeLabel(string typeName)
-        {
-            var resultLimit = 1;
-            var searchField = "Name";
-            var list = new List<LuceneQuery>();
-
-            // NotEmpty Validation
-            if (string.IsNullOrEmpty(typeName))
-                return list;
-
-            using (var searcher = new IndexSearcher(IndexProperties.LuceneIndexDirectory, true))
-            {
-                analyzer = new KeywordAnalyzer();
-
-                QueryParser parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
-
-                var query = ParseQuery(typeName, parser);
-                var hits = searcher.Search(query, null, resultLimit).ScoreDocs;
-
-                foreach (var hit in hits)
-                {
-                    var doc = searcher.Doc(hit.Doc);
-                    var item = MapLuceneDocumentToData(doc);
-                    list.Add(item);
-                }
-
-                analyzer.Close();
-                searcher.Dispose();
-
-                return list;
-            }
-        }
-
+        
         private static IEnumerable<LuceneQuery> QueryLabels(string labelText)
         {
             var list = new List<LuceneQuery>();
@@ -117,9 +87,93 @@ namespace SparqlForHumans.Core.Services
                 Name = document.Get("Name"),
                 Type = document.Get("Type"),
                 Label = document.Get("Label"),
-                Description = document.Get("Description")
+                Properties = document.GetPropertiesFromIndex(),
+                Description = document.Get("Description"),
+                TypeLabel = GetTypeLabel(document.Get("Type")),
             };
+        }
 
+        public static string GetLabelFromIndex(string name)
+        {
+            var resultLimit = 1;
+            var searchField = "Name";
+
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(name))
+                return string.Empty;
+
+            using (var searcher = new IndexSearcher(IndexProperties.LuceneIndexDirectory, true))
+            {
+                //Plain Keyword Analyzer:
+                analyzer = new KeywordAnalyzer();
+
+                QueryParser parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
+
+                var query = ParseQuery(name, parser);
+                var hits = searcher.Search(query, null, resultLimit).ScoreDocs;
+
+                var result = string.Empty;
+
+                if (hits.Count() > 0)
+                {
+                    var doc = searcher.Doc(hits.FirstOrDefault().Doc);
+                    result = doc.Get("Label");
+                }
+
+                analyzer.Close();
+                searcher.Dispose();
+
+                return result;
+            }
+        }
+
+        public static IEnumerable<(string, string)> GetPropertiesFromIndex(this Document doc)
+        {
+            var list = new List<(string, string)>();
+
+            foreach (var item in doc.GetValues("Property"))
+            {
+                var propertyLabel = GetProperty(item);
+                list.Add((item, propertyLabel));
+            }
+            return list;
+        }
+
+        public static string GetProperty(string propertyCode)
+        {
+            if (propertyCode == null) return string.Empty;
+
+            if (propertyLabels.ContainsKey(propertyCode))
+            {
+                return propertyLabels.FirstOrDefault(x => x.Key.Equals(propertyCode)).Value;
+            }
+            else
+            {
+                var label = GetLabelFromIndex(propertyCode);
+
+                if (!string.IsNullOrWhiteSpace(label))
+                    propertyLabels.Add(propertyCode, label);
+
+                return label;
+            }
+        }
+
+        public static string GetTypeLabel(string typeCode)
+        {
+            if (typeCode == null) return string.Empty;
+
+            if (typeLabels.ContainsKey(typeCode))
+            {
+                return typeLabels.FirstOrDefault(x => x.Key.Equals(typeCode)).Value;
+            }
+            else
+            {
+                var label = GetLabelFromIndex(typeCode);
+                if (!string.IsNullOrWhiteSpace(label))
+                    typeLabels.Add(typeCode, label);
+
+                return label;
+            }
         }
 
         private static Query ParseQuery(string searchQuery, QueryParser parser)
