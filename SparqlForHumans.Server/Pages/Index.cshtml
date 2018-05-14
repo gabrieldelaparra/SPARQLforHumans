@@ -26,7 +26,12 @@ Search on the Lucene Index
                 source: $(this).attr("data-autocomplete"),
                 minLength: 2,
                 delay: 200,
-                
+
+                //Description Tooltip
+                focus: function (event, ui) {
+                    $(".ui-autocomplete > li").attr("title", ui.item.description);
+                },
+
                 //OnSelect
                 select: function (event, ui) {
                     console.log(ui.item);
@@ -38,7 +43,7 @@ Search on the Lucene Index
                 return $("<li>")
                     .append("<div>" + item.label + " (" + item.typeLabel + ") </div>")
                     .appendTo(ul);
-            };;
+                };;
         });
     });
 </script>

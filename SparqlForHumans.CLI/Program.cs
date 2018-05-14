@@ -54,16 +54,7 @@ namespace SparqlForHumans.CLI
 
         
 
-        public static void Optimize()
-        {
-            var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-            using (var writer = new IndexWriter(IndexProperties.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                analyzer.Close();
-                writer.Optimize();
-                writer.Dispose();
-            }
-        }
+        
 
         
 
