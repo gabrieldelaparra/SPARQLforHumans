@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace SparqlForHumans.Core.Utilities
+namespace SparqlForHumans.Core.Services
 {
     public class GZipHandler
     {

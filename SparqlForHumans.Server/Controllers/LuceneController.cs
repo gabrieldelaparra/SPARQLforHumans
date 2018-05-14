@@ -11,7 +11,7 @@ namespace SparqlForHumans.Server.Controllers
     {
         public IActionResult Autocomplete(string term)
         {
-            var filteredItems = SearchIndex.SearchByLabel(term);
+            var filteredItems = QueryService.QueryByLabel(term);
 
             var typeLabels = new Dictionary<string, string>();
 
@@ -25,7 +25,7 @@ namespace SparqlForHumans.Server.Controllers
                 }
                 else
                 {
-                    var typeLabel = SearchIndex.SearchLuceneTypeLabels(item.Type);
+                    var typeLabel = QueryService.GetTypeLabel(item.Type);
                     if (typeLabel.Any())
                     {
                         typeLabels.Add(item.Type, typeLabel.FirstOrDefault().Label);
