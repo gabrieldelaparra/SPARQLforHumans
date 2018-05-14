@@ -17,7 +17,7 @@ namespace SparqlForHumans.Core.Services
         public static void Optimize()
         {
             var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-            using (var writer = new IndexWriter(IndexProperties.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (var writer = new IndexWriter(Properties.Paths.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 analyzer.Close();
                 writer.Optimize();
@@ -43,7 +43,7 @@ namespace SparqlForHumans.Core.Services
 
             using (var logStreamWriter = new StreamWriter(new FileStream("IndexProgressLog.txt", FileMode.Create)))
             using (var errorStreamWriter = new StreamWriter(new FileStream("IndexErrorsLog.txt", FileMode.Create)))
-            using (var writer = new IndexWriter(IndexProperties.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (var writer = new IndexWriter(Properties.WikidataDump.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 foreach (var line in lines)
                 {
@@ -65,7 +65,7 @@ namespace SparqlForHumans.Core.Services
                     if (string.IsNullOrEmpty(lastNode))
                     {
                         lastNode = ntSubject;
-                        var name = lastNode.Replace(IndexProperties.entityIRI, string.Empty);
+                        var name = lastNode.Replace(Properties.WikidataDump.EntityIRI, string.Empty);
                         doc = new Document();
                         ps = new List<string>();
                         doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -84,27 +84,27 @@ namespace SparqlForHumans.Core.Services
                             errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{line},{e.Message}");
                             Console.WriteLine(e.Message);
                         }
-                        var name = lastNode.Replace(IndexProperties.entityIRI, string.Empty);
+                        var name = lastNode.Replace(Properties.WikidataDump.EntityIRI, string.Empty);
                         doc = new Document();
                         ps = new List<string>();
                         doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
-                    if (ntPredicate.Contains(IndexProperties.propertyIRI))
+                    if (ntPredicate.Contains(Properties.WikidataDump.PropertyIRI))
                     {
-                        string p = ntPredicate.Replace(IndexProperties.propertyIRI, "");
+                        string p = ntPredicate.Replace(Properties.WikidataDump.PropertyIRI, "");
                         if (!ps.Contains(p))
                         {
                             ps.Add(p);
                             doc.Add(new Field("Property", p, Field.Store.YES, Field.Index.NOT_ANALYZED));
                         }
 
-                        string value = ntObject.ToSafeString().Replace(IndexProperties.entityIRI, "");
-                        if (p.Equals(IndexProperties.instanceOf))
+                        string value = ntObject.ToSafeString().Replace(Properties.WikidataDump.EntityIRI, "");
+                        if (p.Equals(Properties.WikidataDump.InstanceOf))
                         {
                             doc.Add(new Field("Type", value, Field.Store.YES, Field.Index.NOT_ANALYZED));
                         }
-                        if (value.StartsWith(IndexProperties.entityPrefix))
+                        if (value.StartsWith(Properties.WikidataDump.EntityPrefix))
                         {
                             String po = p + "##" + value;
                             doc.Add(new Field("PO", po, Field.Store.YES, Field.Index.NOT_ANALYZED));
@@ -116,15 +116,15 @@ namespace SparqlForHumans.Core.Services
                         if (ntObject.NodeType != NodeType.Literal) continue;
                         var value = ((LiteralNode)ntObject).Value;
 
-                        if (ntPredicate.Equals(IndexProperties.labelIRI))
+                        if (ntPredicate.Equals(Properties.WikidataDump.LabelIRI))
                         {
                             doc.Add(new Field("Label", value, Field.Store.YES, Field.Index.ANALYZED));
                         }
-                        else if (ntPredicate.Equals(IndexProperties.descriptionIRI))
+                        else if (ntPredicate.Equals(Properties.WikidataDump.DescriptionIRI))
                         {
                             doc.Add(new Field("Description", value, Field.Store.YES, Field.Index.ANALYZED));
                         }
-                        else if (ntPredicate.Equals(IndexProperties.alt_labelIRI))
+                        else if (ntPredicate.Equals(Properties.WikidataDump.Alt_labelIRI))
                         {
                             doc.Add(new Field("AltLabel", value, Field.Store.YES, Field.Index.ANALYZED));
                         }

@@ -47,7 +47,7 @@ namespace SparqlForHumans.Core.Services
             if (string.IsNullOrEmpty(labelText.Replace("*", "").Replace("?", "")))
                 return list;
 
-            using (var searcher = new IndexSearcher(IndexProperties.LuceneIndexDirectory, true))
+            using (var searcher = new IndexSearcher(Properties.Paths.LuceneIndexDirectory, true))
             {
                 analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
@@ -102,7 +102,7 @@ namespace SparqlForHumans.Core.Services
             if (string.IsNullOrEmpty(name))
                 return string.Empty;
 
-            using (var searcher = new IndexSearcher(IndexProperties.LuceneIndexDirectory, true))
+            using (var searcher = new IndexSearcher(Properties.Paths.LuceneIndexDirectory, true))
             {
                 //Plain Keyword Analyzer:
                 analyzer = new KeywordAnalyzer();
