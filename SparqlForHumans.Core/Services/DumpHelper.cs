@@ -74,20 +74,20 @@ namespace SparqlForHumans.Core.Services
                         var ntObject = statement.Object;
 
                         //Condition: Subject is not Entity: Skip
-                        if (!ntSubject.ToSafeString().Contains(Properties.IRIs.EntityIRI)) continue;
+                        if (!ntSubject.ToSafeString().Contains(Properties.WikidataDump.EntityIRI)) continue;
 
                         //Condition: Subject is Entity and Q > 2.000.000: Skip
-                        if (ntSubject.Uri.Segments.Last().Contains(Properties.IRIs.EntityPrefix))
+                        if (ntSubject.Uri.Segments.Last().Contains(Properties.WikidataDump.EntityPrefix))
                         {
-                            var index = ntSubject.Uri.Segments.Last().Replace(Properties.IRIs.EntityPrefix, string.Empty);
+                            var index = ntSubject.Uri.Segments.Last().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
                             int.TryParse(index, out int indexInt);
                             if (indexInt > 2000000) continue;
                         }
 
                         //Condition: Object is Entity and Q > 2.000.000: Skip
-                        if (ntObject.NodeType == NodeType.Uri && ((UriNode)ntObject).Uri.Segments.Count() > 0 && ((UriNode)ntObject).Uri.Segments.Last().Contains(Properties.IRIs.EntityPrefix))
+                        if (ntObject.NodeType == NodeType.Uri && ((UriNode)ntObject).Uri.Segments.Count() > 0 && ((UriNode)ntObject).Uri.Segments.Last().Contains(Properties.WikidataDump.EntityPrefix))
                         {
-                            var index = ((UriNode)ntObject).Uri.Segments.Last().Replace(Properties.IRIs.EntityPrefix, string.Empty);
+                            var index = ((UriNode)ntObject).Uri.Segments.Last().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
                             int.TryParse(index, out int indexInt);
                             if (indexInt > 2000000) continue;
                         }

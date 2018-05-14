@@ -43,7 +43,7 @@ namespace SparqlForHumans.Core.Services
 
             using (var logStreamWriter = new StreamWriter(new FileStream("IndexProgressLog.txt", FileMode.Create)))
             using (var errorStreamWriter = new StreamWriter(new FileStream("IndexErrorsLog.txt", FileMode.Create)))
-            using (var writer = new IndexWriter(Properties.WikidataDump.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (var writer = new IndexWriter(Properties.Paths.LuceneIndexDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 foreach (var line in lines)
                 {
@@ -68,7 +68,7 @@ namespace SparqlForHumans.Core.Services
                         var name = lastNode.Replace(Properties.WikidataDump.EntityIRI, string.Empty);
                         doc = new Document();
                         ps = new List<string>();
-                        doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        doc.Add(new Field(Properties.Labels.Name.ToString(), name, Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
                     // NEW SUBJECT
@@ -87,7 +87,7 @@ namespace SparqlForHumans.Core.Services
                         var name = lastNode.Replace(Properties.WikidataDump.EntityIRI, string.Empty);
                         doc = new Document();
                         ps = new List<string>();
-                        doc.Add(new Field("Name", name, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        doc.Add(new Field(Properties.Labels.Name.ToString(), name, Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
                     if (ntPredicate.Contains(Properties.WikidataDump.PropertyIRI))
@@ -96,18 +96,18 @@ namespace SparqlForHumans.Core.Services
                         if (!ps.Contains(p))
                         {
                             ps.Add(p);
-                            doc.Add(new Field("Property", p, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                            doc.Add(new Field(Properties.Labels.Property.ToString(), p, Field.Store.YES, Field.Index.NOT_ANALYZED));
                         }
 
                         string value = ntObject.ToSafeString().Replace(Properties.WikidataDump.EntityIRI, "");
                         if (p.Equals(Properties.WikidataDump.InstanceOf))
                         {
-                            doc.Add(new Field("Type", value, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                            doc.Add(new Field(Properties.Labels.Type.ToString(), value, Field.Store.YES, Field.Index.NOT_ANALYZED));
                         }
                         if (value.StartsWith(Properties.WikidataDump.EntityPrefix))
                         {
                             String po = p + "##" + value;
-                            doc.Add(new Field("PO", po, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                            doc.Add(new Field(Properties.Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
                         }
                     }
                     else
@@ -118,15 +118,15 @@ namespace SparqlForHumans.Core.Services
 
                         if (ntPredicate.Equals(Properties.WikidataDump.LabelIRI))
                         {
-                            doc.Add(new Field("Label", value, Field.Store.YES, Field.Index.ANALYZED));
+                            doc.Add(new Field(Properties.Labels.Label.ToString(), value, Field.Store.YES, Field.Index.ANALYZED));
                         }
                         else if (ntPredicate.Equals(Properties.WikidataDump.DescriptionIRI))
                         {
-                            doc.Add(new Field("Description", value, Field.Store.YES, Field.Index.ANALYZED));
+                            doc.Add(new Field(Properties.Labels.Description.ToString(), value, Field.Store.YES, Field.Index.ANALYZED));
                         }
                         else if (ntPredicate.Equals(Properties.WikidataDump.Alt_labelIRI))
                         {
-                            doc.Add(new Field("AltLabel", value, Field.Store.YES, Field.Index.ANALYZED));
+                            doc.Add(new Field(Properties.Labels.AltLabel.ToString(), value, Field.Store.YES, Field.Index.ANALYZED));
                         }
                     }
                 }

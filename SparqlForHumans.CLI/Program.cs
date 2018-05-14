@@ -30,25 +30,9 @@ namespace SparqlForHumans.CLI
 
             //Optimize();
 
-            //SearchIndex.SearchByLabel("Barack Obama");
             var res = QueryService.GetLabelFromIndex("Q5");
             var res2 = QueryService.GetLabelFromIndex("P41");
             var res3 = QueryService.QueryByLabel("Obama");
         }
-
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
-
-        
     }
 }

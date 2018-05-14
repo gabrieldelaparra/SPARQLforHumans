@@ -52,7 +52,7 @@ namespace SparqlForHumans.Core.Services
                 analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
                 QueryParser parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
-                                                                new[] { "Label", "AltLabel" },
+                                                                new[] { Properties.Labels.Label.ToString(), Properties.Labels.AltLabel.ToString() },
                                                                 analyzer);
 
                 var query = ParseQuery(labelText, parser);
@@ -84,19 +84,19 @@ namespace SparqlForHumans.Core.Services
         {
             return new LuceneQuery()
             {
-                Name = document.Get("Name"),
-                Type = document.Get("Type"),
-                Label = document.Get("Label"),
+                Name = document.Get(Properties.Labels.Name.ToString()),
+                Type = document.Get(Properties.Labels.Type.ToString()),
+                Label = document.Get(Properties.Labels.Label.ToString()),
                 Properties = document.GetPropertiesFromIndex(),
-                Description = document.Get("Description"),
-                TypeLabel = GetTypeLabel(document.Get("Type")),
+                Description = document.Get(Properties.Labels.Description.ToString()),
+                TypeLabel = GetTypeLabel(document.Get(Properties.Labels.Type.ToString())),
             };
         }
 
         public static string GetLabelFromIndex(string name)
         {
             var resultLimit = 1;
-            var searchField = "Name";
+            var searchField = Properties.Labels.Name.ToString();
 
             // NotEmpty Validation
             if (string.IsNullOrEmpty(name))
@@ -117,7 +117,7 @@ namespace SparqlForHumans.Core.Services
                 if (hits.Count() > 0)
                 {
                     var doc = searcher.Doc(hits.FirstOrDefault().Doc);
-                    result = doc.Get("Label");
+                    result = doc.Get(Properties.Labels.Label.ToString());
                 }
 
                 analyzer.Close();
@@ -131,7 +131,7 @@ namespace SparqlForHumans.Core.Services
         {
             var list = new List<(string, string)>();
 
-            foreach (var item in doc.GetValues("Property"))
+            foreach (var item in doc.GetValues(Properties.Labels.Property.ToString()))
             {
                 var propertyLabel = GetProperty(item);
                 list.Add((item, propertyLabel));
