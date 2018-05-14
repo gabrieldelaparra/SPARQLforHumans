@@ -22,16 +22,23 @@ Search on the Lucene Index
     $(document).ready(function () {
         $("#LuceneAutocomplete").each(function () {
             $(this).autocomplete({
+                //DataSource
                 source: $(this).attr("data-autocomplete"),
                 minLength: 2,
                 delay: 200,
+                
+                //OnSelect
                 select: function (event, ui) {
                     console.log(ui.item);
-                    $('#txtLabel').text(ui.item["label"]);
-                    $('#txtDescription').text(ui.item["description"]);
+                    $('#txtLabel').text(ui.item.label);
+                    $('#txtDescription').text(ui.item.description);
                     return false;
                 }
-            });
+            }).autocomplete("instance")._renderItem = function (ul, item) {
+                return $("<li>")
+                    .append("<div>" + item.label + " (" + item.type + ") </div>")
+                    .appendTo(ul);
+            };;
         });
     });
 </script>

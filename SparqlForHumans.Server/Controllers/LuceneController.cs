@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SparqlForHumans.Core.Services;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SparqlForHumans.Server.Controllers
 {

@@ -44,12 +44,12 @@ namespace SparqlForHumans.Core.Services
 
             input = string.Join(" ", terms);
 
-            return _search(input, fieldName);
+            return SearchLuceneIndex(input, fieldName);
         }
 
 
 
-        private static IEnumerable<LuceneQuery> _search(string searchQuery, string searchField = "")
+        private static IEnumerable<LuceneQuery> SearchLuceneIndex(string searchQuery, string searchField = "")
         {
             var list = new List<LuceneQuery>();
             // validation
@@ -75,13 +75,13 @@ namespace SparqlForHumans.Core.Services
                                                         analyzer);
                 }
 
-                var query = parseQuery(searchQuery, parser);
+                var query = ParseQuery(searchQuery, parser);
                 var hits = searcher.Search(query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
 
                 foreach (var hit in hits)
                 {
                     var doc = searcher.Doc(hit.Doc);
-                    var item = mapLuceneDocumentToData(doc);
+                    var item = MapLuceneDocumentToData(doc);
                     list.Add(item);
                 }
 
@@ -92,15 +92,15 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        private static IEnumerable<LuceneQuery> mapLuceneDocumentToData(IEnumerable<Document> documents)
+        private static IEnumerable<LuceneQuery> MapLuceneDocumentToData(IEnumerable<Document> documents)
         {
             foreach (var doc in documents)
             {
-                yield return mapLuceneDocumentToData(doc);
+                yield return MapLuceneDocumentToData(doc);
             }
         }
 
-        private static LuceneQuery mapLuceneDocumentToData(Document document)
+        private static LuceneQuery MapLuceneDocumentToData(Document document)
         {
             return new LuceneQuery()
             {
@@ -112,7 +112,7 @@ namespace SparqlForHumans.Core.Services
 
         }
 
-        private static Query parseQuery(string searchQuery, QueryParser parser)
+        private static Query ParseQuery(string searchQuery, QueryParser parser)
         {
             Query query;
             try
