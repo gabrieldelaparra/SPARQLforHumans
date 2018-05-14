@@ -32,51 +32,45 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        public static IEnumerable<LuceneQuery> Search(string input, string fieldName = "")
+        public static IEnumerable<LuceneQuery> SearchByLabel(string input)
         {
-            if (string.IsNullOrEmpty(input)) return new List<LuceneQuery>();
+            if (string.IsNullOrEmpty(input))
+                return new List<LuceneQuery>();
 
-            var terms = input.Trim()
-                .Replace("-", " ")
-                .Split(' ')
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Select(x => x.Trim() + "*");
+            input = PrepareSearchTerm(input);
 
-            input = string.Join(" ", terms);
-
-            return SearchLuceneIndex(input, fieldName);
+            return SearchLuceneLabels(input);
         }
 
-
-
-        private static IEnumerable<LuceneQuery> SearchLuceneIndex(string searchQuery, string searchField = "")
+        private static string PrepareSearchTerm(string input)
         {
+            var terms = input.Trim()
+                            .Replace("-", " ")
+                            .Split(' ')
+                            .Where(x => !string.IsNullOrEmpty(x))
+                            .Select(x => x.Trim() + "*");
+
+            return string.Join(" ", terms); ;
+        }
+
+        public static IEnumerable<LuceneQuery> SearchLuceneTypeLabels(string typeName)
+        {
+            var searchField = "Name";
             var list = new List<LuceneQuery>();
-            // validation
-            if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", ""))) return list;
+
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(typeName))
+                return list;
 
             using (var searcher = new IndexSearcher(LuceneIndexDirectory, true))
             {
-                searcher.SetDefaultFieldSortScoring(true, true);
+                var hitsLimit = 1;
+                analyzer = new KeywordAnalyzer();
 
-                var hits_limit = 20;
-                var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+                QueryParser parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
 
-                QueryParser parser;
-
-                if (!string.IsNullOrEmpty(searchField))
-                {
-                    parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
-                }
-                else
-                {
-                    parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
-                                                        new[] { "Label", "Description" },
-                                                        analyzer);
-                }
-
-                var query = ParseQuery(searchQuery, parser);
-                var hits = searcher.Search(query, null, hits_limit, Sort.RELEVANCE).ScoreDocs;
+                var query = ParseQuery(typeName, parser);
+                var hits = searcher.Search(query, null, hitsLimit).ScoreDocs;
 
                 foreach (var hit in hits)
                 {
@@ -91,6 +85,85 @@ namespace SparqlForHumans.Core.Services
                 return list;
             }
         }
+
+        private static IEnumerable<LuceneQuery> SearchLuceneLabels(string searchQuery)
+        {
+            var list = new List<LuceneQuery>();
+
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", "")))
+                return list;
+
+            using (var searcher = new IndexSearcher(LuceneIndexDirectory, true))
+            {
+                var hitsLimit = 20;
+                analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+
+                QueryParser parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
+                                                                new[] { "Label", "AltLabel" },
+                                                                analyzer);
+
+                var query = ParseQuery(searchQuery, parser);
+                var hits = searcher.Search(query, null, hitsLimit).ScoreDocs;
+
+                foreach (var hit in hits)
+                {
+                    var doc = searcher.Doc(hit.Doc);
+                    var item = MapLuceneDocumentToData(doc);
+                    list.Add(item);
+                }
+
+                analyzer.Close();
+                searcher.Dispose();
+
+                return list;
+            }
+        }
+
+        //private static IEnumerable<LuceneQuery> SearchLuceneLabels(string searchQuery, string searchField = "")
+        //{
+        //    var list = new List<LuceneQuery>();
+
+        //    // NotEmpty Validation
+        //    if (string.IsNullOrEmpty(searchQuery.Replace("*", "").Replace("?", "")))
+        //        return list;
+
+        //    using (var searcher = new IndexSearcher(LuceneIndexDirectory, true))
+        //    {
+        //        searcher.SetDefaultFieldSortScoring(true, true);
+
+        //        var hitsLimit = 20;
+        //        analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+
+        //        QueryParser parser;
+
+        //        if (!string.IsNullOrEmpty(searchField))
+        //        {
+        //            parser = new QueryParser(Lucene.Net.Util.Version.LUCENE_30, searchField, analyzer);
+        //        }
+        //        else
+        //        {
+        //            parser = new MultiFieldQueryParser(Lucene.Net.Util.Version.LUCENE_30,
+        //                                                new[] { "Label", "Description" },
+        //                                                analyzer);
+        //        }
+
+        //        var query = ParseQuery(searchQuery, parser);
+        //        var hits = searcher.Search(query, null, hitsLimit, Sort.RELEVANCE).ScoreDocs;
+
+        //        foreach (var hit in hits)
+        //        {
+        //            var doc = searcher.Doc(hit.Doc);
+        //            var item = MapLuceneDocumentToData(doc);
+        //            list.Add(item);
+        //        }
+
+        //        analyzer.Close();
+        //        searcher.Dispose();
+
+        //        return list;
+        //    }
+        //}
 
         private static IEnumerable<LuceneQuery> MapLuceneDocumentToData(IEnumerable<Document> documents)
         {

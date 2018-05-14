@@ -36,7 +36,7 @@ Search on the Lucene Index
                 }
             }).autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div>" + item.label + " (" + item.type + ") </div>")
+                    .append("<div>" + item.label + " (" + item.typeLabel + ") </div>")
                     .appendTo(ul);
             };;
         });

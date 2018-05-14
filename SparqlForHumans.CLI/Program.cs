@@ -62,7 +62,8 @@ namespace SparqlForHumans.CLI
 
             //Optimize();
 
-            SearchIndex.Search("Barack Obama");
+            //SearchIndex.SearchByLabel("Barack Obama");
+            var res = SearchIndex.SearchLuceneTypeLabels("Q5");
         }
 
         
@@ -115,7 +116,7 @@ namespace SparqlForHumans.CLI
                     if (readCount % notifyTicks == 0)
                     {
                         logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount}");
-                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / (double)21488204) * 100}");
+                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{readCount / (double)21488204 * 100}");
                     }
                     var g = new NonIndexedGraph();
                     StringParser.Parse(g, line);
