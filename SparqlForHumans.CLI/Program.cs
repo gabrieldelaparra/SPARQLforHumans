@@ -19,24 +19,6 @@ namespace SparqlForHumans.CLI
 {
     class Program
     {
-        //static string indexPath = @"LuceneIndex";
-
-        //static private Lucene.Net.Store.Directory luceneIndexDirectory;
-        //static public Lucene.Net.Store.Directory LuceneIndexDirectory
-        //{
-        //    get
-        //    {
-        //        if (luceneIndexDirectory == null) luceneIndexDirectory = FSDirectory.Open(new DirectoryInfo(indexPath));
-        //        if (IndexWriter.IsLocked(luceneIndexDirectory)) IndexWriter.Unlock(luceneIndexDirectory);
-        //        var lockFilePath = Path.Combine(SearchIndex., "write.lock");
-        //        if (File.Exists(lockFilePath)) File.Delete(lockFilePath);
-        //        return luceneIndexDirectory;
-        //    }
-        //}
-
-        
-
-
         static void Main(string[] args)
         {
             //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
@@ -49,7 +31,9 @@ namespace SparqlForHumans.CLI
             //Optimize();
 
             //SearchIndex.SearchByLabel("Barack Obama");
-            var res = QueryService.GetTypeLabel("Q5");
+            var res = QueryService.GetLabelFromIndex("Q5");
+            var res2 = QueryService.GetLabelFromIndex("P41");
+            var res3 = QueryService.QueryByLabel("Obama");
         }
 
         
