@@ -11,7 +11,7 @@ namespace SparqlForHumans.Server.Controllers
     {
         public IActionResult Autocomplete(string term)
         {
-            var filteredItems = SearchIndex.Search(term);
+            var filteredItems = SearchIndex.Search(term, "Label");
 
             return Json(filteredItems);
         }

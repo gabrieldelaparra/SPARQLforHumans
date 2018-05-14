@@ -24,6 +24,7 @@ Search on the Lucene Index
             $(this).autocomplete({
                 source: $(this).attr("data-autocomplete"),
                 minLength: 2,
+                delay: 200,
                 select: function (event, ui) {
                     console.log(ui.item);
                     $('#txtLabel').text(ui.item["label"]);

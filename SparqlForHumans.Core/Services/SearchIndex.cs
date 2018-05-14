@@ -59,7 +59,7 @@ namespace SparqlForHumans.Core.Services
             {
                 searcher.SetDefaultFieldSortScoring(true, true);
 
-                var hits_limit = 1000;
+                var hits_limit = 20;
                 var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
 
                 QueryParser parser;
