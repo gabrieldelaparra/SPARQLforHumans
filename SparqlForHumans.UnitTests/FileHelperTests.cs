@@ -1,9 +1,6 @@
 ﻿using SparqlForHumans.Core.Services;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -30,7 +27,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestReadLines()
         {
-            string filename = "Resources/TenLines.txt";
+            string filename = "Resources/TenLines.nt";
 
             Assert.True(File.Exists(filename));
 
@@ -39,5 +36,13 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(10, FileHelper.ReadLines(filename).Count());
         }
 
+        [Fact]
+        public void TestCountLines()
+        {
+            var filename = @"Resources/TenLines.nt";
+            Assert.NotEqual(0, FileHelper.GetLineCount(filename));
+            Assert.Equal(10, FileHelper.GetLineCount(filename));
+            Assert.True(File.Exists("LineCountLog.txt"));
+        }
     }
 }

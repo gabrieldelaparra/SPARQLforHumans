@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using VDS.RDF;
 using VDS.RDF.Parsing;
+using static SparqlForHumans.Core.Services.FileHelper;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -24,7 +25,7 @@ namespace SparqlForHumans.Core.Services
         /// </summary>
         /// <param name="inputTriples">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriples">Filtered Wikidata (Non-GZipped) N-triples dump</param>
-        static void FilterTriples(string inputTriples, string outputTriples)
+        public static void FilterTriples(string inputTriples, string outputTriples, int triplesLimit)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -76,20 +77,20 @@ namespace SparqlForHumans.Core.Services
                         //Condition: Subject is not Entity: Skip
                         if (!ntSubject.ToSafeString().Contains(Properties.WikidataDump.EntityIRI)) continue;
 
-                        //Condition: Subject is Entity and Q > 2.000.000: Skip
+                        //Condition: Subject is Entity and Q > triplesLimit: Skip
                         if (ntSubject.Uri.Segments.Last().Contains(Properties.WikidataDump.EntityPrefix))
                         {
                             var index = ntSubject.Uri.Segments.Last().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
                             int.TryParse(index, out int indexInt);
-                            if (indexInt > 2000000) continue;
+                            if (indexInt > triplesLimit) continue;
                         }
 
-                        //Condition: Object is Entity and Q > 2.000.000: Skip
+                        //Condition: Object is Entity and Q > triplesLimit: Skip
                         if (ntObject.NodeType == NodeType.Uri && ((UriNode)ntObject).Uri.Segments.Count() > 0 && ((UriNode)ntObject).Uri.Segments.Last().Contains(Properties.WikidataDump.EntityPrefix))
                         {
                             var index = ((UriNode)ntObject).Uri.Segments.Last().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
                             int.TryParse(index, out int indexInt);
-                            if (indexInt > 2000000) continue;
+                            if (indexInt > triplesLimit) continue;
                         }
 
                         //Condition: Object is Literal: Filter @en only
@@ -110,26 +111,8 @@ namespace SparqlForHumans.Core.Services
             stopwatch.Stop();
         }
 
-        public static void GetLineCount(string inputTriples)
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            using (var logStreamWriter = new StreamWriter(new FileStream("LineCountLog.txt", FileMode.Create)))
-            {
-                var notifyTicks = 100000;
-                var lineCount = 0;
-                var lines = GZipHandler.ReadGZip(inputTriples);
-                foreach (var item in lines)
-                {
-                    lineCount++;
-                    if (lineCount % notifyTicks == 0)
-                    {
-                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
-                    }
-                }
-                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
-            }
-            stopwatch.Stop();
-        }
+        
+
+        
     }
 }

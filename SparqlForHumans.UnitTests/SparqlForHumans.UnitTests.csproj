@@ -11,7 +11,7 @@
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
-    <None Remove="Resources\TenLines.txt" />
+    <None Remove="Resources\TenLines.nt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +27,7 @@
     <Content Include="Resources\empty.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\TenLines.txt">
+    <Content Include="Resources\TenLines.nt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

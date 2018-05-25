@@ -8,13 +8,7 @@ namespace SparqlForHumans.UnitTests
 {
     public class DumpHelperTests
     {
-        [Fact]
-        public void TestCountDump()
-        {
-            var dumpFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-            Assert.NotEqual(0, DumpHelper.GetLineCount(dumpFilename));
-        }
-
+        
         //[Fact]
         //public void TestFilterCero()
         //{
