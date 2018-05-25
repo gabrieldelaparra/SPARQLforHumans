@@ -15,6 +15,7 @@ Search on the Lucene Index
     <br /><br /><br />
     <label>Selected Item:</label>
     <h2 id="txtLabel"></h2>
+    <h2 id="txtType"></h2>
     <h3 id="txtDescription"></h3>
     <br />
     <ul id="txtProperties"></ul>
@@ -37,10 +38,10 @@ Search on the Lucene Index
                 //OnSelect
                 select: function (event, ui) {
                     console.log(ui.item);
-                    $('#txtLabel').text(ui.item.label);
-                    $('#txtDescription').text(ui.item.description);
+                    $('#txtLabel').text("Label: " + ui.item.label);
+                    $('#txtType').text("Type: " + ui.item.typeLabel + " (" + ui.item.type + ")");
+                    $('#txtDescription').text("Description: " + ui.item.description);
                     $.each(ui.item.properties, function (index, value) {
-                        console.log(value);
                         $('#txtProperties').append("<li>" + value.item2 + " (" + value.item1 + ")</li>");
                     });
                     return false;

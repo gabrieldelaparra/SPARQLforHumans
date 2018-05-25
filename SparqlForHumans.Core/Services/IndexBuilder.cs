@@ -25,6 +25,8 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
+
+
         public static void CreateLuceneIndex(string inputTriples)
         {
             var stopwatch = new Stopwatch();
@@ -138,9 +140,9 @@ namespace SparqlForHumans.Core.Services
             stopwatch.Stop();
         }
 
-        private static object ReadLines(string inputTriples)
-        {
-            throw new NotImplementedException();
-        }
+        //private static object ReadLines(string inputTriples)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

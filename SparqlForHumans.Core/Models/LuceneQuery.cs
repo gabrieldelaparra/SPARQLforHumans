@@ -4,6 +4,7 @@ namespace SparqlForHumans.Core.Models
 {
     public class LuceneQuery
     {
+        public string MyProperty { get; set; }
         public string Name { get; set; }
         public string Label { get; set; }
         public string Description { get; set; }

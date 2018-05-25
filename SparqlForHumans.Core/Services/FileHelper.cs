@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SparqlForHumans.Core.Services
 {
     public static class FileHelper
     {
-        public static int GetLineCount(string inputTriples)
+        public static void TrimFile(string filename, string outputFilename, int lineLimit)
+        {
+            var lines = GetInputLines(filename);           
+            File.WriteAllLines(outputFilename, lines.Take(lineLimit));
+        }
+
+        public static int GetLineCount(string filename)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -17,7 +25,7 @@ namespace SparqlForHumans.Core.Services
                 var notifyTicks = 100000;
                 var lineCount = 0;
 
-                var lines = GetInputLines(inputTriples);
+                var lines = GetInputLines(filename);
 
                 foreach (var item in lines)
                 {
