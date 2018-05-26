@@ -3,12 +3,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SparqlForHumans.Core.Services
 {
     public static class FileHelper
     {
+        public static string GetFilteredOutputFilename(string inputFilename, int limit)
+        {
+            return GetCustomOutputFilename(inputFilename, limit, "filtered");
+        }
+
+        public static string GetTrimmedOutputFilename(string inputFilename, int limit)
+        {
+            return GetCustomOutputFilename(inputFilename, limit, "trimmed");
+        }
+
+        private static string GetCustomOutputFilename(string inputFilename, int limit, string customKeyword)
+        {
+            var filename = Path.GetFileNameWithoutExtension(inputFilename);
+            return inputFilename.Replace(filename, $"{customKeyword}-{filename}-{limit}");
+        }
+
+        public static void TrimFile(string filename, int lineLimit)
+        {
+            var outputFilename = GetTrimmedOutputFilename(filename, lineLimit);
+            TrimFile(filename, outputFilename, lineLimit);
+        }
+
         public static void TrimFile(string filename, string outputFilename, int lineLimit)
         {
             var lines = GetInputLines(filename);           

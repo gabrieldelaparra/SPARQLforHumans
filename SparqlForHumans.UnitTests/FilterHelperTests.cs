@@ -13,9 +13,14 @@ namespace SparqlForHumans.UnitTests
             var filename = @"TrimmedTestSet.nt";
             Assert.True(File.Exists(filename));
 
-            var outputFilename = @"filtered-triples.nt";
+            int limit = 0;
+
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+
             if (File.Exists(outputFilename))
                 File.Delete(outputFilename);
+
+            Assert.False(File.Exists(outputFilename));
 
             DumpHelper.FilterTriples(filename, outputFilename, 0);
 
@@ -29,11 +34,14 @@ namespace SparqlForHumans.UnitTests
             var filename = @"TrimmedTestSet.nt";
             Assert.True(File.Exists(filename));
 
-            var outputFilename = @"filtered-triples.nt";
+            int limit = 500;
+
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+
             if (File.Exists(outputFilename))
                 File.Delete(outputFilename);
 
-            int limit = 50;
+            Assert.False(File.Exists(outputFilename));
 
             DumpHelper.FilterTriples(filename, outputFilename, limit);
 
@@ -48,7 +56,7 @@ namespace SparqlForHumans.UnitTests
 
             var qCodesList = firstItemList.Select(x => x.Split(@"<http://www.wikidata.org/entity/Q").LastOrDefault().Replace(">", ""));
             var intCodesList = qCodesList.Select(x => int.Parse(x));
-            Assert.True(intCodesList.All(x => x < 50));
+            Assert.True(intCodesList.All(x => x < limit));
         }
     }
 }

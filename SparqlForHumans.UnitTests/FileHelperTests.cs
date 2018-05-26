@@ -46,6 +46,24 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetOutputFilteredFilename()
+        {
+            var filename = @"C:\a\b\c\TrimmedTestSet.nt";
+            int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputTrimmedFilename()
+        {
+            var filename = @"C:\a\b\c\TrimmedTestSet.nt";
+            int limit = 500;
+            var outputFilename = FileHelper.GetTrimmedOutputFilename(filename, limit);
+            Assert.Equal(@"C:\a\b\c\trimmed-TrimmedTestSet-500.nt", outputFilename);
+        }
+
+        [Fact]
         public void TestTrimFile()
         {
             var outputFilename = "trimmedFile.nt";

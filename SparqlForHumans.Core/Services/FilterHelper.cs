@@ -9,6 +9,12 @@ namespace SparqlForHumans.Core.Services
 {
     public class DumpHelper
     {
+        public static void FilterTriples(string inputTriplesFilename, int triplesLimit)
+        {
+            var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+            FilterTriples(inputTriplesFilename, outputTriplesFilename, triplesLimit);
+        }
+
         /// <summary>
         /// Reads an Wikidata GZipped N-triples dump.
         /// Foreach line in the Triples file:
@@ -25,6 +31,7 @@ namespace SparqlForHumans.Core.Services
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
+
             if (!new FileInfo(inputTriplesFilename).Exists) return;
 
             var outputFileInfo = new FileInfo(outputTriplesFilename);
@@ -32,12 +39,12 @@ namespace SparqlForHumans.Core.Services
                 outputFileInfo.Directory.Create();
 
             Options.InternUris = false;
-            //Read GZip File
-            //var wikidataDumpLines = GZipHandler.ReadGZip(inputTriples);
-            var wikidataDumpLines = FileHelper.ReadLines(inputTriplesFilename);
+
             var notifyTicks = 100000;
             var readCount = 0;
             var writeCount = 0;
+
+            var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
             using (var logStreamWriter = new StreamWriter(new FileStream("ProgressLog.txt", FileMode.Create)))
             using (var errorStreamWriter = new StreamWriter(new FileStream("ErrorsLog.txt", FileMode.Create)))
@@ -55,48 +62,14 @@ namespace SparqlForHumans.Core.Services
                     if (readCount % notifyTicks == 0)
                     {
                         logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
-                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / (double)447622549) * 100}");
-                        //DEBUG:
-                        //if (readCount == 100 * notifyTicks) break;
+                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / 447622549) * 100}");
                     }
                     try
                     {
                         var triple = line.GetTriple();
 
-                        if (!triple.Subject.IsUriNode())
-                        {
-                            errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds}, Subject Not URI Node: { readCount},{line}");
+                        if (!IsValidTriple(triple, triplesLimit))
                             continue;
-                        }
-
-                        var ntSubject = (UriNode)triple.Subject;
-                        var ntPredicate = triple.Predicate;
-                        var ntObject = triple.Object;
-
-                        //Condition: Subject is not Entity: Skip
-                        if (!ntSubject.IsValidSubject())
-                        {
-                            errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds}, NOT VALID SUBJECT: {readCount},{line}");
-                            continue;
-                        }
-
-                        //Condition: Subject is Entity and Q > triplesLimit: Skip
-                        if (ntSubject.IsEntity() && ntSubject.EntityQCode() > triplesLimit)
-                            continue;
-
-                        //Condition: Object is Entity and Q > triplesLimit: Skip
-                        if (ntObject.NodeType == NodeType.Uri && ((UriNode)ntObject).Uri.Segments.Count() > 0 && ((UriNode)ntObject).Uri.Segments.Last().Contains(Properties.WikidataDump.EntityPrefix))
-                        {
-                            var index = ((UriNode)ntObject).Uri.Segments.Last().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
-                            int.TryParse(index, out int indexInt);
-                            if (indexInt > triplesLimit)
-                                continue;
-                        }
-
-                        //Condition: Object is Literal: Filter @en only
-                        if (ntObject.NodeType == NodeType.Literal)
-                            if (!((LiteralNode)ntObject).Language.Equals("en"))
-                                continue;
 
                         filteredStreamWriter.WriteLine(line);
                         writeCount++;
@@ -111,8 +84,33 @@ namespace SparqlForHumans.Core.Services
             stopwatch.Stop();
         }
 
+        public static bool IsValidTriple(Triple triple, int entityLimit)
+        {
+            var ntSubject = triple.Subject;
+            var ntPredicate = triple.Predicate;
+            var ntObject = triple.Object;
 
+            if (!ntSubject.IsUriNode())
+                return false;
 
+            //Condition: Subject is not (Entity || Property): Skip
+            if (!ntSubject.IsValidSubject())
+                return false;
+
+            //Condition: Subject is Entity and Q > triplesLimit: Skip
+            if (ntSubject.IsEntity() && ntSubject.EntityQCode() > entityLimit)
+                return false;
+
+            //Condition: Object is Entity and Q > triplesLimit: Skip
+            if (ntObject.IsEntity() && ntSubject.EntityQCode() > entityLimit)
+                return false;
+
+            //Condition: Object is Literal: Filter @en only
+            if (!ntObject.IsValidLanguageLiteral())
+                return false;
+
+            return true;
+        }
 
     }
 }
