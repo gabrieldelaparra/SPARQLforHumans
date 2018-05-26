@@ -1,3 +1,4 @@
+using SparqlForHumans.Core.Properties;
 using System;
 using Xunit;
 
@@ -8,7 +9,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void Test1()
         {
-
+            
         }
     }
 }

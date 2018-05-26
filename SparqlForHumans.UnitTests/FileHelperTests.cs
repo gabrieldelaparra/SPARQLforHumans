@@ -1,4 +1,5 @@
 ﻿using SparqlForHumans.Core.Services;
+using SparqlForHumans.Core.Utilities;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -91,7 +92,7 @@ namespace SparqlForHumans.UnitTests
             if (File.Exists(outputFilename))
                 File.Delete(outputFilename);
 
-            int limit = 500000;
+            int limit = 50000;
 
             FileHelper.TrimFile(filename, outputFilename, limit);
 
@@ -108,10 +109,12 @@ namespace SparqlForHumans.UnitTests
             if (File.Exists(outputFilename))
                 File.Delete(outputFilename);
 
-            FileHelper.TrimFile(filename, outputFilename, 500000);
+            int limit = 50000;
+
+            FileHelper.TrimFile(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
-            Assert.Equal(500000, FileHelper.GetLineCount(outputFilename));
+            Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
         }
     }
 }

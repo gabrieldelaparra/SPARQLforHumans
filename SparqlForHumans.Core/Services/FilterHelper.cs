@@ -1,14 +1,15 @@
-﻿using System;
+﻿using SparqlForHumans.Core.Utilities;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using VDS.RDF;
-using VDS.RDF.Parsing;
 
 namespace SparqlForHumans.Core.Services
 {
-    public class DumpHelper
+    public class FilterHelper
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static void FilterTriples(string inputTriplesFilename, int triplesLimit)
         {
             var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
@@ -29,8 +30,11 @@ namespace SparqlForHumans.Core.Services
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
         public static void FilterTriples(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit)
         {
+
             var stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            Options.InternUris = false;
 
             if (!new FileInfo(inputTriplesFilename).Exists) return;
 
@@ -38,32 +42,22 @@ namespace SparqlForHumans.Core.Services
             if (outputFileInfo.Directory != null && !outputFileInfo.Directory.Exists)
                 outputFileInfo.Directory.Create();
 
-            Options.InternUris = false;
-
             var notifyTicks = 100000;
             var readCount = 0;
             var writeCount = 0;
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            using (var logStreamWriter = new StreamWriter(new FileStream("ProgressLog.txt", FileMode.Create)))
-            using (var errorStreamWriter = new StreamWriter(new FileStream("ErrorsLog.txt", FileMode.Create)))
             using (var filteredStreamWriter = new StreamWriter(new FileStream(outputTriplesFilename, FileMode.Create)))
             {
-                logStreamWriter.AutoFlush = true;
-                errorStreamWriter.AutoFlush = true;
-                filteredStreamWriter.AutoFlush = true;
-
-                logStreamWriter.WriteLine("ElapsedTime,Read,Write");
+                Logger.Debug("ElapsedTime,Read,Write");
 
                 foreach (var line in wikidataDumpLines)
                 {
                     readCount++;
                     if (readCount % notifyTicks == 0)
-                    {
-                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
-                        Console.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{((double)readCount / 447622549) * 100}");
-                    }
+                        Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
+
                     try
                     {
                         var triple = line.GetTriple();
@@ -76,10 +70,11 @@ namespace SparqlForHumans.Core.Services
                     }
                     catch (Exception e)
                     {
-                        errorStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{line},{e.Message}");
+                        Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{line}");
+                        Logger.Error(e);
                     }
                 }
-                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
+                Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
             }
             stopwatch.Stop();
         }

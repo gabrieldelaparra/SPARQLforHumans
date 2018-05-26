@@ -1,11 +1,12 @@
 ﻿using SparqlForHumans.Core.Services;
+using SparqlForHumans.Core.Utilities;
 using System.IO;
 using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    public class DumpHelperTests
+    public class FilterHelperTests
     {
         [Fact]
         public void TestFilterZero()
@@ -22,7 +23,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            DumpHelper.FilterTriples(filename, outputFilename, 0);
+            FilterHelper.FilterTriples(filename, outputFilename, 0);
 
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(0, FileHelper.GetLineCount(outputFilename));
@@ -43,7 +44,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            DumpHelper.FilterTriples(filename, outputFilename, limit);
+            FilterHelper.FilterTriples(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
             Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));

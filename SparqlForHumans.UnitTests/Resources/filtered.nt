@@ -1,0 +1,713 @@
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2000/01/rdf-schema#label> "Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#prefLabel> "Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://schema.org/name> "Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://schema.org/description> "region in north-west Europe, part of the United Kingdom"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "NIR"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "UKN"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "North Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P1549> "Northern Irish"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> "Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://schema.org/name> "Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://schema.org/description> "republic covering major parts of the island of Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "\u00C9ire"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "IE"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "IRL"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Hibernia"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Ireland, Republic of"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "ie"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EE\U0001F1EA"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Eire"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Southern Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P1549> "Irish"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2000/01/rdf-schema#label> "Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#prefLabel> "Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://schema.org/name> "Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://schema.org/description> "constitutional monarchy in Southwest Europe"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "Espa\u00F1a"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "Kingdom of Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "ES"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "ESP"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EA\U0001F1F8"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.wikidata.org/prop/direct/P1549> "Spanish"@en .
+<http://www.wikidata.org/entity/Q3> <http://www.w3.org/2000/01/rdf-schema#label> "life"@en .
+<http://www.wikidata.org/entity/Q3> <http://www.w3.org/2004/02/skos/core#prefLabel> "life"@en .
+<http://www.wikidata.org/entity/Q3> <http://schema.org/name> "life"@en .
+<http://www.wikidata.org/entity/Q3> <http://schema.org/description> "matter capable of extracting energy from the environment for replication"@en .
+<http://www.wikidata.org/entity/Q3> <http://www.w3.org/2004/02/skos/core#altLabel> "biota"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2000/01/rdf-schema#label> "George Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2004/02/skos/core#prefLabel> "George Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://schema.org/name> "George Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://schema.org/description> "first President of the United States"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2004/02/skos/core#altLabel> "Father of the United States"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2004/02/skos/core#altLabel> "Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2004/02/skos/core#altLabel> "President Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2004/02/skos/core#altLabel> "G. Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.wikidata.org/prop/direct/P1559> "George Washington"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.w3.org/2000/01/rdf-schema#label> "Douglas Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.w3.org/2004/02/skos/core#prefLabel> "Douglas Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://schema.org/name> "Douglas Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://schema.org/description> "English writer and humorist"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.w3.org/2004/02/skos/core#altLabel> "Douglas No\u00EBl Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.w3.org/2004/02/skos/core#altLabel> "Douglas Noel Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.w3.org/2004/02/skos/core#altLabel> "Douglas N. Adams"@en .
+<http://www.wikidata.org/entity/Q42> <http://www.wikidata.org/prop/direct/P1559> "Douglas Adams"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2000/01/rdf-schema#label> "Poland"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#prefLabel> "Poland"@en .
+<http://www.wikidata.org/entity/Q36> <http://schema.org/name> "Poland"@en .
+<http://www.wikidata.org/entity/Q36> <http://schema.org/description> "republic in Central-Eastern Europe"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "POL"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Poland"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "pl"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "PL"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "Polska"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1F5\U0001F1F1"@en .
+<http://www.wikidata.org/entity/Q36> <http://www.wikidata.org/prop/direct/P1549> "Polish"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2000/01/rdf-schema#label> "Switzerland"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#prefLabel> "Switzerland"@en .
+<http://www.wikidata.org/entity/Q39> <http://schema.org/name> "Switzerland"@en .
+<http://www.wikidata.org/entity/Q39> <http://schema.org/description> "federal republic in Western Europe"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "Swiss Confederation"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "CH"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "SUI"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "Suisse"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "Schweiz"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "Svizzera"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E8\U0001F1ED"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.wikidata.org/prop/direct/P1549> "Swiss"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2000/01/rdf-schema#label> "San Francisco"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#prefLabel> "San Francisco"@en .
+<http://www.wikidata.org/entity/Q62> <http://schema.org/name> "San Francisco"@en .
+<http://www.wikidata.org/entity/Q62> <http://schema.org/description> "consolidated city-county in California, United States"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "San Francisco, California"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "The City by the Bay"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "SF"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "SFO"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "The Golden City"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "Paris of the West"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "Baghdad by the Bay"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "San Francisco County"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "San Francisco County, California"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "San Fran"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "Frisco"@en .
+<http://www.wikidata.org/entity/Q62> <http://www.w3.org/2004/02/skos/core#altLabel> "City and County of San Francisco"@en .
+<http://www.wikidata.org/entity/Q64> <http://www.w3.org/2000/01/rdf-schema#label> "Berlin"@en .
+<http://www.wikidata.org/entity/Q64> <http://www.w3.org/2004/02/skos/core#prefLabel> "Berlin"@en .
+<http://www.wikidata.org/entity/Q64> <http://schema.org/name> "Berlin"@en .
+<http://www.wikidata.org/entity/Q64> <http://schema.org/description> "capital city of Germany"@en .
+<http://www.wikidata.org/entity/Q64> <http://www.w3.org/2004/02/skos/core#altLabel> "Berlin, Germany"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2000/01/rdf-schema#label> "Geneva"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2004/02/skos/core#prefLabel> "Geneva"@en .
+<http://www.wikidata.org/entity/Q71> <http://schema.org/name> "Geneva"@en .
+<http://www.wikidata.org/entity/Q71> <http://schema.org/description> "city in Switzerland and capital of its canton"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2004/02/skos/core#altLabel> "Gen\u00E8ve"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2004/02/skos/core#altLabel> "Geneva GE"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2004/02/skos/core#altLabel> "Geneve"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2004/02/skos/core#altLabel> "Genf"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2000/01/rdf-schema#label> "Z\u00FCrich"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2004/02/skos/core#prefLabel> "Z\u00FCrich"@en .
+<http://www.wikidata.org/entity/Q72> <http://schema.org/name> "Z\u00FCrich"@en .
+<http://www.wikidata.org/entity/Q72> <http://schema.org/description> "capital of the canton of Z\u00FCrich, Switzerland"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2004/02/skos/core#altLabel> "City of Zurich"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2004/02/skos/core#altLabel> "Zurich"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2004/02/skos/core#altLabel> "ZH"@en .
+<http://www.wikidata.org/entity/Q82> <http://www.w3.org/2000/01/rdf-schema#label> "printer"@en .
+<http://www.wikidata.org/entity/Q82> <http://www.w3.org/2004/02/skos/core#prefLabel> "printer"@en .
+<http://www.wikidata.org/entity/Q82> <http://schema.org/name> "printer"@en .
+<http://www.wikidata.org/entity/Q82> <http://schema.org/description> "electronic device which produces a representation of an electronic document on physical media"@en .
+<http://www.wikidata.org/entity/Q82> <http://www.w3.org/2004/02/skos/core#altLabel> "computer printer"@en .
+<http://www.wikidata.org/entity/Q83> <http://www.w3.org/2000/01/rdf-schema#label> "MediaWiki"@en .
+<http://www.wikidata.org/entity/Q83> <http://www.w3.org/2004/02/skos/core#prefLabel> "MediaWiki"@en .
+<http://www.wikidata.org/entity/Q83> <http://schema.org/name> "MediaWiki"@en .
+<http://www.wikidata.org/entity/Q83> <http://schema.org/description> "wiki software"@en .
+<http://www.wikidata.org/entity/Q83> <http://www.w3.org/2004/02/skos/core#altLabel> "Media-Wiki"@en .
+<http://www.wikidata.org/entity/Q89> <http://www.w3.org/2000/01/rdf-schema#label> "apple"@en .
+<http://www.wikidata.org/entity/Q89> <http://www.w3.org/2004/02/skos/core#prefLabel> "apple"@en .
+<http://www.wikidata.org/entity/Q89> <http://schema.org/name> "apple"@en .
+<http://www.wikidata.org/entity/Q89> <http://schema.org/description> "fruit of the apple tree"@en .
+<http://www.wikidata.org/entity/Q89> <http://www.w3.org/2004/02/skos/core#altLabel> "apples"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2000/01/rdf-schema#label> "Mexico"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#prefLabel> "Mexico"@en .
+<http://www.wikidata.org/entity/Q96> <http://schema.org/name> "Mexico"@en .
+<http://www.wikidata.org/entity/Q96> <http://schema.org/description> "federal republic in the southern portion of North America"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "United Mexican States"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "Mexican Republic"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "Estados Unidos Mexicanos"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "MX"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "mx"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1F2\U0001F1FD"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "Rep\u00FAblica Mexicana"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.w3.org/2004/02/skos/core#altLabel> "Republica Mexicana"@en .
+<http://www.wikidata.org/entity/Q96> <http://www.wikidata.org/prop/direct/P1549> "Mexican"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.w3.org/2000/01/rdf-schema#label> "California"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.w3.org/2004/02/skos/core#prefLabel> "California"@en .
+<http://www.wikidata.org/entity/Q99> <http://schema.org/name> "California"@en .
+<http://www.wikidata.org/entity/Q99> <http://schema.org/description> "state of the United States"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.w3.org/2004/02/skos/core#altLabel> "State of California"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.w3.org/2004/02/skos/core#altLabel> "CA"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.w3.org/2004/02/skos/core#altLabel> "The Golden State"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1449> "The Golden State"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1813> "Cal."@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1813> "Calif."@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1813> "CA"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1549> "Californian"@en .
+<http://www.wikidata.org/entity/Q99> <http://www.wikidata.org/prop/direct/P1451> "Eureka"@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2000/01/rdf-schema#label> "September"@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2004/02/skos/core#prefLabel> "September"@en .
+<http://www.wikidata.org/entity/Q123> <http://schema.org/name> "September"@en .
+<http://www.wikidata.org/entity/Q123> <http://schema.org/description> "ninth month in the Julian and Gregorian calendars"@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2004/02/skos/core#altLabel> "Sept"@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2004/02/skos/core#altLabel> "Sep"@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2004/02/skos/core#altLabel> "Sep."@en .
+<http://www.wikidata.org/entity/Q123> <http://www.w3.org/2004/02/skos/core#altLabel> "9. month"@en .
+<http://www.wikidata.org/entity/Q125> <http://www.w3.org/2000/01/rdf-schema#label> "November"@en .
+<http://www.wikidata.org/entity/Q125> <http://www.w3.org/2004/02/skos/core#prefLabel> "November"@en .
+<http://www.wikidata.org/entity/Q125> <http://schema.org/name> "November"@en .
+<http://www.wikidata.org/entity/Q125> <http://schema.org/description> "eleventh month in the Julian and Gregorian calendars"@en .
+<http://www.wikidata.org/entity/Q125> <http://www.w3.org/2004/02/skos/core#altLabel> "Nov"@en .
+<http://www.wikidata.org/entity/Q125> <http://www.w3.org/2004/02/skos/core#altLabel> "11. month"@en .
+<http://www.wikidata.org/entity/Q136> <http://www.w3.org/2000/01/rdf-schema#label> "knight"@en .
+<http://www.wikidata.org/entity/Q136> <http://www.w3.org/2004/02/skos/core#prefLabel> "knight"@en .
+<http://www.wikidata.org/entity/Q136> <http://schema.org/name> "knight"@en .
+<http://www.wikidata.org/entity/Q136> <http://schema.org/description> "piece in the board game of chess"@en .
+<http://www.wikidata.org/entity/Q136> <http://www.w3.org/2004/02/skos/core#altLabel> "\u265E"@en .
+<http://www.wikidata.org/entity/Q136> <http://www.w3.org/2004/02/skos/core#altLabel> "\u2658"@en .
+<http://www.wikidata.org/entity/Q136> <http://www.w3.org/2004/02/skos/core#altLabel> "N"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.w3.org/2000/01/rdf-schema#label> "lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.w3.org/2004/02/skos/core#prefLabel> "lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://schema.org/name> "lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://schema.org/description> "species of big cat"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.w3.org/2004/02/skos/core#altLabel> "Panthera leo"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.w3.org/2004/02/skos/core#altLabel> "African lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.w3.org/2004/02/skos/core#altLabel> "Asiatic Lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.wikidata.org/prop/direct/P1843> "Lion"@en .
+<http://www.wikidata.org/entity/Q140> <http://www.wikidata.org/prop/direct/P1843> "African Lion"@en .
+<http://www.wikidata.org/entity/Q143> <http://www.w3.org/2000/01/rdf-schema#label> "Esperanto"@en .
+<http://www.wikidata.org/entity/Q143> <http://www.w3.org/2004/02/skos/core#prefLabel> "Esperanto"@en .
+<http://www.wikidata.org/entity/Q143> <http://schema.org/name> "Esperanto"@en .
+<http://www.wikidata.org/entity/Q143> <http://schema.org/description> "international auxiliary language designed by Ludwik Lejzer Zamenhof"@en .
+<http://www.wikidata.org/entity/Q143> <http://www.w3.org/2004/02/skos/core#altLabel> "Esperanto language"@en .
+<http://www.wikidata.org/entity/Q143> <http://www.w3.org/2004/02/skos/core#altLabel> "eo"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2000/01/rdf-schema#label> "United Kingdom"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#prefLabel> "United Kingdom"@en .
+<http://www.wikidata.org/entity/Q145> <http://schema.org/name> "United Kingdom"@en .
+<http://www.wikidata.org/entity/Q145> <http://schema.org/description> "country in Europe"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "UK"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "United Kingdom of Great Britain and Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "Great Britain"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "GB"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "GBR"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EC\U0001F1E7"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P1448> "United Kingdom of Great Britain and Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P1813> "UK"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P1549> "British"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2000/01/rdf-schema#label> "cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#prefLabel> "cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://schema.org/name> "cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://schema.org/description> "domesticated species of feline"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#altLabel> "Felis silvestris catus"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#altLabel> "Felis catus"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#altLabel> "house cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#altLabel> "domestic cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2004/02/skos/core#altLabel> "housecat"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.wikidata.org/prop/direct/P1843> "Domestic cat"@en .
+<http://www.wikidata.org/entity/Q147> <http://www.w3.org/2000/01/rdf-schema#label> "kitten"@en .
+<http://www.wikidata.org/entity/Q147> <http://www.w3.org/2004/02/skos/core#prefLabel> "kitten"@en .
+<http://www.wikidata.org/entity/Q147> <http://schema.org/name> "kitten"@en .
+<http://www.wikidata.org/entity/Q147> <http://schema.org/description> "young of a cat"@en .
+<http://www.wikidata.org/entity/Q147> <http://www.w3.org/2004/02/skos/core#altLabel> "kitty"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2000/01/rdf-schema#label> "People's Republic of China"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#prefLabel> "People's Republic of China"@en .
+<http://www.wikidata.org/entity/Q148> <http://schema.org/name> "People's Republic of China"@en .
+<http://www.wikidata.org/entity/Q148> <http://schema.org/description> "state in East Asia"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "CN"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "PR China"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E8\U0001F1F3"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "PRC"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "cn"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.w3.org/2004/02/skos/core#altLabel> "China"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.wikidata.org/prop/direct/P1549> "Chinese"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.wikidata.org/prop/direct/P1448> "People's Republic of China"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.wikidata.org/prop/direct/P1813> "China"@en .
+<http://www.wikidata.org/entity/Q148> <http://www.wikidata.org/prop/direct/P1813> "PRC"@en .
+<http://www.wikidata.org/entity/Q163> <http://www.w3.org/2000/01/rdf-schema#label> "Yorkshire"@en .
+<http://www.wikidata.org/entity/Q163> <http://www.w3.org/2004/02/skos/core#prefLabel> "Yorkshire"@en .
+<http://www.wikidata.org/entity/Q163> <http://schema.org/name> "Yorkshire"@en .
+<http://www.wikidata.org/entity/Q163> <http://schema.org/description> "historic county of Northern England"@en .
+<http://www.wikidata.org/entity/Q168> <http://www.w3.org/2000/01/rdf-schema#label> "\u03A0"@en .
+<http://www.wikidata.org/entity/Q168> <http://www.w3.org/2004/02/skos/core#prefLabel> "\u03A0"@en .
+<http://www.wikidata.org/entity/Q168> <http://schema.org/name> "\u03A0"@en .
+<http://www.wikidata.org/entity/Q168> <http://schema.org/description> "letter in the Greek alphabet representing the Latin \"p\""@en .
+<http://www.wikidata.org/entity/Q168> <http://www.w3.org/2004/02/skos/core#altLabel> "\u03C0"@en .
+<http://www.wikidata.org/entity/Q168> <http://www.w3.org/2004/02/skos/core#altLabel> "Pi"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.w3.org/2000/01/rdf-schema#label> "Alabama"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.w3.org/2004/02/skos/core#prefLabel> "Alabama"@en .
+<http://www.wikidata.org/entity/Q173> <http://schema.org/name> "Alabama"@en .
+<http://www.wikidata.org/entity/Q173> <http://schema.org/description> "state of the United States of America"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.w3.org/2004/02/skos/core#altLabel> "State of Alabama"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.w3.org/2004/02/skos/core#altLabel> "AL"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.wikidata.org/prop/direct/P1449> "The Yellowhammer State"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.wikidata.org/prop/direct/P1449> "Heart of Dixie"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.wikidata.org/prop/direct/P1813> "AL"@en .
+<http://www.wikidata.org/entity/Q173> <http://www.wikidata.org/prop/direct/P1549> "Alabamian"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2000/01/rdf-schema#label> "Belarus"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#prefLabel> "Belarus"@en .
+<http://www.wikidata.org/entity/Q184> <http://schema.org/name> "Belarus"@en .
+<http://www.wikidata.org/entity/Q184> <http://schema.org/description> "a country in Eastern Europe"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E7\U0001F1FE"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "White Russia"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "White Ruthenia"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Belarus"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "by"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.w3.org/2004/02/skos/core#altLabel> "Byeloruss"@en .
+<http://www.wikidata.org/entity/Q184> <http://www.wikidata.org/prop/direct/P1549> "Belarusian"@en .
+<http://www.wikidata.org/entity/Q188> <http://www.w3.org/2000/01/rdf-schema#label> "German"@en .
+<http://www.wikidata.org/entity/Q188> <http://www.w3.org/2004/02/skos/core#prefLabel> "German"@en .
+<http://www.wikidata.org/entity/Q188> <http://schema.org/name> "German"@en .
+<http://www.wikidata.org/entity/Q188> <http://schema.org/description> "West Germanic language"@en .
+<http://www.wikidata.org/entity/Q188> <http://www.w3.org/2004/02/skos/core#altLabel> "German language"@en .
+<http://www.wikidata.org/entity/Q188> <http://www.w3.org/2004/02/skos/core#altLabel> "Deutsch"@en .
+<http://www.wikidata.org/entity/Q188> <http://www.w3.org/2004/02/skos/core#altLabel> "de"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2000/01/rdf-schema#label> "Iceland"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2004/02/skos/core#prefLabel> "Iceland"@en .
+<http://www.wikidata.org/entity/Q189> <http://schema.org/name> "Iceland"@en .
+<http://www.wikidata.org/entity/Q189> <http://schema.org/description> "island republic in Northern Europe"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Iceland"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2004/02/skos/core#altLabel> "is"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2004/02/skos/core#altLabel> "Island"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EE\U0001F1F8"@en .
+<http://www.wikidata.org/entity/Q189> <http://www.wikidata.org/prop/direct/P1549> "Icelandic"@en .
+<http://www.wikidata.org/entity/Q194> <http://www.w3.org/2000/01/rdf-schema#label> "rings of Saturn"@en .
+<http://www.wikidata.org/entity/Q194> <http://www.w3.org/2004/02/skos/core#prefLabel> "rings of Saturn"@en .
+<http://www.wikidata.org/entity/Q194> <http://schema.org/name> "rings of Saturn"@en .
+<http://www.wikidata.org/entity/Q194> <http://schema.org/description> "planar collection of stellar debris that orbits Saturn"@en .
+<http://www.wikidata.org/entity/Q195> <http://www.w3.org/2000/01/rdf-schema#label> "chocolate"@en .
+<http://www.wikidata.org/entity/Q195> <http://www.w3.org/2004/02/skos/core#prefLabel> "chocolate"@en .
+<http://www.wikidata.org/entity/Q195> <http://schema.org/name> "chocolate"@en .
+<http://www.wikidata.org/entity/Q195> <http://schema.org/description> "food produced from the seed of Theobroma cacao"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2000/01/rdf-schema#label> "George W. Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#prefLabel> "George W. Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://schema.org/name> "George W. Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://schema.org/description> "43rd President of the United States"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "George Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "George Walker Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "Bush, George W."@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "Bush Jr."@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "President Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "Dubya"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "GWB"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "Bush 43"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.w3.org/2004/02/skos/core#altLabel> "President George W. Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.wikidata.org/prop/direct/P1559> "George W. Bush"@en .
+<http://www.wikidata.org/entity/Q207> <http://www.wikidata.org/prop/direct/P1477> "George Walker Bush"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2000/01/rdf-schema#label> "Ukraine"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ukraine"@en .
+<http://www.wikidata.org/entity/Q212> <http://schema.org/name> "Ukraine"@en .
+<http://www.wikidata.org/entity/Q212> <http://schema.org/description> "country in Eastern Europe"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#altLabel> "UA"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#altLabel> "UKR"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#altLabel> "ua"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#altLabel> "Ukrainia"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1FA\U0001F1E6"@en .
+<http://www.wikidata.org/entity/Q212> <http://www.wikidata.org/prop/direct/P1549> "Ukrainian"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2000/01/rdf-schema#label> "Republic of Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#prefLabel> "Republic of Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://schema.org/name> "Republic of Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://schema.org/description> "republic in Southeast Europe"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "FYROM"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "Former Yugoslav Republic of Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "mk"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "FYR Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "The former Yugoslav Republic of Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "Macedonia"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1F2\U0001F1F0"@en .
+<http://www.wikidata.org/entity/Q221> <http://www.wikidata.org/prop/direct/P1549> "Macedonian"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.w3.org/2000/01/rdf-schema#label> "Azerbaijan"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.w3.org/2004/02/skos/core#prefLabel> "Azerbaijan"@en .
+<http://www.wikidata.org/entity/Q227> <http://schema.org/name> "Azerbaijan"@en .
+<http://www.wikidata.org/entity/Q227> <http://schema.org/description> "republic in Western Asia and Eastern Europe"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Azerbaijan"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.w3.org/2004/02/skos/core#altLabel> "az"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E6\U0001F1FF"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.wikidata.org/prop/direct/P1549> "Azerbaijani"@en .
+<http://www.wikidata.org/entity/Q227> <http://www.wikidata.org/prop/direct/P1549> "Azeri"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2000/01/rdf-schema#label> "Andorra"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2004/02/skos/core#prefLabel> "Andorra"@en .
+<http://www.wikidata.org/entity/Q228> <http://schema.org/name> "Andorra"@en .
+<http://www.wikidata.org/entity/Q228> <http://schema.org/description> "European microstate between France and Spain"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2004/02/skos/core#altLabel> "Principality of Andorra"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2004/02/skos/core#altLabel> "Principality of the Valleys of Andorra"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2004/02/skos/core#altLabel> "ad"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E6\U0001F1E9"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.wikidata.org/prop/direct/P1549> "Andorran"@en .
+<http://www.wikidata.org/entity/Q228> <http://www.wikidata.org/prop/direct/P1451> "United virtue is stronger"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2000/01/rdf-schema#label> "Kazakhstan"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kazakhstan"@en .
+<http://www.wikidata.org/entity/Q232> <http://schema.org/name> "Kazakhstan"@en .
+<http://www.wikidata.org/entity/Q232> <http://schema.org/description> "country in Central Asia"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Kazakhstan"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2004/02/skos/core#altLabel> "kz"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2004/02/skos/core#altLabel> "Qazaqstan"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1F0\U0001F1FF"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.wikidata.org/prop/direct/P1549> "Kazakhstani"@en .
+<http://www.wikidata.org/entity/Q232> <http://www.wikidata.org/prop/direct/P1549> "Kazakh"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.w3.org/2000/01/rdf-schema#label> "Barbados"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.w3.org/2004/02/skos/core#prefLabel> "Barbados"@en .
+<http://www.wikidata.org/entity/Q244> <http://schema.org/name> "Barbados"@en .
+<http://www.wikidata.org/entity/Q244> <http://schema.org/description> "country in the Caribbean"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.w3.org/2004/02/skos/core#altLabel> "BB"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.w3.org/2004/02/skos/core#altLabel> "bb"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E7\U0001F1E7"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.wikidata.org/prop/direct/P1549> "Barbadian"@en .
+<http://www.wikidata.org/entity/Q244> <http://www.wikidata.org/prop/direct/P1451> "Pride and Industry"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2000/01/rdf-schema#label> "Intel"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2004/02/skos/core#prefLabel> "Intel"@en .
+<http://www.wikidata.org/entity/Q248> <http://schema.org/name> "Intel"@en .
+<http://www.wikidata.org/entity/Q248> <http://schema.org/description> "American multinational corporation that manufactures semiconductor chips"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2004/02/skos/core#altLabel> "Intel Corporation"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2004/02/skos/core#altLabel> "N M Electronics"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2004/02/skos/core#altLabel> "Integrated Electronics"@en .
+<http://www.wikidata.org/entity/Q248> <http://www.w3.org/2004/02/skos/core#altLabel> "Integrated Electronics Corporation"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2000/01/rdf-schema#label> "Ludwig van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ludwig van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://schema.org/name> "Ludwig van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://schema.org/description> "German classical and romantic composer"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "L. van Betkhoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "L. van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "Ludvig van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "Ludwig Van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "L. Bethovenas"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "Ludwik van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "Louis van Beethoven"@en .
+<http://www.wikidata.org/entity/Q255> <http://www.w3.org/2004/02/skos/core#altLabel> "L. v. Beethoven"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.w3.org/2000/01/rdf-schema#label> "Wikisource"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.w3.org/2004/02/skos/core#prefLabel> "Wikisource"@en .
+<http://www.wikidata.org/entity/Q263> <http://schema.org/name> "Wikisource"@en .
+<http://www.wikidata.org/entity/Q263> <http://schema.org/description> "Wikimedia project, an online digital library of free content textual sources on a wiki"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.w3.org/2004/02/skos/core#altLabel> "Sourceberg"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.wikidata.org/prop/direct/P1549> "Wikisourceror"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.wikidata.org/prop/direct/P1549> "WikiScribe"@en .
+<http://www.wikidata.org/entity/Q263> <http://www.wikidata.org/prop/direct/P1705> "Wikisource"@en .
+<http://www.wikidata.org/entity/Q268> <http://www.w3.org/2000/01/rdf-schema#label> "Pozna\u0144"@en .
+<http://www.wikidata.org/entity/Q268> <http://www.w3.org/2004/02/skos/core#prefLabel> "Pozna\u0144"@en .
+<http://www.wikidata.org/entity/Q268> <http://schema.org/name> "Pozna\u0144"@en .
+<http://www.wikidata.org/entity/Q268> <http://schema.org/description> "city in Greater Poland Voivodeship, Poland"@en .
+<http://www.wikidata.org/entity/Q268> <http://www.w3.org/2004/02/skos/core#altLabel> "Poznan"@en .
+<http://www.wikidata.org/entity/Q277> <http://www.w3.org/2000/01/rdf-schema#label> "Kilchoman"@en .
+<http://www.wikidata.org/entity/Q277> <http://www.w3.org/2004/02/skos/core#prefLabel> "Kilchoman"@en .
+<http://www.wikidata.org/entity/Q277> <http://schema.org/name> "Kilchoman"@en .
+<http://www.wikidata.org/entity/Q277> <http://schema.org/description> "distillery that produces single malt Scotch whisky on Islay"@en .
+<http://www.wikidata.org/entity/Q278> <http://www.w3.org/2000/01/rdf-schema#label> "Talisker"@en .
+<http://www.wikidata.org/entity/Q278> <http://www.w3.org/2004/02/skos/core#prefLabel> "Talisker"@en .
+<http://www.wikidata.org/entity/Q278> <http://schema.org/name> "Talisker"@en .
+<http://www.wikidata.org/entity/Q278> <http://schema.org/description> "Island Single Malt Scotch whisky"@en .
+<http://www.wikidata.org/entity/Q281> <http://www.w3.org/2000/01/rdf-schema#label> "whisky"@en .
+<http://www.wikidata.org/entity/Q281> <http://www.w3.org/2004/02/skos/core#prefLabel> "whisky"@en .
+<http://www.wikidata.org/entity/Q281> <http://schema.org/name> "whisky"@en .
+<http://www.wikidata.org/entity/Q281> <http://schema.org/description> "type of distilled alcoholic beverage made from fermented grain mash"@en .
+<http://www.wikidata.org/entity/Q281> <http://www.w3.org/2004/02/skos/core#altLabel> "whiskey"@en .
+<http://www.wikidata.org/entity/Q284> <http://www.w3.org/2000/01/rdf-schema#label> "Cognac"@en .
+<http://www.wikidata.org/entity/Q284> <http://www.w3.org/2004/02/skos/core#prefLabel> "Cognac"@en .
+<http://www.wikidata.org/entity/Q284> <http://schema.org/name> "Cognac"@en .
+<http://www.wikidata.org/entity/Q284> <http://schema.org/description> "alcoholic beverage; a variety of brandy"@en .
+<http://www.wikidata.org/entity/Q284> <http://www.w3.org/2004/02/skos/core#altLabel> "Cognac (eau-de-vie)"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2000/01/rdf-schema#label> "Diego Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#prefLabel> "Diego Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://schema.org/name> "Diego Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://schema.org/description> "Spanish painter who was the leading artist in the court of King Philip IV"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva Vel\u00E0zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego De Vel\u00E1zquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Velasquier"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Velasquiz"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Vel\u00E1squez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Valesquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasquex"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Vel\u00E1zquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Villasco"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Vel\u00E1zquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva Velaskes"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasque"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva y Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Vel\u00E1zquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasco Spagnolo"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Valaquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Valasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Diego Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Belazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velascus"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez De Silva Y Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Valasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva y Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasmo"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasco"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velarques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego De Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriquez de Silva y Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego De Silva Velaskes"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Vel\u00E1zquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Belasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Vel\u00E1squez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez Vel\u00E1squez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez de Silva y Vel\u00E1squez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodr\u00EDguez De Silva Y Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego De Velazquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Velasquier"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Velasquiz"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velazquez y Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velazquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Silva y Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Velazquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez de Silva y Belasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Rodriguez Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasco spagnolo"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Di\u00E9go V\u00E9lasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasqez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "diego velazquez de silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "d. r. de silva y velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Diego Valasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquex"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquer"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Valaquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Di\u00E9go-V\u00E9lasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Dom Diego Velasqu\u00E8s"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Valesquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "c. diego velasquez de silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "V\u00E9laquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Valasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Valasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasqu\u00E9z"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Flasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Belazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velaschi"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasque"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasqu\u00E8z"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Lavasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "D. Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "V\u00E9lasqu\u00E8s"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "D. Diego Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "D. Velaquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Vellasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "de Silva Diego Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velascus"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Diego Velasquez de Silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquiz"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquesz"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Vilasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasmo"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasquier"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velarquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velarques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Dom Diego de Velasques"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "diego di silva y velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Di\u00E9go Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Velasquez Spagnuolo"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Cavalier Velasqu\u00E8s"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Vallascio"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Valaschi"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Di\u00E8go Rado. Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Velasco"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego Vellasquetz"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "diego velasquez de silva"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Velasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Diego Velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Belasquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "d. r. velazquez"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "Diego de Velasco"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.w3.org/2004/02/skos/core#altLabel> "D. Diego Velasqu\u00E8s"@en .
+<http://www.wikidata.org/entity/Q297> <http://www.wikidata.org/prop/direct/P1477> "Diego Rodriguez de Silva y Vel\u00E1zquez"@en .
+<http://www.wikidata.org/entity/Q305> <http://www.w3.org/2000/01/rdf-schema#label> "corporal punishment"@en .
+<http://www.wikidata.org/entity/Q305> <http://www.w3.org/2004/02/skos/core#prefLabel> "corporal punishment"@en .
+<http://www.wikidata.org/entity/Q305> <http://schema.org/name> "corporal punishment"@en .
+<http://www.wikidata.org/entity/Q305> <http://schema.org/description> "form of physical punishment that involves pain"@en .
+<http://www.wikidata.org/entity/Q319> <http://www.w3.org/2000/01/rdf-schema#label> "Jupiter"@en .
+<http://www.wikidata.org/entity/Q319> <http://www.w3.org/2004/02/skos/core#prefLabel> "Jupiter"@en .
+<http://www.wikidata.org/entity/Q319> <http://schema.org/name> "Jupiter"@en .
+<http://www.wikidata.org/entity/Q319> <http://schema.org/description> "fifth planet from the Sun and largest planet in the Solar System"@en .
+<http://www.wikidata.org/entity/Q319> <http://www.w3.org/2004/02/skos/core#altLabel> "Sol V"@en .
+<http://www.wikidata.org/entity/Q319> <http://www.w3.org/2004/02/skos/core#altLabel> "\u2643"@en .
+<http://www.wikidata.org/entity/Q319> <http://www.w3.org/2004/02/skos/core#altLabel> "Sol f"@en .
+<http://www.wikidata.org/entity/Q323> <http://www.w3.org/2000/01/rdf-schema#label> "Big Bang"@en .
+<http://www.wikidata.org/entity/Q323> <http://www.w3.org/2004/02/skos/core#prefLabel> "Big Bang"@en .
+<http://www.wikidata.org/entity/Q323> <http://schema.org/name> "Big Bang"@en .
+<http://www.wikidata.org/entity/Q323> <http://schema.org/description> "theoretical past period when the Universe was much hotter, denser and rapidly expanding"@en .
+<http://www.wikidata.org/entity/Q323> <http://www.w3.org/2004/02/skos/core#altLabel> "Big Bang theory"@en .
+<http://www.wikidata.org/entity/Q323> <http://www.w3.org/2004/02/skos/core#altLabel> "BigBang"@en .
+<http://www.wikidata.org/entity/Q323> <http://www.w3.org/2004/02/skos/core#altLabel> "Big-Bang"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2000/01/rdf-schema#label> "Louis IX of France"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#prefLabel> "Louis IX of France"@en .
+<http://www.wikidata.org/entity/Q346> <http://schema.org/name> "Louis IX of France"@en .
+<http://www.wikidata.org/entity/Q346> <http://schema.org/description> "King of France"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "Saint Louis"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "Louis IX"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "King of France Ludovik IX"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "\u30D5\u30E9\u30F3\u30B9\u56FD\u738B Louis 9\u4E16"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "King of France Louis IX"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "koning van Frankrijk Louis IX"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "roi de France Louis IX"@en .
+<http://www.wikidata.org/entity/Q346> <http://www.w3.org/2004/02/skos/core#altLabel> "s. IX, re di Francia Louis"@en .
+<http://www.wikidata.org/entity/Q349> <http://www.w3.org/2000/01/rdf-schema#label> "sport"@en .
+<http://www.wikidata.org/entity/Q349> <http://www.w3.org/2004/02/skos/core#prefLabel> "sport"@en .
+<http://www.wikidata.org/entity/Q349> <http://schema.org/name> "sport"@en .
+<http://www.wikidata.org/entity/Q349> <http://schema.org/description> "forms of competitive activity, usually physical"@en .
+<http://www.wikidata.org/entity/Q349> <http://www.w3.org/2004/02/skos/core#altLabel> "sports"@en .
+<http://www.wikidata.org/entity/Q353> <http://www.w3.org/2000/01/rdf-schema#label> "Blanche of Castile"@en .
+<http://www.wikidata.org/entity/Q353> <http://www.w3.org/2004/02/skos/core#prefLabel> "Blanche of Castile"@en .
+<http://www.wikidata.org/entity/Q353> <http://schema.org/name> "Blanche of Castile"@en .
+<http://www.wikidata.org/entity/Q353> <http://schema.org/description> "Queen of France"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.w3.org/2000/01/rdf-schema#label> "Julian Assange"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.w3.org/2004/02/skos/core#prefLabel> "Julian Assange"@en .
+<http://www.wikidata.org/entity/Q360> <http://schema.org/name> "Julian Assange"@en .
+<http://www.wikidata.org/entity/Q360> <http://schema.org/description> "Australian editor, activist, publisher and journalist"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.w3.org/2004/02/skos/core#altLabel> "Julian Paul Assange"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.w3.org/2004/02/skos/core#altLabel> "Assange"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.wikidata.org/prop/direct/P1477> "Julian Paul Hawkins"@en .
+<http://www.wikidata.org/entity/Q360> <http://www.wikidata.org/prop/direct/P1559> "Julian Assange"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2000/01/rdf-schema#label> "World War II"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#prefLabel> "World War II"@en .
+<http://www.wikidata.org/entity/Q362> <http://schema.org/name> "World War II"@en .
+<http://www.wikidata.org/entity/Q362> <http://schema.org/description> "1939\u20131945 global war between the Allied and Axis Powers"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "Second World War"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "WW2"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "WWII"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "World War 2"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "the Second World War"@en .
+<http://www.wikidata.org/entity/Q362> <http://www.w3.org/2004/02/skos/core#altLabel> "World War Two"@en .
+<http://www.wikidata.org/entity/Q368> <http://www.w3.org/2000/01/rdf-schema#label> "Augusto Pinochet"@en .
+<http://www.wikidata.org/entity/Q368> <http://www.w3.org/2004/02/skos/core#prefLabel> "Augusto Pinochet"@en .
+<http://www.wikidata.org/entity/Q368> <http://schema.org/name> "Augusto Pinochet"@en .
+<http://www.wikidata.org/entity/Q368> <http://schema.org/description> "Former dictator of the republic of Chile"@en .
+<http://www.wikidata.org/entity/Q368> <http://www.w3.org/2004/02/skos/core#altLabel> "Augusto Jos\u00E9 Ram\u00F3n"@en .
+<http://www.wikidata.org/entity/Q368> <http://www.w3.org/2004/02/skos/core#altLabel> "Augusto Jose Ramon"@en .
+<http://www.wikidata.org/entity/Q394> <http://www.w3.org/2000/01/rdf-schema#label> "metrology"@en .
+<http://www.wikidata.org/entity/Q394> <http://www.w3.org/2004/02/skos/core#prefLabel> "metrology"@en .
+<http://www.wikidata.org/entity/Q394> <http://schema.org/name> "metrology"@en .
+<http://www.wikidata.org/entity/Q394> <http://schema.org/description> "science of measurement and its application"@en .
+<http://www.wikidata.org/entity/Q395> <http://www.w3.org/2000/01/rdf-schema#label> "mathematics"@en .
+<http://www.wikidata.org/entity/Q395> <http://www.w3.org/2004/02/skos/core#prefLabel> "mathematics"@en .
+<http://www.wikidata.org/entity/Q395> <http://schema.org/name> "mathematics"@en .
+<http://www.wikidata.org/entity/Q395> <http://schema.org/description> "abstract study of numbers, quantity, structure, relationships, etc.; mathematics can be seen as the search for regularities, and the output of any function is a mathematical pattern"@en .
+<http://www.wikidata.org/entity/Q395> <http://www.w3.org/2004/02/skos/core#altLabel> "math"@en .
+<http://www.wikidata.org/entity/Q395> <http://www.w3.org/2004/02/skos/core#altLabel> "maths"@en .
+<http://www.wikidata.org/entity/Q395> <http://www.w3.org/2004/02/skos/core#altLabel> "arithmetic"@en .
+<http://www.wikidata.org/entity/Q396> <http://www.w3.org/2000/01/rdf-schema#label> "U2"@en .
+<http://www.wikidata.org/entity/Q396> <http://www.w3.org/2004/02/skos/core#prefLabel> "U2"@en .
+<http://www.wikidata.org/entity/Q396> <http://schema.org/name> "U2"@en .
+<http://www.wikidata.org/entity/Q396> <http://schema.org/description> "Irish alternative rock band"@en .
+<http://www.wikidata.org/entity/Q396> <http://www.w3.org/2004/02/skos/core#altLabel> "Es la banda de rock con m\u00E1s Grammys de la historia"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.w3.org/2000/01/rdf-schema#label> "Bahrain"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.w3.org/2004/02/skos/core#prefLabel> "Bahrain"@en .
+<http://www.wikidata.org/entity/Q398> <http://schema.org/name> "Bahrain"@en .
+<http://www.wikidata.org/entity/Q398> <http://schema.org/description> "constitutional monarchy in Southwest Asia"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.w3.org/2004/02/skos/core#altLabel> "bh"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.w3.org/2004/02/skos/core#altLabel> "Kingdom of Bahrain"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1E7\U0001F1ED"@en .
+<http://www.wikidata.org/entity/Q398> <http://www.wikidata.org/prop/direct/P1549> "Bahraini"@en .
+<http://www.wikidata.org/entity/Q401> <http://www.w3.org/2000/01/rdf-schema#label> "cuneiform"@en .
+<http://www.wikidata.org/entity/Q401> <http://www.w3.org/2004/02/skos/core#prefLabel> "cuneiform"@en .
+<http://www.wikidata.org/entity/Q401> <http://schema.org/name> "cuneiform"@en .
+<http://www.wikidata.org/entity/Q401> <http://schema.org/description> "old writing system used for many languages, including Akkadian and Hittite"@en .
+<http://www.wikidata.org/entity/Q412> <http://www.w3.org/2000/01/rdf-schema#label> "Pioneer plaque"@en .
+<http://www.wikidata.org/entity/Q412> <http://www.w3.org/2004/02/skos/core#prefLabel> "Pioneer plaque"@en .
+<http://www.wikidata.org/entity/Q412> <http://schema.org/name> "Pioneer plaque"@en .
+<http://www.wikidata.org/entity/Q412> <http://schema.org/description> "two plaques attached to the Pioneer 10 and Pioneer 11 spacecraft, in case extraterrestrial life finds it"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2000/01/rdf-schema#label> "Peru"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#prefLabel> "Peru"@en .
+<http://www.wikidata.org/entity/Q419> <http://schema.org/name> "Peru"@en .
+<http://www.wikidata.org/entity/Q419> <http://schema.org/description> "republic in South America"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#altLabel> "pe"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Peru"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#altLabel> "Rep\u00FAblica del Per\u00FA"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1F5\U0001F1EA"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.w3.org/2004/02/skos/core#altLabel> "Republica del Peru"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.wikidata.org/prop/direct/P1549> "Peruvian"@en .
+<http://www.wikidata.org/entity/Q419> <http://www.wikidata.org/prop/direct/P1451> "Firm and Happy for the Union"@en .
+<http://www.wikidata.org/entity/Q433> <http://www.w3.org/2000/01/rdf-schema#label> "Gmina Kur\u00F3w"@en .
+<http://www.wikidata.org/entity/Q433> <http://www.w3.org/2004/02/skos/core#prefLabel> "Gmina Kur\u00F3w"@en .
+<http://www.wikidata.org/entity/Q433> <http://schema.org/name> "Gmina Kur\u00F3w"@en .
+<http://www.wikidata.org/entity/Q433> <http://schema.org/description> "Polish rural gmina in Lublin Voivodeship"@en .
+<http://www.wikidata.org/entity/Q433> <http://www.w3.org/2004/02/skos/core#altLabel> "Gmina Kurow"@en .
+<http://www.wikidata.org/entity/Q437> <http://www.w3.org/2000/01/rdf-schema#label> "Ljubljana"@en .
+<http://www.wikidata.org/entity/Q437> <http://www.w3.org/2004/02/skos/core#prefLabel> "Ljubljana"@en .
+<http://www.wikidata.org/entity/Q437> <http://schema.org/name> "Ljubljana"@en .
+<http://www.wikidata.org/entity/Q437> <http://schema.org/description> "capital city of Slovenia"@en .
+<http://www.wikidata.org/entity/Q437> <http://www.w3.org/2004/02/skos/core#altLabel> "Ljubljana, Slovenia"@en .
+<http://www.wikidata.org/entity/Q439> <http://www.w3.org/2000/01/rdf-schema#label> "W\u0105chock"@en .
+<http://www.wikidata.org/entity/Q439> <http://www.w3.org/2004/02/skos/core#prefLabel> "W\u0105chock"@en .
+<http://www.wikidata.org/entity/Q439> <http://schema.org/name> "W\u0105chock"@en .
+<http://www.wikidata.org/entity/Q439> <http://schema.org/description> "Polish town in \u015Awi\u0119tokrzyskie Voivodeship"@en .
+<http://www.wikidata.org/entity/Q450> <http://www.w3.org/2000/01/rdf-schema#label> "mind"@en .
+<http://www.wikidata.org/entity/Q450> <http://www.w3.org/2004/02/skos/core#prefLabel> "mind"@en .
+<http://www.wikidata.org/entity/Q450> <http://schema.org/name> "mind"@en .
+<http://www.wikidata.org/entity/Q450> <http://schema.org/description> "combination of cognitive faculties that provides consciousness, thinking, reasoning, perception, and judgement in humans and potentially other life forms"@en .
+<http://www.wikidata.org/entity/Q454> <http://www.w3.org/2000/01/rdf-schema#label> "peace"@en .
+<http://www.wikidata.org/entity/Q454> <http://www.w3.org/2004/02/skos/core#prefLabel> "peace"@en .
+<http://www.wikidata.org/entity/Q454> <http://schema.org/name> "peace"@en .
+<http://www.wikidata.org/entity/Q454> <http://schema.org/description> "state of harmony characterized by lack of violent conflict and freedom from fear of violence"@en .
+<http://www.wikidata.org/entity/Q456> <http://www.w3.org/2000/01/rdf-schema#label> "Lyon"@en .
+<http://www.wikidata.org/entity/Q456> <http://www.w3.org/2004/02/skos/core#prefLabel> "Lyon"@en .
+<http://www.wikidata.org/entity/Q456> <http://schema.org/name> "Lyon"@en .
+<http://www.wikidata.org/entity/Q456> <http://schema.org/description> "commune in the metropolis of Lyon, France"@en .
+<http://www.wikidata.org/entity/Q456> <http://www.w3.org/2004/02/skos/core#altLabel> "Lyons"@en .
+<http://www.wikidata.org/entity/Q459> <http://www.w3.org/2000/01/rdf-schema#label> "Plovdiv"@en .
+<http://www.wikidata.org/entity/Q459> <http://www.w3.org/2004/02/skos/core#prefLabel> "Plovdiv"@en .
+<http://www.wikidata.org/entity/Q459> <http://schema.org/name> "Plovdiv"@en .
+<http://www.wikidata.org/entity/Q459> <http://schema.org/description> "second-largest city in Bulgaria"@en .
+<http://www.wikidata.org/entity/Q459> <http://www.w3.org/2004/02/skos/core#altLabel> "Philippopolis"@en .
+<http://www.wikidata.org/entity/Q459> <http://www.w3.org/2004/02/skos/core#altLabel> "Filibe"@en .
+<http://www.wikidata.org/entity/Q459> <http://www.w3.org/2004/02/skos/core#altLabel> "\u041F\u043B\u043E\u0300\u0432\u0434\u0438\u0432"@en .
+<http://www.wikidata.org/entity/Q463> <http://www.w3.org/2000/01/rdf-schema#label> "Rh\u00F4ne-Alpes"@en .
+<http://www.wikidata.org/entity/Q463> <http://www.w3.org/2004/02/skos/core#prefLabel> "Rh\u00F4ne-Alpes"@en .
+<http://www.wikidata.org/entity/Q463> <http://schema.org/name> "Rh\u00F4ne-Alpes"@en .
+<http://www.wikidata.org/entity/Q463> <http://schema.org/description> "former administrative region of France"@en .
+<http://www.wikidata.org/entity/Q463> <http://www.w3.org/2004/02/skos/core#altLabel> "Rhone-Alpes"@en .
+<http://www.wikidata.org/entity/Q464> <http://www.w3.org/2000/01/rdf-schema#label> "Philipp Ludwig von Seidel"@en .
+<http://www.wikidata.org/entity/Q464> <http://www.w3.org/2004/02/skos/core#prefLabel> "Philipp Ludwig von Seidel"@en .
+<http://www.wikidata.org/entity/Q464> <http://schema.org/name> "Philipp Ludwig von Seidel"@en .
+<http://www.wikidata.org/entity/Q464> <http://schema.org/description> "German mathematician"@en .
+<http://www.wikidata.org/entity/Q465> <http://www.w3.org/2000/01/rdf-schema#label> "DBpedia"@en .
+<http://www.wikidata.org/entity/Q465> <http://www.w3.org/2004/02/skos/core#prefLabel> "DBpedia"@en .
+<http://www.wikidata.org/entity/Q465> <http://schema.org/name> "DBpedia"@en .
+<http://www.wikidata.org/entity/Q465> <http://schema.org/description> "online database project"@en .
+<http://www.wikidata.org/entity/Q480> <http://www.w3.org/2000/01/rdf-schema#label> "Don Quixote"@en .
+<http://www.wikidata.org/entity/Q480> <http://www.w3.org/2004/02/skos/core#prefLabel> "Don Quixote"@en .
+<http://www.wikidata.org/entity/Q480> <http://schema.org/name> "Don Quixote"@en .
+<http://www.wikidata.org/entity/Q480> <http://schema.org/description> "novel by the Spanish author Miguel de Cervantes Saavedra"@en .
+<http://www.wikidata.org/entity/Q480> <http://www.w3.org/2004/02/skos/core#altLabel> "Don Quijote"@en .
+<http://www.wikidata.org/entity/Q480> <http://www.w3.org/2004/02/skos/core#altLabel> "Quijote"@en .
+<http://www.wikidata.org/entity/Q483> <http://www.w3.org/2000/01/rdf-schema#label> "Megaupload"@en .
+<http://www.wikidata.org/entity/Q483> <http://www.w3.org/2004/02/skos/core#prefLabel> "Megaupload"@en .
+<http://www.wikidata.org/entity/Q483> <http://schema.org/name> "Megaupload"@en .
+<http://www.wikidata.org/entity/Q483> <http://schema.org/description> "former Hong Kong\u2013based company"@en .
+<http://www.wikidata.org/entity/Q483> <http://www.w3.org/2004/02/skos/core#altLabel> "Megaupload Limited"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2000/01/rdf-schema#label> "Milan"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2004/02/skos/core#prefLabel> "Milan"@en .
+<http://www.wikidata.org/entity/Q490> <http://schema.org/name> "Milan"@en .
+<http://www.wikidata.org/entity/Q490> <http://schema.org/description> "second-largest city in Italy"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2004/02/skos/core#altLabel> "Milano"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2004/02/skos/core#altLabel> "Milan, Italy"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2004/02/skos/core#altLabel> "Milano, Italy"@en .
+<http://www.wikidata.org/entity/Q490> <http://www.w3.org/2004/02/skos/core#altLabel> "Milano, Italia"@en .
