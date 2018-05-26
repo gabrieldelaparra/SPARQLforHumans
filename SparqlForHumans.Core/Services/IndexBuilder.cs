@@ -16,6 +16,8 @@ namespace SparqlForHumans.Core.Services
 {
     public static class IndexBuilder
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static void Optimize()
         {
             var analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);

@@ -23,7 +23,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            FilterHelper.FilterTriples(filename, outputFilename, 0);
+            TriplesFilter.Filter(filename, outputFilename, 0);
 
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(0, FileHelper.GetLineCount(outputFilename));
@@ -44,7 +44,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            FilterHelper.FilterTriples(filename, outputFilename, limit);
+            TriplesFilter.Filter(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
             Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));

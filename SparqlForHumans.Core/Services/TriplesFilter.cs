@@ -6,14 +6,14 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Core.Services
 {
-    public class FilterHelper
+    public class TriplesFilter
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public static void FilterTriples(string inputTriplesFilename, int triplesLimit)
+        public static void Filter(string inputTriplesFilename, int triplesLimit)
         {
             var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
-            FilterTriples(inputTriplesFilename, outputTriplesFilename, triplesLimit);
+            Filter(inputTriplesFilename, outputTriplesFilename, triplesLimit);
         }
 
         /// <summary>
@@ -28,12 +28,8 @@ namespace SparqlForHumans.Core.Services
         /// </summary>
         /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
-        public static void FilterTriples(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit)
+        public static void Filter(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit)
         {
-
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
             Options.InternUris = false;
 
             if (!new FileInfo(inputTriplesFilename).Exists) return;
@@ -50,13 +46,14 @@ namespace SparqlForHumans.Core.Services
 
             using (var filteredStreamWriter = new StreamWriter(new FileStream(outputTriplesFilename, FileMode.Create)))
             {
-                Logger.Debug("ElapsedTime,Read,Write");
+                Logger.Info("Read,Write");
 
                 foreach (var line in wikidataDumpLines)
                 {
                     readCount++;
+
                     if (readCount % notifyTicks == 0)
-                        Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
+                        Logger.Info($"{readCount},{writeCount}");
 
                     try
                     {
@@ -70,13 +67,12 @@ namespace SparqlForHumans.Core.Services
                     }
                     catch (Exception e)
                     {
-                        Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{line}");
+                        Logger.Error($"{readCount},{line}");
                         Logger.Error(e);
                     }
                 }
-                Logger.Debug($"{stopwatch.ElapsedMilliseconds},{readCount},{writeCount}");
+                Logger.Info($"{readCount},{writeCount}");
             }
-            stopwatch.Stop();
         }
 
         public static bool IsValidTriple(Triple triple, int entityLimit)
