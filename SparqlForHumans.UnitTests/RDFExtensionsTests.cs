@@ -159,5 +159,19 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(triple.Predicate.ToSafeString(), triple.Predicate.GetUri());
             Assert.Empty(triple.Object.GetUri());
         }
+
+        [Fact]
+        public void TestIsValidSubject()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            var triple = line.GetTriple();
+
+            Assert.True(triple.Subject.IsValidSubject());
+
+            line = "<http://www.wikidata.org/NotEntity/Q666> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            triple = line.GetTriple();
+
+            Assert.False(triple.Subject.IsValidSubject());
+        }
     }
 }

@@ -25,13 +25,11 @@ namespace SparqlForHumans.Core.Utilities
             return node.NodeType.Equals(NodeType.Literal);
         }
 
-        //TODO: Test
         public static bool IsValidLanguage(string literalLanguage)
         {
             return IsValidLanguage(literalLanguage, ValidLanguages);
         }
 
-        //TODO: Test
         public static bool IsValidLanguage(string literalLanguage, string[] validLanguages)
         {
             return validLanguages.Any(x => x.Equals(literalLanguage));
@@ -43,14 +41,12 @@ namespace SparqlForHumans.Core.Utilities
             return IsValidLanguage(((LiteralNode)node).Language);
         }
 
-        //TODO: Test
         public static string GetLiteralValue(this INode node)
         {
             if (!node.IsLiteral()) return string.Empty;
             return ((LiteralNode)node).Value;
         }
 
-        //TODO: Test
         public static string GetUri(this INode node)
         {
             if (!node.IsUriNode()) return string.Empty;
