@@ -1,14 +1,12 @@
 ﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
-using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Utilities;
 using System.IO;
 
-namespace SparqlForHumans.Core.Properties
+namespace SparqlForHumans.Core.Utilities
 {
-    public static class Paths
+    public static class LuceneHelper
     {
-        public static string indexPath = @"../LuceneIndex";
+        private static readonly string indexPath = @"../LuceneIndex";
 
         public static Lucene.Net.Store.Directory LuceneIndexDirectory
         {
