@@ -28,7 +28,13 @@ namespace SparqlForHumans.Core.Utilities
         //TODO: Test
         public static bool IsValidLanguage(string literalLanguage)
         {
-            return ValidLanguages.Any(x => x.Equals(literalLanguage));
+            return IsValidLanguage(literalLanguage, ValidLanguages);
+        }
+
+        //TODO: Test
+        public static bool IsValidLanguage(string literalLanguage, string[] validLanguages)
+        {
+            return validLanguages.Any(x => x.Equals(literalLanguage));
         }
 
         public static bool IsValidLanguageLiteral(this INode node)
