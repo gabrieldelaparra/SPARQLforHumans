@@ -93,6 +93,22 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestIsValidLanguage()
+        {
+            string[] validLanguages = { "en", "es" };
+            Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
+            Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
+            Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));
+        }
+
+        [Fact]
+        public void TestIsValidLanguageDefault()
+        {
+            Assert.True(RDFExtensions.IsValidLanguage("en"));
+            Assert.False(RDFExtensions.IsValidLanguage("de"));
+        }
+
+        [Fact]
         public void TestIsValidLanguageLiteral()
         {
             var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
@@ -111,19 +127,15 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestIsValidLanguage()
+        public void TestGetLiteral()
         {
-            string[] validLanguages = { "en", "es" };
-            Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
-            Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
-            Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));
-        }
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            var triple = line.GetTriple();
 
-        [Fact]
-        public void TestIsValidLanguageDefault()
-        {
-            Assert.True(RDFExtensions.IsValidLanguage("en"));
-            Assert.False(RDFExtensions.IsValidLanguage("de"));
+            Assert.Empty(triple.Subject.GetLiteralValue());
+            Assert.Empty(triple.Predicate.GetLiteralValue());
+            Assert.NotEmpty(triple.Object.GetLiteralValue());
+            Assert.Equal("Ireland", triple.Object.GetLiteralValue());
         }
 
         [Fact]
