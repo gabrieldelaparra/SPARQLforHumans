@@ -108,6 +108,11 @@ namespace SparqlForHumans.UnitTests
             Assert.False(triple.Subject.IsValidLanguageLiteral());
             Assert.False(triple.Predicate.IsValidLanguageLiteral());
             Assert.False(triple.Object.IsValidLanguageLiteral());
+        }
+
+        [Fact]
+        public void TestGetURIequalsNodeToString()
+        {
 
         }
     }
