@@ -26,6 +26,15 @@ namespace SparqlForHumans.Core.Services
             return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
         }
 
+        public static int GetDocumentCount(Lucene.Net.Store.Directory luceneIndexDirectory)
+        {
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            {
+                
+                searcher.Dispose();
+            }
+            return 0;
+        }
 
 
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)

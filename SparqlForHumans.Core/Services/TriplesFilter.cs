@@ -89,11 +89,11 @@ namespace SparqlForHumans.Core.Services
                 return false;
 
             //Condition: Subject is Entity and Q > triplesLimit: Skip
-            if (ntSubject.IsEntity() && ntSubject.EntityQCode() > entityLimit)
+            if (ntSubject.IsEntity() && ntSubject.GetEntityQCode() > entityLimit)
                 return false;
 
             //Condition: Object is Entity and Q > triplesLimit: Skip
-            if (ntObject.IsEntity() && ntSubject.EntityQCode() > entityLimit)
+            if (ntObject.IsEntity() && ntSubject.GetEntityQCode() > entityLimit)
                 return false;
 
             //Condition: Object is Literal: Filter @en only
