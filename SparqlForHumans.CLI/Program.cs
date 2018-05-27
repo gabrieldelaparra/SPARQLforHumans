@@ -7,6 +7,7 @@ using Lucene.Net.Search;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Services;
+using SparqlForHumans.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,9 +34,9 @@ namespace SparqlForHumans.CLI
 
             //Optimize();
 
-            var res = QueryService.GetLabelFromIndex("Q5");
-            var res2 = QueryService.GetLabelFromIndex("P41");
-            var res3 = QueryService.QueryByLabel("Obama");
+            var res = QueryService.GetLabelFromIndex("Q5", LuceneHelper.LuceneIndexDirectory);
+            var res2 = QueryService.GetLabelFromIndex("P41", LuceneHelper.LuceneIndexDirectory);
+            var res3 = QueryService.QueryByLabel("Obama", LuceneHelper.LuceneIndexDirectory);
         }
     }
 }

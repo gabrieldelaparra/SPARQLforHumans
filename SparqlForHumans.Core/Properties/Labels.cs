@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SparqlForHumans.Core.Properties
 {
+    //Rename: Name -> ID
+    //Rename: Type -> InstanceOf
+    //Rename: PO -> ??
     public enum Labels
     {
         Label,

@@ -1,8 +1,5 @@
-﻿using SparqlForHumans.Core.Properties;
-using System;
-using System.Collections.Generic;
+﻿using SparqlForHumans.Core.Utilities;
 using System.IO;
-using System.Text;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -13,7 +10,7 @@ namespace SparqlForHumans.UnitTests
         public void TestGetLucenePath()
         {
             var path = "Temp";
-            var luceneDirectory = Paths.GetLuceneDirectory(path);
+            var luceneDirectory = LuceneHelper.GetLuceneDirectory(path);
             Assert.NotNull(luceneDirectory);
             Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
 
