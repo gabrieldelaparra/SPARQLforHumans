@@ -71,18 +71,21 @@ namespace SparqlForHumans.UnitTests
                 "2 4",
                 "2 5",
                 "3 1",
+                "4 A",
+                "4 B",
             };
 
-            Assert.Equal(9, lines.Count());
+            Assert.Equal(11, lines.Count());
 
-            var firstGroup = lines.GetFirstGroup();
+            var groups = lines.GetSameEntityGroups();
 
-            Assert.Equal(9, lines.Count());
-            Assert.Equal(3, firstGroup.Count());
+            Assert.Equal(11, lines.Count());
+            Assert.Equal(4, groups.Count());
 
-            lines = lines.SkipFirstGroup();
-
-            Assert.Equal(6, lines.Count());
+            Assert.Equal(3, groups.Take(1).LastOrDefault().Count());
+            Assert.Equal(5, groups.Take(2).LastOrDefault().Count());
+            Assert.Equal(1, groups.Take(3).LastOrDefault().Count());
+            Assert.Equal(2, groups.Take(4).LastOrDefault().Count());
         }
     }
 }

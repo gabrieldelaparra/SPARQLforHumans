@@ -117,11 +117,6 @@ namespace SparqlForHumans.Core.Utilities
             return node.GetUri().Equals(Properties.WikidataDump.Alt_labelIRI);
         }
 
-        private static string GetId(this INode node)
-        {
-            return ((UriNode)node).Uri.Segments.Last();
-        }
-
         public static bool HasQCode(this INode node)
         {
             return node.GetQCode().StartsWith(Properties.WikidataDump.EntityPrefix);
@@ -140,11 +135,16 @@ namespace SparqlForHumans.Core.Utilities
         }
 
         //TODO: Test
-        public static int EntityQCode(this INode node)
+        public static int GetEntityQCode(this INode node)
         {
             var index = node.GetQCode();
             var parsed = int.TryParse(index, out int indexInt);
             return parsed ? indexInt : 0;
+        }
+
+        private static string GetId(this INode node)
+        {
+            return ((UriNode)node).Uri.Segments.Last();
         }
     }
 }
