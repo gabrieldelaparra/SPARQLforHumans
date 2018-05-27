@@ -173,5 +173,64 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(triple.Subject.IsValidSubject());
         }
+
+        [Fact]
+        public void TestGetPredicateType()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            var triple = line.GetTriple();
+            var predicate = triple.Predicate.GetPredicateType();
+            Assert.Equal(RDFExtensions.PredicateType.Label, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            predicate = triple.Predicate.GetPredicateType();
+            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
+            Assert.Equal(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://schema.org/description> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            predicate = triple.Predicate.GetPredicateType();
+            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.Equal(RDFExtensions.PredicateType.Description, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#prefLabel> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            predicate = triple.Predicate.GetPredicateType();
+            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
+            Assert.Equal(RDFExtensions.PredicateType.Other, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://schema.org/name> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            predicate = triple.Predicate.GetPredicateType();
+            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
+            Assert.Equal(RDFExtensions.PredicateType.Other, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P1559> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            predicate = triple.Predicate.GetPredicateType();
+            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
+            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
+            Assert.Equal(RDFExtensions.PredicateType.Property, predicate);
+
+        }
     }
 }
