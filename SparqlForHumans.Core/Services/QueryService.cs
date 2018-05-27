@@ -19,10 +19,14 @@ namespace SparqlForHumans.Core.Services
         static Dictionary<string, string> typeLabels = new Dictionary<string, string>();
         static Dictionary<string, string> propertyLabels = new Dictionary<string, string>();
 
+
+
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText)
         {
             return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
         }
+
+
 
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
@@ -169,13 +173,24 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
+        public static IEnumerable<string> GetLabels(this Document doc )
+        {
+            var list = new List<string>();
+
+            foreach (var item in doc.GetValues(Properties.Labels.Label.ToString()).Union(doc.GetValues(Properties.Labels.AltLabel.ToString())))
+            {
+                list.Add(item);
+            }
+            return list;
+        }
+
         private static LuceneQuery MapLuceneDocumentToData(Document document, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
             return new LuceneQuery()
             {
                 Name = document.Get(Properties.Labels.Name.ToString()),
                 Type = document.Get(Properties.Labels.Type.ToString()),
-                Label = document.Get(Properties.Labels.Label.ToString()),
+                Labels = document.GetLabels(),
                 Properties = document.GetPropertiesFromIndex(luceneIndexDirectory),
                 Description = document.Get(Properties.Labels.Description.ToString()),
                 TypeLabel = GetTypeLabel(document.Get(Properties.Labels.Type.ToString()), luceneIndexDirectory),
