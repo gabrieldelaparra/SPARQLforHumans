@@ -95,26 +95,22 @@ namespace SparqlForHumans.Core.Utilities
             return PredicateType.Other;
         }
 
-        //TODO: Test
-        public static bool IsLabelIRI(this INode node)
+        private static bool IsLabelIRI(this INode node)
         {
             return node.GetUri().Equals(Properties.WikidataDump.LabelIRI);
         }
 
-        //TODO: Test
-        public static bool IsInstanceOf(this INode node)
+        public  static bool IsInstanceOf(this INode node)
         {
             return node.GetPCode().Equals(Properties.WikidataDump.InstanceOf);
         }
 
-        //TODO: Test
-        public static bool IsDescriptionIRI(this INode node)
+        private static bool IsDescriptionIRI(this INode node)
         {
             return node.GetUri().Equals(Properties.WikidataDump.DescriptionIRI);
         }
 
-        //TODO: Test
-        public static bool IsAltLabelIRI(this INode node)
+        private static bool IsAltLabelIRI(this INode node)
         {
             return node.GetUri().Equals(Properties.WikidataDump.Alt_labelIRI);
         }
@@ -124,22 +120,19 @@ namespace SparqlForHumans.Core.Utilities
             return node.GetQCode().StartsWith(Properties.WikidataDump.EntityPrefix);
         }
 
-        //TODO: Test
         public static string GetQCode(this INode node)
         {
-            return node.GetId().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
+            return node.GetId();
         }
 
-        //TODO: Test
         public static string GetPCode(this INode node)
         {
             return node.GetId().Replace(Properties.WikidataDump.PropertyIRI, string.Empty);
         }
 
-        //TODO: Test
         public static int GetEntityQCode(this INode node)
         {
-            var index = node.GetQCode();
+            var index = node.GetQCode().Replace(Properties.WikidataDump.EntityPrefix, string.Empty);
             var parsed = int.TryParse(index, out int indexInt);
             return parsed ? indexInt : 0;
         }

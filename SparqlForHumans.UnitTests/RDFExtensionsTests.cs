@@ -55,6 +55,39 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetQCode()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.GetTriple();
+
+            Assert.Equal("Q27", triple.Subject.GetQCode());
+            Assert.Equal(27, triple.Subject.GetEntityQCode());
+        }
+
+        [Fact]
+        public void TestGetPCode()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.GetTriple();
+
+            Assert.Equal("P47", triple.Predicate.GetQCode());
+        }
+
+        [Fact]
+        public void TestIsInstanceOf()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.GetTriple();
+
+            Assert.False( triple.Predicate.IsInstanceOf());
+
+             line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
+             triple = line.GetTriple();
+
+            Assert.True(triple.Predicate.IsInstanceOf());
+        }
+
+        [Fact]
         public void TestIsProperty()
         {
             var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
@@ -230,7 +263,6 @@ namespace SparqlForHumans.UnitTests
             Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
             Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
             Assert.Equal(RDFExtensions.PredicateType.Property, predicate);
-
         }
     }
 }
