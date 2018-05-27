@@ -120,6 +120,13 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestIsValidLanguageDefault()
+        {
+            Assert.True(RDFExtensions.IsValidLanguage("en"));
+            Assert.False(RDFExtensions.IsValidLanguage("de"));
+        }
+
+        [Fact]
         public void TestGetURIequalsNodeToString()
         {
 
