@@ -68,18 +68,18 @@ namespace SparqlForHumans.Core.Services
                             if (readCount % NotifyTicks == 0)
                                 Logger.Info($"{readCount}");
 
-                            var triple = line.GetTriple();
+                            var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
-                            var ntSubject = triple.Subject;
-                            var ntPredicate = triple.Predicate;
-                            var ntObject = triple.Object;
+                            //var  = triple.Subject;
+                            //var ntPredicate = triple.Predicate;
+                            //var ntObject = triple.Object;
 
                             if (!hasDocument)
                             {
-                                var name = ntSubject.GetQCode();
+                                var id = ntSubject.GetQCode();
                                 luceneDocument = new Document();
                                 entityProperties = new List<string>();
-                                luceneDocument.Add(new Field(Properties.Labels.Name.ToString(), name, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                                luceneDocument.Add(new Field(Properties.Labels.Id.ToString(), id, Field.Store.YES, Field.Index.NOT_ANALYZED));
                                 hasDocument = true;
                             }
 
@@ -93,7 +93,7 @@ namespace SparqlForHumans.Core.Services
                             switch (ntPredicate.GetPredicateType())
                             {
                                 case RDFExtensions.PredicateType.Property:
-                                    ParsePropertyPredicate(triple, luceneDocument, entityProperties);
+                                    ParsePropertyPredicate(ntPredicate, ntObject, luceneDocument, entityProperties);
                                     break;
                                 case RDFExtensions.PredicateType.Label:
                                     if (!ntObject.IsLiteral()) continue;
@@ -127,15 +127,11 @@ namespace SparqlForHumans.Core.Services
             Analyzer.Close();
         }
 
-        private static void ParsePropertyPredicate(Triple triple, Document luceneDocument, List<string> entityProperties)
+        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument, List<string> entityProperties)
         {
-            var ntPredicate = triple.Predicate;
-            var ntObject = triple.Object;
-
             string propertyCode = ntPredicate.GetPCode();
 
-            //Do not add the same property twice:
-            //WHY?
+            //Do not add the same property twice. Why?
             if (!entityProperties.Contains(propertyCode))
             {
                 entityProperties.Add(propertyCode);
@@ -149,7 +145,7 @@ namespace SparqlForHumans.Core.Services
             string value = ntObject.GetQCode();
 
             if (ntPredicate.IsInstanceOf())
-                luceneDocument.Add(new Field(Properties.Labels.Type.ToString(), value, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                luceneDocument.Add(new Field(Properties.Labels.InstanceOf.ToString(), value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 
             if (ntObject.HasQCode())
             {

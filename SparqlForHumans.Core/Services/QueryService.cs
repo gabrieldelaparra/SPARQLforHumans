@@ -50,7 +50,7 @@ namespace SparqlForHumans.Core.Services
         public static string GetLabelFromIndex(string name, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
             var resultLimit = 1;
-            var searchField = Properties.Labels.Name.ToString();
+            var searchField = Properties.Labels.Id.ToString();
 
             // NotEmpty Validation
             if (string.IsNullOrEmpty(name))
@@ -197,12 +197,12 @@ namespace SparqlForHumans.Core.Services
         {
             return new LuceneQuery()
             {
-                Name = document.Get(Properties.Labels.Name.ToString()),
-                Type = document.Get(Properties.Labels.Type.ToString()),
-                Labels = document.GetLabels(),
+                Id = document.Get(Properties.Labels.Id.ToString()),
+                InstanceOf = document.Get(Properties.Labels.InstanceOf.ToString()),
+                AltLabels = document.GetLabels(),
                 Properties = document.GetPropertiesFromIndex(luceneIndexDirectory),
                 Description = document.Get(Properties.Labels.Description.ToString()),
-                TypeLabel = GetTypeLabel(document.Get(Properties.Labels.Type.ToString()), luceneIndexDirectory),
+                InstanceOfLabel = GetTypeLabel(document.Get(Properties.Labels.InstanceOf.ToString()), luceneIndexDirectory),
             };
         }
 

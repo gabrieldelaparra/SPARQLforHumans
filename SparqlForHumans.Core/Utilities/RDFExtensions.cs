@@ -8,6 +8,12 @@ namespace SparqlForHumans.Core.Utilities
     {
         public static string[] ValidLanguages { get; } = { "en", };
 
+        public static (INode subject, INode predicate, INode ntObject) GetTripleAsTuple(this string inputLine)
+        {
+            var triple = inputLine.GetTriple();
+            return (triple.Subject, triple.Predicate, triple.Object);
+        }
+
         public static Triple GetTriple(this string inputLine)
         {
             var g = new NonIndexedGraph();

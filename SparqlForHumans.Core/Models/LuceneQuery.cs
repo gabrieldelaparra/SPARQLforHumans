@@ -5,29 +5,27 @@ namespace SparqlForHumans.Core.Models
 {
     public class LuceneQuery
     {
-        public string MyProperty { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<string> Labels { get; set; } = new List<string>();
-        public string Label
-        {
-            get
-            {
-                if (Labels.Count().Equals(0))
-                    return string.Empty;
+        public string Id { get; set; }
 
-                return Labels.FirstOrDefault();
-            }
-        }
+        public string Label { get; set; }
         public string Description { get; set; }
-        public string Type { get; set; }
+        public string InstanceOf { get; set; }
 
         public IEnumerable<(string, string)> Properties { get; set; }
+        public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
-        public string TypeLabel { get; set; }
+        public string InstanceOfLabel { get; set; }
 
         public override string ToString()
         {
-            return $"{Label} ({Name}) - {TypeLabel} ({Type}) - {Description}";
+            return $"{Label} ({Id}) - {InstanceOfLabel} ({InstanceOf}) - {Description}";
         }
+    }
+
+    public class Property
+    {
+        public string Id { get; set; }
+        public string Label { get; set; }
+        public string Value { get; set; }
     }
 }

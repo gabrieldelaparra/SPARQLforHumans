@@ -6,7 +6,6 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using System;
 using System.Collections.Generic;
@@ -22,7 +21,7 @@ namespace SparqlForHumans.CLI
     {
         static void Main(string[] args)
         {
-            var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
             //DumpHelper.FilterTriples()
 
             //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
