@@ -2,16 +2,10 @@
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using VDS.RDF;
-using VDS.RDF.Parsing;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -22,18 +16,6 @@ namespace SparqlForHumans.Core.Services
         public static int NotifyTicks { get; set; } = 100000;
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-
-        public static void Optimize()
-        {
-            Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
-
-            using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                Analyzer.Close();
-                writer.Optimize();
-                writer.Dispose();
-            }
-        }
 
         public static void CreateIndex(string inputTriplesFilename, string outputDirectory)
         {
@@ -46,7 +28,7 @@ namespace SparqlForHumans.Core.Services
             using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var groups = lines.GetSameEntityGroups();
+                var entiyGroups = lines.GroupByEntities();
 
                 //A list to check and not add the same property twice
                 var entityProperties = new List<string>();
@@ -54,11 +36,10 @@ namespace SparqlForHumans.Core.Services
                 //Lucene document for each entity
                 var luceneDocument = new Document();
 
-                foreach (var group in groups)
+                foreach (var group in entiyGroups)
                 {
                     //Flag to create a new Lucene Document
                     bool hasDocument = false;
-
                     foreach (var line in group)
                     {
                         try
@@ -69,10 +50,6 @@ namespace SparqlForHumans.Core.Services
                                 Logger.Info($"{readCount}");
 
                             var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
-
-                            //var  = triple.Subject;
-                            //var ntPredicate = triple.Predicate;
-                            //var ntObject = triple.Object;
 
                             if (!hasDocument)
                             {
@@ -117,7 +94,6 @@ namespace SparqlForHumans.Core.Services
                             Logger.Error($"{readCount},{line}");
                             Logger.Error(e);
                         }
-
                     }
                     writer.AddDocument(luceneDocument);
                 }
@@ -259,5 +235,17 @@ namespace SparqlForHumans.Core.Services
         //    }
         //    Analyzer.Close();
         //}
+
+        public static void Optimize()
+        {
+            Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+
+            using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                Analyzer.Close();
+                writer.Optimize();
+                writer.Dispose();
+            }
+        }
     }
 }
