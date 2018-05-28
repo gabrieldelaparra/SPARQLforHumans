@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SparqlForHumans.Core.Models
 {
-    public class LuceneQuery
+    public class Entity
     {
         public string Id { get; set; }
 
@@ -20,12 +20,5 @@ namespace SparqlForHumans.Core.Models
         {
             return $"{Label} ({Id}) - {InstanceOfLabel} ({InstanceOf}) - {Description}";
         }
-    }
-
-    public class Property
-    {
-        public string Id { get; set; }
-        public string Label { get; set; }
-        public string Value { get; set; }
     }
 }
