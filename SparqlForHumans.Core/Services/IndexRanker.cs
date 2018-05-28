@@ -6,13 +6,8 @@ using System.Text;
 
 namespace SparqlForHumans.Core.Services
 {
-    class IndexRanker
+   public  class IndexRanker
     {
-        public static bool HasRank(Lucene.Net.Store.Directory luceneIndexDirectory)
-        {
-            return false;
-        }
-
         public static void Rank(Lucene.Net.Store.Directory luceneIndexDirectory, string inputTriples, string ouputPath)
         {
             using (var indexReader = IndexReader.Open(luceneIndexDirectory, readOnly: false))

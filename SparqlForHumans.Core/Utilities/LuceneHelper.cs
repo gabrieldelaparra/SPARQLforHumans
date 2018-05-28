@@ -28,12 +28,29 @@ namespace SparqlForHumans.Core.Utilities
             return luceneIndexDirectory;
         }
 
-        public static int GetDocumentCount(Lucene.Net.Store.Directory luceneIndexDirectory)
+        public static int GetDocumentCount(this Lucene.Net.Store.Directory luceneIndexDirectory)
         {
-            using (var searcher = new IndexSearcher(luceneIndexDirectory, readOnly: true))
+            using (var reader = IndexReader.Open(luceneIndexDirectory, readOnly: true))
             {
-                return searcher.MaxDoc;
+                return reader.NumDocs();
             }
+        }
+
+        public static bool HasRank(this Lucene.Net.Store.Directory luceneIndexDirectory)
+        {
+            using (var reader = IndexReader.Open(luceneIndexDirectory, readOnly: true))
+            {
+                var docCount = reader.NumDocs();
+                for (int i = 0; i < docCount; i++)
+                {
+                    var document = reader.Document(i);
+                    if (document.Boost.Equals(1.0))
+                        continue;
+                    else
+                        return false;
+                }
+            }
+            return true;
         }
     }
 }
