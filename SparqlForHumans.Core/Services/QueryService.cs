@@ -58,7 +58,7 @@ namespace SparqlForHumans.Core.Services
 
                 var result = string.Empty;
 
-                if (hits.Count() > 0)
+                if (hits.Any())
                 {
                     var doc = searcher.Doc(hits.FirstOrDefault().Doc);
                     result = doc.Get(Labels.Label.ToString());

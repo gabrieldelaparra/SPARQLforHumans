@@ -91,8 +91,6 @@ namespace SparqlForHumans.Core.Services
                                     luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
                                         Field.Store.YES, Field.Index.ANALYZED));
                                     break;
-                                default:
-                                    break;
                             }
                         }
                         catch (Exception e)
