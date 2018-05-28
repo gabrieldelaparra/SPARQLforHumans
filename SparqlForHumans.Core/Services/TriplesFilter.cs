@@ -32,7 +32,8 @@ namespace SparqlForHumans.Core.Services
         {
             Options.InternUris = false;
 
-            if (!new FileInfo(inputTriplesFilename).Exists) return;
+            if (!new FileInfo(inputTriplesFilename).Exists)
+                return;
 
             var outputFileInfo = new FileInfo(outputTriplesFilename);
             if (outputFileInfo.Directory != null && !outputFileInfo.Directory.Exists)

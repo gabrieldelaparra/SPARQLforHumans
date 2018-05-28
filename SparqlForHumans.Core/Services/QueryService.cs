@@ -168,7 +168,12 @@ namespace SparqlForHumans.Core.Services
             foreach (var doc in documents) yield return MapLuceneDocumentToData(doc, luceneIndexDirectory);
         }
 
-        public static IEnumerable<string> GetLabels(this Document doc)
+        public static string GetLabel(this Document doc)
+        {
+            return doc.Get(Labels.Label.ToString());
+        }
+
+        public static IEnumerable<string> GetAltLabels(this Document doc)
         {
             var list = new List<string>();
 
@@ -183,7 +188,8 @@ namespace SparqlForHumans.Core.Services
             {
                 Id = document.Get(Labels.Id.ToString()),
                 InstanceOf = document.Get(Labels.InstanceOf.ToString()),
-                AltLabels = document.GetLabels(),
+                Label = document.GetLabel(),
+                AltLabels = document.GetAltLabels(),
                 Properties = document.GetPropertiesFromIndex(luceneIndexDirectory),
                 Description = document.Get(Labels.Description.ToString()),
                 InstanceOfLabel = GetTypeLabel(document.Get(Labels.InstanceOf.ToString()), luceneIndexDirectory)

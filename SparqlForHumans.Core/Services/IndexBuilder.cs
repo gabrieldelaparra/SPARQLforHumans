@@ -16,7 +16,7 @@ namespace SparqlForHumans.Core.Services
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static int NotifyTicks { get; set; } = 100000;
+        public static int NotifyTicks { get; } = 100000;
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
