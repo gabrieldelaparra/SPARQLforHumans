@@ -1,31 +1,35 @@
-﻿using Lucene.Net.Analysis;
+﻿using System;
+using System.Collections.Generic;
+using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using NLog;
+using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
-using System;
-using System.Collections.Generic;
 using VDS.RDF;
+using Version = Lucene.Net.Util.Version;
 
 namespace SparqlForHumans.Core.Services
 {
     public static class IndexBuilder
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static int NotifyTicks { get; set; } = 100000;
 
-        public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+        public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
         public static void CreateIndex(string inputTriplesFilename, string outputDirectory)
         {
             var readCount = 0;
             Options.InternUris = false;
-            Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
                 var entiyGroups = lines.GroupByEntities();
@@ -39,9 +43,8 @@ namespace SparqlForHumans.Core.Services
                 foreach (var group in entiyGroups)
                 {
                     //Flag to create a new Lucene Document
-                    bool hasDocument = false;
+                    var hasDocument = false;
                     foreach (var line in group)
-                    {
                         try
                         {
                             readCount++;
@@ -56,7 +59,8 @@ namespace SparqlForHumans.Core.Services
                                 var id = ntSubject.GetQCode();
                                 luceneDocument = new Document();
                                 entityProperties = new List<string>();
-                                luceneDocument.Add(new Field(Properties.Labels.Id.ToString(), id, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                                luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES,
+                                    Field.Index.NOT_ANALYZED));
                                 hasDocument = true;
                             }
 
@@ -74,15 +78,18 @@ namespace SparqlForHumans.Core.Services
                                     break;
                                 case RDFExtensions.PredicateType.Label:
                                     if (!ntObject.IsLiteral()) continue;
-                                    luceneDocument.Add(new Field(Properties.Labels.Label.ToString(), ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
+                                    luceneDocument.Add(new Field(Labels.Label.ToString(), ntObject.GetLiteralValue(),
+                                        Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 case RDFExtensions.PredicateType.Description:
                                     if (!ntObject.IsLiteral()) continue;
-                                    luceneDocument.Add(new Field(Properties.Labels.Description.ToString(), ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
+                                    luceneDocument.Add(new Field(Labels.Description.ToString(),
+                                        ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 case RDFExtensions.PredicateType.AltLabel:
                                     if (!ntObject.IsLiteral()) continue;
-                                    luceneDocument.Add(new Field(Properties.Labels.AltLabel.ToString(), ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
+                                    luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
+                                        Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 default:
                                     break;
@@ -93,16 +100,19 @@ namespace SparqlForHumans.Core.Services
                             Logger.Error($"{readCount},{line}");
                             Logger.Error(e);
                         }
-                    }
+
                     writer.AddDocument(luceneDocument);
                 }
+
                 writer.Dispose();
                 Logger.Info($"{readCount}");
             }
+
             Analyzer.Close();
         }
 
-        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument, List<string> entityProperties)
+        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument,
+            List<string> entityProperties)
         {
             var propertyCode = ntPredicate.GetPCode();
 
@@ -110,7 +120,8 @@ namespace SparqlForHumans.Core.Services
             if (!entityProperties.Contains(propertyCode))
             {
                 entityProperties.Add(propertyCode);
-                luceneDocument.Add(new Field(Properties.Labels.Property.ToString(), propertyCode, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                luceneDocument.Add(new Field(Labels.Property.ToString(), propertyCode, Field.Store.YES,
+                    Field.Index.NOT_ANALYZED));
             }
 
             //Ignore properties which have literal values, somehow, it is only adding those which have entities as values.
@@ -120,12 +131,13 @@ namespace SparqlForHumans.Core.Services
             var value = ntObject.GetQCode();
 
             if (ntPredicate.IsInstanceOf())
-                luceneDocument.Add(new Field(Properties.Labels.InstanceOf.ToString(), value, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                luceneDocument.Add(new Field(Labels.InstanceOf.ToString(), value, Field.Store.YES,
+                    Field.Index.NOT_ANALYZED));
 
             if (!ntObject.HasQCode()) return;
 
             var po = propertyCode + "##" + value;
-            luceneDocument.Add(new Field(Properties.Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
+            luceneDocument.Add(new Field(Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
         }
 
         //public static void CreateLuceneIndex(string inputTriples)
@@ -236,9 +248,10 @@ namespace SparqlForHumans.Core.Services
 
         public static void Optimize()
         {
-            Analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30);
+            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
-            using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
+            using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 Analyzer.Close();
                 writer.Optimize();
