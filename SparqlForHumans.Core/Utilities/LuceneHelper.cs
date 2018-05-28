@@ -1,4 +1,5 @@
 ﻿using Lucene.Net.Index;
+using Lucene.Net.Search;
 using Lucene.Net.Store;
 using System.IO;
 
@@ -8,13 +9,7 @@ namespace SparqlForHumans.Core.Utilities
     {
         private static readonly string indexPath = @"../LuceneIndex";
 
-        public static Lucene.Net.Store.Directory LuceneIndexDirectory
-        {
-            get
-            {
-                return GetLuceneDirectory(indexPath);
-            }
-        }
+        public static Lucene.Net.Store.Directory LuceneIndexDirectory => GetLuceneDirectory(indexPath);
 
         public static Lucene.Net.Store.Directory GetLuceneDirectory(string directoryPath)
         {
@@ -31,6 +26,14 @@ namespace SparqlForHumans.Core.Utilities
                 File.Delete(lockFilePath);
 
             return luceneIndexDirectory;
+        }
+
+        public static int GetDocumentCount(Lucene.Net.Store.Directory luceneIndexDirectory)
+        {
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, readOnly: true))
+            {
+                return searcher.MaxDoc;
+            }
         }
     }
 }

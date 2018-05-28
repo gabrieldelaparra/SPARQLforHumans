@@ -19,22 +19,12 @@ namespace SparqlForHumans.Core.Services
         static Dictionary<string, string> typeLabels = new Dictionary<string, string>();
         static Dictionary<string, string> propertyLabels = new Dictionary<string, string>();
 
-
-
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText)
         {
             return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
         }
 
-        public static int GetDocumentCount(Lucene.Net.Store.Directory luceneIndexDirectory)
-        {
-            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
-            {
-                
-                searcher.Dispose();
-            }
-            return 0;
-        }
+        
 
 
         public static IEnumerable<LuceneQuery> QueryByLabel(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
@@ -81,14 +71,19 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        public static IEnumerable<(string, string)> GetPropertiesFromIndex(this Document doc, Lucene.Net.Store.Directory luceneIndexDirectory)
+        public static IEnumerable<Property> GetPropertiesFromIndex(this Document doc, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
-            var list = new List<(string, string)>();
+            var list = new List<Property>();
 
             foreach (var item in doc.GetValues(Properties.Labels.Property.ToString()))
             {
                 var propertyLabel = GetProperty(item, luceneIndexDirectory);
-                list.Add((item, propertyLabel));
+                list.Add(new Property()
+                {
+                    Id = item,
+                    Label = propertyLabel,
+                    Value = string.Empty,
+                });
             }
             return list;
         }

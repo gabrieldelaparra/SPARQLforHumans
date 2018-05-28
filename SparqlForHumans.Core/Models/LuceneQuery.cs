@@ -11,7 +11,7 @@ namespace SparqlForHumans.Core.Models
         public string Description { get; set; }
         public string InstanceOf { get; set; }
 
-        public IEnumerable<(string, string)> Properties { get; set; }
+        public IEnumerable<Property> Properties { get; set; }
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
         public string InstanceOfLabel { get; set; }
