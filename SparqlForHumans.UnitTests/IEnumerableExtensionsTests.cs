@@ -77,7 +77,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(11, lines.Count());
 
-            var groups = lines.GetSameEntityGroups();
+            var groups = lines.GroupByEntities();
 
             Assert.Equal(11, lines.Count());
             Assert.Equal(4, groups.Count());

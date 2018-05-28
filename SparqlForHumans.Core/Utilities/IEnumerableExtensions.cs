@@ -22,7 +22,7 @@ namespace SparqlForHumans.Core.Utilities
             return lines.SkipWhile(x => x.Split(" ").FirstOrDefault().Equals(firstEntity));
         }
 
-        public static IEnumerable<IEnumerable<string>> GetSameEntityGroups(this IEnumerable<string> lines)
+        public static IEnumerable<IEnumerable<string>> GroupByEntities(this IEnumerable<string> lines)
         {
             while (lines.Count() > 0)
             {
