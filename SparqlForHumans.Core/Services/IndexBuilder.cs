@@ -85,7 +85,6 @@ namespace SparqlForHumans.Core.Services
                                     luceneDocument.Add(new Field(Properties.Labels.AltLabel.ToString(), ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 default:
-                                case RDFExtensions.PredicateType.Other:
                                     break;
                             }
                         }
@@ -105,7 +104,7 @@ namespace SparqlForHumans.Core.Services
 
         private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument, List<string> entityProperties)
         {
-            string propertyCode = ntPredicate.GetPCode();
+            var propertyCode = ntPredicate.GetPCode();
 
             //Do not add the same property twice. Why?
             if (!entityProperties.Contains(propertyCode))
@@ -118,16 +117,15 @@ namespace SparqlForHumans.Core.Services
             //I am not sure that this is a desired bahviour. I have to check the original code to see if this is as desired.
             if (!ntObject.IsUriNode()) return;
 
-            string value = ntObject.GetQCode();
+            var value = ntObject.GetQCode();
 
             if (ntPredicate.IsInstanceOf())
                 luceneDocument.Add(new Field(Properties.Labels.InstanceOf.ToString(), value, Field.Store.YES, Field.Index.NOT_ANALYZED));
 
-            if (ntObject.HasQCode())
-            {
-                string po = propertyCode + "##" + value;
-                luceneDocument.Add(new Field(Properties.Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
-            }
+            if (!ntObject.HasQCode()) return;
+
+            var po = propertyCode + "##" + value;
+            luceneDocument.Add(new Field(Properties.Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
         }
 
         //public static void CreateLuceneIndex(string inputTriples)

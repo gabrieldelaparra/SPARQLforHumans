@@ -1,7 +1,6 @@
-﻿using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Utilities;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using SparqlForHumans.Core.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -9,11 +8,12 @@ namespace SparqlForHumans.UnitTests
     public class FileHelperTests
     {
         [Fact]
-        public void TestGetFileType()
+        public void TestCountLines()
         {
-            Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFileType(".txt"));
-            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFileType(".nt"));
-            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFileType(".gz"));
+            var filename = @"Resources/TenLines.nt";
+            Assert.NotEqual(0, FileHelper.GetLineCount(filename));
+            Assert.Equal(10, FileHelper.GetLineCount(filename));
+            Assert.True(File.Exists("LineCountLog.txt"));
         }
 
         [Fact]
@@ -26,31 +26,18 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestReadLines()
+        public void TestGetFileType()
         {
-            string filename = "Resources/TenLines.nt";
-
-            Assert.True(File.Exists(filename));
-
-            Assert.NotNull(FileHelper.ReadLines(filename));
-            Assert.NotEmpty(FileHelper.ReadLines(filename));
-            Assert.Equal(10, FileHelper.ReadLines(filename).Count());
-        }
-
-        [Fact]
-        public void TestCountLines()
-        {
-            var filename = @"Resources/TenLines.nt";
-            Assert.NotEqual(0, FileHelper.GetLineCount(filename));
-            Assert.Equal(10, FileHelper.GetLineCount(filename));
-            Assert.True(File.Exists("LineCountLog.txt"));
+            Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFileType(".txt"));
+            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFileType(".nt"));
+            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFileType(".gz"));
         }
 
         [Fact]
         public void TestGetOutputFilteredFilename()
         {
             var filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            int limit = 500;
+            var limit = 500;
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
             Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);
         }
@@ -59,9 +46,21 @@ namespace SparqlForHumans.UnitTests
         public void TestGetOutputTrimmedFilename()
         {
             var filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            int limit = 500;
+            var limit = 500;
             var outputFilename = FileHelper.GetTrimmedOutputFilename(filename, limit);
             Assert.Equal(@"C:\a\b\c\trimmed-TrimmedTestSet-500.nt", outputFilename);
+        }
+
+        [Fact]
+        public void TestReadLines()
+        {
+            var filename = "Resources/TenLines.nt";
+
+            Assert.True(File.Exists(filename));
+
+            Assert.NotNull(FileHelper.ReadLines(filename));
+            Assert.NotEmpty(FileHelper.ReadLines(filename));
+            Assert.Equal(10, FileHelper.ReadLines(filename).Count());
         }
 
         [Fact]
@@ -84,23 +83,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestTrimLargeNTFile()
-        {
-            var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-            var outputFilename = "TrimmedTestSet.nt";
-
-            if (File.Exists(outputFilename))
-                File.Delete(outputFilename);
-
-            int limit = 50000;
-
-            FileHelper.TrimFile(filename, outputFilename, limit);
-
-            Assert.True(File.Exists(outputFilename));
-            Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
-        }
-
-        [Fact]
         public void TestTrimLargeGZipFile()
         {
             var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz";
@@ -109,7 +91,24 @@ namespace SparqlForHumans.UnitTests
             if (File.Exists(outputFilename))
                 File.Delete(outputFilename);
 
-            int limit = 50000;
+            var limit = 50000;
+
+            FileHelper.TrimFile(filename, outputFilename, limit);
+
+            Assert.True(File.Exists(outputFilename));
+            Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
+        }
+
+        [Fact]
+        public void TestTrimLargeNTFile()
+        {
+            var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            var outputFilename = "TrimmedTestSet.nt";
+
+            if (File.Exists(outputFilename))
+                File.Delete(outputFilename);
+
+            var limit = 50000;
 
             FileHelper.TrimFile(filename, outputFilename, limit);
 

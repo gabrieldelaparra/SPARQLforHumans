@@ -1,7 +1,7 @@
-using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Utilities;
 using System.IO;
 using System.Linq;
+using SparqlForHumans.Core.Services;
+using SparqlForHumans.Core.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests

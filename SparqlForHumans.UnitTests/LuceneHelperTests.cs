@@ -1,7 +1,7 @@
-﻿using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Utilities;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using SparqlForHumans.Core.Services;
+using SparqlForHumans.Core.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -25,18 +25,7 @@ namespace SparqlForHumans.UnitTests
             IndexBuilder.CreateIndex(filename, outputPath);
             Assert.True(Directory.Exists(outputPath));
 
-            Assert.Equal(entitiesCount, LuceneHelper.GetDocumentCount(LuceneHelper.GetLuceneDirectory(outputPath)));
-        }
-
-        [Fact]
-        public void TestGetLucenePath()
-        {
-            var path = "Temp";
-            var luceneDirectory = LuceneHelper.GetLuceneDirectory(path);
-            Assert.NotNull(luceneDirectory);
-            Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
-
-            Assert.True(Directory.Exists(path));
+            Assert.Equal(entitiesCount, LuceneHelper.GetLuceneDirectory(outputPath).GetDocumentCount());
         }
 
         [Fact]
@@ -51,7 +40,18 @@ namespace SparqlForHumans.UnitTests
             IndexBuilder.CreateIndex(filename, outputPath);
 
             var luceneDirectory = LuceneHelper.GetLuceneDirectory(outputPath);
-            Assert.False(LuceneHelper.HasRank(luceneDirectory));
+            Assert.False(luceneDirectory.HasRank());
+        }
+
+        [Fact]
+        public void TestGetLucenePath()
+        {
+            var path = "Temp";
+            var luceneDirectory = LuceneHelper.GetLuceneDirectory(path);
+            Assert.NotNull(luceneDirectory);
+            Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
+
+            Assert.True(Directory.Exists(path));
         }
     }
 }
