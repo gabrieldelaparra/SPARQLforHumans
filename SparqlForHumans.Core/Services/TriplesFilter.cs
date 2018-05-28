@@ -1,14 +1,14 @@
-﻿using SparqlForHumans.Core.Utilities;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
+using NLog;
+using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
 
 namespace SparqlForHumans.Core.Services
 {
     public class TriplesFilter
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static void Filter(string inputTriplesFilename, int triplesLimit)
         {
@@ -17,14 +17,14 @@ namespace SparqlForHumans.Core.Services
         }
 
         /// <summary>
-        /// Reads an Wikidata GZipped N-triples dump.
-        /// Foreach line in the Triples file:
-        /// - Parse the RDF triple
-        /// - For the following cases, skip:
-        ///      - If Subject Q-Code > 2mill
-        ///      - If Object Q-Code > 2mill
-        ///      - If Language != EN
-        /// Else, Add the triple to a new NT File
+        ///     Reads an Wikidata GZipped N-triples dump.
+        ///     Foreach line in the Triples file:
+        ///     - Parse the RDF triple
+        ///     - For the following cases, skip:
+        ///     - If Subject Q-Code > 2mill
+        ///     - If Object Q-Code > 2mill
+        ///     - If Language != EN
+        ///     Else, Add the triple to a new NT File
         /// </summary>
         /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
@@ -71,6 +71,7 @@ namespace SparqlForHumans.Core.Services
                         Logger.Error(e);
                     }
                 }
+
                 Logger.Info($"{readCount},{writeCount}");
             }
         }
@@ -102,6 +103,5 @@ namespace SparqlForHumans.Core.Services
 
             return true;
         }
-
     }
 }

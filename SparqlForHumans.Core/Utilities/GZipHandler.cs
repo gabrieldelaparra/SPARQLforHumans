@@ -13,13 +13,11 @@ namespace SparqlForHumans.Core.Utilities
 
             using (var originalFileStream = fileToDecompress.OpenRead())
             using (var zip = new GZipStream(originalFileStream, CompressionMode.Decompress))
-            using (StreamReader unzip = new StreamReader(zip))
+            using (var unzip = new StreamReader(zip))
+            {
                 while (!unzip.EndOfStream)
-                {
                     yield return unzip.ReadLine();
-                }
+            }
         }
-
-        
     }
 }

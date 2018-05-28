@@ -1,7 +1,7 @@
-﻿using Lucene.Net.Index;
-using Lucene.Net.Search;
+﻿using System.IO;
+using Lucene.Net.Index;
 using Lucene.Net.Store;
-using System.IO;
+using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Utilities
 {
@@ -9,9 +9,9 @@ namespace SparqlForHumans.Core.Utilities
     {
         private static readonly string indexPath = @"../LuceneIndex";
 
-        public static Lucene.Net.Store.Directory LuceneIndexDirectory => GetLuceneDirectory(indexPath);
+        public static Directory LuceneIndexDirectory => GetLuceneDirectory(indexPath);
 
-        public static Lucene.Net.Store.Directory GetLuceneDirectory(string directoryPath)
+        public static Directory GetLuceneDirectory(string directoryPath)
         {
             var directoryInfo = FileHelper.GetOrCreateDirectory(directoryPath);
 
@@ -28,28 +28,28 @@ namespace SparqlForHumans.Core.Utilities
             return luceneIndexDirectory;
         }
 
-        public static int GetDocumentCount(this Lucene.Net.Store.Directory luceneIndexDirectory)
+        public static int GetDocumentCount(this Directory luceneIndexDirectory)
         {
-            using (var reader = IndexReader.Open(luceneIndexDirectory, readOnly: true))
+            using (var reader = IndexReader.Open(luceneIndexDirectory, true))
             {
                 return reader.NumDocs();
             }
         }
 
-        public static bool HasRank(this Lucene.Net.Store.Directory luceneIndexDirectory)
+        public static bool HasRank(this Directory luceneIndexDirectory)
         {
-            using (var reader = IndexReader.Open(luceneIndexDirectory, readOnly: true))
+            using (var reader = IndexReader.Open(luceneIndexDirectory, true))
             {
                 var docCount = reader.NumDocs();
-                for (int i = 0; i < docCount; i++)
+                for (var i = 0; i < docCount; i++)
                 {
                     var document = reader.Document(i);
                     if (document.Boost.Equals(1.0))
                         continue;
-                    else
-                        return false;
+                    return false;
                 }
             }
+
             return true;
         }
     }

@@ -9,6 +9,6 @@
         InstanceOf,
         AltLabel,
         Description,
-        PO,
+        PO
     }
 }

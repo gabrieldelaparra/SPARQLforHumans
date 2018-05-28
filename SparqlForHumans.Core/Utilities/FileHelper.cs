@@ -8,6 +8,13 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class FileHelper
     {
+        public enum FileType
+        {
+            Unkwown,
+            nTriples,
+            gZip
+        }
+
         public static string GetFilteredOutputFilename(string inputFilename, int limit)
         {
             return GetCustomOutputFilename(inputFilename, limit, "filtered");
@@ -54,7 +61,7 @@ namespace SparqlForHumans.Core.Utilities
 
         public static void TrimFile(string filename, string outputFilename, int lineLimit)
         {
-            var lines = GetInputLines(filename);           
+            var lines = GetInputLines(filename);
             File.WriteAllLines(outputFilename, lines.Take(lineLimit));
         }
 
@@ -74,13 +81,13 @@ namespace SparqlForHumans.Core.Utilities
                 {
                     lineCount++;
                     if (lineCount % notifyTicks == 0)
-                    {
                         logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
-                    }
                 }
+
                 logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
                 count = lineCount;
             }
+
             stopwatch.Stop();
             return count;
         }
@@ -100,23 +107,17 @@ namespace SparqlForHumans.Core.Utilities
                 case FileType.Unkwown:
                     throw new ArgumentException("Not a valid file");
             }
+
             return lines;
         }
 
         public static IEnumerable<string> ReadLines(string filename)
         {
-            using (StreamReader streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
+            using (var streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
+            {
                 while (!streamReader.EndOfStream)
-                {
                     yield return streamReader.ReadLine();
-                }
-        }
-
-        public enum FileType
-        {
-            Unkwown,
-            nTriples,
-            gZip,
+            }
         }
 
         public static FileType GetFileInfoType(FileInfo filename)

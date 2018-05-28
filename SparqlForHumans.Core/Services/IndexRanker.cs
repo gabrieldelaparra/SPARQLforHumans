@@ -1,20 +1,16 @@
 ﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SparqlForHumans.Core.Services
 {
-   public  class IndexRanker
+    public class IndexRanker
     {
-        public static void Rank(Lucene.Net.Store.Directory luceneIndexDirectory, string inputTriples, string ouputPath)
+        public static void Rank(Directory luceneIndexDirectory, string inputTriples, string ouputPath)
         {
-            using (var indexReader = IndexReader.Open(luceneIndexDirectory, readOnly: false))
+            using (var indexReader = IndexReader.Open(luceneIndexDirectory, false))
             {
-
             }
-                // INIT INDEX READER
+            // INIT INDEX READER
             //    IndexReader reader = DirectoryReader.Open(FSDirectory.Open(Paths.get(dataDirectory)));
             //int graphLength = reader.MaxDoc;
             //Map<String, Integer> map = new HashMap<>();
