@@ -19,7 +19,7 @@ namespace SparqlForHumans.Core.Services
         static Dictionary<string, string> typeLabels = new Dictionary<string, string>();
         static Dictionary<string, string> propertyLabels = new Dictionary<string, string>();
 
-        public static IEnumerable<LuceneQuery> QueryByLabel(string labelText)
+        public static IEnumerable<Entity> QueryByLabel(string labelText)
         {
             return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
         }
@@ -27,10 +27,10 @@ namespace SparqlForHumans.Core.Services
         
 
 
-        public static IEnumerable<LuceneQuery> QueryByLabel(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
+        public static IEnumerable<Entity> QueryByLabel(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
             if (string.IsNullOrEmpty(labelText))
-                return new List<LuceneQuery>();
+                return new List<Entity>();
 
             labelText = PrepareSearchTerm(labelText);
 
@@ -136,9 +136,9 @@ namespace SparqlForHumans.Core.Services
             return string.Join(" ", terms); ;
         }
 
-        private static IEnumerable<LuceneQuery> QueryLabels(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
+        private static IEnumerable<Entity> QueryLabels(string labelText, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
-            var list = new List<LuceneQuery>();
+            var list = new List<Entity>();
 
             // NotEmpty Validation
             if (string.IsNullOrEmpty(labelText.Replace("*", "").Replace("?", "")))
@@ -169,7 +169,7 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        private static IEnumerable<LuceneQuery> MapLuceneDocumentToData(IEnumerable<Document> documents, Lucene.Net.Store.Directory luceneIndexDirectory)
+        private static IEnumerable<Entity> MapLuceneDocumentToData(IEnumerable<Document> documents, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
             foreach (var doc in documents)
             {
@@ -188,9 +188,9 @@ namespace SparqlForHumans.Core.Services
             return list;
         }
 
-        private static LuceneQuery MapLuceneDocumentToData(Document document, Lucene.Net.Store.Directory luceneIndexDirectory)
+        private static Entity MapLuceneDocumentToData(Document document, Lucene.Net.Store.Directory luceneIndexDirectory)
         {
-            return new LuceneQuery()
+            return new Entity()
             {
                 Id = document.Get(Properties.Labels.Id.ToString()),
                 InstanceOf = document.Get(Properties.Labels.InstanceOf.ToString()),
