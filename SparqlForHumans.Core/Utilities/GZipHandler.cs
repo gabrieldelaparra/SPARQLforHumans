@@ -9,7 +9,8 @@ namespace SparqlForHumans.Core.Utilities
         public static IEnumerable<string> ReadGZip(string filename)
         {
             var fileToDecompress = new FileInfo(filename);
-            if (!fileToDecompress.Exists) yield break;
+            if (!fileToDecompress.Exists)
+                yield break;
 
             using (var originalFileStream = fileToDecompress.OpenRead())
             using (var zip = new GZipStream(originalFileStream, CompressionMode.Decompress))
