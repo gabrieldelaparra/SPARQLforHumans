@@ -12,8 +12,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using SparqlForHumans.Core.Properties;
 using VDS.RDF;
 using VDS.RDF.Parsing;
+using FileHelper = SparqlForHumans.Core.Utilities.FileHelper;
 
 namespace SparqlForHumans.CLI
 {
@@ -22,6 +24,19 @@ namespace SparqlForHumans.CLI
         static void Main(string[] args)
         {
             //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            //var lines = FileHelper.GetInputLines(inputFilename);
+            //int read = 0;
+            //foreach (var line in lines)
+            //{
+            //    read++;
+            //    if(read%100000 == 0)
+            //        Console.WriteLine(read.ToString());
+
+            //    var subject = line.Split(" ").FirstOrDefault();
+            //    if (subject.Contains("/P"))
+            //        Console.WriteLine(subject);
+            //}
+
             //DumpHelper.FilterTriples()
 
             //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
@@ -33,9 +48,9 @@ namespace SparqlForHumans.CLI
 
             //Optimize();
 
-            var res = QueryService.GetLabelFromIndex("Q5", LuceneHelper.LuceneIndexDirectory);
-            var res2 = QueryService.GetLabelFromIndex("P41", LuceneHelper.LuceneIndexDirectory);
-            var res3 = QueryService.QueryByLabel("Obama", LuceneHelper.LuceneIndexDirectory);
+            //var res = QueryService.GetLabelFromIndex("Q5", LuceneHelper.LuceneIndexDirectory);
+            //var res2 = QueryService.GetLabelFromIndex("P41", LuceneHelper.LuceneIndexDirectory);
+            //var res3 = QueryService.QueryByLabel("Obama", LuceneHelper.LuceneIndexDirectory);
         }
     }
 }
