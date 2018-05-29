@@ -53,20 +53,17 @@ namespace SparqlForHumans.Core.Utilities
 
         public static bool IsValidLanguageLiteral(this INode node)
         {
-            if (!node.IsLiteral()) return false;
-            return IsValidLanguage(((LiteralNode) node).Language);
+            return node.IsLiteral() && IsValidLanguage(((LiteralNode) node).Language);
         }
 
         public static string GetLiteralValue(this INode node)
         {
-            if (!node.IsLiteral()) return string.Empty;
-            return ((LiteralNode) node).Value;
+            return node.IsLiteral() ? ((LiteralNode)node).Value : string.Empty ;
         }
 
         public static string GetUri(this INode node)
         {
-            if (!node.IsUriNode()) return string.Empty;
-            return ((UriNode) node).Uri.ToSafeString();
+            return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty ;
         }
 
         //TODO: Test
@@ -77,14 +74,12 @@ namespace SparqlForHumans.Core.Utilities
 
         public static bool IsEntity(this INode node)
         {
-            if (!node.IsUriNode()) return false;
-            return node.GetUri().Contains(WikidataDump.EntityIRI);
+            return node.IsUriNode() && node.GetUri().Contains(WikidataDump.EntityIRI);
         }
 
         public static bool IsProperty(this INode node)
         {
-            if (!node.IsUriNode()) return false;
-            return node.GetUri().Contains(WikidataDump.PropertyIRI);
+            return node.IsUriNode() && node.GetUri().Contains(WikidataDump.PropertyIRI);
         }
 
         //TODO: Test
