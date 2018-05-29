@@ -44,13 +44,13 @@ namespace SparqlForHumans.Core.Utilities
                 for (var i = 0; i < docCount; i++)
                 {
                     var document = reader.Document(i);
-                    if (document.Boost.Equals(1.0))
+                    if (document.Boost.Equals(1))
                         continue;
-                    return false;
+                    return true;
                 }
             }
 
-            return true;
+            return false;
         }
     }
 }
