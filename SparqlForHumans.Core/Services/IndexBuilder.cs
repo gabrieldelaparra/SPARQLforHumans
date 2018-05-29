@@ -77,17 +77,14 @@ namespace SparqlForHumans.Core.Services
                                     ParsePropertyPredicate(ntPredicate, ntObject, luceneDocument, entityProperties);
                                     break;
                                 case RDFExtensions.PredicateType.Label:
-                                    if (!ntObject.IsLiteral()) continue;
                                     luceneDocument.Add(new Field(Labels.Label.ToString(), ntObject.GetLiteralValue(),
                                         Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 case RDFExtensions.PredicateType.Description:
-                                    if (!ntObject.IsLiteral()) continue;
                                     luceneDocument.Add(new Field(Labels.Description.ToString(),
                                         ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
                                     break;
                                 case RDFExtensions.PredicateType.AltLabel:
-                                    if (!ntObject.IsLiteral()) continue;
                                     luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
                                         Field.Store.YES, Field.Index.ANALYZED));
                                     break;

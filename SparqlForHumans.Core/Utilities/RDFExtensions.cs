@@ -78,6 +78,11 @@ namespace SparqlForHumans.Core.Utilities
             return node.IsUriNode() && node.GetUri().Contains(WikidataDump.EntityIRI);
         }
 
+        public static bool HasQCode(this INode node)
+        {
+            return node.GetId().Contains(WikidataDump.EntityPrefix);
+        }
+
         public static bool IsProperty(this INode node)
         {
             return node.IsUriNode() && node.GetUri().Contains(WikidataDump.PropertyIRI);

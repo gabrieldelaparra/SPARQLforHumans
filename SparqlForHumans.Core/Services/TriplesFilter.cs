@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using NLog;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -91,12 +92,21 @@ namespace SparqlForHumans.Core.Services
             if (!ntSubject.IsValidSubject())
                 return false;
 
-            //Condition: Subject is Entity and Q > triplesLimit: Skip
-            if (ntSubject.IsEntity() && ntSubject.GetIntId() > entityLimit)
+            //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
+            if (ntSubject.IsEntity() && ntSubject.HasQCode() && ntSubject.GetIntId() > entityLimit)
                 return false;
 
-            //Condition: Object is Entity and Q > triplesLimit: Skip
-            if (ntObject.IsEntity() && ntObject.GetIntId() > entityLimit)
+            //Condition: Object is Q-Entity and Q > triplesLimit: Skip
+            if (ntObject.IsEntity() && ntObject.HasQCode() && ntObject.GetIntId() > entityLimit)
+                return false;
+
+            if(ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.AltLabel) && !ntObject.IsLiteral())
+               return false;
+
+            if (ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Description) && !ntObject.IsLiteral())
+                return false;
+
+            if (ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label) && !ntObject.IsLiteral())
                 return false;
 
             //Condition: Object is Literal: Filter @en only
