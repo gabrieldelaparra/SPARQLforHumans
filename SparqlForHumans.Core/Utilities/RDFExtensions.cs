@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using SparqlForHumans.Core.Properties;
 using VDS.RDF;
 using VDS.RDF.Parsing;
@@ -16,7 +18,7 @@ namespace SparqlForHumans.Core.Utilities
             Other
         }
 
-        public static string[] ValidLanguages { get; } = {"en"};
+        public static string[] ValidLanguages { get; } = { "en" };
 
         public static (INode subject, INode predicate, INode ntObject) GetTripleAsTuple(this string inputLine)
         {
@@ -53,23 +55,22 @@ namespace SparqlForHumans.Core.Utilities
 
         public static bool IsValidLanguageLiteral(this INode node)
         {
-            return node.IsLiteral() && IsValidLanguage(((LiteralNode) node).Language);
+            return node.IsLiteral() && IsValidLanguage(((LiteralNode)node).Language);
         }
 
         public static string GetLiteralValue(this INode node)
         {
-            return node.IsLiteral() ? ((LiteralNode)node).Value : string.Empty ;
+            return node.IsLiteral() ? ((LiteralNode)node).Value : string.Empty;
         }
 
         public static string GetUri(this INode node)
         {
-            return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty ;
+            return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty;
         }
 
-        //TODO: Test
         public static bool IsValidSubject(this INode subject)
         {
-            return subject.IsEntity() || subject.IsProperty();
+            return subject.IsEntity();
         }
 
         public static bool IsEntity(this INode node)
@@ -82,14 +83,13 @@ namespace SparqlForHumans.Core.Utilities
             return node.IsUriNode() && node.GetUri().Contains(WikidataDump.PropertyIRI);
         }
 
-        //TODO: Test
         public static PredicateType GetPredicateType(this INode node)
         {
-            if (node.IsLabelIRI())
+            if (node.IsLabel())
                 return PredicateType.Label;
-            if (node.IsDescriptionIRI())
+            if (node.IsDescription())
                 return PredicateType.Description;
-            if (node.IsAltLabelIRI())
+            if (node.IsAltLabel())
                 return PredicateType.AltLabel;
             if (node.IsProperty())
                 return PredicateType.Property;
@@ -97,51 +97,35 @@ namespace SparqlForHumans.Core.Utilities
             return PredicateType.Other;
         }
 
-        private static bool IsLabelIRI(this INode node)
+        private static bool IsLabel(this INode node)
         {
             return node.GetUri().Equals(WikidataDump.LabelIRI);
         }
 
         public static bool IsInstanceOf(this INode node)
         {
-            return node.GetPCode().Equals(WikidataDump.InstanceOf);
+            return node.GetId().Equals(WikidataDump.InstanceOf);
         }
 
-        private static bool IsDescriptionIRI(this INode node)
+        private static bool IsDescription(this INode node)
         {
             return node.GetUri().Equals(WikidataDump.DescriptionIRI);
         }
 
-        private static bool IsAltLabelIRI(this INode node)
+        private static bool IsAltLabel(this INode node)
         {
             return node.GetUri().Equals(WikidataDump.Alt_labelIRI);
         }
 
-        public static bool HasQCode(this INode node)
+        public static int GetIntId(this INode node)
         {
-            return node.GetQCode().StartsWith(WikidataDump.EntityPrefix);
+            var index = Regex.Replace(node.GetId(), "\\D", string.Empty);
+            return int.Parse(index);
         }
 
-        public static string GetQCode(this INode node)
+        public static string GetId(this INode node)
         {
-            return node.GetId();
-        }
-
-        public static string GetPCode(this INode node)
-        {
-            return node.GetId().Replace(WikidataDump.PropertyIRI, string.Empty);
-        }
-
-        public static int GetEntityQCode(this INode node)
-        {
-            var index = node.GetQCode().Replace(WikidataDump.EntityPrefix, string.Empty);
-            var parsed = int.TryParse(index, out var indexInt);
-            return parsed ? indexInt : 0;
-        }
-
-        private static string GetId(this INode node)
-        {
-            return ((UriNode) node).Uri.Segments.Last();
+            return ((UriNode)node).Uri.Segments.Last();
         }
     }
 }

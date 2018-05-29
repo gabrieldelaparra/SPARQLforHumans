@@ -28,16 +28,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestGetPCode()
-        {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
-            var triple = line.GetTriple();
-
-            Assert.Equal("P47", triple.Predicate.GetQCode());
-        }
-
-        [Fact]
         public void TestGetPredicateType()
         {
             var line =
@@ -99,14 +89,27 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetId()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/P26> .";
+            var triple = line.GetTriple();
+
+            Assert.Equal("Q27", triple.Subject.GetId());
+            Assert.Equal("P47", triple.Predicate.GetId());
+            Assert.Equal("P26", triple.Object.GetId());
+        }
+
+        [Fact]
         public void TestGetQCode()
         {
             var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/P26> .";
             var triple = line.GetTriple();
 
-            Assert.Equal("Q27", triple.Subject.GetQCode());
-            Assert.Equal(27, triple.Subject.GetEntityQCode());
+            Assert.Equal(27, triple.Subject.GetIntId());
+            Assert.Equal(47, triple.Predicate.GetIntId());
+            Assert.Equal(26, triple.Object.GetIntId());
         }
 
         [Fact]
@@ -263,6 +266,12 @@ namespace SparqlForHumans.UnitTests
             var line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             var triple = line.GetTriple();
+
+            Assert.True(triple.Subject.IsValidSubject());
+
+            line =
+                "<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsValidSubject());
 
