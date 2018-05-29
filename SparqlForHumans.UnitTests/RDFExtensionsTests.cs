@@ -147,16 +147,14 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsEntity()
         {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             var triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsEntity());
             Assert.False(triple.Predicate.IsEntity());
             Assert.False(triple.Object.IsEntity());
 
-            line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            line = "<http://www.wikidata.org/entity/P31> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
             triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsEntity());
