@@ -42,22 +42,23 @@ namespace SparqlForHumans.Core.Utilities
             return directoryInfo;
         }
 
-        //TODO: Test
-        public static FileInfo GetOrCreateDirectory(string path, string filename)
-        {
-            var fileInfo = new FileInfo(Path.Combine(path, filename));
+        ////TODO: Test
+        //public static FileInfo GetOrCreateDirectory(string path, string filename)
+        //{
+        //    var fileInfo = new FileInfo(Path.Combine(path, filename));
 
-            if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
-                fileInfo.Directory.Create();
+        //    if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
+        //        fileInfo.Directory.Create();
 
-            return fileInfo;
-        }
+        //    return fileInfo;
+        //}
 
-        public static void TrimFile(string filename, int lineLimit)
-        {
-            var outputFilename = GetTrimmedOutputFilename(filename, lineLimit);
-            TrimFile(filename, outputFilename, lineLimit);
-        }
+        ////TODO: Test
+        //public static void TrimFile(string filename, int lineLimit)
+        //{
+        //    var outputFilename = GetTrimmedOutputFilename(filename, lineLimit);
+        //    TrimFile(filename, outputFilename, lineLimit);
+        //}
 
         public static void TrimFile(string filename, string outputFilename, int lineLimit)
         {
@@ -65,15 +66,14 @@ namespace SparqlForHumans.Core.Utilities
             File.WriteAllLines(outputFilename, lines.Take(lineLimit));
         }
 
-        public static int GetLineCount(string filename)
+        public static long GetLineCount(string filename)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var count = 0;
+            long lineCount = 0;
             using (var logStreamWriter = new StreamWriter(new FileStream("LineCountLog.txt", FileMode.Create)))
             {
-                var notifyTicks = 100000;
-                var lineCount = 0;
+                const int notifyTicks = 100000;
 
                 var lines = GetInputLines(filename);
 
@@ -85,11 +85,10 @@ namespace SparqlForHumans.Core.Utilities
                 }
 
                 logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
-                count = lineCount;
             }
 
             stopwatch.Stop();
-            return count;
+            return lineCount;
         }
 
         public static IEnumerable<string> GetInputLines(string inputTriples)
@@ -118,13 +117,6 @@ namespace SparqlForHumans.Core.Utilities
                 while (!streamReader.EndOfStream)
                     yield return streamReader.ReadLine();
             }
-        }
-
-        public static FileType GetFileInfoType(FileInfo filename)
-        {
-            if (!filename.Exists) throw new ArgumentException("Filename does not exists");
-
-            return GetFileType(filename.Extension);
         }
 
         public static FileType GetFilenameType(string filename)
