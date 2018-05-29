@@ -83,6 +83,7 @@ namespace SparqlForHumans.Core.Services
             var ntPredicate = triple.Predicate;
             var ntObject = triple.Object;
 
+            //Subject is not URI
             if (!ntSubject.IsUriNode())
                 return false;
 
@@ -95,11 +96,18 @@ namespace SparqlForHumans.Core.Services
                 return false;
 
             //Condition: Object is Entity and Q > triplesLimit: Skip
-            if (ntObject.IsEntity() && ntSubject.GetEntityQCode() > entityLimit)
+            if (ntObject.IsEntity() && ntObject.GetEntityQCode() > entityLimit)
                 return false;
 
             //Condition: Object is Literal: Filter @en only
-            if (!ntObject.IsValidLanguageLiteral())
+            if (ntObject.IsLiteral() && !ntObject.IsValidLanguageLiteral())
+                return false;
+
+            //Condition: Predicate is Property and Object is literal (not an URI node)
+            //takes out Population, birthdate, and stuff
+            
+            //This will be removed in the future.
+            if (ntPredicate.IsProperty() && !ntObject.IsEntity())
                 return false;
 
             return true;
