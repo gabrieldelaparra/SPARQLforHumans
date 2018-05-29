@@ -19,9 +19,9 @@ namespace SparqlForHumans.Core.Services
 
         public static void handleStatement(Triple s, Dictionary<string, int> map, int[][] graph)
         {
-            int TICKS = 100000;
+            var TICKS = 100000;
 
-            String entityIRI = WikidataDump.EntityIRI;
+            var entityIRI = WikidataDump.EntityIRI;
             read++;
             if (read % TICKS == 0)
             {
@@ -38,7 +38,7 @@ namespace SparqlForHumans.Core.Services
             if (last == null)
             {
                 last = subject;
-                String name = last.ToString();
+                var name = last.ToString();
                 name = name.Replace(entityIRI, "");
                 if (map.ContainsKey(name))
                 {
@@ -51,7 +51,7 @@ namespace SparqlForHumans.Core.Services
                 }
             }
             // NEW SUBJECT
-            if (!last.ToString().Equals(subject.ToString()))
+            if (!last.Equals(subject))
             {
                 if (outLinksList != null && !outLinksList.Any())
                 {
@@ -59,7 +59,7 @@ namespace SparqlForHumans.Core.Services
                 }
 
                 last = subject;
-                String name = last.ToString();
+                var name = last;
                 name = name.Replace(entityIRI, "");
                 if (map.ContainsKey(name))
                 {
@@ -73,14 +73,16 @@ namespace SparqlForHumans.Core.Services
             }
             // PROPERTIES
             if (s.Object.IsLiteral()) return;
-            String ntobject = s.Object.ToString();
-            String value = ntobject.Replace(entityIRI, "");
-            if (outLinksList != null && map.ContainsKey(value))
-            {
-                int valueId = map.GetValueOrDefault(value);
-                if (!outLinksList.Contains(valueId))
-                    outLinksList.Add(valueId);
-            }
+
+            var ntobject = s.Object.ToString();
+            var value = ntobject.Replace(entityIRI, "");
+
+            if (outLinksList == null || !map.ContainsKey(value)) return;
+
+            var valueId = map.GetValueOrDefault(value);
+
+            if (!outLinksList.Contains(valueId))
+                outLinksList.Add(valueId);
         }
 
         private static double[] rankGraph(int[][] graph)
