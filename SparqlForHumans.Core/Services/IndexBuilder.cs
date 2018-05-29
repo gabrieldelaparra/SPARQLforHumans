@@ -56,7 +56,7 @@ namespace SparqlForHumans.Core.Services
 
                             if (!hasDocument)
                             {
-                                var id = ntSubject.GetQCode();
+                                var id = ntSubject.GetId();
                                 luceneDocument = new Document();
                                 entityProperties = new List<string>();
                                 luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES,
@@ -112,7 +112,7 @@ namespace SparqlForHumans.Core.Services
         private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument,
             ICollection<string> entityProperties)
         {
-            var propertyCode = ntPredicate.GetPCode();
+            var propertyCode = ntPredicate.GetId();
 
             //Do not add the same property twice. Why?
             if (!entityProperties.Contains(propertyCode))
@@ -122,17 +122,11 @@ namespace SparqlForHumans.Core.Services
                     Field.Index.NOT_ANALYZED));
             }
 
-            //Ignore properties which have literal values, somehow, it is only adding those which have entities as values.
-            //I am not sure that this is a desired bahviour. I have to check the original code to see if this is as desired.
-            if (!ntObject.IsUriNode()) return;
-
-            var value = ntObject.GetQCode();
+            var value = ntObject.GetId();
 
             if (ntPredicate.IsInstanceOf())
                 luceneDocument.Add(new Field(Labels.InstanceOf.ToString(), value, Field.Store.YES,
                     Field.Index.NOT_ANALYZED));
-
-            if (!ntObject.HasQCode()) return;
 
             var po = propertyCode + "##" + value;
             luceneDocument.Add(new Field(Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
