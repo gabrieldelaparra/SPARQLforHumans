@@ -1,6 +1,5 @@
 ﻿namespace SparqlForHumans.Core.Properties
 {
-    //Rename: PO -> ??
     public enum Labels
     {
         Label,
@@ -9,6 +8,6 @@
         InstanceOf,
         AltLabel,
         Description,
-        PO
+        PropertyAndValue
     }
 }
