@@ -108,8 +108,6 @@ namespace SparqlForHumans.Core.Services
                     break;
                 case RDFExtensions.PredicateType.Other:
                     break;
-                default:
-                    break;
             }
         }
 
@@ -140,8 +138,6 @@ namespace SparqlForHumans.Core.Services
                 case RDFExtensions.PropertyType.LiteralDirected:
                     break;
                 case RDFExtensions.PropertyType.Other:
-                    break;
-                default:
                     break;
             }
         }
