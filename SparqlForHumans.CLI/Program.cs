@@ -24,7 +24,7 @@ namespace SparqlForHumans.CLI
         static void Main(string[] args)
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-            FileHelper.ReadLinesTrace(inputFilename, 100000000).ToList();
+            //FileHelper.ReadLinesTrace(inputFilename, 100000000).ToList();
             //var lines = FileHelper.GetInputLines(inputFilename);
             //int read = 0;
             //foreach (var line in lines)
