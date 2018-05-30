@@ -4,12 +4,29 @@ using System.Linq;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
+using Newtonsoft.Json.Serialization;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
+using VDS.RDF.Parsing.Events.RdfXml;
 
 namespace SparqlForHumans.Core.Services
 {
+    public class GraphNode
+    {
+        public string Id { get; set; }
+        public List<string> ConnectedNodes { get; set; } = new List<string>();
+
+        public GraphNode() { }
+
+        public GraphNode(string id) { Id = id; }
+
+        public override string ToString()
+        {
+            return $"{Id} - {ConnectedNodes.Count}";
+        }
+    }
+
     public class IndexRanker
     {
         static string last;
@@ -17,101 +34,68 @@ namespace SparqlForHumans.Core.Services
         static int read = 0;
         static int currentIndex = 0;
 
-        public static void handleStatement(Triple s, Dictionary<string, int> map, int[][] graph)
+        public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
         {
-            var TICKS = 100000;
+            var list = new List<GraphNode>();
 
-            var entityIRI = WikidataDump.EntityIRI;
-            read++;
-            if (read % TICKS == 0)
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var groups = lines.GroupByEntities();
+
+            foreach (var group in groups)
             {
-                //System.err.println(read + " lines read...");
+                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+                var entityNode = new GraphNode(subjectId);
 
-                //long allocatedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-                //long freeMemory = Runtime.getRuntime().maxMemory() - allocatedMemory;
+                foreach (var line in group)
+                {
+                    var (_, _, ntObject) = line.GetTripleAsTuple();
 
-                //System.err.println("Free memory: " + freeMemory);
+                    if (!ntObject.IsEntity())
+                        continue;
+
+                    var objectId = ntObject.GetId();
+
+                    if (!entityNode.ConnectedNodes.Contains(objectId))
+                        entityNode.ConnectedNodes.Add(objectId);
+                }
+
+                list.Add(entityNode);
             }
-
-            var subject = s.Subject.ToSafeString();
-            // FIRST LINE
-            if (last == null)
-            {
-                last = subject;
-                var name = last.ToString();
-                name = name.Replace(entityIRI, "");
-                if (map.ContainsKey(name))
-                {
-                    currentIndex = map.GetValueOrDefault(name);
-                    outLinksList = new List<int>();
-                }
-                else
-                {
-                    outLinksList = null;
-                }
-            }
-            // NEW SUBJECT
-            if (!last.Equals(subject))
-            {
-                if (outLinksList != null && !outLinksList.Any())
-                {
-                    graph[currentIndex] = outLinksList.ToArray();
-                }
-
-                last = subject;
-                var name = last;
-                name = name.Replace(entityIRI, "");
-                if (map.ContainsKey(name))
-                {
-                    currentIndex = map.GetValueOrDefault(name);
-                    outLinksList = new List<int>();
-                }
-                else
-                {
-                    outLinksList = null;
-                }
-            }
-            // PROPERTIES
-            if (s.Object.IsLiteral()) return;
-
-            var ntobject = s.Object.ToString();
-            var value = ntobject.Replace(entityIRI, "");
-
-            if (outLinksList == null || !map.ContainsKey(value)) return;
-
-            var valueId = map.GetValueOrDefault(value);
-
-            if (!outLinksList.Contains(valueId))
-                outLinksList.Add(valueId);
+            return list;
         }
 
-        private static double[] rankGraph(int[][] graph)
+        private static double[] IteratePageRank(IEnumerable<GraphNode> graphNodes)
         {
-            int ITERATIONS = 25;
-            double D = 0.85d;
-            int nodes = graph.Length;
+            var iterations = 25;
+            var pageRankAlpha = 0.85d;
+            var nodeCount = graphNodes.Count();
 
-            double[] oldRanks = new double[nodes];
+            var oldRanks = new double[nodeCount];
 
-            double initial = 1d / nodes;
+            var initialRank = 1d / nodeCount;
 
-            for (int i = 0; i < nodes; i++)
+            for (var i = 0; i < nodeCount; i++)
             {
-                oldRanks[i] = initial;
+                oldRanks[i] = initialRank;
             }
 
             double[] ranks = null;
-            for (int i = 0; i < ITERATIONS; i++)
+            for (var i = 0; i < iterations; i++)
             {
-                double noLinkRank = 0d;
-                ranks = new double[nodes];
+                var noLinkRank = 0d;
+                ranks = new double[nodeCount];
 
-                for (int j = 0; j < nodes; j++)
+                foreach (var graphNode in graphNodes)
+                {
+                    
+                }
+
+                for (var j = 0; j < nodeCount; j++)
                 {
                     if (graph[j] != null)
                     {
-                        int[] out1 = graph[j];
-                        double share = oldRanks[j] * D / out1.Length;
+                        var out1 = graph[j];
+                        var share = oldRanks[j] * pageRankAlpha / out1.Length;
                         foreach (var o in out1)
                         {
                             ranks[o] += share;
@@ -123,28 +107,43 @@ namespace SparqlForHumans.Core.Services
                     }
                 }
 
-                double shareNoLink = (noLinkRank * D) / nodes;
+                var shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
 
-                double shareMinusD = (1d - D) / nodes;
+                var shareMinusD = (1d - pageRankAlpha) / nodeCount;
 
-                double weakRank = shareNoLink + shareMinusD;
+                var weakRank = shareNoLink + shareMinusD;
 
-                double sum = 0d;
-                double e = 0d;
+                var sum = 0d;
+                var e = 0d;
 
-                for (int k = 0; k < nodes; k++)
+                for (var k = 0; k < nodeCount; k++)
                 {
                     ranks[k] += weakRank;
                     sum += ranks[k];
                     e += Math.Abs(oldRanks[k] - ranks[k]);
                 }
 
-                Array.Copy(ranks, 0, oldRanks, 0, nodes);
+                Array.Copy(ranks, 0, oldRanks, 0, nodeCount);
             }
 
             return ranks;
         }
 
+        /// <summary>
+        /// Rank lee el indice y saca cuantos nodos son.
+        /// Luego crea un diccionario(string, int).
+        /// Para cada documento del indice, crea una llave, ejemplo: (Q1, 1) (Q2,2) -Sin Q3- (Q4,3)
+        /// Luego lee nuevamente las tuplas desde el archivo de entrada y les da el handle.
+        /// El Handle, toma cada triple, el diccionario, y el graph.
+        /// Entiendo que Handle, debería modificar el graph.
+        /// Luego corre el codigo de pagerank.
+        /// Este codigo entrega (no está incluido acá, pero la versión de Java)
+        /// Entrega un listado en formato de (Indice) (Ranks[]).
+        /// Pero no agrega los ranks al indice.
+        /// </summary>
+        /// <param name="luceneIndexDirectory"></param>
+        /// <param name="inputTriples"></param>
+        /// <param name="ouputPath"></param>
         public static void Rank(Directory luceneIndexDirectory, string inputTriples, string ouputPath)
         {
             using (var reader = IndexReader.Open(luceneIndexDirectory, false))
@@ -173,19 +172,174 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
+        /// <summary>
+        /// Handle toma cada linea del archivo NTriples.
+        /// Por cada linea, pregunta si el diccionary ya tiene la llave (en rigor, debería tenerlas todas)
+        /// Por cada entidad nueva, crea una lista llamada outLinkList.
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="diccionary"></param>
+        /// <param name="graph"></param>
+        public static void handleStatement(Triple s, Dictionary<string, int> diccionary, int[][] graph)
+        {
+            var TICKS = 100000;
+
+            var entityIRI = WikidataDump.EntityIRI;
+            read++;
+            if (read % TICKS == 0)
+            {
+                //System.err.println(read + " lines read...");
+
+                //long allocatedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                //long freeMemory = Runtime.getRuntime().maxMemory() - allocatedMemory;
+
+                //System.err.println("Free memory: " + freeMemory);
+            }
+
+            var subject = s.Subject.ToSafeString();
+            // FIRST LINE
+            if (last == null)
+            {
+                last = subject;
+                var name = last.ToString();
+                name = name.Replace(entityIRI, "");
+                if (diccionary.ContainsKey(name))
+                {
+                    currentIndex = diccionary.GetValueOrDefault(name);
+                    outLinksList = new List<int>();
+                }
+                else
+                {
+                    outLinksList = null;
+                }
+            }
+            // NEW SUBJECT
+            if (!last.Equals(subject))
+            {
+                //Cuando hay un cambio en la entidad (last != subject)
+                //Si outLinkList not null, not empty
+                //Usando indice, que sacó desde el valor del diccionario(Qnum, indice)
+                //Asigna grafo[indice] = lista.toArray(). Es decir, le asigna todos los valores de los outLinkList.
+                //
+                if (outLinksList != null && !outLinksList.Any())
+                {
+                    graph[currentIndex] = outLinksList.ToArray();
+                }
+
+                last = subject;
+                var name = last;
+                name = name.Replace(entityIRI, "");
+                if (diccionary.ContainsKey(name))
+                {
+                    currentIndex = diccionary.GetValueOrDefault(name);
+                    outLinksList = new List<int>();
+                }
+                else
+                {
+                    outLinksList = null;
+                }
+            }
+
+            //Ahora, como asigna el valor en outLinkList?
+            //Si el object es literal, nada.
+            //Si la lista es vacía o el diccionario no tiene la llave de la entidad que apunta la propiedad, nada.
+            //Si el diccionario si tiene la entidad(Objeto), agrega a la lista el valor del indice.
+
+            // PROPERTIES
+            if (s.Object.IsLiteral()) return;
+
+            var ntobject = s.Object.ToString();
+            var value = ntobject.Replace(entityIRI, "");
+
+            if (outLinksList == null || !diccionary.ContainsKey(value)) return;
+
+            var valueId = diccionary.GetValueOrDefault(value);
+
+            if (!outLinksList.Contains(valueId))
+                outLinksList.Add(valueId);
+        }
+
+        //private static double[] rankGraph(int[][] graph, int iterations)
+        //{
+
+        //}
+
+        private static double[] rankGraph(int[][] graph)
+        {
+            var iterations = 25;
+            var pageRankAlpha = 0.85d;
+            var nodeCount = graph.Length;
+
+            var oldRanks = new double[nodeCount];
+
+            var initialRank = 1d / nodeCount;
+
+            for (var i = 0; i < nodeCount; i++)
+            {
+                oldRanks[i] = initialRank;
+            }
+
+            double[] ranks = null;
+            for (var i = 0; i < iterations; i++)
+            {
+                var noLinkRank = 0d;
+                ranks = new double[nodeCount];
+
+                for (var j = 0; j < nodeCount; j++)
+                {
+                    if (graph[j] != null)
+                    {
+                        var out1 = graph[j];
+                        var share = oldRanks[j] * pageRankAlpha / out1.Length;
+                        foreach (var o in out1)
+                        {
+                            ranks[o] += share;
+                        }
+                    }
+                    else
+                    {
+                        noLinkRank += oldRanks[j];
+                    }
+                }
+
+                var shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
+
+                var shareMinusD = (1d - pageRankAlpha) / nodeCount;
+
+                var weakRank = shareNoLink + shareMinusD;
+
+                var sum = 0d;
+                var e = 0d;
+
+                for (var k = 0; k < nodeCount; k++)
+                {
+                    ranks[k] += weakRank;
+                    sum += ranks[k];
+                    e += Math.Abs(oldRanks[k] - ranks[k]);
+                }
+
+                Array.Copy(ranks, 0, oldRanks, 0, nodeCount);
+            }
+
+            return ranks;
+        }
+
+
+
         // INIT INDEX READER
         //    IndexReader reader = DirectoryReader.Open(FSDirectory.Open(Paths.get(dataDirectory)));
         //int graphLength = reader.MaxDoc;
-        //Map<String, Integer> map = new HashMap<>();
+        //Map<String, Integer> diccionary = new HashMap<>();
         //System.err.println("Graph size: " + graphLength);
 
         //// CREATE MAP TO TRANSLATE SUBJECT TO ID
-        //System.err.println("Creating map...");
+        //System.err.println("Creating diccionary...");
         //for (int i = 0; i < graphLength; i++)
         //{
         //    Document doc = reader.document(i);
         //    String key = doc.get(DataFields.SUBJECT.name());
-        //    map.put(key, i);
+        //    diccionary.put(key, i);
         //}
         //System.err.println("Map created successfully!");
 
@@ -203,7 +357,7 @@ namespace SparqlForHumans.Core.Services
         //Reader isr = new InputStreamReader(in, "UTF-8");
 
         //RDFParser parser = Rio.createParser(RDFFormat.NTRIPLES);
-        //RankHandler handler = new RankHandler(graph, map);
+        //RankHandler handler = new RankHandler(graph, diccionary);
         //parser.setRDFHandler(handler);
 
         //System.err.println("Parsing file...");

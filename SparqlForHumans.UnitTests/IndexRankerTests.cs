@@ -11,6 +11,20 @@ namespace SparqlForHumans.UnitTests
 {
     public class IndexRankerTests
     {
+        [Fact]
+        public void TestBuildNodeGraph()
+        {
+            var filename = "Resources/filtered.nt";
+            var lines = FileHelper.GetInputLines(filename);
+            var groups = lines.GroupByEntities();
+            var entitiesCount = groups.Count();
+
+            var nodesGraph = IndexRanker.BuildNodesGraph(filename);
+
+            Assert.Equal(entitiesCount, nodesGraph.Count());
+            Assert.Contains(nodesGraph, x => x.ConnectedNodes.Count > 10);
+        }
+
         //[Fact]
         //public void TestRankIndex()
         //{
@@ -34,7 +48,7 @@ namespace SparqlForHumans.UnitTests
 
         //    var luceneDirectory = LuceneHelper.GetLuceneDirectory(directoryPath);
         //    Assert.False(luceneDirectory.HasRank()); 
-            
+
         //    IndexRanker.Rank(luceneDirectory, filename, rankedPath);
 
         //    var rankedIndexDirectory = LuceneHelper.GetLuceneDirectory(rankedPath);
