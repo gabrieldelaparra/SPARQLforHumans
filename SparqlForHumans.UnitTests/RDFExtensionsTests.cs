@@ -214,6 +214,25 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestPropertyType()
+        {
+            var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P417> \"Ireland\"@en .";
+            var(_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+
+            Assert.True(ntPredicate.IsProperty());
+
+            Assert.Equal(RDFExtensions.PropertyType.LiteralDirected, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.EntityDirected, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+        }
+
+        [Fact]
         public void TestIsUriNode()
         {
             var line =

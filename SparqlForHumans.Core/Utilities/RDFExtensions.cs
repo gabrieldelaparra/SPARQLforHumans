@@ -18,6 +18,25 @@ namespace SparqlForHumans.Core.Utilities
             Other
         }
 
+        public enum PropertyType
+        {
+            InstanceOf,
+            EntityDirected,
+            LiteralDirected,
+            Other,
+        }
+
+        public static PropertyType GetPropertyType(INode ntPredicate, INode ntObject)
+        {
+            if (ntPredicate.IsInstanceOf())
+                return PropertyType.InstanceOf;
+            if (ntObject.IsEntity())
+                return PropertyType.EntityDirected;
+            if (ntObject.IsLiteral())
+                return PropertyType.LiteralDirected;
+            return PropertyType.Other;
+        }
+
         public static string[] ValidLanguages { get; } = { "en" };
 
         public static (INode subject, INode predicate, INode ntObject) GetTripleAsTuple(this string inputLine)
