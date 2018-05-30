@@ -143,17 +143,17 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        public static void Optimize()
-        {
-            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
+        //public static void Optimize()
+        //{
+        //    Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
-            using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer,
-                IndexWriter.MaxFieldLength.UNLIMITED))
-            {
-                Analyzer.Close();
-                writer.Optimize();
-                writer.Dispose();
-            }
-        }
+        //    using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer,
+        //        IndexWriter.MaxFieldLength.UNLIMITED))
+        //    {
+        //        Analyzer.Close();
+        //        writer.Optimize();
+        //        writer.Dispose();
+        //    }
+        //}
     }
 }
