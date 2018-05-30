@@ -107,6 +107,7 @@ namespace SparqlForHumans.Core.Services
                         Field.Store.YES, Field.Index.ANALYZED));
                     break;
                 case RDFExtensions.PredicateType.Other:
+                    break;
                 default:
                     break;
             }
@@ -137,7 +138,9 @@ namespace SparqlForHumans.Core.Services
                         Field.Index.NOT_ANALYZED));
                     break;
                 case RDFExtensions.PropertyType.LiteralDirected:
+                    break;
                 case RDFExtensions.PropertyType.Other:
+                    break;
                 default:
                     break;
             }
