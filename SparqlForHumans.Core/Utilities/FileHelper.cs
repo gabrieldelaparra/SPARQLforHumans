@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using NLog;
 
 namespace SparqlForHumans.Core.Utilities
 {
     public static class FileHelper
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public enum FileType
         {
             Unkwown,
@@ -116,6 +119,21 @@ namespace SparqlForHumans.Core.Utilities
             {
                 while (!streamReader.EndOfStream)
                     yield return streamReader.ReadLine();
+            }
+        }
+
+        public static IEnumerable<string> ReadLinesTrace(string filename, long maxLines)
+        {
+            const long count = 0;
+            using (var streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
+            {
+                while (!streamReader.EndOfStream || count < maxLines)
+                {
+                    var line = streamReader.ReadLine();
+                    Logger.Trace(line);
+                    yield return line;
+
+                }
             }
         }
 
