@@ -64,31 +64,7 @@ namespace SparqlForHumans.Core.Services
                                 hasDocument = true;
                             }
 
-                            // On the existing Subject
-                            // If the predicate is a Propery, add the property to a list of Properties and link it to the entity.
-                            // Else, (predicate not a property: Labels, Alt-Labels, Description, etc.)
-                            //  If the object is not a literal value, continue;
-                            // Otherwise, add the value to the index on each case.
-                            var value = string.Empty;
-
-                            switch (ntPredicate.GetPredicateType())
-                            {
-                                case RDFExtensions.PredicateType.Property:
-                                    ParsePropertyPredicate(ntPredicate, ntObject, luceneDocument, entityProperties);
-                                    break;
-                                case RDFExtensions.PredicateType.Label:
-                                    luceneDocument.Add(new Field(Labels.Label.ToString(), ntObject.GetLiteralValue(),
-                                        Field.Store.YES, Field.Index.ANALYZED));
-                                    break;
-                                case RDFExtensions.PredicateType.Description:
-                                    luceneDocument.Add(new Field(Labels.Description.ToString(),
-                                        ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
-                                    break;
-                                case RDFExtensions.PredicateType.AltLabel:
-                                    luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
-                                        Field.Store.YES, Field.Index.ANALYZED));
-                                    break;
-                            }
+                            ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
                         }
                         catch (Exception e)
                         {
@@ -106,12 +82,42 @@ namespace SparqlForHumans.Core.Services
             Analyzer.Close();
         }
 
-        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument,
-            ICollection<string> entityProperties)
+        private static void ParsePredicate(INode ntPredicate, INode ntObject, List<string> entityProperties, Document luceneDocument)
+        {
+            // On the existing Subject
+            // If the predicate is a Propery, add the property to a list of Properties and link it to the entity.
+            // Else, (predicate not a property: Labels, Alt-Labels, Description, etc.)
+            //  If the object is not a literal value, continue;
+            // Otherwise, add the value to the index on each case.
+            switch (ntPredicate.GetPredicateType())
+            {
+                case RDFExtensions.PredicateType.Property:
+                    ParsePropertyPredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                    break;
+                case RDFExtensions.PredicateType.Label:
+                    luceneDocument.Add(new Field(Labels.Label.ToString(), ntObject.GetLiteralValue(),
+                        Field.Store.YES, Field.Index.ANALYZED));
+                    break;
+                case RDFExtensions.PredicateType.Description:
+                    luceneDocument.Add(new Field(Labels.Description.ToString(),
+                        ntObject.GetLiteralValue(), Field.Store.YES, Field.Index.ANALYZED));
+                    break;
+                case RDFExtensions.PredicateType.AltLabel:
+                    luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
+                        Field.Store.YES, Field.Index.ANALYZED));
+                    break;
+                case RDFExtensions.PredicateType.Other:
+                default:
+                    break;
+            }
+        }
+
+        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, ICollection<string> entityProperties,
+            Document luceneDocument)
         {
             var propertyCode = ntPredicate.GetId();
 
-            //Do not add the same property twice. Why?
+            //Do not add the same property twice in the document. The values will be added twice in the PropertyAndValue list;
             if (!entityProperties.Contains(propertyCode))
             {
                 entityProperties.Add(propertyCode);
@@ -119,14 +125,22 @@ namespace SparqlForHumans.Core.Services
                     Field.Index.NOT_ANALYZED));
             }
 
-            var value = ntObject.GetId();
-
-            if (ntPredicate.IsInstanceOf())
-                luceneDocument.Add(new Field(Labels.InstanceOf.ToString(), value, Field.Store.YES,
-                    Field.Index.NOT_ANALYZED));
-
-            var po = propertyCode + "##" + value;
-            luceneDocument.Add(new Field(Labels.PO.ToString(), po, Field.Store.YES, Field.Index.NOT_ANALYZED));
+            switch (RDFExtensions.GetPropertyType(ntPredicate, ntObject))
+            {
+                case RDFExtensions.PropertyType.InstanceOf:
+                    luceneDocument.Add(new Field(Labels.InstanceOf.ToString(), ntObject.GetId(), Field.Store.YES,
+                        Field.Index.NOT_ANALYZED));
+                    break;
+                case RDFExtensions.PropertyType.EntityDirected:
+                    var propertyAndValue = propertyCode + "##" + ntObject.GetId();
+                    luceneDocument.Add(new Field(Labels.PropertyAndValue.ToString(), propertyAndValue, Field.Store.YES,
+                        Field.Index.NOT_ANALYZED));
+                    break;
+                case RDFExtensions.PropertyType.LiteralDirected:
+                case RDFExtensions.PropertyType.Other:
+                default:
+                    break;
+            }
         }
 
         public static void Optimize()
