@@ -4,11 +4,9 @@ using System.Linq;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using Newtonsoft.Json.Serialization;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
-using VDS.RDF.Parsing.Events.RdfXml;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -16,8 +14,7 @@ namespace SparqlForHumans.Core.Services
     {
         public string Id { get; set; }
         public List<string> ConnectedNodes { get; set; } = new List<string>();
-
-        public GraphNode() { }
+        public double Rank { get; set; }
 
         public GraphNode(string id) { Id = id; }
 
@@ -27,8 +24,12 @@ namespace SparqlForHumans.Core.Services
         }
     }
 
-    public class IndexRanker
+    public static class IndexRanker
     {
+        private static long nodeCount = 0;
+        private static double pageRankAlpha = 0.85d;
+        private static double noLinkRank = 0d;
+
         static string last;
         static List<int> outLinksList;
         static int read = 0;
@@ -41,10 +42,13 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupByEntities();
 
+            nodeCount = 0;
+
             foreach (var group in groups)
             {
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 var entityNode = new GraphNode(subjectId);
+                nodeCount++;
 
                 foreach (var line in group)
                 {
@@ -61,13 +65,26 @@ namespace SparqlForHumans.Core.Services
 
                 list.Add(entityNode);
             }
+
+            //Assign initial rank to all nodes;
+            var initialRank = 1d / nodeCount;
+            foreach (var graphNode in list)
+            {
+                graphNode.Rank = initialRank;
+            }
+
             return list;
+        }
+
+        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes)
+        {
+
         }
 
         private static double[] IteratePageRank(IEnumerable<GraphNode> graphNodes)
         {
+            int[][] graph = new int[IndexRanker.nodeCount][];
             var iterations = 25;
-            var pageRankAlpha = 0.85d;
             var nodeCount = graphNodes.Count();
 
             var oldRanks = new double[nodeCount];
@@ -87,14 +104,40 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var graphNode in graphNodes)
                 {
-                    
+                    if (graphNode.ConnectedNodes.Any())
+                    {
+                        var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Count;
+                        foreach (var connectedNode in graphNode.ConnectedNodes)
+                        {
+                            //This will take too much time. That's why it seems to be easier to work with indexes.
+                            graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode)).Rank += share;
+                        }
+                    }
+                    else
+                    {
+                        noLinkRank += graphNode.Rank;
+                    }
                 }
+                var _shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
+                var _shareMinusD = (1d - pageRankAlpha) / nodeCount;
+                var _weakRank = _shareNoLink + _shareMinusD;
+
+                var _sum = 0d;
+                var _e = 0d;
+
+                foreach (var graphNode in graphNodes)
+                {
+                    graphNode.Rank += _weakRank;
+                    _sum += graphNode.Rank;
+                    _e += Math.Abs(oldRanks[k] - ranks[k]);
+                }
+
 
                 for (var j = 0; j < nodeCount; j++)
                 {
                     if (graph[j] != null)
                     {
-                        var out1 = graph[j];
+                        int[] out1 = graph[j];
                         var share = oldRanks[j] * pageRankAlpha / out1.Length;
                         foreach (var o in out1)
                         {
