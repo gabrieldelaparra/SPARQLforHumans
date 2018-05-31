@@ -13,21 +13,15 @@ namespace SparqlForHumans.Core.Services
     public class GraphNode
     {
         public string Id { get; set; }
-        //public int Index { get; set; }
-        //public List<(string Id, int Index)> ConnectedNodes { get; set; } = new List<(string, int)>();
+        public int Index { get; set; }
         public List<string> ConnectedNodes { get; set; } = new List<string>();
         public double Rank { get; set; }
 
-        public GraphNode(string id)
+        public GraphNode(string id, int index)
         {
             Id = id;
+            Index = index;
         }
-
-        //public GraphNode(string id, int index)
-        //{
-        //    Id = id;
-        //    Index = index;
-        //}
 
         public override string ToString()
         {
@@ -37,7 +31,11 @@ namespace SparqlForHumans.Core.Services
 
     public static class IndexRanker
     {
-        //private static int nodeCount = 0;
+        public static double GiveMeThreeDecimalsOnly(this double input)
+        {
+            return Math.Truncate(input * 1000) / 1000;
+        }
+
         private static double pageRankAlpha = 0.85d;
         private static double noLinkRank = 0d;
 
@@ -49,7 +47,6 @@ namespace SparqlForHumans.Core.Services
         public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
         {
             var list = new List<GraphNode>();
-            var checkList = new List<string>();
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupByEntities();
 
@@ -58,8 +55,7 @@ namespace SparqlForHumans.Core.Services
             foreach (var group in groups)
             {
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
-                //var entityNode = new GraphNode(subjectId, nodeCount);
-                var entityNode = new GraphNode(subjectId);
+                var entityNode = new GraphNode(subjectId, nodeCount);
 
                 foreach (var line in group)
                 {
@@ -70,11 +66,8 @@ namespace SparqlForHumans.Core.Services
 
                     var objectId = ntObject.GetId();
 
-                    if (checkList.Contains(objectId)) continue;
-
-                    checkList.Add(objectId);
-                    //entityNode.ConnectedNodes.Add((objectId, nodeCount));
-                    entityNode.ConnectedNodes.Add(objectId);
+                    if (!entityNode.ConnectedNodes.Contains(objectId))
+                        entityNode.ConnectedNodes.Add(objectId);
                 }
 
                 list.Add(entityNode);
@@ -91,6 +84,14 @@ namespace SparqlForHumans.Core.Services
             return list;
         }
 
+        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes, int iterations)
+        {
+            for (var i = 0; i < iterations; i++)
+            {
+                CalculateRanks(graphNodes);
+            }
+        }
+
         public static void CalculateRanks(IEnumerable<GraphNode> graphNodes)
         {
             //TODO: Check if this takes too much time for a large graph;
@@ -98,7 +99,6 @@ namespace SparqlForHumans.Core.Services
 
             var noLinkRank = 0d;
             var ranks = new double[nodeCount];
-            var oldRanks = graphNodes.Select(x => x.Rank).ToArray();
 
             foreach (var graphNode in graphNodes)
             {
@@ -107,8 +107,8 @@ namespace SparqlForHumans.Core.Services
                     var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Count;
                     foreach (var connectedNode in graphNode.ConnectedNodes)
                     {
-                        //This will take too much time. That's why it seems to be easier to work with indexes.
-                        graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode)).Rank += share;
+                        //TODO: This might take too much time. That's why it seems to be easier to work with indexes.
+                        ranks[graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode)).Index] += share;
                     }
                 }
                 else
@@ -116,15 +116,14 @@ namespace SparqlForHumans.Core.Services
                     noLinkRank += graphNode.Rank;
                 }
             }
-            var _shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
-            var _shareMinusD = (1d - pageRankAlpha) / nodeCount;
-            var _weakRank = _shareNoLink + _shareMinusD;
-
-            var _sum = 0d;
+            var shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
+            var shareMinusD = (1d - pageRankAlpha) / nodeCount;
+            var weakRank = shareNoLink + shareMinusD;
 
             foreach (var graphNode in graphNodes)
             {
-                graphNode.Rank += _weakRank;
+                ranks[graphNode.Index] += weakRank;
+                graphNode.Rank = ranks[graphNode.Index];
             }
         }
 
