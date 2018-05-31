@@ -45,24 +45,6 @@ namespace SparqlForHumans.Core.Utilities
             return directoryInfo;
         }
 
-        ////TODO: Test
-        //public static FileInfo GetOrCreateDirectory(string path, string filename)
-        //{
-        //    var fileInfo = new FileInfo(Path.Combine(path, filename));
-
-        //    if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
-        //        fileInfo.Directory.Create();
-
-        //    return fileInfo;
-        //}
-
-        ////TODO: Test
-        //public static void TrimFile(string filename, int lineLimit)
-        //{
-        //    var outputFilename = GetTrimmedOutputFilename(filename, lineLimit);
-        //    TrimFile(filename, outputFilename, lineLimit);
-        //}
-
         public static void TrimFile(string filename, string outputFilename, int lineLimit)
         {
             var lines = GetInputLines(filename);

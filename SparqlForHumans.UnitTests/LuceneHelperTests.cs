@@ -52,6 +52,7 @@ namespace SparqlForHumans.UnitTests
             Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
 
             Assert.True(Directory.Exists(path));
+            Directory.Delete(path);
         }
     }
 }

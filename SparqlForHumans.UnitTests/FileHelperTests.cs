@@ -115,5 +115,24 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
         }
+
+        [Fact]
+        public void TestGetOrCreateDirectory()
+        {
+            var path = "TestGetOrCreate";
+
+            if(Directory.Exists(path))
+                Directory.Delete(path);
+
+            Assert.False(Directory.Exists(path));
+
+            var dir = FileHelper.GetOrCreateDirectory(path);
+
+            Assert.NotNull(dir);
+            Assert.IsAssignableFrom<DirectoryInfo>(dir);
+
+            Assert.True(Directory.Exists(path));
+            Directory.Delete(path);
+        }
     }
 }
