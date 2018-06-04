@@ -6,6 +6,7 @@
         public static string EntityPrefix { get; } = "Q";
 
         public static string PropertyIRI { get; } = "http://www.wikidata.org/prop/direct/";
+        public static string PropertyPrefix { get; set; } = "P";
 
         public static string LabelIRI { get; } = "http://www.w3.org/2000/01/rdf-schema#label";
 
@@ -16,6 +17,7 @@
         public static string DescriptionIRI { get; } = "http://schema.org/description";
 
         public static string InstanceOf { get; } = "P31";
+
         //public static string image  { get; }= "P18";
     }
 }

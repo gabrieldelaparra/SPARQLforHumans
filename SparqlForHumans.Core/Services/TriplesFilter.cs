@@ -93,11 +93,11 @@ namespace SparqlForHumans.Core.Services
                 return false;
 
             //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
-            if (ntSubject.IsEntity() && ntSubject.HasQCode() && ntSubject.GetIntId() > entityLimit)
+            if (ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
                 return false;
 
             //Condition: Object is Q-Entity and Q > triplesLimit: Skip
-            if (ntObject.IsEntity() && ntObject.HasQCode() && ntObject.GetIntId() > entityLimit)
+            if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
                 return false;
 
             if(ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.AltLabel) && !ntObject.IsLiteral())
@@ -118,6 +118,12 @@ namespace SparqlForHumans.Core.Services
             
             //This will be removed in the future.
             if (ntPredicate.IsProperty() && !ntObject.IsEntity())
+                return false;
+
+            if (ntSubject.IsEntityP() && ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Other))
+                return false;
+
+            if (ntSubject.IsEntityP() && ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Property))
                 return false;
 
             return true;

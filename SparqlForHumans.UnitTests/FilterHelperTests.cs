@@ -96,6 +96,21 @@ namespace SparqlForHumans.UnitTests
             triple = line.GetTriple();
             Assert.True(TriplesFilter.IsValidTriple(triple, 100));
 
+            //PASS: Subject: Entity-P ; Predicate: Label; Object: Literal;
+            line = "<http://www.wikidata.org/entity/P22> <http://www.w3.org/2000/01/rdf-schema#label> \"father\"@en .";
+            triple = line.GetTriple();
+            Assert.True(TriplesFilter.IsValidTriple(triple, 100));
+
+            //PASS: Subject: Entity-P ; Predicate: AltLabel; Object: Literal;
+            line = "<http://www.wikidata.org/entity/P22> <http://www.w3.org/2004/02/skos/core#altLabel> \"dad\"@en .";
+            triple = line.GetTriple();
+            Assert.True(TriplesFilter.IsValidTriple(triple, 100));
+
+            //PASS: Subject: Entity-P ; Predicate: Description; Object: Literal;
+            line = "<http://www.wikidata.org/entity/P22> <http://schema.org/description> \"male parent of the subject. For stepfather, use \\\"stepparent\\\" (P3448)\"@en .";
+            triple = line.GetTriple();
+            Assert.True(TriplesFilter.IsValidTriple(triple, 100));
+
             //FAIL: Subject: Entity-Q > 100 ; 
             line = "<http://www.wikidata.org/entity/Q270> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             triple = line.GetTriple();
@@ -111,8 +126,33 @@ namespace SparqlForHumans.UnitTests
             triple = line.GetTriple();
             Assert.False(TriplesFilter.IsValidTriple(triple, 100));
 
-            //FAIL: Subject: Entity-Q < 100; Predicate: Property; Object: Not Entity; 
+            //FAIL: Subject: Entity-Q < 100; Predicate: Property; Object: Literal; 
             line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> \"Ireland\"@en .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Subject: Entity-P ; Predicate: Other; Object: URI-Other;
+            line = "<http://www.wikidata.org/entity/P22> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://wikiba.se/ontology-beta#Property> .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Subject: Entity-P ; Predicate: Other; Object: URI-Other;
+            line = "<http://www.wikidata.org/entity/P5000> <http://wikiba.se/ontology-beta#propertyType> <http://wikiba.se/ontology-beta#WikibaseItem> .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Subject: Entity-P ; Predicate: Other; Object: Property;
+            line = "<http://www.wikidata.org/entity/P22> <http://wikiba.se/ontology-beta#directClaim> <http://www.wikidata.org/prop/direct/P22> .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Subject: Entity-P ; Predicate: Other; Object: Literal;
+            line = "<http://www.wikidata.org/entity/P22> <http://www.w3.org/2004/02/skos/core#prefLabel> \"father\"@en .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Subject: Entity-P ; Predicate: Property; Object: Entity;
+            line = "<http://www.wikidata.org/entity/P22> <http://www.wikidata.org/prop/direct/P1659> <http://www.wikidata.org/entity/P25> .";
             triple = line.GetTriple();
             Assert.False(TriplesFilter.IsValidTriple(triple, 100));
         }

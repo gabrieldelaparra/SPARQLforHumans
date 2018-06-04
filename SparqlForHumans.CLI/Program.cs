@@ -6,7 +6,8 @@ namespace SparqlForHumans.CLI
     {
         static void Main(string[] args)
         {
-            var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            var inputFilename = @"Out-filtered-All-500.nt";
             var outputFilename = "filtered-All-500.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, 500);
 
