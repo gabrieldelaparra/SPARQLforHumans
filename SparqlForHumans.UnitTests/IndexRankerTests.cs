@@ -47,13 +47,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
-            Assert.Equal(0.119, nodesGraph.ElementAt(0).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.119, nodesGraph.ElementAt(1).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.059, nodesGraph.ElementAt(2).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.160, nodesGraph.ElementAt(3).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.160, nodesGraph.ElementAt(4).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.220, nodesGraph.ElementAt(5).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.160, nodesGraph.ElementAt(6).Rank.GiveMeThreeDecimalsOnly());
+            Assert.Equal(0.119, nodesGraph.ElementAt(0).Rank.ToThreeDecimals());
+            Assert.Equal(0.119, nodesGraph.ElementAt(1).Rank.ToThreeDecimals());
+            Assert.Equal(0.059, nodesGraph.ElementAt(2).Rank.ToThreeDecimals());
+            Assert.Equal(0.160, nodesGraph.ElementAt(3).Rank.ToThreeDecimals());
+            Assert.Equal(0.160, nodesGraph.ElementAt(4).Rank.ToThreeDecimals());
+            Assert.Equal(0.220, nodesGraph.ElementAt(5).Rank.ToThreeDecimals());
+            Assert.Equal(0.160, nodesGraph.ElementAt(6).Rank.ToThreeDecimals());
         }
 
         [Fact]
@@ -66,13 +66,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
-            Assert.Equal(0.138, nodesGraph.ElementAt(0).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.087, nodesGraph.ElementAt(1).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.061, nodesGraph.ElementAt(2).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.180, nodesGraph.ElementAt(3).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.128, nodesGraph.ElementAt(4).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.222, nodesGraph.ElementAt(5).Rank.GiveMeThreeDecimalsOnly());
-            Assert.Equal(0.180, nodesGraph.ElementAt(6).Rank.GiveMeThreeDecimalsOnly());
+            Assert.Equal(0.138, nodesGraph.ElementAt(0).Rank.ToThreeDecimals());
+            Assert.Equal(0.087, nodesGraph.ElementAt(1).Rank.ToThreeDecimals());
+            Assert.Equal(0.061, nodesGraph.ElementAt(2).Rank.ToThreeDecimals());
+            Assert.Equal(0.180, nodesGraph.ElementAt(3).Rank.ToThreeDecimals());
+            Assert.Equal(0.128, nodesGraph.ElementAt(4).Rank.ToThreeDecimals());
+            Assert.Equal(0.222, nodesGraph.ElementAt(5).Rank.ToThreeDecimals());
+            Assert.Equal(0.180, nodesGraph.ElementAt(6).Rank.ToThreeDecimals());
         }
 
         //[Fact]
