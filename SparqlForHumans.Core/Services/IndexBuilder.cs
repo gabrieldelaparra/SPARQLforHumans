@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
@@ -23,10 +24,15 @@ namespace SparqlForHumans.Core.Services
         public static void CreateIndex(string inputTriplesFilename, string outputDirectory)
         {
             long readCount = 0;
+            int nodeCount = 0;
             Options.InternUris = false;
             Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
+
+            //Ranking:
+            var nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
+            IndexRanker.CalculateRanks(nodesGraph, 25);
 
             using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
@@ -72,7 +78,9 @@ namespace SparqlForHumans.Core.Services
                             Logger.Error(e);
                         }
 
+                    luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
                     writer.AddDocument(luceneDocument);
+                    nodeCount++;
                 }
 
                 writer.Dispose();
