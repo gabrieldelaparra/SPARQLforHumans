@@ -89,25 +89,36 @@ namespace SparqlForHumans.Core.Services
                 return false;
 
             //Condition: Subject is not (Entity || Property): Skip
-            if (!ntSubject.IsValidSubject())
+            if (!ntSubject.IsEntity())
                 return false;
 
             //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
+            //Condition: Object is Q-Entity and Q > triplesLimit: Skip
             if (ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
                 return false;
 
-            //Condition: Object is Q-Entity and Q > triplesLimit: Skip
             if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
                 return false;
 
-            if(ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.AltLabel) && !ntObject.IsLiteral())
-               return false;
+            if (ntSubject.IsEntityP())
+            {
+                switch (ntPredicate.GetPredicateType())
+                {
+                    case RDFExtensions.PredicateType.Other:
+                    case RDFExtensions.PredicateType.Property:
+                        return false;
+                }
+            }
 
-            if (ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Description) && !ntObject.IsLiteral())
-                return false;
-
-            if (ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label) && !ntObject.IsLiteral())
-                return false;
+            switch (ntPredicate.GetPredicateType())
+            {
+                case RDFExtensions.PredicateType.Label:
+                case RDFExtensions.PredicateType.Description:
+                case RDFExtensions.PredicateType.AltLabel:
+                    if (!ntObject.IsLiteral())
+                        return false;
+                    break;
+            }
 
             //Condition: Object is Literal: Filter @en only
             if (ntObject.IsLiteral() && !ntObject.IsValidLanguageLiteral())
@@ -115,15 +126,9 @@ namespace SparqlForHumans.Core.Services
 
             //Condition: Predicate is Property and Object is literal (not an URI node)
             //takes out Population, birthdate, and stuff
-            
+
             //This will be removed in the future.
             if (ntPredicate.IsProperty() && !ntObject.IsEntity())
-                return false;
-
-            if (ntSubject.IsEntityP() && ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Other))
-                return false;
-
-            if (ntSubject.IsEntityP() && ntPredicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Property))
                 return false;
 
             return true;

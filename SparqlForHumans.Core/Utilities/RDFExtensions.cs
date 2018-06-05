@@ -87,10 +87,10 @@ namespace SparqlForHumans.Core.Utilities
             return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty;
         }
 
-        public static bool IsValidSubject(this INode subject)
-        {
-            return subject.IsEntity();
-        }
+        //public static bool IsValidSubject(this INode subject)
+        //{
+        //    return subject.IsEntity();
+        //}
 
         public static bool IsEntity(this INode node)
         {

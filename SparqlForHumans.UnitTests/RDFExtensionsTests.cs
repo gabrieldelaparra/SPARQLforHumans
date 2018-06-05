@@ -163,6 +163,29 @@ namespace SparqlForHumans.UnitTests
             Assert.True(triple.Subject.IsEntity());
             Assert.False(triple.Predicate.IsEntity());
             Assert.True(triple.Object.IsEntity());
+
+            line =
+               "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            triple = line.GetTriple();
+
+            Assert.True(triple.Subject.IsEntity());
+
+            line =
+                "<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            triple = line.GetTriple();
+
+            Assert.True(triple.Subject.IsEntity());
+
+            line =
+                "<http://www.wikidata.org/NotEntity/Q666> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            triple = line.GetTriple();
+
+            Assert.False(triple.Subject.IsEntity());
+
+             line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+             triple = line.GetTriple();
+            Assert.True(triple.Subject.IsEntity());
         }
 
         [Fact]
@@ -217,7 +240,7 @@ namespace SparqlForHumans.UnitTests
         public void TestPropertyType()
         {
             var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P417> \"Ireland\"@en .";
-            var(_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            var (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
             Assert.True(ntPredicate.IsProperty());
 
@@ -247,7 +270,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsValidLanguage()
         {
-            string[] validLanguages = {"en", "es"};
+            string[] validLanguages = { "en", "es" };
             Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
             Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
             Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));
@@ -277,38 +300,6 @@ namespace SparqlForHumans.UnitTests
             Assert.False(triple.Subject.IsValidLanguageLiteral());
             Assert.False(triple.Predicate.IsValidLanguageLiteral());
             Assert.False(triple.Object.IsValidLanguageLiteral());
-        }
-
-        [Fact]
-        public void TestIsValidSubject()
-        {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
-            var triple = line.GetTriple();
-
-            Assert.True(triple.Subject.IsValidSubject());
-
-            line =
-                "<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
-            triple = line.GetTriple();
-
-            Assert.True(triple.Subject.IsValidSubject());
-
-            line =
-                "<http://www.wikidata.org/NotEntity/Q666> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
-            triple = line.GetTriple();
-
-            Assert.False(triple.Subject.IsValidSubject());
-        }
-
-        [Fact]
-        public void TestIsValidSubjectProperty()
-        {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
-            var triple = line.GetTriple();
-            var isValid = triple.Subject.IsValidSubject();
-            Assert.True(isValid);
         }
     }
 }
