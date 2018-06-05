@@ -9,8 +9,7 @@ namespace SparqlForHumans.Core.Utilities
         {
             var firstLine = lines.FirstOrDefault();
             var firstEntity = firstLine.Split(" ").FirstOrDefault();
-            var group = lines.TakeWhile(x => x.Split(" ").FirstOrDefault().Equals(firstEntity));
-            return group;
+            return lines.TakeWhile(x => x.Split(" ").FirstOrDefault().Equals(firstEntity));
         }
 
         public static IEnumerable<string> SkipFirstGroup(this IEnumerable<string> lines)
@@ -22,12 +21,44 @@ namespace SparqlForHumans.Core.Utilities
 
         public static IEnumerable<IEnumerable<string>> GroupByEntities(this IEnumerable<string> lines)
         {
-            while (lines.Count() > 0)
+            var list = new List<string>();
+            var last = string.Empty;
+
+            foreach (var line in lines)
             {
-                var group = lines.GetFirstGroup();
-                lines = lines.SkipFirstGroup();
-                yield return group;
+                var entity = line.Split(" ").FirstOrDefault();
+
+                //Base case: first value:
+                if (last == string.Empty)
+                {
+                    list = new List<string>();
+                    last = entity;
+                }
+
+                //Switch of entity:
+                // - Return list,
+                // - Create new list,
+                // - Assign last to current
+                else if (last != entity)
+                {
+                    yield return list;
+                    list = new List<string>();
+                    last = entity;
+                }
+
+                list.Add(line);
             }
+            yield return list;
         }
+
+        //public static IEnumerable<IEnumerable<string>> GroupByEntities(this IEnumerable<string> lines)
+        //{
+        //    while (lines.Any())
+        //    {
+        //        var group = lines.GetFirstGroup();
+        //        lines = lines.SkipFirstGroup();
+        //        yield return group;
+        //    }
+        //}
     }
 }
