@@ -117,17 +117,15 @@ namespace SparqlForHumans.Core.Services
                 case RDFExtensions.PredicateType.AltLabel:
                     if (!ntObject.IsLiteral())
                         return false;
+                    //Condition: Object is Literal: Filter @en only
+                    else if (!ntObject.IsValidLanguageLiteral())
+                        return false;
                     break;
             }
 
-            //Condition: Object is Literal: Filter @en only
-            if (ntObject.IsLiteral() && !ntObject.IsValidLanguageLiteral())
-                return false;
-
             //Condition: Predicate is Property and Object is literal (not an URI node)
             //takes out Population, birthdate, and stuff
-
-            //This will be removed in the future.
+            //TODO: This will be removed in the future to add search values.
             if (ntPredicate.IsProperty() && !ntObject.IsEntity())
                 return false;
 
