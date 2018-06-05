@@ -12,6 +12,7 @@ namespace SparqlForHumans.UnitTests
         public void TestCreateIndex()
         {
             var filename = "Resources/filtered.nt";
+            //var filename = "filtered-All-500.nt";
             var outputPath = "Index";
 
             if (Directory.Exists(outputPath))
@@ -31,6 +32,30 @@ namespace SparqlForHumans.UnitTests
             var q2 = QueryService.QueryByLabel("Obama", LuceneHelper.GetLuceneDirectory(outputPath));
             Assert.NotNull(q2);
             Assert.Empty(q2);
+        }
+
+        [Fact]
+        public void TestCreateIndex500()
+        {
+            var filename = "filtered-All-500.nt";
+            var outputPath = "Index500";
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+
+            Assert.False(Directory.Exists(outputPath));
+
+            IndexBuilder.CreateIndex(filename, outputPath);
+
+            Assert.True(Directory.Exists(outputPath));
+
+            var q1 = QueryService.QueryByLabel("Berlin", LuceneHelper.GetLuceneDirectory(outputPath));
+            Assert.NotNull(q1);
+            Assert.Contains("Berlin", q1.FirstOrDefault().Label);
+
+            var q2 = QueryService.QueryByLabel("Obama", LuceneHelper.GetLuceneDirectory(outputPath));
+            Assert.NotNull(q2);
+            Assert.Contains("Barack Obama", q2.FirstOrDefault().Label);
         }
 
         //[Fact]

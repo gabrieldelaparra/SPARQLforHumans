@@ -31,9 +31,12 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             //Ranking:
+            Logger.Info("Building Graph");
             var nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
+            Logger.Info("Calculating Ranks");
             IndexRanker.CalculateRanks(nodesGraph, 25);
 
+            Logger.Info("Building Index");
             using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
@@ -51,32 +54,27 @@ namespace SparqlForHumans.Core.Services
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
                     foreach (var line in group)
-                        try
+                    {
+                        readCount++;
+
+                        if (readCount % NotifyTicks == 0)
+                            Logger.Info($"{readCount}");
+
+                        var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
+
+                        if (!hasDocument)
                         {
-                            readCount++;
-
-                            if (readCount % NotifyTicks == 0)
-                                Logger.Info($"{readCount}");
-
-                            var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
-
-                            if (!hasDocument)
-                            {
-                                var id = ntSubject.GetId();
-                                luceneDocument = new Document();
-                                entityProperties = new List<string>();
-                                luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES,
-                                    Field.Index.NOT_ANALYZED));
-                                hasDocument = true;
-                            }
-
-                            ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                            var id = ntSubject.GetId();
+                            Logger.Trace($"Indexing: {id}");
+                            luceneDocument = new Document();
+                            entityProperties = new List<string>();
+                            luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES,
+                                Field.Index.NOT_ANALYZED));
+                            hasDocument = true;
                         }
-                        catch (Exception e)
-                        {
-                            Logger.Error($"{readCount},{line}");
-                            Logger.Error(e);
-                        }
+
+                        ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                    }
 
                     luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
                     writer.AddDocument(luceneDocument);

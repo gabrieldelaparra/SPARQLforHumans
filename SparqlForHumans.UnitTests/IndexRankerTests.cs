@@ -43,7 +43,7 @@ namespace SparqlForHumans.UnitTests
             var filename = "Resources/buildGraph.nt";
             var nodesGraph = IndexRanker.BuildNodesGraph(filename);
 
-            IndexRanker.CalculateRanks(nodesGraph);
+            IndexRanker.CalculateRanks(nodesGraph,1);
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 

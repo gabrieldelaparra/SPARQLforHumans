@@ -1,34 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Documents;
-using Lucene.Net.Index;
-using Lucene.Net.Store;
-using SparqlForHumans.Core.Properties;
+using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Utilities;
-using VDS.RDF;
 
 namespace SparqlForHumans.Core.Services
 {
-    public class GraphNode
-    {
-        public string Id { get; set; }
-        public int Index { get; set; }
-        public List<string> ConnectedNodes { get; set; } = new List<string>();
-        public double Rank { get; set; }
-
-        public GraphNode(string id, int index)
-        {
-            Id = id;
-            Index = index;
-        }
-
-        public override string ToString()
-        {
-            return $"{Id} - {ConnectedNodes.Count}";
-        }
-    }
-
     public static class IndexRanker
     {
         public static double ToThreeDecimals(this double input)
@@ -78,19 +55,18 @@ namespace SparqlForHumans.Core.Services
             return list;
         }
 
-        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes, int iterations = 25)
+        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes, int iterations)
         {
+            var nodeCount = graphNodes.Count();
+
             for (var i = 0; i < iterations; i++)
             {
-                CalculateRanks(graphNodes);
+                IterateRank(graphNodes, nodeCount);
             }
         }
 
-        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes)
+        public static void IterateRank(IEnumerable<GraphNode> graphNodes, int nodeCount)
         {
-            //TODO: Check if this takes too much time for a large graph;
-            var nodeCount = graphNodes.Count();
-
             var noLinkRank = 0d;
             var ranks = new double[nodeCount];
 
@@ -101,12 +77,9 @@ namespace SparqlForHumans.Core.Services
                     var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Count;
                     foreach (var connectedNode in graphNode.ConnectedNodes)
                     {
-                        //TODO: This might take too much time. That's why it seems to be easier to work with indexes.
                         var destinationNode = graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode));
                         if (destinationNode != null)
                             ranks[destinationNode.Index] += share;
-                        else
-                            Console.WriteLine("shiet");
                     }
                 }
                 else
