@@ -6,10 +6,11 @@ namespace SparqlForHumans.CLI
     {
         static void Main(string[] args)
         {
-            var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+            var inputFilename = @"filtered-All-2MM.nt";
             //var inputFilename = @"Out-filtered-All-2MM.nt";
-            var outputFilename = "filtered-All-2MM.nt";
-            TriplesFilter.Filter(inputFilename, outputFilename, 2000000);
+            var outputFilename = "Out-filtered-All-500.nt";
+            TriplesFilter.Filter(inputFilename, outputFilename, 500);
 
             //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
 
