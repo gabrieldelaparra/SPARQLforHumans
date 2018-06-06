@@ -155,6 +155,26 @@ namespace SparqlForHumans.UnitTests
             line = "<http://www.wikidata.org/entity/P22> <http://www.wikidata.org/prop/direct/P1659> <http://www.wikidata.org/entity/P25> .";
             triple = line.GetTriple();
             Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Predicate: Other; Object: Literal ValidLanguage;
+            line = "<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#prefLabel> \"Northern Ireland\"@en .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            line = "<http://www.wikidata.org/entity/Q26> <http://schema.org/name> \"Northern Ireland\"@en .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Predicate: Other; Object: Literal NotValidLanguage;
+            line = "<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#prefLabel> \"Irlanda del Nord\"@it .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
+            //FAIL: Predicate: Other; Object: URI;
+            line = "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P349> <http://id.ndl.go.jp/auth/ndlna/00566023> .";
+            triple = line.GetTriple();
+            Assert.False(TriplesFilter.IsValidTriple(triple, 100));
+
         }
     }
 }

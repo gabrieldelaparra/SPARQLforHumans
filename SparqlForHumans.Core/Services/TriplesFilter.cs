@@ -11,11 +11,11 @@ namespace SparqlForHumans.Core.Services
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public static void Filter(string inputTriplesFilename, int triplesLimit)
-        {
-            var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
-            Filter(inputTriplesFilename, outputTriplesFilename, triplesLimit);
-        }
+        //public static void Filter(string inputTriplesFilename, int triplesLimit)
+        //{
+        //    var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+        //    Filter(inputTriplesFilename, outputTriplesFilename, triplesLimit);
+        //}
 
         /// <summary>
         ///     Reads an Wikidata GZipped N-triples dump.
@@ -100,18 +100,14 @@ namespace SparqlForHumans.Core.Services
             if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
                 return false;
 
-            if (ntSubject.IsEntityP())
-            {
-                switch (ntPredicate.GetPredicateType())
-                {
-                    case RDFExtensions.PredicateType.Other:
-                    case RDFExtensions.PredicateType.Property:
-                        return false;
-                }
-            }
+            if (ntSubject.IsEntityP() && ntPredicate.IsProperty())
+                return false;
 
             switch (ntPredicate.GetPredicateType())
             {
+                case RDFExtensions.PredicateType.Other:
+                    return false;
+
                 case RDFExtensions.PredicateType.Label:
                 case RDFExtensions.PredicateType.Description:
                 case RDFExtensions.PredicateType.AltLabel:
@@ -123,8 +119,9 @@ namespace SparqlForHumans.Core.Services
                     break;
             }
 
-            //Condition: Predicate is Property and Object is literal (not an URI node)
-            //takes out Population, birthdate, and stuff
+            //Condition: Predicate is Property (e.g. Population or Date)
+            //And Object is literal (not an URI node) (e.g. 100 or 1998)
+            //This rule filters out Population, birthdate, and stuff
             //TODO: This will be removed in the future to add search values.
             if (ntPredicate.IsProperty() && !ntObject.IsEntity())
                 return false;
