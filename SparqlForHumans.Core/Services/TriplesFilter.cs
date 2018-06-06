@@ -40,9 +40,9 @@ namespace SparqlForHumans.Core.Services
             if (outputFileInfo.Directory != null && !outputFileInfo.Directory.Exists)
                 outputFileInfo.Directory.Create();
 
-            var notifyTicks = 100000;
-            var readCount = 0;
-            var writeCount = 0;
+            const int notifyTicks = 100000;
+            long readCount = 0;
+            long writeCount = 0;
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
