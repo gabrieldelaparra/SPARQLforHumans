@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection.Metadata.Ecma335;
 using NLog;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -113,7 +112,7 @@ namespace SparqlForHumans.Core.Services
                 case RDFExtensions.PredicateType.AltLabel:
                     if (!ntObject.IsLiteral())
                         return false;
-                    //Condition: Object is Literal: Filter @en only
+                    //Condition: Object is Literal: Filter [@en, ...] only
                     else if (!ntObject.IsValidLanguageLiteral())
                         return false;
                     break;
