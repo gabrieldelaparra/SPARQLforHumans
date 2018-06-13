@@ -9,7 +9,7 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class FileHelper
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = Utilities.Logger.Init();
 
         public enum FileType
         {
