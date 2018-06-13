@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="4.5.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SparqlForHumans.Core\SparqlForHumans.Core.csproj" />
   </ItemGroup>
 
