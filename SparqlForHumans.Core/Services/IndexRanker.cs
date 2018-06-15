@@ -61,11 +61,11 @@ namespace SparqlForHumans.Core.Services
 
             for (var i = 0; i < iterations; i++)
             {
-                IterateRank(graphNodes, nodeCount);
+                graphNodes.IterateRank(nodeCount);
             }
         }
 
-        public static void IterateRank(IEnumerable<GraphNode> graphNodes, int nodeCount)
+        public static void IterateRank(this IEnumerable<GraphNode> graphNodes, int nodeCount)
         {
             var noLinkRank = 0d;
             var ranks = new double[nodeCount];
