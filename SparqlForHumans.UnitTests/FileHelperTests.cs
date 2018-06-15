@@ -82,39 +82,39 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(5, FileHelper.GetLineCount(outputFilename));
         }
 
-        [Fact]
-        public void TestTrimLargeGZipFile()
-        {
-            var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz";
-            var outputFilename = "TrimmedTestSet.nt";
+        //[Fact]
+        //public void TestTrimLargeGZipFile()
+        //{
+        //    var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz";
+        //    var outputFilename = "TrimmedTestSet.nt";
 
-            if (File.Exists(outputFilename))
-                File.Delete(outputFilename);
+        //    if (File.Exists(outputFilename))
+        //        File.Delete(outputFilename);
 
-            var limit = 50000;
+        //    var limit = 50000;
 
-            FileHelper.TrimFile(filename, outputFilename, limit);
+        //    FileHelper.TrimFile(filename, outputFilename, limit);
 
-            Assert.True(File.Exists(outputFilename));
-            Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
-        }
+        //    Assert.True(File.Exists(outputFilename));
+        //    Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
+        //}
 
-        [Fact]
-        public void TestTrimLargeNTFile()
-        {
-            var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-            var outputFilename = "TrimmedTestSet.nt";
+        //[Fact]
+        //public void TestTrimLargeNTFile()
+        //{
+        //    var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
+        //    var outputFilename = "TrimmedTestSet.nt";
 
-            if (File.Exists(outputFilename))
-                File.Delete(outputFilename);
+        //    if (File.Exists(outputFilename))
+        //        File.Delete(outputFilename);
 
-            var limit = 50000;
+        //    var limit = 50000;
 
-            FileHelper.TrimFile(filename, outputFilename, limit);
+        //    FileHelper.TrimFile(filename, outputFilename, limit);
 
-            Assert.True(File.Exists(outputFilename));
-            Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
-        }
+        //    Assert.True(File.Exists(outputFilename));
+        //    Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
+        //}
 
         [Fact]
         public void TestGetOrCreateDirectory()
