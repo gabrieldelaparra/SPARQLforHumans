@@ -1,4 +1,5 @@
 ﻿using SparqlForHumans.Core.Services;
+using System;
 
 namespace SparqlForHumans.CLI
 {
@@ -7,13 +8,14 @@ namespace SparqlForHumans.CLI
         static void Main(string[] args)
         {
             //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-            var inputFilename = @"filtered-All-2MM.nt";
+            var inputFilename = @"C:\Users\delapa\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
+            //var inputFilename = @"filtered-All-2MM.nt";
             //var inputFilename = @"Out-filtered-All-2MM.nt";
 
             //var outputFilename = "filtered-All-2MM.nt";
-            var outputFilename = "filtered-All-500.nt";
+            var outputFilename = "filtered-All.nt";
 
-            //TriplesFilter.Filter(inputFilename, outputFilename, 500);
+            TriplesFilter.Filter(inputFilename, outputFilename, 2147483647);
 
             //GetLineCount(@"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz");
 
