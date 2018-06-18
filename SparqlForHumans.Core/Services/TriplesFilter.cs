@@ -93,11 +93,13 @@ namespace SparqlForHumans.Core.Services
 
             //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
             //Condition: Object is Q-Entity and Q > triplesLimit: Skip
-            if (ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
-                return false;
+            if (entityLimit > 0)
+                if (ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
+                    return false;
 
-            if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
-                return false;
+            if (entityLimit > 0)
+                if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
+                    return false;
 
             if (ntSubject.IsEntityP() && ntPredicate.IsProperty())
                 return false;
