@@ -25,7 +25,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(Directory.Exists(outputPath));
 
-            IndexBuilder.CreateIndex(filename, outputPath);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
 
             Assert.True(Directory.Exists(outputPath));
 
@@ -66,10 +66,10 @@ namespace SparqlForHumans.UnitTests
             var outputPath2 = "IndexRank2";
 
             if (!Directory.Exists(outputPath1))
-                IndexBuilder.CreateIndex(filename, outputPath1, true);
+                IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
 
             if (!Directory.Exists(outputPath2))
-                IndexBuilder.CreateIndex(filename, outputPath2, false);
+                IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
 
             var found = 0;
 
@@ -127,7 +127,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(Directory.Exists(outputPath));
 
-            IndexBuilder.CreateIndex(filename, outputPath);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
 
             Assert.True(Directory.Exists(outputPath));
 

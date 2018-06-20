@@ -21,7 +21,7 @@ namespace SparqlForHumans.Core.Services
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
-        public static void CreateIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
             var nodeCount = 0;
@@ -66,6 +66,10 @@ namespace SparqlForHumans.Core.Services
                             Logger.Info($"{readCount:N0}");
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
+
+                        //TODO: Test;
+                        if (!ntSubject.IsEntityQ())
+                            continue;
 
                         if (!hasDocument)
                         {
