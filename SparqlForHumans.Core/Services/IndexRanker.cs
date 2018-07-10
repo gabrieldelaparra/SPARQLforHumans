@@ -8,12 +8,15 @@ namespace SparqlForHumans.Core.Services
 {
     public static class IndexRanker
     {
+        private static readonly NLog.Logger Logger = Utilities.Logger.Init();
+
         public static double ToThreeDecimals(this double input)
         {
             return Math.Truncate(input * 1000) / 1000;
         }
 
         private static double pageRankAlpha = 0.85d;
+        public static int NotifyTicks { get; } = 1000;
 
         public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
         {
@@ -25,6 +28,9 @@ namespace SparqlForHumans.Core.Services
 
             foreach (var group in groups)
             {
+                if (nodeCount % NotifyTicks == 0)
+                    Logger.Info($"Group: {nodeCount:N0}");
+
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 var entityNode = new GraphNode(subjectId, nodeCount);
 
@@ -61,11 +67,12 @@ namespace SparqlForHumans.Core.Services
 
             for (var i = 0; i < iterations; i++)
             {
-                graphNodes.IterateRank(nodeCount);
+                Logger.Info($"Iteration: {i}");
+                IterateRank(graphNodes, nodeCount);
             }
         }
 
-        public static void IterateRank(this IEnumerable<GraphNode> graphNodes, int nodeCount)
+        public static void IterateRank(IEnumerable<GraphNode> graphNodes, int nodeCount)
         {
             var noLinkRank = 0d;
             var ranks = new double[nodeCount];
