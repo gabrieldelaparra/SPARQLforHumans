@@ -60,7 +60,7 @@ namespace SparqlForHumans.UnitTests
             TriplesFilter.Filter(filename, outputFilename, 0);
 
             Assert.True(File.Exists(outputFilename));
-            Assert.Equal(0, FileHelper.GetLineCount(outputFilename));
+            Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));
         }
 
         [Fact]

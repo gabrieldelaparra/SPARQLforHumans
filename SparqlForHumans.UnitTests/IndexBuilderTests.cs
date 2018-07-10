@@ -51,11 +51,6 @@ namespace SparqlForHumans.UnitTests
             var q1 = QueryService.QueryByLabel("Berlin", LuceneHelper.GetLuceneDirectory(outputPath));
             Assert.NotNull(q1);
             Assert.Contains("Berlin", q1.FirstOrDefault().Label);
-
-            var q2 = QueryService.QueryByLabel("Obama", LuceneHelper.GetLuceneDirectory(outputPath));
-            Assert.NotNull(q2);
-            Assert.NotEmpty(q2);
-            Assert.Contains("Barack Obama", q1.FirstOrDefault().Label);
         }
 
         [Fact]
