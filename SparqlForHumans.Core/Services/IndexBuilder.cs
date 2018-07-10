@@ -21,6 +21,11 @@ namespace SparqlForHumans.Core.Services
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
+        public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory)
+        {
+
+        }
+
         public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
