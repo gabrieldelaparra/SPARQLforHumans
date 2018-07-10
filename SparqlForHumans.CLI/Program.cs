@@ -9,17 +9,19 @@ namespace SparqlForHumans.CLI
         {
             //var inputFilename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
             //var inputFilename = @"C:\Users\delapa\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
-            var inputFilename = @"C:\Users\delapa\Desktop\DCC\SparQLforHumans.Dataset\filtered-All.nt.gz";
+            //var inputFilename = @"C:\Users\delapa\Desktop\DCC\SparQLforHumans.Dataset\filtered-All.nt.gz";
             //var inputFilename = @"filtered-All-2MM.nt";
             //var inputFilename = @"Out-filtered-All-2MM.nt";
-
             //var outputFilename = "filtered-All-2MM.nt";
             //var outputFilename = "filtered-All.nt";
-            var outputPath = "IndexFull";
+            //var outputPath = "IndexFull";
 
-            //TriplesFilter.Filter(inputFilename, outputFilename, -1);
+            //TriplesFilter.Filter(inputFilename, outputFilename, 2000000);
 
-            if(Directory.Exists(outputPath))
+            var inputFilename = @"filtered-All-2MM.nt";
+            var outputPath = "Index2MM";
+
+            if (Directory.Exists(outputPath))
                 Directory.Delete(outputPath, true);
 
             IndexBuilder.CreateEntitiesIndex(inputFilename, outputPath);
