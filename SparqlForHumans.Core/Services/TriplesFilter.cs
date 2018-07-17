@@ -8,7 +8,7 @@ namespace SparqlForHumans.Core.Services
 {
     public class TriplesFilter
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = Utilities.Logger.Init();
 
         //public static void Filter(string inputTriplesFilename, int triplesLimit)
         //{
@@ -54,7 +54,7 @@ namespace SparqlForHumans.Core.Services
                     readCount++;
 
                     if (readCount % notifyTicks == 0)
-                        Logger.Info($"{readCount},{writeCount}");
+                        Logger.Info($"{readCount:N0};{writeCount:N0}");
 
                     try
                     {
@@ -68,12 +68,12 @@ namespace SparqlForHumans.Core.Services
                     }
                     catch (Exception e)
                     {
-                        Logger.Error($"{readCount},{line}");
+                        Logger.Error($"{readCount:N0};{line}");
                         Logger.Error(e);
                     }
                 }
 
-                Logger.Info($"{readCount},{writeCount}");
+                Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
         }
 

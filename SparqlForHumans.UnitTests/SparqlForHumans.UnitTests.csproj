@@ -12,6 +12,7 @@
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
+    <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\trimmed.nt" />
@@ -31,6 +32,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraph.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\filtered-All-500.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\filtered.nt">

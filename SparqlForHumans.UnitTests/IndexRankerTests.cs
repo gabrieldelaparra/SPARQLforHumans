@@ -28,7 +28,7 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(2, nodesGraph.ElementAt(3).ConnectedNodes.Count);
             Assert.Equal(6, nodesGraph.ElementAt(4).ConnectedNodes.Count);
             Assert.Equal(2, nodesGraph.ElementAt(5).ConnectedNodes.Count);
-            Assert.Equal(0, nodesGraph.ElementAt(6).ConnectedNodes.Count);
+            Assert.Empty(nodesGraph.ElementAt(6).ConnectedNodes);
 
             var initialRank = 1d / entitiesCount;
             foreach (var graphNode in nodesGraph)

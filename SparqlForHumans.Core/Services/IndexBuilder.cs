@@ -5,6 +5,7 @@ using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Util;
 using NLog;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
@@ -15,7 +16,7 @@ namespace SparqlForHumans.Core.Services
 {
     public static class IndexBuilder
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly NLog.Logger Logger = Utilities.Logger.Init();
 
         public static int NotifyTicks { get; } = 100000;
 
@@ -24,7 +25,7 @@ namespace SparqlForHumans.Core.Services
         public static void CreateIndex(string inputTriplesFilename, string outputDirectory)
         {
             long readCount = 0;
-            int nodeCount = 0;
+            var nodeCount = 0;
             Options.InternUris = false;
             Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
@@ -58,7 +59,7 @@ namespace SparqlForHumans.Core.Services
                         readCount++;
 
                         if (readCount % NotifyTicks == 0)
-                            Logger.Info($"{readCount}");
+                            Logger.Info($"{readCount:N0}");
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
@@ -82,7 +83,7 @@ namespace SparqlForHumans.Core.Services
                 }
 
                 writer.Dispose();
-                Logger.Info($"{readCount}");
+                Logger.Info($"{readCount:N0}");
             }
 
             Analyzer.Close();
