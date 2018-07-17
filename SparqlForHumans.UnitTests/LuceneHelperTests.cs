@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests
                 Directory.Delete(outputPath, true);
 
             Assert.False(Directory.Exists(outputPath));
-            IndexBuilder.CreateIndex(filename, outputPath);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
             Assert.True(Directory.Exists(outputPath));
 
             Assert.Equal(entitiesCount, LuceneHelper.GetLuceneDirectory(outputPath).GetDocumentCount());
@@ -37,7 +37,7 @@ namespace SparqlForHumans.UnitTests
             if (Directory.Exists(outputPath))
                 Directory.Delete(outputPath, true);
 
-            IndexBuilder.CreateIndex(filename, outputPath);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
 
             var luceneDirectory = LuceneHelper.GetLuceneDirectory(outputPath);
             Assert.False(luceneDirectory.HasRank());

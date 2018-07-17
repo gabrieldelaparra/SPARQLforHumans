@@ -85,7 +85,8 @@ namespace SparqlForHumans.Core.Utilities
                     lines = ReadLines(inputTriples);
                     break;
                 case FileType.gZip:
-                    lines = GZipHandler.ReadGZip(inputTriples);
+                    //lines = GZipHandler.ReadGZip(inputTriples);
+                    lines = SharpZipHandler.ReadGZip(inputTriples);
                     break;
                 default:
                 case FileType.Unkwown:

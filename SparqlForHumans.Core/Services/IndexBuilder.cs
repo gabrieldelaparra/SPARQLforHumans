@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
@@ -7,6 +6,7 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Util;
 using NLog;
+using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -22,7 +22,7 @@ namespace SparqlForHumans.Core.Services
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
-        public static void CreateIndex(string inputTriplesFilename, string outputDirectory)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
             var nodeCount = 0;
@@ -31,11 +31,16 @@ namespace SparqlForHumans.Core.Services
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            //Ranking:
-            Logger.Info("Building Graph");
-            var nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
-            Logger.Info("Calculating Ranks");
-            IndexRanker.CalculateRanks(nodesGraph, 25);
+            IEnumerable<GraphNode> nodesGraph = new List<GraphNode>();
+
+            if (addBoosts)
+            {
+                //Ranking:
+                Logger.Info("Building Graph");
+                nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
+                Logger.Info("Calculating Ranks");
+                IndexRanker.CalculateRanks(nodesGraph, 25);
+            }
 
             Logger.Info("Building Index");
             using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
@@ -63,21 +68,29 @@ namespace SparqlForHumans.Core.Services
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
+                        //TODO: Test;
+                        if (!ntSubject.IsEntityQ())
+                            continue;
+
                         if (!hasDocument)
                         {
                             var id = ntSubject.GetId();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             entityProperties = new List<string>();
-                            luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES,
-                                Field.Index.NOT_ANALYZED));
+                            var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
+                                Field.Index.NOT_ANALYZED);
+
+                            luceneDocument.Add(field);
                             hasDocument = true;
                         }
 
                         ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
                     }
 
-                    luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
+                    if (addBoosts)
+                        luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
+
                     writer.AddDocument(luceneDocument);
                     nodeCount++;
                 }

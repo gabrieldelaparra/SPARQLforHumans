@@ -11,7 +11,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterSome()
         {
-            var filename = @"TrimmedTestSet.nt";
+            var filename = @"Resources/trimmed.nt";
             Assert.True(File.Exists(filename));
 
             var limit = 500;
@@ -45,7 +45,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterZero()
         {
-            var filename = @"TrimmedTestSet.nt";
+            var filename = @"Resources/trimmed.nt";
             Assert.True(File.Exists(filename));
 
             var limit = 0;
