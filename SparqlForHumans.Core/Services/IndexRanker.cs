@@ -13,7 +13,7 @@ namespace SparqlForHumans.Core.Services
             return Math.Truncate(input * 1000) / 1000;
         }
 
-        private static double pageRankAlpha = 0.85d;
+        private static float pageRankAlpha = 0.85f;
 
         public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
         {
@@ -27,7 +27,7 @@ namespace SparqlForHumans.Core.Services
             {
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 var entityNode = new GraphNode(subjectId, nodeCount);
-
+                var entityNodeConnections = new List<string>();
                 foreach (var line in group)
                 {
                     var (_, _, ntObject) = line.GetTripleAsTuple();
@@ -37,9 +37,11 @@ namespace SparqlForHumans.Core.Services
 
                     var objectId = ntObject.GetId();
 
-                    if (!entityNode.ConnectedNodes.Contains(objectId))
-                        entityNode.ConnectedNodes.Add(objectId);
+                    if (!entityNodeConnections.Contains(objectId))
+                        entityNodeConnections.Add(objectId);
                 }
+
+                entityNode.ConnectedNodes = entityNodeConnections.ToArray();
 
                 list.Add(entityNode);
                 nodeCount++;
@@ -61,20 +63,83 @@ namespace SparqlForHumans.Core.Services
 
             for (var i = 0; i < iterations; i++)
             {
-                graphNodes.IterateRank(nodeCount);
+                IterateRank(graphNodes, nodeCount);
             }
         }
 
-        public static void IterateRank(this IEnumerable<GraphNode> graphNodes, int nodeCount)
+        private static double[] rankGraph(int[][] graph, int iterations)
+        {
+            var nodesCount = graph.Length;
+
+            var oldRanks = new double[nodesCount];
+
+            var initial = 1d / nodesCount;
+
+            for (int i = 0; i < nodesCount; i++)
+            {
+                oldRanks[i] = initial;
+            }
+
+            double[] ranks = null;
+            for (var i = 0; i < iterations; i++)
+            {
+                ranks = iterateGraph(graph, nodesCount, oldRanks);
+                Console.WriteLine("Iteration " + i + " finished!");
+            }
+
+            return ranks;
+        }
+
+        private static double[] iterateGraph(int[][] graph, int nodes, double[] oldRanks)
         {
             var noLinkRank = 0d;
+            var ranks = new double[nodes];
+
+            for (var i = 0; i < nodes; i++)
+            {
+                if (graph[i] != null)
+                {
+                    var outGraph = graph[i];
+                    var share = oldRanks[i] * pageRankAlpha / outGraph.Length;
+                    foreach (var j in outGraph)
+                    {
+                        ranks[j] += share;
+                    }
+                }
+                else
+                {
+                    noLinkRank += oldRanks[i];
+                }
+            }
+
+            var shareNoLink = (noLinkRank * pageRankAlpha) / nodes;
+
+            var shareMinusD = (1d - pageRankAlpha) / nodes;
+
+            var weakRank = shareNoLink + shareMinusD;
+
+            for (var i = 0; i < nodes; i++)
+            {
+                ranks[i] += weakRank;
+            }
+
+            Array.Copy(ranks, 0, oldRanks, 0, nodes);
+            return ranks;
+        }
+
+        public static void IterateRank(IEnumerable<GraphNode> graphNodes, int nodeCount)
+        {
+            var noLinkRank = 0d;
+            //Change for float; Save space;
             var ranks = new double[nodeCount];
 
             foreach (var graphNode in graphNodes)
             {
                 if (graphNode.ConnectedNodes.Any())
                 {
-                    var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Count;
+                    //Change Count, pass it as a value.
+                    //Check if Count is constant time. OTHERWISE CREATE A SIZE VAR WHATEVER;
+                    var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Length;
                     foreach (var connectedNode in graphNode.ConnectedNodes)
                     {
                         var destinationNode = graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode));
