@@ -51,11 +51,6 @@ namespace SparqlForHumans.UnitTests
             var q1 = QueryService.QueryByLabel("Berlin", LuceneHelper.GetLuceneDirectory(outputPath));
             Assert.NotNull(q1);
             Assert.Contains("Berlin", q1.FirstOrDefault().Label);
-
-            var q2 = QueryService.QueryByLabel("Obama", LuceneHelper.GetLuceneDirectory(outputPath));
-            Assert.NotNull(q2);
-            Assert.NotEmpty(q2);
-            Assert.Contains("Barack Obama", q1.FirstOrDefault().Label);
         }
 
         [Fact]
@@ -65,11 +60,14 @@ namespace SparqlForHumans.UnitTests
             var outputPath1 = "IndexRank1";
             var outputPath2 = "IndexRank2";
 
-            if (!Directory.Exists(outputPath1))
-                IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
+            if (Directory.Exists(outputPath1))
+                Directory.Delete(outputPath1, true);
 
-            if (!Directory.Exists(outputPath2))
-                IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
+            if (Directory.Exists(outputPath2))
+                Directory.Delete(outputPath2, true);
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
 
             var found = 0;
 

@@ -13,11 +13,6 @@ namespace SparqlForHumans.Core.Services
             return Math.Truncate(input * 1000) / 1000;
         }
 
-        //public static float ToThreeDecimals(this float input)
-        //{
-        //    return (float)Math.Truncate(input * 1000) / 1000;
-        //}
-
         private static double pageRankAlpha = 0.85d;
 
         //Read the file once
@@ -40,7 +35,6 @@ namespace SparqlForHumans.Core.Services
             return dictionary;
         }
 
-        //TODO: Test
         //Read the file twice
         //Order n. Suponiendo que dictionary tiene orden 1.
         public static int[][] BuildSimpleNodesGraph(string triplesFilename)
@@ -134,7 +128,6 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        //TODO: Test
         //Order n
         public static double[] CalculateRanks(int[][] graphNodes, int iterations)
         {
