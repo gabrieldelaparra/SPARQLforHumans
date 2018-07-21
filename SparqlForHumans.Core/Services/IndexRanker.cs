@@ -13,7 +13,73 @@ namespace SparqlForHumans.Core.Services
             return Math.Truncate(input * 1000) / 1000;
         }
 
-        private static float pageRankAlpha = 0.85f;
+        //public static float ToThreeDecimals(this float input)
+        //{
+        //    return (float)Math.Truncate(input * 1000) / 1000;
+        //}
+
+        private static double pageRankAlpha = 0.85d;
+
+        //Read the file once
+        //Order n
+        public static Dictionary<string, int> BuildNodesDictionary(string triplesFilename)
+        {
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var groups = lines.GroupByEntities();
+
+            var nodeCount = 0;
+            var dictionary = new Dictionary<string, int>();
+
+            foreach (var group in groups)
+            {
+                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+                dictionary.Add(subjectId, nodeCount);
+                nodeCount++;
+            }
+
+            return dictionary;
+        }
+
+        //TODO: Test
+        //Read the file twice
+        //Order n. Suponiendo que dictionary tiene orden 1.
+        public static int[][] BuildSimpleNodesGraph(string triplesFilename)
+        {
+            var nodesDictionary = BuildNodesDictionary(triplesFilename);
+
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var groups = lines.GroupByEntities();
+
+            var nodeCount = nodesDictionary.Count;
+            var nodeArray = new int[nodeCount][];
+
+            foreach (var group in groups)
+            {
+                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+                nodesDictionary.TryGetValue(subjectId, out int subjectIndex);
+
+                var entityNode = new GraphNode(subjectId, nodeCount);
+                var entityNodeConnections = new List<int>();
+
+                foreach (var line in group)
+                {
+                    var (_, _, ntObject) = line.GetTripleAsTuple();
+
+                    if (!ntObject.IsEntity())
+                        continue;
+
+                    var objectId = ntObject.GetId();
+                    nodesDictionary.TryGetValue(objectId, out int objectIndex);
+
+                    if (!entityNodeConnections.Contains(objectIndex))
+                        entityNodeConnections.Add(objectIndex);
+                }
+
+                nodeArray[subjectIndex] = entityNodeConnections.ToArray();
+            }
+
+            return nodeArray;
+        }
 
         public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
         {
@@ -26,6 +92,7 @@ namespace SparqlForHumans.Core.Services
             foreach (var group in groups)
             {
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+
                 var entityNode = new GraphNode(subjectId, nodeCount);
                 var entityNodeConnections = new List<string>();
                 foreach (var line in group)
@@ -67,41 +134,50 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        private static double[] rankGraph(int[][] graph, int iterations)
+        //TODO: Test
+        //Order n
+        public static double[] CalculateRanks(int[][] graphNodes, int iterations)
         {
-            var nodesCount = graph.Length;
+            var nodesCount = graphNodes.Length;
 
+            var oldRanks = CalculateInitialRanks(nodesCount);
+
+            for (var i = 0; i < iterations; i++)
+            {
+                oldRanks = IterateGraph(graphNodes, oldRanks);
+                Console.WriteLine("Iteration " + i + " finished!");
+            }
+
+            return oldRanks;
+        }
+
+        //Order n
+        private static double[] CalculateInitialRanks(int nodesCount)
+        {
             var oldRanks = new double[nodesCount];
 
             var initial = 1d / nodesCount;
 
-            for (int i = 0; i < nodesCount; i++)
+            for (var i = 0; i < nodesCount; i++)
             {
                 oldRanks[i] = initial;
             }
 
-            double[] ranks = null;
-            for (var i = 0; i < iterations; i++)
-            {
-                ranks = iterateGraph(graph, nodesCount, oldRanks);
-                Console.WriteLine("Iteration " + i + " finished!");
-            }
-
-            return ranks;
+            return oldRanks;
         }
 
-        private static double[] iterateGraph(int[][] graph, int nodes, double[] oldRanks)
+        private static double[] IterateGraph(int[][] graph, double[] oldRanks)
         {
             var noLinkRank = 0d;
-            var ranks = new double[nodes];
+            var nodesCount = graph.Length;
+            var ranks = new double[nodesCount];
 
-            for (var i = 0; i < nodes; i++)
+            for (var i = 0; i < nodesCount; i++)
             {
-                if (graph[i] != null)
+                if (graph[i].Length > 0)
                 {
-                    var outGraph = graph[i];
-                    var share = oldRanks[i] * pageRankAlpha / outGraph.Length;
-                    foreach (var j in outGraph)
+                    var share = oldRanks[i] * pageRankAlpha / graph[i].Length;
+                    foreach (var j in graph[i])
                     {
                         ranks[j] += share;
                     }
@@ -112,18 +188,19 @@ namespace SparqlForHumans.Core.Services
                 }
             }
 
-            var shareNoLink = (noLinkRank * pageRankAlpha) / nodes;
-
-            var shareMinusD = (1d - pageRankAlpha) / nodes;
-
+            var shareNoLink = noLinkRank * pageRankAlpha / nodesCount;
+            var shareMinusD = (1d - pageRankAlpha) / nodesCount;
             var weakRank = shareNoLink + shareMinusD;
 
-            for (var i = 0; i < nodes; i++)
+            for (var i = 0; i < nodesCount; i++)
             {
                 ranks[i] += weakRank;
             }
 
-            Array.Copy(ranks, 0, oldRanks, 0, nodes);
+            if (ranks.Sum() != 1)
+                Console.WriteLine("error");
+
+            //Array.Copy(ranks, 0, oldRanks, 0, nodesCount);
             return ranks;
         }
 

@@ -52,6 +52,16 @@ namespace SparqlForHumans.Core.Utilities
             return g.Triples.Last();
         }
 
+        //TODO: Test
+        public static string GetTripleId(this string inputLine)
+        {
+            return inputLine.Split(" ")
+                .FirstOrDefault()
+                .Replace(WikidataDump.EntityIRI, 
+                    string.Empty,
+                    StringComparison.CurrentCultureIgnoreCase);
+        }
+
         public static bool IsUriNode(this INode node)
         {
             return node.NodeType.Equals(NodeType.Uri);
@@ -86,11 +96,6 @@ namespace SparqlForHumans.Core.Utilities
         {
             return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty;
         }
-
-        //public static bool IsValidSubject(this INode subject)
-        //{
-        //    return subject.IsEntity();
-        //}
 
         public static bool IsEntity(this INode node)
         {
