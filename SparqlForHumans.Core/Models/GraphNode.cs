@@ -6,7 +6,8 @@ namespace SparqlForHumans.Core.Models
     {
         public string Id { get; set; }
         public int Index { get; set; }
-        public List<string> ConnectedNodes { get; set; } = new List<string>();
+        //Just store the index, not the name of the node.
+        public string[] ConnectedNodes { get; set; }
         public double Rank { get; set; }
 
         public GraphNode(string id, int index)
@@ -17,7 +18,7 @@ namespace SparqlForHumans.Core.Models
 
         public override string ToString()
         {
-            return $"{Id} - {ConnectedNodes.Count}";
+            return $"{Id} - {ConnectedNodes.Length}";
         }
     }
 }
