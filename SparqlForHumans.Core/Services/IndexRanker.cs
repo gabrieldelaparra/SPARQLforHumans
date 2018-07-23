@@ -8,6 +8,9 @@ namespace SparqlForHumans.Core.Services
 {
     public static class IndexRanker
     {
+        private static readonly NLog.Logger Logger = Utilities.Logger.Init();
+        public static int NotifyTicks { get; } = 1000;
+
         public static double ToThreeDecimals(this double input)
         {
             return Math.Truncate(input * 1000) / 1000;
@@ -27,6 +30,9 @@ namespace SparqlForHumans.Core.Services
 
             foreach (var group in groups)
             {
+                if (nodeCount % NotifyTicks == 0)
+                    Logger.Info($"Group: {nodeCount:N0}");
+
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 dictionary.Add(subjectId, nodeCount);
                 nodeCount++;
@@ -49,6 +55,9 @@ namespace SparqlForHumans.Core.Services
 
             foreach (var group in groups)
             {
+                if (nodeCount % NotifyTicks == 0)
+                    Logger.Info($"Group: {nodeCount:N0}");
+
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 nodesDictionary.TryGetValue(subjectId, out int subjectIndex);
 
@@ -124,6 +133,7 @@ namespace SparqlForHumans.Core.Services
 
             for (var i = 0; i < iterations; i++)
             {
+                Logger.Info($"Iteration: {i}");
                 IterateRank(graphNodes, nodeCount);
             }
         }
