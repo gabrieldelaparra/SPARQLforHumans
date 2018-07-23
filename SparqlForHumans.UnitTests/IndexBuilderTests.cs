@@ -60,11 +60,14 @@ namespace SparqlForHumans.UnitTests
             var outputPath1 = "IndexRank1";
             var outputPath2 = "IndexRank2";
 
-            if (!Directory.Exists(outputPath1))
-                IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
+            if (Directory.Exists(outputPath1))
+                Directory.Delete(outputPath1, true);
 
-            if (!Directory.Exists(outputPath2))
-                IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
+            if (Directory.Exists(outputPath2))
+                Directory.Delete(outputPath2, true);
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
 
             var found = 0;
 

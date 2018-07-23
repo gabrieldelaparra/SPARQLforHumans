@@ -43,7 +43,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestFilterZero()
+        public void TestNoFilter()
         {
             var filename = @"Resources/trimmed.nt";
             Assert.True(File.Exists(filename));

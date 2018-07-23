@@ -4,6 +4,7 @@ using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Util;
 using NLog;
 using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
@@ -35,15 +36,18 @@ namespace SparqlForHumans.Core.Services
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            IEnumerable<GraphNode> nodesGraph = new List<GraphNode>();
+            //IEnumerable<GraphNode> nodesGraph = new List<GraphNode>();
+            double[] nodesGraphRanks = null;
 
             if (addBoosts)
             {
                 //Ranking:
                 Logger.Info("Building Graph");
-                nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
+                //nodesGraph = IndexRanker.BuildNodesGraph(inputTriplesFilename);
+                var nodesGraphArray = IndexRanker.BuildSimpleNodesGraph(inputTriplesFilename);
                 Logger.Info("Calculating Ranks");
-                IndexRanker.CalculateRanks(nodesGraph, 25);
+                nodesGraphRanks = IndexRanker.CalculateRanks(nodesGraphArray, 25);
+                //IndexRanker.CalculateRanks(nodesGraph, 25);
             }
 
             Logger.Info("Building Index");
@@ -93,7 +97,8 @@ namespace SparqlForHumans.Core.Services
                     }
 
                     if (addBoosts)
-                        luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
+                        luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
+                        //luceneDocument.Boost = (float)nodesGraph.ElementAt(nodeCount).Rank;
 
                     writer.AddDocument(luceneDocument);
                     nodeCount++;
