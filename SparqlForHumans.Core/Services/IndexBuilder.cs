@@ -22,11 +22,80 @@ namespace SparqlForHumans.Core.Services
 
         public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
 
+        // PropertyIndex:
+        /// Include Subjects only if Id starts with P;
+        /// Rank with frequency;
         public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory)
         {
+            long readCount = 0;
+            var nodeCount = 0;
+            Options.InternUris = false;
+            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
+            var lines = FileHelper.GetInputLines(inputTriplesFilename);
+            Logger.Info("Building Index");
+            using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                //Group them by QCode.
+                var entiyGroups = lines.GroupByEntities();
+
+                //A list to check and not add the same property twice
+                var entityProperties = new List<string>();
+
+                //Lucene document for each entity
+                var luceneDocument = new Document();
+
+                foreach (var group in entiyGroups)
+                {
+                    //Flag to create a new Lucene Document
+                    var hasDocument = false;
+                    foreach (var line in group)
+                    {
+                        readCount++;
+
+                        if (readCount % NotifyTicks == 0)
+                            Logger.Info($"{readCount:N0}");
+
+                        var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
+
+                        //Excludes Entities, will only add properties.
+                        if (!ntSubject.IsEntityP())
+                            continue;
+
+                        if (!hasDocument)
+                        {
+                            var id = ntSubject.GetId();
+                            Logger.Trace($"Indexing: {id}");
+                            luceneDocument = new Document();
+                            entityProperties = new List<string>();
+                            var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
+                                Field.Index.NOT_ANALYZED);
+
+                            luceneDocument.Add(field);
+                            hasDocument = true;
+                        }
+
+                        ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                    }
+
+                    //luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
+
+                    writer.AddDocument(luceneDocument);
+                    nodeCount++;
+                }
+
+                writer.Dispose();
+                Logger.Info($"{readCount:N0}");
+            }
+
+            Analyzer.Close();
         }
 
+        /// EntitiesIndex
+        /// Include Subjects only if Id starts with Q;
+        /// Rank with boosts;
+        /// Entities have properties, not sure if properties have properties;
         public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
@@ -73,7 +142,7 @@ namespace SparqlForHumans.Core.Services
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
-                        //TODO: Test;
+                        //Excludes Properties, will only add entities.
                         if (!ntSubject.IsEntityQ())
                             continue;
 
