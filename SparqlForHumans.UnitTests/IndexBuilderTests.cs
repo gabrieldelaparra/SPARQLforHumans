@@ -54,7 +54,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestIfItsRanking()
+        public void TestHasRanking()
         {
             var filename = "Resources/filtered-All-500.nt";
             var outputPath1 = "IndexRank1";

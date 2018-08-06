@@ -123,9 +123,6 @@ namespace SparqlForHumans.Core.Services
                 //Group them by QCode.
                 var entiyGroups = lines.GroupByEntities();
 
-                //A list to check and not add the same property twice
-                var entityProperties = new List<string>();
-
                 //Lucene document for each entity
                 var luceneDocument = new Document();
 
@@ -151,7 +148,6 @@ namespace SparqlForHumans.Core.Services
                             var id = ntSubject.GetId();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
-                            entityProperties = new List<string>();
                             var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
                                 Field.Index.NOT_ANALYZED);
 
@@ -159,7 +155,7 @@ namespace SparqlForHumans.Core.Services
                             hasDocument = true;
                         }
 
-                        ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                        ParsePredicate(ntPredicate, ntObject, luceneDocument);
                     }
 
                     if (addBoosts)
@@ -176,7 +172,7 @@ namespace SparqlForHumans.Core.Services
             Analyzer.Close();
         }
 
-        private static void ParsePredicate(INode ntPredicate, INode ntObject, List<string> entityProperties, Document luceneDocument)
+        private static void ParsePredicate(INode ntPredicate, INode ntObject, Document luceneDocument)
         {
             // On the existing Subject
             // If the predicate is a Propery, add the property to a list of Properties and link it to the entity.
@@ -186,7 +182,7 @@ namespace SparqlForHumans.Core.Services
             switch (ntPredicate.GetPredicateType())
             {
                 case RDFExtensions.PredicateType.Property:
-                    ParsePropertyPredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                    ParsePropertyPredicate(ntPredicate, ntObject, luceneDocument);
                     break;
                 case RDFExtensions.PredicateType.Label:
                     luceneDocument.Add(new Field(Labels.Label.ToString(), ntObject.GetLiteralValue(),
@@ -205,18 +201,12 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
-        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, ICollection<string> entityProperties,
-            Document luceneDocument)
+        private static void ParsePropertyPredicate(INode ntPredicate, INode ntObject, Document luceneDocument)
         {
             var propertyCode = ntPredicate.GetId();
 
-            //Do not add the same property twice in the document. The values will be added twice in the PropertyAndValue list;
-            if (!entityProperties.Contains(propertyCode))
-            {
-                entityProperties.Add(propertyCode);
-                luceneDocument.Add(new Field(Labels.Property.ToString(), propertyCode, Field.Store.YES,
-                    Field.Index.NOT_ANALYZED));
-            }
+            luceneDocument.Add(new Field(Labels.Property.ToString(), propertyCode, Field.Store.YES,
+                Field.Index.NOT_ANALYZED));
 
             switch (RDFExtensions.GetPropertyType(ntPredicate, ntObject))
             {
