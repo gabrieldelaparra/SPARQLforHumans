@@ -6,7 +6,7 @@ using SparqlForHumans.Core.Utilities;
 
 namespace SparqlForHumans.Core.Services
 {
-    public static class IndexRanker
+    public static class EntityRanker
     {
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
         public static int NotifyTicks { get; } = 1000;

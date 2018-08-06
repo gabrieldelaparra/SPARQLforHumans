@@ -32,6 +32,8 @@ namespace SparqlForHumans.Core.Services
             Options.InternUris = false;
             Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
+            //TODO: GetFrequency
+
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
             Logger.Info("Building Index");
             using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
@@ -39,9 +41,6 @@ namespace SparqlForHumans.Core.Services
             {
                 //Group them by QCode.
                 var entiyGroups = lines.GroupByEntities();
-
-                //A list to check and not add the same property twice
-                var entityProperties = new List<string>();
 
                 //Lucene document for each entity
                 var luceneDocument = new Document();
@@ -68,7 +67,6 @@ namespace SparqlForHumans.Core.Services
                             var id = ntSubject.GetId();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
-                            entityProperties = new List<string>();
                             var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
                                 Field.Index.NOT_ANALYZED);
 
@@ -76,11 +74,10 @@ namespace SparqlForHumans.Core.Services
                             hasDocument = true;
                         }
 
-                        ParsePredicate(ntPredicate, ntObject, entityProperties, luceneDocument);
+                        ParsePredicate(ntPredicate, ntObject, luceneDocument);
                     }
 
                     //luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
-
                     writer.AddDocument(luceneDocument);
                     nodeCount++;
                 }
@@ -111,9 +108,9 @@ namespace SparqlForHumans.Core.Services
             {
                 //Ranking:
                 Logger.Info("Building Graph");
-                var nodesGraphArray = IndexRanker.BuildSimpleNodesGraph(inputTriplesFilename);
+                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename);
                 Logger.Info("Calculating Ranks");
-                nodesGraphRanks = IndexRanker.CalculateRanks(nodesGraphArray, 25);
+                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 25);
             }
 
             Logger.Info("Building Index");
