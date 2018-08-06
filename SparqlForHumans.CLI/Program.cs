@@ -54,9 +54,16 @@ namespace SparqlForHumans.CLI
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
         }
 
-        static void CreateIndex()
+        static void CreateIndex2MM()
         {
-            
+            var inputFilename = @"filtered-All-2MM.nt";
+            var outputPath = "Index2MM";
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+
+            IndexBuilder.CreateEntitiesIndex(inputFilename, outputPath);
+
         }
     }
 }
