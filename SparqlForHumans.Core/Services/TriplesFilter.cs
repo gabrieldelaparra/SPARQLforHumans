@@ -21,14 +21,15 @@ namespace SparqlForHumans.Core.Services
         ///     Foreach line in the Triples file:
         ///     - Parse the RDF triple
         ///     - For the following cases, skip:
-        ///     - If Subject Q-Code > 2mill
-        ///     - If Object Q-Code > 2mill
+        ///     - If (triplesLimit > 0) && (Subject Q-Code > triplesLimit)
+        ///     - If (triplesLimit > 0) && (Object Q-Code > triplesLimit)
         ///     - If Language != EN
         ///     Else, Add the triple to a new NT File
         /// </summary>
         /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
-        public static void Filter(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit)
+        /// <param name="triplesLimit">Limit of Q-Id to filter. Value of -1 means no filtering for Q-Id</param>
+        public static void Filter(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit = -1)
         {
             Options.InternUris = false;
 
@@ -93,13 +94,11 @@ namespace SparqlForHumans.Core.Services
 
             //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
             //Condition: Object is Q-Entity and Q > triplesLimit: Skip
-            if (entityLimit > 0)
-                if (ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
-                    return false;
+            if (entityLimit > 0 && ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
+                return false;
 
-            if (entityLimit > 0)
-                if (ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
-                    return false;
+            if (entityLimit > 0 && ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
+                return false;
 
             if (ntSubject.IsEntityP() && ntPredicate.IsProperty())
                 return false;
