@@ -19,7 +19,7 @@ namespace SparqlForHumans.UnitTests
             var groups = lines.GroupByEntities();
             var entitiesCount = groups.Count();
 
-            var dictionary = IndexRanker.BuildNodesDictionary(filename);
+            var dictionary = EntityRanker.BuildNodesDictionary(filename);
             Assert.Equal(entitiesCount, dictionary.Count);
             Assert.Equal("Q1", dictionary.Keys.ElementAt(0));
             Assert.Equal("Q2", dictionary.Keys.ElementAt(1));
@@ -38,7 +38,7 @@ namespace SparqlForHumans.UnitTests
             var groups = lines.GroupByEntities();
             var entitiesCount = groups.Count();
 
-            var nodesGraph = IndexRanker.BuildNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildNodesGraph(filename);
 
             Assert.Equal(entitiesCount, nodesGraph.Count());
             Assert.Equal(2, nodesGraph.ElementAt(0).ConnectedNodes.Length);
@@ -60,9 +60,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateRankOneIteration()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = IndexRanker.BuildNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildNodesGraph(filename);
 
-            IndexRanker.CalculateRanks(nodesGraph,1);
+            EntityRanker.CalculateRanks(nodesGraph,1);
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
@@ -79,9 +79,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateRankSevenIterations()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = IndexRanker.BuildNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildNodesGraph(filename);
 
-            IndexRanker.CalculateRanks(nodesGraph, 7);
+            EntityRanker.CalculateRanks(nodesGraph, 7);
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
@@ -102,7 +102,7 @@ namespace SparqlForHumans.UnitTests
             var groups = lines.GroupByEntities();
             var entitiesCount = groups.Count();
 
-            var nodesGraph = IndexRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
             Assert.Equal(entitiesCount, nodesGraph.Count());
             Assert.Equal(2, nodesGraph[0].Length);
@@ -118,9 +118,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankOneIteration()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = IndexRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
-            var ranks = IndexRanker.CalculateRanks(nodesGraph, 1);
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 1);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -137,9 +137,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankSevenIterations()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = IndexRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
-            var ranks = IndexRanker.CalculateRanks(nodesGraph, 7);
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
