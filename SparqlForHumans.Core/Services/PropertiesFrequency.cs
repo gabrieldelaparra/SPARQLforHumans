@@ -17,6 +17,13 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
+            var dictionary = GetPropertiesFrequency(groups);
+
+            return dictionary;
+        }
+
+        private static Dictionary<string, int> GetPropertiesFrequency(IEnumerable<IEnumerable<string>> groups)
+        {
             var nodeCount = 0;
             var dictionary = new Dictionary<string, int>();
 
@@ -27,16 +34,25 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var line in group)
                 {
-                    var predicateId = line.GetTriple().Predicate.GetId();
-
-                    if (!predicateId.Contains(WikidataDump.PropertyPrefix)) continue;
-
-                    dictionary[predicateId]++;
+                    parsePropertyFrequencyLine(line, dictionary);
                 }
+
                 nodeCount++;
             }
 
             return dictionary;
+        }
+
+        private static void parsePropertyFrequencyLine(string line, Dictionary<string, int> dictionary)
+        {
+            var predicateId = line.GetTriple().Predicate.GetId();
+
+            if (!predicateId.Contains(WikidataDump.PropertyPrefix)) return;
+
+            if (!dictionary.ContainsKey(predicateId))
+                dictionary.Add(predicateId, 0);
+
+            dictionary[predicateId]++;
         }
     }
 }

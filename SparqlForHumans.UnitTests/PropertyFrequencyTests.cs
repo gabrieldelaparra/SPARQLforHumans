@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
 using SparqlForHumans.Core.Services;
 using Xunit;
 
@@ -20,10 +17,39 @@ namespace SparqlForHumans.UnitTests
             
             Assert.NotNull(dictionary);
 
-            //Assert.Equal(3, dictionary.Count);
+            Assert.Equal(7, dictionary.Count);
 
-            //Assert.Equal("P17", dictionary.ElementAt(0).Key);
-            //Assert.Equal(4, dictionary.ElementAt(0).Value);
+            Assert.Equal("P17", dictionary.ElementAt(0).Key);
+            Assert.Equal(3, dictionary.ElementAt(0).Value);
+
+            Assert.Equal("P47", dictionary.ElementAt(1).Key);
+            Assert.Equal(5, dictionary.ElementAt(1).Value);
+
+            Assert.Equal("P30", dictionary.ElementAt(2).Key);
+            Assert.Equal(3, dictionary.ElementAt(2).Value);
+
+        }
+
+        [Fact]
+        public void TestGetFileFrequencyWithGarbage()
+        {
+            var filename = @"Resources/PropertyFrequenciesWithGarbage.nt";
+            Assert.True(File.Exists(filename));
+
+            var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);
+
+            Assert.NotNull(dictionary);
+
+            Assert.Equal(7, dictionary.Count);
+
+            Assert.Equal("P17", dictionary.ElementAt(0).Key);
+            Assert.Equal(3, dictionary.ElementAt(0).Value);
+
+            Assert.Equal("P47", dictionary.ElementAt(1).Key);
+            Assert.Equal(5, dictionary.ElementAt(1).Value);
+
+            Assert.Equal("P30", dictionary.ElementAt(2).Key);
+            Assert.Equal(3, dictionary.ElementAt(2).Value);
 
         }
     }

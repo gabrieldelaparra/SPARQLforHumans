@@ -15,6 +15,8 @@
     <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered.nt" />
     <None Remove="Resources\MultipleInstanceDump.nt" />
+    <None Remove="Resources\PropertyFrequencies.nt" />
+    <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\trimmed.nt" />
@@ -37,6 +39,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MultipleInstanceDump.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertyFrequencies.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertyFrequenciesWithGarbage.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\SingleInstanceDump.nt">

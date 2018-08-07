@@ -1,7 +1,25 @@
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2000/01/rdf-schema#label> "Northern Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://schema.org/description> "region in north-west Europe, part of the United Kingdom"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "NIR"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "UKN"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "North Ireland"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q27> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P30> <http://www.wikidata.org/entity/Q46> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q145> .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> "Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://schema.org/description> "republic covering major parts of the island of Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "\u00C9ire"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "IE"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "IRL"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Hibernia"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Ireland, Republic of"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "ie"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "ireland"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EE\U0001F1EA"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Eire"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> "Southern Ireland"@en .
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P30> <http://www.wikidata.org/entity/Q46> .
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P463> <http://www.wikidata.org/entity/Q458> .
@@ -25,6 +43,13 @@
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P530> <http://www.wikidata.org/entity/Q41> .
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P530> <http://www.wikidata.org/entity/Q230> .
 <http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q27> .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2000/01/rdf-schema#label> "Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://schema.org/description> "constitutional monarchy in Southwest Europe"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "Espa\u00F1a"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "Kingdom of Spain"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "ES"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "ESP"@en .
+<http://www.wikidata.org/entity/Q29> <http://www.w3.org/2004/02/skos/core#altLabel> "\U0001F1EA\U0001F1F8"@en .
 <http://www.wikidata.org/entity/Q29> <http://www.wikidata.org/prop/direct/P30> <http://www.wikidata.org/entity/Q46> .
 <http://www.wikidata.org/entity/Q29> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q228> .
 <http://www.wikidata.org/entity/Q29> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q45> .
