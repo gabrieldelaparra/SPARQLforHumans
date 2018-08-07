@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests
         {
             var filename = "Resources/buildGraph.nt";
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
             var dictionary = EntityRanker.BuildNodesDictionary(filename);
@@ -35,7 +35,7 @@ namespace SparqlForHumans.UnitTests
         {
             var filename = "Resources/buildGraph.nt";
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
             var nodesGraph = EntityRanker.BuildNodesGraph(filename);
@@ -99,7 +99,7 @@ namespace SparqlForHumans.UnitTests
         {
             var filename = "Resources/buildGraph.nt";
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
             var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);

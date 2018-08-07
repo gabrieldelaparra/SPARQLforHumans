@@ -40,7 +40,7 @@ namespace SparqlForHumans.Core.Services
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var entiyGroups = lines.GroupByEntities();
+                var entiyGroups = lines.GroupBySubject();
 
                 //Lucene document for each entity
                 var luceneDocument = new Document();
@@ -118,7 +118,7 @@ namespace SparqlForHumans.Core.Services
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var entiyGroups = lines.GroupByEntities();
+                var entiyGroups = lines.GroupBySubject();
 
                 //Lucene document for each entity
                 var luceneDocument = new Document();

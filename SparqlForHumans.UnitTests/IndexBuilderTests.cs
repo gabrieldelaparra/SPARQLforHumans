@@ -30,7 +30,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(Directory.Exists(outputPath));
 
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var groupsCount = groups.Count();
 
             using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
@@ -106,7 +106,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(Directory.Exists(outputPath));
 
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var groupsCount = groups.Count();
 
             using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))

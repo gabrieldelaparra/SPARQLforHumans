@@ -13,7 +13,7 @@ namespace SparqlForHumans.UnitTests
         {
             var filename = "Resources/filtered.nt";
             var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
             var outputPath = "Index";

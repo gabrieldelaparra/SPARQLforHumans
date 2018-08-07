@@ -18,7 +18,7 @@ namespace SparqlForHumans.Core.Services
         public static Dictionary<string, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
 
             var nodeCount = 0;
             var dictionary = new Dictionary<string, int>();
@@ -43,7 +43,7 @@ namespace SparqlForHumans.Core.Services
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
 
             var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
 
             var nodeCount = nodesDictionary.Count;
             var nodeArray = new int[nodeCount][];
@@ -54,9 +54,8 @@ namespace SparqlForHumans.Core.Services
                     Logger.Info($"Group: {nodeCount:N0}");
 
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
-                nodesDictionary.TryGetValue(subjectId, out int subjectIndex);
+                nodesDictionary.TryGetValue(subjectId, out var subjectIndex);
 
-                var entityNode = new GraphNode(subjectId, nodeCount);
                 var entityNodeConnections = new List<int>();
 
                 foreach (var line in group)
@@ -67,7 +66,7 @@ namespace SparqlForHumans.Core.Services
                         continue;
 
                     var objectId = ntObject.GetId();
-                    nodesDictionary.TryGetValue(objectId, out int objectIndex);
+                    nodesDictionary.TryGetValue(objectId, out var objectIndex);
 
                     if (!entityNodeConnections.Contains(objectIndex))
                         entityNodeConnections.Add(objectIndex);
@@ -83,7 +82,7 @@ namespace SparqlForHumans.Core.Services
         {
             var list = new List<GraphNode>();
             var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupByEntities();
+            var groups = lines.GroupBySubject();
 
             var nodeCount = 0;
 
