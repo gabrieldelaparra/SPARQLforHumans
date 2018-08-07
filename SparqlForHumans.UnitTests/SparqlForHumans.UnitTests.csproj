@@ -14,6 +14,8 @@
     <None Remove="Resources\empty.txt" />
     <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered.nt" />
+    <None Remove="Resources\MultipleInstanceDump.nt" />
+    <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\trimmed.nt" />
   </ItemGroup>
@@ -32,6 +34,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraph.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\MultipleInstanceDump.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SingleInstanceDump.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\filtered-All-500.nt">
