@@ -6,7 +6,7 @@
         public static string EntityPrefix { get; } = "Q";
 
         public static string PropertyIRI { get; } = "http://www.wikidata.org/prop/direct/";
-        public static string PropertyPrefix { get; set; } = "P";
+        public static string PropertyPrefix { get; } = "P";
 
         public static string LabelIRI { get; } = "http://www.w3.org/2000/01/rdf-schema#label";
 
