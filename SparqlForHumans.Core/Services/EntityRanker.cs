@@ -11,11 +11,6 @@ namespace SparqlForHumans.Core.Services
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
         public static int NotifyTicks { get; } = 1000;
 
-        public static double ToThreeDecimals(this double input)
-        {
-            return Math.Truncate(input * 1000) / 1000;
-        }
-
         private static double pageRankAlpha = 0.85d;
 
         //Read the file once
