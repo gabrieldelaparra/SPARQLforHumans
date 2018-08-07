@@ -217,23 +217,9 @@ namespace SparqlForHumans.Core.Services
                         Field.Index.NOT_ANALYZED));
                     break;
                 case RDFExtensions.PropertyType.LiteralDirected:
-                    break;
                 case RDFExtensions.PropertyType.Other:
                     break;
             }
         }
-
-        //public static void Optimize()
-        //{
-        //    Analyzer = new StandardAnalyzer(Version.LUCENE_30);
-
-        //    using (var writer = new IndexWriter(LuceneHelper.LuceneIndexDirectory, Analyzer,
-        //        IndexWriter.MaxFieldLength.UNLIMITED))
-        //    {
-        //        Analyzer.Close();
-        //        writer.Optimize();
-        //        writer.Dispose();
-        //    }
-        //}
     }
 }
