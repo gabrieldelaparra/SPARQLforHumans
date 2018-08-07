@@ -5,21 +5,7 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class IEnumerableExtensions
     {
-        public static IEnumerable<string> GetFirstGroup(this IEnumerable<string> lines)
-        {
-            var firstLine = lines.FirstOrDefault();
-            var firstEntity = firstLine.Split(" ").FirstOrDefault();
-            return lines.TakeWhile(x => x.Split(" ").FirstOrDefault().Equals(firstEntity));
-        }
-
-        public static IEnumerable<string> SkipFirstGroup(this IEnumerable<string> lines)
-        {
-            var firstLine = lines.FirstOrDefault();
-            var firstEntity = firstLine.Split(" ").FirstOrDefault();
-            return lines.SkipWhile(x => x.Split(" ").FirstOrDefault().Equals(firstEntity));
-        }
-
-        public static IEnumerable<IEnumerable<string>> GroupByEntities(this IEnumerable<string> lines)
+        public static IEnumerable<IEnumerable<string>> GroupBySubject(this IEnumerable<string> lines)
         {
             var list = new List<string>();
             var last = string.Empty;
@@ -50,15 +36,5 @@ namespace SparqlForHumans.Core.Utilities
             }
             yield return list;
         }
-
-        //public static IEnumerable<IEnumerable<string>> GroupByEntities(this IEnumerable<string> lines)
-        //{
-        //    while (lines.Any())
-        //    {
-        //        var group = lines.GetFirstGroup();
-        //        lines = lines.SkipFirstGroup();
-        //        yield return group;
-        //    }
-        //}
     }
 }
