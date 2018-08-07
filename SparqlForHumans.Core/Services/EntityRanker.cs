@@ -28,12 +28,18 @@ namespace SparqlForHumans.Core.Services
                 if (nodeCount % NotifyTicks == 0)
                     Logger.Info($"Group: {nodeCount:N0}");
 
-                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
-                dictionary.Add(subjectId, nodeCount);
+                parseEntityDictionaryGroup(group, dictionary, nodeCount);
+
                 nodeCount++;
             }
 
             return dictionary;
+        }
+
+        private static void parseEntityDictionaryGroup(IEnumerable<string> group, Dictionary<string, int> dictionary, int entityIndex)
+        {
+            var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+            dictionary.Add(subjectId, entityIndex);
         }
 
         //Read the file twice
