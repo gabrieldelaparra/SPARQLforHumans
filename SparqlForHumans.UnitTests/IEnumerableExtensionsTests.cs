@@ -34,7 +34,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(3, groups.Take(1).LastOrDefault().Count());
             Assert.Equal(5, groups.Take(2).LastOrDefault().Count());
-            Assert.Equal(1, groups.Take(3).LastOrDefault().Count());
+            Assert.Single(groups.Take(3).LastOrDefault());
             Assert.Equal(2, groups.Take(4).LastOrDefault().Count());
         }
     }
