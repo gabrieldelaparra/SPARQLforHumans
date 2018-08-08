@@ -10,6 +10,7 @@ namespace SparqlForHumans.CLI
             //Filter2MM();
             //FilterAll();
             //CreateIndex2MM();
+            CreatePropertyIndex();
         }
 
         static void Filter2MM()
@@ -36,6 +37,13 @@ namespace SparqlForHumans.CLI
 
             IndexBuilder.CreateEntitiesIndex(inputFilename, outputPath);
 
+        }
+
+        static void CreatePropertyIndex()
+        {
+            var inputFilename = @"filtered-All-2MM.nt";
+            var outputPath = "PropertyIndex";
+            IndexBuilder.CreatePropertyIndex(inputFilename, outputPath, true);
         }
     }
 }

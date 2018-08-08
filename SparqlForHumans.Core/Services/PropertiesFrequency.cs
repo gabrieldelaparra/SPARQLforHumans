@@ -22,7 +22,7 @@ namespace SparqlForHumans.Core.Services
             return dictionary;
         }
 
-        private static Dictionary<string, int> GetPropertiesFrequency(IEnumerable<IEnumerable<string>> groups)
+        public static Dictionary<string, int> GetPropertiesFrequency(IEnumerable<IEnumerable<string>> groups)
         {
             var nodeCount = 0;
             var dictionary = new Dictionary<string, int>();
@@ -34,7 +34,8 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var line in group)
                 {
-                    parsePropertyFrequencyLine(line, dictionary);
+                    //The rest of this method could be refactored.
+                    ParsePropertyFrequencyLine(line, dictionary);
                 }
 
                 nodeCount++;
@@ -43,7 +44,7 @@ namespace SparqlForHumans.Core.Services
             return dictionary;
         }
 
-        private static void parsePropertyFrequencyLine(string line, Dictionary<string, int> dictionary)
+        public static void ParsePropertyFrequencyLine(string line, Dictionary<string, int> dictionary)
         {
             var predicateId = line.GetTriple().Predicate.GetId();
 

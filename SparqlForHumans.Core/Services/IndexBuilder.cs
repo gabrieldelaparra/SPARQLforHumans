@@ -25,14 +25,17 @@ namespace SparqlForHumans.Core.Services
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
         /// Rank with frequency;
-        public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory)
+        public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory, bool indexFrequency = false)
         {
             long readCount = 0;
             var nodeCount = 0;
             Options.InternUris = false;
             Analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
-            //TODO: GetFrequency
+            var dictionary = new Dictionary<string, int>();
+
+            if (indexFrequency)
+                dictionary = PropertiesFrequency.GetPropertiesFrequency(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
             Logger.Info("Building Index");
@@ -47,8 +50,17 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var group in entiyGroups)
                 {
+                    var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
+
+                    //Excludes Entities, will only add properties.
+                    if (!subject.IsEntityP())
+                        continue;
+
+                    var propertyId = subject.GetId();
+
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
+
                     foreach (var line in group)
                     {
                         readCount++;
@@ -58,13 +70,10 @@ namespace SparqlForHumans.Core.Services
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
-                        //Excludes Entities, will only add properties.
-                        if (!ntSubject.IsEntityP())
-                            continue;
-
                         if (!hasDocument)
                         {
                             var id = ntSubject.GetId();
+                            propertyId = id;
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
@@ -75,6 +84,12 @@ namespace SparqlForHumans.Core.Services
                         }
 
                         ParsePredicate(ntPredicate, ntObject, luceneDocument);
+                    }
+
+                    if (indexFrequency)
+                    {
+                        luceneDocument.Add(new Field(Labels.PropertyFrequency.ToString(),
+                            dictionary[propertyId].ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
                     //luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
@@ -125,8 +140,15 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var group in entiyGroups)
                 {
+                    var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
+
+                    //Excludes Properties, will only add entities.
+                    if (!subject.IsEntityQ())
+                        continue;
+
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
+
                     foreach (var line in group)
                     {
                         readCount++;
@@ -135,10 +157,6 @@ namespace SparqlForHumans.Core.Services
                             Logger.Info($"{readCount:N0}");
 
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
-
-                        //Excludes Properties, will only add entities.
-                        if (!ntSubject.IsEntityQ())
-                            continue;
 
                         if (!hasDocument)
                         {

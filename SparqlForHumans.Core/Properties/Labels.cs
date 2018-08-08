@@ -8,6 +8,7 @@
         InstanceOf,
         AltLabel,
         Description,
-        PropertyAndValue
+        PropertyAndValue,
+        PropertyFrequency
     }
 }
