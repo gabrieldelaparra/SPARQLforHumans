@@ -29,21 +29,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestDoesNotHasRank()
-        {
-            var filename = "Resources/filtered.nt";
-            var outputPath = "Index";
-
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
-
-            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
-
-            var luceneDirectory = LuceneHelper.GetLuceneDirectory(outputPath);
-            Assert.False(luceneDirectory.HasRank());
-        }
-
-        [Fact]
         public void TestGetLucenePath()
         {
             var path = "Temp";

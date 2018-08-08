@@ -1,16 +1,20 @@
-﻿using SparqlForHumans.Core.Services;
+﻿using System;
+using SparqlForHumans.Core.Services;
 using System.IO;
+using SparqlForHumans.Core.Utilities;
 
 namespace SparqlForHumans.CLI
 {
     class Program
     {
+        private static bool keepRunning = true;
+
         static void Main(string[] args)
         {
             //Filter2MM();
             //FilterAll();
-            //CreateIndex2MM();
-            CreatePropertyIndex();
+            CreateIndex2MM(true);
+            CreatePropertyIndex(false);
         }
 
         static void Filter2MM()
@@ -27,23 +31,29 @@ namespace SparqlForHumans.CLI
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
         }
 
-        static void CreateIndex2MM()
+        static void CreateIndex2MM(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = "Index2MM";
+            var outputPath = LuceneHelper.IndexPath;
 
-            if (Directory.Exists(outputPath))
+            if (Directory.Exists(outputPath) && overwrite)
                 Directory.Delete(outputPath, true);
 
             IndexBuilder.CreateEntitiesIndex(inputFilename, outputPath);
 
         }
 
-        static void CreatePropertyIndex()
+        static void CreatePropertyIndex(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = "PropertyIndex";
+            var outputPath = LuceneHelper.IndexPath;
+
+            if (Directory.Exists(outputPath) && overwrite)
+            Directory.Delete(outputPath, true);
+
             IndexBuilder.CreatePropertyIndex(inputFilename, outputPath, true);
         }
+
+        
     }
 }

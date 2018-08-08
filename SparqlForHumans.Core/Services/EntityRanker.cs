@@ -9,7 +9,7 @@ namespace SparqlForHumans.Core.Services
     public static class EntityRanker
     {
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
-        public static int NotifyTicks { get; } = 1000;
+        public static int NotifyTicks { get; } = 10000;
 
         private static double pageRankAlpha = 0.85d;
 
@@ -51,8 +51,8 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
-            var nodeCount = nodesDictionary.Count;
-            var nodeArray = new int[nodeCount][];
+            var nodeCount = 0;
+            var nodeArray = new int[nodesDictionary.Count][];
 
             foreach (var group in groups)
             {
@@ -78,7 +78,9 @@ namespace SparqlForHumans.Core.Services
                         entityNodeConnections.Add(objectIndex);
                 }
 
+                
                 nodeArray[subjectIndex] = entityNodeConnections.ToArray();
+                nodeCount++;
             }
 
             return nodeArray;

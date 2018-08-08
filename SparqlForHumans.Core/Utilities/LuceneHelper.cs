@@ -7,9 +7,9 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class LuceneHelper
     {
-        private static readonly string indexPath = @"../LuceneIndex";
+        public static string IndexPath => @"../LuceneIndex";
 
-        public static Directory LuceneIndexDirectory => GetLuceneDirectory(indexPath);
+        public static Directory LuceneIndexDirectory => GetLuceneDirectory(IndexPath);
 
         public static Directory GetLuceneDirectory(string directoryPath)
         {
@@ -34,23 +34,6 @@ namespace SparqlForHumans.Core.Utilities
             {
                 return reader.NumDocs();
             }
-        }
-
-        public static bool HasRank(this Directory luceneIndexDirectory)
-        {
-            using (var reader = IndexReader.Open(luceneIndexDirectory, true))
-            {
-                var docCount = reader.NumDocs();
-                for (var i = 0; i < docCount; i++)
-                {
-                    var document = reader.Document(i);
-                    if (document.Boost.Equals(1))
-                        continue;
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 }

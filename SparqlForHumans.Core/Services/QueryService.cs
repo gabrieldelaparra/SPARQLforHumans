@@ -26,7 +26,6 @@ namespace SparqlForHumans.Core.Services
             return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
         }
 
-
         public static IEnumerable<Entity> QueryByLabel(string labelText, Directory luceneIndexDirectory)
         {
             if (string.IsNullOrEmpty(labelText))
