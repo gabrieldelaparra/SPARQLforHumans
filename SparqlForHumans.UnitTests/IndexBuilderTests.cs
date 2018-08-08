@@ -17,8 +17,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateBasicSingleInstanceIndex()
         {
-            var filename = "Resources/SingleInstanceDump.nt";
-            var outputPath = "IndexSingle";
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingle";
 
             if (Directory.Exists(outputPath))
                 Directory.Delete(outputPath, true);
@@ -29,19 +29,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupBySubject();
-            var groupsCount = groups.Count();
-
             using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
             {
                 var docCount = reader.MaxDoc;
 
-                Assert.Equal(docCount, groupsCount);
+                Assert.Equal(1, docCount);
 
-                const int documentIndex = 0;
-
-                var doc = reader.Document(documentIndex);
+                var doc = reader.Document(0);
                 Assert.NotNull(doc);
                 Assert.Equal("Q26", doc.GetField(Labels.Id.ToString()).StringValue);
                 Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).StringValue);
@@ -93,8 +87,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateBasicMultipleInstanceIndex()
         {
-            var filename = "Resources/MultipleInstanceDump.nt";
-            var outputPath = "Index";
+            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string outputPath = "IndexMultiple";
 
             if (Directory.Exists(outputPath))
                 Directory.Delete(outputPath, true);
@@ -105,15 +99,11 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            var lines = FileHelper.GetInputLines(filename);
-            var groups = lines.GroupBySubject();
-            var groupsCount = groups.Count();
-
             using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
             {
                 var docCount = reader.MaxDoc;
 
-                Assert.Equal(docCount, groupsCount);
+                Assert.Equal(3, docCount);
 
                 //Q26, Q27, Q29
                 var doc = reader.Document(0);
@@ -146,9 +136,9 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestHasRanking()
         {
-            var filename = "Resources/filtered-All-500.nt";
-            var outputPath1 = "IndexRank1";
-            var outputPath2 = "IndexRank2";
+            const string filename = "Resources/filtered-All-500.nt";
+            const string outputPath1 = "IndexRank1";
+            const string outputPath2 = "IndexRank2";
 
             if (Directory.Exists(outputPath1))
                 Directory.Delete(outputPath1, true);
@@ -156,7 +146,7 @@ namespace SparqlForHumans.UnitTests
             if (Directory.Exists(outputPath2))
                 Directory.Delete(outputPath2, true);
 
-            IndexBuilder.CreateEntitiesIndex(filename, outputPath1, true);
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath1);
             IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
 
             var found = 0;
@@ -177,19 +167,16 @@ namespace SparqlForHumans.UnitTests
 
                 string[] testWords = { "obama", "chile", "ireland", "apple", "orange", "human", "country", "car", "plane", "bed" };
 
-                for (int j = 0; j < testWords.Length; j++)
+                foreach (var searchQuery in testWords)
                 {
-                    //var searchQuery = char.ConvertFromUtf32((char.Parse("a") + j)).ToString() + "*";
-                    //var searchQuery = "Obama";
-                    var searchQuery = testWords[j];
-                    var ResultsLimit = 10;
+                    const int resultsLimit = 10;
 
-                    var hits1 = readerNoBoost.Search(parser.Parse(searchQuery.Trim()), null, ResultsLimit).ScoreDocs;
-                    var hits2 = readerWithBoost.Search(parser.Parse(searchQuery.Trim()), null, ResultsLimit).ScoreDocs;
+                    var hits1 = readerNoBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
+                    var hits2 = readerWithBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
 
                     Assert.Equal(hits1.Count(), hits2.Count());
 
-                    for (int i = 0; i < hits2.Count(); i++)
+                    for (var i = 0; i < hits2.Count(); i++)
                     {
                         var doc1 = readerNoBoost.Doc(hits1[i].Doc);
                         var doc2 = readerWithBoost.Doc(hits2[i].Doc);
@@ -213,8 +200,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateIndex500()
         {
-            var filename = "Resources/filtered-All-500.nt";
-            var outputPath = "Index500";
+            const string filename = "Resources/filtered-All-500.nt";
+            const string outputPath = "Index500";
 
             if (Directory.Exists(outputPath))
                 Directory.Delete(outputPath, true);
