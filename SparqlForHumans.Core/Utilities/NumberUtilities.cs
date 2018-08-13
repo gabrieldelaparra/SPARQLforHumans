@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Core.Utilities
 {
-    public static class NumberHelper
+    public static class NumberUtilities
     {
         public static double ToThreeDecimals(this double input)
         {
