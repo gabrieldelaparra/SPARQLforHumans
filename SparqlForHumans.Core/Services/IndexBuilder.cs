@@ -81,8 +81,9 @@ namespace SparqlForHumans.Core.Services
 
                     if (indexFrequency)
                     {
-                        luceneDocument.Add(new Field(Labels.PropertyFrequency.ToString(),
-                            dictionary[propertyId].ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        if (dictionary.TryGetValue(propertyId, out var value))
+                            luceneDocument.Add(new Field(Labels.PropertyFrequency.ToString(),
+                                value.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
                     writer.AddDocument(luceneDocument);
