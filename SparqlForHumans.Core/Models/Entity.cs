@@ -1,23 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Core.Models
 {
-    public class Entity
+    public interface IEntity
     {
-        public string Id { get; set; }
+        string Id { get; set; }
+        string Label { get; set; }
+    }
 
-        public string Label { get; set; }
-        public string Description { get; set; }
-        public string InstanceOf { get; set; }
+    public abstract class BaseEntity : IEntity
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
+
+        public override string ToString()
+        {
+            return $"{Label} ({Id})";
+        }
+    }
+
+    public class Entity : BaseEntity
+    {
+        public string Description { get; set; } = string.Empty;
+
+        //TODO: Move InstanceOf to Property
+        public string InstanceOf { get; set; } = string.Empty;
+        public string InstanceOfLabel { get; set; } = string.Empty;
 
         public IEnumerable<Property> Properties { get; set; }
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
-        public string InstanceOfLabel { get; set; }
-
         public override string ToString()
         {
-            return $"{Label} ({Id}) - {InstanceOfLabel} ({InstanceOf}) - {Description}";
+            return $"{base.ToString()} - {InstanceOfLabel} ({InstanceOf}) - {Description}";
         }
     }
 }
