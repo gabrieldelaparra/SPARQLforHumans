@@ -9,7 +9,7 @@ namespace SparqlForHumans.Server.Controllers
     {
         public IActionResult Autocomplete(string term)
         {
-            var filteredItems = QueryService.QueryByLabel(term);
+            var filteredItems = QueryService.QueryEntitiesByLabel(term);
 
             return Json(filteredItems);
         }

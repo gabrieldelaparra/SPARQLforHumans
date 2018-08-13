@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
@@ -6,117 +7,122 @@ using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
+using Version = Lucene.Net.Util.Version;
 
 namespace SparqlForHumans.Core.Services
 {
     public static class QueryService
     {
-        private static Analyzer analyzer;
-
-        private static readonly Dictionary<string, string> typeLabels = new Dictionary<string, string>();
-        private static readonly Dictionary<string, string> propertyLabels = new Dictionary<string, string>();
-        public static int ResultsLimit { get; set; } = 20;
-
-        public static IEnumerable<Entity> QueryByLabel(string labelText)
+        /// <summary>
+        /// Uses the default Lucene Index to query.
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <returns></returns>
+        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText)
         {
-            return QueryByLabel(labelText, LuceneHelper.LuceneIndexDirectory);
+            return QueryEntitiesByLabel(searchText, LuceneIndexExtensions.LuceneIndexDirectory);
         }
 
-        public static IEnumerable<Entity> QueryByLabel(string labelText, Directory luceneIndexDirectory)
+        public static Entity QueryEntityByLabel(string searchText, Directory luceneIndexDirectory)
         {
-            if (string.IsNullOrEmpty(labelText))
-                return new List<Entity>();
+            if (string.IsNullOrEmpty(searchText))
+                return null;
 
-            labelText = PrepareSearchTerm(labelText);
-
-            return QueryLabels(labelText, luceneIndexDirectory);
-        }
-
-        public static string GetLabelFromIndex(string name, Directory luceneIndexDirectory)
-        {
-            var resultLimit = 1;
-            var searchField = Labels.Id.ToString();
+            searchText = PrepareSearchTerm(searchText);
 
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(name))
-                return string.Empty;
+            if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
+                return null;
+
+            var entity = new Entity();
 
             using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            using (var queryAnalyzer = new StandardAnalyzer(Version.LUCENE_30))
             {
-                //Plain Keyword Analyzer:
-                analyzer = new KeywordAnalyzer();
+                entity = searchEntity(searchText, queryAnalyzer, searcher);
 
-                var parser = new QueryParser(Version.LUCENE_30, searchField, analyzer);
-
-                var query = ParseQuery(name, parser);
-                var hits = searcher.Search(query, null, resultLimit).ScoreDocs;
-
-                var result = string.Empty;
-
-                if (hits.Any())
-                {
-                    var doc = searcher.Doc(hits.FirstOrDefault().Doc);
-                    result = doc.Get(Labels.Label.ToString());
-                }
-
-                analyzer.Close();
+                queryAnalyzer.Close();
                 searcher.Dispose();
-
-                return result;
             }
+            return entity;
         }
 
-        public static IEnumerable<Property> GetPropertiesFromIndex(this Document doc, Directory luceneIndexDirectory)
+        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory)
         {
-            var list = new List<Property>();
+            if (string.IsNullOrEmpty(searchText))
+                return new List<Entity>();
 
-            foreach (var item in doc.GetValues(Labels.Property.ToString()))
+            searchText = PrepareSearchTerm(searchText);
+            const int resultsLimit = 20;
+
+            var list = new List<Entity>();
+
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
+                return list;
+
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            using (var queryAnalyzer = new StandardAnalyzer(Version.LUCENE_30))
             {
-                var propertyLabel = GetProperty(item, luceneIndexDirectory);
-                list.Add(new Property
-                {
-                    Id = item,
-                    Label = propertyLabel,
-                    Value = string.Empty
-                });
-            }
+                list = searchEntities(searchText, queryAnalyzer, searcher, resultsLimit);
 
+                queryAnalyzer.Close();
+                searcher.Dispose();
+            }
             return list;
         }
 
-        public static string GetProperty(string propertyCode, Directory luceneIndexDirectory)
+        private static Entity searchEntity(string searchText, Analyzer queryAnalyzer, Searcher searcher)
         {
-            if (propertyCode == null) return string.Empty;
+            QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
+                new[] { Labels.Id.ToString(), Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                queryAnalyzer);
 
-            if (propertyLabels.ContainsKey(propertyCode))
-                return propertyLabels.FirstOrDefault(x => x.Key.Equals(propertyCode)).Value;
-
-            var label = GetLabelFromIndex(propertyCode, luceneIndexDirectory);
-
-            if (!string.IsNullOrWhiteSpace(label))
-                propertyLabels.Add(propertyCode, label);
-
-            return label;
+            return searchEntity(searchText, searcher, parser);
         }
 
-        public static string GetTypeLabel(string typeCode, Directory luceneIndexDirectory)
+        private static List<Entity> searchEntities(string searchText, Analyzer queryAnalyzer, Searcher searcher,
+            int resultsLimit)
         {
-            if (typeCode == null) return string.Empty;
+            QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
+                new[] { Labels.Id.ToString(), Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                queryAnalyzer);
 
-            if (typeLabels.ContainsKey(typeCode)) return typeLabels.FirstOrDefault(x => x.Key.Equals(typeCode)).Value;
-
-            var label = GetLabelFromIndex(typeCode, luceneIndexDirectory);
-            if (!string.IsNullOrWhiteSpace(label))
-                typeLabels.Add(typeCode, label);
-
-            return label;
+            return searchEntities(searchText, searcher, resultsLimit, parser);
         }
 
-        private static string PrepareSearchTerm(string input)
+        //TODO: Create Entity Interface
+        //TODO: Refactor MapEntity to be a class object that can be exchanged to create different mappings.
+        private static Entity searchEntity(string searchText, Searcher searcher, QueryParser parser)
+        {
+            var query = ParseQuery(searchText, parser);
+            var hit = searcher.Search(query, null, 1).ScoreDocs;
+
+            if (hit == null || hit.Length.Equals(0))
+                return null;
+
+            return searcher.Doc(hit.FirstOrDefault().Doc).MapEntity();
+        }
+
+        private static List<Entity> searchEntities(string searchText, Searcher searcher, int resultsLimit, QueryParser parser)
+        {
+            var query = ParseQuery(searchText, parser);
+            var hits = searcher.Search(query, null, resultsLimit).ScoreDocs;
+
+            var entityList = new List<Entity>();
+            foreach (var hit in hits)
+            {
+                var doc = searcher.Doc(hit.Doc);
+                entityList.Add(doc.MapEntity());
+            }
+
+            return entityList;
+        }
+
+        public static string PrepareSearchTerm(string input)
         {
             var terms = input.Trim()
                 .Replace("-", " ")
@@ -125,74 +131,6 @@ namespace SparqlForHumans.Core.Services
                 .Select(x => x.Trim() + "*");
 
             return string.Join(" ", terms);
-            ;
-        }
-
-        private static IEnumerable<Entity> QueryLabels(string labelText, Directory luceneIndexDirectory)
-        {
-            var list = new List<Entity>();
-
-            // NotEmpty Validation
-            if (string.IsNullOrEmpty(labelText.Replace("*", "").Replace("?", "")))
-                return list;
-
-            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
-            {
-                analyzer = new StandardAnalyzer(Version.LUCENE_30);
-
-                QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
-                    new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
-                    analyzer);
-
-                var query = ParseQuery(labelText, parser);
-                var hits = searcher.Search(query, null, ResultsLimit).ScoreDocs;
-
-                foreach (var hit in hits)
-                {
-                    var doc = searcher.Doc(hit.Doc);
-                    var item = MapLuceneDocumentToData(doc, luceneIndexDirectory);
-                    list.Add(item);
-                }
-
-                analyzer.Close();
-                searcher.Dispose();
-
-                return list;
-            }
-        }
-
-        private static IEnumerable<Entity> MapLuceneDocumentToData(IEnumerable<Document> documents,
-            Directory luceneIndexDirectory)
-        {
-            foreach (var doc in documents) yield return MapLuceneDocumentToData(doc, luceneIndexDirectory);
-        }
-
-        public static string GetLabel(this Document doc)
-        {
-            return doc.Get(Labels.Label.ToString());
-        }
-
-        public static IEnumerable<string> GetAltLabels(this Document doc)
-        {
-            var list = new List<string>();
-
-            foreach (var item in doc.GetValues(Labels.Label.ToString()).Union(doc.GetValues(Labels.AltLabel.ToString()))
-            ) list.Add(item);
-            return list;
-        }
-
-        private static Entity MapLuceneDocumentToData(Document document, Directory luceneIndexDirectory)
-        {
-            return new Entity
-            {
-                Id = document.Get(Labels.Id.ToString()),
-                InstanceOf = document.Get(Labels.InstanceOf.ToString()),
-                Label = document.GetLabel(),
-                AltLabels = document.GetAltLabels(),
-                Properties = document.GetPropertiesFromIndex(luceneIndexDirectory),
-                Description = document.Get(Labels.Description.ToString()),
-                InstanceOfLabel = GetTypeLabel(document.Get(Labels.InstanceOf.ToString()), luceneIndexDirectory)
-            };
         }
 
         private static Query ParseQuery(string searchQuery, QueryParser parser)
