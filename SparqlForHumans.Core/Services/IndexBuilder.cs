@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.Util;
-using NLog;
-using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -20,17 +16,14 @@ namespace SparqlForHumans.Core.Services
 
         public static int NotifyTicks { get; } = 100000;
 
-        public static Analyzer Analyzer { get; set; } = new StandardAnalyzer(Version.LUCENE_30);
-
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
         /// Rank with frequency;
         public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory, bool indexFrequency = false)
         {
             long readCount = 0;
-            var nodeCount = 0;
             Options.InternUris = false;
-            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
             var dictionary = new Dictionary<string, int>();
 
@@ -39,7 +32,7 @@ namespace SparqlForHumans.Core.Services
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
             Logger.Info("Building Index");
-            using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
+            using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
@@ -92,16 +85,14 @@ namespace SparqlForHumans.Core.Services
                             dictionary[propertyId].ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
                     }
 
-                    //luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
                     writer.AddDocument(luceneDocument);
-                    nodeCount++;
                 }
 
                 writer.Dispose();
                 Logger.Info($"{readCount:N0}");
             }
 
-            Analyzer.Close();
+            analyzer.Close();
         }
 
         /// EntitiesIndex
@@ -113,7 +104,7 @@ namespace SparqlForHumans.Core.Services
             long readCount = 0;
             var nodeCount = 0;
             Options.InternUris = false;
-            Analyzer = new StandardAnalyzer(Version.LUCENE_30);
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
@@ -129,7 +120,7 @@ namespace SparqlForHumans.Core.Services
             }
 
             Logger.Info("Building Index");
-            using (var writer = new IndexWriter(LuceneHelper.GetLuceneDirectory(outputDirectory), Analyzer,
+            using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
@@ -184,7 +175,7 @@ namespace SparqlForHumans.Core.Services
                 Logger.Info($"{readCount:N0}");
             }
 
-            Analyzer.Close();
+            analyzer.Close();
         }
 
         private static void ParsePredicate(INode ntPredicate, INode ntObject, Document luceneDocument)
@@ -230,7 +221,7 @@ namespace SparqlForHumans.Core.Services
                         Field.Index.NOT_ANALYZED));
                     break;
                 case RDFExtensions.PropertyType.EntityDirected:
-                    var propertyAndValue = propertyCode + "##" + ntObject.GetId();
+                    var propertyAndValue = propertyCode + WikidataDump.PropertyValueSeparator + ntObject.GetId();
                     luceneDocument.Add(new Field(Labels.PropertyAndValue.ToString(), propertyAndValue, Field.Store.YES,
                         Field.Index.NOT_ANALYZED));
                     break;
