@@ -18,6 +18,8 @@
 
         public static string InstanceOf { get; } = "P31";
 
+        public static string PropertyValueSeparator { get; } = "##";
+
         //public static string image  { get; }= "P18";
     }
 }
