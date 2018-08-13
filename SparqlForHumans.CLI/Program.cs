@@ -34,7 +34,7 @@ namespace SparqlForHumans.CLI
         static void CreateIndex2MM(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneHelper.IndexPath;
+            var outputPath = LuceneIndexExtensions.IndexPath;
 
             if (Directory.Exists(outputPath) && overwrite)
                 Directory.Delete(outputPath, true);
@@ -46,7 +46,7 @@ namespace SparqlForHumans.CLI
         static void CreatePropertyIndex(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneHelper.IndexPath;
+            var outputPath = LuceneIndexExtensions.IndexPath;
 
             if (Directory.Exists(outputPath) && overwrite)
             Directory.Delete(outputPath, true);

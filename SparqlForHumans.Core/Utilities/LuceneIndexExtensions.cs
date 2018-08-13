@@ -1,17 +1,18 @@
 ﻿using System.IO;
+using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Utilities
 {
-    public static class LuceneHelper
+    public static class LuceneIndexExtensions
     {
         public static string IndexPath => @"../LuceneIndex";
 
-        public static Directory LuceneIndexDirectory => GetLuceneDirectory(IndexPath);
+        public static Directory LuceneIndexDirectory => IndexPath.GetLuceneDirectory();
 
-        public static Directory GetLuceneDirectory(string directoryPath)
+        public static Directory GetLuceneDirectory(this string directoryPath)
         {
             var directoryInfo = FileHelper.GetOrCreateDirectory(directoryPath);
 
@@ -34,6 +35,12 @@ namespace SparqlForHumans.Core.Utilities
             {
                 return reader.NumDocs();
             }
+        }
+
+        public static Document GetIndexDocument(this Directory luceneIndexDirectory)
+        {
+
+            return null;
         }
     }
 }
