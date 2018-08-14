@@ -15,6 +15,19 @@ namespace SparqlForHumans.CLI
             //FilterAll();
             CreateIndex2MM(true);
             CreatePropertyIndex(false);
+            QueryEntities("country");
+        }
+
+        static void QueryEntities(string query)
+        {
+            Console.WriteLine(query);
+            var results = QueryService.QueryEntitiesByLabel(query, LuceneIndexExtensions.LuceneIndexDirectory);
+            foreach (var result in results)
+            {
+                Console.WriteLine(result);
+            }
+
+            Console.ReadLine();
         }
 
         static void Filter2MM()
