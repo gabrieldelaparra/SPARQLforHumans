@@ -7,7 +7,21 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class DocumentMapper
     {
-        public static IEnumerable<string> GetAltLabels(this Document doc)
+        public static Entity MapBaseEntity(this Document document)
+        {
+            return new Entity()
+            {
+                Id = document.GetValue(Labels.Id),
+                Label = document.GetValue(Labels.Label),
+            };
+        }
+
+        /// <summary>
+        /// Gets Alt-Label collection for a document.
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        private static IEnumerable<string> GetAltLabels(this Document doc)
         {
             var labels = doc.GetValues(Labels.Label);
             var altLabels = doc.GetValues(Labels.AltLabel);
@@ -15,42 +29,50 @@ namespace SparqlForHumans.Core.Utilities
             return altLabels.Length.Equals(0) ? labels : altLabels;
         }
 
-        public static string GetLabel(this Document doc)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static Entity GetAltLabels(this Entity entity, Document document)
         {
-            return doc.GetValue(Labels.Label);
-        }
-
-        public static Entity MapBaseEntity(this Document document)
-        {
-            return new Entity
-            {
-                //TODO: Create Auxiliary method to parse nulls
-                Id = document.GetValue(Labels.Id),
-                Label = document.GetLabel(),
-                AltLabels = document.GetAltLabels(),
-                Description = document.GetValue(Labels.Description),
-            };
-        }
-
-        public static Entity MapEntity(this Document document)
-        {
-            var entity = MapBaseEntity(document);
-            entity = MapEntityInstanceOf(document, entity);
-            entity = MapEntityBaseProperties(document, entity);
+            entity.AltLabels = GetAltLabels(document);
             return entity;
         }
 
-        public static Entity MapEntityInstanceOf(this Document document, Entity entity)
+        public static Entity GetDescription(this Entity entity, Document document)
+        {
+            entity.Description = document.GetValue(Labels.Description);
+            return entity;
+        }
+
+
+
+        public static Entity GetInstanceOf(this Entity entity, Document document)
         {
             entity.InstanceOf = document.GetValue(Labels.InstanceOf);
             return entity;
         }
 
-        public static Entity MapEntityBaseProperties(this Document document, Entity entity)
+        public static Entity GetBaseProperties(this Entity entity, Document document)
         {
             entity.Properties = document.ParsePropertiesAndValues();
             return entity;
         }
+
+        public static Entity MapEntity(this Document document)
+        {
+            var entity = document.MapBaseEntity()
+                                 .GetAltLabels(document)
+                                 .GetDescription(document)
+                                 .GetInstanceOf(document)
+                                 .GetBaseProperties(document);
+
+            return entity;
+        }
+
+
 
         //private static readonly Dictionary<string, string> typeLabels = new Dictionary<string, string>();
         //private static readonly Dictionary<string, string> propertyLabels = new Dictionary<string, string>();

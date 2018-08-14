@@ -25,14 +25,14 @@ namespace SparqlForHumans.UnitTests
             IndexBuilder.CreateEntitiesIndex(filename, outputPath);
             Assert.True(Directory.Exists(outputPath));
 
-            Assert.Equal(entitiesCount, LuceneHelper.GetLuceneDirectory(outputPath).GetDocumentCount());
+            Assert.Equal(entitiesCount, outputPath.GetLuceneDirectory().GetDocumentCount());
         }
 
         [Fact]
         public void TestGetLucenePath()
         {
             var path = "Temp";
-            var luceneDirectory = LuceneHelper.GetLuceneDirectory(path);
+            var luceneDirectory = path.GetLuceneDirectory();
             Assert.NotNull(luceneDirectory);
             Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
 

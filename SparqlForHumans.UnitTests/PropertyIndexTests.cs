@@ -25,7 +25,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
             {
                 var docCount = reader.MaxDoc;
 

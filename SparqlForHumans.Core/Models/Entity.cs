@@ -9,7 +9,7 @@ namespace SparqlForHumans.Core.Models
         string Label { get; set; }
     }
 
-    public abstract class BaseEntity : IEntity
+    public class BaseEntity : IEntity
     {
         public string Id { get; set; } = string.Empty;
         public string Label { get; set; } = string.Empty;

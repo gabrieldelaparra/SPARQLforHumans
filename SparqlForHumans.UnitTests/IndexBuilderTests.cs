@@ -29,7 +29,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
             {
                 var docCount = reader.MaxDoc;
 
@@ -77,7 +77,6 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("P47", doc.GetFields(Labels.Property.ToString())[1].StringValue);
                 Assert.Equal("P30", doc.GetFields(Labels.Property.ToString())[2].StringValue);
                 Assert.Equal("P131", doc.GetFields(Labels.Property.ToString())[3].StringValue);
-
             }
 
             if (Directory.Exists(outputPath))
@@ -99,7 +98,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            using (var reader = IndexReader.Open(LuceneHelper.GetLuceneDirectory(outputPath), true))
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
             {
                 var docCount = reader.MaxDoc;
 
@@ -151,8 +150,8 @@ namespace SparqlForHumans.UnitTests
 
             var found = 0;
 
-            using (var readerNoBoost = new IndexSearcher(LuceneHelper.GetLuceneDirectory(outputPath1), true))
-            using (var readerWithBoost = new IndexSearcher(LuceneHelper.GetLuceneDirectory(outputPath2), true))
+            using (var readerNoBoost = new IndexSearcher(outputPath1.GetLuceneDirectory(), true))
+            using (var readerWithBoost = new IndexSearcher(outputPath2.GetLuceneDirectory(), true))
             {
                 var docCountNoBoost = readerNoBoost.MaxDoc;
                 var docCountWithBoost = readerWithBoost.MaxDoc;
@@ -180,7 +179,7 @@ namespace SparqlForHumans.UnitTests
                     {
                         var doc1 = readerNoBoost.Doc(hits1[i].Doc);
                         var doc2 = readerWithBoost.Doc(hits2[i].Doc);
-                        if (!doc1.GetLabel().Equals(doc2.GetLabel()))
+                        if (!doc1.GetValue(Labels.Label).Equals(doc2.GetValue(Labels.Label)))
                             found++;
                     }
                 }
@@ -212,11 +211,11 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            var q1 = QueryService.QueryByLabel("Berlin", LuceneHelper.GetLuceneDirectory(outputPath));
+            var q1 = QueryService.QueryEntitiesByLabel("Berlin", outputPath.GetLuceneDirectory());
             Assert.NotNull(q1);
             Assert.Contains("Berlin", q1.FirstOrDefault().Label);
 
-            var q2 = QueryService.QueryByLabel("Obama", LuceneHelper.GetLuceneDirectory(outputPath));
+            var q2 = QueryService.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory());
             Assert.NotNull(q2);
             Assert.Contains("Barack Obama", q2.FirstOrDefault().Label);
 
