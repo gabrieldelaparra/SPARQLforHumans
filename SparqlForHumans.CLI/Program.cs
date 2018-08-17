@@ -11,11 +11,12 @@ namespace SparqlForHumans.CLI
 
         static void Main(string[] args)
         {
+            Filter5k();
             //Filter2MM();
             //FilterAll();
-            CreateIndex2MM(true);
-            CreatePropertyIndex(false);
-            QueryEntities("country");
+            //CreateIndex2MM(true);
+            //CreatePropertyIndex(false);
+            //QueryEntities("country");
         }
 
         static void QueryEntities(string query)
@@ -48,6 +49,25 @@ namespace SparqlForHumans.CLI
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputPath = LuceneIndexExtensions.IndexPath;
+
+            if (Directory.Exists(outputPath) && overwrite)
+                Directory.Delete(outputPath, true);
+
+            IndexBuilder.CreateEntitiesIndex(inputFilename, outputPath);
+
+        }
+
+        static void Filter5k()
+        {
+            var inputFilename = @"filtered-All-2MM.nt";
+            var outputFilename = "filtered-All-5k.nt";
+            TriplesFilter.Filter(inputFilename, outputFilename, 5000);
+        }
+
+        static void CreateIndex2k(bool overwrite = false)
+        {
+            var inputFilename = @"filtered-All-2k.nt";
+            var outputPath = "Index2k";
 
             if (Directory.Exists(outputPath) && overwrite)
                 Directory.Delete(outputPath, true);

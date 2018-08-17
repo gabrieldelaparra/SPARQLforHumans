@@ -13,6 +13,7 @@
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
     <None Remove="Resources\filtered-All-500.nt" />
+    <None Remove="Resources\filtered-All-5k.nt" />
     <None Remove="Resources\filtered.nt" />
     <None Remove="Resources\IndexSingle\segments.gen" />
     <None Remove="Resources\IndexSingle\segments_2" />
@@ -40,6 +41,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraph.nt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\filtered-All-5k.nt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\IndexSingle\segments.gen">
