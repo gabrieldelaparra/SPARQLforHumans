@@ -108,7 +108,7 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal("Q145", entity.Properties.ElementAt(3).Value);
             Assert.Equal(string.Empty, entity.Properties.ElementAt(3).Label);
 
-            entity = entity.AddProperties(luceneIndexDirectory);
+            entity.AddProperties(luceneIndexDirectory);
 
             Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
             Assert.Equal("Q145", entity.Properties.ElementAt(0).Value);
