@@ -20,7 +20,7 @@ namespace SparqlForHumans.UnitTests
                 Directory.Delete (outputPath, true);
 
             Assert.False(Directory.Exists(outputPath));
-
+            
             IndexBuilder.CreatePropertyIndex (filename, outputPath, true);
 
             Assert.True(Directory.Exists(outputPath));

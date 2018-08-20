@@ -16,7 +16,24 @@ namespace SparqlForHumans.Core.Services
 {
     public static class QueryService
     {
-        public static IEnumerable<Entity> QueryEntityById(IEnumerable<string> searchIds, Directory luceneIndexDirectory)
+        public static Entity AddProperties(this Entity entity, Directory luceneIndexDirectory)
+        {
+            var propertiesIds = entity.Properties.Select(x => x.Id);
+            var properties = QueryEntityByIds(propertiesIds, luceneIndexDirectory);
+
+           
+            for (var i = 0; i < entity.Properties.Count(); i++)
+            {
+                var property = entity.Properties.ElementAt(i);
+                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                //prop.Label = property.Label;
+                property.Label = prop.Label;
+            }
+
+            return entity;
+        }
+
+        public static IEnumerable<Entity> QueryEntityByIds(IEnumerable<string> searchIds, Directory luceneIndexDirectory)
         {
             var entities = new List<Entity>();
 

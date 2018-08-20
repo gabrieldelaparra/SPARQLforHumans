@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Lucene.Net.Documents;
 using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
@@ -57,7 +58,7 @@ namespace SparqlForHumans.Core.Utilities
 
         public static Entity GetBaseProperties(this Entity entity, Document document)
         {
-            entity.Properties = document.ParsePropertiesAndValues();
+            entity.Properties = document.ParsePropertiesAndValues().ToList();
             return entity;
         }
 

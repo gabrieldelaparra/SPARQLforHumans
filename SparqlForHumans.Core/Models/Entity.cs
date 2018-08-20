@@ -28,7 +28,7 @@ namespace SparqlForHumans.Core.Models
         public string InstanceOf { get; set; } = string.Empty;
         public string InstanceOfLabel { get; set; } = string.Empty;
 
-        public IEnumerable<Property> Properties { get; set; } = new List<Property>();
+        public List<Property> Properties { get; set; } = new List<Property>();
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
         public override string ToString()
