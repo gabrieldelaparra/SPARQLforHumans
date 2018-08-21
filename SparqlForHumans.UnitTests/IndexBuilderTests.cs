@@ -164,22 +164,22 @@ namespace SparqlForHumans.UnitTests
                     new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
                     analyzer);
 
-                string[] testWords = { "obama", "chile", "ireland", "apple", "orange", "human", "country", "car", "plane", "bed" };
+                string[] testWords = { "obama", "europe", "ireland", "apple", "america", "human", "park", "city", "germany", "france" };
 
                 foreach (var searchQuery in testWords)
                 {
                     const int resultsLimit = 10;
 
-                    var hits1 = readerNoBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
-                    var hits2 = readerWithBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
+                    var hitsNoBoost = readerNoBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
+                    var hitsWithBoost = readerWithBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
 
-                    Assert.Equal(hits1.Count(), hits2.Count());
+                    Assert.Equal(hitsNoBoost.Count(), hitsWithBoost.Count());
 
-                    for (var i = 0; i < hits2.Count(); i++)
+                    for (var i = 0; i < hitsWithBoost.Count(); i++)
                     {
-                        var doc1 = readerNoBoost.Doc(hits1[i].Doc);
-                        var doc2 = readerWithBoost.Doc(hits2[i].Doc);
-                        if (!doc1.GetValue(Labels.Label).Equals(doc2.GetValue(Labels.Label)))
+                        var docNoBoost = readerNoBoost.Doc(hitsNoBoost[i].Doc);
+                        var docWithBoost = readerWithBoost.Doc(hitsWithBoost[i].Doc);
+                        if (!docNoBoost.GetValue(Labels.Label).Equals(docWithBoost.GetValue(Labels.Label)))
                             found++;
                     }
                 }

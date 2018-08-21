@@ -14,41 +14,12 @@ namespace SparqlForHumans.UnitTests
 {
     public class DocumentMapperTests
     {
-        [Fact]
-        public static void TestGetDocumentLabel()
-        {
-            const string outputPath = "Resources/IndexSingle";
-            var luceneIndexDirectory = outputPath.GetLuceneDirectory();
-
-        }
-
         //[Fact]
-        //public static void TestGetLabelsFromIndex()
+        //public static void TestGetDocumentLabel()
         //{
         //    const string outputPath = "Resources/IndexSingle";
-
         //    var luceneIndexDirectory = outputPath.GetLuceneDirectory();
 
-        //    var label = DocumentMapper.GetLabelFromIndex("Q26", luceneIndexDirectory);
-
-        //    Assert.Equal("Northern Ireland", label);
-        //}
-
-        //[Fact]
-        //public static void TestGetLabelsFromReader()
-        //{
-        //    const string outputPath = "Resources/IndexSingle";
-
-        //    var luceneIndexDirectory = outputPath.GetLuceneDirectory();
-
-        //    var label = string.Empty;
-
-        //    using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
-        //    {
-        //        label = searcher.GetLabelFromReader("Q26");
-        //    }
-
-        //    Assert.Equal("Northern Ireland", label);
         //}
 
         [Fact]
@@ -123,19 +94,19 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(entity.Properties.Count(), first.Properties.Count());
 
             Assert.Equal(entity.Properties.ElementAt(0).Id, first.Properties.ElementAt(0).Id);
-            Assert.Equal(entity.Properties.ElementAt(0).Label, first.Properties.ElementAt(0).Label);
+            //Assert.Equal(entity.Properties.ElementAt(0).Label, first.Properties.ElementAt(0).Label);
             Assert.Equal(entity.Properties.ElementAt(0).Value, first.Properties.ElementAt(0).Value);
 
             Assert.Equal(entity.Properties.ElementAt(1).Id, first.Properties.ElementAt(1).Id);
-            Assert.Equal(entity.Properties.ElementAt(1).Label, first.Properties.ElementAt(1).Label);
+            //Assert.Equal(entity.Properties.ElementAt(1).Label, first.Properties.ElementAt(1).Label);
             Assert.Equal(entity.Properties.ElementAt(1).Value, first.Properties.ElementAt(1).Value);
 
             Assert.Equal(entity.Properties.ElementAt(2).Id, first.Properties.ElementAt(2).Id);
-            Assert.Equal(entity.Properties.ElementAt(2).Label, first.Properties.ElementAt(2).Label);
+            //Assert.Equal(entity.Properties.ElementAt(2).Label, first.Properties.ElementAt(2).Label);
             Assert.Equal(entity.Properties.ElementAt(2).Value, first.Properties.ElementAt(2).Value);
 
             Assert.Equal(entity.Properties.ElementAt(3).Id, first.Properties.ElementAt(3).Id);
-            Assert.Equal(entity.Properties.ElementAt(3).Label, first.Properties.ElementAt(3).Label);
+            //Assert.Equal(entity.Properties.ElementAt(3).Label, first.Properties.ElementAt(3).Label);
             Assert.Equal(entity.Properties.ElementAt(3).Value, first.Properties.ElementAt(3).Value);
         }
     }

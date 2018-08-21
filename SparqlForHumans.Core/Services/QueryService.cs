@@ -16,6 +16,70 @@ namespace SparqlForHumans.Core.Services
 {
     public static class QueryService
     {
+        public static Entity AddProperties(this Entity entity, Directory luceneIndexDirectory)
+        {
+            var propertiesIds = entity.Properties.Select(x => x.Id);
+            var properties = QueryEntityByIds(propertiesIds, luceneIndexDirectory);
+
+           
+            for (var i = 0; i < entity.Properties.Count(); i++)
+            {
+                var property = entity.Properties.ElementAt(i);
+                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                //prop.Label = property.Label;
+                property.Label = prop.Label;
+            }
+
+            return entity;
+        }
+
+        public static IEnumerable<Entity> QueryEntityByIds(IEnumerable<string> searchIds, Directory luceneIndexDirectory)
+        {
+            var entities = new List<Entity>();
+
+            // NotEmpty Validation
+            if (searchIds == null)
+                return entities;
+
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            using (var queryAnalyzer = new KeywordAnalyzer())
+            {
+                foreach (var searchText in searchIds)
+                {
+                    entities.Add(searchEntityById(searchText, queryAnalyzer, searcher));
+                }
+                queryAnalyzer.Close();
+                searcher.Dispose();
+            }
+            return entities;
+        }
+
+        public static Entity QueryEntityById(string searchId, Directory luceneIndexDirectory)
+        {
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(searchId))
+                return null;
+
+            var entity = new Entity();
+
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            using (var queryAnalyzer = new KeywordAnalyzer())
+            {
+                entity = searchEntityById(searchId, queryAnalyzer, searcher);
+
+                queryAnalyzer.Close();
+                searcher.Dispose();
+            }
+            return entity;
+        }
+
+        private static Entity searchEntityById(string searchId, Analyzer queryAnalyzer, Searcher searcher)
+        {
+            var parser = new QueryParser(Version.LUCENE_30,Labels.Id.ToString(),queryAnalyzer);
+
+            return searchEntity(searchId, searcher, parser);
+        }
+
         /// <summary>
         /// Uses the default Lucene Index to query.
         /// </summary>

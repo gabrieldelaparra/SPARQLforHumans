@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SparqlForHumans.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": "obama"
+    }
+  }
+}
