@@ -39,16 +39,16 @@ Search on the Lucene Index
                 select: function (event, ui) {
                     console.log(ui.item);
                     $('#txtLabel').text("Label: " + ui.item.label);
-                    $('#txtType').text("Type: " + ui.item.typeLabel + " (" + ui.item.type + ")");
+                    $('#txtType').text("Type: " + ui.item.instanceOfLabel + " (" + ui.item.instanceOf + ")");
                     $('#txtDescription').text("Description: " + ui.item.description);
-                    $.each(ui.item.properties, function (index, value) {
-                        $('#txtProperties').append("<li>" + value.item2 + " (" + value.item1 + ")</li>");
+                    $.each(ui.item.properties, function (index, property) {
+                        $('#txtProperties').append("<li>" + property.id + " (" + property.value + ")</li>");
                     });
                     return false;
                 }
             }).autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div>" + item.label + " (" + item.typeLabel + ") </div>")
+                    .append("<div>" + item.label + " (" + item.id + ") </div>")
                     .appendTo(ul);
             };;
         });
