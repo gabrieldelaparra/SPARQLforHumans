@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using NLog;
 
 namespace SparqlForHumans.Core.Utilities
 {
@@ -34,7 +33,6 @@ namespace SparqlForHumans.Core.Utilities
             return inputFilename.Replace(filename, $"{customKeyword}-{filename}-{limit}");
         }
 
-        //TODO: Test
         public static DirectoryInfo GetOrCreateDirectory(string path)
         {
             var directoryInfo = new DirectoryInfo(path);
@@ -56,21 +54,18 @@ namespace SparqlForHumans.Core.Utilities
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             long lineCount = 0;
-            using (var logStreamWriter = new StreamWriter(new FileStream("LineCountLog.txt", FileMode.Create)))
+            const int notifyTicks = 100000;
+
+            var lines = GetInputLines(filename);
+
+            foreach (var item in lines)
             {
-                const int notifyTicks = 100000;
-
-                var lines = GetInputLines(filename);
-
-                foreach (var item in lines)
-                {
-                    lineCount++;
-                    if (lineCount % notifyTicks == 0)
-                        logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
-                }
-
-                logStreamWriter.WriteLine($"{stopwatch.ElapsedMilliseconds},{lineCount}");
+                lineCount++;
+                if (lineCount % notifyTicks == 0)
+                    Logger.Trace($"{stopwatch.ElapsedMilliseconds},{lineCount}");
             }
+
+            Logger.Trace($"{stopwatch.ElapsedMilliseconds},{lineCount}");
 
             stopwatch.Stop();
             return lineCount;
@@ -85,7 +80,6 @@ namespace SparqlForHumans.Core.Utilities
                     lines = ReadLines(inputTriples);
                     break;
                 case FileType.gZip:
-                    //lines = GZipHandler.ReadGZip(inputTriples);
                     lines = SharpZipHandler.ReadGZip(inputTriples);
                     break;
                 default:
@@ -105,24 +99,10 @@ namespace SparqlForHumans.Core.Utilities
             }
         }
 
-        public static IEnumerable<string> ReadLinesTrace(string filename, long maxLines)
-        {
-            const long count = 0;
-            using (var streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
-            {
-                while (!streamReader.EndOfStream || count < maxLines)
-                {
-                    var line = streamReader.ReadLine();
-                    Logger.Trace(line);
-                    yield return line;
-
-                }
-            }
-        }
-
         public static FileType GetFilenameType(string filename)
         {
-            if (!File.Exists(filename)) throw new ArgumentException("Filename does not exists");
+            if (!File.Exists(filename))
+                throw new ArgumentException("Filename does not exists");
 
             return GetFileType(Path.GetExtension(filename));
         }
