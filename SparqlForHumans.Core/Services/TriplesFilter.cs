@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using NLog;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
 

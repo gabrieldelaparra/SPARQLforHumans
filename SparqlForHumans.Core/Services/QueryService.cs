@@ -21,12 +21,10 @@ namespace SparqlForHumans.Core.Services
             var propertiesIds = entity.Properties.Select(x => x.Id);
             var properties = QueryEntityByIds(propertiesIds, luceneIndexDirectory);
 
-           
             for (var i = 0; i < entity.Properties.Count(); i++)
             {
                 var property = entity.Properties.ElementAt(i);
                 var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                //prop.Label = property.Label;
                 property.Label = prop.Label;
             }
 
