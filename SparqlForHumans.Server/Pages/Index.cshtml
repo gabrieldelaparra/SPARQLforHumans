@@ -42,7 +42,7 @@ Search on the Lucene Index
                     $('#txtType').text("Type: " + ui.item.instanceOfLabel + " (" + ui.item.instanceOf + ")");
                     $('#txtDescription').text("Description: " + ui.item.description);
                     $.each(ui.item.properties, function (index, property) {
-                        $('#txtProperties').append("<li>" + property.id + " (" + property.value + ")</li>");
+                        $('#txtProperties').append("<li>" + property.label + " (" + property.id + ") = "+ property.value + "</li>");
                     });
                     return false;
                 }
