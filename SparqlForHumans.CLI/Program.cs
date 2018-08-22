@@ -7,7 +7,7 @@ namespace SparqlForHumans.CLI
 {
     class Program
     {
-        private static bool keepRunning = true;
+        //private static bool keepRunning = true;
 
         static void Main(string[] args)
         {
