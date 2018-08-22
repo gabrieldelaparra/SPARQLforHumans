@@ -265,3 +265,4 @@ __pycache__/
 /.vscode
 Progress.md
 /SparqlForHumans.CLI/filtered-All-2MM.nt
+/IndexFull

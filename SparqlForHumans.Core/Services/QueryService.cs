@@ -148,6 +148,10 @@ namespace SparqlForHumans.Core.Services
             return searchEntity(searchText, searcher, parser);
         }
 
+        //TODO: Test Search Alt-Label
+        //TODO: Test Search by Id
+        //TODO: UI When searching by Person shows Human but can show Person and Alt-Labels as options
+        //TODO: Some instances have more than one InstanceOf
         private static List<Entity> searchEntities(string searchText, Analyzer queryAnalyzer, Searcher searcher,
             int resultsLimit)
         {
