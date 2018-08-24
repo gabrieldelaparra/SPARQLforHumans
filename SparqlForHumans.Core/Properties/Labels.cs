@@ -8,7 +8,9 @@
         InstanceOf,
         AltLabel,
         Description,
+        Rank,
         PropertyAndValue,
-        PropertyFrequency
+        PropertyFrequency,
+        Frequency
     }
 }
