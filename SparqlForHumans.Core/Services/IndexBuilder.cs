@@ -166,7 +166,12 @@ namespace SparqlForHumans.Core.Services
                     }
 
                     if (addBoosts)
-                        luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
+                    {
+                        luceneDocument.Boost = (float) nodesGraphRanks[nodeCount];
+                        var field = new Field(Labels.Rank.ToString(), value: nodesGraphRanks[nodeCount].ToString(), store: Field.Store.YES,
+                            index: Field.Index.NOT_ANALYZED);
+                        luceneDocument.Add(field);
+                    }
 
                     writer.AddDocument(luceneDocument);
                     nodeCount++;
