@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Core.Models
 {
@@ -25,15 +26,17 @@ namespace SparqlForHumans.Core.Models
         public string Description { get; set; } = string.Empty;
 
         //TODO: Move InstanceOf to Property
-        public string InstanceOf { get; set; } = string.Empty;
-        public string InstanceOfLabel { get; set; } = string.Empty;
+        public List<Property> InstanceOf { get; set; } = new List<Property>();
+
+        public string InstanceOfId => InstanceOf?.FirstOrDefault()?.Id;
+        public string InstanceOfLabel => InstanceOf?.FirstOrDefault()?.Label;
 
         public List<Property> Properties { get; set; } = new List<Property>();
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
         public override string ToString()
         {
-            return $"{base.ToString()} - {InstanceOfLabel} ({InstanceOf}) - {Description}";
+            return $"{base.ToString()} - {InstanceOfLabel} ({InstanceOfId}) - {Description}";
         }
     }
 }
