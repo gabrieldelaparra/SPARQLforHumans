@@ -125,12 +125,12 @@ namespace SparqlForHumans.Core.Services
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var entiyGroups = lines.GroupBySubject();
+                var entityGroups = lines.GroupBySubject();
 
                 //Lucene document for each entity
                 var luceneDocument = new Document();
 
-                foreach (var group in entiyGroups)
+                foreach (var group in entityGroups)
                 {
                     var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
 
@@ -182,7 +182,7 @@ namespace SparqlForHumans.Core.Services
         private static void ParsePredicate(INode ntPredicate, INode ntObject, Document luceneDocument)
         {
             // On the existing Subject
-            // If the predicate is a Propery, add the property to a list of Properties and link it to the entity.
+            // If the predicate is a Property, add the property to a list of Properties and link it to the entity.
             // Else, (predicate not a property: Labels, Alt-Labels, Description, etc.)
             //  If the object is not a literal value, continue;
             // Otherwise, add the value to the index on each case.
