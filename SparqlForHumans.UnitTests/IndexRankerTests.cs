@@ -64,7 +64,7 @@ namespace SparqlForHumans.UnitTests
             var filename = "Resources/buildGraph.nt";
             var nodesGraph = EntityRanker.BuildNodesGraph(filename);
 
-            EntityRanker.CalculateRanks(nodesGraph,1);
+            EntityRanker.CalculateRanks(nodesGraph, 1);
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
@@ -139,6 +139,25 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankSevenIterations()
         {
             var filename = "Resources/buildGraph.nt";
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
+
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
+
+            Assert.Equal(0.138, ranks[0].ToThreeDecimals());
+            Assert.Equal(0.087, ranks[1].ToThreeDecimals());
+            Assert.Equal(0.061, ranks[2].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[3].ToThreeDecimals());
+            Assert.Equal(0.128, ranks[4].ToThreeDecimals());
+            Assert.Equal(0.222, ranks[5].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[6].ToThreeDecimals());
+        }
+
+        [Fact]
+        public void TestCalculateFloatRankSevenIterationsMultipleProperties()
+        {
+            var filename = "Resources/buildGraphMultipleProperties.nt";
             var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
