@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
@@ -16,6 +17,36 @@ namespace SparqlForHumans.Core.Services
 
         public static int NotifyTicks { get; } = 100000;
 
+        public static void CreateTypesIndex()
+        {
+            var dictionary = new Dictionary<string, List<string>>();
+
+            const string entityIndexPath = "EntityIndex";
+            using (var entityReader = IndexReader.Open(entityIndexPath.GetLuceneDirectory(), true))
+            {
+                var docCount = entityReader.MaxDoc;
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = entityReader.Document(i);
+                    var entity = doc.MapEntity();
+                    var instanceOfArray = doc.GetValues(Labels.InstanceOf);
+                    var propertiesArray = doc.GetValues(Labels.PropertyAndValue);
+
+                    foreach (var instanceOf in instanceOfArray)
+                    {
+                        if (dictionary.ContainsKey(instanceOf))
+                        {
+                            var valuesList = dictionary[instanceOf];
+                            foreach (var propertyA in propertiesArray)
+                            {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
         /// Rank with frequency;
@@ -31,7 +62,7 @@ namespace SparqlForHumans.Core.Services
                 dictionary = PropertiesFrequency.GetPropertiesFrequency(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
-            Logger.Info("Building Index");
+            Logger.Info("Building Properties Index");
             using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
@@ -112,14 +143,16 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             double[] nodesGraphRanks = null;
-
+            Dictionary<string, int> nodesDictionary = null;
             if (addBoosts)
             {
                 //Ranking:
+                Logger.Info("Building Dictionary");
+                nodesDictionary = EntityRanker.BuildNodesDictionary(inputTriplesFilename);
                 Logger.Info("Building Graph");
-                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename);
+                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
                 Logger.Info("Calculating Ranks");
-                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 25);
+                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 20);
             }
 
             Logger.Info("Building Index");
@@ -142,7 +175,7 @@ namespace SparqlForHumans.Core.Services
 
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
-
+                    var id = string.Empty;
                     foreach (var line in group)
                     {
                         readCount++;
@@ -154,7 +187,7 @@ namespace SparqlForHumans.Core.Services
 
                         if (!hasDocument)
                         {
-                            var id = ntSubject.GetId();
+                            id = ntSubject.GetId();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
@@ -169,10 +202,14 @@ namespace SparqlForHumans.Core.Services
 
                     if (addBoosts)
                     {
-                        luceneDocument.Boost = (float) nodesGraphRanks[nodeCount];
-                        var field = new Field(Labels.Rank.ToString(), value: nodesGraphRanks[nodeCount].ToString(), store: Field.Store.YES,
-                            index: Field.Index.NOT_ANALYZED);
-                        luceneDocument.Add(field);
+                        nodesDictionary.TryGetValue(id, out var subjectIndex);
+
+                        luceneDocument.Boost = (float)nodesGraphRanks[subjectIndex];
+
+                        var rankField = new NumericField(Labels.Rank.ToString(), Field.Store.YES, true);
+                        rankField.SetDoubleValue(nodesGraphRanks[subjectIndex]);
+
+                        luceneDocument.Add(rankField);
                     }
 
                     writer.AddDocument(luceneDocument);
