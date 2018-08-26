@@ -164,8 +164,12 @@ namespace SparqlForHumans.Core.Services
         //TODO: Refactor MapEntity to be a class object that can be exchanged to create different mappings.
         private static Entity searchEntity(string searchText, Searcher searcher, QueryParser parser)
         {
+            var sort = new Sort(
+                SortField.FIELD_SCORE, 
+                new SortField(Labels.Rank.ToString(), SortField.FLOAT));
+
             var query = ParseQuery(searchText, parser);
-            var hit = searcher.Search(query, null, 1).ScoreDocs;
+            var hit = searcher.Search(query, null, 1, sort).ScoreDocs;
 
             if (hit == null || hit.Length.Equals(0))
                 return null;
@@ -175,8 +179,12 @@ namespace SparqlForHumans.Core.Services
 
         private static List<Entity> searchEntities(string searchText, Searcher searcher, int resultsLimit, QueryParser parser)
         {
+            var sort = new Sort(
+                SortField.FIELD_SCORE, 
+                new SortField(Labels.Rank.ToString(), SortField.FLOAT));
+
             var query = ParseQuery(searchText, parser);
-            var hits = searcher.Search(query, null, resultsLimit).ScoreDocs;
+            var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;
 
             var entityList = new List<Entity>();
             foreach (var hit in hits)
