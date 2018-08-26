@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lucene.Net.Documents;
 using SparqlForHumans.Core.Models;
@@ -48,6 +49,12 @@ namespace SparqlForHumans.Core.Utilities
             return entity;
         }
 
+        public static Entity GetRank(this Entity entity, Document document)
+        {
+            entity.Rank = document.GetValue(Labels.Rank);
+            return entity;
+        }
+
         //public static Entity GetInstanceOf(this Entity entity, Document document)
         //{
         //    entity.InstanceOf = document.GetInstanceOf();
@@ -76,6 +83,7 @@ namespace SparqlForHumans.Core.Utilities
             var entity = document.MapBaseEntity()
                                  .GetAltLabels(document)
                                  .GetDescription(document)
+                                 .GetRank(document)
                                  .GetInstanceOf(document)
                                  .GetBaseProperties(document);
 

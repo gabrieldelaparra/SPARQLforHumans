@@ -34,9 +34,21 @@ namespace SparqlForHumans.Core.Models
         public List<Property> Properties { get; set; } = new List<Property>();
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
+        public string Rank { get; set; }
+
+        public double RankValue
+        {
+            get
+            {
+                if (double.TryParse(Rank, out var rank))
+                    return rank;
+                return 0;
+            }
+        }
+
         public override string ToString()
         {
-            return $"{base.ToString()} - {InstanceOfLabel} ({InstanceOfId}) - {Description}";
+            return $"[{Rank}] {base.ToString()} - ({InstanceOfId}) - {Description}";
         }
     }
 }

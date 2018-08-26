@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Lucene.Net.Index;
+using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using Xunit;
@@ -152,34 +154,43 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(0.180, ranks[6].ToThreeDecimals());
         }
 
-        //[Fact]
-        //public void TestRankIndex()
-        //{
-        //    var filename = "Resources/filtered.nt";
-        //    var directoryPath = "Index";
-        //    var rankedPath = "RankedIndex";
+        [Fact]
+        public void TestIndexRanks()
+        {
+            var filename = "Resources/buildGraph.nt";
+            var outputPath = "IndexRanks";
 
-        //    if (Directory.Exists(directoryPath))
-        //        Directory.Delete(directoryPath, true);
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
-        //    Assert.False(Directory.Exists(directoryPath));
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
 
-        //    IndexBuilder.CreateIndex(filename, directoryPath);
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
-        //    Assert.True(Directory.Exists(directoryPath));
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
 
-        //    var q1 = QueryService.QueryEntitiesByLabel("Berlin", LuceneHelper.GetLuceneDirectory(directoryPath));
-        //    Assert.NotNull(q1);
-        //    Assert.Single(q1);
-        //    Assert.Contains("Berlin", q1.FirstOrDefault().Label);
+            Assert.False(Directory.Exists(outputPath));
 
-        //    var luceneDirectory = LuceneHelper.GetLuceneDirectory(directoryPath);
-        //    Assert.False(luceneDirectory.HasRank()); 
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
-        //    IndexRanker.Rank(luceneDirectory, filename, rankedPath);
+            Assert.True(Directory.Exists(outputPath));
 
-        //    var rankedIndexDirectory = LuceneHelper.GetLuceneDirectory(rankedPath);
-        //    Assert.True(rankedIndexDirectory.HasRank());
-        //}
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var docCount = reader.MaxDoc;
+
+                Assert.Equal(7, docCount);
+
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = reader.Document(i);
+                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                }
+            }
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+        }
     }
 }
