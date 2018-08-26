@@ -48,11 +48,20 @@ namespace SparqlForHumans.Core.Utilities
             return entity;
         }
 
+        //public static Entity GetInstanceOf(this Entity entity, Document document)
+        //{
+        //    entity.InstanceOf = document.GetInstanceOf();
+        //    return entity;
+        //}
 
-
-        public static Entity GetInstanceOf(this Entity entity, Document document)
+        /// <summary>
+        /// Gets Alt-Label collection for a document.
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <returns></returns>
+        private static Entity GetInstanceOf(this Entity entity, Document doc)
         {
-            entity.InstanceOf = document.GetValue(Labels.InstanceOf);
+            entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
             return entity;
         }
 

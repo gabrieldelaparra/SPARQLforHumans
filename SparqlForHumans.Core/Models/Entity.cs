@@ -26,10 +26,10 @@ namespace SparqlForHumans.Core.Models
         public string Description { get; set; } = string.Empty;
 
         //TODO: Move InstanceOf to Property
-        public List<Property> InstanceOf { get; set; } = new List<Property>();
+        public IEnumerable<string> InstanceOf { get; set; } = new List<string>();
 
-        public string InstanceOfId => InstanceOf?.FirstOrDefault()?.Id;
-        public string InstanceOfLabel => InstanceOf?.FirstOrDefault()?.Label;
+        public string InstanceOfId => InstanceOf?.FirstOrDefault();
+        public string InstanceOfLabel => InstanceOf?.FirstOrDefault();
 
         public List<Property> Properties { get; set; } = new List<Property>();
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
