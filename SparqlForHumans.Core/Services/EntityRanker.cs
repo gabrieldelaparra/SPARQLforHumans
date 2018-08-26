@@ -9,7 +9,7 @@ namespace SparqlForHumans.Core.Services
     public static class EntityRanker
     {
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
-        public static int NotifyTicks { get; } = 10000;
+        public static int NotifyTicks { get; } = 100000;
 
         private static double pageRankAlpha = 0.85d;
 
@@ -32,6 +32,7 @@ namespace SparqlForHumans.Core.Services
 
                 nodeCount++;
             }
+            Logger.Info($"Group: {nodeCount:N0}");
 
             return dictionary;
         }
@@ -42,12 +43,16 @@ namespace SparqlForHumans.Core.Services
             dictionary.Add(subjectId, entityIndex);
         }
 
-        //Read the file twice
-        //Order n. Suponiendo que dictionary tiene orden 1.
         public static int[][] BuildSimpleNodesGraph(string triplesFilename)
         {
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
+            return BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
+        }
 
+        //Read the file twice
+        //Order n. Suponiendo que dictionary tiene orden 1.
+        public static int[][] BuildSimpleNodesGraph(string triplesFilename, Dictionary<string, int> nodesDictionary)
+        {
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
@@ -78,11 +83,10 @@ namespace SparqlForHumans.Core.Services
                         entityNodeConnections.Add(objectIndex);
                 }
 
-                
                 nodeArray[subjectIndex] = entityNodeConnections.ToArray();
                 nodeCount++;
             }
-
+            Logger.Info($"Group: {nodeCount:N0}");
             return nodeArray;
         }
 
@@ -150,7 +154,7 @@ namespace SparqlForHumans.Core.Services
             for (var i = 0; i < iterations; i++)
             {
                 oldRanks = IterateGraph(graphNodes, oldRanks);
-                Console.WriteLine("Iteration " + i + " finished!");
+                Logger.Info($"Iteration {i} finished!");
             }
 
             return oldRanks;
@@ -202,10 +206,9 @@ namespace SparqlForHumans.Core.Services
                 ranks[i] += weakRank;
             }
 
-            if (ranks.Sum() != 1)
-                Console.WriteLine("error");
+            if (ranks.Sum().ToThreeDecimals() != 1)
+                Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
 
-            //Array.Copy(ranks, 0, oldRanks, 0, nodesCount);
             return ranks;
         }
 
