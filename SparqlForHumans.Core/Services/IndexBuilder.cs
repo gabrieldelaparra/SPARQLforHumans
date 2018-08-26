@@ -96,6 +96,8 @@ namespace SparqlForHumans.Core.Services
             analyzer.Close();
         }
 
+        //TODO: No 'prefLabel' in the current index:
+        //TODO: No 'name' in the current index:
         /// EntitiesIndex
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
