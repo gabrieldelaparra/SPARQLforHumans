@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Lucene.Net.Index;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
@@ -174,9 +172,67 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestCalculateFloatRankSevenIterationsDifferentIds()
+        {
+            var filename = "Resources/buildGraphDifferentIds.nt";
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
+
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
+
+            Assert.Equal(0.138, ranks[0].ToThreeDecimals());
+            Assert.Equal(0.087, ranks[1].ToThreeDecimals());
+            Assert.Equal(0.061, ranks[2].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[3].ToThreeDecimals());
+            Assert.Equal(0.128, ranks[4].ToThreeDecimals());
+            Assert.Equal(0.222, ranks[5].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[6].ToThreeDecimals());
+        }
+
+        [Fact]
         public void TestIndexRanks()
         {
             var filename = "Resources/buildGraph.nt";
+            var outputPath = "IndexRanks";
+
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
+
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+
+            Assert.False(Directory.Exists(outputPath));
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            Assert.True(Directory.Exists(outputPath));
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var docCount = reader.MaxDoc;
+
+                Assert.Equal(7, docCount);
+
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = reader.Document(i);
+                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                }
+            }
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+        }
+
+        [Fact]
+        public void TestIndexRanksDifferentIds()
+        {
+            var filename = "Resources/buildGraphDifferentIds.nt";
             var outputPath = "IndexRanks";
 
             var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
