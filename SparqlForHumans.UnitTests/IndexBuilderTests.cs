@@ -15,88 +15,251 @@ namespace SparqlForHumans.UnitTests
     public class IndexBuilderTests
     {
         [Fact]
-        public void TestCreateBasicSingleInstanceIndex()
+        public void TestCreateIndexAddsFolders()
         {
             const string filename = "Resources/SingleInstanceDump.nt";
-            const string outputPath = "IndexSingle";
+            const string outputPath = "IndexCreateFolder";
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+            Assert.True(Directory.Exists(outputPath));
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexDocCount()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexDocCount";
+            outputPath.DeleteIfExists();
 
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
-
-            Assert.True(Directory.Exists(outputPath));
 
             using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
             {
                 var docCount = reader.MaxDoc;
-
                 Assert.Equal(1, docCount);
-
-                var doc = reader.Document(0);
-                Assert.NotNull(doc);
-                Assert.Equal("Q26", doc.GetField(Labels.Id.ToString()).StringValue);
-                Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).StringValue);
-
-                //No 'prefLabel' in the current index:
-                //Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).StringValue);
-
-                //No 'name' in the current index:
-                //Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).StringValue);
-
-                //Alt-Label:
-                Assert.Equal(3, doc.GetFields(Labels.AltLabel.ToString()).Length);
-
-                Assert.Equal("NIR", doc.GetField(Labels.AltLabel.ToString()).StringValue);
-
-                Assert.Equal("NIR", doc.GetFields(Labels.AltLabel.ToString())[0].StringValue);
-                Assert.Equal("UKN", doc.GetFields(Labels.AltLabel.ToString())[1].StringValue);
-                Assert.Equal("North Ireland", doc.GetFields(Labels.AltLabel.ToString())[2].StringValue);
-
-                //Description
-                Assert.Equal("region in north-west Europe, part of the United Kingdom", doc.GetField(Labels.Description.ToString()).StringValue);
-
-                //Properties and Values
-                Assert.Equal(4, doc.GetFields(Labels.PropertyAndValue.ToString()).Length);
-
-                Assert.Equal("P17##Q145", doc.GetField(Labels.PropertyAndValue.ToString()).StringValue);
-
-                Assert.Equal("P17##Q145", doc.GetFields(Labels.PropertyAndValue.ToString())[0].StringValue);
-                Assert.Equal("P47##Q27", doc.GetFields(Labels.PropertyAndValue.ToString())[1].StringValue);
-                Assert.Equal("P30##Q46", doc.GetFields(Labels.PropertyAndValue.ToString())[2].StringValue);
-                Assert.Equal("P131##Q145", doc.GetFields(Labels.PropertyAndValue.ToString())[3].StringValue);
-
-                //Properties
-                Assert.Equal(4, doc.GetFields(Labels.Property.ToString()).Length);
-
-                Assert.Equal("P17", doc.GetField(Labels.Property.ToString()).StringValue);
-
-                Assert.Equal("P17", doc.GetFields(Labels.Property.ToString())[0].StringValue);
-                Assert.Equal("P47", doc.GetFields(Labels.Property.ToString())[1].StringValue);
-                Assert.Equal("P30", doc.GetFields(Labels.Property.ToString())[2].StringValue);
-                Assert.Equal("P131", doc.GetFields(Labels.Property.ToString())[3].StringValue);
             }
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
         }
 
         [Fact]
-        public void TestCreateBasicMultipleInstanceIndex()
+        public void TestCreateMultipleInstanceIndexDocCount()
+        {
+            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string outputPath = "IndexDocCount";
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var docCount = reader.MaxDoc;
+                Assert.Equal(3, docCount);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexDocNotNull()
+        {
+            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string outputPath = "IndexDocNotNull";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc1 = reader.Document(0);
+                var doc2 = reader.Document(1);
+                var doc3 = reader.Document(2);
+
+                Assert.NotNull(doc1);
+                Assert.NotNull(doc2);
+                Assert.NotNull(doc3);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexId()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingleId";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+                Assert.Equal("Q26", doc.GetValue(Labels.Id));
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexLabel()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingleLabel";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+                Assert.Equal("Northern Ireland", doc.GetValue(Labels.Label));
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexAltLabel()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingleAltLabel";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+                Assert.Equal(3, doc.GetValues(Labels.AltLabel).Length);
+
+                Assert.Equal("NIR", doc.GetValue(Labels.AltLabel));
+
+                Assert.Equal("NIR", doc.GetValues(Labels.AltLabel)[0]);
+                Assert.Equal("UKN", doc.GetValues(Labels.AltLabel)[1]);
+                Assert.Equal("North Ireland", doc.GetValues(Labels.AltLabel)[2]);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexDescription()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingleDescription";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+                Assert.Equal("region in north-west Europe, part of the United Kingdom", doc.GetValue(Labels.Description));
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexInstanceOf()
+        {
+            const string filename = "Resources/TwoInstanceOf.nt";
+            const string outputPath = "TwoInstanceOfIndex";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+
+                var instanceOfArray = doc.GetValues(Labels.InstanceOf);
+                Assert.NotNull(instanceOfArray);
+                Assert.Equal(2, instanceOfArray.Length);
+                Assert.Equal("Q145",instanceOfArray[0]);
+                Assert.Equal("Q27",instanceOfArray[1]);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexPropertiesAndValues()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSinglePropAndValues";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+
+                Assert.Equal(4, doc.GetValues(Labels.PropertyAndValue).Length);
+
+                Assert.Equal("P17##Q145", doc.GetValue(Labels.PropertyAndValue));
+
+                Assert.Equal("P17##Q145", doc.GetValues(Labels.PropertyAndValue)[0]);
+                Assert.Equal("P47##Q27", doc.GetValues(Labels.PropertyAndValue)[1]);
+                Assert.Equal("P30##Q46", doc.GetValues(Labels.PropertyAndValue)[2]);
+                Assert.Equal("P131##Q145", doc.GetValues(Labels.PropertyAndValue)[3]);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexProperties()
+        {
+            const string filename = "Resources/SingleInstanceDump.nt";
+            const string outputPath = "IndexSingleProperties";
+
+            outputPath.DeleteIfExists();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var doc = reader.Document(0);
+
+                Assert.Equal(4, doc.GetValues(Labels.Property).Length);
+
+                Assert.Equal("P17", doc.GetValue(Labels.Property));
+
+                Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
+                Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
+                Assert.Equal("P30", doc.GetValues(Labels.Property)[2]);
+                Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+
+
+        [Fact]
+        public void TestCreateMultipleInstanceIndex()
         {
             const string filename = "Resources/MultipleInstanceDump.nt";
             const string outputPath = "IndexMultiple";
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
-
-            Assert.False(Directory.Exists(outputPath));
+            outputPath.DeleteIfExists();
 
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, false);
-
-            Assert.True(Directory.Exists(outputPath));
 
             using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
             {
@@ -139,11 +302,8 @@ namespace SparqlForHumans.UnitTests
             const string outputPath1 = "IndexRank1";
             const string outputPath2 = "IndexRank2";
 
-            if (Directory.Exists(outputPath1))
-                Directory.Delete(outputPath1, true);
-
-            if (Directory.Exists(outputPath2))
-                Directory.Delete(outputPath2, true);
+            outputPath1.DeleteIfExists();
+            outputPath2.DeleteIfExists();
 
             IndexBuilder.CreateEntitiesIndex(filename, outputPath1);
             IndexBuilder.CreateEntitiesIndex(filename, outputPath2, false);
@@ -189,11 +349,8 @@ namespace SparqlForHumans.UnitTests
             }
             Assert.NotEqual(0, found);
 
-            if (Directory.Exists(outputPath1))
-                Directory.Delete(outputPath1, true);
-
-            if (Directory.Exists(outputPath2))
-                Directory.Delete(outputPath2, true);
+            outputPath1.DeleteIfExists();
+            outputPath2.DeleteIfExists();
         }
 
         [Fact]
@@ -202,8 +359,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = "Resources/filtered-All-500.nt";
             const string outputPath = "Index500";
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
 
@@ -219,8 +375,7 @@ namespace SparqlForHumans.UnitTests
             Assert.NotNull(q2);
             Assert.Contains("Barack Obama", q2.FirstOrDefault().Label);
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
         }
     }
 }
