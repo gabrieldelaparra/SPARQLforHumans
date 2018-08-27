@@ -10,7 +10,7 @@ namespace SparqlForHumans.Core.Services
     public static class PropertiesFrequency
     {
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
-        public static int NotifyTicks { get; } = 1000;
+        public static int NotifyTicks { get; } = 100000;
 
         public static Dictionary<string, int> GetPropertiesFrequency(string triplesFilename)
         {
@@ -38,6 +38,7 @@ namespace SparqlForHumans.Core.Services
                     ParsePropertyFrequencyLine(line, dictionary);
                 }
 
+                Logger.Info($"Group: {nodeCount:N0}");
                 nodeCount++;
             }
 
