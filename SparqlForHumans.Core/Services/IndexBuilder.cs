@@ -4,6 +4,7 @@ using System.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -28,19 +29,21 @@ namespace SparqlForHumans.Core.Services
                 for (var i = 0; i < docCount; i++)
                 {
                     var doc = entityReader.Document(i);
-                    var entity = doc.MapEntity();
-                    var instanceOfArray = doc.GetValues(Labels.InstanceOf);
-                    var propertiesArray = doc.GetValues(Labels.PropertyAndValue);
+                    var entity = doc.MapBaseEntity()
+                        .MapInstanceOf(doc)
+                        .MapRank(doc)
+                        .MapBaseProperties(doc);
 
-                    foreach (var instanceOf in instanceOfArray)
+                    foreach (var instanceOf in entity.InstanceOf)
                     {
-                        if (dictionary.ContainsKey(instanceOf))
-                        {
-                            var valuesList = dictionary[instanceOf];
-                            foreach (var propertyA in propertiesArray)
-                            {
+                        if (!dictionary.ContainsKey(instanceOf)) continue;
 
-                            }
+                        var valuesList = dictionary[instanceOf];
+                        foreach (var entityProperty in entity.Properties)
+                        {
+                            if (valuesList.Contains(entityProperty.Id)) continue;
+
+                            valuesList.Add(entityProperty.Id);
                         }
                     }
                 }

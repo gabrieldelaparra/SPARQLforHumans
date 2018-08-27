@@ -167,10 +167,6 @@ namespace SparqlForHumans.Core.Services
             var field = new SortField(Labels.Rank.ToString(), SortField.FLOAT);
             var sort = new Sort(field);
 
-            //var sort = new Sort(
-            //    SortField.FIELD_SCORE, 
-            //    );
-
             var query = ParseQuery(searchText, parser);
             var hit = searcher.Search(query, null, 1, sort).ScoreDocs;
 
@@ -182,11 +178,11 @@ namespace SparqlForHumans.Core.Services
 
         private static List<Entity> searchEntities(string searchText, Searcher searcher, int resultsLimit, QueryParser parser)
         {
-            //var sort = new Sort(new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
+            var sort = new Sort(new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
-            //var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;
-            var hits = searcher.Search(query, null, resultsLimit).ScoreDocs;
+            var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;
+            //var hits = searcher.Search(query, null, resultsLimit).ScoreDocs;
 
             var entityList = new List<Entity>();
             foreach (var hit in hits)
@@ -195,7 +191,6 @@ namespace SparqlForHumans.Core.Services
                 entityList.Add(doc.MapEntity());
             }
 
-            //entityList.Reverse();
             return entityList;
         }
 

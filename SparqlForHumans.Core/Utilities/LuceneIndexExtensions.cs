@@ -8,9 +8,11 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class LuceneIndexExtensions
     {
-        public static string IndexPath => @"../LuceneIndex";
+        public static string EntityIndexPath => @"../LuceneEntitiesIndex";
+        public static string PropertyIndexPath => @"../LucenePropertiesIndex";
+        public static string TypesIndexPath => @"../LuceneTypesIndex";
 
-        public static Directory LuceneIndexDirectory => IndexPath.GetLuceneDirectory();
+        public static Directory LuceneIndexDirectory => EntityIndexPath.GetLuceneDirectory();
 
         public static Directory GetLuceneDirectory(this string directoryPath)
         {

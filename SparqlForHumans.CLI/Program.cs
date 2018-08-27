@@ -15,7 +15,7 @@ namespace SparqlForHumans.CLI
             //FilterAll();
             //Filter2MM();
             //CreateIndex2MM(true);
-            //CreatePropertyIndex();
+            //CreatePropertyIndex(true);
             QueryEntities("obama");
         }
 
@@ -55,7 +55,7 @@ namespace SparqlForHumans.CLI
         static void CreateIndex2MM(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneIndexExtensions.IndexPath;
+            var outputPath = LuceneIndexExtensions.EntityIndexPath;
 
             if (Directory.Exists(outputPath) && overwrite)
                 Directory.Delete(outputPath, true);
@@ -67,7 +67,7 @@ namespace SparqlForHumans.CLI
         static void CreatePropertyIndex(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneIndexExtensions.IndexPath;
+            var outputPath = LuceneIndexExtensions.PropertyIndexPath;
 
             if (Directory.Exists(outputPath) && overwrite)
             Directory.Delete(outputPath, true);
