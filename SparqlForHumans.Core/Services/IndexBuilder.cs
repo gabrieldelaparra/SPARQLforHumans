@@ -22,8 +22,7 @@ namespace SparqlForHumans.Core.Services
         {
             var dictionary = new Dictionary<string, List<string>>();
 
-            const string entityIndexPath = "EntityIndex";
-            using (var entityReader = IndexReader.Open(entityIndexPath.GetLuceneDirectory(), true))
+            using (var entityReader = IndexReader.Open(LuceneIndexExtensions.EntitiesIndexDirectory, true))
             {
                 var docCount = entityReader.MaxDoc;
                 for (var i = 0; i < docCount; i++)
@@ -36,14 +35,14 @@ namespace SparqlForHumans.Core.Services
 
                     foreach (var instanceOf in entity.InstanceOf)
                     {
-                        if (!dictionary.ContainsKey(instanceOf)) continue;
+                        if (!dictionary.ContainsKey(instanceOf))
+                            dictionary.Add(instanceOf, new List<string>());
 
                         var valuesList = dictionary[instanceOf];
                         foreach (var entityProperty in entity.Properties)
                         {
-                            if (valuesList.Contains(entityProperty.Id)) continue;
-
-                            valuesList.Add(entityProperty.Id);
+                            if (!valuesList.Contains(entityProperty.Id))
+                                valuesList.Add(entityProperty.Id);
                         }
                     }
                 }

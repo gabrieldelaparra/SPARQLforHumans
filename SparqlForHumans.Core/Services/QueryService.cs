@@ -109,7 +109,7 @@ namespace SparqlForHumans.Core.Services
         /// <returns></returns>
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText)
         {
-            return QueryEntitiesByLabel(searchText, LuceneIndexExtensions.LuceneIndexDirectory);
+            return QueryEntitiesByLabel(searchText, LuceneIndexExtensions.EntitiesIndexDirectory);
         }
 
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory)
