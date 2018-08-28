@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
+using Lucene.Net.Index;
+using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using Xunit;
@@ -62,7 +62,7 @@ namespace SparqlForHumans.UnitTests
             var filename = "Resources/buildGraph.nt";
             var nodesGraph = EntityRanker.BuildNodesGraph(filename);
 
-            EntityRanker.CalculateRanks(nodesGraph,1);
+            EntityRanker.CalculateRanks(nodesGraph, 1);
 
             Assert.Equal(1, Math.Round(nodesGraph.Sum(x => x.Rank)), 10);
 
@@ -152,34 +152,120 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(0.180, ranks[6].ToThreeDecimals());
         }
 
-        //[Fact]
-        //public void TestRankIndex()
-        //{
-        //    var filename = "Resources/filtered.nt";
-        //    var directoryPath = "Index";
-        //    var rankedPath = "RankedIndex";
+        [Fact]
+        public void TestCalculateFloatRankSevenIterationsMultipleProperties()
+        {
+            var filename = "Resources/buildGraphMultipleProperties.nt";
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
-        //    if (Directory.Exists(directoryPath))
-        //        Directory.Delete(directoryPath, true);
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
 
-        //    Assert.False(Directory.Exists(directoryPath));
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
-        //    IndexBuilder.CreateIndex(filename, directoryPath);
+            Assert.Equal(0.138, ranks[0].ToThreeDecimals());
+            Assert.Equal(0.087, ranks[1].ToThreeDecimals());
+            Assert.Equal(0.061, ranks[2].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[3].ToThreeDecimals());
+            Assert.Equal(0.128, ranks[4].ToThreeDecimals());
+            Assert.Equal(0.222, ranks[5].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[6].ToThreeDecimals());
+        }
 
-        //    Assert.True(Directory.Exists(directoryPath));
+        [Fact]
+        public void TestCalculateFloatRankSevenIterationsDifferentIds()
+        {
+            var filename = "Resources/buildGraphDifferentIds.nt";
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
-        //    var q1 = QueryService.QueryEntitiesByLabel("Berlin", LuceneHelper.GetLuceneDirectory(directoryPath));
-        //    Assert.NotNull(q1);
-        //    Assert.Single(q1);
-        //    Assert.Contains("Berlin", q1.FirstOrDefault().Label);
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
 
-        //    var luceneDirectory = LuceneHelper.GetLuceneDirectory(directoryPath);
-        //    Assert.False(luceneDirectory.HasRank()); 
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
-        //    IndexRanker.Rank(luceneDirectory, filename, rankedPath);
+            Assert.Equal(0.138, ranks[0].ToThreeDecimals());
+            Assert.Equal(0.087, ranks[1].ToThreeDecimals());
+            Assert.Equal(0.061, ranks[2].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[3].ToThreeDecimals());
+            Assert.Equal(0.128, ranks[4].ToThreeDecimals());
+            Assert.Equal(0.222, ranks[5].ToThreeDecimals());
+            Assert.Equal(0.180, ranks[6].ToThreeDecimals());
+        }
 
-        //    var rankedIndexDirectory = LuceneHelper.GetLuceneDirectory(rankedPath);
-        //    Assert.True(rankedIndexDirectory.HasRank());
-        //}
+        [Fact]
+        public void TestIndexRanks()
+        {
+            var filename = "Resources/buildGraph.nt";
+            var outputPath = "IndexRanks";
+
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
+
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+
+            Assert.False(Directory.Exists(outputPath));
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            Assert.True(Directory.Exists(outputPath));
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var docCount = reader.MaxDoc;
+
+                Assert.Equal(7, docCount);
+
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = reader.Document(i);
+                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                }
+            }
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+        }
+
+        [Fact]
+        public void TestIndexRanksDifferentIds()
+        {
+            var filename = "Resources/buildGraphDifferentIds.nt";
+            var outputPath = "IndexRanks";
+
+            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+
+            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
+
+            Assert.Equal(1, Math.Round(ranks.Sum()), 10);
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+
+            Assert.False(Directory.Exists(outputPath));
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            Assert.True(Directory.Exists(outputPath));
+
+            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            {
+                var docCount = reader.MaxDoc;
+
+                Assert.Equal(7, docCount);
+
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = reader.Document(i);
+                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                }
+            }
+
+            if (Directory.Exists(outputPath))
+                Directory.Delete(outputPath, true);
+        }
     }
 }

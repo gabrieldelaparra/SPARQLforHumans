@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lucene.Net.Documents;
 using SparqlForHumans.Core.Models;
@@ -22,7 +23,7 @@ namespace SparqlForHumans.Core.Utilities
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
-        private static IEnumerable<string> GetAltLabels(this Document doc)
+        public static IEnumerable<string> GetAltLabels(this Document doc)
         {
             var labels = doc.GetValues(Labels.Label);
             var altLabels = doc.GetValues(Labels.AltLabel);
@@ -30,33 +31,31 @@ namespace SparqlForHumans.Core.Utilities
             return altLabels.Length.Equals(0) ? labels : altLabels;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="document"></param>
-        /// <returns></returns>
-        public static Entity GetAltLabels(this Entity entity, Document document)
+        public static Entity MapAltLabels(this Entity entity, Document document)
         {
             entity.AltLabels = GetAltLabels(document);
             return entity;
         }
 
-        public static Entity GetDescription(this Entity entity, Document document)
+        public static Entity MapDescription(this Entity entity, Document document)
         {
             entity.Description = document.GetValue(Labels.Description);
             return entity;
         }
 
-
-
-        public static Entity GetInstanceOf(this Entity entity, Document document)
+        public static Entity MapRank(this Entity entity, Document document)
         {
-            entity.InstanceOf = document.GetValue(Labels.InstanceOf);
+            entity.Rank = document.GetValue(Labels.Rank);
             return entity;
         }
 
-        public static Entity GetBaseProperties(this Entity entity, Document document)
+        public static Entity MapInstanceOf(this Entity entity, Document doc)
+        {
+            entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
+            return entity;
+        }
+
+        public static Entity MapBaseProperties(this Entity entity, Document document)
         {
             entity.Properties = document.ParsePropertiesAndValues().ToList();
             return entity;
@@ -65,10 +64,11 @@ namespace SparqlForHumans.Core.Utilities
         public static Entity MapEntity(this Document document)
         {
             var entity = document.MapBaseEntity()
-                                 .GetAltLabels(document)
-                                 .GetDescription(document)
-                                 .GetInstanceOf(document)
-                                 .GetBaseProperties(document);
+                                 .MapAltLabels(document)
+                                 .MapDescription(document)
+                                 .MapRank(document)
+                                 .MapInstanceOf(document)
+                                 .MapBaseProperties(document);
 
             return entity;
         }
@@ -192,7 +192,7 @@ namespace SparqlForHumans.Core.Utilities
         //    return list;
         //}
 
-        public static Property ParsePropertyAndValue(string indexPropertyAndValue)
+        private static Property ParsePropertyAndValue(string indexPropertyAndValue)
         {
             if (!indexPropertyAndValue.Contains(WikidataDump.PropertyValueSeparator))
                 return null;
@@ -211,7 +211,7 @@ namespace SparqlForHumans.Core.Utilities
             };
         }
 
-        public static IEnumerable<Property> ParsePropertiesAndValues(this Document doc)
+        private static IEnumerable<Property> ParsePropertiesAndValues(this Document doc)
         {
             foreach (var item in doc.GetValues(Labels.PropertyAndValue))
             {

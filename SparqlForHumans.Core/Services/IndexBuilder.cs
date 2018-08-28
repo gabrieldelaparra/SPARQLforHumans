@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
 using VDS.RDF;
@@ -15,6 +17,37 @@ namespace SparqlForHumans.Core.Services
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
 
         public static int NotifyTicks { get; } = 100000;
+
+        public static void CreateTypesIndex()
+        {
+            var dictionary = new Dictionary<string, List<string>>();
+
+            using (var entityReader = IndexReader.Open(LuceneIndexExtensions.EntitiesIndexDirectory, true))
+            {
+                var docCount = entityReader.MaxDoc;
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = entityReader.Document(i);
+                    var entity = doc.MapBaseEntity()
+                        .MapInstanceOf(doc)
+                        .MapRank(doc)
+                        .MapBaseProperties(doc);
+
+                    foreach (var instanceOf in entity.InstanceOf)
+                    {
+                        if (!dictionary.ContainsKey(instanceOf))
+                            dictionary.Add(instanceOf, new List<string>());
+
+                        var valuesList = dictionary[instanceOf];
+                        foreach (var entityProperty in entity.Properties)
+                        {
+                            if (!valuesList.Contains(entityProperty.Id))
+                                valuesList.Add(entityProperty.Id);
+                        }
+                    }
+                }
+            }
+        }
 
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
@@ -31,7 +64,7 @@ namespace SparqlForHumans.Core.Services
                 dictionary = PropertiesFrequency.GetPropertiesFrequency(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
-            Logger.Info("Building Index");
+            Logger.Info("Building Properties Index");
             using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
@@ -96,6 +129,8 @@ namespace SparqlForHumans.Core.Services
             analyzer.Close();
         }
 
+        //TODO: No 'prefLabel' in the current index:
+        //TODO: No 'name' in the current index:
         /// EntitiesIndex
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
@@ -110,14 +145,16 @@ namespace SparqlForHumans.Core.Services
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             double[] nodesGraphRanks = null;
-
+            Dictionary<string, int> nodesDictionary = null;
             if (addBoosts)
             {
                 //Ranking:
+                Logger.Info("Building Dictionary");
+                nodesDictionary = EntityRanker.BuildNodesDictionary(inputTriplesFilename);
                 Logger.Info("Building Graph");
-                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename);
+                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
                 Logger.Info("Calculating Ranks");
-                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 25);
+                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 20);
             }
 
             Logger.Info("Building Index");
@@ -125,12 +162,12 @@ namespace SparqlForHumans.Core.Services
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var entiyGroups = lines.GroupBySubject();
+                var entityGroups = lines.GroupBySubject();
 
                 //Lucene document for each entity
                 var luceneDocument = new Document();
 
-                foreach (var group in entiyGroups)
+                foreach (var group in entityGroups)
                 {
                     var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
 
@@ -140,7 +177,7 @@ namespace SparqlForHumans.Core.Services
 
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
-
+                    var id = string.Empty;
                     foreach (var line in group)
                     {
                         readCount++;
@@ -152,7 +189,7 @@ namespace SparqlForHumans.Core.Services
 
                         if (!hasDocument)
                         {
-                            var id = ntSubject.GetId();
+                            id = ntSubject.GetId();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             var field = new Field(Labels.Id.ToString(), id, Field.Store.YES,
@@ -166,7 +203,16 @@ namespace SparqlForHumans.Core.Services
                     }
 
                     if (addBoosts)
-                        luceneDocument.Boost = (float)nodesGraphRanks[nodeCount];
+                    {
+                        nodesDictionary.TryGetValue(id, out var subjectIndex);
+
+                        luceneDocument.Boost = (float)nodesGraphRanks[subjectIndex];
+
+                        var rankField = new NumericField(Labels.Rank.ToString(), Field.Store.YES, true);
+                        rankField.SetDoubleValue(nodesGraphRanks[subjectIndex]);
+
+                        luceneDocument.Add(rankField);
+                    }
 
                     writer.AddDocument(luceneDocument);
                     nodeCount++;
@@ -182,7 +228,7 @@ namespace SparqlForHumans.Core.Services
         private static void ParsePredicate(INode ntPredicate, INode ntObject, Document luceneDocument)
         {
             // On the existing Subject
-            // If the predicate is a Propery, add the property to a list of Properties and link it to the entity.
+            // If the predicate is a Property, add the property to a list of Properties and link it to the entity.
             // Else, (predicate not a property: Labels, Alt-Labels, Description, etc.)
             //  If the object is not a literal value, continue;
             // Otherwise, add the value to the index on each case.

@@ -14,14 +14,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class DocumentMapperTests
     {
-        //[Fact]
-        //public static void TestGetDocumentLabel()
-        //{
-        //    const string outputPath = "Resources/IndexSingle";
-        //    var luceneIndexDirectory = outputPath.GetLuceneDirectory();
-
-        //}
-
         [Fact]
         public static void TestMapEntity()
         {
@@ -39,8 +31,6 @@ namespace SparqlForHumans.UnitTests
                     "UKN",
                     "North Ireland"
                 },
-                InstanceOf = string.Empty,
-                InstanceOfLabel = string.Empty,
                 Properties = new List<Property>()
                 {
                     new Property()

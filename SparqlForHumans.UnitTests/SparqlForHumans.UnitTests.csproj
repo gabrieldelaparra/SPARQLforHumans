@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <None Remove="Resources\buildGraph.nt" />
+    <None Remove="Resources\buildGraphDifferentIds.nt" />
+    <None Remove="Resources\buildGraphMultipleProperties.nt" />
     <None Remove="Resources\empty.gz" />
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
@@ -25,6 +27,7 @@
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
     <None Remove="Resources\PropertyIndex.nt" />
+    <None Remove="Resources\PropertyIndex\buildGraph.nt" />
     <None Remove="Resources\PropertyIndex\segments.gen" />
     <None Remove="Resources\PropertyIndex\segments_2" />
     <None Remove="Resources\PropertyIndex\segments_3" />
@@ -33,9 +36,16 @@
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\trimmed.nt" />
+    <None Remove="Resources\TwoInstanceOf.nt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\buildGraphDifferentIds.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\buildGraphMultipleProperties.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\empty.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -97,6 +107,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyIndex\_1.cfs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TwoInstanceOf.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\SingleInstanceDump.nt">
