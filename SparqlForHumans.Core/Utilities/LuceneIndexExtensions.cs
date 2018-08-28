@@ -36,11 +36,5 @@ namespace SparqlForHumans.Core.Utilities
                 return reader.NumDocs();
             }
         }
-
-        public static Document GetIndexDocument(this Directory luceneIndexDirectory)
-        {
-
-            return null;
-        }
     }
 }
