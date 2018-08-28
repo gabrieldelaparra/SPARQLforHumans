@@ -10,7 +10,7 @@ namespace SparqlForHumans.Core.Models
         string Label { get; set; }
     }
 
-    public class BaseEntity : IEntity
+    public class BaseSubject : IEntity
     {
         public string Id { get; set; } = string.Empty;
         public string Label { get; set; } = string.Empty;
@@ -21,11 +21,21 @@ namespace SparqlForHumans.Core.Models
         }
     }
 
-    public class Entity : BaseEntity
+    public class Entity : BaseSubject
     {
+        public Entity()
+        {
+            
+        }
+
+        public Entity(BaseSubject baseSubject)
+        {
+            Id = baseSubject.Id;
+            Label = baseSubject.Label;
+        }
+
         public string Description { get; set; } = string.Empty;
 
-        //TODO: Move InstanceOf to Property
         public IEnumerable<string> InstanceOf { get; set; } = new List<string>();
 
         public string InstanceOfId => InstanceOf?.FirstOrDefault();
@@ -34,17 +44,8 @@ namespace SparqlForHumans.Core.Models
         public List<Property> Properties { get; set; } = new List<Property>();
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 
-        public string Rank { get; set; }
-
-        public double RankValue
-        {
-            get
-            {
-                if (double.TryParse(Rank, out var rank))
-                    return rank;
-                return 0;
-            }
-        }
+        public string Rank { get; set; } = string.Empty;
+        public double RankValue => double.TryParse(Rank, out var value) ? value : 0;
 
         public override string ToString()
         {

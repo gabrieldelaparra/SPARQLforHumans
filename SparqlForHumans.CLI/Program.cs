@@ -14,10 +14,11 @@ namespace SparqlForHumans.CLI
             //Filter5k();
             //FilterAll();
             //Filter2MM();
-            //CreateIndex2MM(true);
-            //CreatePropertyIndex(true);
-            //QueryEntities("obama");
+            CreateIndex2MM(true);
+            CreatePropertyIndex(true);
             IndexBuilder.CreateTypesIndex();
+            //QueryEntities("obama");
+
         }
 
         static void Filter2MM()

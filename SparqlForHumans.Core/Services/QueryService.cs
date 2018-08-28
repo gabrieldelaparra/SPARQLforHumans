@@ -52,6 +52,25 @@ namespace SparqlForHumans.Core.Services
             return entities;
         }
 
+        public static Property QueryPropertyById(string searchId, Directory luceneIndexDirectory)
+        {
+            // NotEmpty Validation
+            if (string.IsNullOrEmpty(searchId))
+                return null;
+
+            var property = new Property();
+
+            using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
+            using (var queryAnalyzer = new KeywordAnalyzer())
+            {
+                property = searchPropertyById(searchId, queryAnalyzer, searcher);
+
+                queryAnalyzer.Close();
+                searcher.Dispose();
+            }
+            return property;
+        }
+
         public static Entity QueryEntityById(string searchId, Directory luceneIndexDirectory)
         {
             // NotEmpty Validation
@@ -69,6 +88,13 @@ namespace SparqlForHumans.Core.Services
                 searcher.Dispose();
             }
             return entity;
+        }
+
+        private static Property searchPropertyById(string searchId, Analyzer queryAnalyzer, Searcher searcher)
+        {
+            var parser = new QueryParser(Version.LUCENE_30, Labels.Id.ToString(), queryAnalyzer);
+
+            return searchProperty(searchId, searcher, parser);
         }
 
         private static Entity searchEntityById(string searchId, Analyzer queryAnalyzer, Searcher searcher)
@@ -160,9 +186,7 @@ namespace SparqlForHumans.Core.Services
             return searchEntities(searchText, searcher, resultsLimit, parser);
         }
 
-        //TODO: Create Entity Interface
-        //TODO: Refactor MapEntity to be a class object that can be exchanged to create different mappings.
-        private static Entity searchEntity(string searchText, Searcher searcher, QueryParser parser)
+        private static Document searchDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
         {
             var field = new SortField(Labels.Rank.ToString(), SortField.FLOAT);
             var sort = new Sort(field);
@@ -173,7 +197,19 @@ namespace SparqlForHumans.Core.Services
             if (hit == null || hit.Length.Equals(0))
                 return null;
 
-            return searcher.Doc(hit.FirstOrDefault().Doc).MapEntity();
+            return searcher.Doc(hit.FirstOrDefault().Doc);
+        }
+
+        private static Property searchProperty(string searchText, Searcher searcher, QueryParser parser)
+        {
+            return searchDocumentByRank(searchText, searcher, parser).MapProperty();
+        }
+
+        //TODO: Create Entity Interface
+        //TODO: Refactor MapEntity to be a class object that can be exchanged to create different mappings.
+        private static Entity searchEntity(string searchText, Searcher searcher, QueryParser parser)
+        {
+            return searchDocumentByRank(searchText, searcher, parser).MapEntity();
         }
 
         private static List<Entity> searchEntities(string searchText, Searcher searcher, int resultsLimit, QueryParser parser)

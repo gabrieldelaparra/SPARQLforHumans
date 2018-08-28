@@ -2,16 +2,27 @@
 
 namespace SparqlForHumans.Core.Models
 {
-    public class Property
+    public class Property : BaseSubject
     {
-        public string Id { get; set; } = string.Empty;
-        public string Label { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
-        public int Frequency { get; set; } = 0;
+        public string Frequency { get; set; } = string.Empty;
+
+        public int FrequencyValue => int.TryParse(Frequency, out var value) ? value : 0;
+
+        public Property()
+        {
+            
+        }
+
+        public Property(BaseSubject baseSubject)
+        {
+            Id = baseSubject.Id;
+            Label = baseSubject.Label;
+        }
 
         public override string ToString()
         {
-            return $"[{Frequency}]{Id} {Label} -> {Value}";
+            return $"[{Frequency}]{base.ToString()} -> {Value}";
         }
     }
 }

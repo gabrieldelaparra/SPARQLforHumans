@@ -20,6 +20,78 @@ namespace SparqlForHumans.Core.Services
 
         public static void CreateTypesIndex()
         {
+            CreateTypesIndex(LuceneIndexExtensions.TypesIndexPath);
+        }
+
+        public static void CreateTypesIndex(string outputDirectory)
+        {
+            var dictionary = CreateTypesAndPropertiesDictionary();
+            CreateTypesIndex(dictionary, outputDirectory);
+        }
+
+        public static void CreateTypesIndex(Dictionary<string, List<string>> typePropertiesDictionary, string outputDirectory)
+        {
+            long readCount = 0;
+            Options.InternUris = false;
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+            using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                foreach (var typeAndProperties in typePropertiesDictionary)
+                {
+                    if (readCount % NotifyTicks == 0)
+                        Logger.Info($"Build Types Index, Group: {readCount:N0}");
+
+                    var id = typeAndProperties.Key;
+                    var entity = QueryService.QueryEntityById(id, LuceneIndexExtensions.EntitiesIndexDirectory);
+                    var typeLabel = entity.Label;
+                    var typeDescription = entity.Description;
+                    var typeAltLabel = entity.AltLabels;
+                    var typeRank = entity.RankValue;
+
+                    //Lucene document for each entity
+                    var luceneDocument = new Document();
+
+                    luceneDocument.Add(new Field(Labels.Id.ToString(), id, Field.Store.YES, Field.Index.NOT_ANALYZED));
+
+                    luceneDocument.Add(new Field(Labels.Label.ToString(), typeLabel, Field.Store.YES, Field.Index.ANALYZED));
+
+                    luceneDocument.Add(new Field(Labels.Description.ToString(), typeDescription, Field.Store.YES, Field.Index.ANALYZED));
+
+                    foreach (var altLabel in typeAltLabel)
+                    {
+                        luceneDocument.Add(new Field(Labels.AltLabel.ToString(), altLabel, Field.Store.YES, Field.Index.ANALYZED));
+                    }
+
+                    var rankField = new NumericField(Labels.Rank.ToString(), Field.Store.YES, true);
+                    rankField.SetDoubleValue(typeRank);
+                    luceneDocument.Add(rankField);
+
+                    //TODO: How to store more than one property and frequency here? Should I store them as Id##Label##Frequency?
+                    foreach (var propertyId in typeAndProperties.Value)
+                    {
+                        var property = QueryService.QueryPropertyById(propertyId,
+                            LuceneIndexExtensions.PropertiesIndexDirectory);
+                        var propertyLabel = property.Label;
+                        var propertyFrequency = property.Frequency;
+                        var propertyConcat =
+                            $"{propertyId}{WikidataDump.PropertyValueSeparator}{propertyLabel}{WikidataDump.PropertyValueSeparator}{propertyFrequency}";
+                        luceneDocument.Add(new Field(Labels.Property.ToString(), propertyConcat, Field.Store.YES, Field.Index.NOT_ANALYZED));
+                    }
+
+                    writer.AddDocument(luceneDocument);
+                    readCount++;
+                }
+                writer.Dispose();
+                Logger.Info($"Build Types Index, Group: {readCount:N0}");
+            }
+
+            analyzer.Close();
+        }
+
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
+        {
             var dictionary = new Dictionary<string, List<string>>();
 
             using (var entityReader = IndexReader.Open(LuceneIndexExtensions.EntitiesIndexDirectory, true))
@@ -28,7 +100,8 @@ namespace SparqlForHumans.Core.Services
                 for (var i = 0; i < docCount; i++)
                 {
                     var doc = entityReader.Document(i);
-                    var entity = doc.MapBaseEntity()
+
+                    var entity = ((Entity)doc.MapBaseSubject())
                         .MapInstanceOf(doc)
                         .MapRank(doc)
                         .MapBaseProperties(doc);
@@ -47,6 +120,8 @@ namespace SparqlForHumans.Core.Services
                     }
                 }
             }
+
+            return dictionary;
         }
 
         // PropertyIndex:
@@ -69,13 +144,13 @@ namespace SparqlForHumans.Core.Services
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
-                var entiyGroups = lines.GroupBySubject();
+                var entityGroups = lines.GroupBySubject();
 
-                //Lucene document for each entity
-                var luceneDocument = new Document();
-
-                foreach (var group in entiyGroups)
+                foreach (var group in entityGroups)
                 {
+                    if (readCount % NotifyTicks == 0)
+                        Logger.Info($"Build Property Index, Group: {readCount:N0}");
+
                     var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
 
                     //Excludes Entities, will only add properties.
@@ -87,13 +162,11 @@ namespace SparqlForHumans.Core.Services
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
 
+                    //Lucene document for each property
+                    var luceneDocument = new Document();
+
                     foreach (var line in group)
                     {
-                        readCount++;
-
-                        if (readCount % NotifyTicks == 0)
-                            Logger.Info($"{readCount:N0}");
-
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
                         if (!hasDocument)
@@ -115,15 +188,23 @@ namespace SparqlForHumans.Core.Services
                     if (indexFrequency)
                     {
                         if (dictionary.TryGetValue(propertyId, out var value))
-                            luceneDocument.Add(new Field(Labels.PropertyFrequency.ToString(),
-                                value.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+                        {
+                            luceneDocument.Boost = value;
+
+                            var frequencyField = new NumericField(Labels.Frequency.ToString(), Field.Store.YES, true);
+                            frequencyField.SetIntValue(value);
+
+                            luceneDocument.Add(frequencyField);
+                        }
+                            
                     }
 
                     writer.AddDocument(luceneDocument);
+                    readCount++;
                 }
 
                 writer.Dispose();
-                Logger.Info($"{readCount:N0}");
+                Logger.Info($"Build Property Index, Group: {readCount:N0}");
             }
 
             analyzer.Close();
@@ -138,7 +219,6 @@ namespace SparqlForHumans.Core.Services
         public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
-            var nodeCount = 0;
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
@@ -164,11 +244,11 @@ namespace SparqlForHumans.Core.Services
                 //Group them by QCode.
                 var entityGroups = lines.GroupBySubject();
 
-                //Lucene document for each entity
-                var luceneDocument = new Document();
-
                 foreach (var group in entityGroups)
                 {
+                    if (readCount % NotifyTicks == 0)
+                        Logger.Info($"Build Entity Index, Group: {readCount:N0}");
+
                     var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
 
                     //Excludes Properties, will only add entities.
@@ -177,14 +257,15 @@ namespace SparqlForHumans.Core.Services
 
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
+
+                    //entityId
                     var id = string.Empty;
+
+                    //Lucene document for each entity
+                    var luceneDocument = new Document();
+
                     foreach (var line in group)
                     {
-                        readCount++;
-
-                        if (readCount % NotifyTicks == 0)
-                            Logger.Info($"{readCount:N0}");
-
                         var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
 
                         if (!hasDocument)
@@ -215,11 +296,11 @@ namespace SparqlForHumans.Core.Services
                     }
 
                     writer.AddDocument(luceneDocument);
-                    nodeCount++;
+                    readCount++;
                 }
 
                 writer.Dispose();
-                Logger.Info($"{readCount:N0}");
+                Logger.Info($"Build Entity Index, Group: {readCount:N0}");
             }
 
             analyzer.Close();

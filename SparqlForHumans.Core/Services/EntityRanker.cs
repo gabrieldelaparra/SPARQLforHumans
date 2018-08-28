@@ -26,13 +26,13 @@ namespace SparqlForHumans.Core.Services
             foreach (var group in groups)
             {
                 if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"Group: {nodeCount:N0}");
+                    Logger.Info($"Building Dictionary, Group: {nodeCount:N0}");
 
                 parseEntityDictionaryGroup(group, dictionary, nodeCount);
 
                 nodeCount++;
             }
-            Logger.Info($"Group: {nodeCount:N0}");
+            Logger.Info($"Building Dictionary, Group: {nodeCount:N0}");
 
             return dictionary;
         }
@@ -62,7 +62,7 @@ namespace SparqlForHumans.Core.Services
             foreach (var group in groups)
             {
                 if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"Group: {nodeCount:N0}");
+                    Logger.Info($"Building Graph, Group: {nodeCount:N0}");
 
                 var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
                 nodesDictionary.TryGetValue(subjectId, out var subjectIndex);
@@ -86,7 +86,7 @@ namespace SparqlForHumans.Core.Services
                 nodeArray[subjectIndex] = entityNodeConnections.ToArray();
                 nodeCount++;
             }
-            Logger.Info($"Group: {nodeCount:N0}");
+            Logger.Info($"Building Graph, Group: {nodeCount:N0}");
             return nodeArray;
         }
 
@@ -139,7 +139,7 @@ namespace SparqlForHumans.Core.Services
 
             for (var i = 0; i < iterations; i++)
             {
-                Logger.Info($"Iteration: {i}");
+                Logger.Info($"Calculating Ranks, Iteration: {i}");
                 IterateRank(graphNodes, nodeCount);
             }
         }
@@ -206,7 +206,7 @@ namespace SparqlForHumans.Core.Services
                 ranks[i] += weakRank;
             }
 
-            if (ranks.Sum().ToThreeDecimals() != 1)
+            if (Math.Abs(ranks.Sum() - 1) <= 0.001)
                 Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
 
             return ranks;
