@@ -11,14 +11,14 @@ namespace SparqlForHumans.CLI
 
         static void Main(string[] args)
         {
+            TestBuilderHelper.GetFirst20ObamaTriplesGroups();
             //Filter5k();
             //FilterAll();
             //Filter2MM();
-            CreateIndex2MM(true);
-            CreatePropertyIndex(true);
-            IndexBuilder.CreateTypesIndex();
+            //CreateIndex2MM(true);
+            //CreatePropertyIndex(true);
+            //IndexBuilder.CreateTypesIndex();
             //QueryEntities("obama");
-
         }
 
         static void Filter2MM()

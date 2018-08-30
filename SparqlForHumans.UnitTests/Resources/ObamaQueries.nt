@@ -1,0 +1,228 @@
+<http://www.wikidata.org/entity/Q983134> <http://www.w3.org/2000/01/rdf-schema#label> "Caloplaca obamae"@en .
+<http://www.wikidata.org/entity/Q983134> <http://schema.org/description> "species of fungus"@en .
+<http://www.wikidata.org/entity/Q983134> <http://www.wikidata.org/prop/direct/P105> <http://www.wikidata.org/entity/Q7432> .
+<http://www.wikidata.org/entity/Q983134> <http://www.wikidata.org/prop/direct/P138> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q983134> <http://www.wikidata.org/prop/direct/P171> <http://www.wikidata.org/entity/Q146253> .
+<http://www.wikidata.org/entity/Q983134> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q16521> .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2000/01/rdf-schema#label> "Michelle Obama"@en .
+<http://www.wikidata.org/entity/Q13133> <http://schema.org/description> "lawyer, writer, wife of Barack Obama and former First Lady of the United States"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "Michelle daVaughn Robinson Obama"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "Michelle LaVaughn Obama"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "Michelle LaVaughn Obama n\u00E9e Robinson"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "Michelle LaVaughn Robinson Obama"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "First Lady Michelle Obama"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.w3.org/2004/02/skos/core#altLabel> "Michelle LaVaughn Obama nee Robinson"@en .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P26> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P19> <http://www.wikidata.org/entity/Q1297> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P102> <http://www.wikidata.org/entity/Q29552> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q21578> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q758225> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q758225> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q723682> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q267936> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q42178> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P551> <http://www.wikidata.org/entity/Q35525> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q426316> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q33203> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P793> <http://www.wikidata.org/entity/Q34581> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P793> <http://www.wikidata.org/entity/Q34581> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q40348> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q36180> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q82955> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P1412> <http://www.wikidata.org/entity/Q1860> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P172> <http://www.wikidata.org/entity/Q49085> .
+<http://www.wikidata.org/entity/Q13133> <http://www.wikidata.org/prop/direct/P53> <http://www.wikidata.org/entity/Q643049> .
+<http://www.wikidata.org/entity/Q41773> <http://www.w3.org/2000/01/rdf-schema#label> "Obama"@en .
+<http://www.wikidata.org/entity/Q41773> <http://schema.org/description> "city in Fukui prefecture, Japan"@en .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q133879> .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q494721> .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P1376> <http://www.wikidata.org/entity/Q1088442> .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P421> <http://www.wikidata.org/entity/Q7041> .
+<http://www.wikidata.org/entity/Q41773> <http://www.wikidata.org/prop/direct/P190> <http://www.wikidata.org/entity/Q42097> .
+<http://www.wikidata.org/entity/Q223850> <http://www.w3.org/2000/01/rdf-schema#label> "Obama"@en .
+<http://www.wikidata.org/entity/Q223850> <http://schema.org/description> "Wikimedia disambiguation page"@en .
+<http://www.wikidata.org/entity/Q643049> <http://www.w3.org/2000/01/rdf-schema#label> "family of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q643049> <http://schema.org/description> "list of members of the family of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q643049> <http://www.wikidata.org/prop/direct/P1429> <http://www.wikidata.org/entity/Q1273495> .
+<http://www.wikidata.org/entity/Q643049> <http://www.wikidata.org/prop/direct/P360> <http://www.wikidata.org/entity/Q215627> .
+<http://www.wikidata.org/entity/Q643049> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q8436> .
+<http://www.wikidata.org/entity/Q773197> <http://www.w3.org/2000/01/rdf-schema#label> "Auma Obama"@en .
+<http://www.wikidata.org/entity/Q773197> <http://schema.org/description> "half-sister of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q649593> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q28389> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q482980> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q36180> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P19> <http://www.wikidata.org/entity/Q3870> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q114> .
+<http://www.wikidata.org/entity/Q773197> <http://www.wikidata.org/prop/direct/P3373> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q927773> <http://www.w3.org/2000/01/rdf-schema#label> "Obama Wins!"@en .
+<http://www.wikidata.org/entity/Q927773> <http://schema.org/description> "South Park Episode"@en .
+<http://www.wikidata.org/entity/Q927773> <http://www.wikidata.org/prop/direct/P57> <http://www.wikidata.org/entity/Q44414> .
+<http://www.wikidata.org/entity/Q927773> <http://www.wikidata.org/prop/direct/P179> <http://www.wikidata.org/entity/Q16538> .
+<http://www.wikidata.org/entity/Q927773> <http://www.wikidata.org/prop/direct/P495> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q927773> <http://www.wikidata.org/prop/direct/P407> <http://www.wikidata.org/entity/Q1860> .
+<http://www.wikidata.org/entity/Q927773> <http://www.wikidata.org/prop/direct/P4908> <http://www.wikidata.org/entity/Q929746> .
+<http://www.wikidata.org/entity/Q1058227> <http://www.w3.org/2000/01/rdf-schema#label> "Obama Line"@en .
+<http://www.wikidata.org/entity/Q1058227> <http://www.wikidata.org/prop/direct/P1064> <http://www.wikidata.org/entity/Q1193463> .
+<http://www.wikidata.org/entity/Q1058227> <http://www.wikidata.org/prop/direct/P930> <http://www.wikidata.org/entity/Q110701> .
+<http://www.wikidata.org/entity/Q1058227> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q1058227> <http://www.wikidata.org/prop/direct/P127> <http://www.wikidata.org/entity/Q502125> .
+<http://www.wikidata.org/entity/Q1058227> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q133879> .
+<http://www.wikidata.org/entity/Q239593> <http://www.w3.org/2000/01/rdf-schema#label> "Cobamamide"@en .
+<http://www.wikidata.org/entity/Q239593> <http://schema.org/description> "chemical compound"@en .
+<http://www.wikidata.org/entity/Q239593> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q11173> .
+<http://www.wikidata.org/entity/Q239593> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q193430> .
+<http://www.wikidata.org/entity/Q239593> <http://www.wikidata.org/prop/direct/P527> <http://www.wikidata.org/entity/Q627> .
+<http://www.wikidata.org/entity/Q239593> <http://www.wikidata.org/prop/direct/P527> <http://www.wikidata.org/entity/Q740> .
+<http://www.wikidata.org/entity/Q239593> <http://www.wikidata.org/prop/direct/P527> <http://www.wikidata.org/entity/Q623> .
+<http://www.wikidata.org/entity/Q333408> <http://www.w3.org/2000/01/rdf-schema#label> "Etheostoma obama"@en .
+<http://www.wikidata.org/entity/Q333408> <http://schema.org/description> "species of fish"@en .
+<http://www.wikidata.org/entity/Q333408> <http://www.wikidata.org/prop/direct/P138> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q333408> <http://www.wikidata.org/prop/direct/P105> <http://www.wikidata.org/entity/Q7432> .
+<http://www.wikidata.org/entity/Q333408> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q16521> .
+<http://www.wikidata.org/entity/Q602837> <http://www.w3.org/2000/01/rdf-schema#label> "Ricardo Mangue Obama Nfubea"@en .
+<http://www.wikidata.org/entity/Q602837> <http://schema.org/description> "Equatoguinean politician"@en .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P102> <http://www.wikidata.org/entity/Q945167> .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q983> .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q82955> .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P103> <http://www.wikidata.org/entity/Q1321> .
+<http://www.wikidata.org/entity/Q602837> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q219694> .
+<http://www.wikidata.org/entity/Q864301> <http://www.w3.org/2000/01/rdf-schema#label> "Obamadon gracilis"@en .
+<http://www.wikidata.org/entity/Q864301> <http://www.wikidata.org/prop/direct/P105> <http://www.wikidata.org/entity/Q7432> .
+<http://www.wikidata.org/entity/Q1088442> <http://www.w3.org/2000/01/rdf-schema#label> "Obama Domain"@en .
+<http://www.wikidata.org/entity/Q1088442> <http://schema.org/description> "Japanese historical estate in Wakasa province"@en .
+<http://www.wikidata.org/entity/Q1088442> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q841985> .
+<http://www.wikidata.org/entity/Q1088442> <http://www.wikidata.org/prop/direct/P36> <http://www.wikidata.org/entity/Q41773> .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://schema.org/description> "44th President of the United States of America"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Barack Hussein Obama II"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Barack Obama II"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Barack Hussein Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Barak Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "Barry Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "President Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "President Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q766106> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q649593> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P26> <http://www.wikidata.org/entity/Q13133> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P1050> <http://www.wikidata.org/entity/Q223591> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P1429> <http://www.wikidata.org/entity/Q1273495> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P552> <http://www.wikidata.org/entity/Q789447> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q1346110> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11696> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P102> <http://www.wikidata.org/entity/Q29552> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q82955> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q372436> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P108> <http://www.wikidata.org/entity/Q131252> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q35637> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q207826> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q207826> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q896312> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q93923> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P166> <http://www.wikidata.org/entity/Q980578> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P172> <http://www.wikidata.org/entity/Q49085> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P361> <http://www.wikidata.org/entity/Q168778> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P361> <http://www.wikidata.org/entity/Q170018> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P103> <http://www.wikidata.org/entity/Q1860> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q23540> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q1062789> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q960252> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q426316> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P1412> <http://www.wikidata.org/entity/Q1860> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P1412> <http://www.wikidata.org/entity/Q9240> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P512> <http://www.wikidata.org/entity/Q1765120> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P512> <http://www.wikidata.org/entity/Q1540185> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P410> <http://www.wikidata.org/entity/Q380782> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P937> <http://www.wikidata.org/entity/Q61> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P937> <http://www.wikidata.org/entity/Q1297> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P737> <http://www.wikidata.org/entity/Q708172> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P737> <http://www.wikidata.org/entity/Q358561> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P737> <http://www.wikidata.org/entity/Q25649> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P793> <http://www.wikidata.org/entity/Q25094> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P3373> <http://www.wikidata.org/entity/Q773197> .
+<http://www.wikidata.org/entity/Q418351> <http://www.w3.org/2000/01/rdf-schema#label> "meprobamate"@en .
+<http://www.wikidata.org/entity/Q418351> <http://schema.org/description> "chemical compound"@en .
+<http://www.wikidata.org/entity/Q418351> <http://www.w3.org/2004/02/skos/core#altLabel> "Equanil\u00AE"@en .
+<http://www.wikidata.org/entity/Q418351> <http://www.w3.org/2004/02/skos/core#altLabel> "Meprospan\u00AE"@en .
+<http://www.wikidata.org/entity/Q418351> <http://www.w3.org/2004/02/skos/core#altLabel> "Miltown\u00AE"@en .
+<http://www.wikidata.org/entity/Q418351> <http://www.w3.org/2004/02/skos/core#altLabel> "Meprobamate"@en .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q11173> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q12140> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2175> <http://www.wikidata.org/entity/Q544006> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2175> <http://www.wikidata.org/entity/Q86> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2175> <http://www.wikidata.org/entity/Q117060> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2175> <http://www.wikidata.org/entity/Q574360> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P1343> <http://www.wikidata.org/entity/Q316572> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2868> <http://www.wikidata.org/entity/Q576618> .
+<http://www.wikidata.org/entity/Q418351> <http://www.wikidata.org/prop/direct/P2868> <http://www.wikidata.org/entity/Q62903> .
+<http://www.wikidata.org/entity/Q532492> <http://www.w3.org/2000/01/rdf-schema#label> "Republican and conservative support for Barack Obama in 2008"@en .
+<http://www.wikidata.org/entity/Q532492> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q1379733> <http://www.w3.org/2000/01/rdf-schema#label> "presidency of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q1379733> <http://schema.org/description> "presidential term"@en .
+<http://www.wikidata.org/entity/Q1379733> <http://www.wikidata.org/prop/direct/P138> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q1379733> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q1379733> <http://www.wikidata.org/prop/direct/P155> <http://www.wikidata.org/entity/Q1719918> .
+<http://www.wikidata.org/entity/Q1379733> <http://www.wikidata.org/prop/direct/P1365> <http://www.wikidata.org/entity/Q1719918> .
+<http://www.wikidata.org/entity/Q1390728> <http://www.w3.org/2000/01/rdf-schema#label> "Aptostichus barackobamai"@en .
+<http://www.wikidata.org/entity/Q1390728> <http://schema.org/description> "species of arachnid"@en .
+<http://www.wikidata.org/entity/Q1390728> <http://www.wikidata.org/prop/direct/P105> <http://www.wikidata.org/entity/Q7432> .
+<http://www.wikidata.org/entity/Q1390728> <http://www.wikidata.org/prop/direct/P171> <http://www.wikidata.org/entity/Q1390609> .
+<http://www.wikidata.org/entity/Q1390728> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q16521> .
+<http://www.wikidata.org/entity/Q1390728> <http://www.wikidata.org/prop/direct/P138> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q1390728> <http://www.wikidata.org/prop/direct/P183> <http://www.wikidata.org/entity/Q99> .
+<http://www.wikidata.org/entity/Q25094> <http://www.w3.org/2000/01/rdf-schema#label> "first inauguration of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q25094> <http://schema.org/description> "first presidential inauguration of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q25094> <http://www.w3.org/2004/02/skos/core#altLabel> "56th Presidential Inauguration"@en .
+<http://www.wikidata.org/entity/Q25094> <http://www.w3.org/2004/02/skos/core#altLabel> "1st inauguration of Barack Obama"@en .
+<http://www.wikidata.org/entity/Q25094> <http://www.w3.org/2004/02/skos/core#altLabel> "Obama's first inauguration"@en .
+<http://www.wikidata.org/entity/Q25094> <http://www.w3.org/2004/02/skos/core#altLabel> "2009 presidential inauguration"@en .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P276> <http://www.wikidata.org/entity/Q61> .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P710> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P710> <http://www.wikidata.org/entity/Q6279> .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P710> <http://www.wikidata.org/entity/Q11153> .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P710> <http://www.wikidata.org/entity/Q11109> .
+<http://www.wikidata.org/entity/Q25094> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q263233> .
+<http://www.wikidata.org/entity/Q649593> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama, Sr."@en .
+<http://www.wikidata.org/entity/Q649593> <http://schema.org/description> "Kenyan economist"@en .
+<http://www.wikidata.org/entity/Q649593> <http://www.w3.org/2004/02/skos/core#altLabel> "Barack Hussein Obama, Sr."@en .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P40> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P40> <http://www.wikidata.org/entity/Q773197> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P26> <http://www.wikidata.org/entity/Q766106> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P106> <http://www.wikidata.org/entity/Q188094> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P20> <http://www.wikidata.org/entity/Q3870> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q114> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P140> <http://www.wikidata.org/entity/Q7066> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q13371> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q217439> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P19> <http://www.wikidata.org/entity/Q1027168> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P509> <http://www.wikidata.org/entity/Q9687> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P1196> <http://www.wikidata.org/entity/Q171558> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P119> <http://www.wikidata.org/entity/Q1027168> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P463> <http://www.wikidata.org/entity/Q1938003> .
+<http://www.wikidata.org/entity/Q649593> <http://www.wikidata.org/prop/direct/P172> <http://www.wikidata.org/entity/Q49085> .
+<http://www.wikidata.org/entity/Q909308> <http://www.w3.org/2000/01/rdf-schema#label> "Obama Castle"@en .
+<http://www.wikidata.org/entity/Q909308> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q909308> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q41773> .
+<http://www.wikidata.org/entity/Q909308> <http://www.wikidata.org/prop/direct/P127> <http://www.wikidata.org/entity/Q587980> .
+<http://www.wikidata.org/entity/Q909308> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q92026> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.w3.org/2000/01/rdf-schema#label> "Mount Obama"@en .
+<http://www.wikidata.org/entity/Q1718336> <http://schema.org/description> "mountain in Antigua and Barbuda"@en .
+<http://www.wikidata.org/entity/Q1718336> <http://www.w3.org/2004/02/skos/core#altLabel> "Boggy Peak"@en .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q8502> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P138> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q781> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P30> <http://www.wikidata.org/entity/Q828> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q1999872> .
+<http://www.wikidata.org/entity/Q1718336> <http://www.wikidata.org/prop/direct/P186> <http://www.wikidata.org/entity/Q108689> .

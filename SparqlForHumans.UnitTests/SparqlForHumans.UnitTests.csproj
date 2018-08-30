@@ -24,6 +24,7 @@
     <None Remove="Resources\IndexSingle\segments_2" />
     <None Remove="Resources\IndexSingle\_0.cfs" />
     <None Remove="Resources\MultipleInstanceDump.nt" />
+    <None Remove="Resources\ObamaQueries.nt" />
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
     <None Remove="Resources\PropertyIndex.nt" />
@@ -80,6 +81,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\IndexSingle\_0.cfs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\ObamaQueries.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MultipleInstanceDump.nt">
