@@ -188,7 +188,7 @@ namespace SparqlForHumans.Core.Services
 
         private static Document searchDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
         {
-            var sort = new Sort(new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
             var hit = searcher.Search(query, null, 1, sort).ScoreDocs;
@@ -213,7 +213,7 @@ namespace SparqlForHumans.Core.Services
 
         private static List<Entity> searchEntities(string searchText, Searcher searcher, int resultsLimit, QueryParser parser)
         {
-            var sort = new Sort(new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
             var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;

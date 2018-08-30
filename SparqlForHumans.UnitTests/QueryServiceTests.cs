@@ -14,7 +14,7 @@ namespace SparqlForHumans.UnitTests
     public class QueryServiceTests
     {
         [Fact]
-        public void TestMichelleObamaShouldShowFirst()
+        public void TestSingleMichelleObamaShouldShowFirst()
         {
             const string filename = "Resources/ObamaQueries.nt";
             const string outputPath = "MichelleObamaIndex";
@@ -27,7 +27,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestBarackObamaShouldShowFirst()
+        public void TestSingleBarackObamaShouldShowFirst()
         {
             const string filename = "Resources/ObamaQueries.nt";
             const string outputPath = "BarackObamaIndex";
@@ -36,6 +36,32 @@ namespace SparqlForHumans.UnitTests
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
             var entity = QueryService.QueryEntityByLabel("Obama", outputPath.GetLuceneDirectory());
+            Assert.Equal("Q76", entity.Id);
+        }
+
+        [Fact]
+        public void TestManyMichelleObamaShouldShowFirst()
+        {
+            const string filename = "Resources/ObamaQueries.nt";
+            const string outputPath = "MichelleObamaIndex";
+
+            outputPath.DeleteIfExists();
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            var entity = QueryService.QueryEntitiesByLabel("Michelle Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
+            Assert.Equal("Q13133", entity.Id);
+        }
+
+        [Fact]
+        public void TestManyBarackObamaShouldShowFirst()
+        {
+            const string filename = "Resources/ObamaQueries.nt";
+            const string outputPath = "BarackObamaIndex";
+
+            outputPath.DeleteIfExists();
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            var entity = QueryService.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
             Assert.Equal("Q76", entity.Id);
         }
 
