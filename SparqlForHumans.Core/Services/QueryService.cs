@@ -166,7 +166,7 @@ namespace SparqlForHumans.Core.Services
         private static Entity searchEntity(string searchText, Analyzer queryAnalyzer, Searcher searcher)
         {
             QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
-                new[] { Labels.Id.ToString(), Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
                 queryAnalyzer);
 
             return searchEntity(searchText, searcher, parser);
@@ -188,8 +188,7 @@ namespace SparqlForHumans.Core.Services
 
         private static Document searchDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
         {
-            var field = new SortField(Labels.Rank.ToString(), SortField.FLOAT);
-            var sort = new Sort(field);
+            var sort = new Sort(new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
             var hit = searcher.Search(query, null, 1, sort).ScoreDocs;
