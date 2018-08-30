@@ -14,6 +14,32 @@ namespace SparqlForHumans.UnitTests
     public class QueryServiceTests
     {
         [Fact]
+        public void TestMichelleObamaShouldShowFirst()
+        {
+            const string filename = "Resources/ObamaQueries.nt";
+            const string outputPath = "MichelleObamaIndex";
+
+            outputPath.DeleteIfExists();
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            var entity = QueryService.QueryEntityByLabel("Michelle Obama", outputPath.GetLuceneDirectory());
+            Assert.Equal("Q13133", entity.Id);
+        }
+
+        [Fact]
+        public void TestBarackObamaShouldShowFirst()
+        {
+            const string filename = "Resources/ObamaQueries.nt";
+            const string outputPath = "BarackObamaIndex";
+
+            outputPath.DeleteIfExists();
+            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
+
+            var entity = QueryService.QueryEntityByLabel("Obama", outputPath.GetLuceneDirectory());
+            Assert.Equal("Q76", entity.Id);
+        }
+
+        [Fact]
         public void TestQuerySingleInstanceByLabel()
         {
             const string outputPath = "Resources/IndexSingle";
