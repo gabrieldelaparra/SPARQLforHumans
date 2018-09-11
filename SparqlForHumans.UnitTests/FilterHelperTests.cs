@@ -26,7 +26,7 @@ namespace SparqlForHumans.UnitTests
             TriplesFilter.Filter(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
-            Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));
+            Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename,50));
 
             var lines = FileHelper.GetInputLines(outputFilename);
             var firstItemList = lines.Select(x => x.Split(" ").FirstOrDefault());

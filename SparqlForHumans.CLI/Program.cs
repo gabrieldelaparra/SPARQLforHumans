@@ -11,7 +11,7 @@ namespace SparqlForHumans.CLI
 
         static void Main(string[] args)
         {
-            TestBuilderHelper.GetFirst20ObamaTriplesGroups();
+            //TestBuilderHelper.GetFirst20ObamaTriplesGroups();
             //Filter5k();
             //FilterAll();
             //Filter2MM();
@@ -72,7 +72,7 @@ namespace SparqlForHumans.CLI
             var outputPath = LuceneIndexExtensions.PropertyIndexPath;
 
             if (Directory.Exists(outputPath) && overwrite)
-            Directory.Delete(outputPath, true);
+                Directory.Delete(outputPath, true);
 
             IndexBuilder.CreatePropertyIndex(inputFilename, outputPath, true);
         }

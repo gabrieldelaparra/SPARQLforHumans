@@ -253,6 +253,10 @@ namespace SparqlForHumans.UnitTests
             line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
             Assert.Equal(RDFExtensions.PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/Other/Q32> <http://www.wikidata.org/other/P26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
         }
 
         [Fact]

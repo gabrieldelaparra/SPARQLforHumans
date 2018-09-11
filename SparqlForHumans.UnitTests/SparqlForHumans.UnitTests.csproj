@@ -36,6 +36,7 @@
     <None Remove="Resources\PropertyIndex\_1.cfs" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
+    <None Remove="Resources\TenLines.nt.gz" />
     <None Remove="Resources\trimmed.nt" />
     <None Remove="Resources\TwoInstanceOf.nt" />
   </ItemGroup>
@@ -111,6 +112,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyIndex\_1.cfs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TenLines.nt.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TwoInstanceOf.nt">

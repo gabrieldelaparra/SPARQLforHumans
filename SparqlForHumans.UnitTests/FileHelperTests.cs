@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using SparqlForHumans.Core.Utilities;
 using Xunit;
@@ -14,6 +15,12 @@ namespace SparqlForHumans.UnitTests
             Assert.NotEqual(0, FileHelper.GetLineCount(filename));
             Assert.Equal(10, FileHelper.GetLineCount(filename));
             Assert.True(File.Exists("LineCountLog.txt"));
+        }
+
+        [Fact]
+        public void TestGetFilenameTypeNotExisting()
+        {
+            Assert.Throws<ArgumentException>(()=>FileHelper.GetFilenameType("Resources/NotExisting.txt"));
         }
 
         [Fact]
@@ -61,6 +68,47 @@ namespace SparqlForHumans.UnitTests
             Assert.NotNull(FileHelper.ReadLines(filename));
             Assert.NotEmpty(FileHelper.ReadLines(filename));
             Assert.Equal(10, FileHelper.ReadLines(filename).Count());
+        }
+
+        [Fact]
+        public void TestReadLinesCompressedNotExisting()
+        {
+            var filename = "Resources/NotExisting.nt.gz";
+            Assert.Empty(SharpZipHandler.ReadGZip(filename));
+        }
+
+        //[Fact]
+        //public void TestReadLinesCompressed()
+        //{
+        //    var filename = "Resources/TenLines.nt.gz";
+
+        //    Assert.True(File.Exists(filename));
+
+        //    Assert.NotNull(SharpZipHandler.ReadGZip(filename));
+        //    Assert.NotEmpty(SharpZipHandler.ReadGZip(filename));
+        //    Assert.Equal(10, SharpZipHandler.ReadGZip(filename).Count());
+        //}
+
+        [Fact]
+        public void TestGetLinesCompressed()
+        {
+            var filename = "Resources/TenLines.nt.gz";
+
+            Assert.True(File.Exists(filename));
+
+            Assert.NotNull(FileHelper.GetInputLines(filename));
+            Assert.NotEmpty(FileHelper.GetInputLines(filename));
+            Assert.Equal(10, FileHelper.GetInputLines(filename).Count());
+        }
+
+        [Fact]
+        public void TestGetLinesOther()
+        {
+            var filename = "Resources/empty.txt";
+
+            Assert.True(File.Exists(filename));
+
+            Assert.Throws<ArgumentException>(()=>FileHelper.GetInputLines(filename));
         }
 
         [Fact]

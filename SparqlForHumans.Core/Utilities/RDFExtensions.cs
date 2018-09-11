@@ -52,15 +52,15 @@ namespace SparqlForHumans.Core.Utilities
             return g.Triples.Last();
         }
 
-        //TODO: Test
-        public static string GetTripleId(this string inputLine)
-        {
-            return inputLine.Split(" ")
-                .FirstOrDefault()
-                .Replace(WikidataDump.EntityIRI, 
-                    string.Empty,
-                    StringComparison.CurrentCultureIgnoreCase);
-        }
+        ////TODO: Test
+        //public static string GetTripleId(this string inputLine)
+        //{
+        //    return inputLine.Split(" ")
+        //        .FirstOrDefault()
+        //        .Replace(WikidataDump.EntityIRI, 
+        //            string.Empty,
+        //            StringComparison.CurrentCultureIgnoreCase);
+        //}
 
         public static bool IsUriNode(this INode node)
         {

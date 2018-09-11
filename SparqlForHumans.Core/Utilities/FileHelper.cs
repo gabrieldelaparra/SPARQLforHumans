@@ -49,12 +49,11 @@ namespace SparqlForHumans.Core.Utilities
             File.WriteAllLines(outputFilename, lines.Take(lineLimit));
         }
 
-        public static long GetLineCount(string filename)
+        public static long GetLineCount(string filename, int notifyTicks = 100000)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             long lineCount = 0;
-            const int notifyTicks = 100000;
 
             var lines = GetInputLines(filename);
 

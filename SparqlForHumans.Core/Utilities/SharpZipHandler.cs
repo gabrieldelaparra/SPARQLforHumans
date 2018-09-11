@@ -3,7 +3,7 @@ using System.IO;
 
 namespace SparqlForHumans.Core.Utilities
 {
-    internal class SharpZipHandler
+    public class SharpZipHandler
     {
         public static IEnumerable<string> ReadGZip(string filename)
         {
