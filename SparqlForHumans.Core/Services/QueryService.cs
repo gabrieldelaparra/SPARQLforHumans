@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Documents;
-using Lucene.Net.QueryParsers;
-using Lucene.Net.Search;
+﻿using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Models;
-using SparqlForHumans.Core.Properties;
-using SparqlForHumans.Core.Utilities;
-using Version = Lucene.Net.Util.Version;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -27,10 +17,7 @@ namespace SparqlForHumans.Core.Services
                 var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
                 property.Label = prop.Label;
             }
-
             return entity;
         }
-
-       
     }
 }

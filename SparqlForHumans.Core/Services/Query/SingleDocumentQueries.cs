@@ -37,7 +37,7 @@ namespace SparqlForHumans.Core.Services
             return QueryDocumentByLabel(searchText, luceneIndexDirectory).MapProperty();
         }
 
-        public static Document QueryDocumentById(string searchId, Directory luceneIndexDirectory)
+        private static Document QueryDocumentById(string searchId, Directory luceneIndexDirectory)
         {
             // NotEmpty Validation
             if (string.IsNullOrEmpty(searchId))
@@ -56,7 +56,7 @@ namespace SparqlForHumans.Core.Services
             return document;
         }
        
-        public static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory)
+        private static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory)
         {
             if (string.IsNullOrEmpty(searchText))
                 return null;
@@ -81,7 +81,7 @@ namespace SparqlForHumans.Core.Services
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
-        public static Document QueryDocumentByIdAndRank(string searchId, Analyzer queryAnalyzer, Searcher searcher)
+        internal static Document QueryDocumentByIdAndRank(string searchId, Analyzer queryAnalyzer, Searcher searcher)
         {
             var parser = new QueryParser(Version.LUCENE_30, Labels.Id.ToString(), queryAnalyzer);
 
@@ -89,7 +89,7 @@ namespace SparqlForHumans.Core.Services
         }
 
         // Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
-        public static Document QueryDocumentByLabelAndRank(string searchText, Analyzer queryAnalyzer, Searcher searcher)
+        private static Document QueryDocumentByLabelAndRank(string searchText, Analyzer queryAnalyzer, Searcher searcher)
         {
             QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
                 new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
@@ -99,7 +99,7 @@ namespace SparqlForHumans.Core.Services
         }
 
         //Does the search with the specific QueryParser (Label or Id). Returns results sorted by rank.
-        public static Document QueryDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
+        private static Document QueryDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
         {
             //Adds Sorting
             var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
