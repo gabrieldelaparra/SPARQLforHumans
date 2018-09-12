@@ -37,7 +37,7 @@ namespace SparqlForHumans.Core.Services
             return QueryDocumentByLabel(searchText, luceneIndexDirectory).MapProperty();
         }
 
-        private static Document QueryDocumentById(string searchId, Directory luceneIndexDirectory)
+        public static Document QueryDocumentById(string searchId, Directory luceneIndexDirectory)
         {
             // NotEmpty Validation
             if (string.IsNullOrEmpty(searchId))
@@ -56,7 +56,7 @@ namespace SparqlForHumans.Core.Services
             return document;
         }
        
-        private static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory)
+        public static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory)
         {
             if (string.IsNullOrEmpty(searchText))
                 return null;

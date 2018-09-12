@@ -22,8 +22,10 @@ namespace SparqlForHumans.Core.Utilities
 
             var luceneIndexDirectory = FSDirectory.Open(directoryInfo);
 
-            if (IndexWriter.IsLocked(luceneIndexDirectory))
-                IndexWriter.Unlock(luceneIndexDirectory);
+            if (!IndexWriter.IsLocked(luceneIndexDirectory)) 
+                return luceneIndexDirectory;
+
+            IndexWriter.Unlock(luceneIndexDirectory);
 
             var lockFilePath = Path.Combine(directoryPath, "write.lock");
 

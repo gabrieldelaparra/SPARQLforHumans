@@ -1,0 +1,19 @@
+﻿<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://schema.org/description> "44th President of the United States of America"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "President Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
+<http://www.wikidata.org/entity/Q5> <http://schema.org/description> "Person description"@en .
+<http://www.wikidata.org/entity/Q5> <http://www.w3.org/2004/02/skos/core#altLabel> "person"@en .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q649593> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P26> <http://www.wikidata.org/entity/Q13133> .
+<http://www.wikidata.org/entity/Q17> <http://www.w3.org/2000/01/rdf-schema#label> "country"@en .
+<http://www.wikidata.org/entity/Q17> <http://schema.org/description> "Country description"@en .
+<http://www.wikidata.org/entity/Q17> <http://www.w3.org/2004/02/skos/core#altLabel> "state"@en .
+<http://www.wikidata.org/entity/Q17> <http://www.wikidata.org/prop/direct/P222> <http://www.wikidata.org/entity/Q1231> .
+<http://www.wikidata.org/entity/Q17> <http://www.wikidata.org/prop/direct/P132> <http://www.wikidata.org/entity/Q3345> .
+<http://www.wikidata.org/entity/Q298> <http://www.w3.org/2000/01/rdf-schema#label> "Chile"@en .
+<http://www.wikidata.org/entity/Q298> <http://schema.org/description> "republic in South America"@en .
+<http://www.wikidata.org/entity/Q298> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Chile"@en .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .

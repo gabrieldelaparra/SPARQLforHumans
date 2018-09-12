@@ -74,7 +74,7 @@ namespace SparqlForHumans.CLI
             if (Directory.Exists(outputPath) && overwrite)
                 Directory.Delete(outputPath, true);
 
-            IndexBuilder.CreatePropertyIndex(inputFilename, outputPath, true);
+            IndexBuilder.CreatePropertiesIndex(inputFilename, outputPath, true);
         }
 
         static void QueryEntities(string query)

@@ -9,13 +9,12 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class DocumentMapper
     {
-        public static BaseSubject MapBaseSubject(this Document document)
+        public static IEntity MapBaseSubject(this Document document)
         {
-            return new BaseSubject()
-            {
-                Id = document.GetValue(Labels.Id),
-                Label = document.GetValue(Labels.Label),
-            };
+            IEntity entity = new BaseSubject();
+            entity.Id = document.GetValue(Labels.Id);
+            entity.Label = document.GetValue(Labels.Label);
+            return entity;
         }
 
         /// <summary>
@@ -81,7 +80,8 @@ namespace SparqlForHumans.Core.Utilities
 
         public static Property MapProperty(this Document document)
         {
-            var property = new Property(document.MapBaseSubject());
+            var property = new Property(document.MapBaseSubject())
+                .MapFrequency(document);
 
             return property;
         }

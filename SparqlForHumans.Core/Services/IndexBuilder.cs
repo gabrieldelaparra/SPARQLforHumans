@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Store;
 using SparqlForHumans.Core.Models;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Utilities;
@@ -25,27 +27,33 @@ namespace SparqlForHumans.Core.Services
 
         public static void CreateTypesIndex(string outputDirectory)
         {
-            var dictionary = CreateTypesAndPropertiesDictionary();
+            var dictionary = CreateTypesAndPropertiesDictionary(LuceneIndexExtensions.EntitiesIndexDirectory);
             CreateTypesIndex(dictionary, outputDirectory);
         }
 
-        public static void AddTypesToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
-            string entitiesIndexDirectory)
+        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
+            Directory entitiesIndexDirectory)
         {
             long readCount = 0;
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
-            using (var writer = new IndexWriter(entitiesIndexDirectory.GetLuceneDirectory(), analyzer,
+            using (var writer = new IndexWriter(entitiesIndexDirectory, analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
-                foreach (var typeAndProperties in typePropertiesDictionary)
+                var documents = MultiDocumentQueries.QueryDocumentsByIds(typePropertiesDictionary.Select(x => x.Key),
+                    entitiesIndexDirectory);
+
+                foreach (var document in documents)
                 {
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Types Index, Group: {readCount:N0}");
 
-                    var id = typeAndProperties.Key;
-                    
+                    var field = new Field(Labels.IsTypeEntity.ToString(), "true", Field.Store.YES,
+                                Field.Index.NOT_ANALYZED_NO_NORMS);
+
+                    document.Add(field);
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), document.MapEntity().Id), document);
                 }
             }
         }
@@ -111,18 +119,18 @@ namespace SparqlForHumans.Core.Services
             analyzer.Close();
         }
 
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory luceneIndexDirectory)
         {
             var dictionary = new Dictionary<string, List<string>>();
 
-            using (var entityReader = IndexReader.Open(LuceneIndexExtensions.EntitiesIndexDirectory, true))
+            using (var entityReader = IndexReader.Open(luceneIndexDirectory, true))
             {
                 var docCount = entityReader.MaxDoc;
                 for (var i = 0; i < docCount; i++)
                 {
                     var doc = entityReader.Document(i);
 
-                    var entity = ((Entity)doc.MapBaseSubject())
+                    var entity = new Entity(doc.MapBaseSubject())
                         .MapInstanceOf(doc)
                         .MapRank(doc)
                         .MapBaseProperties(doc);
@@ -148,7 +156,7 @@ namespace SparqlForHumans.Core.Services
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
         /// Rank with frequency;
-        public static void CreatePropertyIndex(string inputTriplesFilename, string outputDirectory, bool indexFrequency = false)
+        public static void CreatePropertiesIndex(string inputTriplesFilename, string outputDirectory, bool indexFrequency = false)
         {
             long readCount = 0;
             Options.InternUris = false;
@@ -217,9 +225,7 @@ namespace SparqlForHumans.Core.Services
 
                             luceneDocument.Add(frequencyField);
                         }
-                            
                     }
-
                     writer.AddDocument(luceneDocument);
                     readCount++;
                 }
@@ -231,13 +237,18 @@ namespace SparqlForHumans.Core.Services
             analyzer.Close();
         }
 
+        public static void CreateEntitiesIndex(string inputTriplesFilename, string outputPath, bool addBoosts = true)
+        {
+            CreateEntitiesIndex(inputTriplesFilename, outputPath.GetLuceneDirectory(), addBoosts);
+        }
+
         //TODO: No 'prefLabel' in the current index:
         //TODO: No 'name' in the current index:
         /// EntitiesIndex
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
         /// Entities have properties, not sure if properties have properties;
-        public static void CreateEntitiesIndex(string inputTriplesFilename, string outputDirectory, bool addBoosts = true)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = true)
         {
             long readCount = 0;
             Options.InternUris = false;
@@ -259,7 +270,7 @@ namespace SparqlForHumans.Core.Services
             }
 
             Logger.Info("Building Index");
-            using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
+            using (var writer = new IndexWriter(outputDirectory, analyzer,
                 IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
@@ -351,6 +362,7 @@ namespace SparqlForHumans.Core.Services
                     luceneDocument.Add(new Field(Labels.AltLabel.ToString(), ntObject.GetLiteralValue(),
                         Field.Store.YES, Field.Index.ANALYZED));
                     break;
+                default:
                 case RDFExtensions.PredicateType.Other:
                     break;
             }
@@ -374,6 +386,7 @@ namespace SparqlForHumans.Core.Services
                     luceneDocument.Add(new Field(Labels.PropertyAndValue.ToString(), propertyAndValue, Field.Store.YES,
                         Field.Index.NOT_ANALYZED));
                     break;
+                default:
                 case RDFExtensions.PropertyType.LiteralDirected:
                 case RDFExtensions.PropertyType.Other:
                     break;

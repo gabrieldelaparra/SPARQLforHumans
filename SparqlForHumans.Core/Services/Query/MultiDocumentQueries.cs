@@ -38,7 +38,7 @@ namespace SparqlForHumans.Core.Services
             return QueryDocumentsByIds(searchIds, luceneIndexDirectory).Select(x => x.MapEntity());
         }
 
-        private static IEnumerable<Document> QueryDocumentsByIds(IEnumerable<string> searchIds,
+        public static IEnumerable<Document> QueryDocumentsByIds(IEnumerable<string> searchIds,
             Directory luceneIndexDirectory)
         {
             var documents = new List<Document>();

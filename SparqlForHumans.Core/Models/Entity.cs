@@ -28,7 +28,7 @@ namespace SparqlForHumans.Core.Models
             
         }
 
-        public Entity(BaseSubject baseSubject)
+        public Entity(IEntity baseSubject)
         {
             Id = baseSubject.Id;
             Label = baseSubject.Label;

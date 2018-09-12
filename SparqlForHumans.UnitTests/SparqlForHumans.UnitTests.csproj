@@ -14,6 +14,7 @@
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
+    <None Remove="Resources\EntityType.nt" />
     <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered-All-5k.nt" />
     <None Remove="Resources\filtered.nt" />
@@ -46,6 +47,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraphMultipleProperties.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\EntityType.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\empty.gz">

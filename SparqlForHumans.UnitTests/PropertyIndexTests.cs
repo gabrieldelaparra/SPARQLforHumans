@@ -3,7 +3,6 @@ using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using System.IO;
-using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -21,7 +20,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(Directory.Exists(outputPath));
             
-            IndexBuilder.CreatePropertyIndex (filename, outputPath, true);
+            IndexBuilder.CreatePropertiesIndex (filename, outputPath, true);
 
             Assert.True(Directory.Exists(outputPath));
 

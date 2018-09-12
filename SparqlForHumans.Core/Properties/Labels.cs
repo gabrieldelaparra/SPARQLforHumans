@@ -10,7 +10,7 @@
         Description,
         Rank,
         PropertyAndValue,
-        //PropertyFrequency,
-        Frequency
+        Frequency,
+        IsTypeEntity,
     }
 }
