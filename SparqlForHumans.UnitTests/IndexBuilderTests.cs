@@ -367,11 +367,11 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(Directory.Exists(outputPath));
 
-            var q1 = QueryService.QueryEntitiesByLabel("Berlin", outputPath.GetLuceneDirectory());
+            var q1 = MultiDocumentQueries.QueryEntitiesByLabel("Berlin", outputPath.GetLuceneDirectory());
             Assert.NotNull(q1);
             Assert.Contains("Berlin", q1.FirstOrDefault().Label);
 
-            var q2 = QueryService.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory());
+            var q2 = MultiDocumentQueries.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory());
             Assert.NotNull(q2);
             Assert.Contains("Barack Obama", q2.FirstOrDefault().Label);
 

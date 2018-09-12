@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
-            var entity = QueryService.QueryEntityByLabel("Michelle Obama", outputPath.GetLuceneDirectory());
+            var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", outputPath.GetLuceneDirectory());
             Assert.Equal("Q13133", entity.Id);
         }
 
@@ -35,7 +35,7 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
-            var entity = QueryService.QueryEntityByLabel("Obama", outputPath.GetLuceneDirectory());
+            var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", outputPath.GetLuceneDirectory());
             Assert.Equal("Q76", entity.Id);
         }
 
@@ -48,7 +48,7 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
-            var entity = QueryService.QueryEntitiesByLabel("Michelle Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
+            var entity = MultiDocumentQueries.QueryEntitiesByLabel("Michelle Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
             Assert.Equal("Q13133", entity.Id);
         }
 
@@ -61,7 +61,7 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
 
-            var entity = QueryService.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
+            var entity = MultiDocumentQueries.QueryEntitiesByLabel("Obama", outputPath.GetLuceneDirectory()).FirstOrDefault();
             Assert.Equal("Q76", entity.Id);
         }
 
@@ -71,19 +71,19 @@ namespace SparqlForHumans.UnitTests
             const string outputPath = "Resources/IndexSingle";
             var luceneIndexDirectory = outputPath.GetLuceneDirectory();
 
-            var entity = QueryService.QueryEntityByLabel("Northern Ireland", luceneIndexDirectory);
+            var entity = SingleDocumentQueries.QueryEntityByLabel("Northern Ireland", luceneIndexDirectory);
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);
 
-            entity = QueryService.QueryEntityByLabel("Ireland", luceneIndexDirectory);
+            entity = SingleDocumentQueries.QueryEntityByLabel("Ireland", luceneIndexDirectory);
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);
 
-            entity = QueryService.QueryEntityByLabel("Northern", luceneIndexDirectory);
+            entity = SingleDocumentQueries.QueryEntityByLabel("Northern", luceneIndexDirectory);
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);
 
-            entity = QueryService.QueryEntityByLabel("north", luceneIndexDirectory);
+            entity = SingleDocumentQueries.QueryEntityByLabel("north", luceneIndexDirectory);
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);
         }
@@ -94,7 +94,7 @@ namespace SparqlForHumans.UnitTests
             const string outputPath = "Resources/IndexSingle";
             var luceneIndexDirectory = outputPath.GetLuceneDirectory();
 
-            var entity = QueryService.QueryEntityById("Q26", luceneIndexDirectory);
+            var entity = SingleDocumentQueries.QueryEntityById("Q26", luceneIndexDirectory);
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);
         }
@@ -107,7 +107,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(Directory.Exists(outputPath));
 
             var luceneIndexDirectory = outputPath.GetLuceneDirectory();
-            var entities = QueryService.QueryEntityByIds(ids, luceneIndexDirectory);
+            var entities = MultiDocumentQueries.QueryEntitiesByIds(ids, luceneIndexDirectory);
 
             Assert.Equal(3, entities.Count());
 
@@ -136,7 +136,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(Directory.Exists(outputPath));
             var luceneIndexDirectory = outputPath.GetLuceneDirectory();
 
-            var entity = QueryService.QueryEntityById("Q26", luceneIndexDirectory);
+            var entity = SingleDocumentQueries.QueryEntityById("Q26", luceneIndexDirectory);
 
             Assert.NotNull(entity);
             Assert.Equal("Q26", entity.Id);

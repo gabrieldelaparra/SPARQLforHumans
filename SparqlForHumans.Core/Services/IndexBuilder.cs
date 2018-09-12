@@ -29,6 +29,27 @@ namespace SparqlForHumans.Core.Services
             CreateTypesIndex(dictionary, outputDirectory);
         }
 
+        public static void AddTypesToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
+            string entitiesIndexDirectory)
+        {
+            long readCount = 0;
+            Options.InternUris = false;
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+            using (var writer = new IndexWriter(entitiesIndexDirectory.GetLuceneDirectory(), analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                foreach (var typeAndProperties in typePropertiesDictionary)
+                {
+                    if (readCount % NotifyTicks == 0)
+                        Logger.Info($"Build Types Index, Group: {readCount:N0}");
+
+                    var id = typeAndProperties.Key;
+                    
+                }
+            }
+        }
+
         public static void CreateTypesIndex(Dictionary<string, List<string>> typePropertiesDictionary, string outputDirectory)
         {
             long readCount = 0;
@@ -44,7 +65,7 @@ namespace SparqlForHumans.Core.Services
                         Logger.Info($"Build Types Index, Group: {readCount:N0}");
 
                     var id = typeAndProperties.Key;
-                    var entity = QueryService.QueryEntityById(id, LuceneIndexExtensions.EntitiesIndexDirectory);
+                    var entity = SingleDocumentQueries.QueryEntityById(id, LuceneIndexExtensions.EntitiesIndexDirectory);
                     var typeLabel = entity.Label;
                     var typeDescription = entity.Description;
                     var typeAltLabel = entity.AltLabels;
@@ -71,7 +92,7 @@ namespace SparqlForHumans.Core.Services
                     //TODO: How to store more than one property and frequency here? Should I store them as Id##Label##Frequency?
                     foreach (var propertyId in typeAndProperties.Value)
                     {
-                        var property = QueryService.QueryPropertyById(propertyId,
+                        var property = SingleDocumentQueries.QueryPropertyById(propertyId,
                             LuceneIndexExtensions.PropertiesIndexDirectory);
                         var propertyLabel = property.Label;
                         var propertyFrequency = property.Frequency;

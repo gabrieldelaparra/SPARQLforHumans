@@ -56,7 +56,7 @@ namespace SparqlForHumans.UnitTests
                 }
             };
 
-            var first = QueryService.QueryEntityByLabel(entity.Label, luceneIndexDirectory);
+            var first = SingleDocumentQueries.QueryEntityByLabel(entity.Label, luceneIndexDirectory);
 
             Assert.NotNull(first);
 
