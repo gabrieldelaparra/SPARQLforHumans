@@ -20,9 +20,14 @@ namespace SparqlForHumans.Core.Models
             Label = baseSubject.Label;
         }
 
+        public string ToRankedString()
+        {
+            return $"[{Frequency}] {ToString()}";
+        }
+
         public override string ToString()
         {
-            return $"[{Frequency}]{base.ToString()} -> {Value}";
+            return $"{base.ToString()} -> {Value}";
         }
     }
 }

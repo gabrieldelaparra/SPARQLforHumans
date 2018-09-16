@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using Lucene.Net.Index;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
@@ -42,13 +39,11 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
                 Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
 
-                Assert.Equal("true", personDocument.GetValue(Labels.IsTypeEntity));
-                Assert.Equal("true", countryDocument.GetValue(Labels.IsTypeEntity));
-
                 Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
+                Assert.Equal("true", personDocument.GetValue(Labels.IsTypeEntity));
                 Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
+                Assert.Equal("true", countryDocument.GetValue(Labels.IsTypeEntity));
             }
-
             outputPath.DeleteIfExists();
         }
     }

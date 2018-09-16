@@ -6,8 +6,10 @@ namespace SparqlForHumans.Core.Models
     {
         public string Id { get; set; }
         public int Index { get; set; }
+        
         //Just store the index, not the name of the node.
         public string[] ConnectedNodes { get; set; }
+        
         public double Rank { get; set; }
 
         public GraphNode(string id, int index)

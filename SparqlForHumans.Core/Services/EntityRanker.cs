@@ -15,42 +15,45 @@ namespace SparqlForHumans.Core.Services
 
         //Read the file once
         //Order n
+        //Creates a Dictionary<string Q-entity, entityIndexInFile>
         public static Dictionary<string, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
-            var nodeCount = 0;
+            var nodeIndex = 0;
             var dictionary = new Dictionary<string, int>();
 
             foreach (var group in groups)
             {
-                if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"Building Dictionary, Group: {nodeCount:N0}");
+                if (nodeIndex % NotifyTicks == 0)
+                    Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
-                parseEntityDictionaryGroup(group, dictionary, nodeCount);
-
-                nodeCount++;
+               var subjectId = getGroupSubjectId(group);
+                dictionary.Add(subjectId, nodeIndex);
+                nodeIndex++;
             }
-            Logger.Info($"Building Dictionary, Group: {nodeCount:N0}");
+            Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
             return dictionary;
         }
 
-        private static void parseEntityDictionaryGroup(IEnumerable<string> group, Dictionary<string, int> dictionary, int entityIndex)
+        private static string getGroupSubjectId(IEnumerable<string> group)
         {
-            var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
-            dictionary.Add(subjectId, entityIndex);
+            return group.FirstOrDefault().GetTriple().Subject.GetId();
         }
 
+        //Uses the <Q-EntityId, NodeIndex> to build an index.
         public static int[][] BuildSimpleNodesGraph(string triplesFilename)
         {
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
             return BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
         }
 
-        //Read the file twice
-        //Order n. Suponiendo que dictionary tiene orden 1.
+        //Read the file again
+        //Order n.
+        //Suponiendo que dictionary tiene orden 1.
+        //Creates an [nodeIndex, [all-nodes-that-it-points-to]]
         public static int[][] BuildSimpleNodesGraph(string triplesFilename, Dictionary<string, int> nodesDictionary)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
@@ -64,7 +67,7 @@ namespace SparqlForHumans.Core.Services
                 if (nodeCount % NotifyTicks == 0)
                     Logger.Info($"Building Graph, Group: {nodeCount:N0}");
 
-                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
+                var subjectId = getGroupSubjectId(group);
                 nodesDictionary.TryGetValue(subjectId, out var subjectIndex);
 
                 var entityNodeConnections = new List<int>();
@@ -73,6 +76,8 @@ namespace SparqlForHumans.Core.Services
                 {
                     var (_, _, ntObject) = line.GetTripleAsTuple();
 
+                    //This takes, not only the properties, but direct/properties or other things that are not properties
+                    //TODO: Use only properties (?)
                     if (!ntObject.IsEntity())
                         continue;
 
@@ -88,60 +93,6 @@ namespace SparqlForHumans.Core.Services
             }
             Logger.Info($"Building Graph, Group: {nodeCount:N0}");
             return nodeArray;
-        }
-
-        public static IEnumerable<GraphNode> BuildNodesGraph(string triplesFilename)
-        {
-            var list = new List<GraphNode>();
-            var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupBySubject();
-
-            var nodeCount = 0;
-
-            foreach (var group in groups)
-            {
-                var subjectId = group.FirstOrDefault().GetTriple().Subject.GetId();
-
-                var entityNode = new GraphNode(subjectId, nodeCount);
-                var entityNodeConnections = new List<string>();
-                foreach (var line in group)
-                {
-                    var (_, _, ntObject) = line.GetTripleAsTuple();
-
-                    if (!ntObject.IsEntity())
-                        continue;
-
-                    var objectId = ntObject.GetId();
-
-                    if (!entityNodeConnections.Contains(objectId))
-                        entityNodeConnections.Add(objectId);
-                }
-
-                entityNode.ConnectedNodes = entityNodeConnections.ToArray();
-
-                list.Add(entityNode);
-                nodeCount++;
-            }
-
-            //Assign initial rank to all nodes;
-            var initialRank = 1d / nodeCount;
-            foreach (var graphNode in list)
-            {
-                graphNode.Rank = initialRank;
-            }
-
-            return list;
-        }
-
-        public static void CalculateRanks(IEnumerable<GraphNode> graphNodes, int iterations)
-        {
-            var nodeCount = graphNodes.Count();
-
-            for (var i = 0; i < iterations; i++)
-            {
-                Logger.Info($"Calculating Ranks, Iteration: {i}");
-                IterateRank(graphNodes, nodeCount);
-            }
         }
 
         //Order n
@@ -210,42 +161,6 @@ namespace SparqlForHumans.Core.Services
                 Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
 
             return ranks;
-        }
-
-        public static void IterateRank(IEnumerable<GraphNode> graphNodes, int nodeCount)
-        {
-            var noLinkRank = 0d;
-            //Change for float; Save space;
-            var ranks = new double[nodeCount];
-
-            foreach (var graphNode in graphNodes)
-            {
-                if (graphNode.ConnectedNodes.Any())
-                {
-                    //Change Count, pass it as a value.
-                    //Check if Count is constant time. OTHERWISE CREATE A SIZE VAR WHATEVER;
-                    var share = graphNode.Rank * pageRankAlpha / graphNode.ConnectedNodes.Length;
-                    foreach (var connectedNode in graphNode.ConnectedNodes)
-                    {
-                        var destinationNode = graphNodes.FirstOrDefault(x => x.Id.Equals(connectedNode));
-                        if (destinationNode != null)
-                            ranks[destinationNode.Index] += share;
-                    }
-                }
-                else
-                {
-                    noLinkRank += graphNode.Rank;
-                }
-            }
-            var shareNoLink = (noLinkRank * pageRankAlpha) / nodeCount;
-            var shareMinusD = (1d - pageRankAlpha) / nodeCount;
-            var weakRank = shareNoLink + shareMinusD;
-
-            foreach (var graphNode in graphNodes)
-            {
-                ranks[graphNode.Index] += weakRank;
-                graphNode.Rank = ranks[graphNode.Index];
-            }
         }
     }
 }
