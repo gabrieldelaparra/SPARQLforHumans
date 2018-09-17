@@ -17,16 +17,6 @@ namespace SparqlForHumans.Core.Services
 {
     public class MultiDocumentQueries
     {
-        /// <summary>
-        /// Uses the default Lucene Index to query.
-        /// </summary>
-        /// <param name="searchText"></param>
-        /// <returns></returns>
-        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText)
-        {
-            return QueryEntitiesByLabel(searchText, LuceneIndexExtensions.EntitiesIndexDirectory);
-        }
-
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory)
         {
             return QueryDocumentsByLabel(searchText, luceneIndexDirectory).Select(x => x.MapEntity());
@@ -52,7 +42,7 @@ namespace SparqlForHumans.Core.Services
             {
                 foreach (var searchText in searchIds)
                 {
-                    documents.Add(SingleDocumentQueries.QueryDocumentByIdAndRank(searchText, queryAnalyzer, searcher));
+                    documents.Add(BaseParser.QueryDocumentByIdAndRank(searchText, queryAnalyzer, searcher));
                 }
 
                 queryAnalyzer.Close();
@@ -67,7 +57,7 @@ namespace SparqlForHumans.Core.Services
             if (string.IsNullOrEmpty(searchText))
                 return new List<Document>();
 
-            searchText = QueriesParser.PrepareSearchTerm(searchText);
+            searchText = BaseParser.PrepareSearchTerm(searchText);
             const int resultsLimit = 20;
 
             var list = new List<Document>();
@@ -105,7 +95,7 @@ namespace SparqlForHumans.Core.Services
         {
             var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
-            var query = QueriesParser.ParseQuery(searchText, parser);
+            var query = BaseParser.ParseQuery(searchText, parser);
             var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;
 
             return hits.Select(hit => searcher.Doc(hit.Doc)).ToList();

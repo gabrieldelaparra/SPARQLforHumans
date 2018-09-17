@@ -13,9 +13,14 @@ namespace SparqlForHumans.Core.Services
 
         private static double pageRankAlpha = 0.85d;
 
-        //Read the file once
-        //Order n
-        //Creates a Dictionary<string Q-entity, entityIndexInFile>
+
+        /// <summary>
+        /// Reads the file (Order n)
+        /// Creates a Dictionary(string Q-entity, entityIndexInFile)
+        /// Foreach group in the file, adds the (Q-id and the position in the file).
+        /// </summary>
+        /// <param name="triplesFilename"></param>
+        /// <returns></returns>
         public static Dictionary<string, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
@@ -29,7 +34,7 @@ namespace SparqlForHumans.Core.Services
                 if (nodeIndex % NotifyTicks == 0)
                     Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
-               var subjectId = getGroupSubjectId(group);
+               var subjectId = GetGroupSubjectId(group);
                 dictionary.Add(subjectId, nodeIndex);
                 nodeIndex++;
             }
@@ -38,22 +43,32 @@ namespace SparqlForHumans.Core.Services
             return dictionary;
         }
 
-        private static string getGroupSubjectId(IEnumerable<string> group)
+        private static string GetGroupSubjectId(IEnumerable<string> group)
         {
             return group.FirstOrDefault().GetTriple().Subject.GetId();
         }
 
-        //Uses the <Q-EntityId, NodeIndex> to build an index.
+        /// <summary>
+        /// Uses the <Q-EntityId, NodeIndex> to build an array with arrays.
+        /// </summary>
+        /// <param name="triplesFilename"></param>
+        /// <returns></returns>
         public static int[][] BuildSimpleNodesGraph(string triplesFilename)
         {
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
             return BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
         }
 
-        //Read the file again
-        //Order n.
-        //Suponiendo que dictionary tiene orden 1.
-        //Creates an [nodeIndex, [all-nodes-that-it-points-to]]
+        /// <summary>
+        /// Reads the file (Order n)
+        /// Foreach group of A-entities:
+        ///     - Looks for all the properties that point to another B-entity.
+        ///     - Uses the dictionary to lookup (Order 1?) the B-entity index in the file.
+        ///     - Creates a [A-entityIndex, [B-entities-Indices] ]
+        /// </summary>
+        /// <param name="triplesFilename"></param>
+        /// <param name="nodesDictionary"></param>
+        /// <returns></returns>
         public static int[][] BuildSimpleNodesGraph(string triplesFilename, Dictionary<string, int> nodesDictionary)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
@@ -67,7 +82,7 @@ namespace SparqlForHumans.Core.Services
                 if (nodeCount % NotifyTicks == 0)
                     Logger.Info($"Building Graph, Group: {nodeCount:N0}");
 
-                var subjectId = getGroupSubjectId(group);
+                var subjectId = GetGroupSubjectId(group);
                 nodesDictionary.TryGetValue(subjectId, out var subjectIndex);
 
                 var entityNodeConnections = new List<int>();

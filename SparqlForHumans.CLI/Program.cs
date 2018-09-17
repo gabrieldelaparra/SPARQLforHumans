@@ -80,7 +80,7 @@ namespace SparqlForHumans.CLI
         static void QueryEntities(string query)
         {
             Console.WriteLine(query);
-            var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
+            var results = MultiDocumentQueries.QueryEntitiesByLabel(query, LuceneIndexExtensions.EntitiesIndexDirectory);
             foreach (var result in results)
             {
                 Console.WriteLine(result);

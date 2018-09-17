@@ -15,7 +15,7 @@ namespace SparqlForHumans.Server.Controllers
          */
         public IActionResult Autocomplete(string term)
         {
-            var filteredItems = QueryService.QueryEntitiesByLabel(term, LuceneIndexExtensions.EntitiesIndexDirectory);
+            var filteredItems = MultiDocumentQueries.QueryEntitiesByLabel(term, LuceneIndexExtensions.EntitiesIndexDirectory);
             filteredItems = filteredItems.Select(x => x.AddProperties(LuceneIndexExtensions.EntitiesIndexDirectory));
 
             return Json(filteredItems);
