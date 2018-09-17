@@ -11,4 +11,8 @@
     <PackageReference Include="SharpZipLib" Version="1.0.0-alpha2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Indexer\" />
+  </ItemGroup>
+
 </Project>
