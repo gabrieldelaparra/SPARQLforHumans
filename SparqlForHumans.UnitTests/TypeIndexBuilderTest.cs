@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Lucene.Net.Index;
 using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
@@ -46,5 +47,38 @@ namespace SparqlForHumans.UnitTests
             }
             outputPath.DeleteIfExists();
         }
+
+        [Fact]
+        public static void TestQueryTypesFields()
+        {
+            const string filename = "Resources/EntityType.nt";
+            const string outputPath = "TypeAddFolder";
+
+            outputPath.DeleteIfExists();
+            Assert.False(Directory.Exists(outputPath));
+
+            var outputDirectory = outputPath.GetLuceneDirectory();
+
+            IndexBuilder.CreateEntitiesIndex(filename, outputDirectory, true);
+
+            var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(outputDirectory);
+
+            IndexBuilder.AddIsTypeEntityToEntitiesIndex(dictionary, outputDirectory);
+
+            var query = "chile";
+            var types = MultiDocumentQueries.QueryEntitiesByLabel(query, outputDirectory, true);
+            var all = MultiDocumentQueries.QueryEntitiesByLabel(query, outputDirectory, false);
+
+            Assert.Empty(types);
+            Assert.Single(all);
+
+            query = "country";
+            types = MultiDocumentQueries.QueryEntitiesByLabel(query, outputDirectory, true);
+            all = MultiDocumentQueries.QueryEntitiesByLabel(query, outputDirectory, false);
+
+            Assert.Single(types);
+            Assert.Single(all);
+        }
+
     }
 }

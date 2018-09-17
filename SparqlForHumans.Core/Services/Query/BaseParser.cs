@@ -45,23 +45,23 @@ namespace SparqlForHumans.Core.Services
         }
 
         // Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
-        private static Document QueryDocumentByLabelAndRank(string searchText, Analyzer queryAnalyzer, Searcher searcher)
+        internal static Document QueryDocumentByLabelAndRank(string searchText, Analyzer queryAnalyzer, Searcher searcher, Filter filter = null)
         {
             QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
                 new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
                 queryAnalyzer);
 
-            return QueryDocumentByRank(searchText, searcher, parser);
+            return QueryDocumentByRank(searchText, searcher, parser, filter);
         }
 
         //Does the search with the specific QueryParser (Label or Id). Returns results sorted by rank.
-        private static Document QueryDocumentByRank(string searchText, Searcher searcher, QueryParser parser)
+        private static Document QueryDocumentByRank(string searchText, Searcher searcher, QueryParser parser, Filter filter = null)
         {
             //Adds Sorting
             var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = BaseParser.ParseQuery(searchText, parser);
-            var hit = searcher.Search(query, null, 1, sort).ScoreDocs;
+            var hit = searcher.Search(query, filter, 1, sort).ScoreDocs;
 
             if (hit == null || hit.Length.Equals(0))
                 return null;

@@ -11,9 +11,11 @@ namespace SparqlForHumans.Core.Utilities
     {
         public static IEntity MapBaseSubject(this Document document)
         {
-            IEntity entity = new BaseSubject();
-            entity.Id = document.GetValue(Labels.Id);
-            entity.Label = document.GetValue(Labels.Label);
+            IEntity entity = new BaseSubject
+            {
+                Id = document.GetValue(Labels.Id),
+                Label = document.GetValue(Labels.Label)
+            };
             return entity;
         }
 
@@ -48,12 +50,6 @@ namespace SparqlForHumans.Core.Utilities
             return entity;
         }
 
-        public static Property MapFrequency(this Property entity, Document document)
-        {
-            entity.Frequency = document.GetValue(Labels.Frequency);
-            return entity;
-        }
-
         public static Entity MapInstanceOf(this Entity entity, Document doc)
         {
             entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
@@ -76,6 +72,12 @@ namespace SparqlForHumans.Core.Utilities
                                  .MapBaseProperties(document);
 
             return entity;
+        }
+
+        public static Property MapFrequency(this Property property, Document document)
+        {
+            property.Frequency = document.GetValue(Labels.Rank);
+            return property;
         }
 
         public static Property MapProperty(this Document document)

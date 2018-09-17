@@ -5,6 +5,7 @@ using System.Text;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
+using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
@@ -56,7 +57,7 @@ namespace SparqlForHumans.Core.Services
             return document;
         }
        
-        public static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory)
+        public static Document QueryDocumentByLabel(string searchText, Directory luceneIndexDirectory, bool isType = false)
         {
             if (string.IsNullOrEmpty(searchText))
                 return null;
@@ -67,19 +68,21 @@ namespace SparqlForHumans.Core.Services
             if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
                 return null;
 
+            Filter filter = null;
+            if(isType)
+                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
+
             var document = new Document();
 
             using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
             using (var queryAnalyzer = new StandardAnalyzer(Version.LUCENE_30))
             {
-                document = BaseParser.QueryDocumentByLabelAndRank(searchText, queryAnalyzer, searcher);
+                document = BaseParser.QueryDocumentByLabelAndRank(searchText, queryAnalyzer, searcher, filter);
 
                 queryAnalyzer.Close();
                 searcher.Dispose();
             }
             return document;
         }
-
-
     }
 }

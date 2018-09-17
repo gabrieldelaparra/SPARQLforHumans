@@ -5,6 +5,7 @@ using System.Text;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
+using Lucene.Net.Index;
 using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
@@ -17,9 +18,9 @@ namespace SparqlForHumans.Core.Services
 {
     public class MultiDocumentQueries
     {
-        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory)
+        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory, bool isType = false)
         {
-            return QueryDocumentsByLabel(searchText, luceneIndexDirectory).Select(x => x.MapEntity());
+            return QueryDocumentsByLabel(searchText, luceneIndexDirectory, isType).Select(x => x.MapEntity());
         }
 
         public static IEnumerable<Entity> QueryEntitiesByIds(IEnumerable<string> searchIds,
@@ -52,7 +53,7 @@ namespace SparqlForHumans.Core.Services
             return documents;
         }
 
-        private static IEnumerable<Document> QueryDocumentsByLabel(string searchText, Directory luceneIndexDirectory)
+        private static IEnumerable<Document> QueryDocumentsByLabel(string searchText, Directory luceneIndexDirectory, bool isType)
         {
             if (string.IsNullOrEmpty(searchText))
                 return new List<Document>();
@@ -66,10 +67,14 @@ namespace SparqlForHumans.Core.Services
             if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
                 return list;
 
+            Filter filter = null;
+            if(isType)
+                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
+
             using (var searcher = new IndexSearcher(luceneIndexDirectory, true))
             using (var queryAnalyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_30))
             {
-                list = SearchDocuments(searchText, queryAnalyzer, searcher, resultsLimit);
+                list = SearchDocuments(searchText, queryAnalyzer, searcher, resultsLimit, filter);
 
                 queryAnalyzer.Close();
                 searcher.Dispose();
@@ -82,21 +87,21 @@ namespace SparqlForHumans.Core.Services
         //TODO: UI When searching by Person shows Human but can show Person and Alt-Labels as options
         //TODO: Some instances have more than one InstanceOf
         private static List<Document> SearchDocuments(string searchText, Analyzer queryAnalyzer, Searcher searcher,
-            int resultsLimit)
+            int resultsLimit, Filter filter = null)
         {
             QueryParser parser = new MultiFieldQueryParser(Version.LUCENE_30,
                 new[] { Labels.Id.ToString(), Labels.Label.ToString(), Labels.AltLabel.ToString() },
                 queryAnalyzer);
 
-            return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit);
+            return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);
         }
 
-        private static List<Document> SearchDocumentsByRank(string searchText, Searcher searcher, QueryParser parser, int resultsLimit)
+        private static List<Document> SearchDocumentsByRank(string searchText, Searcher searcher, QueryParser parser, int resultsLimit, Filter filter)
         {
             var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortField.DOUBLE, true));
 
             var query = BaseParser.ParseQuery(searchText, parser);
-            var hits = searcher.Search(query, null, resultsLimit, sort).ScoreDocs;
+            var hits = searcher.Search(query, filter, resultsLimit, sort).ScoreDocs;
 
             return hits.Select(hit => searcher.Doc(hit.Doc)).ToList();
         }

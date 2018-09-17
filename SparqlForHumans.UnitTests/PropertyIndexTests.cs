@@ -51,7 +51,7 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("sovereign state of this item; don't use on humans", doc.GetField(Labels.Description.ToString()).StringValue);
 
                 //Frequency
-                Assert.Equal("3", doc.GetField(Labels.Frequency.ToString()).StringValue);
+                Assert.Equal("3", doc.GetField(Labels.Rank.ToString()).StringValue);
             }
 
             if (Directory.Exists(outputPath))

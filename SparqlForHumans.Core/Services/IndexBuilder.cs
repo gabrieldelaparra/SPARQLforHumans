@@ -79,14 +79,12 @@ namespace SparqlForHumans.Core.Services
         //                    $"{propertyId}{WikidataDump.PropertyValueSeparator}{propertyLabel}{WikidataDump.PropertyValueSeparator}{propertyFrequency}";
         //                luceneDocument.Add(new Field(Labels.Property.ToString(), propertyConcat, Field.Store.YES, Field.Index.NOT_ANALYZED));
         //            }
-
         //            writer.AddDocument(luceneDocument);
         //            readCount++;
         //        }
         //        writer.Dispose();
         //        Logger.Info($"Build Types Index, Group: {readCount:N0}");
         //    }
-
         //    analyzer.Close();
         //}
 
@@ -146,6 +144,7 @@ namespace SparqlForHumans.Core.Services
                             dictionary.Add(instanceOf, new List<string>());
 
                         var valuesList = dictionary[instanceOf];
+
                         foreach (var entityProperty in entity.Properties)
                         {
                             if (!valuesList.Contains(entityProperty.Id))
@@ -157,8 +156,6 @@ namespace SparqlForHumans.Core.Services
 
             return dictionary;
         }
-
-        
 
         public static void CreateEntitiesIndex(string inputTriplesFilename, string outputPath, bool addBoosts = true)
         {
@@ -358,12 +355,13 @@ namespace SparqlForHumans.Core.Services
                         {
                             luceneDocument.Boost = value;
 
-                            var frequencyField = new NumericField(Labels.Frequency.ToString(), Field.Store.YES, true);
+                            var frequencyField = new NumericField(Labels.Rank.ToString(), Field.Store.YES, true);
                             frequencyField.SetIntValue(value);
 
                             luceneDocument.Add(frequencyField);
                         }
                     }
+
                     writer.AddDocument(luceneDocument);
                     readCount++;
                 }
