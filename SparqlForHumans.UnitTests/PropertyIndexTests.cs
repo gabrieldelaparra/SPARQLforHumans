@@ -3,24 +3,27 @@ using SparqlForHumans.Core.Properties;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    public class PropertyIndexTests {
+    public class PropertyIndexTests
+    {
         [Fact]
-        public void TestCreateBasicIndex () {
+        public void TestCreateBasicIndex()
+        {
 
             const string filename = @"Resources/PropertyIndex.nt";
-            Assert.True (File.Exists (filename));
+            Assert.True(File.Exists(filename));
 
             const string outputPath = "PropertyIndex";
-            if (Directory.Exists (outputPath))
-                Directory.Delete (outputPath, true);
+
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
-            
-            IndexBuilder.CreatePropertiesIndex (filename, outputPath, true);
+
+            IndexBuilder.CreatePropertiesIndex(filename, outputPath.GetLuceneDirectory(), true);
 
             Assert.True(Directory.Exists(outputPath));
 
@@ -54,8 +57,61 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("3", doc.GetField(Labels.Rank.ToString()).StringValue);
             }
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestAddDomainToIndex()
+        {
+            const string filename = @"Resources/PropertyDomain.nt";
+            Assert.True(File.Exists(filename));
+
+            const string propertyOutputPath = "PropertyIndex";
+            const string entitiesOutputPath = "EntitiesIndex";
+
+            propertyOutputPath.DeleteIfExists();
+            entitiesOutputPath.DeleteIfExists();
+
+            Assert.False(Directory.Exists(entitiesOutputPath));
+            Assert.False(Directory.Exists(propertyOutputPath));
+
+            var entitiesDirectory = entitiesOutputPath.GetLuceneDirectory();
+            var propertiesDirectory = propertyOutputPath.GetLuceneDirectory();
+
+            IndexBuilder.CreateEntitiesIndex(filename, entitiesDirectory, true);
+            var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
+
+            IndexBuilder.CreatePropertiesIndex(filename, propertiesDirectory, true);
+            var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
+
+            var property27 = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
+            var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
+            var property777 = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
+
+            Assert.Empty(property27.DomainTypes);
+            Assert.Empty(property555.DomainTypes);
+            Assert.Empty(property777.DomainTypes);
+
+            IndexBuilder.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+
+            var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
+            var property555WithDomain = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
+            var property777WithDomain = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
+
+            Assert.NotEmpty(property27WithDomain.DomainTypes);
+            Assert.Equal("Q5", property27WithDomain.DomainTypes.ElementAt(0));
+
+            Assert.NotEmpty(property555WithDomain.DomainTypes);
+            Assert.Equal("Q5", property555WithDomain.DomainTypes.ElementAt(0));
+            Assert.Equal("Q17", property555WithDomain.DomainTypes.ElementAt(1));
+
+            Assert.NotEmpty(property777WithDomain.DomainTypes);
+            Assert.Equal("Q17", property777WithDomain.DomainTypes.ElementAt(0));
+
+            propertyOutputPath.DeleteIfExists();
+            entitiesOutputPath.DeleteIfExists();
         }
     }
+
+    
 }
