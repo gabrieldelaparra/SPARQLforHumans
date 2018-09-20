@@ -80,10 +80,17 @@ namespace SparqlForHumans.Core.Utilities
             return property;
         }
 
+        public static Property MapDomainTypes(this Property property, Document document)
+        {
+            property.DomainTypes = document.GetValues(Labels.DomainType);
+            return property;
+        }
+
         public static Property MapProperty(this Document document)
         {
             var property = new Property(document.MapBaseSubject())
-                .MapFrequency(document);
+                .MapFrequency(document)
+                .MapDomainTypes(document);
 
             return property;
         }

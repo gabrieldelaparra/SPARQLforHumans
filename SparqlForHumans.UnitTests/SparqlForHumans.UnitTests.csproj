@@ -26,6 +26,7 @@
     <None Remove="Resources\IndexSingle\_0.cfs" />
     <None Remove="Resources\MultipleInstanceDump.nt" />
     <None Remove="Resources\ObamaQueries.nt" />
+    <None Remove="Resources\PropertyDomain.nt" />
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
     <None Remove="Resources\PropertyIndex.nt" />
@@ -47,6 +48,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraphMultipleProperties.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertyDomain.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\EntityType.nt">
