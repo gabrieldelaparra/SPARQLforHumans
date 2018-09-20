@@ -97,7 +97,7 @@ namespace SparqlForHumans.Core.Services
         public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
             Directory entitiesIndexDirectory)
         {
-            const long readCount = 0;
+            long readCount = 0;
 
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
@@ -117,16 +117,35 @@ namespace SparqlForHumans.Core.Services
                         Field.Index.NOT_ANALYZED_NO_NORMS);
 
                     document.Add(field);
-                    writer.UpdateDocument(new Term(Labels.Id.ToString(), document.MapEntity().Id), document);
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), document.MapBaseSubject().Id), document);
+                    readCount++;
                 }
             }
         }
 
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory luceneIndexDirectory)
+        public static Dictionary<string, List<string>> CreateInvertedProperties(
+            Dictionary<string, List<string>> typesAndPropertiesDictionary)
         {
             var dictionary = new Dictionary<string, List<string>>();
 
-            using (var entityReader = IndexReader.Open(luceneIndexDirectory, true))
+            foreach (var type in typesAndPropertiesDictionary)
+            {
+                foreach (var property in type.Value)
+                {
+                    if (!dictionary.ContainsKey(property))
+                        dictionary.Add(property, new List<string>());
+
+                    dictionary[property].Add(type.Key);
+                }
+            }
+            return dictionary;
+        }
+
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory entitiesIndexDirectory)
+        {
+            var dictionary = new Dictionary<string, List<string>>();
+
+            using (var entityReader = IndexReader.Open(entitiesIndexDirectory, true))
             {
                 var docCount = entityReader.MaxDoc;
                 for (var i = 0; i < docCount; i++)
@@ -288,10 +307,43 @@ namespace SparqlForHumans.Core.Services
             }
         }
 
+        public static void AddDomainTypesToPropertiesIndex(Directory propertiesIndexDirectory,
+            Dictionary<string, List<string>> invertedProperties)
+        {
+            long readCount = 0;
+
+            Options.InternUris = false;
+            var analyzer = new StandardAnalyzer(Version.LUCENE_30);
+
+            using (var writer = new IndexWriter(propertiesIndexDirectory, analyzer,
+                IndexWriter.MaxFieldLength.UNLIMITED))
+            {
+                foreach (var invertedProperty in invertedProperties)
+                {
+                    var document =
+                        SingleDocumentQueries.QueryDocumentById(invertedProperty.Key, propertiesIndexDirectory);
+                 
+                    if (readCount % NotifyTicks == 0)
+                        Logger.Info($"Build Types Index, Group: {readCount:N0}");
+
+                    foreach (var domainType in invertedProperty.Value)
+                    {
+                        var field = new Field(Labels.DomainType.ToString(), domainType , Field.Store.YES,
+                            Field.Index.ANALYZED);
+
+                        document.Add(field);
+                    }
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), invertedProperty.Key), document);
+                    readCount++;
+                }
+            }
+
+        }
+
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;
         /// Rank with frequency;
-        public static void CreatePropertiesIndex(string inputTriplesFilename, string outputDirectory, bool indexFrequency = false)
+        public static void CreatePropertiesIndex(string inputTriplesFilename, Directory outputDirectory, bool indexFrequency = false)
         {
             long readCount = 0;
             Options.InternUris = false;
@@ -303,9 +355,10 @@ namespace SparqlForHumans.Core.Services
                 dictionary = PropertiesFrequency.GetPropertiesFrequency(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
+            
             Logger.Info("Building Properties Index");
-            using (var writer = new IndexWriter(outputDirectory.GetLuceneDirectory(), analyzer,
-                IndexWriter.MaxFieldLength.UNLIMITED))
+
+            using (var writer = new IndexWriter(outputDirectory, analyzer, IndexWriter.MaxFieldLength.UNLIMITED))
             {
                 //Group them by QCode.
                 var entityGroups = lines.GroupBySubject();
@@ -356,7 +409,7 @@ namespace SparqlForHumans.Core.Services
                             luceneDocument.Boost = value;
 
                             var frequencyField = new NumericField(Labels.Rank.ToString(), Field.Store.YES, true);
-                            frequencyField.SetIntValue(value);
+                            frequencyField.SetDoubleValue(value);
 
                             luceneDocument.Add(frequencyField);
                         }
