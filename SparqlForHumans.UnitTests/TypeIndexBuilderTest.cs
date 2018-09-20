@@ -138,7 +138,7 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal("Q5", dictionary.Keys.ElementAt(0));
             Assert.Equal("Q17", dictionary.Keys.ElementAt(1));
 
-            //P27>Q30, P555>Q556
+            //P27>Q30
             Assert.Equal(2, dictionary.ElementAt(0).Value.Count);
 
             //P555>Q555, P777>Q777

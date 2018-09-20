@@ -3,6 +3,7 @@
 <http://www.wikidata.org/entity/Q76> <http://www.w3.org/2004/02/skos/core#altLabel> "President Obama"@en .
 <http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
 <http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
 <http://www.wikidata.org/entity/Q5> <http://schema.org/description> "Person description"@en .
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2004/02/skos/core#altLabel> "person"@en .
@@ -17,3 +18,5 @@
 <http://www.wikidata.org/entity/Q298> <http://schema.org/description> "republic in South America"@en .
 <http://www.wikidata.org/entity/Q298> <http://www.w3.org/2004/02/skos/core#altLabel> "Republic of Chile"@en .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q555> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q777> .
