@@ -89,6 +89,46 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestQueryNonExistingEntityByLabel()
+        {
+            const string outputPath = "Resources/IndexSingle";
+            var luceneIndexDirectory = outputPath.GetLuceneDirectory();
+
+            var entity = SingleDocumentQueries.QueryEntityByLabel("Non-Existing", luceneIndexDirectory);
+            Assert.Null(entity);
+        }
+
+        [Fact]
+        public void TestQueryNonExistingPropertyByLabel()
+        {
+            const string outputPath = "Resources/IndexSingle";
+            var luceneIndexDirectory = outputPath.GetLuceneDirectory();
+
+            var entity = SingleDocumentQueries.QueryPropertyByLabel("Non-Existing", luceneIndexDirectory);
+            Assert.Null(entity);
+        }
+
+        [Fact]
+        public void TestQueryNonExistingEntityById()
+        {
+            const string outputPath = "Resources/IndexSingle";
+            var luceneIndexDirectory = outputPath.GetLuceneDirectory();
+
+            var entity = SingleDocumentQueries.QueryEntityById("Q666", luceneIndexDirectory);
+            Assert.Null(entity);
+        }
+
+        [Fact]
+        public void TestQueryNonExistingPropertyById()
+        {
+            const string outputPath = "Resources/IndexSingle";
+            var luceneIndexDirectory = outputPath.GetLuceneDirectory();
+
+            var entity = SingleDocumentQueries.QueryPropertyById("P666", luceneIndexDirectory);
+            Assert.Null(entity);
+        }
+
+        [Fact]
         public void TestQuerySingleInstanceById()
         {
             const string outputPath = "Resources/IndexSingle";

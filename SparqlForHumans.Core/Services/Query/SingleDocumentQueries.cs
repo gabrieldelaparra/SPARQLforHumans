@@ -20,22 +20,22 @@ namespace SparqlForHumans.Core.Services
     {
         public static Entity QueryEntityById(string searchId, Directory luceneIndexDirectory)
         {
-            return QueryDocumentById(searchId, luceneIndexDirectory).MapEntity();
+            return QueryDocumentById(searchId, luceneIndexDirectory)?.MapEntity();
         }
 
         public static Property QueryPropertyById(string searchId, Directory luceneIndexDirectory)
         {
-            return QueryDocumentById(searchId, luceneIndexDirectory).MapProperty();
+            return QueryDocumentById(searchId, luceneIndexDirectory)?.MapProperty();
         }
 
         public static Entity QueryEntityByLabel(string searchText, Directory luceneIndexDirectory)
         {
-            return QueryDocumentByLabel(searchText, luceneIndexDirectory).MapEntity();
+            return QueryDocumentByLabel(searchText, luceneIndexDirectory)?.MapEntity();
         }
 
         public static Property QueryPropertyByLabel(string searchText, Directory luceneIndexDirectory)
         {
-            return QueryDocumentByLabel(searchText, luceneIndexDirectory).MapProperty();
+            return QueryDocumentByLabel(searchText, luceneIndexDirectory)?.MapProperty();
         }
 
         public static Document QueryDocumentById(string searchId, Directory luceneIndexDirectory)
