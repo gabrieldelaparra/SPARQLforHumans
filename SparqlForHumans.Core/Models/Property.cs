@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Core.Models
 {
@@ -8,6 +9,8 @@ namespace SparqlForHumans.Core.Models
         public string Frequency { get; set; } = string.Empty;
 
         public int FrequencyValue => int.TryParse(Frequency, out var value) ? value : 0;
+
+        public IEnumerable<string> DomainTypes { get; set; } = new List<string>();
 
         public Property()
         {
