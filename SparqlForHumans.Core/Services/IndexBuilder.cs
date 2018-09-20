@@ -97,7 +97,7 @@ namespace SparqlForHumans.Core.Services
         public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
             Directory entitiesIndexDirectory)
         {
-            long readCount = 0;
+            long readCount = 1;
 
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
@@ -187,9 +187,9 @@ namespace SparqlForHumans.Core.Services
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
         /// Entities have properties, not sure if properties have properties;
-        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = true)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = false)
         {
-            long readCount = 0;
+            long readCount = 1;
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
@@ -345,7 +345,7 @@ namespace SparqlForHumans.Core.Services
         /// Rank with frequency;
         public static void CreatePropertiesIndex(string inputTriplesFilename, Directory outputDirectory, bool indexFrequency = false)
         {
-            long readCount = 0;
+            long readCount = 1;
             Options.InternUris = false;
             var analyzer = new StandardAnalyzer(Version.LUCENE_30);
 
@@ -420,9 +420,8 @@ namespace SparqlForHumans.Core.Services
                 }
 
                 writer.Dispose();
-                Logger.Info($"Build Property Index, Group: {readCount:N0}");
             }
-
+            Logger.Info($"Build Property Index, Group: {readCount:N0}");
             analyzer.Close();
         }
 

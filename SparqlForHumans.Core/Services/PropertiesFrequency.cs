@@ -30,7 +30,7 @@ namespace SparqlForHumans.Core.Services
             foreach (var group in groups)
             {
                 if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"Group: {nodeCount:N0}");
+                    Logger.Info($"Properties Frequency, Group: {nodeCount:N0}");
 
                 foreach (var line in group)
                 {
@@ -38,9 +38,9 @@ namespace SparqlForHumans.Core.Services
                     ParsePropertyFrequencyLine(line, dictionary);
                 }
 
-                Logger.Info($"Group: {nodeCount:N0}");
                 nodeCount++;
             }
+            Logger.Info($"Properties Frequency, Group: {nodeCount:N0}");
 
             return dictionary;
         }

@@ -172,7 +172,7 @@ namespace SparqlForHumans.Core.Services
                 ranks[i] += weakRank;
             }
 
-            if (Math.Abs(ranks.Sum() - 1) <= 0.001)
+            if (Math.Abs(ranks.Sum() - 1) > 0.001)
                 Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
 
             return ranks;

@@ -20,13 +20,24 @@ namespace SparqlForHumans.Core.Services
     {
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneIndexDirectory, bool isType = false)
         {
-            return QueryDocumentsByLabel(searchText, luceneIndexDirectory, isType).Select(x => x.MapEntity());
+            return QueryDocumentsByLabel(searchText, luceneIndexDirectory, isType)?.Select(x => x.MapEntity());
         }
 
         public static IEnumerable<Entity> QueryEntitiesByIds(IEnumerable<string> searchIds,
            Directory luceneIndexDirectory)
         {
-            return QueryDocumentsByIds(searchIds, luceneIndexDirectory).Select(x => x.MapEntity());
+            return QueryDocumentsByIds(searchIds, luceneIndexDirectory)?.Select(x => x.MapEntity());
+        }
+
+        public static IEnumerable<Property> QueryPropertiesByLabel(string searchText, Directory luceneIndexDirectory, bool isType = false)
+        {
+            return QueryDocumentsByLabel(searchText, luceneIndexDirectory, isType)?.Select(x => x.MapProperty());
+        }
+
+        public static IEnumerable<Property> QueryPropertiesByIds(IEnumerable<string> searchIds,
+            Directory luceneIndexDirectory)
+        {
+            return QueryDocumentsByIds(searchIds, luceneIndexDirectory)?.Select(x => x.MapProperty());
         }
 
         public static IEnumerable<Document> QueryDocumentsByIds(IEnumerable<string> searchIds,
