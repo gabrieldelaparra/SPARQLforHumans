@@ -25,7 +25,7 @@ namespace SparqlForHumans.Core.Models
 
         public string ToRankedString()
         {
-            return $"[{Frequency}] {ToString()}";
+            return $"[{FrequencyValue}] {ToString()}";
         }
 
         public override string ToString()
