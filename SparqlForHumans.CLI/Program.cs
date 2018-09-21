@@ -11,8 +11,8 @@ namespace SparqlForHumans.CLI
 
         static void Main(string[] args)
         {
-            //Filter500k();
-            //CreateIndex("filtered-All-500k.nt", true);
+            Filter500k();
+            CreateIndex("filtered-All-500k.nt", true);
             QueryEntities("obama");
             QueryProperties("city");
             Console.ReadLine();

@@ -120,7 +120,7 @@ namespace SparqlForHumans.Core.Services
             for (var i = 0; i < iterations; i++)
             {
                 oldRanks = IterateGraph(graphNodes, oldRanks);
-                Logger.Info($"Iteration {i} finished!");
+                Logger.Info($"Iteration {i+1} finished!");
             }
 
             return oldRanks;
