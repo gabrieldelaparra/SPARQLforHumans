@@ -11,7 +11,7 @@ namespace SparqlForHumans.Core.Services
         private static readonly NLog.Logger Logger = Utilities.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
 
-        private static double pageRankAlpha = 0.85d;
+        private static readonly double pageRankAlpha = 0.85d;
 
 
         /// <summary>
