@@ -142,8 +142,8 @@ namespace SparqlForHumans.UnitTests
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             var triple = line.GetTriple();
 
-            Assert.Equal(triple.Subject.ToSafeString(), triple.Subject.GetUri());
-            Assert.Equal(triple.Predicate.ToSafeString(), triple.Predicate.GetUri());
+            Assert.Equal(triple.Subject.ToString(), triple.Subject.GetUri());
+            Assert.Equal(triple.Predicate.ToString(), triple.Predicate.GetUri());
             Assert.Empty(triple.Object.GetUri());
         }
 

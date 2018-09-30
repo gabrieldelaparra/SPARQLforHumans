@@ -31,7 +31,7 @@ namespace SparqlForHumans.CLI
                 {
                     if (labelTriple.ntObject.IsLiteral())
                     {
-                        if (labelTriple.ntObject.ToSafeString().ToUpper().Contains("OBAMA"))
+                        if (labelTriple.ntObject.ToString().ToUpper().Contains("OBAMA"))
                         {
                             if (!countObama.Equals(limit))
                             {
@@ -81,7 +81,7 @@ namespace SparqlForHumans.CLI
             //var labelTriple = triples.FirstOrDefault(x =>
             //    x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label)
             //                  && x.ntObject.IsLiteral()
-            //    && x.ntObject.ToSafeString().ToUpper().Contains("OBAMA"));
+            //    && x.ntObject.ToString().ToUpper().Contains("OBAMA"));
 
             //var obamaTriple = triples.FirstOrDefault(x =>
             //    x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Property)

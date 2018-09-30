@@ -94,7 +94,7 @@ namespace SparqlForHumans.Core.Utilities
 
         public static string GetUri(this INode node)
         {
-            return node.IsUriNode() ? ((UriNode)node).Uri.ToSafeString() : string.Empty;
+            return node.IsUriNode() ? ((UriNode)node).Uri.ToString() : string.Empty;
         }
 
         public static bool IsEntity(this INode node)
