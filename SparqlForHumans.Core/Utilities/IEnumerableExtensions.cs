@@ -12,7 +12,7 @@ namespace SparqlForHumans.Core.Utilities
 
             foreach (var line in lines)
             {
-                var entity = line.Split(" ").FirstOrDefault();
+                var entity = line.Split(' ').FirstOrDefault();
 
                 //Base case: first value:
                 if (last == string.Empty)

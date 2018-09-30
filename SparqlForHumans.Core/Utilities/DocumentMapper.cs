@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Lucene.Net.Documents;
@@ -219,7 +220,7 @@ namespace SparqlForHumans.Core.Utilities
             if (!indexPropertyAndValue.Contains(WikidataDump.PropertyValueSeparator))
                 return null;
 
-            var splitted = indexPropertyAndValue.Split(WikidataDump.PropertyValueSeparator);
+            var splitted = indexPropertyAndValue.Split(new[] { WikidataDump.PropertyValueSeparator }, StringSplitOptions.None);
 
             var propertyId = splitted[0];
             var propertyValue = splitted[1];
