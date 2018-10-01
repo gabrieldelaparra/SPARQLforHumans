@@ -7,7 +7,7 @@ using SparqlForHumans.Models;
 
 namespace SparqlForHumans.Web.Components
 {
-    public class EntityComponentBase
+    public class EntityComponentBase : BlazorComponent
     {
         [Parameter]
         public string Header { get; set; } = string.Empty;
