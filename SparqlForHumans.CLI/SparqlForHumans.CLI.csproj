@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SparqlForHumans.Core\SparqlForHumans.Core.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
   </ItemGroup>
 
 </Project>

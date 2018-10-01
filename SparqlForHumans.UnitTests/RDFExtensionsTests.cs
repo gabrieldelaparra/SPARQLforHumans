@@ -15,6 +15,18 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetId()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/P26> .";
+            var triple = line.GetTriple();
+
+            Assert.Equal("Q27", triple.Subject.GetId());
+            Assert.Equal("P47", triple.Predicate.GetId());
+            Assert.Equal("P26", triple.Object.GetId());
+        }
+
+        [Fact]
         public void TestGetLiteral()
         {
             var line =
@@ -89,18 +101,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestGetId()
-        {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/P26> .";
-            var triple = line.GetTriple();
-
-            Assert.Equal("Q27", triple.Subject.GetId());
-            Assert.Equal("P47", triple.Predicate.GetId());
-            Assert.Equal("P26", triple.Object.GetId());
-        }
-
-        [Fact]
         public void TestGetQCode()
         {
             var line =
@@ -150,14 +150,16 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsEntity()
         {
-            var line = "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             var triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsEntity());
             Assert.False(triple.Predicate.IsEntity());
             Assert.False(triple.Object.IsEntity());
 
-            line = "<http://www.wikidata.org/entity/P31> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            line =
+                "<http://www.wikidata.org/entity/P31> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
             triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsEntity());
@@ -165,7 +167,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(triple.Object.IsEntity());
 
             line =
-               "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
+                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             triple = line.GetTriple();
 
             Assert.True(triple.Subject.IsEntity());
@@ -182,9 +184,9 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(triple.Subject.IsEntity());
 
-             line =
+            line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
-             triple = line.GetTriple();
+            triple = line.GetTriple();
             Assert.True(triple.Subject.IsEntity());
         }
 
@@ -237,29 +239,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestPropertyType()
-        {
-            var line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P417> \"Ireland\"@en .";
-            var (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-
-            Assert.True(ntPredicate.IsProperty());
-
-            Assert.Equal(RDFExtensions.PropertyType.LiteralDirected, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
-
-            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
-            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.EntityDirected, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
-
-            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
-            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
-
-            line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/Other/Q32> <http://www.wikidata.org/other/P26> .";
-            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
-        }
-
-        [Fact]
         public void TestIsUriNode()
         {
             var line =
@@ -274,7 +253,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsValidLanguage()
         {
-            string[] validLanguages = { "en", "es" };
+            string[] validLanguages = {"en", "es"};
             Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
             Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
             Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));
@@ -304,6 +283,35 @@ namespace SparqlForHumans.UnitTests
             Assert.False(triple.Subject.IsValidLanguageLiteral());
             Assert.False(triple.Predicate.IsValidLanguageLiteral());
             Assert.False(triple.Object.IsValidLanguageLiteral());
+        }
+
+        [Fact]
+        public void TestPropertyType()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P417> \"Ireland\"@en .";
+            var (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+
+            Assert.True(ntPredicate.IsProperty());
+
+            Assert.Equal(RDFExtensions.PropertyType.LiteralDirected,
+                RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.EntityDirected,
+                RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+
+            line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/Other/Q32> <http://www.wikidata.org/other/P26> .";
+            (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
+            Assert.Equal(RDFExtensions.PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
         }
     }
 }

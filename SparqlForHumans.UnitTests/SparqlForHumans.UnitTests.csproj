@@ -147,6 +147,8 @@
 
   <ItemGroup>
     <PackageReference Include="dotNetRDF" Version="2.1.0" />
+    <PackageReference Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00005" />
+    <PackageReference Include="Lucene.Net.QueryParser" Version="4.8.0-beta00005" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
@@ -154,7 +156,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SparqlForHumans.Core\SparqlForHumans.Core.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
   </ItemGroup>
 
 </Project>

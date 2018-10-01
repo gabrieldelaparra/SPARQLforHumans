@@ -2,10 +2,12 @@
 using System.IO;
 using System.Linq;
 using Lucene.Net.Index;
-using SparqlForHumans.Core.Properties;
+using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Models;
 using Xunit;
+using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests
 {
@@ -89,9 +91,9 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestCalculateFloatRankSevenIterationsMultipleProperties()
+        public void TestCalculateFloatRankSevenIterationsDifferentIds()
         {
-            var filename = "Resources/buildGraphMultipleProperties.nt";
+            var filename = "Resources/buildGraphDifferentIds.nt";
             var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
@@ -108,9 +110,9 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestCalculateFloatRankSevenIterationsDifferentIds()
+        public void TestCalculateFloatRankSevenIterationsMultipleProperties()
         {
-            var filename = "Resources/buildGraphDifferentIds.nt";
+            var filename = "Resources/buildGraphMultipleProperties.nt";
             var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
@@ -138,31 +140,32 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
 
-            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
-
-            Assert.True(Directory.Exists(outputPath));
-
-            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var docCount = reader.MaxDoc;
-
-                Assert.Equal(7, docCount);
-
-                for (var i = 0; i < docCount; i++)
+                IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, true);
+                using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
-                    var doc = reader.Document(i);
-                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
-                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+
+                    Assert.True(Directory.Exists(outputPath));
+
+                    var docCount = reader.MaxDoc;
+
+                    Assert.Equal(7, docCount);
+
+                    for (var i = 0; i < docCount; i++)
+                    {
+                        var doc = reader.Document(i);
+                        double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                        Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                    }
                 }
             }
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
         }
 
         [Fact]
@@ -177,31 +180,32 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
 
-            IndexBuilder.CreateEntitiesIndex(filename, outputPath, true);
-
-            Assert.True(Directory.Exists(outputPath));
-
-            using (var reader = IndexReader.Open(outputPath.GetLuceneDirectory(), true))
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var docCount = reader.MaxDoc;
+                IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, true);
 
-                Assert.Equal(7, docCount);
-
-                for (var i = 0; i < docCount; i++)
+                using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
-                    var doc = reader.Document(i);
-                    double.TryParse(doc.GetValue(Labels.Rank), out var rank);
-                    Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                    Assert.True(Directory.Exists(outputPath));
+
+                    var docCount = reader.MaxDoc;
+
+                    Assert.Equal(7, docCount);
+
+                    for (var i = 0; i < docCount; i++)
+                    {
+                        var doc = reader.Document(i);
+                        double.TryParse(doc.GetValue(Labels.Rank), out var rank);
+                        Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
+                    }
                 }
             }
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
         }
     }
 }

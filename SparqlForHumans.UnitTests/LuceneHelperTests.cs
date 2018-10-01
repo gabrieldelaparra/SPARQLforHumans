@@ -1,8 +1,11 @@
 ﻿using System.IO;
 using System.Linq;
+using Lucene.Net.Index;
+using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 using Xunit;
+using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests
 {
@@ -18,26 +21,21 @@ namespace SparqlForHumans.UnitTests
 
             var outputPath = "Index";
 
-            if (Directory.Exists(outputPath))
-                Directory.Delete(outputPath, true);
+            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
-            IndexBuilder.CreateEntitiesIndex(filename, outputPath);
-            Assert.True(Directory.Exists(outputPath));
 
-            Assert.Equal(entitiesCount, outputPath.GetLuceneDirectory().GetDocumentCount());
-        }
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory);
+                using (var reader = DirectoryReader.Open(luceneIndexDirectory))
+                {
+                    Assert.True(Directory.Exists(outputPath));
+                    Assert.Equal(entitiesCount, reader.MaxDoc);
+                }
+            }
 
-        [Fact]
-        public void TestGetLucenePath()
-        {
-            var path = "Temp";
-            var luceneDirectory = path.GetLuceneDirectory();
-            Assert.NotNull(luceneDirectory);
-            Assert.IsAssignableFrom<Lucene.Net.Store.Directory>(luceneDirectory);
-
-            Assert.True(Directory.Exists(path));
-            Directory.Delete(path);
+            outputPath.DeleteIfExists();
         }
     }
 }

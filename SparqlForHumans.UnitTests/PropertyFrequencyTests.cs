@@ -14,7 +14,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(filename));
 
             var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);
-            
+
             Assert.NotNull(dictionary);
 
             Assert.Equal(7, dictionary.Count);
@@ -27,7 +27,6 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal("P30", dictionary.ElementAt(2).Key);
             Assert.Equal(3, dictionary.ElementAt(2).Value);
-
         }
 
         [Fact]
@@ -50,7 +49,6 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal("P30", dictionary.ElementAt(2).Key);
             Assert.Equal(3, dictionary.ElementAt(2).Value);
-
         }
     }
 }

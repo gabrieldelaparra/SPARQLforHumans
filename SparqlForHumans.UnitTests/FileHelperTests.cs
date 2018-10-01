@@ -11,16 +11,9 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCountLines()
         {
-            var filename = @"Resources/TenLines.nt";
+            const string filename = @"Resources/TenLines.nt";
             Assert.NotEqual(0, FileHelper.GetLineCount(filename));
             Assert.Equal(10, FileHelper.GetLineCount(filename));
-            Assert.True(File.Exists("LineCountLog.txt"));
-        }
-
-        [Fact]
-        public void TestGetFilenameTypeNotExisting()
-        {
-            Assert.Throws<ArgumentException>(()=>FileHelper.GetFilenameType("Resources/NotExisting.txt"));
         }
 
         [Fact]
@@ -33,6 +26,12 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetFilenameTypeNotExisting()
+        {
+            Assert.Throws<ArgumentException>(() => FileHelper.GetFilenameType("Resources/NotExisting.txt"));
+        }
+
+        [Fact]
         public void TestGetFileType()
         {
             Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFileType(".txt"));
@@ -41,58 +40,9 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestGetOutputFilteredFilename()
-        {
-            var filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            var limit = 500;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputTrimmedFilename()
-        {
-            var filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            var limit = 500;
-            var outputFilename = FileHelper.GetTrimmedOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\trimmed-TrimmedTestSet-500.nt", outputFilename);
-        }
-
-        [Fact]
-        public void TestReadLines()
-        {
-            var filename = "Resources/TenLines.nt";
-
-            Assert.True(File.Exists(filename));
-
-            Assert.NotNull(FileHelper.ReadLines(filename));
-            Assert.NotEmpty(FileHelper.ReadLines(filename));
-            Assert.Equal(10, FileHelper.ReadLines(filename).Count());
-        }
-
-        [Fact]
-        public void TestReadLinesCompressedNotExisting()
-        {
-            var filename = "Resources/NotExisting.nt.gz";
-            Assert.Empty(SharpZipHandler.ReadGZip(filename));
-        }
-
-        //[Fact]
-        //public void TestReadLinesCompressed()
-        //{
-        //    var filename = "Resources/TenLines.nt.gz";
-
-        //    Assert.True(File.Exists(filename));
-
-        //    Assert.NotNull(SharpZipHandler.ReadGZip(filename));
-        //    Assert.NotEmpty(SharpZipHandler.ReadGZip(filename));
-        //    Assert.Equal(10, SharpZipHandler.ReadGZip(filename).Count());
-        //}
-
-        [Fact]
         public void TestGetLinesCompressed()
         {
-            var filename = "Resources/TenLines.nt.gz";
+            const string filename = "Resources/TenLines.nt.gz";
 
             Assert.True(File.Exists(filename));
 
@@ -104,83 +54,86 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetLinesOther()
         {
-            var filename = "Resources/empty.txt";
+            const string filename = "Resources/empty.txt";
 
             Assert.True(File.Exists(filename));
 
-            Assert.Throws<ArgumentException>(()=>FileHelper.GetInputLines(filename));
+            Assert.Throws<ArgumentException>(() => FileHelper.GetInputLines(filename));
         }
-
-        [Fact]
-        public void TestTrimFile()
-        {
-            var outputFilename = "trimmedFile.nt";
-
-            if (File.Exists(outputFilename))
-                File.Delete(outputFilename);
-
-            Assert.False(File.Exists(outputFilename));
-
-            var filename = @"Resources/TenLines.nt";
-            Assert.Equal(10, FileHelper.GetLineCount(filename));
-
-            FileHelper.TrimFile(filename, outputFilename, 5);
-
-            Assert.True(File.Exists(outputFilename));
-            Assert.Equal(5, FileHelper.GetLineCount(outputFilename));
-        }
-
-        //[Fact]
-        //public void TestTrimLargeGZipFile()
-        //{
-        //    var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt.gz";
-        //    var outputFilename = "TrimmedTestSet.nt";
-
-        //    if (File.Exists(outputFilename))
-        //        File.Delete(outputFilename);
-
-        //    var limit = 50000;
-
-        //    FileHelper.TrimFile(filename, outputFilename, limit);
-
-        //    Assert.True(File.Exists(outputFilename));
-        //    Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
-        //}
-
-        //[Fact]
-        //public void TestTrimLargeNTFile()
-        //{
-        //    var filename = @"C:\Users\admin\Desktop\DCC\latest-truthy.nt-gz\latest-truthy.nt";
-        //    var outputFilename = "TrimmedTestSet.nt";
-
-        //    if (File.Exists(outputFilename))
-        //        File.Delete(outputFilename);
-
-        //    var limit = 50000;
-
-        //    FileHelper.TrimFile(filename, outputFilename, limit);
-
-        //    Assert.True(File.Exists(outputFilename));
-        //    Assert.Equal(limit, FileHelper.GetLineCount(outputFilename));
-        //}
 
         [Fact]
         public void TestGetOrCreateDirectory()
         {
-            var path = "TestGetOrCreate";
+            const string path = "TestGetOrCreate";
 
-            if(Directory.Exists(path))
+            if (Directory.Exists(path))
                 Directory.Delete(path);
 
             Assert.False(Directory.Exists(path));
 
-            var dir = FileHelper.GetOrCreateDirectory(path);
+            var dir = path.GetOrCreateDirectory();
 
             Assert.NotNull(dir);
             Assert.IsAssignableFrom<DirectoryInfo>(dir);
 
             Assert.True(Directory.Exists(path));
             Directory.Delete(path);
+        }
+
+        [Fact]
+        public void TestGetOutputFilteredFilename()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputTrimmedFilename()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetTrimmedOutputFilename(filename, limit);
+            Assert.Equal(@"C:\a\b\c\trimmed-TrimmedTestSet-500.nt", outputFilename);
+        }
+
+        [Fact]
+        public void TestReadLines()
+        {
+            const string filename = "Resources/TenLines.nt";
+
+            Assert.True(File.Exists(filename));
+
+            Assert.NotNull(FileHelper.ReadLines(filename));
+            Assert.NotEmpty(FileHelper.ReadLines(filename));
+            Assert.Equal(10, FileHelper.ReadLines(filename).Count());
+        }
+
+        [Fact]
+        public void TestReadLinesCompressedNotExisting()
+        {
+            const string filename = "Resources/NotExisting.nt.gz";
+            Assert.Empty(SharpZipHandler.ReadGZip(filename));
+        }
+
+        [Fact]
+        public void TestTrimFile()
+        {
+            const string outputFilename = "trimmedFile.nt";
+
+            if (File.Exists(outputFilename))
+                File.Delete(outputFilename);
+
+            Assert.False(File.Exists(outputFilename));
+
+            const string filename = @"Resources/TenLines.nt";
+            Assert.Equal(10, FileHelper.GetLineCount(filename));
+
+            FileHelper.TrimFile(filename, outputFilename, 5);
+
+            Assert.True(File.Exists(outputFilename));
+            Assert.Equal(5, FileHelper.GetLineCount(outputFilename));
         }
     }
 }
