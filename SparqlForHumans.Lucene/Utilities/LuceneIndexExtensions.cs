@@ -1,7 +1,5 @@
-﻿using System.IO;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
-using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Utilities
 {

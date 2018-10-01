@@ -9,7 +9,7 @@ namespace SparqlForHumans.Core.Utilities
             if (Directory.Exists(path) && additionalCondition)
                 Directory.Delete(path, true);
 
-            if(File.Exists(path) && additionalCondition)
+            if (File.Exists(path) && additionalCondition)
                 File.Delete(path);
         }
     }

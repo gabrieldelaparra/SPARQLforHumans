@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Lucene.Net.Index;
+﻿using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
@@ -35,7 +32,6 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
                 Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
                 Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
-
             }
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))

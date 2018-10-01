@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Models;
 

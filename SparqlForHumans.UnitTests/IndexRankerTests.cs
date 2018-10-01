@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
@@ -149,7 +148,6 @@ namespace SparqlForHumans.UnitTests
                 IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, true);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
-
                     Assert.True(Directory.Exists(outputPath));
 
                     var docCount = reader.MaxDoc;

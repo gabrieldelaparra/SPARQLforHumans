@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Documents;
-using Lucene.Net.QueryParsers;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Util;
@@ -20,7 +19,7 @@ namespace SparqlForHumans.Core.Services
             }
             catch (ParseException)
             {
-                query = parser.Parse(QueryParser.Escape(searchQuery.Trim()));
+                query = parser.Parse(QueryParserBase.Escape(searchQuery.Trim()));
             }
 
             return query;
@@ -38,7 +37,8 @@ namespace SparqlForHumans.Core.Services
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
-        internal static Document QueryDocumentByIdAndRank(string searchId, Analyzer queryAnalyzer, IndexSearcher searcher)
+        internal static Document QueryDocumentByIdAndRank(string searchId, Analyzer queryAnalyzer,
+            IndexSearcher searcher)
         {
             var parser = new QueryParser(LuceneVersion.LUCENE_48, Labels.Id.ToString(), queryAnalyzer);
 
@@ -61,7 +61,8 @@ namespace SparqlForHumans.Core.Services
             Filter filter = null)
         {
             //Adds Sorting
-            var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_SCORE,
+                new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
             var hit = searcher.Search(query, filter, 1, sort).ScoreDocs;

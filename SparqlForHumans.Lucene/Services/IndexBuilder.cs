@@ -1,17 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using Lucene.Net.Support;
 using Lucene.Net.Util;
 using SparqlForHumans.Core.Utilities;
 using SparqlForHumans.Models;
 using VDS.RDF;
-using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -65,18 +62,19 @@ namespace SparqlForHumans.Core.Services
             var dictionary = new Dictionary<string, List<string>>();
 
             foreach (var type in typesAndPropertiesDictionary)
-                foreach (var property in type.Value)
-                {
-                    if (!dictionary.ContainsKey(property))
-                        dictionary.Add(property, new List<string>());
+            foreach (var property in type.Value)
+            {
+                if (!dictionary.ContainsKey(property))
+                    dictionary.Add(property, new List<string>());
 
-                    dictionary[property].Add(type.Key);
-                }
+                dictionary[property].Add(type.Key);
+            }
 
             return dictionary;
         }
 
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory entitiesIndexDirectory)
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
+            Directory entitiesIndexDirectory)
         {
             var dictionary = new Dictionary<string, List<string>>();
 
@@ -188,8 +186,9 @@ namespace SparqlForHumans.Core.Services
                     if (addBoosts)
                     {
                         nodesDictionary.TryGetValue(id, out var subjectIndex);
-                       
-                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex], Field.Store.YES));  
+
+                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
+                            Field.Store.YES));
                         AddFields(luceneDocument, fields, nodesGraphRanks[subjectIndex]);
                     }
                     else
@@ -328,7 +327,7 @@ namespace SparqlForHumans.Core.Services
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             fields.Add(new StringField(Labels.Id.ToString(), id, Field.Store.YES));
-                            
+
                             hasDocument = true;
                         }
 
@@ -362,13 +361,11 @@ namespace SparqlForHumans.Core.Services
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
             foreach (var field in fields)
-            {
                 //if (boost != 0)
                 //    if(!field.FieldType.OmitNorms && field.FieldType.IsIndexed)
                 //        field.Boost = (float) boost;
 
                 doc.Add(field);
-            }
         }
 
         /// <summary>

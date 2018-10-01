@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;

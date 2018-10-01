@@ -11,6 +11,6 @@
         Rank,
         PropertyAndValue,
         IsTypeEntity,
-        DomainType,
+        DomainType
     }
 }

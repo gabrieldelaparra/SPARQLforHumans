@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Core.Utilities;
 using SparqlForHumans.Models;
-using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Services
 {
@@ -53,7 +49,7 @@ namespace SparqlForHumans.Core.Services
             if (searchIds == null)
                 return documents;
 
-            using(var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
+            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             using (var queryAnalyzer = new KeywordAnalyzer())
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
@@ -82,7 +78,7 @@ namespace SparqlForHumans.Core.Services
             if (isType)
                 filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
 
-            using(var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
+            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             using (var queryAnalyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48))
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
@@ -103,16 +99,18 @@ namespace SparqlForHumans.Core.Services
             int resultsLimit, Filter filter = null)
         {
             QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
                 queryAnalyzer);
 
             return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);
         }
 
-        private static List<Document> SearchDocumentsByRank(string searchText, IndexSearcher searcher, QueryParser parser,
+        private static List<Document> SearchDocumentsByRank(string searchText, IndexSearcher searcher,
+            QueryParser parser,
             int resultsLimit, Filter filter)
         {
-            var sort = new Sort(SortField.FIELD_SCORE, new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_SCORE,
+                new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
 
             var query = BaseParser.ParseQuery(searchText, parser);
             var hits = searcher.Search(query, filter, resultsLimit, sort).ScoreDocs;

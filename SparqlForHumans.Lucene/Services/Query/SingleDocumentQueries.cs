@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Core;
+﻿using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -9,7 +7,6 @@ using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Core.Utilities;
 using SparqlForHumans.Models;
-using Directory = Lucene.Net.Store.Directory;
 
 namespace SparqlForHumans.Core.Services
 {

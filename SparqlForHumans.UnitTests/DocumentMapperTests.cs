@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
@@ -16,19 +14,19 @@ namespace SparqlForHumans.UnitTests
         public static void TestMapEntity()
         {
             const string outputPath = "Resources/IndexSingle";
-            
-                var entity = new Entity
-                {
-                    Id = "Q26",
-                    Label = "Northern Ireland",
-                    Description = "region in north-west Europe, part of the United Kingdom",
-                    AltLabels = new List<string>
+
+            var entity = new Entity
+            {
+                Id = "Q26",
+                Label = "Northern Ireland",
+                Description = "region in north-west Europe, part of the United Kingdom",
+                AltLabels = new List<string>
                 {
                     "NIR",
                     "UKN",
                     "North Ireland"
                 },
-                    Properties = new List<Property>
+                Properties = new List<Property>
                 {
                     new Property
                     {
@@ -51,9 +49,9 @@ namespace SparqlForHumans.UnitTests
                         Value = "Q145"
                     }
                 }
-                };
+            };
 
-            using(var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 var first = SingleDocumentQueries.QueryEntityByLabel(entity.Label, luceneDirectory);
 

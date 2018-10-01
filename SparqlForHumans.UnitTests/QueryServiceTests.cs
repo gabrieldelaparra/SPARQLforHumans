@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
@@ -106,7 +104,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryByMultipleIds()
         {
-            var ids = new List<string> { "Q26", "Q27", "Q29" };
+            var ids = new List<string> {"Q26", "Q27", "Q29"};
             const string outputPath = "Resources/IndexMultiple";
             Assert.True(Directory.Exists(outputPath));
 

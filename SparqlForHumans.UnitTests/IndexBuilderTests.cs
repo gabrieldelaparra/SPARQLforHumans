@@ -1,8 +1,6 @@
-using System.IO;
 using System.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
@@ -55,7 +53,9 @@ namespace SparqlForHumans.UnitTests
             Assert.False(Directory.Exists(outputPath));
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
                 IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, false);
+            }
 
             Assert.True(Directory.Exists(outputPath));
 
@@ -360,12 +360,16 @@ namespace SparqlForHumans.UnitTests
             outputPath2.DeleteIfExists();
 
             var found = 0;
-            
+
             using (var outputDirectory1 = FSDirectory.Open(outputPath1.GetOrCreateDirectory()))
-            IndexBuilder.CreateEntitiesIndex(filename, outputDirectory1, true);
-            
+            {
+                IndexBuilder.CreateEntitiesIndex(filename, outputDirectory1, true);
+            }
+
             using (var outputDirectory2 = FSDirectory.Open(outputPath2.GetOrCreateDirectory()))
-            IndexBuilder.CreateEntitiesIndex(filename, outputDirectory2, false);
+            {
+                IndexBuilder.CreateEntitiesIndex(filename, outputDirectory2, false);
+            }
 
             using (var outputDirectory1 = FSDirectory.Open(outputPath1.GetOrCreateDirectory()))
             using (var outputDirectory2 = FSDirectory.Open(outputPath2.GetOrCreateDirectory()))
@@ -414,7 +418,7 @@ namespace SparqlForHumans.UnitTests
                 var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
 
                 QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                    new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                    new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
                     analyzer);
 
                 string[] testWords =
@@ -423,17 +427,17 @@ namespace SparqlForHumans.UnitTests
                 foreach (var searchQuery in testWords)
                 {
                     const int resultsLimit = 10;
-                    var queryNoBoost = MultiDocumentQueries.QueryDocumentsByLabel(searchQuery, outputDirectory1, false, resultsLimit);
-                    var queryBoost = MultiDocumentQueries.QueryDocumentsByLabel(searchQuery, outputDirectory2, false, resultsLimit);
+                    var queryNoBoost =
+                        MultiDocumentQueries.QueryDocumentsByLabel(searchQuery, outputDirectory1, false, resultsLimit);
+                    var queryBoost =
+                        MultiDocumentQueries.QueryDocumentsByLabel(searchQuery, outputDirectory2, false, resultsLimit);
 
                     Assert.Equal(queryNoBoost.Count(), queryBoost.Count());
 
                     for (var i = 0; i < queryNoBoost.Count(); i++)
-                    {
                         if (!queryNoBoost.ElementAt(i).GetValue(Labels.Id)
                             .Equals(queryBoost.ElementAt(i).GetValue(Labels.Id)))
                             found++;
-                    }
                 }
             }
 
