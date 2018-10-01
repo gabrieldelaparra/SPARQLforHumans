@@ -16,6 +16,30 @@ namespace SparqlForHumans.Core.Services
 {
     public class MultiDocumentQueries
     {
+        public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, bool isType = false)
+        {
+            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
+        }
+
+        public static IEnumerable<Entity> QueryEntitiesByIds(IEnumerable<string> searchIds)
+        {
+            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
+        }
+
+        public static IEnumerable<Property> QueryPropertiesByLabel(string searchText, bool isType = false)
+        {
+            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapProperty());
+        }
+
+        public static IEnumerable<Property> QueryPropertiesByIds(IEnumerable<string> searchIds)
+        {
+            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapProperty());
+        }
+
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneDirectory,
             bool isType = false)
         {
