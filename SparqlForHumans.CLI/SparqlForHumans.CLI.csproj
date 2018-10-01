@@ -11,4 +11,22 @@
     <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\LuceneBinaries\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.Analysis.Common">
+      <HintPath>..\LuceneBinaries\Lucene.Net.Analysis.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.Queries">
+      <HintPath>..\LuceneBinaries\Lucene.Net.Queries.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.QueryParser">
+      <HintPath>..\LuceneBinaries\Lucene.Net.QueryParser.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net.Sandbox">
+      <HintPath>..\LuceneBinaries\Lucene.Net.Sandbox.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
