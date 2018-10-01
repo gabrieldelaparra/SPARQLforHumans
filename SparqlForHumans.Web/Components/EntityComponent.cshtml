@@ -1,9 +1,28 @@
-﻿@using SparqlForHumans.Models
-@inherits EntityComponentBase
+﻿@inherits EntityComponentBase
+
+@using SparqlForHumans.Models
+@using RPedretti.Blazor.Components.Spinner
 
 <div style="border:1px solid black;">
+    <div>
+        <SuggestBox Suggestions="FilteredLabelsList"
+                    Query="@Query"
+                    LoadingSuggestion="@LoadingSuggestions"
+                    SuggestionSelected="@SuggestionSelected"
+                    QueryChanged="@FetchSuggestions" />
+    </div>
+    @if (SelectedEntity != null)
+    {
+    <div>
+        <p>Label: @SelectedEntity.Label</p>
+        <p>Id: @SelectedEntity.Id</p>
+    </div>
+    }
+</div>
+
+
+@*<div style="border:1px solid black;">
     <h1>@Header</h1>
-    @*<input type="text"  bind="@TestValue" onkeypress="@KeyHandler"  />*@
     <button onclick="@addProperty">Add</button>
     <button onclick="@removeProperty">Remove</button>
     <input bind="@TestValue" onblur=@KeyHandler />
@@ -15,25 +34,4 @@
             <PropertyField Title="@property.Id" />
         }
     }
-</div>
-
-@functions
-{
-
-//int TestValue { get; set; }
-//void KeyHandler(UIKeyboardEventArgs ev)
-//{
-//    if (ev.Key.CompareTo("+") == 0)
-//        TestValue++;
-//    else if (ev.Key.CompareTo("-") == 0)
-//        TestValue--;
-//}
-
-string TestValue { get; set; }
-
-void KeyHandler()
-{
-    TestValue = TestValue.ToUpper();
-}
-
-}
+</div>*@

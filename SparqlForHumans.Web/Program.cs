@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Blazor.Hosting;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Blazor.Hosting;
+using SparqlForHumans.Core.Services;
 
 namespace SparqlForHumans.Web
 {

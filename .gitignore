@@ -266,3 +266,5 @@ __pycache__/
 Progress.md
 /SparqlForHumans.CLI/filtered-All-2MM.nt
 /IndexFull
+/LucenePropertiesIndex
+/LuceneEntitiesIndex
