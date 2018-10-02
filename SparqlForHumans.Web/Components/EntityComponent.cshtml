@@ -1,15 +1,10 @@
 ﻿@inherits EntityComponentBase
 
 @using SparqlForHumans.Models
-@using RPedretti.Blazor.Components.Spinner
 
 <div style="border:1px solid black;">
     <div>
-        <SuggestBox Suggestions="FilteredLabelsList"
-                    Query="@Query"
-                    LoadingSuggestion="@LoadingSuggestions"
-                    SuggestionSelected="@SuggestionSelected"
-                    QueryChanged="@FetchSuggestions" />
+
     </div>
     @if (SelectedEntity != null)
     {
