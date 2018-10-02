@@ -23,11 +23,17 @@
         };
     </script>
 
-    <script>
-        async function doFunction() {
-            var promise = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'ReturnArrayAsync');
-            console.log(promise);
-        }
-    </script>
+<script>
+    async function doFunction() {
+        var promise = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'ReturnArrayAsync');
+        console.log(promise);
+    }
+</script>
+
+<script>
+    function alertMe(message) {
+        alert(message);
+    }
+</script>
 </body>
 </html>

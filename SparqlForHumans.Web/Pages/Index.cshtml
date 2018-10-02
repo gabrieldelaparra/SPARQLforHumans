@@ -8,7 +8,13 @@
 
 <button onclick="@CallJs">@Message</button>
 
+<br/><br />
+
 <input id="clickMe" type="button" value="clickme" onclick="doFunction();" />
+
+<br /><br />
+
+      <button onclick="@CallAlert">Alert user</button>
 
 @functions
 {
@@ -18,6 +24,11 @@
     {
         Message = await JavaScriptInvokables.PromptAsync("Type a message");
         StateHasChanged();
+    }
+
+    void CallAlert()
+    {
+        JSRuntime.Current.InvokeAsync<object>("alertMe", Message);
     }
 
 }
