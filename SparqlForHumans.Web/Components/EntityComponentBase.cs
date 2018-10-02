@@ -9,7 +9,7 @@ using SparqlForHumans.Models;
 
 namespace SparqlForHumans.Web.Components
 {
-    public class EntityComponentBase 
+    public class EntityComponentBase : BlazorComponent
     {
         public Entity SelectedEntity { get; set; }
     }

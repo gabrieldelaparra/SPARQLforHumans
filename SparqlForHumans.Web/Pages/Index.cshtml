@@ -2,8 +2,23 @@
 @page "/sparqlforhumans"
 @using System.Runtime.InteropServices.ComTypes
 @using SparqlForHumans.Models
+@using SparqlForHumans.Web.Utilities
 
 <h1>Sparql for humans</h1>
+
+<button onclick="@CallJs">@Message</button>
+
+@functions
+{
+    string Message = "Click to change";
+
+    async void CallJs()
+    {
+        Message = await JavaScriptInvokables.PromptAsync("Type a message");
+        StateHasChanged();
+    }
+
+}
 
 @*<EntityComponent></EntityComponent>*@
 
