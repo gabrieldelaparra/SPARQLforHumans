@@ -52,13 +52,14 @@ namespace SparqlForHumans.Web.Components
 
         protected async Task FetchSuggestions(string query)
         {
+            Console.WriteLine($"Making query: {query}");
+
             Query = query;
-            Console.WriteLine($"Query: {query}");
+            
             if (!string.IsNullOrWhiteSpace(query))
             {
                 LoadingSuggestions = true;
                 StateHasChanged();
-                await Task.Delay(1000);
 
                 FilteredList = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
                 LoadingSuggestions = false;
@@ -67,7 +68,8 @@ namespace SparqlForHumans.Web.Components
             {
                 FilteredList = null;
             }
-            Console.WriteLine($"ResultCount: {FilteredList.Count}");
+            Console.WriteLine($"Query results count: {FilteredList.Count}");
+
             StateHasChanged();
         }
 
