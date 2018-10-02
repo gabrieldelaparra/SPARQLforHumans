@@ -16,5 +16,11 @@ namespace SparqlForHumans.Web.Utilities
                 "exampleJsFunctions.showPrompt",
                 message);
         }
+
+        [JSInvokable]
+        public static Task<int[]> ReturnArrayAsync()
+        {
+            return Task.FromResult(new int[] { 1, 2, 3 });
+        }
     }
 }

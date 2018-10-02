@@ -11,6 +11,8 @@
 <body>
     <app>Loading...</app>
 
+    <input id="clickMe" type="button" value="clickme" onclick="doFunction();" />
+
     <script src="_framework/blazor.webassembly.js"></script>
 
     <script>
@@ -19,6 +21,13 @@
                 return prompt(message, 'Type anything here ');
             }
         };
+    </script>
+
+    <script>
+        async function doFunction() {
+            var promise = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'ReturnArrayAsync');
+            console.log(promise);
+        }
     </script>
 </body>
 </html>
