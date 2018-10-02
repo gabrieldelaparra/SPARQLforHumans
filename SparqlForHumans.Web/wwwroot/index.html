@@ -7,11 +7,17 @@
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
     <app>Loading...</app>
 
-
+    <div class="ui-widget">
+        <label for="tags">Tags: </label>
+        <input id="tags">
+    </div>
 
     <script src="_framework/blazor.webassembly.js"></script>
 
@@ -23,17 +29,49 @@
         };
     </script>
 
-<script>
-    async function doFunction() {
-        var promise = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'ReturnArrayAsync');
-        console.log(promise);
-    }
-</script>
+    <script>
+        async function doFunction() {
+            var promise = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'ReturnArrayAsync');
+            console.log(promise);
+        }
+    </script>
 
-<script>
-    function alertMe(message) {
-        alert(message);
-    }
-</script>
+    <script>
+        function alertMe(message) {
+            alert(message);
+        }
+    </script>
+
+    <script>
+        $(function () {
+            var availableTags = [
+                "ActionScript",
+                "AppleScript",
+                "Asp",
+                "BASIC",
+                "C",
+                "C++",
+                "Clojure",
+                "COBOL",
+                "ColdFusion",
+                "Erlang",
+                "Fortran",
+                "Groovy",
+                "Haskell",
+                "Java",
+                "JavaScript",
+                "Lisp",
+                "Perl",
+                "PHP",
+                "Python",
+                "Ruby",
+                "Scala",
+                "Scheme"
+            ];
+            $("#tags").autocomplete({
+                source: availableTags
+            });
+        });
+    </script>
 </body>
 </html>
