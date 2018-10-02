@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
@@ -16,28 +17,63 @@ namespace SparqlForHumans.Core.Services
 {
     public class MultiDocumentQueries
     {
+        private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
+
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, bool isType = false)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
-                return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
+            try
+            {
+                using (var luceneDirectory =
+                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                    return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return null;
+            }
         }
 
         public static IEnumerable<Entity> QueryEntitiesByIds(IEnumerable<string> searchIds)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
-                return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
+            try
+            {
+                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                    return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return null;
+            }
         }
 
         public static IEnumerable<Property> QueryPropertiesByLabel(string searchText, bool isType = false)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
-                return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapProperty());
+            try
+            {
+                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                    return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapProperty());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return null;
+            }
         }
 
         public static IEnumerable<Property> QueryPropertiesByIds(IEnumerable<string> searchIds)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
-                return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapProperty());
+            try
+            {
+                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                    return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapProperty());
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return null;
+            }
         }
 
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneDirectory,
@@ -123,7 +159,7 @@ namespace SparqlForHumans.Core.Services
             int resultsLimit, Filter filter = null)
         {
             QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
+                new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
                 queryAnalyzer);
 
             return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);

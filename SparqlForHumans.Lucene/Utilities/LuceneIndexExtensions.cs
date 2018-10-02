@@ -5,9 +5,8 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class LuceneIndexExtensions
     {
-        public static string EntityIndexPath => @"../LuceneEntitiesIndex";
-        public static string PropertyIndexPath => @"../LucenePropertiesIndex";
-        public static string TypesIndexPath => @"../LuceneTypesIndex";
+        public static string EntityIndexPath => @"C:\Users\delapa\Desktop\DCC\SparQLforHumans\LuceneEntitiesIndex";
+        public static string PropertyIndexPath => @"C:\Users\delapa\Desktop\DCC\SparQLforHumans\LucenePropertiesIndex";
 
         //public static Directory EntitiesIndexDirectory => EntityIndexPath.GetLuceneDirectory();
         //public static Directory PropertiesIndexDirectory => PropertyIndexPath.GetLuceneDirectory();
@@ -37,7 +36,7 @@ namespace SparqlForHumans.Core.Utilities
             using (var reader = DirectoryReader.Open(luceneIndexDirectory))
             {
                 return reader.MaxDoc;
-            }
+            } 
         }
     }
 }

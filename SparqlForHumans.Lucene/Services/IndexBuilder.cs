@@ -62,15 +62,22 @@ namespace SparqlForHumans.Core.Services
             var dictionary = new Dictionary<string, List<string>>();
 
             foreach (var type in typesAndPropertiesDictionary)
-            foreach (var property in type.Value)
-            {
-                if (!dictionary.ContainsKey(property))
-                    dictionary.Add(property, new List<string>());
+                foreach (var property in type.Value)
+                {
+                    if (!dictionary.ContainsKey(property))
+                        dictionary.Add(property, new List<string>());
 
-                dictionary[property].Add(type.Key);
-            }
+                    dictionary[property].Add(type.Key);
+                }
 
             return dictionary;
+        }
+
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
+        {
+            using (var entitiesIndexDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                return CreateTypesAndPropertiesDictionary(entitiesIndexDirectory);
         }
 
         public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
@@ -107,6 +114,12 @@ namespace SparqlForHumans.Core.Services
             return dictionary;
         }
 
+        public static void CreateEntitiesIndex(string inputTriplesFilename, bool addBoosts = false)
+        {
+            using (var entitiesDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                CreateEntitiesIndex(inputTriplesFilename, entitiesDirectory, addBoosts);
+        }
+
         //TODO: No 'prefLabel' in the current index:
         //TODO: No 'name' in the current index:
         /// EntitiesIndex
@@ -114,8 +127,9 @@ namespace SparqlForHumans.Core.Services
         /// Rank with boosts;
         /// Entities have properties, not sure if properties have properties;
         public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory,
-            bool addBoosts = false)
+        bool addBoosts = false)
         {
+
             long readCount = 1;
             Options.InternUris = false;
 
@@ -238,6 +252,13 @@ namespace SparqlForHumans.Core.Services
             return fields;
         }
 
+        public static void AddDomainTypesToPropertiesIndex(Dictionary<string, List<string>> invertedProperties)
+        {
+            using (var propertiesIndexDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                AddDomainTypesToPropertiesIndex(propertiesIndexDirectory, invertedProperties);
+        }
+
         public static void AddDomainTypesToPropertiesIndex(Directory propertiesIndexDirectory,
             Dictionary<string, List<string>> invertedProperties)
         {
@@ -270,6 +291,14 @@ namespace SparqlForHumans.Core.Services
                 }
             }
         }
+
+        public static void CreatePropertiesIndex(string inputTriplesFilename,bool indexFrequency = false)
+        {
+            using (var propertiesDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                CreatePropertiesIndex(inputTriplesFilename, propertiesDirectory, indexFrequency);
+        }
+        
 
         // PropertyIndex:
         /// Include Subjects only if Id starts with P;

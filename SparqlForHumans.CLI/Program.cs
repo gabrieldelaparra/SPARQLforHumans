@@ -12,8 +12,8 @@ namespace SparqlForHumans.CLI
 
         static void Main(string[] args)
         {
-            Filter500k();
-            CreateIndex("filtered-All-500k.nt", true);
+            //Filter500k();
+            //CreateIndex("filtered-All-500k.nt", true);
             QueryEntities("obama");
             QueryProperties("city");
             Console.Read();
@@ -36,17 +36,13 @@ namespace SparqlForHumans.CLI
             entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            using (var entitiesDirectory = FSDirectory.Open(entitiesOutputPath.GetOrCreateDirectory()))
-            using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
-            {
-                IndexBuilder.CreateEntitiesIndex(filename, entitiesDirectory, true);
+            IndexBuilder.CreateEntitiesIndex(filename, true);
 
-                var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                IndexBuilder.CreatePropertiesIndex(filename, propertiesDirectory, true);
+            var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
+            IndexBuilder.CreatePropertiesIndex(filename, true);
 
-                var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
-                IndexBuilder.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
-            }
+            var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
+            IndexBuilder.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
         static void Filter2MM()
@@ -85,7 +81,7 @@ namespace SparqlForHumans.CLI
             outputPath.DeleteIfExists(overwrite);
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            IndexBuilder.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
+                IndexBuilder.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
 
         }
 
@@ -95,9 +91,7 @@ namespace SparqlForHumans.CLI
             var outputPath = LuceneIndexExtensions.EntityIndexPath;
 
             outputPath.DeleteIfExists(overwrite);
-
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-                IndexBuilder.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
+            IndexBuilder.CreateEntitiesIndex(inputFilename, true);
 
         }
 
@@ -107,34 +101,26 @@ namespace SparqlForHumans.CLI
             var outputPath = LuceneIndexExtensions.PropertyIndexPath;
 
             outputPath.DeleteIfExists(overwrite);
-
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-                IndexBuilder.CreatePropertiesIndex(inputFilename, luceneDirectory, true);
+            IndexBuilder.CreatePropertiesIndex(inputFilename, true);
         }
 
         static void QueryEntities(string query)
         {
             Console.WriteLine($"Query Entity: {query}\n");
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+            var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
+            foreach (var result in results)
             {
-                var results = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneDirectory);
-                foreach (var result in results)
-                {
-                    Console.WriteLine(result.ToRankedString());
-                }
+                Console.WriteLine(result.ToRankedString());
             }
         }
 
         static void QueryProperties(string query)
         {
             Console.WriteLine($"Query Property: {query}\n");
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
+            foreach (var result in results)
             {
-                var results = MultiDocumentQueries.QueryPropertiesByLabel(query, luceneDirectory);
-                foreach (var result in results)
-                {
-                    Console.WriteLine(result.ToRankedString());
-                }
+                Console.WriteLine(result.ToRankedString());
             }
         }
     }
