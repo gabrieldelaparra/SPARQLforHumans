@@ -4,21 +4,9 @@
 
 <h1>Sparql For Humans</h1>
 
-<input placeholder="Search" ref="inputTextBox"/>
+<AutoCompleteView Source="@RunQuery" />
 
 @functions {
-
-    ElementRef inputTextBox;
-
-    protected override void OnAfterRender()
-    {
-        JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete",
-            inputTextBox,
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
-            "RunQuery");
-
-        base.OnAfterRender();
-    }
 
     [JSInvokable]
     public static Task<SelectableValue[]> RunQuery(string query)
