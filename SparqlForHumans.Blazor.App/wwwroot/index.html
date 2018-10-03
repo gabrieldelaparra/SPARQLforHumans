@@ -7,59 +7,12 @@
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
-    
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 <body>
     <app>Loading...</app>
 
 <script src="_framework/blazor.server.js"></script>
     
-<div class="ui-widget">
-    <label for="birds">Birds: </label>
-    <input id="birds">
-</div>
-    
-<script>
-    window.fillAutocomplete = function (customers) {
-        console.log(customers);
-        //customers.forEach(function(element) {
-        //    console.log(element);
-        //});
-
-        // Fill Kendo Autocomplete
-        $("#customers").autocomplete({
-            source: function(request, response) {
-                console.log(request);
-                response(request);
-            }
-        });
-        return true;
-    };
-</script>
-
-<script>
-    var queryResults = [];
-
-    window.jsFunctions = {
-        showPrompt: function (message) {
-            return prompt(message, 'Type anything here');
-        },
-
-        runQuery: async function (query) {
-            var results = await DotNet.invokeMethodAsync('SparqlForHumans.Blazor.App', 'RunQuery', query);
-            queryResults = results;
-            console.log(queryResults);
-            updateResults();
-        },
-
-        updateResults: function() {
-            $( "#birds" ).autocomplete({
-                source: queryResults
-            });
-        }
-    };
-</script>
 </body>
 </html>

@@ -3,16 +3,7 @@
 
 <h1>Sparql For Humans</h1>
 
-<button onclick="@RunQuery">Run Query</button>
-
-<input id="customers" style="width: 300px" />
-
 @functions {
-
-    protected override async Task OnInitAsync()
-    {
-        await RefreshCustomerList();
-    }
 
     private async Task RefreshCustomerList()
     {
@@ -20,14 +11,6 @@
         var customers = await Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel("obama")
             .Select(x => x.Label).ToArray());
 
-        await JSRuntime.Current.InvokeAsync<bool>("fillAutocomplete", customers);
-    }
-
-    public async Task RunQuery()
-    {
-        await RefreshCustomerList();
-        await JSRuntime.Current.InvokeAsync<object>("jsFunctions.runQuery", "Obama");
-        await JSRuntime.Current.InvokeAsync<object>("jsFunctions.updateResults");
     }
 
 }

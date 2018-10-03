@@ -9,10 +9,5 @@ namespace SparqlForHumans.Blazor.App.Services
 {
     public static class QueryServices
     {
-        [JSInvokable]
-        public static Task<string[]> RunQuery(string query)
-        {
-            return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query).Select(x=>x.Label).ToArray());
-        }
     }
 }
