@@ -25,19 +25,15 @@
 <script>
     window.autoCompleteElement = {
 
-        initAutoComplete: function(htmlElement) {
+        initAutoComplete: function (htmlElement, namespace, functionName) {
             $(htmlElement).autocomplete({
                 source: function(request, response) {
-                    var list = autoCompleteElement.onAutocompleteChange(request.term);
+                    var list = DotNet.invokeMethodAsync(namespace, functionName, request.term);
                     list.then(x => response(x));
                 },
                 minLength: 2,
                 delay: 500
             });
-        },
-
-        onAutocompleteChange: async function(query) {
-            return await DotNet.invokeMethodAsync('SparqlForHumans.Blazor.App', 'RunQuery', query);
         }
     };    
 </script>
