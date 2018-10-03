@@ -20,19 +20,15 @@
 
 <script src="_framework/blazor.server.js"></script>
     
-<button onclick="window.exampleJsFunctions.fillAutoComplete()">Load</button>
+<!--<button onclick="window.autoCompleteElement.initAutoComplete('#tags')">Load</button>-->
 
 <script>
-    window.exampleJsFunctions = {
-        fillAutoComplete: function() {
-            $('#tags').on('keyup change',
-                function() {
-                    console.log();
-                }).change();
+    window.autoCompleteElement = {
 
+        initAutoComplete: function() {
             $('#tags').autocomplete({
                 source: function(request, response) {
-                    var list = exampleJsFunctions.runQuery(request.term);
+                    var list = autoCompleteElement.onAutocompleteChange(request.term);
                     list.then(x => response(x));
                 },
                 minLength: 2,
@@ -40,7 +36,7 @@
             });
         },
 
-        runQuery: async function(query) {
+        onAutocompleteChange: async function(query) {
             return await DotNet.invokeMethodAsync('SparqlForHumans.Blazor.App', 'RunQuery', query);
         }
     };    
