@@ -32,76 +32,18 @@
 
             $('#tags').autocomplete({
                 source: function(request, response) {
-                    console.log(request.term);
-                    response([request.term, 'a', 'b']);
+                    var list = exampleJsFunctions.runQuery(request.term);
+                    list.then(x => response(x));
                 },
                 minLength: 2,
                 delay: 500
             });
+        },
+
+        runQuery: async function(query) {
+            return await DotNet.invokeMethodAsync('SparqlForHumans.Blazor.App', 'RunQuery', query);
         }
-    };
-    //$(document).ready(function() {
-    //    $('#tags').on('keyup change',
-    //        function() {
-    //            console.log();
-    //        }).change();
-
-    //    $('#tags').autocomplete({
-    //        source: function(request, response) {
-    //            console.log(request.term);
-    //            response([request.term, 'a', 'b']);
-    //        }
-    //    });
-    //});
-
-    //window.exampleJsFunctions = {
-
-    //    log: function (message) {
-    //        return console.log(message);
-    //    },
-
-    //    fillAutoComplete: function () {
-    //        jQuery("#tags").autocomplete({
-    //            source: function (request, response) {
-    //                log(request.term);
-    //                jQuery.get("queryResults",
-    //                    {
-    //                        query: request.term
-    //                    },
-    //                    function (data) {
-    //                        response(data);
-    //                    });
-    //            },
-    //            minLength: 3
-    //        });
-    //    },
-    //    queryResults: function() {
-    //        return [
-    //            "ActionScript",
-    //            "AppleScript",
-    //            "Asp",
-    //            "BASIC",
-    //            "C",
-    //            "C++",
-    //            "Clojure",
-    //            "COBOL",
-    //            "ColdFusion",
-    //            "Erlang",
-    //            "Fortran",
-    //            "Groovy",
-    //            "Haskell",
-    //            "Java",
-    //            "JavaScript",
-    //            "Lisp",
-    //            "Perl",
-    //            "PHP",
-    //            "Python",
-    //            "Ruby",
-    //            "Scala",
-    //            "Scheme"
-    //        ];
-    //    }
-    //}
+    };    
 </script>
 </body>
 </html>
