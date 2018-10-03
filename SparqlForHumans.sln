@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.CLI", "Spar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.UnitTests", "SparqlForHumans.UnitTests\SparqlForHumans.UnitTests.csproj", "{08C8080E-8865-45E4-9260-E949FFF3744A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Web", "SparqlForHumans.Web\SparqlForHumans.Web.csproj", "{7334B917-2B86-40C9-8913-187FC69318ED}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Models", "SparqlForHumans.Models\SparqlForHumans.Models.csproj", "{47E2FF0A-8F63-4AF2-86F4-45F54E706358}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Lucene", "SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj", "{1E01EC74-272B-4D7C-BCD5-A3166AE93F73}"
@@ -33,10 +31,6 @@ Global
 		{08C8080E-8865-45E4-9260-E949FFF3744A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08C8080E-8865-45E4-9260-E949FFF3744A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08C8080E-8865-45E4-9260-E949FFF3744A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7334B917-2B86-40C9-8913-187FC69318ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7334B917-2B86-40C9-8913-187FC69318ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7334B917-2B86-40C9-8913-187FC69318ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7334B917-2B86-40C9-8913-187FC69318ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47E2FF0A-8F63-4AF2-86F4-45F54E706358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47E2FF0A-8F63-4AF2-86F4-45F54E706358}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47E2FF0A-8F63-4AF2-86F4-45F54E706358}.Release|Any CPU.ActiveCfg = Release|Any CPU

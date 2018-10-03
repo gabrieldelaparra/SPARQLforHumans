@@ -12,16 +12,22 @@
 
     protected override void OnAfterRender()
     {
-        JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", inputTextBox, "SparqlForHumans.Blazor.App", "RunQuery");
+        JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete",
+            inputTextBox,
+            System.Reflection.Assembly.GetExecutingAssembly().GetName().Name,
+            "RunQuery");
+
         base.OnAfterRender();
     }
-  
+
     [JSInvokable]
-    public static Task<string[]> RunQuery(string query)
+    public static Task<SelectableValue[]> RunQuery(string query)
     {
         // Call a web api to get some data
         return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
-            .Select(x => x.Label).ToArray());
+            .Select(x => new SelectableValue() {Label = x.Label, Value = x.Id}).ToArray());
     }
+
+
 
 }
