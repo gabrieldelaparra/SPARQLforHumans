@@ -26,8 +26,8 @@
     public async Task RunQuery()
     {
         await RefreshCustomerList();
-        //JSRuntime.Current.InvokeAsync<object>("jsFunctions.runQuery","Obama");
-        //JSRuntime.Current.InvokeAsync<object>("jsFunctions.runQuery");
+        await JSRuntime.Current.InvokeAsync<object>("jsFunctions.runQuery", "Obama");
+        await JSRuntime.Current.InvokeAsync<object>("jsFunctions.updateResults");
     }
 
 }

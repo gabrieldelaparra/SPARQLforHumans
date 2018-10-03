@@ -23,14 +23,17 @@
     
 <script>
     window.fillAutocomplete = function (customers) {
-
-        customers.forEach(function(element) {
-            console.log(element);
-        });
+        console.log(customers);
+        //customers.forEach(function(element) {
+        //    console.log(element);
+        //});
 
         // Fill Kendo Autocomplete
         $("#customers").autocomplete({
-            source: customers
+            source: function(request, response) {
+                console.log(request);
+                response(request);
+            }
         });
         return true;
     };
@@ -48,12 +51,12 @@
             var results = await DotNet.invokeMethodAsync('SparqlForHumans.Blazor.App', 'RunQuery', query);
             queryResults = results;
             console.log(queryResults);
-            updateResults(results);
+            updateResults();
         },
 
-        updateResults: function(queryStringArray) {
-            $( "#tags" ).autocomplete({
-                source: queryStringArray
+        updateResults: function() {
+            $( "#birds" ).autocomplete({
+                source: queryResults
             });
         }
     };
