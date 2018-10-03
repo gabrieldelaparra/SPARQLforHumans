@@ -1,0 +1,25 @@
+﻿@inherits EntityBase
+<div>
+    <div>
+        <h2>Entity</h2>
+    </div>
+
+    @*SearchBox*@
+    <div>
+        <AutoCompleteView SourceFunc="@RunQuery"
+                          Delay="300"
+                          MinimumLength="2"
+                          OnSelect="@SelectionChanged"
+                          PlaceHolder="Search" />
+    </div>
+
+    @*Entity*@
+    <div>
+
+    </div>
+
+    @*Properties*@
+    <div>
+
+    </div>
+</div>

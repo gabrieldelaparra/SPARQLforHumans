@@ -2,23 +2,21 @@
 @using System.Threading
 @using SparqlForHumans.Core.Services
 
-<h1>Sparql For Humans</h1>
+<div>
+    <div>
+        <h1>Sparql For Humans</h1>
+    </div>
 
-<AutoCompleteView Source="@RunQuery"
-                  Delay="300"
-                  MinimumLength="2"
-                  PlaceHolder="Search"/>
+    <div>
+        <EntityView />
+    </div>
+
+    <div>
+
+    </div>
+</div>
 
 @functions {
-
-
-
-    [JSInvokable]
-    public static Task<SelectableValue[]> RunQuery(string query)
-    {
-        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
-            .Select(x => new SelectableValue() {Label = x.Label, Value = x}).ToArray());
-    }
 
 
 

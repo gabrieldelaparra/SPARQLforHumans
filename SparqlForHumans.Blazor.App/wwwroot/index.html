@@ -19,35 +19,45 @@
 
         window.autoCompleteElement = {
 
-            setSourceFunction: function (htmlElement, namespace, sourceFunctionName) {
+            setSourceFunction: function (elementRef, namespace, functionName) {
 
-                var sourceFunction = function(request, response) {
-                    var list = DotNet.invokeMethodAsync(namespace, sourceFunctionName, request.term);
+                var _function = function(request, response) {
+                    var list = DotNet.invokeMethodAsync(namespace, functionName, request.term);
                     list.then(function(x) {
                         response(x);
                     });
                 };
 
-                $(htmlElement).autocomplete('option', 'source', sourceFunction);
+                $(elementRef).autocomplete('option', 'source', _function);
             },
 
-            setMinLength: function(htmlElement, minLength) {
+            setMinLength: function(elementRef, minLength) {
 
-                $(htmlElement).autocomplete('option', 'minLength', minLength);
+                $(elementRef).autocomplete('option', 'minLength', minLength);
             },
 
-            setDelay: function(htmlElement, delay) {
+            setDelay: function(elementRef, delay) {
          
-                $(htmlElement).autocomplete('option', 'delay', delay);
+                $(elementRef).autocomplete('option', 'delay', delay);
             },
 
-            initAutoComplete: function (htmlElement) {
+            initAutoComplete: function (elementRef) {
 
-                $(htmlElement).autocomplete({
+                $(elementRef).autocomplete({
                     source: ['Source function not set'],
                     minLength: 1,
                     delay: 400
                 });
+            },
+
+            setSelect: function (elementRef, namespace, functionName) {
+
+                var _function = function (event, ui) {
+                    DotNet.invokeMethodAsync(namespace, functionName, ui.item.value);
+                };
+
+                $(elementRef).on("autocompleteselect", _function);
+
             }
 
 

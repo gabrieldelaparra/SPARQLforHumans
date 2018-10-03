@@ -14,9 +14,10 @@ namespace SparqlForHumans.Blazor.App.Components
         protected ElementRef InputTextRef { get; set; }
 
         private string _placeHolder;
-        private Func<string, Task<SelectableValue[]>> _source;
+        private Func<string, Task<SelectableValue[]>> _sourceFunc;
         private int _minimumLength;
         private int _delay;
+        private Action<object> _onSelect;
 
         [Parameter]
         protected string PlaceHolder
@@ -57,22 +58,37 @@ namespace SparqlForHumans.Blazor.App.Components
 
             MinimumLength = _minimumLength;
             Delay = _delay;
-            Source = _source;
+            SourceFunc = _sourceFunc;
+            OnSelect = _onSelect;
 
             base.OnAfterRender();
         }
 
         [Parameter]
-        protected Func<string, Task<SelectableValue[]>> Source
+        protected Action<object> OnSelect
         {
-            get => _source;
+            get => _onSelect;
             set
             {
-                _source = value;
+                _onSelect = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
+                    InputTextRef,
+                    _onSelect?.Method.ReflectedType?.Assembly.GetName().Name,
+                    _onSelect?.Method.Name);
+            }
+        }
+
+        [Parameter]
+        protected Func<string, Task<SelectableValue[]>> SourceFunc
+        {
+            get => _sourceFunc;
+            set
+            {
+                _sourceFunc = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSourceFunction",
                     InputTextRef,
-                        _source?.Method.ReflectedType?.Assembly.GetName().Name,
-                        _source?.Method.Name);
+                        _sourceFunc?.Method.ReflectedType?.Assembly.GetName().Name,
+                        _sourceFunc?.Method.Name);
             }
         }
     }
