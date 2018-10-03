@@ -13,10 +13,10 @@
 <body>
     <app>Loading...</app>
     
-<div class="ui-widget">
+<!--<div class="ui-widget">
     <label for="tags">Tags: </label>
     <input id="tags">
-</div>
+</div>-->
 
 <script src="_framework/blazor.server.js"></script>
     
@@ -25,8 +25,8 @@
 <script>
     window.autoCompleteElement = {
 
-        initAutoComplete: function() {
-            $('#tags').autocomplete({
+        initAutoComplete: function(htmlElement) {
+            $(htmlElement).autocomplete({
                 source: function(request, response) {
                     var list = autoCompleteElement.onAutocompleteChange(request.term);
                     list.then(x => response(x));
