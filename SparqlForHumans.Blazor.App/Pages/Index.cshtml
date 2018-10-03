@@ -25,7 +25,7 @@
     {
         // Call a web api to get some data
         return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
-            .Select(x => new SelectableValue() {Label = x.Label, Value = x.ToRankedString()}).ToArray());
+            .Select(x => new SelectableValue() {Label = x.Label, Value = x}).ToArray());
     }
 
 

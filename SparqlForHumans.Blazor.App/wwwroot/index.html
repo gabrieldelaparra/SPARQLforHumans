@@ -12,30 +12,27 @@
 </head>
 <body>
     <app>Loading...</app>
-    
-<!--<div class="ui-widget">
-    <label for="tags">Tags: </label>
-    <input id="tags">
-</div>-->
 
 <script src="_framework/blazor.server.js"></script>
     
-<!--<button onclick="window.autoCompleteElement.initAutoComplete('#tags')">Load</button>-->
-
 <script>
+
     window.autoCompleteElement = {
 
-        initAutoComplete: function (htmlElement, namespace, functionName) {
+        initAutoComplete: function (htmlElement, namespace, sourceFunctionName) {
             $(htmlElement).autocomplete({
                 source: function(request, response) {
-                    var list = DotNet.invokeMethodAsync(namespace, functionName, request.term);
-                    list.then(x => response(x));
+                    var list = DotNet.invokeMethodAsync(namespace, sourceFunctionName, request.term);
+                    list.then(function(x) {
+                        response(x);
+                        console.log(x);
+                    });
                 },
                 minLength: 2,
                 delay: 500
             });
         }
-    };    
+    };
 </script>
 </body>
 </html>
