@@ -42,36 +42,46 @@
         }
     </script>
 
-    <script>
-        $(function () {
-            var availableTags = [
-                "ActionScript",
-                "AppleScript",
-                "Asp",
-                "BASIC",
-                "C",
-                "C++",
-                "Clojure",
-                "COBOL",
-                "ColdFusion",
-                "Erlang",
-                "Fortran",
-                "Groovy",
-                "Haskell",
-                "Java",
-                "JavaScript",
-                "Lisp",
-                "Perl",
-                "PHP",
-                "Python",
-                "Ruby",
-                "Scala",
-                "Scheme"
-            ];
-            $("#tags").autocomplete({
-                source: availableTags
-            });
+<script>
+    var availableTags = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+        "Groovy",
+        "Haskell",
+        "Java",
+        "JavaScript",
+        "Lisp",
+        "Perl",
+        "PHP",
+        "Python",
+        "Ruby",
+        "Scala",
+        "Scheme"
+    ];
+    $( function() {
+        $( "#tags" ).autocomplete({
+            source: availableTags
         });
-    </script>
+    } );
+
+    async function queryResults() {
+        var query = document.getElementById('tags').value;
+        console.log("query: " + query);
+
+        availableTags = await DotNet.invokeMethodAsync('SparqlForHumans.Web', 'QueryLucene', query);
+        console.log("query results: " + availableTags);
+
+    }
+
+</script>
 </body>
 </html>

@@ -1,23 +1,28 @@
 ﻿@page "/"
 @page "/sparqlforhumans"
 @using System.Runtime.InteropServices.ComTypes
+@using SparqlForHumans.Core.Services
 @using SparqlForHumans.Models
 @using SparqlForHumans.Web.Utilities
 
 <h1>Sparql for humans</h1>
 
 <button onclick="@CallJs">@Message</button>
-
+<button onclick="@CallAlert">Alert user</button>
 <br/><br />
 
 <input id="clickMe" type="button" value="clickme" onclick="doFunction();" />
 
 <br /><br />
 
-      <button onclick="@CallAlert">Alert user</button>
+@*<input type="text" bind="@Query"/>*@
+<button onclick="@RunQuery">Run Query</button>
+
 
 @functions
 {
+    //string Query = "";
+
     string Message = "Click to change";
 
     async void CallJs()
@@ -25,6 +30,20 @@
         Message = await JavaScriptInvokables.PromptAsync("Type a message");
         StateHasChanged();
     }
+
+    void RunQuery()
+    {
+        Console.WriteLine("RunQuery");
+        JSRuntime.Current.InvokeAsync<object>("queryResults");
+    }
+
+    [JSInvokable]
+    public static Task<string[]> QueryLucene(string query)
+    {
+        Console.WriteLine($"QueryLucene: {query}");
+        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query).Select(x=>x.Label).ToArray());
+    }
+
 
     void CallAlert()
     {
