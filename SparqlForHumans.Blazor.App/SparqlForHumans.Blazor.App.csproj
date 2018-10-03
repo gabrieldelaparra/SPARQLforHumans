@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SparqlForHumans.Logger\SparqlForHumans.Logger.csproj" />
     <ProjectReference Include="..\SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj" />
     <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
