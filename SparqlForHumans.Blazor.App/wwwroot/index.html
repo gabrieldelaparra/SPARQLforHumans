@@ -7,12 +7,84 @@
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/site.css" rel="stylesheet" />
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
     <app>Loading...</app>
+    
+<div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags">
+</div>
 
 <script src="_framework/blazor.server.js"></script>
     
+<button onclick="exampleJsFunctions.fillAutoComplete">Load</button>
+
+<script>
+    $(document).ready(function() {
+        $('#tags').on('keyup change',
+            function() {
+                console.log();
+            }).change();
+
+        $('#tags').autocomplete({
+            source: function(request, response) {
+                console.log(request.term);
+                response([request.term, 'a', 'b']);
+            }
+        });
+    });
+
+    //window.exampleJsFunctions = {
+
+    //    log: function (message) {
+    //        return console.log(message);
+    //    },
+
+    //    fillAutoComplete: function () {
+    //        jQuery("#tags").autocomplete({
+    //            source: function (request, response) {
+    //                log(request.term);
+    //                jQuery.get("queryResults",
+    //                    {
+    //                        query: request.term
+    //                    },
+    //                    function (data) {
+    //                        response(data);
+    //                    });
+    //            },
+    //            minLength: 3
+    //        });
+    //    },
+    //    queryResults: function() {
+    //        return [
+    //            "ActionScript",
+    //            "AppleScript",
+    //            "Asp",
+    //            "BASIC",
+    //            "C",
+    //            "C++",
+    //            "Clojure",
+    //            "COBOL",
+    //            "ColdFusion",
+    //            "Erlang",
+    //            "Fortran",
+    //            "Groovy",
+    //            "Haskell",
+    //            "Java",
+    //            "JavaScript",
+    //            "Lisp",
+    //            "Perl",
+    //            "PHP",
+    //            "Python",
+    //            "Ruby",
+    //            "Scala",
+    //            "Scheme"
+    //        ];
+    //    }
+    //}
+</script>
 </body>
 </html>

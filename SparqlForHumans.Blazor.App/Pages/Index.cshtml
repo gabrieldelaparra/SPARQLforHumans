@@ -1,9 +1,60 @@
 ﻿@page "/"
+@using System.Threading
 @using SparqlForHumans.Core.Services
 
 <h1>Sparql For Humans</h1>
 
+@*<input placeholder="Search" autofocus autocomplete="on" data-autocomplete="@results" oninput="(this.dispatchEvent(new CustomEvent('change', { bubbles: true })))" bind="@Query" />*@
+
 @functions {
+
+    string _query = string.Empty;
+    bool isBusyProcessing = false;
+
+    async void UpdateValue(string value)
+    {
+        async Task<bool> UserKeepsTyping()
+        {
+            string txt = value;   // remember text
+            await Task.Delay(500);        // wait some
+            return txt != value;  // return that text chaged or not
+        }
+        if (await UserKeepsTyping()) return;
+
+        _query = value;
+        Console.WriteLine($"Query: {value}");
+        results = MultiDocumentQueries.QueryEntitiesByLabel(_query).Select(x => x.Label).ToList();
+        Console.WriteLine($"Query results: {results.Count}");
+
+        //while (isBusyProcessing)
+
+        //    await Task.Delay(1000);
+
+        //try
+        //{
+        //    isBusyProcessing = true;
+        //    await Task.Run(() =>
+        //    {
+        //        _query = value;
+        //        Console.WriteLine($"Query: {value}");
+        //        results = MultiDocumentQueries.QueryEntitiesByLabel(_query).Select(x => x.Label).ToList();
+        //    });
+        //    Console.WriteLine($"Query results: {results.Count}");
+
+        //}
+        //finally
+        //{
+        //    isBusyProcessing = false;
+        //}
+    }
+
+    string Query
+    {
+        get => _query;
+        set => UpdateValue(value);
+    }
+
+    List<string> results = new List<string>();
 
     private async Task RefreshCustomerList()
     {
