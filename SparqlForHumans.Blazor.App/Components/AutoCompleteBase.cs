@@ -11,7 +11,12 @@ namespace SparqlForHumans.Blazor.App.Components
 {
     public class AutoCompleteBase : BlazorComponent
     {
+        protected ElementRef InputTextRef { get; set; }
+
         private string _placeHolder;
+        private Func<string, Task<SelectableValue[]>> _source;
+        private int _minimumLength;
+        private int _delay;
 
         [Parameter]
         protected string PlaceHolder
@@ -24,19 +29,51 @@ namespace SparqlForHumans.Blazor.App.Components
             }
         }
 
-        protected ElementRef InputTextBox { get; set; }
+        [Parameter]
+        protected int Delay
+        {
+            get => _delay;
+            set
+            {
+                _delay = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setDelay", InputTextRef, _delay);
+            }
+        }
+
+        [Parameter]
+        protected int MinimumLength
+        {
+            get => _minimumLength;
+            set
+            {
+                _minimumLength = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setMinLength", InputTextRef, _minimumLength);
+            }
+        }
 
         protected override void OnAfterRender()
         {
-            JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete",
-            InputTextBox,
-            Source?.Method.ReflectedType?.Assembly.GetName().Name,
-            Source?.Method.Name);
+            JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", InputTextRef);
+
+            MinimumLength = _minimumLength;
+            Delay = _delay;
+            Source = _source;
 
             base.OnAfterRender();
         }
 
-        [Parameter] protected Func<string, Task<SelectableValue[]>> Source { get; set; }
-
+        [Parameter]
+        protected Func<string, Task<SelectableValue[]>> Source
+        {
+            get => _source;
+            set
+            {
+                _source = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSourceFunction",
+                    InputTextRef,
+                        _source?.Method.ReflectedType?.Assembly.GetName().Name,
+                        _source?.Method.Name);
+            }
+        }
     }
 }

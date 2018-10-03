@@ -13,26 +13,45 @@
 <body>
     <app>Loading...</app>
 
-<script src="_framework/blazor.server.js"></script>
-    
-<script>
+    <script src="_framework/blazor.server.js"></script>
 
-    window.autoCompleteElement = {
+    <script>
 
-        initAutoComplete: function (htmlElement, namespace, sourceFunctionName) {
-            $(htmlElement).autocomplete({
-                source: function(request, response) {
+        window.autoCompleteElement = {
+
+            setSourceFunction: function (htmlElement, namespace, sourceFunctionName) {
+
+                var sourceFunction = function(request, response) {
                     var list = DotNet.invokeMethodAsync(namespace, sourceFunctionName, request.term);
                     list.then(function(x) {
                         response(x);
-                        console.log(x);
                     });
-                },
-                minLength: 2,
-                delay: 500
-            });
-        }
-    };
-</script>
+                };
+
+                $(htmlElement).autocomplete('option', 'source', sourceFunction);
+            },
+
+            setMinLength: function(htmlElement, minLength) {
+
+                $(htmlElement).autocomplete('option', 'minLength', minLength);
+            },
+
+            setDelay: function(htmlElement, delay) {
+         
+                $(htmlElement).autocomplete('option', 'delay', delay);
+            },
+
+            initAutoComplete: function (htmlElement) {
+
+                $(htmlElement).autocomplete({
+                    source: ['Source function not set'],
+                    minLength: 1,
+                    delay: 400
+                });
+            }
+
+
+        };
+    </script>
 </body>
 </html>
