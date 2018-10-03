@@ -20,22 +20,39 @@
 
 <script src="_framework/blazor.server.js"></script>
     
-<button onclick="exampleJsFunctions.fillAutoComplete">Load</button>
+<button onclick="window.exampleJsFunctions.fillAutoComplete()">Load</button>
 
 <script>
-    $(document).ready(function() {
-        $('#tags').on('keyup change',
-            function() {
-                console.log();
-            }).change();
+    window.exampleJsFunctions = {
+        fillAutoComplete: function() {
+            $('#tags').on('keyup change',
+                function() {
+                    console.log();
+                }).change();
 
-        $('#tags').autocomplete({
-            source: function(request, response) {
-                console.log(request.term);
-                response([request.term, 'a', 'b']);
-            }
-        });
-    });
+            $('#tags').autocomplete({
+                source: function(request, response) {
+                    console.log(request.term);
+                    response([request.term, 'a', 'b']);
+                },
+                minLength: 2,
+                delay: 500
+            });
+        }
+    };
+    //$(document).ready(function() {
+    //    $('#tags').on('keyup change',
+    //        function() {
+    //            console.log();
+    //        }).change();
+
+    //    $('#tags').autocomplete({
+    //        source: function(request, response) {
+    //            console.log(request.term);
+    //            response([request.term, 'a', 'b']);
+    //        }
+    //    });
+    //});
 
     //window.exampleJsFunctions = {
 
