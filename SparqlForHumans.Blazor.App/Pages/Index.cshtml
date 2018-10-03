@@ -3,17 +3,25 @@
 @using SparqlForHumans.Core.Services
 
 <h1>Sparql For Humans</h1>
-<button onclick="@CallJs">Load</button>
+
 <input placeholder="Search" ref="username"/>
-@*<input placeholder="Search" autofocus autocomplete="on" data-autocomplete="@results" oninput="(this.dispatchEvent(new CustomEvent('change', { bubbles: true })))" bind="@Query" />*@
 
 @functions {
 
-    ElementRef username;
-
-    void CallJs()
+    protected override void OnAfterRender()
     {
         JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", username);
+        base.OnAfterRender();
+    }
+
+    ElementRef username;
+
+    [JSInvokable]
+    public static Task<string[]> RunQuery(string query)
+    {
+        // Call a web api to get some data
+        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+            .Select(x => x.Label).ToArray());
     }
 
 }
