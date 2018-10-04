@@ -11,7 +11,8 @@ namespace SparqlForHumans.Blazor.App.Components
 {
     public class AutoCompleteBase : BlazorComponent
     {
-        protected ElementRef InputTextRef { get; set; }
+        protected ElementRef InputElementRef { get; set; }
+        protected DotNetObjectRef DotNetObjectRef { get; set; }
 
         private string _placeHolder;
         private Func<string, Task<SelectableValue[]>> _sourceFunc;
@@ -37,7 +38,7 @@ namespace SparqlForHumans.Blazor.App.Components
             set
             {
                 _delay = value;
-                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setDelay", InputTextRef, _delay);
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setDelay", InputElementRef, _delay);
             }
         }
 
@@ -48,13 +49,13 @@ namespace SparqlForHumans.Blazor.App.Components
             set
             {
                 _minimumLength = value;
-                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setMinLength", InputTextRef, _minimumLength);
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setMinLength", InputElementRef, _minimumLength);
             }
         }
 
         protected override void OnAfterRender()
         {
-            JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", InputTextRef);
+            JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", InputElementRef);
 
             MinimumLength = _minimumLength;
             Delay = _delay;
@@ -72,7 +73,7 @@ namespace SparqlForHumans.Blazor.App.Components
             {
                 _onSelect = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
-                    InputTextRef,
+                    InputElementRef,
                     _onSelect?.Method.ReflectedType?.Assembly.GetName().Name,
                     _onSelect?.Method.Name);
             }
@@ -86,7 +87,7 @@ namespace SparqlForHumans.Blazor.App.Components
             {
                 _sourceFunc = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSourceFunction",
-                    InputTextRef,
+                    InputElementRef,
                         _sourceFunc?.Method.ReflectedType?.Assembly.GetName().Name,
                         _sourceFunc?.Method.Name);
             }

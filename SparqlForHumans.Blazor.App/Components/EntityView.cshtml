@@ -1,4 +1,8 @@
-﻿@inherits EntityBase
+﻿@using Newtonsoft.Json
+@using SparqlForHumans.Core.Services
+@using SparqlForHumans.Models
+@inherits EntityBase
+
 <div>
     <div>
         <h2>Entity</h2>
@@ -13,13 +17,41 @@
                           PlaceHolder="Search" />
     </div>
 
-    @*Entity*@
-    <div>
+    @if (SelectedEntity != null)
+    {
+        @*Entity*@
+        <div>
+            <p>Label: @SelectedEntity.Label</p>
+            <p>Description: @SelectedEntity.Description</p>
+        </div>
 
-    </div>
+        @*Properties*@
+        <div>
 
-    @*Properties*@
-    <div>
-
-    </div>
+        </div>
+    }
 </div>
+
+@functions {
+
+    [JSInvokable]
+    public static void SelectionChanged(object selectedJSONObject)
+    {
+        var settings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
+        Entity entity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
+        Console.WriteLine(entity);
+    }
+
+    [JSInvokable]
+    public static Task<SelectableValue[]> RunQuery(string query)
+    {
+        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+            .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
+    }
+
+    public Entity SelectedEntity { get; set; }
+}
