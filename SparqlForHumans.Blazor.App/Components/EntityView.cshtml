@@ -10,10 +10,10 @@
 
     @*SearchBox*@
     <div>
-        <AutoCompleteView SourceFunc="@RunQuery"
+        <AutoCompleteView AutocompleteSourceProvider="@RunQuery"
                           Delay="300"
                           MinimumLength="2"
-                          OnSelect="@SelectionChanged"
+                          OnSelectionChanged="@SelectionChanged"
                           PlaceHolder="Search" />
     </div>
 
@@ -34,7 +34,6 @@
 
 @functions {
 
-    [JSInvokable]
     public static void SelectionChanged(object selectedJSONObject)
     {
         var settings = new JsonSerializerSettings()
@@ -46,7 +45,6 @@
         Console.WriteLine(entity);
     }
 
-    [JSInvokable]
     public static Task<SelectableValue[]> RunQuery(string query)
     {
         return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)

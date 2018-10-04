@@ -15,10 +15,10 @@ namespace SparqlForHumans.Blazor.App.Components
         protected DotNetObjectRef DotNetObjectRef { get; set; }
 
         private string _placeHolder;
-        private Func<string, Task<SelectableValue[]>> _sourceFunc;
+        private Func<string, Task<SelectableValue[]>> _autocompleteSourceProvider;
         private int _minimumLength;
         private int _delay;
-        private Action<object> _onSelect;
+        private Action<object> _onSelectionChanged;
 
         [Parameter]
         protected string PlaceHolder
@@ -61,8 +61,8 @@ namespace SparqlForHumans.Blazor.App.Components
 
             MinimumLength = _minimumLength;
             Delay = _delay;
-            SourceFunc = _sourceFunc;
-            OnSelect = _onSelect;
+            AutocompleteSourceProvider = _autocompleteSourceProvider;
+            OnSelectionChanged = _onSelectionChanged;
 
             base.OnAfterRender();
         }
@@ -70,32 +70,36 @@ namespace SparqlForHumans.Blazor.App.Components
         [JSInvokable]
         public void OnSelectEventListener(object selectedJSONObject)
         {
-            OnSelect?.Invoke(selectedJSONObject);
+            OnSelectionChanged?.Invoke(selectedJSONObject);
+        }
+
+        [JSInvokable]
+        public Task<SelectableValue[]> AutocompleteSourceDelegate(string query)
+        {
+            return AutocompleteSourceProvider?.Invoke(query);
         }
 
         [Parameter]        
-        protected Action<object> OnSelect
+        protected Action<object> OnSelectionChanged
         {
-            get => _onSelect;
+            get => _onSelectionChanged;
             set
             {
-                _onSelect = value;
+                _onSelectionChanged = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
                     InputElementRef, DotNetObjectRef);
             }
         }
 
         [Parameter]
-        protected Func<string, Task<SelectableValue[]>> SourceFunc
+        protected Func<string, Task<SelectableValue[]>> AutocompleteSourceProvider
         {
-            get => _sourceFunc;
+            get => _autocompleteSourceProvider;
             set
             {
-                _sourceFunc = value;
+                _autocompleteSourceProvider = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSourceFunction",
-                    InputElementRef,
-                        _sourceFunc?.Method.ReflectedType?.Assembly.GetName().Name,
-                        _sourceFunc?.Method.Name);
+                    InputElementRef, DotNetObjectRef);
             }
         }
     }

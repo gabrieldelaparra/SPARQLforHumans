@@ -19,10 +19,10 @@
 
         window.autoCompleteElement = {
 
-            setSourceFunction: function (elementRef, namespace, functionName) {
+            setSourceFunction: function (elementRef, dotnetElementReference) {
 
                 var _function = function(request, response) {
-                    var list = DotNet.invokeMethodAsync(namespace, functionName, request.term);
+                    var list = dotnetElementReference.invokeMethodAsync("AutocompleteSourceDelegate", request.term);
                     list.then(function(x) {
                         response(x);
                     });
