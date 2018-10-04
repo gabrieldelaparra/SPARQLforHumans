@@ -55,6 +55,8 @@ namespace SparqlForHumans.Blazor.App.Components
 
         protected override void OnAfterRender()
         {
+            DotNetObjectRef = new DotNetObjectRef(this);
+
             JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", InputElementRef);
 
             MinimumLength = _minimumLength;
@@ -65,7 +67,13 @@ namespace SparqlForHumans.Blazor.App.Components
             base.OnAfterRender();
         }
 
-        [Parameter]
+        [JSInvokable]
+        public void OnSelectEventListener(object selectedJSONObject)
+        {
+            OnSelect?.Invoke(selectedJSONObject);
+        }
+
+        [Parameter]        
         protected Action<object> OnSelect
         {
             get => _onSelect;
@@ -73,9 +81,7 @@ namespace SparqlForHumans.Blazor.App.Components
             {
                 _onSelect = value;
                 JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
-                    InputElementRef,
-                    _onSelect?.Method.ReflectedType?.Assembly.GetName().Name,
-                    _onSelect?.Method.Name);
+                    InputElementRef, DotNetObjectRef);
             }
         }
 

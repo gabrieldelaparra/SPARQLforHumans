@@ -50,10 +50,10 @@
                 });
             },
 
-            setSelect: function (elementRef, namespace, functionName) {
+            setSelect: function (elementRef, dotnetElementReference) {
 
                 var _function = function (event, ui) {
-                    DotNet.invokeMethodAsync(namespace, functionName, ui.item.value);
+                    dotnetElementReference.invokeMethodAsync("OnSelectEventListener", ui.item.value);
                 };
 
                 $(elementRef).on("autocompleteselect", _function);
