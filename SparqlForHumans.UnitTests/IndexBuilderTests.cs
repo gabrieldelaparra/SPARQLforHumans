@@ -379,37 +379,6 @@ namespace SparqlForHumans.UnitTests
                 var readerNoBoost = new IndexSearcher(outputReader1);
                 var readerWithBoost = new IndexSearcher(outputReader2);
 
-                //var docCountNoBoost = outputReader1.MaxDoc;
-                //var docCountWithBoost = outputReader2.MaxDoc;
-
-                //Assert.Equal(docCountNoBoost, docCountWithBoost);
-
-                //var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
-
-                //QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                //    new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
-                //    analyzer);
-
-                //string[] testWords = { "obama", "europe", "ireland", "apple", "america", "human", "park", "city", "germany", "france" };
-
-                //foreach (var searchQuery in testWords)
-                //{
-                //    const int resultsLimit = 10;
-
-                //    var hitsNoBoost = readerNoBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
-                //    var hitsWithBoost = readerWithBoost.Search(parser.Parse(searchQuery.Trim()), null, resultsLimit).ScoreDocs;
-
-                //    Assert.Equal(hitsNoBoost.Count(), hitsWithBoost.Count());
-
-                //    for (var i = 0; i < hitsWithBoost.Count(); i++)
-                //    {
-                //        var docNoBoost = readerNoBoost.Doc(hitsNoBoost[i].Doc);
-                //        var docWithBoost = readerWithBoost.Doc(hitsWithBoost[i].Doc);
-                //        if (!docNoBoost.GetValue(Labels.Label).Equals(docWithBoost.GetValue(Labels.Label)))
-                //            found++;
-                //    }
-                //}
-
                 var docCountNoBoost = readerNoBoost.IndexReader.MaxDoc;
                 var docCountWithBoost = readerWithBoost.IndexReader.MaxDoc;
 
