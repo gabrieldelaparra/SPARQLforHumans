@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
 @using SparqlForHumans.Core.Services
+@using SparqlForHumans.Core.Utilities
 @using SparqlForHumans.Models
 @inherits EntityBase
 
@@ -27,25 +28,31 @@
 
         @*Properties*@
         <div>
-
+            <ul>
+                @foreach (var property in SelectedEntity.Properties.DistinctBy(x=>x.Id).OrderBy(x=>x.Frequency))
+                {
+                    <li>(@property.Id) - @property.Label</li>
+                }
+            </ul>  
         </div>
     }
 </div>
 
 @functions {
 
-    public static void SelectionChanged(object selectedJSONObject)
+    public void SelectionChanged(object selectedJSONObject)
     {
         var settings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
 
-        Entity entity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
-        Console.WriteLine(entity);
+        SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
+        SelectedEntity.AddProperties();
+        StateHasChanged();
     }
 
-    public static Task<SelectableValue[]> RunQuery(string query)
+    public Task<SelectableValue[]> RunQuery(string query)
     {
         return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
             .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
