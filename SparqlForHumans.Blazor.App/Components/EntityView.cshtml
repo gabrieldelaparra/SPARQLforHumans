@@ -4,59 +4,64 @@
 @using SparqlForHumans.Models
 @inherits EntityBase
 
-<div>
-    <div>
-        <h2>Entity</h2>
-    </div>
-
-    @*SearchBox*@
-    <div>
-        <AutoCompleteView AutocompleteSourceProvider="@RunQuery"
-                          Delay="300"
-                          MinimumLength="2"
-                          OnSelectionChanged="@SelectionChanged"
-                          PlaceHolder="Search" />
-    </div>
-
-    @if (SelectedEntity != null)
-    {
-        @*Entity*@
+<div class="card w-25 m-3">
+    <h5 class="card-header">Entity</h5>
+    <div class="card-body">
+        @*SearchBox*@
         <div>
-            <p>Label: @SelectedEntity.Label</p>
-            <p>Description: @SelectedEntity.Description</p>
+            <AutoCompleteView AutocompleteSourceProvider="@RunQuery"
+                              Delay="300"
+                              MinimumLength="2"
+                              OnSelectionChanged="@SelectionChanged"
+                              PlaceHolder="Search" />
         </div>
 
-        @*Properties*@
-        <div>
-            <ul>
-                @foreach (var property in SelectedEntity.Properties.DistinctBy(x=>x.Id).OrderBy(x=>x.Frequency))
-                {
-                    <li>(@property.Id) - @property.Label</li>
-                }
-            </ul>  
-        </div>
-    }
+        @if (SelectedEntity != null)
+        {
+            @*Entity*@
+            <h5 class="card-title mt-2">(@SelectedEntity.Id) @SelectedEntity.Label</h5>
+            <h6 class="card-subtitle mb-2 text-muted">@SelectedEntity.Description</h6>
+
+            @*Properties*@
+            <div class="accordion">
+                <div class="card">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne">
+                        Properties
+                    </button>
+
+                    <div id="collapseOne" class="collapse" >
+                        <ul class="list-group">
+                            @foreach (var property in SelectedEntity.Properties.DistinctBy(x => x.Id).OrderBy(x => x.Frequency))
+                            {
+                                <li class="list-group-item">(@property.Id) - @property.Label</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @functions {
 
-    public void SelectionChanged(object selectedJSONObject)
+public void SelectionChanged(object selectedJSONObject)
+{
+    var settings = new JsonSerializerSettings()
     {
-        var settings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
+        TypeNameHandling = TypeNameHandling.All
+    };
 
-        SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
-        SelectedEntity.AddProperties();
-        StateHasChanged();
-    }
+    SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
+    SelectedEntity.AddProperties();
+    StateHasChanged();
+}
 
-    public Task<SelectableValue[]> RunQuery(string query)
-    {
-        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
-            .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
-    }
+public Task<SelectableValue[]> RunQuery(string query)
+{
+    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+        .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
+}
 
-    public Entity SelectedEntity { get; set; }
+public Entity SelectedEntity { get; set; }
 }
