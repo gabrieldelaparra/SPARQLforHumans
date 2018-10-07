@@ -18,6 +18,16 @@ namespace SparqlForHumans.Core.Services
 
         public static int NotifyTicks { get; } = 100000;
 
+        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary)
+        {
+            using (var entitiesIndexDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+            {
+                AddIsTypeEntityToEntitiesIndex(typePropertiesDictionary, entitiesIndexDirectory);
+            }
+
+        }
+
         /// <summary>
         ///     Takes a dictionary(QEntityType, ListOfProperties) and adds a new Field (IsEntityType) to all Entities
         ///     that have the QEntityType as InstanceOf.
@@ -44,6 +54,8 @@ namespace SparqlForHumans.Core.Services
 
                 foreach (var document in documents)
                 {
+                    if (document == null) continue;
+
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Types Index, Group: {readCount:N0}");
 
