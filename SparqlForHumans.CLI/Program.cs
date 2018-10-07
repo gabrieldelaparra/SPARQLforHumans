@@ -38,6 +38,7 @@ namespace SparqlForHumans.CLI
             IndexBuilder.CreateEntitiesIndex(filename, true);
 
             var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
+            IndexBuilder.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
             IndexBuilder.CreatePropertiesIndex(filename, true);
 
             var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
