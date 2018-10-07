@@ -57,7 +57,7 @@ namespace SparqlForHumans.Core.Utilities
 
         public static Entity MapBaseProperties(this Entity entity, Document document)
         {
-            entity.Properties = document.ParsePropertiesAndValues().ToList();
+            entity.Properties = document.ParseProperties().ToList();
             return entity;
         }
 
@@ -212,29 +212,23 @@ namespace SparqlForHumans.Core.Utilities
         //    return list;
         //}
 
-        private static Property ParsePropertyAndValue(string indexPropertyAndValue)
+        private static Property ParseProperty(string indexProperty)
         {
-            if (!indexPropertyAndValue.Contains(WikidataDump.PropertyValueSeparator))
-                return null;
-
-            var splitted =
-                indexPropertyAndValue.Split(new[] {WikidataDump.PropertyValueSeparator}, StringSplitOptions.None);
-
-            var propertyId = splitted[0];
-            var propertyValue = splitted[1];
+            var propertyId = indexProperty;
 
             return new Property
             {
                 Id = propertyId,
-                Value = propertyValue,
+                Value = string.Empty,
                 //TODO: Fix this somehow :D
                 Label = string.Empty
             };
         }
 
-        private static IEnumerable<Property> ParsePropertiesAndValues(this Document doc)
+        private static IEnumerable<Property> ParseProperties(this Document doc)
         {
-            foreach (var item in doc.GetValues(Labels.PropertyAndValue)) yield return ParsePropertyAndValue(item);
+            foreach (var item in doc.GetValues(Labels.Property))
+                yield return ParseProperty(item);
         }
     }
 }

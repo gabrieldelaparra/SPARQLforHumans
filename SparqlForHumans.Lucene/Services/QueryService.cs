@@ -19,7 +19,7 @@ namespace SparqlForHumans.Core.Services
         public static Entity AddProperties(this Entity entity, Directory luceneDirectory)
         {
             var propertiesIds = entity.Properties.Select(x => x.Id);
-            var properties = MultiDocumentQueries.QueryEntitiesByIds(propertiesIds, luceneDirectory);
+            var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
 
             for (var i = 0; i < entity.Properties.Count(); i++)
             {

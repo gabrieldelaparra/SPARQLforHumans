@@ -9,7 +9,7 @@
         AltLabel,
         Description,
         Rank,
-        PropertyAndValue,
+        //PropertyAndValue,
         IsTypeEntity,
         DomainType
     }

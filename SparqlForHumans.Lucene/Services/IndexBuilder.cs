@@ -57,15 +57,26 @@ namespace SparqlForHumans.Core.Services
                     if (document == null) continue;
 
                     if (readCount % NotifyTicks == 0)
-                        Logger.Info($"Build Types Index, Group: {readCount:N0}");
+                        Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
 
                     var field = new StringField(Labels.IsTypeEntity.ToString(), "true", Field.Store.YES);
-
                     document.Add(field);
-                    writer.UpdateDocument(new Term(Labels.Id.ToString(), document.MapBaseSubject().Id), document);
+
+                    var id = document.MapBaseSubject().Id;
+
+                    if(typePropertiesDictionary.TryGetValue(id, out var properties))
+                    foreach (var property in properties)
+                    {
+                        var propertyField = new StringField(Labels.Property.ToString(), property, Field.Store.YES);
+                        document.Add(propertyField);
+                    }
+
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), id), document);
                     readCount++;
                 }
             }
+
+            Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
         }
 
         public static Dictionary<string, List<string>> CreateInvertedProperties(
@@ -294,8 +305,10 @@ namespace SparqlForHumans.Core.Services
                     var document =
                         SingleDocumentQueries.QueryDocumentById(invertedProperty.Key, propertiesIndexDirectory);
 
+                    if(document == null) continue;
+
                     if (readCount % NotifyTicks == 0)
-                        Logger.Info($"Build Types Index, Group: {readCount:N0}");
+                        Logger.Info($"Add Domain Types to Types Index, Group: {readCount:N0}");
 
                     foreach (var domainType in invertedProperty.Value)
                     {
@@ -308,6 +321,8 @@ namespace SparqlForHumans.Core.Services
                     readCount++;
                 }
             }
+
+            Logger.Info($"Add Domain Types to Types Index, Group: {readCount:N0}");
         }
 
         public static void CreatePropertiesIndex(string inputTriplesFilename, bool indexFrequency = false)
@@ -448,10 +463,10 @@ namespace SparqlForHumans.Core.Services
 
                 //PropertyPredicate points to another Subject, most properties fall in here.
                 //Properties are stored like
-                case RDFExtensions.PropertyType.EntityDirected:
-                    var propertyAndValue = propertyCode + WikidataDump.PropertyValueSeparator + ntObject.GetId();
-                    fields.Add(new StringField(Labels.PropertyAndValue.ToString(), propertyAndValue, Field.Store.YES));
-                    break;
+                //case RDFExtensions.PropertyType.EntityDirected:
+                //    var propertyAndValue = propertyCode + WikidataDump.PropertyValueSeparator + ntObject.GetId();
+                //    fields.Add(new StringField(Labels.PropertyAndValue.ToString(), propertyAndValue, Field.Store.YES));
+                //    break;
 
                 //Other cases, considered but not used.
                 default:
