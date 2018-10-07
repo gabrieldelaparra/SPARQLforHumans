@@ -12,7 +12,7 @@ namespace SparqlForHumans.Models
 
         string InstanceOfLabel { get; }
 
-        List<Property> Properties { get; set; }
+        IEnumerable<IProperty> Properties { get; set; }
 
         IEnumerable<string> AltLabels { get; set; }
 

@@ -24,7 +24,7 @@ namespace SparqlForHumans.Models
         //TODO: Modify
         public string InstanceOfLabel => InstanceOf?.FirstOrDefault();
 
-        public List<Property> Properties { get; set; } = new List<Property>();
+        public virtual IEnumerable<IProperty> Properties { get; set; } = new List<Property>();
 
         public IEnumerable<string> AltLabels { get; set; } = new List<string>();
 

@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Models
 {
-    public interface IProperty
+    public interface IProperty : ISubject
     {
         string Value { get; set; }
         string Frequency { get; set; }
