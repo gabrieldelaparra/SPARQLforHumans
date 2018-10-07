@@ -451,6 +451,10 @@ namespace SparqlForHumans.Core.Services
             var fields = new List<Field>();
             var propertyCode = ntPredicate.GetId();
 
+            //Only Accept Q-Entities Property's Predicates
+            if(!ntObject.IsEntityQ())
+                return new List<Field>();
+
             //Stores the P-Id of the PropertyPredicate (of the PropertyEntity).
             fields.Add(new StringField(Labels.Property.ToString(), propertyCode, Field.Store.YES));
 

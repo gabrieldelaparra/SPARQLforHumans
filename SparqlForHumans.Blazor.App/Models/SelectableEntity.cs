@@ -10,6 +10,6 @@ namespace SparqlForHumans.Blazor.App.Models
     {
         public bool IsSelected { get; set; }
 
-        public new List<SelectableProperty> Properties { get; set; } = new List<SelectableProperty>();
+        public override IEnumerable<IProperty> Properties { get; set; } = new List<SelectableProperty>();
     }
 }

@@ -11,8 +11,10 @@ namespace SparqlForHumans.CLI
 
         private static void Main(string[] args)
         {
+            //Filter5k();
             //Filter500k();
-            CreateIndex("filtered-All-500k.nt", true);
+            CreateIndex("filtered-All-5k.nt", true);
+            //CreateIndex("filtered-All-500k.nt", true);
             QueryEntities("obama");
             QueryProperties("city");
             Console.Read();
@@ -39,6 +41,7 @@ namespace SparqlForHumans.CLI
 
             var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
             IndexBuilder.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
+
             IndexBuilder.CreatePropertiesIndex(filename, true);
 
             var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
@@ -108,14 +111,16 @@ namespace SparqlForHumans.CLI
         {
             Console.WriteLine($"Query Entity: {query}\n");
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
-            foreach (var result in results) Console.WriteLine(result.ToRankedString());
+            foreach (var result in results) 
+                Console.WriteLine(result.ToRankedString());
         }
 
         private static void QueryProperties(string query)
         {
             Console.WriteLine($"Query Property: {query}\n");
             var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
-            foreach (var result in results) Console.WriteLine(result.ToRankedString());
+            foreach (var result in results) 
+                Console.WriteLine(result.ToRankedString());
         }
     }
 }
