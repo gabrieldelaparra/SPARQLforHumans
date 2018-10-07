@@ -7,11 +7,13 @@
 
     <!-- The linker is not beneficial for server-side execution. Re-enable this if you switch to WebAssembly execution. -->
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <AssemblyName>SparqlForHumans.Blazor.App</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Browser" Version="0.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor.Build" Version="0.6.0" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.163" />
   </ItemGroup>
 
   <ItemGroup>

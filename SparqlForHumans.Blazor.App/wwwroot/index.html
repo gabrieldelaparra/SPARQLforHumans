@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width">
     <title>SparqlForHumans.Blazor</title>
     <base href="/" />
-    <!--<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />-->
-    <link href="css/site.css" rel="stylesheet" />
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/solid.css" integrity="sha384-Rw5qeepMFvJVEZdSo1nDQD5B6wX0m7c5Z/pLNvjkB14W6Yki1hKbSEQaX9ffUbWe" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/regular.css" integrity="sha384-EWu6DiBz01XlR6XGsVuabDMbDN6RT8cwNoY+3tIH+6pUCfaNldJYJQfQlbEIWLyA" crossorigin="anonymous">
+    <link rel="stylesheet" href="lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/site.css" />
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/jquery-ui.min.js"></script>
+    <script src="lib/js/bootstrap.min.js"></script>
+    <script src="lib/js/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 </head>
 <body>
     <app>Loading...</app>
@@ -23,9 +28,9 @@
 
             setSourceFunction: function (elementRef, dotnetElementReference) {
 
-                var _function = function(request, response) {
+                var _function = function (request, response) {
                     var list = dotnetElementReference.invokeMethodAsync("AutocompleteSourceDelegate", request.term);
-                    list.then(function(x) {
+                    list.then(function (x) {
                         response(x);
                     });
                 };
@@ -33,13 +38,13 @@
                 $(elementRef).autocomplete('option', 'source', _function);
             },
 
-            setMinLength: function(elementRef, minLength) {
+            setMinLength: function (elementRef, minLength) {
 
                 $(elementRef).autocomplete('option', 'minLength', minLength);
             },
 
-            setDelay: function(elementRef, delay) {
-         
+            setDelay: function (elementRef, delay) {
+
                 $(elementRef).autocomplete('option', 'delay', delay);
             },
 
@@ -49,10 +54,20 @@
                     source: ['Source function not set'],
                     minLength: 1,
                     delay: 400,
-                    focus: function(event, ui) {
+                    focus: function (event, ui) {
                         event.preventDefault();
                         $(this).val(ui.item.label);
-                    }
+                    },
+                    create: function () {
+                        $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                            ul.css("overflow-x", "auto");
+                            ul.css("overflow-y", "scroll");
+                            ul.css("max-height", "300px");
+                            return $("<li class='list-group-item list-group-item-action' style='max-width: 400px' >")
+                                .append("<div'>" + item.label + " (" + item.value.id + ") </div>")
+                                .appendTo(ul);
+                        };
+                    },
                 });
             },
 
