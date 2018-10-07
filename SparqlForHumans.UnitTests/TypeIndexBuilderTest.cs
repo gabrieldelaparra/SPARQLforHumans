@@ -80,11 +80,11 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q5", dictionary.Keys.ElementAt(0));
                 Assert.Equal("Q17", dictionary.Keys.ElementAt(1));
 
-                //P27>Q30
-                Assert.Equal(2, dictionary.ElementAt(0).Value.Count);
+                //P27, P31
+                Assert.Equal(3, dictionary.ElementAt(0).Value.Count);
 
-                //P555>Q555, P777>Q777
-                Assert.Equal(2, dictionary.ElementAt(1).Value.Count);
+                //P555, P777, P31
+                Assert.Equal(3, dictionary.ElementAt(1).Value.Count);
             }
 
             outputPath.DeleteIfExists();
@@ -106,24 +106,25 @@ namespace SparqlForHumans.UnitTests
                 var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
                 var propertiesDictionary = IndexBuilder.CreateInvertedProperties(typesDictionary);
 
-                Assert.Equal(3, propertiesDictionary.Count);
+                Assert.Equal(4, propertiesDictionary.Count);
 
-                Assert.Equal("P27", propertiesDictionary.Keys.ElementAt(0));
-                Assert.Equal("P555", propertiesDictionary.Keys.ElementAt(1));
-                Assert.Equal("P777", propertiesDictionary.Keys.ElementAt(2));
+                Assert.Equal("P31", propertiesDictionary.Keys.ElementAt(0));
+                Assert.Equal("P27", propertiesDictionary.Keys.ElementAt(1));
+                Assert.Equal("P555", propertiesDictionary.Keys.ElementAt(2));
+                Assert.Equal("P777", propertiesDictionary.Keys.ElementAt(3));
 
                 //P27>Q30 (Q5)
-                Assert.Single(propertiesDictionary.ElementAt(0).Value);
-                Assert.Equal("Q5", propertiesDictionary.ElementAt(0).Value.ElementAt(0));
+                Assert.Single(propertiesDictionary.ElementAt(1).Value);
+                Assert.Equal("Q5", propertiesDictionary.ElementAt(1).Value.ElementAt(0));
 
                 //P555>Q555 (Q17)
-                Assert.Equal(2, propertiesDictionary.ElementAt(1).Value.Count);
-                Assert.Equal("Q5", propertiesDictionary.ElementAt(1).Value.ElementAt(0));
-                Assert.Equal("Q17", propertiesDictionary.ElementAt(1).Value.ElementAt(1));
+                Assert.Equal(2, propertiesDictionary.ElementAt(2).Value.Count);
+                Assert.Equal("Q5", propertiesDictionary.ElementAt(2).Value.ElementAt(0));
+                Assert.Equal("Q17", propertiesDictionary.ElementAt(2).Value.ElementAt(1));
 
                 //P777>Q777 (Q17)
-                Assert.Single(propertiesDictionary.ElementAt(2).Value);
-                Assert.Equal("Q17", propertiesDictionary.ElementAt(2).Value.ElementAt(0));
+                Assert.Single(propertiesDictionary.ElementAt(3).Value);
+                Assert.Equal("Q17", propertiesDictionary.ElementAt(3).Value.ElementAt(0));
             }
 
             outputPath.DeleteIfExists();
