@@ -11,7 +11,9 @@ namespace SparqlForHumans.Core.Services
         {
             using (var propertiesDirectory =
                 FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            {
                 return AddProperties(entity, propertiesDirectory);
+            }
         }
 
         public static Entity AddProperties(this Entity entity, Directory luceneDirectory)

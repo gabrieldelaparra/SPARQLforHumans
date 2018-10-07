@@ -25,7 +25,9 @@ namespace SparqlForHumans.Core.Services
             {
                 using (var luceneDirectory =
                     FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
+                }
             }
             catch (Exception ex)
             {
@@ -38,8 +40,11 @@ namespace SparqlForHumans.Core.Services
         {
             try
             {
-                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                using (var luceneDirectory =
+                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                {
                     return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
+                }
             }
             catch (Exception ex)
             {
@@ -52,8 +57,11 @@ namespace SparqlForHumans.Core.Services
         {
             try
             {
-                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                using (var luceneDirectory =
+                    FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapProperty());
+                }
             }
             catch (Exception ex)
             {
@@ -66,8 +74,11 @@ namespace SparqlForHumans.Core.Services
         {
             try
             {
-                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                using (var luceneDirectory =
+                    FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                {
                     return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapProperty());
+                }
             }
             catch (Exception ex)
             {
@@ -159,7 +170,7 @@ namespace SparqlForHumans.Core.Services
             int resultsLimit, Filter filter = null)
         {
             QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
+                new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
                 queryAnalyzer);
 
             return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);

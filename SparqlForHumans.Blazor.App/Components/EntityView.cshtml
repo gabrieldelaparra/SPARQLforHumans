@@ -59,7 +59,7 @@ public void SelectionChanged(object selectedJSONObject)
 
 public Task<SelectableValue[]> RunQuery(string query)
 {
-    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)?
         .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
 }
 

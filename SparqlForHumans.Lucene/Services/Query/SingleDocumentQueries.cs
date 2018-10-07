@@ -15,25 +15,35 @@ namespace SparqlForHumans.Core.Services
         public static Entity QueryEntityById(string searchId)
         {
             using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+            {
                 return QueryDocumentById(searchId, luceneDirectory)?.MapEntity();
+            }
         }
 
         public static Property QueryPropertyById(string searchId)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            using (var luceneDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            {
                 return QueryDocumentById(searchId, luceneDirectory)?.MapProperty();
+            }
         }
 
         public static Entity QueryEntityByLabel(string searchText)
         {
             using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+            {
                 return QueryDocumentByLabel(searchText, luceneDirectory)?.MapEntity();
+            }
         }
 
         public static Property QueryPropertyByLabel(string searchText)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            using (var luceneDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            {
                 return QueryDocumentByLabel(searchText, luceneDirectory)?.MapProperty();
+            }
         }
 
         public static Entity QueryEntityById(string searchId, Directory luceneDirectory)

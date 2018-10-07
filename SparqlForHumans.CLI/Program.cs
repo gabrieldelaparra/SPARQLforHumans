@@ -1,19 +1,18 @@
 ﻿using System;
-using System.IO;
 using Lucene.Net.Store;
 using SparqlForHumans.Core.Services;
 using SparqlForHumans.Core.Utilities;
 
 namespace SparqlForHumans.CLI
 {
-    class Program
+    internal class Program
     {
         //private static bool keepRunning = true;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //Filter500k();
-            //CreateIndex("filtered-All-500k.nt", true);
+            CreateIndex("filtered-All-500k.nt", true);
             QueryEntities("obama");
             QueryProperties("city");
             Console.Read();
@@ -45,35 +44,35 @@ namespace SparqlForHumans.CLI
             IndexBuilder.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
-        static void Filter2MM()
+        private static void Filter2MM()
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All-2MM.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, 2000000);
         }
 
-        static void Filter500k()
+        private static void Filter500k()
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputFilename = "filtered-All-500k.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, 500000);
         }
 
-        static void Filter5k()
+        private static void Filter5k()
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputFilename = "filtered-All-5k.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, 5000);
         }
 
-        static void FilterAll()
+        private static void FilterAll()
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
         }
 
-        static void CreateIndex2k(bool overwrite = false)
+        private static void CreateIndex2k(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2k.nt";
             var outputPath = "Index2k";
@@ -81,21 +80,21 @@ namespace SparqlForHumans.CLI
             outputPath.DeleteIfExists(overwrite);
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
                 IndexBuilder.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
-
+            }
         }
 
-        static void CreateIndex2MM(bool overwrite = false)
+        private static void CreateIndex2MM(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputPath = LuceneIndexExtensions.EntityIndexPath;
 
             outputPath.DeleteIfExists(overwrite);
             IndexBuilder.CreateEntitiesIndex(inputFilename, true);
-
         }
 
-        static void CreatePropertyIndex(bool overwrite = false)
+        private static void CreatePropertyIndex(bool overwrite = false)
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputPath = LuceneIndexExtensions.PropertyIndexPath;
@@ -104,24 +103,18 @@ namespace SparqlForHumans.CLI
             IndexBuilder.CreatePropertiesIndex(inputFilename, true);
         }
 
-        static void QueryEntities(string query)
+        private static void QueryEntities(string query)
         {
             Console.WriteLine($"Query Entity: {query}\n");
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
-            foreach (var result in results)
-            {
-                Console.WriteLine(result.ToRankedString());
-            }
+            foreach (var result in results) Console.WriteLine(result.ToRankedString());
         }
 
-        static void QueryProperties(string query)
+        private static void QueryProperties(string query)
         {
             Console.WriteLine($"Query Property: {query}\n");
             var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
-            foreach (var result in results)
-            {
-                Console.WriteLine(result.ToRankedString());
-            }
+            foreach (var result in results) Console.WriteLine(result.ToRankedString());
         }
     }
 }

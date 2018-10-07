@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
 using SparqlForHumans.Models;
 using VDS.RDF;
@@ -26,7 +25,7 @@ namespace SparqlForHumans.Core.Utilities
             Other
         }
 
-        public static string[] ValidLanguages { get; } = { "en" };
+        public static string[] ValidLanguages { get; } = {"en"};
 
         public static PropertyType GetPropertyType(INode ntPredicate, INode ntObject)
         {
@@ -74,17 +73,17 @@ namespace SparqlForHumans.Core.Utilities
 
         public static bool IsValidLanguageLiteral(this INode node)
         {
-            return node.IsLiteral() && IsValidLanguage(((LiteralNode)node).Language);
+            return node.IsLiteral() && IsValidLanguage(((LiteralNode) node).Language);
         }
 
         public static string GetLiteralValue(this INode node)
         {
-            return node.IsLiteral() ? ((LiteralNode)node).Value : string.Empty;
+            return node.IsLiteral() ? ((LiteralNode) node).Value : string.Empty;
         }
 
         public static string GetUri(this INode node)
         {
-            return node.IsUriNode() ? ((UriNode)node).Uri.ToString() : string.Empty;
+            return node.IsUriNode() ? ((UriNode) node).Uri.ToString() : string.Empty;
         }
 
         public static bool IsEntity(this INode node)
@@ -149,7 +148,7 @@ namespace SparqlForHumans.Core.Utilities
 
         public static string GetId(this INode node)
         {
-            return ((UriNode)node).Uri.Segments.Last();
+            return ((UriNode) node).Uri.Segments.Last();
         }
     }
 }
