@@ -8,9 +8,9 @@ namespace SparqlForHumans.Core.Utilities
 {
     public static class DocumentMapper
     {
-        public static IEntity MapBaseSubject(this Document document)
+        public static ISubject MapBaseSubject(this Document document)
         {
-            IEntity entity = new BaseSubject
+            ISubject entity = new Subject
             {
                 Id = document.GetValue(Labels.Id),
                 Label = document.GetValue(Labels.Label)
