@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Models
 {
-    public class Property : Subject
+    public class Property : Subject, IProperty
     {
         public Property()
         {

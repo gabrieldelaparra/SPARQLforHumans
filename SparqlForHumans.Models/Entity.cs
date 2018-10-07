@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SparqlForHumans.Models
 {
-    public class Entity : Subject
+    public class Entity : Subject, IEntity
     {
         public Entity()
         {
