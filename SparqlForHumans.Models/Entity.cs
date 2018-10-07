@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace SparqlForHumans.Models
 {
-    public class Entity : BaseSubject
+    public class Entity : Subject
     {
         public Entity()
         {
         }
 
-        public Entity(IEntity iEntity)
+        public Entity(ISubject iEntity)
         {
             Id = iEntity.Id;
             Label = iEntity.Label;

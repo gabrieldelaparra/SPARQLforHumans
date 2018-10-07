@@ -2,13 +2,13 @@
 
 namespace SparqlForHumans.Models
 {
-    public class Property : BaseSubject
+    public class Property : Subject
     {
         public Property()
         {
         }
 
-        public Property(IEntity baseSubject)
+        public Property(ISubject baseSubject)
         {
             Id = baseSubject.Id;
             Label = baseSubject.Label;
