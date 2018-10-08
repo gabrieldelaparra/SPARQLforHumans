@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Utilities;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services
 {
     public static class EntityRanker
     {

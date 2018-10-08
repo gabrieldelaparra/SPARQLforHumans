@@ -2,8 +2,9 @@
 using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using SparqlForHumans.Core.Services;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Services;
+using SparqlForHumans.Lucene.Services.Query;
+using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 using Xunit;
 using Directory = System.IO.Directory;

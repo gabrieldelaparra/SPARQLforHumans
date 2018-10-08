@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services
 {
     public static class PropertiesFrequency
     {

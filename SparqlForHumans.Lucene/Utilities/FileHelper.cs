@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
-namespace SparqlForHumans.Core.Utilities
+namespace SparqlForHumans.Lucene.Utilities
 {
     public static class FileHelper
     {

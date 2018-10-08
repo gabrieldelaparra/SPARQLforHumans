@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Utilities;
 using VDS.RDF;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services
 {
     public class TriplesFilter
     {

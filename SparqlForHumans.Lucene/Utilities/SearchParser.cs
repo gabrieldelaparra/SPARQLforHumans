@@ -1,4 +1,4 @@
-﻿namespace SparqlForHumans.Core.Utilities
+﻿namespace SparqlForHumans.Lucene.Utilities
 {
     public static class SearchParser
     {

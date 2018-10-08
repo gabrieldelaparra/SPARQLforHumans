@@ -6,13 +6,13 @@ using Lucene.Net.Search;
 using Lucene.Net.Util;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services.Query
 {
     public class BaseParser
     {
-        public static Query ParseQuery(string searchQuery, QueryParser parser)
+        public static global::Lucene.Net.Search.Query ParseQuery(string searchQuery, QueryParser parser)
         {
-            Query query;
+            global::Lucene.Net.Search.Query query;
             try
             {
                 query = parser.Parse(searchQuery.Trim());

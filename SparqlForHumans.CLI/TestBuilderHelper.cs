@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Utilities;
 
 namespace SparqlForHumans.CLI
 {

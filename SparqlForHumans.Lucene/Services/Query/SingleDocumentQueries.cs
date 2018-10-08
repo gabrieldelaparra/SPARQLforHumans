@@ -5,10 +5,10 @@ using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services.Query
 {
     public static class SingleDocumentQueries
     {

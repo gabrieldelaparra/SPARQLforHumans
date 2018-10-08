@@ -6,11 +6,12 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Services.Query;
+using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 using VDS.RDF;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services
 {
     public static class IndexBuilder
     {

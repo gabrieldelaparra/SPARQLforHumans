@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Lucene.Net.Store;
-using SparqlForHumans.Core.Utilities;
+using SparqlForHumans.Lucene.Services.Query;
+using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Core.Services
+namespace SparqlForHumans.Lucene.Services
 {
     public static class QueryService
     {

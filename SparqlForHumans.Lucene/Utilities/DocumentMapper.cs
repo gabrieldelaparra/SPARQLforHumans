@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Core.Utilities
+namespace SparqlForHumans.Lucene.Utilities
 {
     public static class DocumentMapper
     {
