@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Utilities;
 using VDS.RDF;
 

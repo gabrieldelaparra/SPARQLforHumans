@@ -1,5 +1,7 @@
 ﻿using System;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services;
 using SparqlForHumans.Lucene.Services.Query;
 using SparqlForHumans.Lucene.Utilities;
@@ -38,15 +40,15 @@ namespace SparqlForHumans.CLI
             entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            IndexBuilder.CreateEntitiesIndex(filename, true);
+            EntitiesIndex.CreateEntitiesIndex(filename, true);
 
             var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
-            IndexBuilder.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
+            EntitiesIndex.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
 
-            IndexBuilder.CreatePropertiesIndex(filename, true);
+            PropertiesIndex.CreatePropertiesIndex(filename, true);
 
             var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
-            IndexBuilder.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
+            PropertiesIndex.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
         private static void Filter2MM()
@@ -86,7 +88,7 @@ namespace SparqlForHumans.CLI
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
             }
         }
 
@@ -96,7 +98,7 @@ namespace SparqlForHumans.CLI
             var outputPath = LuceneIndexExtensions.EntityIndexPath;
 
             outputPath.DeleteIfExists(overwrite);
-            IndexBuilder.CreateEntitiesIndex(inputFilename, true);
+            EntitiesIndex.CreateEntitiesIndex(inputFilename, true);
         }
 
         private static void CreatePropertyIndex(bool overwrite = false)
@@ -105,7 +107,7 @@ namespace SparqlForHumans.CLI
             var outputPath = LuceneIndexExtensions.PropertyIndexPath;
 
             outputPath.DeleteIfExists(overwrite);
-            IndexBuilder.CreatePropertiesIndex(inputFilename, true);
+            PropertiesIndex.CreatePropertiesIndex(inputFilename, true);
         }
 
         private static void QueryEntities(string query)

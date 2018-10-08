@@ -2,6 +2,7 @@
 using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services;
 using SparqlForHumans.Lucene.Services.Query;
 using SparqlForHumans.Lucene.Utilities;
@@ -31,8 +32,8 @@ namespace SparqlForHumans.UnitTests
             using (var entitiesDirectory = FSDirectory.Open(entitiesOutputPath.GetOrCreateDirectory()))
             using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, entitiesDirectory, true);
-                IndexBuilder.CreatePropertiesIndex(filename, propertiesDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, entitiesDirectory, true);
+                PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
 
                 var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
                 var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
@@ -45,7 +46,7 @@ namespace SparqlForHumans.UnitTests
                 Assert.Empty(property555.DomainTypes);
                 Assert.Empty(property777.DomainTypes);
 
-                IndexBuilder.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+                PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
 
                 var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
                 var property555WithDomain = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
@@ -80,7 +81,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreatePropertiesIndex(filename, propertiesDirectory, true);
+                PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
                 Assert.True(Directory.Exists(outputPath));
 
                 using (var reader = DirectoryReader.Open(propertiesDirectory))

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services;
 using SparqlForHumans.Lucene.Services.Query;
 using SparqlForHumans.Lucene.Utilities;
@@ -21,7 +22,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
                 var entity = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory)
                     .FirstOrDefault();
                 Assert.Equal("Q76", entity.Id);
@@ -40,7 +41,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
                 var entity = MultiDocumentQueries
                     .QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory)
                     .FirstOrDefault();
@@ -228,7 +229,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
                 Assert.Equal("Q76", entity.Id);
@@ -247,7 +248,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
                 Assert.Equal("Q13133", entity.Id);

@@ -1,7 +1,7 @@
 ﻿using Lucene.Net.Documents;
 using SparqlForHumans.Models;
 
-namespace SparqlForHumans.Lucene.Utilities
+namespace SparqlForHumans.Lucene.Extensions
 {
     public static class DocumentExtensions
     {

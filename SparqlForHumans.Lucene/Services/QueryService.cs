@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services.Query;
 using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;

@@ -1,4 +1,4 @@
-﻿using SparqlForHumans.Lucene.Utilities;
+﻿using SparqlForHumans.Lucene.Extensions;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 using Xunit;

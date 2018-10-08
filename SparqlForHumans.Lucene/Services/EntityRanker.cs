@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Utilities;
 
 namespace SparqlForHumans.Lucene.Services

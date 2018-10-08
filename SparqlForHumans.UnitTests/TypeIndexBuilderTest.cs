@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services;
 using SparqlForHumans.Lucene.Services.Query;
 using SparqlForHumans.Lucene.Utilities;
@@ -22,7 +23,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
                 var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
@@ -38,7 +39,7 @@ namespace SparqlForHumans.UnitTests
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-                IndexBuilder.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
+                EntitiesIndex.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
 
                 Assert.True(Directory.Exists(outputPath));
 
@@ -72,7 +73,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
 
@@ -102,7 +103,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
                 var propertiesDictionary = IndexBuilder.CreateInvertedProperties(typesDictionary);
@@ -142,10 +143,10 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
                 var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
 
-                IndexBuilder.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
+                EntitiesIndex.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
 
                 var query = "chile";
                 var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SparqlForHumans.Lucene.Utilities
+namespace SparqlForHumans.Lucene.Extensions
 {
     public static class LuceneIndexExtensions
     {

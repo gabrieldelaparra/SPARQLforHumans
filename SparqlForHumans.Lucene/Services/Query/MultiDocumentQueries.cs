@@ -10,6 +10,7 @@ using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
 

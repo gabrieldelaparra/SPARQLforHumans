@@ -2,6 +2,7 @@
 using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Services;
 using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
@@ -145,7 +146,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     Assert.True(Directory.Exists(outputPath));
@@ -184,7 +185,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
 
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
