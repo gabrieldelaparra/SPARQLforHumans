@@ -17,6 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.App"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.Server", "SparqlForHumans.Blazor.Server\SparqlForHumans.Blazor.Server.csproj", "{FB12E9FB-87EB-44F4-A94C-569C339A7523}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPedretti.Blazor.Components", "..\rpedretti.BlazorComponents\RPedretti.Blazor.Components\RPedretti.Blazor.Components.csproj", "{C7E6853E-1433-4A52-B808-A725F78F86C5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPedretti.Blazor.Components.Layout", "..\rpedretti.BlazorComponents\RPedretti.Blazor.Components.Layout\RPedretti.Blazor.Components.Layout.csproj", "{1F217949-D083-49A1-BB01-B0290DF17AFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RPedretti.Blazor.Shared", "..\rpedretti.BlazorComponents\RPedretti.Blazor.Shared\RPedretti.Blazor.Shared.csproj", "{F6CD2C14-6FC6-412F-AF31-4AD09C597674}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +57,18 @@ Global
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7E6853E-1433-4A52-B808-A725F78F86C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7E6853E-1433-4A52-B808-A725F78F86C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7E6853E-1433-4A52-B808-A725F78F86C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7E6853E-1433-4A52-B808-A725F78F86C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F217949-D083-49A1-BB01-B0290DF17AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F217949-D083-49A1-BB01-B0290DF17AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F217949-D083-49A1-BB01-B0290DF17AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F217949-D083-49A1-BB01-B0290DF17AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6CD2C14-6FC6-412F-AF31-4AD09C597674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CD2C14-6FC6-412F-AF31-4AD09C597674}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CD2C14-6FC6-412F-AF31-4AD09C597674}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CD2C14-6FC6-412F-AF31-4AD09C597674}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

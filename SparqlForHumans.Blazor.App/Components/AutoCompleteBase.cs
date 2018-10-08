@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Blazor.Components;
-using SparqlForHumans.Blazor.App.Shared;
+using SparqlForHumans.Models;
 
 namespace SparqlForHumans.Blazor.App.Components
 {
     public class AutoCompleteBase : BlazorComponent
     {
         private string _inputQuery;
-        private SelectableValue[] _queryResult;
+        private Entity[] _queryResult;
+        private string _placeHolder;
+        private bool _waitingSelection;
 
-        public SelectableValue[] QueryResults
+        public Entity[] QueryResults
         {
             get { return _queryResult; }
             set
@@ -20,6 +22,15 @@ namespace SparqlForHumans.Blazor.App.Components
             }
         }
 
+        public bool WaitingSelection
+        {
+            get => _waitingSelection;
+            set
+            {
+                _waitingSelection = value;
+                StateHasChanged();
+            }
+        }
 
         protected string InputQuery
         {
@@ -27,6 +38,7 @@ namespace SparqlForHumans.Blazor.App.Components
             set
             {
                 if (value.Length <= MinimumLength) return;
+                WaitingSelection = true;
 
                 if (AutocompleteSourceProvider != null)
                     ValidateText(AutocompleteSourceProvider);
@@ -37,7 +49,7 @@ namespace SparqlForHumans.Blazor.App.Components
 
         bool isBusyProcessing = false;
 
-        private async Task ValidateText(Func<string, Task<SelectableValue[]>> function)
+        private async Task ValidateText(Func<string, Task<Entity[]>> function)
         {
             if (isBusyProcessing)
                 return;
@@ -50,8 +62,6 @@ namespace SparqlForHumans.Blazor.App.Components
             QueryResults = await function?.Invoke(InputQuery);
 
         }
-
-        private string _placeHolder;
 
         [Parameter]
         protected string PlaceHolder
@@ -70,11 +80,17 @@ namespace SparqlForHumans.Blazor.App.Components
         [Parameter]
         protected int MinimumLength { get; set; }
 
+        protected void OnEntitySelected(Entity entity)
+        {
+            QueryResults = null;
+            WaitingSelection = false;
+            OnSelectionChanged?.Invoke(entity);
+        }
 
         [Parameter]
-        protected Action<object> OnSelectionChanged { get; set; }
+        protected Action<Entity> OnSelectionChanged { get; set; }
 
         [Parameter]
-        protected Func<string, Task<SelectableValue[]>> AutocompleteSourceProvider { get; set; }
+        protected Func<string, Task<Entity[]>> AutocompleteSourceProvider { get; set; }
     }
 }
