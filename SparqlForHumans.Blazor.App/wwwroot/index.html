@@ -28,14 +28,9 @@
 
         window.autoCompleteElement = {
 
-            //Returns a function, that, as long as it continues to be invoked, will not
-            //be triggered. The function will be called after it stops being called for
-            //N milliseconds. If `immediate` is passed, trigger the function on the
-            //leading edge, instead of the trailing.
             debounce: function (dotnetElementReference, functionName, wait, arg) {
 
                 if (!lastRan) {
-                    //dotnetElementReference.invokeMethodAsync(functionName, arg);
                     lastRan = Date.now();
                 } else {
                     clearTimeout(lastFunc);
@@ -47,29 +42,6 @@
                         },
                         wait - (Date.now() - lastRan));
                 }
-
-                //var inDebounce;
-                //clearTimeout(inDebounce);
-                //inDebounce = setTimeout(() => dotnetElementReference.invokeMethodAsync(functionName, "bbb"), wait)
-
-                //executeThing = false;
-                //var later = function () {
-                //    timeout = null;
-                //    if (!immediate) {
-                //        dotnetElementReference.invokeMethodAsync(functionName, "bbb");
-                //        executeThing = true;
-                //    }
-                //};
-
-                //var callNow = immediate && !timeout;
-                //clearTimeout(timeout);
-                //timeout = setTimeout(later, wait);
-
-                //if (callNow) {
-                //    dotnetElementReference.invokeMethodAsync(functionName, "aaa");
-
-                //}
-                //func.apply(context, args);
             },
 
             setSourceFunction: function (elementRef, dotnetElementReference) {
@@ -110,7 +82,7 @@
                             ul.css("overflow-y", "scroll");
                             ul.css("max-height", "300px");
                             return $("<li class='list-group-item list-group-item-action' style='max-width: 400px' >")
-                                .append("<div'>" + item.label + " (" + item.value.id + ") </div>")
+                                .append("<div>" + item.label + " (" + item.value.id + ") </div>")
                                 .appendTo(ul);
                         };
                     },
