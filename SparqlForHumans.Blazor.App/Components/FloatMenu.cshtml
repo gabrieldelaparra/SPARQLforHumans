@@ -1,0 +1,24 @@
+﻿
+<style>
+    #floatAdd {
+        position: fixed !important;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #06F;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+    }
+</style>
+
+<a id="floatAdd" onclick="@OnAddEntityClick">
+    <i class="fa fa-plus" style="margin-top: 22px;"></i>
+</a>
+
+@functions {
+    [Parameter]
+    protected Action OnAddEntityClick { get; set; }
+}

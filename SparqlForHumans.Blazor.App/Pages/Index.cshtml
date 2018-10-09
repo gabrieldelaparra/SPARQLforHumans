@@ -1,4 +1,5 @@
-﻿@inherits IndexBase
+﻿@using SparqlForHumans.Blazor.App.Components
+@inherits IndexBase
 @page "/"
 
 <div>
@@ -6,13 +7,21 @@
         <h1>Sparql For Humans</h1>
     </div>
     
-    <a href="#" class="float">
-        <i class="fa fa-envelope my-float"></i>
-    </a>
-    <div class="label-container">
-        <div class="label-text">Entity</div>
-        <div class="label-text">Property</div>
-    </div>
+    <FloatMenu OnAddEntityClick="@AddEntity"/>
+    
+    @foreach (var entity in Entities)
+    {
+        <EntityView />
+    }
 
 </div>
 
+@functions
+{
+    public List<EntityView> Entities {get;set;} = new List<EntityView>();
+
+    public void AddEntity()
+    {
+        Entities.Add(new EntityView());
+    }
+}
