@@ -22,24 +22,17 @@
             position:fixed;
             bottom:48px;
             right:105px;
-            display:table;
             visibility: hidden;
+            display: block;
         }
 
         .label-text{
             color:#FFF;
             background:rgba(51,51,51,0.5);
-            display:table-cell;
             vertical-align:middle;
             padding:10px;
             border-radius:3px;
-        }
-
-        .label-arrow{
-            display:table-cell;
-            vertical-align:middle;
-            color:#333;
-            opacity:0.5;
+            margin: 5px;
         }
 
         .float{
@@ -63,12 +56,13 @@
         a.float + div.label-container {
             visibility: hidden;
             opacity: 0;
-            transition: visibility 0s, opacity 0.5s ease;
+            transition: visibility 0.3s, opacity 0.5s ease;
         }
 
-        a.float:hover + div.label-container{
+        a.float:hover + div.label-container {
             visibility: visible;
             opacity: 1;
+            transition: visibility 0.3s, opacity 0.5s ease;
         }
     </style>
 </head>
