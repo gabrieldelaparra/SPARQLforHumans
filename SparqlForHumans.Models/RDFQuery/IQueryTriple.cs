@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace SparqlForHumans.Models
+﻿namespace SparqlForHumans.Models.RDFQuery
 {
     public interface IQueryTriple
     {
-        ISubject Subject { get; set; }
-        ISubject Predicate { get; set; }
+        IQueriableSubject Subject { get; set; }
+        IQueriableSubject Predicate { get; set; }
         ILabel Object { get; set; }
     }
 }

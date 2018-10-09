@@ -2,14 +2,16 @@
 {
     public static class Extensions
     {
-        public static string Uri(this Entity entity)
+        public static string FormatWithUri(this string id, string uri) => $"{uri}{id}";
+
+        public static string WikidataUri(this Entity entity)
         {
-            return $"<{Wikidata.WikidataDump.EntityIRI}{entity.Id}>";
+            return entity.Id.FormatWithUri(Wikidata.WikidataDump.EntityIRI);
         }
 
-        public static string Uri(this Property property)
+        public static string WikidataUri(this Property property)
         {
-            return $"<{Wikidata.WikidataDump.PropertyIRI}{property.Id}>";
+            return property.Id.FormatWithUri(Wikidata.WikidataDump.PropertyIRI);
         }
     }
 }
