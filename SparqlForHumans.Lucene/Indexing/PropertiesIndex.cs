@@ -7,12 +7,13 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Services.Query;
-using SparqlForHumans.Lucene.Utilities;
+using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
 using VDS.RDF;
 
-namespace SparqlForHumans.Lucene.Services
+namespace SparqlForHumans.Lucene.Indexing
 {
     public static class PropertiesIndex
     {
@@ -132,8 +133,10 @@ namespace SparqlForHumans.Lucene.Services
 
             Options.InternUris = false;
             var analyzer = new KeywordAnalyzer();
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer);
-            indexConfig.OpenMode = OpenMode.CREATE_OR_APPEND;
+            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer)
+            {
+                OpenMode = OpenMode.CREATE_OR_APPEND
+            };
 
             using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
             {

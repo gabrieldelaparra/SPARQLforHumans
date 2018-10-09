@@ -4,7 +4,7 @@ using SparqlForHumans.Models;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 
-namespace SparqlForHumans.Lucene.Extensions
+namespace SparqlForHumans.RDF.Extensions
 {
     public static class RDFExtensions
     {

@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.App"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.Server", "SparqlForHumans.Blazor.Server\SparqlForHumans.Blazor.Server.csproj", "{FB12E9FB-87EB-44F4-A94C-569C339A7523}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.RDF", "SparqlForHumans.RDF\SparqlForHumans.RDF.csproj", "{D05D94FA-078E-4F4A-B345-586B1A02FF8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.Utilities", "SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj", "{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB12E9FB-87EB-44F4-A94C-569C339A7523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D05D94FA-078E-4F4A-B345-586B1A02FF8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D05D94FA-078E-4F4A-B345-586B1A02FF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D05D94FA-078E-4F4A-B345-586B1A02FF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D05D94FA-078E-4F4A-B345-586B1A02FF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

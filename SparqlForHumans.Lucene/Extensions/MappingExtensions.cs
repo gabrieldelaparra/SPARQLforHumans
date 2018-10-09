@@ -1,12 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
+using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Extensions
 {
     public static class MappingExtensions
     {
+        public static Entity AddProperties(this Entity entity)
+        {
+            using (var propertiesDirectory =
+                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+            {
+                return AddProperties(entity, propertiesDirectory);
+            }
+        }
+
+        public static Entity AddProperties(this Entity entity, Directory luceneDirectory)
+        {
+            var propertiesIds = entity.Properties.Select(x => x.Id);
+            var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
+
+            for (var i = 0; i < entity.Properties.Count(); i++)
+            {
+                var property = entity.Properties.ElementAt(i);
+                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                property.Label = prop.Label;
+            }
+
+            return entity;
+        }
+
         public static ISubject MapBaseSubject(this Document document)
         {
             ISubject entity = new Subject

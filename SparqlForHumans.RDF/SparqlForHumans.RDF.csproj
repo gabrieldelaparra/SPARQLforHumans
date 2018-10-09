@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="dotNetRDF" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SparqlForHumans.Logger\SparqlForHumans.Logger.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>

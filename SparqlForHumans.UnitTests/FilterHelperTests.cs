@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Services;
-using SparqlForHumans.Lucene.Utilities;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Filtering;
+using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests

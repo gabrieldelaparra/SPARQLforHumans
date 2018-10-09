@@ -1,10 +1,10 @@
 ﻿using System;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Services;
-using SparqlForHumans.Lucene.Services.Query;
-using SparqlForHumans.Lucene.Utilities;
+using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.RDF.Filtering;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.CLI
 {
@@ -114,7 +114,7 @@ namespace SparqlForHumans.CLI
         {
             Console.WriteLine($"Query Entity: {query}\n");
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
-            foreach (var result in results) 
+            foreach (var result in results)
                 Console.WriteLine(result.ToRankedString());
         }
 
@@ -122,7 +122,7 @@ namespace SparqlForHumans.CLI
         {
             Console.WriteLine($"Query Property: {query}\n");
             var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
-            foreach (var result in results) 
+            foreach (var result in results)
                 Console.WriteLine(result.ToRankedString());
         }
     }

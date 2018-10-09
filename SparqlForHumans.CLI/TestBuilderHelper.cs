@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Utilities;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.CLI
 {

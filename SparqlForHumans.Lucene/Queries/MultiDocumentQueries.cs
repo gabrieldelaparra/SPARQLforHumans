@@ -11,10 +11,10 @@ using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
+using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Services.Query
+namespace SparqlForHumans.Lucene.Queries
 {
     public class MultiDocumentQueries
     {

@@ -156,6 +156,8 @@
   <ItemGroup>
     <ProjectReference Include="..\SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj" />
     <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.RDF\SparqlForHumans.RDF.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

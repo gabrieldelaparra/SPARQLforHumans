@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-using SparqlForHumans.Lucene.Services;
+using SparqlForHumans.Lucene.Indexing;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests

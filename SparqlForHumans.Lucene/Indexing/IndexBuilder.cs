@@ -3,10 +3,10 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Utilities;
 using SparqlForHumans.Models;
+using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Services
+namespace SparqlForHumans.Lucene.Indexing
 {
     public static class IndexBuilder
     {

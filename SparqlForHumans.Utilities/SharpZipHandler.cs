@@ -2,7 +2,7 @@
 using System.IO;
 using ICSharpCode.SharpZipLib.GZip;
 
-namespace SparqlForHumans.Lucene.Utilities
+namespace SparqlForHumans.Utilities
 {
     public class SharpZipHandler
     {

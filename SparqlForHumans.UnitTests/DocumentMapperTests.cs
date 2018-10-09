@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Services.Query;
-using SparqlForHumans.Lucene.Utilities;
+using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
+using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
