@@ -1,8 +1,7 @@
 ﻿namespace SparqlForHumans.Models
 {
-    public interface ISubject
+    public interface ISubject : ILabel
     {
         string Id { get; set; }
-        string Label { get; set; }
     }
 }
