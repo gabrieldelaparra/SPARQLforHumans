@@ -64,14 +64,14 @@
 
 @functions {
 
-    public void SelectionChanged(Entity selectedEntity)
+    public void SelectionChanged(object selectedJSONObject)
     {
         var settings = new JsonSerializerSettings()
         {
             TypeNameHandling = TypeNameHandling.All
         };
-        SelectedEntity = selectedEntity;
-        //SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedEntity, settings);
+
+        SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
         SelectedEntity.AddProperties();
         StateHasChanged();
     }
@@ -87,16 +87,16 @@
         }
     }
 
-    //public IEnumerable<SelectableValue> RunQuery(string query)
-    //{
-    //    return MultiDocumentQueries.QueryEntitiesByLabel(query, false)?
-    //        .Select(x => new SelectableValue() { Label = x.Label, Value = x });
-    //}
-
-    public Task<Entity[]> RunQuery(string query)
+    public Task<SelectableValue[]> RunQuery(string query)
     {
-        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query, false)?.ToArray());
+        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+            .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
     }
+
+    //public Task<Entity[]> RunQuery(string query)
+    //{
+    //    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query, false)?.ToArray());
+    //}
 
     public Entity SelectedEntity { get; set; }
 }

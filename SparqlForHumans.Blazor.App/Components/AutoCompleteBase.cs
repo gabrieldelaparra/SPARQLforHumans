@@ -1,67 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Blazor;
 using Microsoft.AspNetCore.Blazor.Components;
-using SparqlForHumans.Models;
+using Microsoft.JSInterop;
+using SparqlForHumans.Blazor.App.Shared;
 
 namespace SparqlForHumans.Blazor.App.Components
 {
     public class AutoCompleteBase : BlazorComponent
     {
-        private string _inputQuery;
-        private Entity[] _queryResult;
+        protected ElementRef InputElementRef { get; set; }
+        protected DotNetObjectRef DotNetObjectRef { get; set; }
+
         private string _placeHolder;
-        private bool _waitingSelection;
-
-        public Entity[] QueryResults
-        {
-            get { return _queryResult; }
-            set
-            {
-                _queryResult = value;
-                StateHasChanged();
-            }
-        }
-
-        public bool WaitingSelection
-        {
-            get => _waitingSelection;
-            set
-            {
-                _waitingSelection = value;
-                StateHasChanged();
-            }
-        }
-
-        protected string InputQuery
-        {
-            get { return _inputQuery; }
-            set
-            {
-                if (value.Length <= MinimumLength) return;
-                WaitingSelection = true;
-
-                if (AutocompleteSourceProvider != null)
-                    ValidateText(AutocompleteSourceProvider);
-
-                _inputQuery = value;
-            }
-        }
-
-        bool isBusyProcessing = false;
-
-        private async Task ValidateText(Func<string, Task<Entity[]>> function)
-        {
-            if (isBusyProcessing)
-                return;
-
-            isBusyProcessing = true;
-            await Task.Delay(Delay);
-            isBusyProcessing = false;
-
-            Console.WriteLine("Invoke");
-            QueryResults = await function?.Invoke(InputQuery);
-
-        }
+        private Func<string, Task<SelectableValue[]>> _autocompleteSourceProvider;
+        private int _minimumLength;
+        private int _delay;
+        private Action<object> _onSelectionChanged;
 
         [Parameter]
         protected string PlaceHolder
@@ -75,22 +32,75 @@ namespace SparqlForHumans.Blazor.App.Components
         }
 
         [Parameter]
-        protected int Delay { get; set; }
-
-        [Parameter]
-        protected int MinimumLength { get; set; }
-
-        protected void OnEntitySelected(Entity entity)
+        protected int Delay
         {
-            QueryResults = null;
-            WaitingSelection = false;
-            OnSelectionChanged?.Invoke(entity);
+            get => _delay;
+            set
+            {
+                _delay = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setDelay", InputElementRef, _delay);
+            }
         }
 
         [Parameter]
-        protected Action<Entity> OnSelectionChanged { get; set; }
+        protected int MinimumLength
+        {
+            get => _minimumLength;
+            set
+            {
+                _minimumLength = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setMinLength", InputElementRef, _minimumLength);
+            }
+        }
+
+        protected override void OnAfterRender()
+        {
+            DotNetObjectRef = new DotNetObjectRef(this);
+
+            JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.initAutoComplete", InputElementRef);
+
+            MinimumLength = _minimumLength;
+            Delay = _delay;
+            AutocompleteSourceProvider = _autocompleteSourceProvider;
+            OnSelectionChanged = _onSelectionChanged;
+
+            base.OnAfterRender();
+        }
+
+        [JSInvokable]
+        public void OnSelectEventListener(object selectedJSONObject)
+        {
+            OnSelectionChanged?.Invoke(selectedJSONObject);
+        }
+
+        [JSInvokable]
+        public Task<SelectableValue[]> AutocompleteSourceDelegate(string query)
+        {
+            return AutocompleteSourceProvider?.Invoke(query);
+        }
 
         [Parameter]
-        protected Func<string, Task<Entity[]>> AutocompleteSourceProvider { get; set; }
+        protected Action<object> OnSelectionChanged
+        {
+            get => _onSelectionChanged;
+            set
+            {
+                _onSelectionChanged = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
+                    InputElementRef, DotNetObjectRef);
+            }
+        }
+
+        [Parameter]
+        protected Func<string, Task<SelectableValue[]>> AutocompleteSourceProvider
+        {
+            get => _autocompleteSourceProvider;
+            set
+            {
+                _autocompleteSourceProvider = value;
+                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSourceFunction",
+                    InputElementRef, DotNetObjectRef);
+            }
+        }
     }
 }
