@@ -36,8 +36,6 @@ namespace SparqlForHumans.UnitTests
             Assert.Contains("WHERE", query.ToString());
             Assert.Contains("<http://www.wikidata.org/entity/Q25> <http://www.wikidata.org/prop/direct/P31> ?instanceOf .", query.ToString());
 
-            var resultSet = query.RunWikidataQuery();
-
         }
     }
 }
