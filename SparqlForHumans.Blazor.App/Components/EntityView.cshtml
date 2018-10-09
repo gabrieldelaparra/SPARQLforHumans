@@ -26,77 +26,70 @@
             @*Properties*@
             <div class="accordion border">
                 <div class="card">
-                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">
-                        Properties
+                    <button class="btn btn-link card-header" data-toggle="collapse" data-target="#collapseOne">
+                        Selected Properties: @SelectedEntity.Properties.Count(x => ((SelectableProperty)x).IsSelected)
                     </button>
 
                     <div id="collapseOne" class="collapse">
                         <ul class="list-group" style="max-height: 300px; overflow: auto;">
-                            @foreach (var property in SelectedEntity.Properties.DistinctBy(x => x.Id).OrderBy(x => x.Frequency))
+                            @foreach (var property in SelectedEntity.Properties)
                             {
-                                <li class="list-group-item list-group-item-action">
-                                    <button onclick="@(e => OnPropertyClick(property))" style="all: unset">
-                                        (@property.Id) - @property.Label
-                                    </button>
+                                <li class="list-group-item list-group-item-action @($"{(((SelectableProperty)property).IsSelected ? "active" : null)}")" onclick="@(e => OnPropertyClick(property))">
+                                    (@property.Id) - @property.Label
                                 </li>
                             }
                         </ul>
                     </div>
                 </div>
             </div>
-
-            @*<div class="card">
-                Selected Properties:
-                <div>
-                    <ul class="list-group" style="max-height: 300px; overflow: auto;">
-                        @foreach (var property in SelectedEntity.Properties.Where(x => ((SelectableProperty) x).IsSelected).DistinctBy(x => x.Id))
-                        {
-                            <li class="list-group-item list-group-item-action">
-                                (@property.Id) - @property.Label
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>*@
         }
     </div>
 </div>
 
 @functions {
 
-    public void SelectionChanged(object selectedJSONObject)
+public IEnumerable<Entity> SearchResults = new List<Entity>();
+private SelectableEntity _selectedEntity;
+
+public void SelectionChanged(object selectedJSONObject)
+{
+    var settings = new JsonSerializerSettings()
     {
-        var settings = new JsonSerializerSettings()
-        {
-            TypeNameHandling = TypeNameHandling.All
-        };
+        TypeNameHandling = TypeNameHandling.All
+    };
 
-        SelectedEntity = JsonConvert.DeserializeObject<Entity>(selectedJSONObject.ToString(), settings);
-        SelectedEntity.AddProperties();
-        StateHasChanged();
-    }
+    SelectedEntity = JsonConvert.DeserializeObject<SelectableEntity>(selectedJSONObject.ToString(), settings);
+    SelectedEntity.AddProperties();
+    StateHasChanged();
+}
 
-    public void OnPropertyClick(IProperty property)
+public void OnPropertyClick(IProperty property)
+{
+    Console.WriteLine(property);
+
+    if (property.GetType() != typeof(SelectableProperty)) return;
+    var properties = SelectedEntity.Properties.Where(x => x.Id.Equals(property.Id));
+    foreach (var selectedProperty in properties)
     {
-        if (property.GetType() != typeof(SelectableProperty)) return;
-        var properties = SelectedEntity.Properties.Where(x => x.Id.Equals(property.Id));
-        foreach (var selectedProperty in properties)
-        {
-
-            ((SelectableProperty)selectedProperty).IsSelected = !((SelectableProperty)selectedProperty).IsSelected;
-        }
+        ((SelectableProperty)selectedProperty).IsSelected = !((SelectableProperty)selectedProperty).IsSelected;
     }
+}
 
-    public Task<SelectableValue[]> RunQuery(string query)
+public Task<SelectableValue[]> RunQuery(string query)
+{
+    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
+        .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
+}
+
+public SelectableEntity SelectedEntity
+{
+    get => _selectedEntity;
+    set
     {
-        return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query)
-            .Select(x => new SelectableValue() { Label = x.Label, Value = x }).ToArray());
+
+        _selectedEntity = value;
+        _selectedEntity.Properties = _selectedEntity.Properties.DistinctBy(x => x.Id).OrderBy(x => x.Frequency);
     }
+}
 
-    //public Task<Entity[]> RunQuery(string query)
-    //{
-    //    return Task.FromResult(MultiDocumentQueries.QueryEntitiesByLabel(query, false)?.ToArray());
-    //}
-
-    public Entity SelectedEntity { get; set; }
 }

@@ -14,9 +14,14 @@
     <script src="lib/js/jquery.min.js"></script>
     <script src="lib/jquery-ui.min.js"></script>
     <script src="lib/js/bootstrap.min.js"></script>
-    <script src="lib/js/popper.min.js"></script>
+    <!--<script src="lib/js/popper.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-
+    <style>
+        .ui-helper-hidden-accessible {
+            position: absolute;
+            left: -999em;
+        }
+    </style>
 </head>
 <body>
     <app>Loading...</app>
@@ -29,32 +34,14 @@
 
         window.autoCompleteElement = {
 
-            debounce: function (dotnetElementReference, functionName, wait, arg) {
-
-                if (!lastRan) {
-                    lastRan = Date.now();
-                } else {
-                    clearTimeout(lastFunc);
-                    lastFunc = setTimeout(function () {
-                        if ((Date.now() - lastRan) >= wait) {
-                            dotnetElementReference.invokeMethodAsync(functionName, arg);
-                            lastRan = Date.now();
-                        }
-                    },
-                        wait - (Date.now() - lastRan));
-                }
-            },
-
             setSourceFunction: function (elementRef, dotnetElementReference) {
 
-                var _function = function (request, response) {
+                $(elementRef).autocomplete('option', 'source', function (request, response) {
                     var list = dotnetElementReference.invokeMethodAsync("AutocompleteSourceDelegate", request.term);
                     list.then(function (x) {
                         response(x);
                     });
-                };
-
-                $(elementRef).autocomplete('option', 'source', _function);
+                });
             },
 
             setMinLength: function (elementRef, minLength) {
@@ -77,6 +64,7 @@
                         event.preventDefault();
                         $(this).val(ui.item.label);
                     },
+                    position: { my: "left-75 top", at: "left-40 bottom" },
                     create: function () {
                         $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
                             ul.css("overflow-x", "auto");
@@ -90,18 +78,13 @@
                 });
             },
 
-            setSelect: function (elementRef, dotnetElementReference) {
+            subscribeSelect: function (elementRef, dotnetElementReference) {
 
-                var _function = function (event, ui) {
-                    event.preventDefault();
+                $(elementRef).on("autocompleteselect", function (event, ui) {
                     dotnetElementReference.invokeMethodAsync("OnSelectEventListener", ui.item.value);
-                };
-
-                $(elementRef).on("autocompleteselect", _function);
-
+                    event.preventDefault();
+                });
             }
-
-
         };
     </script>
 </body>

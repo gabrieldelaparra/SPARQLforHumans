@@ -86,7 +86,7 @@ namespace SparqlForHumans.Blazor.App.Components
             set
             {
                 _onSelectionChanged = value;
-                JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.setSelect",
+                    JSRuntime.Current.InvokeAsync<object>("autoCompleteElement.subscribeSelect",
                     InputElementRef, DotNetObjectRef);
             }
         }
