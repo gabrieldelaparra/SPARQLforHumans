@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text.RegularExpressions;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.Wikidata;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 

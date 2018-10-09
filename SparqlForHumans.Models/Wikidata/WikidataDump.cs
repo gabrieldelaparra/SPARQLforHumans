@@ -1,4 +1,4 @@
-﻿namespace SparqlForHumans.Models
+﻿namespace SparqlForHumans.Models.Wikidata
 {
     public static class WikidataDump
     {

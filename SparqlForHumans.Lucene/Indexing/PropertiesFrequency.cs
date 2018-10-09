@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 

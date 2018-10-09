@@ -1,5 +1,6 @@
 ﻿using Lucene.Net.Documents;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 
 namespace SparqlForHumans.Lucene.Extensions
 {

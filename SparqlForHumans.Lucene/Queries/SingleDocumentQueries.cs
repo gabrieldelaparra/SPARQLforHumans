@@ -7,6 +7,7 @@ using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries

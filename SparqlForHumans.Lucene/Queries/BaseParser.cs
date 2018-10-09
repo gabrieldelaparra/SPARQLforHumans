@@ -5,6 +5,7 @@ using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Util;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 
 namespace SparqlForHumans.Lucene.Queries
 {
