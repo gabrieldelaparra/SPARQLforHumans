@@ -268,3 +268,4 @@ Progress.md
 /SparqlForHumans.Blazor.App/wwwroot/lib
 /500k LuceneEntitiesIndex
 /500k LucenePropertiesIndex
+/SparqlForHumans.CLI/filtered-All.nt
