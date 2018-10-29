@@ -7,7 +7,7 @@ namespace SparqlForHumans.RDF.Queries
 {
     public static class QueryExtensions
     {
-        public static SparqlQuery BuildQuery(this IQueryTriple triple)
+        public static SparqlQuery BuildQuery(this RDFTriple triple)
         {
             var queryBuilder = QueryBuilder
                 .Select(triple.Object.Label)

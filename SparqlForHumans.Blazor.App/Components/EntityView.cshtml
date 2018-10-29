@@ -52,7 +52,7 @@
 
     private SelectableEntity _selectedEntity;
 
-    private List<QueryTriple> queryTriples { get; set; } = new List<QueryTriple>();
+    private List<RDFTriple> queryTriples { get; set; } = new List<RDFTriple>();
 
     public void SelectionChanged(object selectedJSONObject)
     {
@@ -73,7 +73,7 @@
 
         if (property.IsSelected)
         {
-            var queryTriple = new QueryTriple()
+            var queryTriple = new RDFTriple()
             {
                 Subject = new RDFEntity(SelectedEntity),
                 Predicate = new RDFProperty(property),

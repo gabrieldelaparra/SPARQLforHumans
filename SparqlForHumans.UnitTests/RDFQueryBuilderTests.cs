@@ -21,11 +21,11 @@ namespace SparqlForHumans.UnitTests
             {
                 Id = "P31",
             };
-            var rdfQuery = new QueryTriple()
+            var rdfQuery = new RDFTriple()
             {
                 Subject = entity,
                 Predicate = property,
-                Object = new RDFLabel()
+                Object = new RDFEntity()
                 {
                     Label = "instanceOf",
                 },

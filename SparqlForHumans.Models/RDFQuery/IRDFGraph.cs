@@ -4,8 +4,8 @@ using System.Text;
 
 namespace SparqlForHumans.Models.RDFQuery
 {
-    public interface IQueriableSubject : ISubject
+    interface IRDFGraph
     {
-        string Uri();
+        List<RDFTriple> QueryTriples { get; set; }
     }
 }
