@@ -2,9 +2,15 @@
 
 namespace SparqlForHumans.Models.RDFQuery
 {
-    public class RDFProperty : Property, IQueriableSubject
+    public class RDFProperty : Property, IRDFSubject
     {
         public RDFProperty() {}
+
+        public RDFProperty(Property property)
+        {
+            Id = property.Id;
+            Label = property.Label;
+        }
 
         public RDFProperty(ISubject iSubject)
         {

@@ -1,9 +1,9 @@
 ﻿namespace SparqlForHumans.Models.RDFQuery
 {
-    public interface IQueryTriple
+    public interface IRDFTriple
     {
-        IQueriableSubject Subject { get; set; }
-        IQueriableSubject Predicate { get; set; }
+        IRDFSubject Subject { get; set; }
+        IRDFSubject Predicate { get; set; }
         ILabel Object { get; set; }
     }
 }

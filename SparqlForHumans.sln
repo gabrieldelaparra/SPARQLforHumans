@@ -17,9 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.App"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Blazor.Server", "SparqlForHumans.Blazor.Server\SparqlForHumans.Blazor.Server.csproj", "{FB12E9FB-87EB-44F4-A94C-569C339A7523}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.RDF", "SparqlForHumans.RDF\SparqlForHumans.RDF.csproj", "{D05D94FA-078E-4F4A-B345-586B1A02FF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.RDF", "SparqlForHumans.RDF\SparqlForHumans.RDF.csproj", "{D05D94FA-078E-4F4A-B345-586B1A02FF8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.Utilities", "SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj", "{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Utilities", "SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj", "{F1A59CFE-8B46-4700-A572-89EEEECF9DDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
