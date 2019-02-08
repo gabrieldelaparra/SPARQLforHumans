@@ -210,7 +210,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            TriplesFilter.Filter(filename, outputFilename, limit, FileHelper.FileType.gZip);
+            TriplesFilter.Filter(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType(outputFilename));
