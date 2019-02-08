@@ -29,8 +29,11 @@ namespace SparqlForHumans.RDF.Filtering
         /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
         /// <param name="triplesLimit">Limit of Q-Id to filter. Value of -1 means no filtering for Q-Id</param>
-        public static void Filter(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit = -1)
+        public static void Filter(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
+            if (string.IsNullOrWhiteSpace(outputTriplesFilename))
+                outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+
             Options.InternUris = false;
 
             if (!new FileInfo(inputTriplesFilename).Exists)
