@@ -20,14 +20,14 @@ namespace SparqlForHumans.UnitTests
 
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
 
-            if (File.Exists(outputFilename))
-                File.Delete(outputFilename);
+            outputFilename.DeleteIfExists();
 
             Assert.False(File.Exists(outputFilename));
 
             TriplesFilter.Filter(filename, outputFilename, limit);
 
             Assert.True(File.Exists(outputFilename));
+
             Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename, 50));
 
             var lines = FileHelper.GetInputLines(outputFilename);
