@@ -19,17 +19,17 @@ namespace SparqlForHumans.CLI
             //Filter500k();
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All.nt", true);
-            var cli = new CommandLineInterface();
+            //var cli = new CommandLineInterface();
             ////Filter5k();
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             // CreateIndex2MM(true);
-            // QueryEntities("obama");
-            // QueryProperties("city");
+            QueryEntities("obama");
+            QueryProperties("city");
 
-            //Console.Read();
+            Console.Read();
 
             //TestBuilderHelper.GetFirst20ObamaTriplesGroups();
 
