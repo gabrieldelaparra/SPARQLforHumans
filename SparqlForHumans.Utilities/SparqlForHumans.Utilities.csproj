@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mime" Version="3.0.2" />
     <PackageReference Include="SharpZipLib" Version="1.0.0" />
   </ItemGroup>
 

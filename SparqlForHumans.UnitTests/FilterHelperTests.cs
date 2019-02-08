@@ -195,5 +195,26 @@ namespace SparqlForHumans.UnitTests
 
             outputFilename.DeleteIfExists();
         }
+
+        [Fact]
+        public void TestFilteredOutputTypeIsCompressed()
+        {
+            const string filename = "Resources/Trimmed.nt";
+            Assert.True(File.Exists(filename));
+
+            const int limit = 100;
+
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+
+            outputFilename.DeleteIfExists();
+
+            Assert.False(File.Exists(outputFilename));
+
+            TriplesFilter.Filter(filename, outputFilename, limit, FileHelper.FileType.gZip);
+
+            Assert.True(File.Exists(outputFilename));
+            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType(outputFilename));
+
+        }
     }
 }
