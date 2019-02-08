@@ -15,6 +15,35 @@ namespace SparqlForHumans.UnitTests
 {
     public class PropertyIndexTests
     {
+        /// <summary>
+        /// Este test crea un indice y extrae el dominio de las propiedades.
+        /// Se dan los siguientes ejemplios:
+        ///
+        /// ```
+        /// Q76 (Obama) -> P31 (Type) -> Q5 (Human)
+        /// Q76 (Obama) -> P27 -> Qxx
+        /// Q76 (Obama) -> P555 -> Qxx
+        /// ...
+        /// Q5 (Human)
+        /// ...
+        /// Q17 (Country)
+        /// ...
+        /// Q298 (Chile) -> P31 (Type) -> Q17 (Country)
+        /// Q298 (Chile) -> P555 -> Qxx
+        /// Q298 (Chile) -> P777 -> Qxx
+        /// ...
+        /// Otros
+        /// ```
+        ///
+        /// El dominio que se calcula, debe mostrar que:
+        ///
+        /// ```
+        /// P27: Dominio Q5
+        /// P555: Dominio Q5, Q17
+        /// P777: Dominio Q17
+        /// ```
+        /// 
+        /// </summary>
         [Fact]
         public void TestAddDomainToIndex()
         {
