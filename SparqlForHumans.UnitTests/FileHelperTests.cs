@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using SparqlForHumans.Utilities;
 using Xunit;
-using static SparqlForHumans.Utilities.FileHelper;
 
 namespace SparqlForHumans.UnitTests
 {
@@ -20,11 +19,10 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetFilenameType()
         {
-            //Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFilenameType("Resources/empty.txt"));
+            Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFilenameType("Resources/IndexSingle/segments.gen"));
             Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/empty.nt"));
+            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/empty.nt.gz"));
             Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType("Resources/TenLines.nt.gz"));
-            //Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType("Resources/empty.nt.gz"));
-            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType(@"E:\Project\SparQLforHumans-master\latest-truthy.gz"));
         }
 
         [Fact]
@@ -32,7 +30,6 @@ namespace SparqlForHumans.UnitTests
         {
             Assert.Throws<ArgumentException>(() => FileHelper.GetFilenameType("Resources/NotExisting.txt"));
         }
-               
 
         [Fact]
         public void TestGetLinesCompressed()
@@ -46,15 +43,15 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(10, FileHelper.GetInputLines(filename).Count());
         }
 
-        //[Fact]
-        //public void TestGetLinesOther()
-        //{
-        //    const string filename = "Resources/empty.txt";
+        [Fact]
+        public void TestGetLinesUnknownThrowsException()
+        {
+            const string filename = "Resources/IndexSingle/segments.gen";
 
-        //    Assert.True(File.Exists(filename));
+            Assert.True(File.Exists(filename));
 
-        //    Assert.Throws<ArgumentException>(() => FileHelper.GetInputLines(filename));
-        //}
+            Assert.Throws<ArgumentException>(() => FileHelper.GetInputLines(filename));
+        }
 
         [Fact]
         public void TestGetOrCreateDirectory()
@@ -81,7 +78,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
             const int limit = 500;
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
         }
 
         [Fact]
@@ -90,7 +87,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
             const int limit = 5000;
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-5K.nt", outputFilename);
+            Assert.Equal(@"TrimmedTestSet.filter5K.gz", outputFilename);
         }
 
         [Fact]
@@ -99,16 +96,60 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
             const int limit = 50000000;
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-50M.nt", outputFilename);
+            Assert.Equal(@"TrimmedTestSet.filter50M.gz", outputFilename);
         }
 
         [Fact]
-        public void TestGetOutputTrimmedFilename()
+        public void TestGetOutputFilename_nt()
         {
             const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            const int limit = 50000;
-            var outputFilename = FileHelper.GetTrimmedOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\trimmed-TrimmedTestSet-50K.nt", outputFilename);
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_ntgz()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_filtered_ntgz()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.filtered2K.nt.gz";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_All()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = -1;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_NoLimit()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
+            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_Zero()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = 0;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter0.gz", outputFilename);
         }
 
         [Fact]
@@ -148,15 +189,5 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(5, FileHelper.GetLineCount(outputFilename));
         }
-
-        [Fact]
-        public void TestGetOutputFilenameIsCompressed()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            int limit = 500;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"C:\a\b\c\filtered-TrimmedTestSet-500.nt", outputFilename);            
-        }
-
     }
 }

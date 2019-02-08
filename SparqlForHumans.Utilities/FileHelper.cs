@@ -18,20 +18,20 @@ namespace SparqlForHumans.Utilities
 
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
 
-        public static string GetFilteredOutputFilename(string inputFilename, int limit)
+        public static string GetFilteredOutputFilename(string inputFilename, int limit = -1)
         {
-            return GetCustomOutputFilename(inputFilename, limit, "filtered");
+            var filename = GetOutputFileName(inputFilename);
+
+            return $"{filename}.filter{GetReducedLimitName(limit)}.gz";
         }
 
-        public static string GetTrimmedOutputFilename(string inputFilename, int limit)
-        {
-            return GetCustomOutputFilename(inputFilename, limit, "trimmed");
-        }
-
-        private static string GetCustomOutputFilename(string inputFilename, int limit, string customKeyword)
+        private static string GetOutputFileName(string inputFilename)
         {
             var filename = Path.GetFileNameWithoutExtension(inputFilename);
-            return inputFilename.Replace(filename, $"{customKeyword}-{filename}-{GetReducedLimitName(limit)}");
+            var split = filename.Split('.');
+            if (split.Length > 1)
+                filename = split[0];
+            return filename;
         }
 
         public static DirectoryInfo GetOrCreateDirectory(this string path)
@@ -125,22 +125,21 @@ namespace SparqlForHumans.Utilities
 
         public static string GetReducedLimitName(int limit)
         {
+            if (limit < 0)
+                return "All";
+
             string[] sizes = { "", "K", "M"};
-            int order = 0;
-            while (limit >= 1000 && order < sizes.Length - 1)
+            var order = 0;
+            const int splitter = 1000;
+            while (limit >= splitter && order < sizes.Length - 1)
             {
                 order++;
-                limit = limit / 1000;
+                limit = limit / splitter;
             }
 
             // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
             // show a single decimal place, and no space.
-            return String.Format("{0}{1}", limit, sizes[order]);
-        }
-
-        public static object GetFilteredOutputFilename(string filename, int limit, FileType fileType = FileType.Unkwown)
-        {
-            return filename.Replace(filename, $"{filename}-{GetReducedLimitName(limit)}");
+            return $"{limit}{sizes[order]}";
         }
     }
 }
