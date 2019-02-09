@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/trimmed.nt";
             Assert.True(File.Exists(filename));
 
-            const int limit = 500;
+            const int limit = 200;
 
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
 
