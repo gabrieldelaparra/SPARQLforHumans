@@ -19,7 +19,7 @@ namespace SparqlForHumans.UnitTests
     public class IndexBuilderTests
     {
         [Fact]
-        public void TestCreateIndex500()
+        public void TestCreateEntityIndex500()
         {
             const string filename = "Resources/filtered-All-500.nt";
             const string outputPath = "Index500";
@@ -47,7 +47,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestCreateIndexAddsFolders()
+        public void TestCreateEntityIndexAddsFolders()
         {
             const string filename = "Resources/SingleInstanceDump.nt";
             const string outputPath = "IndexCreateFolder";
@@ -67,7 +67,7 @@ namespace SparqlForHumans.UnitTests
 
 
         [Fact]
-        public void TestCreateMultipleInstanceIndex()
+        public void TestCreateEntityMultipleInstanceIndex()
         {
             const string filename = "Resources/MultipleInstanceDump.nt";
             const string outputPath = "IndexMultiple";
@@ -105,7 +105,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestCreateMultipleInstanceIndexDocCount()
+        public void TestCreateEntityMultipleInstanceIndexDocCount()
         {
             const string filename = "Resources/MultipleInstanceDump.nt";
             const string outputPath = "IndexDocCount";
