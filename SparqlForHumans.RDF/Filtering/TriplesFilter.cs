@@ -74,6 +74,7 @@ namespace SparqlForHumans.RDF.Filtering
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
                         gZipStream.Write(data, 0, data.Length);
+                        writeCount++;
                     }
                     catch (Exception e)
                     {
