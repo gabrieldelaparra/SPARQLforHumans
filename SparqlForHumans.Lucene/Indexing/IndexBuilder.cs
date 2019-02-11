@@ -20,13 +20,8 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<string, List<string>>();
 
             foreach (var type in typesAndPropertiesDictionary)
-            foreach (var property in type.Value)
-            {
-                if (!dictionary.ContainsKey(property))
-                    dictionary.Add(property, new List<string>());
-
-                dictionary[property].Add(type.Key);
-            }
+                foreach (var property in type.Value)
+                    dictionary.AddSafe(property, type.Key);
 
             return dictionary;
         }
@@ -64,16 +59,8 @@ namespace SparqlForHumans.Lucene.Indexing
                         .MapBaseProperties(doc);
 
                     foreach (var instanceOf in entity.InstanceOf)
-                    {
-                        if (!dictionary.ContainsKey(instanceOf))
-                            dictionary.Add(instanceOf, new List<string>());
-
-                        var valuesList = dictionary[instanceOf];
-
                         foreach (var entityProperty in entity.Properties)
-                            if (!valuesList.Contains(entityProperty.Id))
-                                valuesList.Add(entityProperty.Id);
-                    }
+                            dictionary.AddSafe(instanceOf, entityProperty.Id);
                 }
             }
 
