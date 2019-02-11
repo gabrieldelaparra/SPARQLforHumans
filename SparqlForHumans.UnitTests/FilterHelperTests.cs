@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using HeyRed.Mime;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Filtering;
@@ -11,12 +13,12 @@ namespace SparqlForHumans.UnitTests
     public class FilterHelperTests
     {
         [Fact]
-        public void TestFilterSome()
+        public void TestFilterFileLimit200()
         {
             const string filename = @"Resources/trimmed.nt";
             Assert.True(File.Exists(filename));
 
-            const int limit = 500;
+            const int limit = 200;
 
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
 
@@ -42,6 +44,28 @@ namespace SparqlForHumans.UnitTests
 
             var intCodesList = qCodesList.Select(int.Parse);
             Assert.True(intCodesList.All(x => x < limit));
+        }
+
+        [Fact]
+        public void TestFilterFileLimitZero()
+        {
+            const string filename = @"Resources/trimmed.nt";
+            Assert.True(File.Exists(filename));
+
+            const int limit = 0;
+
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+
+            outputFilename.DeleteIfExists();
+
+            Assert.False(File.Exists(outputFilename));
+
+            TriplesFilter.Filter(filename, outputFilename, 0);
+
+            Assert.True(File.Exists(outputFilename));
+            Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));
+
+            outputFilename.DeleteIfExists();
         }
 
         [Fact]
@@ -175,31 +199,9 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestNoFilter()
-        {
-            const string filename = @"Resources/trimmed.nt";
-            Assert.True(File.Exists(filename));
-
-            const int limit = 0;
-
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-
-            outputFilename.DeleteIfExists();
-
-            Assert.False(File.Exists(outputFilename));
-
-            TriplesFilter.Filter(filename, outputFilename, 0);
-
-            Assert.True(File.Exists(outputFilename));
-            Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename));
-
-            outputFilename.DeleteIfExists();
-        }
-
-        [Fact]
         public void TestFilteredOutputTypeIsCompressed()
         {
-            const string filename = "Resources/Trimmed.nt";
+            const string filename = "Resources/trimmed.nt";
             Assert.True(File.Exists(filename));
 
             const int limit = 100;
@@ -215,6 +217,82 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(outputFilename));
             Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType(outputFilename));
 
+            outputFilename.DeleteIfExists();
+
+        }
+        [Fact]
+        public void TestFilterGZipOutput()
+        {
+            const string filename = "Resources/trimmed.nt";
+            Assert.True(File.Exists(filename));
+
+            const int limit = 100;
+
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+
+            outputFilename.DeleteIfExists();
+
+            Assert.False(File.Exists(outputFilename));
+
+            TriplesFilter.Filter(filename, outputFilename, limit);
+
+            Assert.True(File.Exists(outputFilename));
+            var lines = SharpZipHandler.ReadGZip(outputFilename);
+
+            Assert.NotNull(lines);
+            Assert.NotEmpty(lines);
+
+            //Hardcoded number, Heuristic.
+            Assert.Equal(208, lines.Count());
+
+            outputFilename.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestFilterCompareWithPlainCount()
+        {
+            const string filename = "Resources/filtered-All-5k.nt";
+            Assert.True(File.Exists(filename));
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
+
+            outputFilename.DeleteIfExists();
+
+            Assert.False(File.Exists(outputFilename));
+
+            TriplesFilter.Filter(filename, outputFilename);
+
+            Assert.True(File.Exists(outputFilename));
+            var gZipLines = SharpZipHandler.ReadGZip(outputFilename);
+            var plainLines = FileHelper.ReadLines(filename);
+
+            Assert.Equal(gZipLines.Count(), plainLines.Count());
+
+            outputFilename.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestFilterCompareWithPlainLineByLine()
+        {
+            const string filename = "Resources/filtered-All-500.nt";
+            Assert.True(File.Exists(filename));
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
+
+            outputFilename.DeleteIfExists();
+
+            Assert.False(File.Exists(outputFilename));
+
+            TriplesFilter.Filter(filename, outputFilename);
+
+            Assert.True(File.Exists(outputFilename));
+            var gZipLines = SharpZipHandler.ReadGZip(outputFilename).ToArray();
+            var plainLines = FileHelper.ReadLines(filename).ToArray();
+
+            for (var i = 0; i < plainLines.Count(); i++)
+            {
+                Assert.Equal(gZipLines[i], plainLines[i]);
+            }
+
+            outputFilename.DeleteIfExists();
         }
     }
 }

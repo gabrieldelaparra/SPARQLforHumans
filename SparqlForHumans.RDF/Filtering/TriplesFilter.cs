@@ -34,8 +34,11 @@ namespace SparqlForHumans.RDF.Filtering
         /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
         /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
         /// <param name="triplesLimit">Limit of Q-Id to filter. Value of -1 means no filtering for Q-Id</param>
-        public static void Filter(string inputTriplesFilename, string outputTriplesFilename, int triplesLimit = -1)
+        public static void Filter(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
+            if (string.IsNullOrWhiteSpace(outputTriplesFilename))
+                outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+
             Options.InternUris = false;
 
             if (!new FileInfo(inputTriplesFilename).Exists)
@@ -50,73 +53,37 @@ namespace SparqlForHumans.RDF.Filtering
             long writeCount = 0;
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
-
             
-            
-            using (FileStream fileToCompress = File.Create(outputTriplesFilename))
+            using (var fileToCompress = File.Create(outputTriplesFilename))
+            using (var gZipStream = new GZipStream(fileToCompress, CompressionMode.Compress, true))
             {
-                using (GZipStream gZipStream = new GZipStream(fileToCompress, CompressionMode.Compress, true))
+                Logger.Info("Read,Write");
+                foreach (var line in wikidataDumpLines)
                 {
+                    readCount++;
 
-                    Logger.Info("Read,Write");
-                    foreach (var line in wikidataDumpLines)
+                    if (readCount % notifyTicks == 0)
+                        Logger.Info($"{readCount:N0};{writeCount:N0}");
+
+                    try
                     {
-                        readCount++;
+                        var triple = line.GetTriple();
 
-                        if (readCount % notifyTicks == 0)
-                            Logger.Info($"{readCount:N0};{writeCount:N0}");
+                        if (!IsValidTriple(triple, triplesLimit))
+                            continue;
 
-                        try
-                        {
-                            var triple = line.GetTriple();
-
-                            if (!IsValidTriple(triple, triplesLimit))
-                                continue;
-                            byte[] data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
-                            gZipStream.Write(data, 0, data.Length);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error($"{readCount:N0};{line}");
-                            Logger.Error(e);
-                        }
+                        var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
+                        gZipStream.Write(data, 0, data.Length);
                     }
-                    Logger.Info($"{readCount:N0};{writeCount:N0}");
-                }                
+                    catch (Exception e)
+                    {
+                        Logger.Error($"{readCount:N0};{line}");
+                        Logger.Error(e);
+                    }
+                }
+
+                Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
-           
-            //using (var filteredStreamWriter = new StreamWriter(new FileStream(outputTriplesFilename, FileMode.Create)))
-            //{
-            //    Logger.Info("Read,Write");
-
-            //    foreach (var line in wikidataDumpLines)
-            //    {
-            //        readCount++;
-
-            //        if (readCount % notifyTicks == 0)
-            //            Logger.Info($"{readCount:N0};{writeCount:N0}");
-
-            //        try
-            //        {
-            //            var triple = line.GetTriple();
-
-            //            if (!IsValidTriple(triple, triplesLimit))
-            //                continue;
-            //            //saves
-            //            filteredStreamWriter.WriteLine(line);
-            //            writeCount++;
-            //        }
-            //        catch (Exception e)
-            //        {
-            //            Logger.Error($"{readCount:N0};{line}");
-            //            Logger.Error(e);
-            //        }
-            //    }
-
-            //    Logger.Info($"{readCount:N0};{writeCount:N0}");
-            //}
-            
-            
         }
 
         public static bool IsValidTriple(Triple triple, int entityLimit)
@@ -169,7 +136,5 @@ namespace SparqlForHumans.RDF.Filtering
 
             return true;
         }
-
-       
     }
 }
