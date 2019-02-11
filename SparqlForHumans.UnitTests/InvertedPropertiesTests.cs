@@ -21,7 +21,7 @@ namespace SparqlForHumans.UnitTests
             return current <= compare ? compare : current;
         }
 
-        public int[][] a(string triplesFilename, int entitiesCount)
+        public int[][] GetInvertedIndex(string triplesFilename, int entitiesCount)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
 
