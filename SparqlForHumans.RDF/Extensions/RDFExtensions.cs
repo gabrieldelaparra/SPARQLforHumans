@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.Wikidata;
+using SparqlForHumans.Utilities;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 
@@ -143,8 +144,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static int GetIntId(this INode node)
         {
-            var index = Regex.Replace(node.GetId(), "\\D", string.Empty);
-            return int.Parse(index);
+            return node.GetId().ToInt();
         }
 
         public static string GetId(this INode node)
