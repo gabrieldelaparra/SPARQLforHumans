@@ -10,10 +10,6 @@ namespace SparqlForHumans.Lucene.Indexing
 {
     public static class IndexBuilder
     {
-        //private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-
-        //public static int NotifyTicks { get; } = 100000;
-
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
             foreach (var field in fields)
