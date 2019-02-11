@@ -1,0 +1,24 @@
+﻿<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P69> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/Q49088> <http://www.w3.org/2000/01/rdf-schema#label> "Columbia"@en .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q902104> .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q15936437> .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1188663> .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q23002054> .
+<http://www.wikidata.org/entity/Q49122> <http://www.w3.org/2000/01/rdf-schema#label> "Harvard"@en .
+<http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q13220391> .
+<http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1321960> .
+<http://www.wikidata.org/entity/Q298> <http://www.w3.org/2000/01/rdf-schema#label> "Chile"@en .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P38> <http://www.wikidata.org/entity/Q200050> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P38> <http://www.wikidata.org/entity/Q1573250> .
+<http://www.wikidata.org/entity/Q200050> <http://www.w3.org/2000/01/rdf-schema#label> "PesoChileno"@en .
+<http://www.wikidata.org/entity/Q200050> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1643989> .
+<http://www.wikidata.org/entity/Q200050> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q8142> .
+<http://www.wikidata.org/entity/Q1573250> <http://www.w3.org/2000/01/rdf-schema#label> "UnidadFomento"@en .
+<http://www.wikidata.org/entity/Q1573250> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q747699> .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
+<http://www.wikidata.org/entity/P69> <http://www.w3.org/2000/01/rdf-schema#label> "Educated At"@en .
+<http://www.wikidata.org/entity/P38> <http://www.w3.org/2000/01/rdf-schema#label> "Currency"@en .
