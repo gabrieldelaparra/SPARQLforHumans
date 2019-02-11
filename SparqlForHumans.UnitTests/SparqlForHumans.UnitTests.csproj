@@ -36,6 +36,7 @@
     <None Remove="Resources\PropertyIndex\segments_3" />
     <None Remove="Resources\PropertyIndex\_0.cfs" />
     <None Remove="Resources\PropertyIndex\_1.cfs" />
+    <None Remove="Resources\PropertyRange.nt" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\TenLines.nt.gz" />
@@ -120,6 +121,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyIndex\_1.cfs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertyRange.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TenLines.nt.gz">
