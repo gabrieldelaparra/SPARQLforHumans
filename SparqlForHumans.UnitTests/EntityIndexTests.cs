@@ -16,7 +16,7 @@ using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests
 {
-    public class IndexBuilderTests
+    public class EntityIndexTests
     {
         [Fact]
         public void TestCreateEntityIndex500()
