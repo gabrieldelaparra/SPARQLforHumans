@@ -66,7 +66,7 @@ namespace SparqlForHumans.UnitTests
                 PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
 
                 var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
+                var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
 
                 var property27 = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
                 var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);

@@ -63,6 +63,30 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
         }
 
+        /// <summary>
+        /// Given the following nTriples file:
+        /// 
+        /// Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
+        /// Q76 (Obama) -> P27 -> Qxx
+        /// Q76 (Obama) -> P555 -> Qxx
+        /// ...
+        /// Q77 (Other Human) -> P31 (InstanceOf) -> Q5 (Human)
+        /// Q77 (Other Human) -> P33 -> Qxx
+        /// Q77 (Other Human) -> P44 -> Qxx
+        /// ...
+        /// Q5 (Human)
+        /// ...
+        /// Q278 (Chile) -> P31 (InstanceOf) -> Q17 (Country)
+        /// Q278 (Chile) -> P555 -> Qxx
+        /// Q278 (Chile) -> P777 -> Qxx
+        /// ...
+        /// Q17 (Country)
+        /// ...
+        ///
+        /// Should return a dictionary with the following:
+        /// (Human) Q5 (Obama + OtherHuman): P27, P555, P33, P44, P31
+        /// (Country) Q17 (Chile): P555, P777
+        /// </summary>
         [Fact]
         public static void TestCreateEntitiesTypesPropertiesDictionary()
         {
@@ -83,8 +107,8 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q5", dictionary.Keys.ElementAt(0));
                 Assert.Equal("Q17", dictionary.Keys.ElementAt(1));
 
-                //P27, P31
-                Assert.Equal(3, dictionary.ElementAt(0).Value.Count);
+                //P27, P555, P33, P44, P31
+                Assert.Equal(5, dictionary.ElementAt(0).Value.Count);
 
                 //P555, P777, P31
                 Assert.Equal(3, dictionary.ElementAt(1).Value.Count);
@@ -93,6 +117,38 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
         }
 
+        /// <summary>
+        /// Given the following nTriples file:
+        /// 
+        /// Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
+        /// Q76 (Obama) -> P27 -> Qxx
+        /// Q76 (Obama) -> P555 -> Qxx
+        /// ...
+        /// Q77 (Other Human) -> P31 (InstanceOf) -> Q5 (Human)
+        /// Q77 (Other Human) -> P33 -> Qxx
+        /// Q77 (Other Human) -> P44 -> Qxx
+        /// ...
+        /// Q5 (Human)
+        /// ...
+        /// Q278 (Chile) -> P31 (InstanceOf) -> Q17 (Country)
+        /// Q278 (Chile) -> P555 -> Qxx
+        /// Q278 (Chile) -> P777 -> Qxx
+        /// ...
+        /// Q17 (Country)
+        /// ...
+        ///
+        /// The CreateTypesAndPropertiesDictionary creates the following dictionary:
+        /// (Human) Q5 (Obama + OtherHuman): P27, P555, P33, P44, P31
+        /// (Country) Q17 (Chile): P555, P777
+        ///
+        /// The CreateInvertedProperties dictionary should return the following:
+        /// P31: Q5, Q17
+        /// P27: Q5
+        /// P555: Q5, Q17
+        /// P33: Q5
+        /// P44: Q5
+        /// P777: Q17
+        /// </summary>
         [Fact]
         public static void TestCreatePropertiesInvertedDictionary()
         {
@@ -107,14 +163,16 @@ namespace SparqlForHumans.UnitTests
                 EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-                var propertiesDictionary = IndexBuilder.CreateInvertedProperties(typesDictionary);
+                var propertiesDictionary = typesDictionary.InvertDictionary();
 
-                Assert.Equal(4, propertiesDictionary.Count);
+                Assert.Equal(6, propertiesDictionary.Count);
 
                 Assert.Equal("P31", propertiesDictionary.Keys.ElementAt(0));
                 Assert.Equal("P27", propertiesDictionary.Keys.ElementAt(1));
                 Assert.Equal("P555", propertiesDictionary.Keys.ElementAt(2));
-                Assert.Equal("P777", propertiesDictionary.Keys.ElementAt(3));
+                Assert.Equal("P33", propertiesDictionary.Keys.ElementAt(3));
+                Assert.Equal("P44", propertiesDictionary.Keys.ElementAt(4));
+                Assert.Equal("P777", propertiesDictionary.Keys.ElementAt(5));
 
                 //P27>Q30 (Q5)
                 Assert.Single(propertiesDictionary.ElementAt(1).Value);
@@ -126,8 +184,8 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q17", propertiesDictionary.ElementAt(2).Value.ElementAt(1));
 
                 //P777>Q777 (Q17)
-                Assert.Single(propertiesDictionary.ElementAt(3).Value);
-                Assert.Equal("Q17", propertiesDictionary.ElementAt(3).Value.ElementAt(0));
+                Assert.Single(propertiesDictionary.ElementAt(5).Value);
+                Assert.Equal("Q17", propertiesDictionary.ElementAt(5).Value.ElementAt(0));
             }
 
             outputPath.DeleteIfExists();

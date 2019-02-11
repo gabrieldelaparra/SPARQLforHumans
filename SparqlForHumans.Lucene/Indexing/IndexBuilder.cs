@@ -14,18 +14,6 @@ namespace SparqlForHumans.Lucene.Indexing
 
         //public static int NotifyTicks { get; } = 100000;
 
-        public static Dictionary<string, List<string>> CreateInvertedProperties(
-            Dictionary<string, List<string>> typesAndPropertiesDictionary)
-        {
-            var dictionary = new Dictionary<string, List<string>>();
-
-            foreach (var type in typesAndPropertiesDictionary)
-                foreach (var property in type.Value)
-                    dictionary.AddSafe(property, type.Key);
-
-            return dictionary;
-        }
-
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
             foreach (var field in fields)
