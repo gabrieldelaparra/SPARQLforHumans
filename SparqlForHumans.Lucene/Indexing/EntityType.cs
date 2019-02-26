@@ -5,7 +5,7 @@ using SparqlForHumans.RDF.Extensions;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    public static class EntityTypeBuilder
+    public static class EntityType
     {
         // No muy eficiente.
         // Lee el grupo de nuevo.
