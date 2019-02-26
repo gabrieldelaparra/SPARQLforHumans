@@ -41,5 +41,26 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(5, entityTypeTuple[2].EntityId);
             Assert.Empty(entityTypeTuple[2].TypeIds);
         }
+
+        [Fact]
+        public static void TestTupleToString()
+        {
+            // Arrange
+            const string filename = "Resources/EntityTypes.nt";
+            var lines = FileHelper.GetInputLines(filename);
+            var entityGroups = lines.GroupBySubject();
+
+            // Act
+            var entityTypeTuple = entityGroups.Select(x => x.GetEntityTypes()).ToList();
+
+            // Assert
+            // Q76->Q5, Q30461
+            const string expected76 = "76 5 30461";
+            Assert.Equal(expected76, entityTypeTuple[0].ToEntityTypesString());
+
+            //Q5 -> NONE (Human -> NONE)
+            const string expected5 = "5";
+            Assert.Equal(expected5, entityTypeTuple[2].ToEntityTypesString());
+        }
     }
 }

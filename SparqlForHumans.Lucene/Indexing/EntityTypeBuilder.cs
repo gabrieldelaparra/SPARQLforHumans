@@ -28,5 +28,12 @@ namespace SparqlForHumans.Lucene.Indexing
             //Done
             return (entityId, entityTypes);
         }
+
+        public static string ToEntityTypesString(this (int entityId, int[] typeIds) entityTypesTuple)
+        {
+            return entityTypesTuple.typeIds.Length > 0 
+                ? $"{entityTypesTuple.entityId} {string.Join(" ", entityTypesTuple.typeIds)}" 
+                : entityTypesTuple.entityId.ToString();
+        }
     }
 }
