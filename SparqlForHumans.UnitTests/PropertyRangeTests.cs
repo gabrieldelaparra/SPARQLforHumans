@@ -7,6 +7,12 @@ namespace SparqlForHumans.UnitTests
 {
     public class PropertyRangeTests
     {
+        [Fact]
+        public void TestCreateEntityTypesArray()
+        {
+
+        }
+
         /// <summary>
         /// Este test crea un indice y agrega el Range (Destino) de las propiedades.
         /// Se dan los siguientes ejemplios:

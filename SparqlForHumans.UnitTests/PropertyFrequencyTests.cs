@@ -10,7 +10,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetFileFrequency()
         {
-            var filename = @"Resources/PropertyFrequencies.nt";
+            const string filename = @"Resources/PropertyFrequencies.nt";
             Assert.True(File.Exists(filename));
 
             var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);
@@ -32,7 +32,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetFileFrequencyWithGarbage()
         {
-            var filename = @"Resources/PropertyFrequenciesWithGarbage.nt";
+            const string filename = @"Resources/PropertyFrequenciesWithGarbage.nt";
             Assert.True(File.Exists(filename));
 
             var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);

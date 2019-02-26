@@ -15,9 +15,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class PropertyIndexTests
     {
-        /// <summary>
-        /// 
-        /// </summary>
         [Fact]
         public void TestCreateBasicIndex()
         {

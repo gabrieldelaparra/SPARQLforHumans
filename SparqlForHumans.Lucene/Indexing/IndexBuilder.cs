@@ -8,6 +8,8 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
+    
+
     public static class IndexBuilder
     {
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
@@ -16,6 +18,7 @@ namespace SparqlForHumans.Lucene.Indexing
                 doc.Add(field);
         }
 
+        //TODO: Change to int[][]
         public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
         {
             using (var entitiesIndexDirectory =
@@ -24,7 +27,8 @@ namespace SparqlForHumans.Lucene.Indexing
                 return CreateTypesAndPropertiesDictionary(entitiesIndexDirectory);
             }
         }
-
+        
+        //TODO: Change to int[][]
         public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
             Directory entitiesIndexDirectory)
         {

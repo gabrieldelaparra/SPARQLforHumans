@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestAddTypesFields()
         {
-            const string filename = "Resources/EntityType.nt";
+            const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "TypeAddFolderEntityType";
 
             outputPath.DeleteIfExists();
@@ -90,7 +90,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestCreateEntitiesTypesPropertiesDictionary()
         {
-            const string filename = "Resources/EntityType.nt";
+            const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "TypeAddFolderProperties";
 
             outputPath.DeleteIfExists();
@@ -133,7 +133,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestCreatePropertiesInvertedDictionary()
         {
-            const string filename = "Resources/EntityType.nt";
+            const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "TypeAddFolderInvertedProperties";
 
             outputPath.DeleteIfExists();
@@ -175,7 +175,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestQueryTypesFields()
         {
-            const string filename = "Resources/EntityType.nt";
+            const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "TypeAddFolderTypesFields";
 
             outputPath.DeleteIfExists();
