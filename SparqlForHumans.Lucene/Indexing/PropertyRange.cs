@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.RDF.Extensions;
+﻿using System.Collections.Generic;
+using SparqlForHumans.RDF.Extensions;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
@@ -10,14 +11,14 @@ namespace SparqlForHumans.Lucene.Indexing
         // Pero mejor irse a la segura con el ref.
         // ! Checkear que Property no sea InstanceOf
         // ! Checkear que Object sea Q-Entity
-        public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this Triple propertyTriple, ref int[][] entityWithTypesArray)
+        public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this Triple propertyTriple, ref Dictionary<int, int[]> entityWithTypes)
         {
             //Property Id (Key), Object Id (Entity to get its Entity Types)
             var propertyId = propertyTriple.Predicate.GetIntId();
             var objectId = propertyTriple.Object.GetIntId();
 
             //Entity Types
-            var entityTypes = entityWithTypesArray[objectId];
+            var entityTypes = entityWithTypes[objectId];
 
             //Done
             return (propertyId, entityTypes);
@@ -25,10 +26,17 @@ namespace SparqlForHumans.Lucene.Indexing
 
         // Overload
         public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this string propertyLine,
-            ref int[][] entityWithTypesArray)
+            ref Dictionary<int, int[]> entityWithTypes)
         {
             var triple = propertyLine.GetTriple();
-            return GetPropertyRangeType(triple, ref entityWithTypesArray);
+            return GetPropertyRangeType(triple, ref entityWithTypes);
+        }
+
+        public static bool IsValidPropertyRangeTriple(this Triple triple)
+        {
+            return triple.Predicate.IsProperty() 
+                   && !triple.Predicate.IsInstanceOf()
+                   && triple.Object.IsEntityQ();
         }
     }
 }
