@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.RDF.Extensions;
+using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
@@ -14,18 +14,25 @@ namespace SparqlForHumans.Lucene.Indexing
         // Pudo ser KeyValuePair, pero Tuple es más liviano.
         public static (int EntityId, int[] TypeIds) GetEntityTypes(this IEnumerable<string> entityGroupedLines)
         {
-            //Prevent multiple enumeration.
-            var entityGroupList = entityGroupedLines.ToList();
+            // Prevent multiple enumeration.
+            var entityGroupTriples = entityGroupedLines.Select(x => x.GetTriple()).ToList();
 
-            //Id
-            var entityId = entityGroupList.FirstOrDefault().GetTriple().Subject.GetIntId();
+            // Overload
+            return GetEntityTypes(entityGroupTriples);
+        }
 
-            //Types
-            var triples = entityGroupList.Select(x => x.GetTripleAsTuple());
-            var entityTypes = triples.Where(x => x.predicate.IsInstanceOf())
-                    .Select(x => x.ntObject.GetIntId()).ToArray();
+        // También agregar la opción que el input ya sea un group de Triples.
+        public static (int EntityId, int[] TypeIds) GetEntityTypes(this IList<Triple> entityGroupTriples)
+        {
+            // Id
+            // ReSharper disable once PossibleNullReferenceException
+            var entityId = entityGroupTriples.FirstOrDefault().Subject.GetIntId();
 
-            //Done
+            // Types
+            var entityTypes = entityGroupTriples.Where(x => x.Predicate.IsInstanceOf())
+                .Select(x => x.Object.GetIntId()).ToArray();
+
+            // Done
             return (entityId, entityTypes);
         }
 
@@ -43,8 +50,8 @@ namespace SparqlForHumans.Lucene.Indexing
 
         public static string ToEntityTypesString(this (int entityId, int[] typeIds) entityTypesTuple)
         {
-            return entityTypesTuple.typeIds.Length > 0 
-                ? $"{entityTypesTuple.entityId} {string.Join(" ", entityTypesTuple.typeIds)}" 
+            return entityTypesTuple.typeIds.Length > 0
+                ? $"{entityTypesTuple.entityId} {string.Join(" ", entityTypesTuple.typeIds)}"
                 : entityTypesTuple.entityId.ToString();
         }
 
