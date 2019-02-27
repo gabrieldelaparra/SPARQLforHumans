@@ -22,6 +22,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
         public static int NotifyTicks { get; } = 100000;
 
+        //TODO: Replace Dictionary with int[][]
         public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary)
         {
             using (var entitiesIndexDirectory =
@@ -31,6 +32,7 @@ namespace SparqlForHumans.Lucene.Indexing
             }
         }
 
+        //TODO: Replace Dictionary with int[][]
         /// <summary>
         ///     Takes a dictionary(QEntityType, ListOfProperties) and adds a new Field (IsEntityType) to all Entities
         ///     that have the QEntityType as InstanceOf.
@@ -111,11 +113,11 @@ namespace SparqlForHumans.Lucene.Indexing
             {
                 //Ranking:
                 Logger.Info("Building Dictionary");
-                nodesDictionary = EntityRanker.BuildNodesDictionary(inputTriplesFilename);
+                nodesDictionary = EntityPageRank.BuildNodesDictionary(inputTriplesFilename);
                 Logger.Info("Building Graph");
-                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
+                var nodesGraphArray = EntityPageRank.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
                 Logger.Info("Calculating Ranks");
-                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 20);
+                nodesGraphRanks = EntityPageRank.CalculateRanks(nodesGraphArray, 20);
             }
 
             Logger.Info("Building Index");

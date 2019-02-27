@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests
             var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
-            var dictionary = EntityRanker.BuildNodesDictionary(filename);
+            var dictionary = EntityPageRank.BuildNodesDictionary(filename);
             Assert.Equal(entitiesCount, dictionary.Count);
             Assert.Equal("Q1", dictionary.Keys.ElementAt(0));
             Assert.Equal("Q2", dictionary.Keys.ElementAt(1));
@@ -41,7 +41,7 @@ namespace SparqlForHumans.UnitTests
             var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
 
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             Assert.Equal(entitiesCount, nodesGraph.Count());
             Assert.Equal(2, nodesGraph[0].Length);
@@ -57,9 +57,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankOneIteration()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 1);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 1);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -76,9 +76,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankSevenIterations()
         {
             var filename = "Resources/buildGraph.nt";
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -95,9 +95,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankSevenIterationsDifferentIds()
         {
             var filename = "Resources/buildGraphDifferentIds.nt";
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -114,9 +114,9 @@ namespace SparqlForHumans.UnitTests
         public void TestCalculateFloatRankSevenIterationsMultipleProperties()
         {
             var filename = "Resources/buildGraphMultipleProperties.nt";
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 7);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -135,9 +135,9 @@ namespace SparqlForHumans.UnitTests
             var filename = "Resources/buildGraph.nt";
             var outputPath = "IndexRanks";
 
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 20);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 
@@ -174,9 +174,9 @@ namespace SparqlForHumans.UnitTests
             var filename = "Resources/buildGraphDifferentIds.nt";
             var outputPath = "IndexRanks";
 
-            var nodesGraph = EntityRanker.BuildSimpleNodesGraph(filename);
+            var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
-            var ranks = EntityRanker.CalculateRanks(nodesGraph, 20);
+            var ranks = EntityPageRank.CalculateRanks(nodesGraph, 20);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
 

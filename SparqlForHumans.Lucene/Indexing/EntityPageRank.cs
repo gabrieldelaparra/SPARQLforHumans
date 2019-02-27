@@ -7,7 +7,7 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    public static class EntityRanker
+    public static class EntityPageRank
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
 
@@ -136,7 +136,8 @@ namespace SparqlForHumans.Lucene.Indexing
 
             var initial = 1d / nodesCount;
 
-            for (var i = 0; i < nodesCount; i++) oldRanks[i] = initial;
+            for (var i = 0; i < nodesCount; i++)
+                oldRanks[i] = initial;
 
             return oldRanks;
         }
