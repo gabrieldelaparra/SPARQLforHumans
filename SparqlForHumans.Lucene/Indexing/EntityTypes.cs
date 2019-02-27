@@ -38,16 +38,9 @@ namespace SparqlForHumans.Lucene.Indexing
             return (entityId, entityTypes);
         }
 
-        //TODO: TEST
-        //TODO: No estoy seguro si esto sea necesario, pero maybe.
-        public static int[][] ToJaggedArray(this (int entityId, int[] typeIds)[] entityTypesTuples)
+        public static Dictionary<int, int[]> ToDictionary(this IEnumerable<(int entityId, int[] typeIds)> entityTypesTuples)
         {
-            var length = entityTypesTuples.Length;
-            var jagged = new int[length][];
-            for (var i = 0; i < length; i++)
-                jagged[i] = entityTypesTuples[i].typeIds;
-
-            return jagged;
+            return entityTypesTuples.ToDictionary(x => x.entityId, x => x.typeIds);
         }
 
         public static string ToEntityTypesString(this (int entityId, int[] typeIds) entityTypesTuple)
