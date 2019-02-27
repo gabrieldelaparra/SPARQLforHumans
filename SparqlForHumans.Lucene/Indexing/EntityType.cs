@@ -26,6 +26,7 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             // Id
             // ReSharper disable once PossibleNullReferenceException
+            // Si no hay un primero, está bien que tire una exception.
             var entityId = entityGroupTriples.FirstOrDefault().Subject.GetIntId();
 
             // Types
