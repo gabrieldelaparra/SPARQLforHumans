@@ -12,6 +12,7 @@ namespace SparqlForHumans.Lucene.Indexing
         // Al final, lo leeré N-veces por cada cosa que quiera sacar.
         // Pero es más legible.
         // Pudo ser KeyValuePair, pero Tuple es más liviano.
+        // El Tuple<int, int> no es tán pesado: https://stackoverflow.com/questions/4676249/tupleint-int-versus-int2-memory-usage
         public static (int EntityId, int[] TypeIds) GetEntityTypes(this IEnumerable<string> entityGroupedLines)
         {
             // Prevent multiple enumeration.
