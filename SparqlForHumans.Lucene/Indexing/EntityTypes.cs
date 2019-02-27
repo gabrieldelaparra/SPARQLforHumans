@@ -5,7 +5,7 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    public static class EntityType
+    public static class EntityTypes
     {
         // No muy eficiente.
         // Lee el grupo de nuevo.
