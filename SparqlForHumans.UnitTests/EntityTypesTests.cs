@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Utilities;
@@ -20,26 +17,26 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypeTuple = entityGroups.Select(x => x.GetEntityTypes()).ToList();
+            var entityTypeTuples = entityGroups.Select(x => x.GetEntityTypes()).ToArray();
 
             // Assert
             // 76, 77, 5, 17, 298, 414, 30461
-            Assert.Equal(7, entityTypeTuple.Count);
+            Assert.Equal(7, entityTypeTuples.Length);
 
             //Q76 -> Q5, Q30461 (Obama -> Human, President)
-            Assert.Equal(76, entityTypeTuple[0].EntityId);
-            Assert.Equal(2, entityTypeTuple[0].TypeIds.Length);
-            Assert.Equal(5, entityTypeTuple[0].TypeIds[0]);
-            Assert.Equal(30461, entityTypeTuple[0].TypeIds[1]);
+            Assert.Equal(76, entityTypeTuples[0].EntityId);
+            Assert.Equal(2, entityTypeTuples[0].TypeIds.Length);
+            Assert.Equal(5, entityTypeTuples[0].TypeIds[0]);
+            Assert.Equal(30461, entityTypeTuples[0].TypeIds[1]);
 
             //Q77 -> Q5 (Other -> Human)
-            Assert.Equal(77, entityTypeTuple[1].EntityId);
-            Assert.Single(entityTypeTuple[1].TypeIds);
-            Assert.Equal(5, entityTypeTuple[1].TypeIds[0]);
+            Assert.Equal(77, entityTypeTuples[1].EntityId);
+            Assert.Single(entityTypeTuples[1].TypeIds);
+            Assert.Equal(5, entityTypeTuples[1].TypeIds[0]);
 
             //Q5 -> NONE (Human -> NONE)
-            Assert.Equal(5, entityTypeTuple[2].EntityId);
-            Assert.Empty(entityTypeTuple[2].TypeIds);
+            Assert.Equal(5, entityTypeTuples[2].EntityId);
+            Assert.Empty(entityTypeTuples[2].TypeIds);
         }
 
         [Fact]
@@ -51,16 +48,16 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypeTuple = entityGroups.Select(x => x.GetEntityTypes()).ToList();
+            var entityTypeTuples = entityGroups.Select(x => x.GetEntityTypes()).ToArray();
 
             // Assert
             // Q76->Q5, Q30461
             const string expected76 = "76 5 30461";
-            Assert.Equal(expected76, entityTypeTuple[0].ToEntityTypesString());
+            Assert.Equal(expected76, entityTypeTuples[0].ToEntityTypesString());
 
             //Q5 -> NONE (Human -> NONE)
             const string expected5 = "5";
-            Assert.Equal(expected5, entityTypeTuple[2].ToEntityTypesString());
+            Assert.Equal(expected5, entityTypeTuples[2].ToEntityTypesString());
         }
     }
 }
