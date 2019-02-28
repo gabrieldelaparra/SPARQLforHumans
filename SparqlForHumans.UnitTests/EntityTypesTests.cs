@@ -9,6 +9,12 @@ namespace SparqlForHumans.UnitTests
     public class EntityTypesTests
     {
         [Fact]
+        public static void TestGetEntityType()
+        {
+
+        }
+
+        [Fact]
         public static void TestGetEntityTypesPairs()
         {
             // Arrange
@@ -58,6 +64,33 @@ namespace SparqlForHumans.UnitTests
             //Q5 -> NONE (Human -> NONE)
             const string expected5 = "5";
             Assert.Equal(expected5, entityTypeTuples[2].ToEntityTypesString());
+        }
+
+        [Fact]
+        // Puede que falle si el orden es distinto en el ToDictionary underlaying.
+        public static void TestCompareToDictionary()
+        {
+            // Arrange
+            const string filename = "Resources/EntityTypes.nt";
+            var lines = FileHelper.GetInputLines(filename);
+            var entityGroups = lines.GroupBySubject();
+
+            // Act
+            var tuples = entityGroups.Select(x => x.GetEntityTypes()).ToList();
+            var expected = tuples.ToArray();
+            var actual = tuples.ToDictionary().ToArray();
+
+            // Assert
+            Assert.Equal(expected.Length, actual.Length);
+            for (var i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i].EntityId, actual[i].Key);
+                Assert.Equal(expected[i].TypeIds.Length, actual[i].Value.Length);
+                for (var j = 0; j < expected[i].TypeIds.Length; j++)
+                {
+                    Assert.Equal(expected[i].TypeIds[j], actual[i].Value[j]);
+                }
+            }
         }
     }
 }
