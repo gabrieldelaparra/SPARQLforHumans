@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Xunit;
 
 namespace SparqlForHumans.UnitTests.Utilities
 {
-    class NumberExtensionsTests
+    public class NumberExtensionsTests
     {
+        [Fact]
+        public void TestToThreeDecimals()
+        {
+            Assert.False(true);
+        }
     }
 }

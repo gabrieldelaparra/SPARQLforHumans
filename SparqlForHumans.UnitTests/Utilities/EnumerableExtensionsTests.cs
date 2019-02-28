@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Utilities
 {
-    public class IEnumerableExtensionsTests
+    public class EnumerableExtensionsTests
     {
         [Fact]
         public void TestCustomGrouping()

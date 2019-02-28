@@ -1,32 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Utilities
 {
-    public static class DictionaryExtensionsTests
+    public class DictionaryExtensionsTests
     {
         [Fact]
-        public static void TestAddSafeSameType()
+        public void TestAddSafeSameType()
         {
             Assert.False(true);
         }
 
         [Fact]
-        public static void TestAddSafeDifferentTypes()
+        public void TestAddSafeDifferentTypes()
         {
             Assert.False(true);
         }
 
         [Fact]
-        public static void TestInvertDictionarySameType()
+        public void TestInvertDictionarySameType()
         {
             Assert.False(true);
         }
 
         [Fact]
-        public static void TestInvertDictionaryDifferentTypes()
+        public void TestInvertDictionaryDifferentTypes()
         {
             Assert.False(true);
         }
