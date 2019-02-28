@@ -17,6 +17,18 @@ namespace SparqlForHumans.UnitTests.Utilities
         }
 
         [Fact]
+        public void TestAddSafeRangeSameType()
+        {
+            Assert.False(true);
+        }
+
+        [Fact]
+        public void TestAddSafeRangeDifferentTypes()
+        {
+            Assert.False(true);
+        }
+
+        [Fact]
         public void TestInvertDictionarySameType()
         {
             Assert.False(true);

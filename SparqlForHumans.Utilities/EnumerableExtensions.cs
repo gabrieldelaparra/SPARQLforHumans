@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SparqlForHumans.Utilities
 {
-    public static class IEnumerableExtensions
+    public static class EnumerableExtensions
     {
         public static IEnumerable<IEnumerable<string>> GroupBySubject(this IEnumerable<string> lines)
         {
@@ -39,9 +39,9 @@ namespace SparqlForHumans.Utilities
             yield return list;
         }
 
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
-        {
-            return items.GroupBy(property).Select(x => x.First());
-        }
+        //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
+        //{
+        //    return items.GroupBy(property).Select(x => x.First());
+        //}
     }
 }
