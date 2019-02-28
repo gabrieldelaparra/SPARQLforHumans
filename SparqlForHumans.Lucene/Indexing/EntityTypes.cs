@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
@@ -38,9 +39,15 @@ namespace SparqlForHumans.Lucene.Indexing
             return (entityId, entityTypes);
         }
 
+        // Definetively not the best practice. I'll need to define if int[] or List<int>.
         public static Dictionary<int, int[]> ToDictionary(this IEnumerable<(int entityId, int[] typeIds)> entityTypesTuples)
         {
-            return entityTypesTuples.ToDictionary(x => x.entityId, x => x.typeIds);
+            var dictionary = new Dictionary<int, List<int>>();
+            foreach (var tuple in entityTypesTuples)
+                dictionary.AddSafe(tuple.entityId, tuple.typeIds);
+
+            // Magic Cast. I will regret all my life.
+            return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
 
         public static string ToEntityTypesString(this (int entityId, int[] typeIds) entityTypesTuple)

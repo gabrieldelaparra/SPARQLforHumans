@@ -24,14 +24,6 @@ namespace SparqlForHumans.Lucene.Indexing
             return (propertyId, entityTypes);
         }
 
-        // Overload
-        public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this string propertyLine,
-            ref Dictionary<int, int[]> entityWithTypes)
-        {
-            var triple = propertyLine.GetTriple();
-            return GetPropertyRangeType(triple, ref entityWithTypes);
-        }
-
         public static bool IsValidPropertyRangeTriple(this Triple triple)
         {
             return triple.Predicate.IsProperty() 

@@ -23,26 +23,26 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypeTuples = entityGroups.Select(x => x.GetEntityTypes()).ToArray();
+            var entityTypeTuples = entityGroups.Select(x => x.GetEntityTypes()).ToDictionary().ToArray();
 
             // Assert
             // 76, 77, 5, 17, 298, 414, 30461
             Assert.Equal(7, entityTypeTuples.Length);
 
             //Q76 -> Q5, Q30461 (Obama -> Human, President)
-            Assert.Equal(76, entityTypeTuples[0].EntityId);
-            Assert.Equal(2, entityTypeTuples[0].TypeIds.Length);
-            Assert.Equal(5, entityTypeTuples[0].TypeIds[0]);
-            Assert.Equal(30461, entityTypeTuples[0].TypeIds[1]);
+            Assert.Equal(76, entityTypeTuples[0].Key);
+            Assert.Equal(2, entityTypeTuples[0].Value.Length);
+            Assert.Equal(5, entityTypeTuples[0].Value[0]);
+            Assert.Equal(30461, entityTypeTuples[0].Value[1]);
 
             //Q77 -> Q5 (Other -> Human)
-            Assert.Equal(77, entityTypeTuples[1].EntityId);
-            Assert.Single(entityTypeTuples[1].TypeIds);
-            Assert.Equal(5, entityTypeTuples[1].TypeIds[0]);
+            Assert.Equal(77, entityTypeTuples[1].Key);
+            Assert.Single(entityTypeTuples[1].Value);
+            Assert.Equal(5, entityTypeTuples[1].Value[0]);
 
             //Q5 -> NONE (Human -> NONE)
-            Assert.Equal(5, entityTypeTuples[2].EntityId);
-            Assert.Empty(entityTypeTuples[2].TypeIds);
+            Assert.Equal(5, entityTypeTuples[2].Key);
+            Assert.Empty(entityTypeTuples[2].Value);
         }
 
         [Fact]
