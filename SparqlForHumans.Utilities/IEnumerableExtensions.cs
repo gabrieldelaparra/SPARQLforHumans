@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SparqlForHumans.Lucene.Extensions
+namespace SparqlForHumans.Utilities
 {
     public static class IEnumerableExtensions
     {
