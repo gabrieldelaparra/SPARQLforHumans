@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Utilities
 {
-    public static class IntExtensions
+    public static class NumbersExtensions
     {
         public static double ToThreeDecimals(this double input)
         {
