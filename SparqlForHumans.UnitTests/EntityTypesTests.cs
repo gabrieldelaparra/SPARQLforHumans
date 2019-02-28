@@ -11,7 +11,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestGetEntityType()
         {
-
+            Assert.False(true);
         }
 
         [Fact]
