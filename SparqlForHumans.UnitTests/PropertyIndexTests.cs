@@ -139,7 +139,54 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestAddRangeToIndex()
         {
+            const string filename = @"Resources/PropertyRange.nt";
+            Assert.True(File.Exists(filename));
 
+            const string entitiesOutputPath = "EntitiesIndex";
+            const string propertyOutputPath = "PropertyIndex";
+
+            entitiesOutputPath.DeleteIfExists();
+            propertyOutputPath.DeleteIfExists();
+
+            Assert.False(Directory.Exists(entitiesOutputPath));
+            Assert.False(Directory.Exists(propertyOutputPath));
+
+            using (var entitiesDirectory = FSDirectory.Open(entitiesOutputPath.GetOrCreateDirectory()))
+            using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, entitiesDirectory, true);
+                PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
+
+                var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
+                var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
+
+                var property69 = SingleDocumentQueries.QueryPropertyById("P69", propertiesDirectory);
+                var property38 = SingleDocumentQueries.QueryPropertyById("P38", propertiesDirectory);
+
+                Assert.Empty(property69.DomainTypes);
+                Assert.Empty(property38.DomainTypes);
+
+                PropertiesIndex.AddRangeTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+
+                var property69WithRange = SingleDocumentQueries.QueryPropertyById("P69", propertiesDirectory);
+                var property38WithRange = SingleDocumentQueries.QueryPropertyById("P38", propertiesDirectory);
+
+                Assert.NotEmpty(property69WithRange.DomainTypes);
+                Assert.Equal("Q902104", property69WithRange.DomainTypes.ElementAt(0));
+                Assert.Equal("Q15936437", property69WithRange.DomainTypes.ElementAt(1));
+                Assert.Equal("Q1188663", property69WithRange.DomainTypes.ElementAt(2));
+                Assert.Equal("Q23002054", property69WithRange.DomainTypes.ElementAt(3));
+                Assert.Equal("Q13220391", property69WithRange.DomainTypes.ElementAt(4));
+                Assert.Equal("Q1321960", property69WithRange.DomainTypes.ElementAt(5));
+
+                Assert.NotEmpty(property38WithRange.DomainTypes);
+                Assert.Equal("Q1643989", property38WithRange.DomainTypes.ElementAt(0));
+                Assert.Equal("Q8142", property38WithRange.DomainTypes.ElementAt(1));
+                Assert.Equal("Q747699", property38WithRange.DomainTypes.ElementAt(2));
+            }
+
+            propertyOutputPath.DeleteIfExists();
+            entitiesOutputPath.DeleteIfExists();
         }
 
         [Fact]

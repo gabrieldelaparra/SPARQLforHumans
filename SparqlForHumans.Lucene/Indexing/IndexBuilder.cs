@@ -46,8 +46,7 @@ namespace SparqlForHumans.Lucene.Indexing
             }
         }
 
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
-            Directory entitiesIndexDirectory)
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory entitiesIndexDirectory)
         {
             var dictionary = new Dictionary<string, List<string>>();
 
