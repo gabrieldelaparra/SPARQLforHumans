@@ -39,5 +39,11 @@ namespace SparqlForHumans.UnitTests.Utilities
         {
             Assert.False(true);
         }
+
+        [Fact]
+        public void TestToArrayDictionary()
+        {
+            Assert.False(true);
+        }
     }
 }

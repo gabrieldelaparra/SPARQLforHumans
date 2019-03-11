@@ -24,13 +24,13 @@ namespace SparqlForHumans.UnitTests
 
             var dictionary = EntityPageRank.BuildNodesDictionary(filename);
             Assert.Equal(entitiesCount, dictionary.Count);
-            Assert.Equal("Q1", dictionary.Keys.ElementAt(0));
-            Assert.Equal("Q2", dictionary.Keys.ElementAt(1));
-            Assert.Equal("Q3", dictionary.Keys.ElementAt(2));
-            Assert.Equal("Q4", dictionary.Keys.ElementAt(3));
-            Assert.Equal("Q5", dictionary.Keys.ElementAt(4));
-            Assert.Equal("Q6", dictionary.Keys.ElementAt(5));
-            Assert.Equal("Q7", dictionary.Keys.ElementAt(6));
+            Assert.Equal(1, dictionary.Keys.ElementAt(0));
+            Assert.Equal(2, dictionary.Keys.ElementAt(1));
+            Assert.Equal(3, dictionary.Keys.ElementAt(2));
+            Assert.Equal(4, dictionary.Keys.ElementAt(3));
+            Assert.Equal(5, dictionary.Keys.ElementAt(4));
+            Assert.Equal(6, dictionary.Keys.ElementAt(5));
+            Assert.Equal(7, dictionary.Keys.ElementAt(6));
         }
 
         [Fact]

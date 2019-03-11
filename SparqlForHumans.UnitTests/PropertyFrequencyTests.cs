@@ -19,13 +19,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(7, dictionary.Count);
 
-            Assert.Equal("P17", dictionary.ElementAt(0).Key);
+            Assert.Equal(17, dictionary.ElementAt(0).Key);
             Assert.Equal(3, dictionary.ElementAt(0).Value);
 
-            Assert.Equal("P47", dictionary.ElementAt(1).Key);
+            Assert.Equal(47, dictionary.ElementAt(1).Key);
             Assert.Equal(5, dictionary.ElementAt(1).Value);
 
-            Assert.Equal("P30", dictionary.ElementAt(2).Key);
+            Assert.Equal(30, dictionary.ElementAt(2).Key);
             Assert.Equal(3, dictionary.ElementAt(2).Value);
         }
 
@@ -41,13 +41,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.Equal(7, dictionary.Count);
 
-            Assert.Equal("P17", dictionary.ElementAt(0).Key);
+            Assert.Equal(17, dictionary.ElementAt(0).Key);
             Assert.Equal(3, dictionary.ElementAt(0).Value);
 
-            Assert.Equal("P47", dictionary.ElementAt(1).Key);
+            Assert.Equal(47, dictionary.ElementAt(1).Key);
             Assert.Equal(5, dictionary.ElementAt(1).Value);
 
-            Assert.Equal("P30", dictionary.ElementAt(2).Key);
+            Assert.Equal(30, dictionary.ElementAt(2).Key);
             Assert.Equal(3, dictionary.ElementAt(2).Value);
         }
     }

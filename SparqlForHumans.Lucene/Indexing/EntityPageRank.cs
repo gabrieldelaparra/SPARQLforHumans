@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 
@@ -22,21 +23,20 @@ namespace SparqlForHumans.Lucene.Indexing
         /// </summary>
         /// <param name="triplesFilename"></param>
         /// <returns></returns>
-        public static Dictionary<string, int> BuildNodesDictionary(string triplesFilename)
+        public static Dictionary<int, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
             var nodeIndex = 0;
-            var dictionary = new Dictionary<string, int>();
+            var dictionary = new Dictionary<int, int>();
 
             foreach (var group in groups)
             {
                 if (nodeIndex % NotifyTicks == 0)
                     Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
-                var subjectId = GetGroupSubjectId(group);
-                dictionary.Add(subjectId, nodeIndex);
+                dictionary.Add(group.IntId, nodeIndex);
                 nodeIndex++;
             }
 
@@ -45,10 +45,7 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
-        private static string GetGroupSubjectId(IEnumerable<string> group)
-        {
-            return group.FirstOrDefault().GetTriple().Subject.GetId();
-        }
+        
 
         /// <summary>
         ///     Uses the <Q-EntityId, NodeIndex> to build an array with arrays.
@@ -71,7 +68,7 @@ namespace SparqlForHumans.Lucene.Indexing
         /// <param name="triplesFilename"></param>
         /// <param name="nodesDictionary"></param>
         /// <returns></returns>
-        public static int[][] BuildSimpleNodesGraph(string triplesFilename, Dictionary<string, int> nodesDictionary)
+        public static int[][] BuildSimpleNodesGraph(string triplesFilename, Dictionary<int, int> nodesDictionary)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
@@ -84,21 +81,20 @@ namespace SparqlForHumans.Lucene.Indexing
                 if (nodeCount % NotifyTicks == 0)
                     Logger.Info($"Building Graph, Group: {nodeCount:N0}");
 
-                var subjectId = GetGroupSubjectId(group);
-                nodesDictionary.TryGetValue(subjectId, out var subjectIndex);
+                nodesDictionary.TryGetValue(group.IntId, out var subjectIndex);
 
                 var entityNodeConnections = new List<int>();
 
                 foreach (var line in group)
                 {
-                    var (_, _, ntObject) = line.GetTripleAsTuple();
+                    var (_, _, ntObject) = line.AsTuple();
 
                     //This takes, not only the properties, but direct/properties or other things that are not properties
                     //TODO: Use only properties (?)
                     if (!ntObject.IsEntity())
                         continue;
 
-                    var objectId = ntObject.GetId();
+                    var objectId = ntObject.GetIntId();
                     nodesDictionary.TryGetValue(objectId, out var objectIndex);
 
                     if (!entityNodeConnections.Contains(objectIndex))

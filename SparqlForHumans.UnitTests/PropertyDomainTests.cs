@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -12,6 +14,60 @@ namespace SparqlForHumans.UnitTests
 {
     public class PropertyDomainTests
     {
+        [Fact]
+        public void TestGetPropertyDomainSingleDomain()
+        {
+            //Arrange
+            var lines = new List<string>
+            {
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> ."
+            };
+            var entityGroups = lines.GroupBySubject();
+
+            var propertyDomainTypes = entityGroups.Select(x => x.GetPropertyDomainTypes());
+
+            var PropertyIds = propertyDomainTypes.SelectMany(x=>x.PropertyIds).ToArray();
+           var DomainIds = propertyDomainTypes.SelectMany(x => x.DomainIds).ToArray();
+
+            Assert.Single(DomainIds);
+            Assert.Equal(5, DomainIds[0]);
+
+            Assert.Equal(2, PropertyIds.Length);
+            Assert.Equal(27, PropertyIds[0]);
+            Assert.Equal(555, PropertyIds[1]);
+
+        }
+
+        [Fact]
+        public void TestGetPropertyDomainMultipleDomain()
+        {
+            //Arrange
+            var lines = new List<string>
+            {
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+            };
+            var entityGroups = lines.GroupBySubject();
+
+            var propertyDomainTypes = entityGroups.Select(x => x.GetPropertyDomainTypes());
+
+            var PropertyIds = propertyDomainTypes.SelectMany(x => x.PropertyIds).ToArray();
+            var DomainIds = propertyDomainTypes.SelectMany(x => x.DomainIds).ToArray();
+
+            Assert.Single(DomainIds);
+            Assert.Equal(5, DomainIds[0]);
+
+            Assert.Equal(2, PropertyIds.Length);
+            Assert.Equal(27, PropertyIds[0]);
+            Assert.Equal(555, PropertyIds[1]);
+
+        }
+
         /// <summary>
         /// Este test crea un indice y agrega el Domain (Origen) de las propiedades.
         /// Se dan los siguientes ejemplios:

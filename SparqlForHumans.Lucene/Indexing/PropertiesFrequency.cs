@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
@@ -12,7 +15,7 @@ namespace SparqlForHumans.Lucene.Indexing
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
 
-        public static Dictionary<string, int> GetPropertiesFrequency(string triplesFilename)
+        public static Dictionary<int, int> GetPropertiesFrequency(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
@@ -22,10 +25,10 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
-        public static Dictionary<string, int> GetPropertiesFrequency(IEnumerable<IEnumerable<string>> groups)
+        public static Dictionary<int, int> GetPropertiesFrequency(IEnumerable<SubjectGroup> groups)
         {
             var nodeCount = 0;
-            var dictionary = new Dictionary<string, int>();
+            var dictionary = new Dictionary<int, int>();
 
             foreach (var group in groups)
             {
@@ -44,16 +47,26 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
-        public static void ParsePropertyFrequencyLine(string line, Dictionary<string, int> dictionary)
+        public static void ParsePropertyFrequencyLine(Triple line, Dictionary<int, int> dictionary)
         {
-            var predicateId = line.GetTriple().Predicate.GetId();
+            var predicate = line.Predicate;
 
-            if (!predicateId.Contains(WikidataDump.PropertyPrefix)) return;
+            //Not a Property
+            if (!predicate.IsProperty())
+                return;
 
-            if (!dictionary.ContainsKey(predicateId))
-                dictionary.Add(predicateId, 0);
+            //var predicateId = line.GetTriple().Predicate.GetId();
 
-            dictionary[predicateId]++;
+            
+            //if (!predicateId.Contains(WikidataDump.PropertyPrefix))
+            //    return;
+
+            var predicateIntId = predicate.GetIntId();
+
+            if (!dictionary.ContainsKey(predicateIntId))
+                dictionary.Add(predicateIntId, 0);
+
+            dictionary[predicateIntId]++;
         }
     }
 }

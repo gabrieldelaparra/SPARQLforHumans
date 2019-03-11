@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Utilities
 {
@@ -19,10 +18,10 @@ namespace SparqlForHumans.Utilities
             }
         }
 
-        public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, T2 value) tuple)
-        {
-            dictionary.AddSafe(tuple.key, tuple.value);
-        }
+        //public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, T2 value) tuple)
+        //{
+        //    dictionary.AddSafe(tuple.key, tuple.value);
+        //}
 
         public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, IEnumerable<T2> values)
         {
@@ -30,10 +29,10 @@ namespace SparqlForHumans.Utilities
                 dictionary.AddSafe(key, value);
         }
 
-        public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, IEnumerable<T2> values) tuple)
-        {
-            dictionary.AddSafe(tuple.key, tuple.values);
-        }
+        //public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, IEnumerable<T2> values) tuple)
+        //{
+        //    dictionary.AddSafe(tuple.key, tuple.values);
+        //}
 
         public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
@@ -44,6 +43,11 @@ namespace SparqlForHumans.Utilities
                 invertedDictionary.AddSafe(property, type.Key);
 
             return invertedDictionary;
+        }
+
+        public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
+        {
+            return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
     }
 }

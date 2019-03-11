@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 
@@ -20,7 +21,7 @@ namespace SparqlForHumans.CLI
 
             foreach (var group in entityGroups)
             {
-                var triples = group.Select(x => x.GetTripleAsTuple());
+                var triples = group.Select(x => x.AsTuple());
 
                 var labelTriple = triples.FirstOrDefault(x =>
                     x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label));

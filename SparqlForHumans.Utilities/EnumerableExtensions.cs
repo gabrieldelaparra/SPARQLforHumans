@@ -1,42 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SparqlForHumans.Utilities
 {
     public static class EnumerableExtensions
     {
-        public static IEnumerable<IEnumerable<string>> GroupBySubject(this IEnumerable<string> lines)
+        public static (IList<T> TrueSlice, IList<T> FalseSlice) SliceBy<T>(this IEnumerable<T> enumerable, Predicate<T> predicate)
         {
-            var list = new List<string>();
-            var last = string.Empty;
+            var trueSlice = new List<T>();
+            var falseSlice = new List<T>();
 
-            foreach (var line in lines)
+            foreach (var t in enumerable)
             {
-                var entity = line.Split(' ').FirstOrDefault();
-
-                //Base case: first value:
-                if (last == string.Empty)
-                {
-                    list = new List<string>();
-                    last = entity;
-                }
-
-                //Switch of entity:
-                // - Return list,
-                // - Create new list,
-                // - Assign last to current
-                else if (last != entity)
-                {
-                    yield return list;
-                    list = new List<string>();
-                    last = entity;
-                }
-
-                list.Add(line);
+                if (predicate(t))
+                    trueSlice.Add(t);
+                else
+                    falseSlice.Add(t);
             }
 
-            yield return list;
+            return (trueSlice, falseSlice);
         }
 
         //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)

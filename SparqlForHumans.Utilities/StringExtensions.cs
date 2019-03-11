@@ -7,7 +7,7 @@ namespace SparqlForHumans.Utilities
         public static int ToInt(this string input)
         {
             var index = Regex.Replace(input, "\\D", string.Empty);
-            return int.Parse(index);
+            return string.IsNullOrWhiteSpace(index) ? 0 : int.Parse(index);
         }
     }
 }

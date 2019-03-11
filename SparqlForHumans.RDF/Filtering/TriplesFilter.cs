@@ -67,7 +67,7 @@ namespace SparqlForHumans.RDF.Filtering
 
                     try
                     {
-                        var triple = line.GetTriple();
+                        var triple = line.ToTriple();
 
                         if (!IsValidTriple(triple, triplesLimit))
                             continue;

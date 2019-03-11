@@ -30,7 +30,7 @@ namespace SparqlForHumans.UnitTests
 
             foreach (var line in lines)
             {
-                var triple = line.GetTriple();
+                var triple = line.ToTriple();
                 var s = triple.Subject;
                 var p = triple.Predicate;
                 var o = triple.Object;

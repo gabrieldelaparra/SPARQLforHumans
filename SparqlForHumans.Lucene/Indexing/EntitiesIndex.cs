@@ -108,7 +108,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             double[] nodesGraphRanks = null;
-            Dictionary<string, int> nodesDictionary = null;
+            Dictionary<int, int> nodesDictionary = null;
             if (addBoosts)
             {
                 //Ranking:
@@ -135,7 +135,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
-                    var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
+                    var subject = group.FirstOrDefault().AsTuple().subject;
 
                     //Excludes Properties, will only add entities.
                     if (!subject.IsEntityQ())
@@ -154,7 +154,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     foreach (var line in group)
                     {
-                        var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
+                        var (ntSubject, ntPredicate, ntObject) = line.AsTuple();
 
                         if (!hasDocument)
                         {
@@ -171,7 +171,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     if (addBoosts)
                     {
-                        nodesDictionary.TryGetValue(id, out var subjectIndex);
+                        nodesDictionary.TryGetValue(id.ToInt(), out var subjectIndex);
 
                         fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
                             Field.Store.YES));

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -65,7 +66,7 @@ namespace SparqlForHumans.UnitTests
                 .ToDictionary();
 
             var propertyRangeTriples = lines
-                .Select(x => x.GetTriple())
+                .Select(x => x.ToTriple())
                 .Where(PropertyRange.IsValidPropertyRangeTriple);
 
             // Act
