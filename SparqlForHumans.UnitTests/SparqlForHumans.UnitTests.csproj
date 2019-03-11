@@ -14,7 +14,7 @@
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
-    <None Remove="Resources\EntityType.nt" />
+    <None Remove="Resources\EntityTypes.nt" />
     <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered-All-5k.nt" />
     <None Remove="Resources\filtered.nt" />
@@ -42,6 +42,7 @@
     <None Remove="Resources\TenLines.nt.gz" />
     <None Remove="Resources\trimmed.nt" />
     <None Remove="Resources\TwoInstanceOf.nt" />
+    <None Remove="Resources\TypeProperties.nt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,7 +58,10 @@
     <Content Include="Resources\PropertyDomain.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\EntityType.nt">
+    <Content Include="Resources\EntityTypes.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TypeProperties.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\empty.gz">
@@ -124,6 +128,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyIndex\_1.cfs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PropertyRange.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\TenLines.nt.gz">

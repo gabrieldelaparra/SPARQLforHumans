@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Text;
 using System.IO;
+using System.IO.Compression;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
+using static SparqlForHumans.Utilities.FileHelper;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.GZip;
 
 namespace SparqlForHumans.RDF.Filtering
 {
@@ -48,11 +53,11 @@ namespace SparqlForHumans.RDF.Filtering
             long writeCount = 0;
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
-
-            using (var filteredStreamWriter = new StreamWriter(new FileStream(outputTriplesFilename, FileMode.Create)))
+            
+            using (var fileToCompress = File.Create(outputTriplesFilename))
+            using (var gZipStream = new GZipStream(fileToCompress, CompressionMode.Compress, true))
             {
                 Logger.Info("Read,Write");
-
                 foreach (var line in wikidataDumpLines)
                 {
                     readCount++;
@@ -62,12 +67,13 @@ namespace SparqlForHumans.RDF.Filtering
 
                     try
                     {
-                        var triple = line.GetTriple();
+                        var triple = line.ToTriple();
 
                         if (!IsValidTriple(triple, triplesLimit))
                             continue;
 
-                        filteredStreamWriter.WriteLine(line);
+                        var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
+                        gZipStream.Write(data, 0, data.Length);
                         writeCount++;
                     }
                     catch (Exception e)

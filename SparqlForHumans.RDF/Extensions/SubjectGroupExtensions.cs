@@ -1,0 +1,46 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.RDF.Models;
+
+namespace SparqlForHumans.Models.LuceneIndex
+{
+    public static class SubjectGroupExtensions
+    {
+        public static IEnumerable<SubjectGroup> GroupBySubject(this IEnumerable<string> lines)
+        {
+            var subjectGroup = new SubjectGroup();
+            var list = new List<string>();
+            var last = string.Empty;
+
+            foreach (var line in lines)
+            {
+                var entity = line.Split(' ').FirstOrDefault();
+
+                //Base case: first value:
+                if (last == string.Empty)
+                {
+                    list = new List<string>();
+                    subjectGroup = new SubjectGroup(entity, list);
+                    last = entity;
+                }
+
+                //Switch/Different of entity:
+                // - Return list,
+                // - Create new list,
+                // - Assign last to current
+                else if (last != entity)
+                {
+                    yield return subjectGroup;
+                    list = new List<string>();
+                    subjectGroup = new SubjectGroup(entity, list);
+                    last = entity;
+                }
+
+                // Same entity
+                list.Add(line);
+            }
+
+            yield return subjectGroup;
+        }
+    }
+}

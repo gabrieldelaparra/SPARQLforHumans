@@ -22,6 +22,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
         public static int NotifyTicks { get; } = 100000;
 
+        //TODO: Replace Dictionary with int[][]
         public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary)
         {
             using (var entitiesIndexDirectory =
@@ -31,6 +32,7 @@ namespace SparqlForHumans.Lucene.Indexing
             }
         }
 
+        //TODO: Replace Dictionary with int[][]
         /// <summary>
         ///     Takes a dictionary(QEntityType, ListOfProperties) and adds a new Field (IsEntityType) to all Entities
         ///     that have the QEntityType as InstanceOf.
@@ -106,16 +108,16 @@ namespace SparqlForHumans.Lucene.Indexing
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             double[] nodesGraphRanks = null;
-            Dictionary<string, int> nodesDictionary = null;
+            Dictionary<int, int> nodesDictionary = null;
             if (addBoosts)
             {
                 //Ranking:
                 Logger.Info("Building Dictionary");
-                nodesDictionary = EntityRanker.BuildNodesDictionary(inputTriplesFilename);
+                nodesDictionary = EntityPageRank.BuildNodesDictionary(inputTriplesFilename);
                 Logger.Info("Building Graph");
-                var nodesGraphArray = EntityRanker.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
+                var nodesGraphArray = EntityPageRank.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
                 Logger.Info("Calculating Ranks");
-                nodesGraphRanks = EntityRanker.CalculateRanks(nodesGraphArray, 20);
+                nodesGraphRanks = EntityPageRank.CalculateRanks(nodesGraphArray, 20);
             }
 
             Logger.Info("Building Index");
@@ -133,7 +135,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
-                    var subject = group.FirstOrDefault().GetTripleAsTuple().subject;
+                    var subject = group.FirstOrDefault().AsTuple().subject;
 
                     //Excludes Properties, will only add entities.
                     if (!subject.IsEntityQ())
@@ -152,7 +154,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     foreach (var line in group)
                     {
-                        var (ntSubject, ntPredicate, ntObject) = line.GetTripleAsTuple();
+                        var (ntSubject, ntPredicate, ntObject) = line.AsTuple();
 
                         if (!hasDocument)
                         {
@@ -169,7 +171,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     if (addBoosts)
                     {
-                        nodesDictionary.TryGetValue(id, out var subjectIndex);
+                        nodesDictionary.TryGetValue(id.ToInt(), out var subjectIndex);
 
                         fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
                             Field.Store.YES));

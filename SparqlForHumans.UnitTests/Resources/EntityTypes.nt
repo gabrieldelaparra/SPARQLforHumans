@@ -1,0 +1,23 @@
+﻿<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q30461> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .
+<http://www.wikidata.org/entity/Q77> <http://www.w3.org/2000/01/rdf-schema#label> "Other Human"@en .
+<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P33> <http://www.wikidata.org/entity/Q31> .
+<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P44> <http://www.wikidata.org/entity/Q55> .
+<http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q649593> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P26> <http://www.wikidata.org/entity/Q13133> .
+<http://www.wikidata.org/entity/Q17> <http://www.w3.org/2000/01/rdf-schema#label> "country"@en .
+<http://www.wikidata.org/entity/Q17> <http://www.wikidata.org/prop/direct/P222> <http://www.wikidata.org/entity/Q1231> .
+<http://www.wikidata.org/entity/Q17> <http://www.wikidata.org/prop/direct/P132> <http://www.wikidata.org/entity/Q3345> .
+<http://www.wikidata.org/entity/Q298> <http://www.w3.org/2000/01/rdf-schema#label> "Chile"@en .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q555> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q777> .
+<http://www.wikidata.org/entity/Q414> <http://www.w3.org/2000/01/rdf-schema#label> "Argentina"@en .
+<http://www.wikidata.org/entity/Q414> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .
+<http://www.wikidata.org/entity/Q30461> <http://www.w3.org/2000/01/rdf-schema#label> "president"@en .
+<http://www.wikidata.org/entity/Q30461> <http://www.wikidata.org/prop/direct/P373> <http://www.wikidata.org/entity/Q5741273> .

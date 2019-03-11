@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.Wikidata;
+using SparqlForHumans.Utilities;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 
@@ -39,13 +40,18 @@ namespace SparqlForHumans.RDF.Extensions
             return PropertyType.Other;
         }
 
-        public static (INode subject, INode predicate, INode ntObject) GetTripleAsTuple(this string inputLine)
+        public static (INode subject, INode predicate, INode ntObject) AsTuple(this Triple triple)
         {
-            var triple = inputLine.GetTriple();
             return (triple.Subject, triple.Predicate, triple.Object);
         }
 
-        public static Triple GetTriple(this string inputLine)
+        public static (INode subject, INode predicate, INode ntObject) GetTripleAsTuple(this string inputLine)
+        {
+            var triple = inputLine.ToTriple();
+            return (triple.Subject, triple.Predicate, triple.Object);
+        }
+
+        public static Triple ToTriple(this string inputLine)
         {
             var g = new NonIndexedGraph();
             StringParser.Parse(g, inputLine);
@@ -143,8 +149,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static int GetIntId(this INode node)
         {
-            var index = Regex.Replace(node.GetId(), "\\D", string.Empty);
-            return int.Parse(index);
+            return node.GetId().ToInt();
         }
 
         public static string GetId(this INode node)

@@ -4,21 +4,18 @@ using System.Linq;
 using System.Text;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    public static class DictionaryExtensions
-    {
-        public static void AddSafe(this Dictionary<int, List<int>> internalDictionary, int key, int value)
-        {
-            if (internalDictionary.ContainsKey(key))
-                internalDictionary[key].Add(value);
-            else
-                internalDictionary.Add(key, new List<int>() { value });
-        }
-    }
     public class InvertedPropertiesTests
     {
+        [Fact]
+        public void TestCreateEntityType2DArray()
+        {
+
+        }
+
         public int getMax(int current, int compare)
         {
             return current <= compare ? compare : current;
@@ -33,7 +30,7 @@ namespace SparqlForHumans.UnitTests
 
             foreach (var line in lines)
             {
-                var triple = line.GetTriple();
+                var triple = line.ToTriple();
                 var s = triple.Subject;
                 var p = triple.Predicate;
                 var o = triple.Object;

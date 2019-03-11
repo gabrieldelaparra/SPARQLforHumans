@@ -56,7 +56,7 @@ namespace SparqlForHumans.CLI
 
             PropertiesIndex.CreatePropertiesIndex(filename, true);
 
-            var invertedPropertiesDictionary = IndexBuilder.CreateInvertedProperties(typesAndPropertiesDictionary);
+            var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
             PropertiesIndex.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
@@ -86,37 +86,6 @@ namespace SparqlForHumans.CLI
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
-        }
-
-        private static void CreateIndex2k(bool overwrite = false)
-        {
-            var inputFilename = @"filtered-All-2k.nt";
-            var outputPath = "Index2k";
-
-            outputPath.DeleteIfExists(overwrite);
-
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(inputFilename, luceneDirectory, true);
-            }
-        }
-
-        private static void CreateIndex2MM(bool overwrite = false)
-        {
-            var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneIndexExtensions.EntityIndexPath;
-
-            outputPath.DeleteIfExists(overwrite);
-            EntitiesIndex.CreateEntitiesIndex(inputFilename, true);
-        }
-
-        private static void CreatePropertyIndex(bool overwrite = false)
-        {
-            var inputFilename = @"filtered-All-2MM.nt";
-            var outputPath = LuceneIndexExtensions.PropertyIndexPath;
-
-            outputPath.DeleteIfExists(overwrite);
-            PropertiesIndex.CreatePropertiesIndex(inputFilename, true);
         }
 
         private static void QueryEntities(string query)

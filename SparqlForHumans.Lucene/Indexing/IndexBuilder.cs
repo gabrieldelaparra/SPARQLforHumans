@@ -8,35 +8,17 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
+    
+
     public static class IndexBuilder
     {
-        //private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-
-        //public static int NotifyTicks { get; } = 100000;
-
-        public static Dictionary<string, List<string>> CreateInvertedProperties(
-            Dictionary<string, List<string>> typesAndPropertiesDictionary)
-        {
-            var dictionary = new Dictionary<string, List<string>>();
-
-            foreach (var type in typesAndPropertiesDictionary)
-            foreach (var property in type.Value)
-            {
-                if (!dictionary.ContainsKey(property))
-                    dictionary.Add(property, new List<string>());
-
-                dictionary[property].Add(type.Key);
-            }
-
-            return dictionary;
-        }
-
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
             foreach (var field in fields)
                 doc.Add(field);
         }
 
+        //TODO: Change to int[][]
         public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
         {
             using (var entitiesIndexDirectory =
@@ -45,8 +27,10 @@ namespace SparqlForHumans.Lucene.Indexing
                 return CreateTypesAndPropertiesDictionary(entitiesIndexDirectory);
             }
         }
-
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(Directory entitiesIndexDirectory)
+        
+        //TODO: Change to int[][]
+        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
+            Directory entitiesIndexDirectory)
         {
             var dictionary = new Dictionary<string, List<string>>();
 
@@ -63,16 +47,8 @@ namespace SparqlForHumans.Lucene.Indexing
                         .MapBaseProperties(doc);
 
                     foreach (var instanceOf in entity.InstanceOf)
-                    {
-                        if (!dictionary.ContainsKey(instanceOf))
-                            dictionary.Add(instanceOf, new List<string>());
-
-                        var valuesList = dictionary[instanceOf];
-
                         foreach (var entityProperty in entity.Properties)
-                            if (!valuesList.Contains(entityProperty.Id))
-                                valuesList.Add(entityProperty.Id);
-                    }
+                            dictionary.AddSafe(instanceOf, entityProperty.Id);
                 }
             }
 
