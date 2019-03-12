@@ -136,7 +136,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var analyzer = new KeywordAnalyzer();
             var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer)
             {
-                OpenMode = OpenMode.CREATE_OR_APPEND
+                OpenMode = OpenMode.CREATE_OR_APPEND,
             };
 
             using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))

@@ -67,9 +67,53 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(5, propertyDomainTypes[0].Value[0]);
 
             // P555 -> 5, 17
+            Assert.Equal(555, propertyDomainTypes[1].Key);
             Assert.Equal(2, propertyDomainTypes[1].Value.Length);
             Assert.Equal(5, propertyDomainTypes[1].Value[0]);
             Assert.Equal(17, propertyDomainTypes[1].Value[1]);
+
+            // P777 -> 17
+            Assert.Equal(777, propertyDomainTypes[2].Key);
+            Assert.Single(propertyDomainTypes[2].Value);
+            Assert.Equal(17, propertyDomainTypes[2].Value[0]);
+        }
+
+        [Fact]
+        public void TestGetPropertyDomainMultipleTypesAndDomain()
+        {
+            //Arrange
+            var lines = new List<string>
+            {
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+                "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q31> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q32> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .",
+            };
+            var entityGroups = lines.GroupBySubject();
+
+            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
+
+            // P27, P555, P777
+            Assert.Equal(3, propertyDomainTypes.Length);
+
+            // P27 -> 5, 6
+            Assert.Equal(27, propertyDomainTypes[0].Key);
+            Assert.Equal(2, propertyDomainTypes[0].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
+            Assert.Equal(6, propertyDomainTypes[0].Value[1]);
+
+            // P555 -> 5, 17, 6
+            Assert.Equal(555, propertyDomainTypes[1].Key);
+            Assert.Equal(3, propertyDomainTypes[1].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
+            Assert.Equal(17, propertyDomainTypes[1].Value[1]);
+            Assert.Equal(6, propertyDomainTypes[1].Value[2]);
 
             // P777 -> 17
             Assert.Equal(777, propertyDomainTypes[2].Key);
