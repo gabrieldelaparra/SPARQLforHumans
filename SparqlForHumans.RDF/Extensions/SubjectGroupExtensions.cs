@@ -2,7 +2,7 @@
 using System.Linq;
 using SparqlForHumans.RDF.Models;
 
-namespace SparqlForHumans.Models.LuceneIndex
+namespace SparqlForHumans.RDF.Extensions
 {
     public static class SubjectGroupExtensions
     {

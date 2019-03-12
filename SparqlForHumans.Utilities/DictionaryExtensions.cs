@@ -18,21 +18,11 @@ namespace SparqlForHumans.Utilities
             }
         }
 
-        //public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, T2 value) tuple)
-        //{
-        //    dictionary.AddSafe(tuple.key, tuple.value);
-        //}
-
         public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, IEnumerable<T2> values)
         {
             foreach (var value in values)
                 dictionary.AddSafe(key, value);
         }
-
-        //public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, (T1 key, IEnumerable<T2> values) tuple)
-        //{
-        //    dictionary.AddSafe(tuple.key, tuple.values);
-        //}
 
         public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {

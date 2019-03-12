@@ -6,6 +6,7 @@ using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;

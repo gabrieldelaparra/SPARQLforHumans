@@ -2,10 +2,9 @@
 using System.IO;
 using System.Linq;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -26,18 +25,20 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = entityGroups.Select(x => x.GetPropertyDomainTypes());
+            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
 
-            var PropertyIds = propertyDomainTypes.SelectMany(x=>x.PropertyIds).ToArray();
-           var DomainIds = propertyDomainTypes.SelectMany(x => x.DomainIds).ToArray();
+            // P27, P555
+            Assert.Equal(2, propertyDomainTypes.Length);
+            
+            // P27 -> P5
+            Assert.Equal(27, propertyDomainTypes[0].Key);
+            Assert.Single(propertyDomainTypes[0].Value);
+            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
 
-            Assert.Single(DomainIds);
-            Assert.Equal(5, DomainIds[0]);
-
-            Assert.Equal(2, PropertyIds.Length);
-            Assert.Equal(27, PropertyIds[0]);
-            Assert.Equal(555, PropertyIds[1]);
-
+            // P555 -> P5
+            Assert.Equal(555, propertyDomainTypes[1].Key);
+            Assert.Single(propertyDomainTypes[1].Value);
+            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
         }
 
         [Fact]
@@ -49,23 +50,31 @@ namespace SparqlForHumans.UnitTests
                 "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
                 "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
                 "<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q556> .",
-                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6> .",
-                "<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q31> .",
+                "<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q32> .",
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = entityGroups.Select(x => x.GetPropertyDomainTypes());
+            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
 
-            var PropertyIds = propertyDomainTypes.SelectMany(x => x.PropertyIds).ToArray();
-            var DomainIds = propertyDomainTypes.SelectMany(x => x.DomainIds).ToArray();
+            // P27, P555, P777
+            Assert.Equal(3, propertyDomainTypes.Length);
 
-            Assert.Single(DomainIds);
-            Assert.Equal(5, DomainIds[0]);
+            // P27 -> 5
+            Assert.Equal(27, propertyDomainTypes[0].Key);
+            Assert.Single(propertyDomainTypes[0].Value);
+            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
 
-            Assert.Equal(2, PropertyIds.Length);
-            Assert.Equal(27, PropertyIds[0]);
-            Assert.Equal(555, PropertyIds[1]);
+            // P555 -> 5, 17
+            Assert.Equal(2, propertyDomainTypes[1].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
+            Assert.Equal(17, propertyDomainTypes[1].Value[1]);
 
+            // P777 -> 17
+            Assert.Equal(777, propertyDomainTypes[2].Key);
+            Assert.Single(propertyDomainTypes[2].Value);
+            Assert.Equal(17, propertyDomainTypes[2].Value[0]);
         }
 
         /// <summary>
