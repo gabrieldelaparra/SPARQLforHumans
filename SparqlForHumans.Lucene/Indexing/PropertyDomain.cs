@@ -40,23 +40,29 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<int, List<int>>();
             foreach (var subjectGroup in subjectGroups)
             {
-                //Talvez debería venir ya filtrado
-                var propertiesTriples = subjectGroup.FilterPropertiesOnly();
-
-                var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
-
-                // InstanceOf Ids (Domain Types) and Properties
-                var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
-                var domainIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
-
-                foreach (var propertyId in propertyIds)
-                {
-                    dictionary.AddSafe(propertyId, domainIds);
-                }
+                dictionary.AddPropertyDomainTypesForSubjectGroup(subjectGroup);
             }
 
             return dictionary.ToArrayDictionary();
         }
+
+        private static void AddPropertyDomainTypesForSubjectGroup(this Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
+        {
+            //Hopefully they should be already filtered.
+            var propertiesTriples = subjectGroup.FilterPropertiesOnly();
+
+            var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
+
+            // InstanceOf Ids (Domain Types) and Properties
+            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
+            var domainIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
+
+            foreach (var propertyId in propertyIds)
+            {
+                dictionary.AddSafe(propertyId, domainIds);
+            }
+        }
+
 
         /// <summary>
         /// Allow only triples that have property predicates.
