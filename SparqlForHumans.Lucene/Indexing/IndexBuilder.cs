@@ -1,25 +1,36 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Analysis.Core;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
+using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    
-
     public static class IndexBuilder
     {
+        public static IndexWriterConfig CreateIndexWriterConfig()
+        {
+            Options.InternUris = false;
+            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, new KeywordAnalyzer())
+            {
+                OpenMode = OpenMode.CREATE_OR_APPEND,
+            };
+            return indexConfig;
+        }
+
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
             foreach (var field in fields)
                 doc.Add(field);
         }
 
-        //TODO: Change to int[][]
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary()
+        public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary()
         {
             using (var entitiesIndexDirectory =
                 FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
@@ -27,12 +38,11 @@ namespace SparqlForHumans.Lucene.Indexing
                 return CreateTypesAndPropertiesDictionary(entitiesIndexDirectory);
             }
         }
-        
-        //TODO: Change to int[][]
-        public static Dictionary<string, List<string>> CreateTypesAndPropertiesDictionary(
+
+        public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary(
             Directory entitiesIndexDirectory)
         {
-            var dictionary = new Dictionary<string, List<string>>();
+            var dictionary = new Dictionary<int, List<int>>();
 
             using (var entityReader = DirectoryReader.Open(entitiesIndexDirectory))
             {
@@ -47,12 +57,12 @@ namespace SparqlForHumans.Lucene.Indexing
                         .MapBaseProperties(doc);
 
                     foreach (var instanceOf in entity.InstanceOf)
-                        foreach (var entityProperty in entity.Properties)
-                            dictionary.AddSafe(instanceOf, entityProperty.Id);
+                        dictionary.AddSafe(instanceOf.ToInt(), entity.Properties.Select(x => x.Id.ToInt()));
+
                 }
             }
 
-            return dictionary;
+            return dictionary.ToArrayDictionary();
         }
     }
 }
