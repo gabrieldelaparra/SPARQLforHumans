@@ -1,5 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Analysis.Core;
+using Lucene.Net.Documents;
+using Lucene.Net.Index;
+using Lucene.Net.Store;
+using Lucene.Net.Util;
+using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -46,6 +53,47 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary.ToArrayDictionary();
         }
 
+        public static void AddDomainTypesToIndex(Directory propertiesIndexDirectory,
+            Dictionary<int, IEnumerable<int>> propertyDomainTypes)
+        {
+            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
+
+            using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
+            {
+                foreach (var propertyDomain in propertyDomainTypes)
+                {
+                    var propertyId = $"Q{propertyDomain.Key}";
+
+                    // Get the required document.
+                    // TODO: Check if it is better to iterate over all documents and update, or to search for it each time.
+                    var document = SingleDocumentQueries.QueryDocumentById(propertyId, propertiesIndexDirectory);
+
+                    // TODO: Recently removed the null check/continue. What if there is null doc?
+                    document?.AddDomainTypesToIndexDocument(propertyDomain);
+
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), propertyId), document);
+                }
+            }
+
+        }
+
+        private static void AddDomainTypesToIndexDocument(this Document document, KeyValuePair<int, IEnumerable<int>> propertyDomain)
+        {
+            foreach (var domainType in propertyDomain.Value)
+            {
+                var domainId = $"Q{domainType}";
+                var field = new TextField(Labels.DomainType.ToString(), domainId, Field.Store.YES);
+                document.Add(field);
+            }
+        }
+
+        /// <summary>
+        /// Given a SubjectGroup, get only the property-predicates.
+        /// Slice into instanceOf and direct-properties.
+        /// For each directProperty-Id, add all the instanceOf-Id
+        /// </summary>
+        /// <param name="dictionary"></param>
+        /// <param name="subjectGroup"></param>
         private static void AddPropertyDomainTypesForSubjectGroup(this Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             //Hopefully they should be already filtered.
