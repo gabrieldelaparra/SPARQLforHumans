@@ -71,7 +71,7 @@ namespace SparqlForHumans.UnitTests
 
             // Act
             var dictionary = propertyRangeTriples
-                .Select(x => x.GetPropertyRangeType(ref entityTypes))
+                .Select(x => x.GetPropertyRangeType(entityTypes))
                 .ToDictionary();
 
             // Assert

@@ -11,7 +11,7 @@ namespace SparqlForHumans.Lucene.Indexing
         // Pero mejor irse a la segura con el ref.
         // ! Checkear que Property no sea InstanceOf
         // ! Checkear que Object sea Q-Entity
-        public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this Triple propertyTriple, ref Dictionary<int, int[]> entityWithTypes)
+        public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this Triple propertyTriple, Dictionary<int, int[]> entityWithTypes)
         {
             //Property Id (Key), Object Id (Entity to get its Entity Types)
             var propertyId = propertyTriple.Predicate.GetIntId();
