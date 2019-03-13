@@ -156,8 +156,9 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyDomain.nt";
             Assert.True(File.Exists(filename));
 
-            const string entitiesOutputPath = "EntitiesIndex";
-            const string propertyOutputPath = "PropertyIndex";
+            // Prepare output directories
+            const string entitiesOutputPath = "PropertyDomain-EntitiesIndex";
+            const string propertyOutputPath = "PropertyDomain-PropertyIndex";
 
             entitiesOutputPath.DeleteIfExists();
             propertyOutputPath.DeleteIfExists();
@@ -165,15 +166,14 @@ namespace SparqlForHumans.UnitTests
             Assert.False(Directory.Exists(entitiesOutputPath));
             Assert.False(Directory.Exists(propertyOutputPath));
 
+            // Create indexes
             using (var entitiesDirectory = FSDirectory.Open(entitiesOutputPath.GetOrCreateDirectory()))
             using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
             {
                 EntitiesIndex.CreateEntitiesIndex(filename, entitiesDirectory, true);
                 PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
 
-                var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
-
+                //No domains in the Index
                 var property27 = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
                 var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
                 var property777 = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
@@ -182,8 +182,14 @@ namespace SparqlForHumans.UnitTests
                 Assert.Empty(property555.DomainTypes);
                 Assert.Empty(property777.DomainTypes);
 
-                PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+                // Build Domains
+                var propertyDomainTypes = PropertyDomain.GetPropertyDomainTypes();
+                //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
+                //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
 
+                //PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+
+                // Check Domains
                 var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
                 var property555WithDomain = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
                 var property777WithDomain = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
