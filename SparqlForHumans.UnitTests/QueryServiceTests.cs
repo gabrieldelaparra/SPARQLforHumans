@@ -13,45 +13,6 @@ namespace SparqlForHumans.UnitTests
     public class QueryServiceTests
     {
         [Fact]
-        public void TestManyBarackObamaShouldShowFirst()
-        {
-            const string filename = "Resources/ObamaQueries.nt";
-            const string outputPath = "BarackObamaIndex";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-                var entity = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q76", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestManyMichelleObamaShouldShowFirst()
-        {
-            const string filename = "Resources/ObamaQueries.nt";
-            const string outputPath = "MichelleObamaIndex";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-                var entity = MultiDocumentQueries
-                    .QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q13133", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
         public void TestQueryAddProperties()
         {
             const string outputPath = "Resources/PropertyIndex";
@@ -107,10 +68,10 @@ namespace SparqlForHumans.UnitTests
         public void TestQueryByMultipleIds()
         {
             var ids = new List<string> {"Q26", "Q27", "Q29"};
-            const string outputPath = "Resources/IndexMultiple";
-            Assert.True(Directory.Exists(outputPath));
+            const string indexPath = "Resources/IndexMultiple";
+            Assert.True(Directory.Exists(indexPath));
 
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
             {
                 var entities = MultiDocumentQueries.QueryEntitiesByIds(ids, luceneIndexDirectory);
 
@@ -137,8 +98,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryNonExistingEntityById()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
             {
                 var entity = SingleDocumentQueries.QueryEntityById("Q666", luceneIndexDirectory);
                 Assert.Null(entity);
@@ -148,8 +109,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryNonExistingEntityByLabel()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
             {
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Non-Existing", luceneIndexDirectory);
@@ -160,8 +121,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryNonExistingPropertyById()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
             {
                 var entity = SingleDocumentQueries.QueryPropertyById("P666", luceneIndexDirectory);
@@ -172,8 +133,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryNonExistingPropertyByLabel()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
             {
                 var entity = SingleDocumentQueries.QueryPropertyByLabel("Non-Existing", luceneIndexDirectory);
@@ -184,8 +145,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQuerySingleInstanceById()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
             {
                 var entity = SingleDocumentQueries.QueryEntityById("Q26", luceneIndexDirectory);
@@ -197,8 +158,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQuerySingleInstanceByLabel()
         {
-            const string outputPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            const string indexPath = "Resources/IndexSingle";
+            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
             {
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Northern Ireland", luceneIndexDirectory);
@@ -219,42 +180,6 @@ namespace SparqlForHumans.UnitTests
             }
         }
 
-        [Fact]
-        public void TestSingleBarackObamaShouldShowFirst()
-        {
-            const string filename = "Resources/ObamaQueries.nt";
-            const string outputPath = "BarackObamaIndex";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
-                Assert.Equal("Q76", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestSingleMichelleObamaShouldShowFirst()
-        {
-            const string filename = "Resources/ObamaQueries.nt";
-            const string outputPath = "MichelleObamaIndex";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
-                Assert.Equal("Q13133", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
+        
     }
 }

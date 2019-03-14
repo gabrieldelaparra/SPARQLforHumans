@@ -25,7 +25,6 @@
     <None Remove="Resources\IndexSingle\segments_2" />
     <None Remove="Resources\IndexSingle\_0.cfs" />
     <None Remove="Resources\MultipleInstanceDump.nt" />
-    <None Remove="Resources\ObamaQueries.nt" />
     <None Remove="Resources\PropertyDomain.nt" />
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
@@ -37,12 +36,15 @@
     <None Remove="Resources\PropertyIndex\_0.cfs" />
     <None Remove="Resources\PropertyIndex\_1.cfs" />
     <None Remove="Resources\PropertyRange.nt" />
+    <None Remove="Resources\QueryMulti.nt" />
+    <None Remove="Resources\QuerySingle.nt" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\TenLines.nt.gz" />
     <None Remove="Resources\trimmed.nt" />
     <None Remove="Resources\TwoInstanceOf.nt" />
     <None Remove="Resources\TypeProperties.nt" />
+    <None Remove="Resources\WildcardOnePerLetter.nt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +52,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraphMultipleProperties.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QuerySingle.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\WildcardOnePerLetter.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyRange.nt">
@@ -100,7 +108,7 @@
     <Content Include="Resources\IndexSingle\_0.cfs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\ObamaQueries.nt">
+    <Content Include="Resources\QueryMulti.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\MultipleInstanceDump.nt">
