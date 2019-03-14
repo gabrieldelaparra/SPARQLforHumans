@@ -3,10 +3,12 @@ using System.Linq;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
+using Lucene.Net.Search.Similarities;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
 
@@ -20,14 +22,27 @@ namespace SparqlForHumans.Lucene.Indexing
             var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, new KeywordAnalyzer())
             {
                 OpenMode = OpenMode.CREATE_OR_APPEND,
+                //Similarity = new DefaultSimilarity(),
+
             };
             return indexConfig;
         }
 
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
+            var altLabelCount = fields.Count(x => x.Name.Equals(Labels.AltLabel.ToString()))+1;
+
             foreach (var field in fields)
+            {
+                if (field.Name.Equals(Labels.Label.ToString()))
+                    field.Boost = (float)boost;
+
+                if (field.Name.Equals(Labels.AltLabel.ToString()))
+                    field.Boost = (float)(boost / altLabelCount);
+                //field.Boost = ((float)boost / altLabelCount);
+
                 doc.Add(field);
+            }
         }
 
         public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary()

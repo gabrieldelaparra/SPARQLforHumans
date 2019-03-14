@@ -37,7 +37,11 @@
     <None Remove="Resources\PropertyIndex\_1.cfs" />
     <None Remove="Resources\PropertyRange.nt" />
     <None Remove="Resources\QueryMulti.nt" />
-    <None Remove="Resources\QueryRanks.nt" />
+    <None Remove="Resources\QueryRanksAllWithAltLabels.nt" />
+    <None Remove="Resources\QueryRanksAllWithAltLabelsQ1More.nt" />
+    <None Remove="Resources\QueryRanksOneWithAltLabels.nt" />
+    <None Remove="Resources\QueryRanksOnlyAltLabels.nt" />
+    <None Remove="Resources\QueryRanksOnlyLabels.nt" />
     <None Remove="Resources\QuerySingle.nt" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
@@ -52,7 +56,19 @@
     <Content Include="Resources\buildGraphDifferentIds.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\QueryRanks.nt">
+    <Content Include="Resources\QueryRanksOnlyAltLabels.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryRanksAllWithAltLabelsQ1More.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryRanksAllWithAltLabels.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryRanksOneWithAltLabels.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryRanksOnlyLabels.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraphMultipleProperties.nt">

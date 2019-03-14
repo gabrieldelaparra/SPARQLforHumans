@@ -162,6 +162,7 @@ namespace SparqlForHumans.Lucene.Indexing
                         }
 
                         fields.AddRange(ParsePredicate(ntPredicate, ntObject));
+
                     }
 
                     if (addBoosts)
@@ -175,7 +176,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     {
                         IndexBuilder.AddFields(luceneDocument, fields, 0);
                     }
-
+                    
                     writer.AddDocument(luceneDocument);
                     readCount++;
                 }

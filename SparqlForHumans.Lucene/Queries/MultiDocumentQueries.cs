@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
@@ -122,11 +123,10 @@ namespace SparqlForHumans.Lucene.Queries
                 return documents;
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
-            using (var queryAnalyzer = new KeywordAnalyzer())
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
                 foreach (var searchText in searchIds)
-                    documents.Add(BaseParser.QueryDocumentByIdAndRank(searchText, queryAnalyzer, searcher));
+                    documents.Add(BaseParser.QueryDocumentByIdAndRank(searchText, searcher));
             }
 
             return documents;
@@ -138,56 +138,38 @@ namespace SparqlForHumans.Lucene.Queries
             if (string.IsNullOrEmpty(searchText))
                 return new List<Document>();
 
-            searchText = BaseParser.PrepareSearchTerm(searchText);
-
             var list = new List<Document>();
-
+            
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
+            if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 -]", string.Empty)))
                 return list;
+
+            searchText = BaseParser.PrepareSearchTerm(searchText);
 
             Filter filter = null;
             if (isType)
                 filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
-            using (var queryAnalyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48))
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
-                list = SearchDocuments(searchText, queryAnalyzer, searcher, resultsLimit, filter);
-
-                //queryAnalyzer.Close();
-                //searcher.Dispose();
+                var parser = BaseParser.GetMultiFieldParser();
+                list = SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);
             }
 
             return list;
         }
 
-        //TODO: Test Search Alt-Label
-        //TODO: Test Search by Id
-        //TODO: UI When searching by Person shows Human but can show Person and Alt-Labels as options
-        //TODO: Some instances have more than one InstanceOf
-        private static List<Document> SearchDocuments(string searchText, Analyzer queryAnalyzer, IndexSearcher searcher,
-            int resultsLimit, Filter filter = null)
-        {
-            QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
-                queryAnalyzer);
-
-            return SearchDocumentsByRank(searchText, searcher, parser, resultsLimit, filter);
-        }
-
         private static List<Document> SearchDocumentsByRank(string searchText, IndexSearcher searcher,
-            QueryParser parser,
-            int resultsLimit, Filter filter)
+            QueryParser parser, int resultsLimit, Filter filter = null)
         {
-            var sort = new Sort(SortField.FIELD_DOC, SortField.FIELD_SCORE);
-
-            //var sort = new Sort(SortField.FIELD_SCORE,
-            //    new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_SCORE
+                , new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
 
             var query = BaseParser.ParseQuery(searchText, parser);
+
             var hits = searcher.Search(query, filter, resultsLimit, sort).ScoreDocs;
+            //var hits = searcher.Search(query, filter, resultsLimit).ScoreDocs;
 
             return hits.Select(hit => searcher.Doc(hit.Doc)).ToList();
         }

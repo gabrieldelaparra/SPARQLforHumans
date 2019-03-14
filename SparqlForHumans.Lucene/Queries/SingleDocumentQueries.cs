@@ -77,10 +77,9 @@ namespace SparqlForHumans.Lucene.Queries
             var document = new Document();
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
-            using (var queryAnalyzer = new KeywordAnalyzer())
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
-                document = BaseParser.QueryDocumentByIdAndRank(searchId, queryAnalyzer, searcher);
+                document = BaseParser.QueryDocumentByIdAndRank(searchId, searcher);
             }
 
             return document;
@@ -105,13 +104,10 @@ namespace SparqlForHumans.Lucene.Queries
             var document = new Document();
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
-            using (var queryAnalyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48))
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
-                document = BaseParser.QueryDocumentByLabelAndRank(searchText, queryAnalyzer, searcher, filter);
-
-                //queryAnalyzer.Close();
-                //searcher.Dispose();
+                var parser = BaseParser.GetMultiFieldParser();
+                document = BaseParser.QueryDocumentByRank(searchText, searcher, parser, filter); 
             }
 
             return document;

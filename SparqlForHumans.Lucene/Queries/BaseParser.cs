@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Lucene.Net.Analysis;
+using Lucene.Net.Analysis.Core;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
@@ -38,35 +41,52 @@ namespace SparqlForHumans.Lucene.Queries
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
-        internal static Document QueryDocumentByIdAndRank(string searchId, Analyzer queryAnalyzer,
-            IndexSearcher searcher)
+        internal static Document QueryDocumentByIdAndRank(string searchId, IndexSearcher searcher)
         {
-            var parser = new QueryParser(LuceneVersion.LUCENE_48, Labels.Id.ToString(), queryAnalyzer);
+            var parser = GetIdParser();
 
             return QueryDocumentByRank(searchId, searcher, parser);
         }
 
-        // Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
-        internal static Document QueryDocumentByLabelAndRank(string searchText, Analyzer queryAnalyzer,
-            IndexSearcher searcher, Filter filter = null)
+        internal static QueryParser GetIdParser()
         {
-            QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
-                new[] {Labels.Label.ToString(), Labels.AltLabel.ToString()},
-                queryAnalyzer);
-
-            return QueryDocumentByRank(searchText, searcher, parser, filter);
+            return new QueryParser(LuceneVersion.LUCENE_48, Labels.Id.ToString(), new KeywordAnalyzer());
         }
 
-        //Does the search with the specific QueryParser (Label or Id). Returns results sorted by rank.
-        private static Document QueryDocumentByRank(string searchText, IndexSearcher searcher, QueryParser parser,
+        internal static QueryParser GetMultiFieldParser()
+        {
+            var boostsDictionary = new Dictionary<string, float>()
+            {
+                //{Labels.Label.ToString(), 2000f},
+                //{Labels.AltLabel.ToString(), 1f}
+            };
+            QueryParser parser = new MultiFieldQueryParser(
+                    matchVersion: LuceneVersion.LUCENE_48,
+                    fields: new[] {
+                        Labels.Label.ToString(),
+                        Labels.AltLabel.ToString()
+                    },
+                    analyzer: new StandardAnalyzer(LuceneVersion.LUCENE_48),
+                    boosts: boostsDictionary
+                );
+
+            parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);
+            //parser.AllowLeadingWildcard = true;
+
+            return parser;
+        }
+
+        // Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
+        internal static Document QueryDocumentByRank(string searchText, IndexSearcher searcher, QueryParser parser,
             Filter filter = null)
         {
             //Adds Sorting
-            var sort = new Sort(SortField.FIELD_SCORE,
-                new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
+            //var sort = new Sort(SortField.FIELD_SCORE,
+            //    new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
 
             var query = ParseQuery(searchText, parser);
-            var hit = searcher.Search(query, filter, 1, sort).ScoreDocs;
+            //var hit = searcher.Search(query, filter, 1, sort).ScoreDocs;
+            var hit = searcher.Search(query, filter, 1).ScoreDocs;
 
             if (hit == null || hit.Length.Equals(0))
                 return null;

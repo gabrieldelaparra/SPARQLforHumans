@@ -9,7 +9,7 @@ namespace SparqlForHumans.UnitTests
     public class QuerySingleQueriesTests
     {
         [Fact]
-        public void TestSingleQueryBarackObamaShouldShowFirst()
+        public void TestSingleQuery_BarackObama_ShouldShowFirst()
         {
             const string filename = "Resources/QuerySingle.nt";
             const string outputPath = "QuerySingleIndexBarack";
@@ -28,7 +28,7 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestSingleQueryMichelleObamaShouldShowFirst()
+        public void TestSingleQuery_MichelleObama_ShouldShowFirst()
         {
             const string filename = "Resources/QuerySingle.nt";
             const string outputPath = "QuerySingleIndexMichelle";
