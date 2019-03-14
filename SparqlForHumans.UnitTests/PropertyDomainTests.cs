@@ -187,7 +187,7 @@ namespace SparqlForHumans.UnitTests
                 var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
                 var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
 
-                //PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+                PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
 
                 // Check Domains
                 var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);

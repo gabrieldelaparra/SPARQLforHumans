@@ -118,7 +118,7 @@ namespace SparqlForHumans.Lucene.Indexing
             Logger.Info($"Build Property Index, Group: {readCount:N0}");
         }
 
-        public static void AddDomainTypesToPropertiesIndex(Dictionary<string, List<string>> invertedProperties)
+        public static void AddDomainTypesToPropertiesIndex(Dictionary<int, int[]> invertedProperties)
         {
             using (var propertiesIndexDirectory =
                 FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
@@ -128,7 +128,7 @@ namespace SparqlForHumans.Lucene.Indexing
         }
 
         public static void AddDomainTypesToPropertiesIndex(Directory propertiesIndexDirectory,
-            Dictionary<string, List<string>> invertedProperties)
+            Dictionary<int, int[]> invertedProperties)
         {
             long readCount = 0;
 
@@ -143,8 +143,9 @@ namespace SparqlForHumans.Lucene.Indexing
             {
                 foreach (var invertedProperty in invertedProperties)
                 {
+                    var propertyId = $"P{invertedProperty.Key}";
                     var document =
-                        SingleDocumentQueries.QueryDocumentById(invertedProperty.Key, propertiesIndexDirectory);
+                        SingleDocumentQueries.QueryDocumentById(propertyId, propertiesIndexDirectory);
 
                     if (document == null) continue;
 
@@ -153,12 +154,13 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     foreach (var domainType in invertedProperty.Value)
                     {
-                        var field = new TextField(Labels.DomainType.ToString(), domainType, Field.Store.YES);
+                        var typeIds = $"Q{domainType}";
+                        var field = new TextField(Labels.DomainType.ToString(), typeIds, Field.Store.YES);
 
                         document.Add(field);
                     }
 
-                    writer.UpdateDocument(new Term(Labels.Id.ToString(), invertedProperty.Key), document);
+                    writer.UpdateDocument(new Term(Labels.Id.ToString(), propertyId), document);
                     readCount++;
                 }
             }
