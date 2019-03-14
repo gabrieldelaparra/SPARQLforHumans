@@ -1,14 +1,9 @@
 using System.Linq;
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Index;
-using Lucene.Net.QueryParsers.Classic;
-using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;

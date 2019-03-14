@@ -37,6 +37,7 @@
     <None Remove="Resources\PropertyIndex\_1.cfs" />
     <None Remove="Resources\PropertyRange.nt" />
     <None Remove="Resources\QueryMulti.nt" />
+    <None Remove="Resources\QueryRanks.nt" />
     <None Remove="Resources\QuerySingle.nt" />
     <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
@@ -49,6 +50,9 @@
 
   <ItemGroup>
     <Content Include="Resources\buildGraphDifferentIds.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryRanks.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\buildGraphMultipleProperties.nt">

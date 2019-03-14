@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lucene.Net.Store;
+﻿using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;

@@ -25,8 +25,7 @@ namespace SparqlForHumans.Lucene.Queries
         {
             try
             {
-                using (var luceneDirectory =
-                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
                 }
@@ -182,8 +181,10 @@ namespace SparqlForHumans.Lucene.Queries
             QueryParser parser,
             int resultsLimit, Filter filter)
         {
-            var sort = new Sort(SortField.FIELD_SCORE,
-                new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
+            var sort = new Sort(SortField.FIELD_DOC, SortField.FIELD_SCORE);
+
+            //var sort = new Sort(SortField.FIELD_SCORE,
+            //    new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true));
 
             var query = BaseParser.ParseQuery(searchText, parser);
             var hits = searcher.Search(query, filter, resultsLimit, sort).ScoreDocs;

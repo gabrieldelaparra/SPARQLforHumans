@@ -12,12 +12,12 @@ namespace SparqlForHumans.Lucene.Indexing
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
 
-        private static readonly double pageRankAlpha = 0.85d;
+        private const double PageRankAlpha = 0.85d;
         public static int NotifyTicks { get; } = 100000;
 
 
         /// <summary>
-        ///     Reads the file (Order n)
+        ///     Reads the triples file (Order n)
         ///     Creates a Dictionary(string Q-entity, entityIndexInFile)
         ///     Foreach group in the file, adds the (Q-id and the position in the file).
         /// </summary>
@@ -45,7 +45,7 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
-        
+
 
         /// <summary>
         ///     Uses the <Q-EntityId, NodeIndex> to build an array with arrays.
@@ -138,25 +138,27 @@ namespace SparqlForHumans.Lucene.Indexing
             return oldRanks;
         }
 
-        private static double[] IterateGraph(int[][] graph, double[] oldRanks)
+        private static double[] IterateGraph(IReadOnlyList<int[]> graph, IReadOnlyList<double> oldRanks)
         {
             var noLinkRank = 0d;
-            var nodesCount = graph.Length;
+            var nodesCount = graph.Count;
             var ranks = new double[nodesCount];
 
             for (var i = 0; i < nodesCount; i++)
+            {
                 if (graph[i].Length > 0)
                 {
-                    var share = oldRanks[i] * pageRankAlpha / graph[i].Length;
+                    var share = oldRanks[i] * PageRankAlpha / graph[i].Length;
                     foreach (var j in graph[i]) ranks[j] += share;
                 }
                 else
                 {
                     noLinkRank += oldRanks[i];
                 }
+            }
 
-            var shareNoLink = noLinkRank * pageRankAlpha / nodesCount;
-            var shareMinusD = (1d - pageRankAlpha) / nodesCount;
+            var shareNoLink = noLinkRank * PageRankAlpha / nodesCount;
+            var shareMinusD = (1d - PageRankAlpha) / nodesCount;
             var weakRank = shareNoLink + shareMinusD;
 
             for (var i = 0; i < nodesCount; i++) ranks[i] += weakRank;

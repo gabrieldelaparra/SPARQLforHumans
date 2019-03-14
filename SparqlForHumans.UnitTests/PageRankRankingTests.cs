@@ -129,7 +129,5 @@ namespace SparqlForHumans.UnitTests
             Assert.Equal(0.222, ranks[5].ToThreeDecimals());
             Assert.Equal(0.180, ranks[6].ToThreeDecimals());
         }
-
-        
     }
 }

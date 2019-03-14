@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
@@ -14,12 +11,35 @@ using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;
-using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests
 {
     public class QueryRankTests
     {
+        [Fact]
+        public void TestMultiQueryShouldBeOrderedByRankValues()
+        {
+            const string filename = "Resources/QueryRanks.nt";
+            const string outputPath = "QueryRanksSortedByPageRank";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts:true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Entity", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+        }
+
         /// <summary>
         ///     An issue while testing ranking, is that ranking it's not being displayed when the index is read.
         ///     Not sure why is this or if this might an issue of the current Lucene.Net library version.
