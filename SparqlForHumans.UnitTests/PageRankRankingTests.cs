@@ -13,7 +13,7 @@ using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests
 {
-    public class IndexRankingTests
+    public class PageRankRankingTests
     {
         [Fact]
         public void TestBuildDictionary()
