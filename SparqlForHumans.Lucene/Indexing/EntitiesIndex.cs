@@ -44,13 +44,7 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             long readCount = 1;
 
-            Options.InternUris = false;
-            var analyzer = new KeywordAnalyzer();
-
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer)
-            {
-                OpenMode = OpenMode.CREATE_OR_APPEND
-            };
+            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
 
             using (var writer = new IndexWriter(entitiesIndexDirectory, indexConfig))
             {
@@ -174,8 +168,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     {
                         nodesDictionary.TryGetValue(id.ToInt(), out var subjectIndex);
 
-                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
-                            Field.Store.YES));
+                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],Field.Store.YES));
                         IndexBuilder.AddFields(luceneDocument, fields, nodesGraphRanks[subjectIndex]);
                     }
                     else

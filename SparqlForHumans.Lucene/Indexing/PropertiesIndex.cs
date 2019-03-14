@@ -132,12 +132,7 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             long readCount = 0;
 
-            Options.InternUris = false;
-            var analyzer = new KeywordAnalyzer();
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer)
-            {
-                OpenMode = OpenMode.CREATE_OR_APPEND,
-            };
+            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
 
             using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
             {
