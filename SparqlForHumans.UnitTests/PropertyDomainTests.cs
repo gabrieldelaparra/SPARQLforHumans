@@ -183,9 +183,9 @@ namespace SparqlForHumans.UnitTests
                 Assert.Empty(property777.DomainTypes);
 
                 // Build Domains
-                var propertyDomainTypes = PropertyDomain.GetPropertyDomainTypes();
-                //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
+                //var propertyDomainTypes = PropertyDomain.GetPropertyDomainTypes();
+                var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
+                var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
 
                 //PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
 

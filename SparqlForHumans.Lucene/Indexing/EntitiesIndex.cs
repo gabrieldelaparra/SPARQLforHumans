@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Indexing
         public static int NotifyTicks { get; } = 100000;
 
         //TODO: Replace Dictionary with int[][]
-        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary)
+        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary)
         {
             using (var entitiesIndexDirectory =
                 FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
@@ -39,7 +39,7 @@ namespace SparqlForHumans.Lucene.Indexing
         /// </summary>
         /// <param name="typePropertiesDictionary"></param>
         /// <param name="entitiesIndexDirectory"></param>
-        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<string, List<string>> typePropertiesDictionary,
+        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary,
             Directory entitiesIndexDirectory)
         {
             long readCount = 1;
@@ -54,7 +54,8 @@ namespace SparqlForHumans.Lucene.Indexing
 
             using (var writer = new IndexWriter(entitiesIndexDirectory, indexConfig))
             {
-                var documents = MultiDocumentQueries.QueryDocumentsByIds(typePropertiesDictionary.Select(x => x.Key),
+                var entityIds = typePropertiesDictionary.Select(x => $"Q{x.Key}");
+                var documents = MultiDocumentQueries.QueryDocumentsByIds(entityIds,
                     entitiesIndexDirectory);
 
                 foreach (var document in documents)
@@ -69,10 +70,10 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     var id = document.MapBaseSubject().Id;
 
-                    if (typePropertiesDictionary.TryGetValue(id, out var properties))
+                    if (typePropertiesDictionary.TryGetValue(id.ToInt(), out var properties))
                         foreach (var property in properties)
                         {
-                            var propertyField = new StringField(Labels.Property.ToString(), property, Field.Store.YES);
+                            var propertyField = new StringField(Labels.Property.ToString(), $"P{property}", Field.Store.YES);
                             document.Add(propertyField);
                         }
 
