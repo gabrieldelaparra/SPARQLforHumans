@@ -46,7 +46,6 @@ namespace SparqlForHumans.RDF.Queries
             //                .Subject("type").PredicateUri("sn:hasUnit").Object("unit")
             //        )
             //    );
-
         }
     }
 }

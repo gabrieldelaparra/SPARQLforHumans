@@ -121,14 +121,14 @@ namespace SparqlForHumans.Utilities
                     return FileType.Unkwown;
             }
         }
-      
+
 
         public static string GetReducedLimitName(int limit)
         {
             if (limit < 0)
                 return "All";
 
-            string[] sizes = { "", "K", "M"};
+            string[] sizes = {"", "K", "M"};
             var order = 0;
             const int splitter = 1000;
             while (limit >= splitter && order < sizes.Length - 1)

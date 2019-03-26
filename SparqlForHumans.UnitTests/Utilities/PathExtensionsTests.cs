@@ -13,7 +13,7 @@ namespace SparqlForHumans.UnitTests.Utilities
 
             path.DeleteIfExists();
             Assert.False(Directory.Exists(path));
-            
+
             Directory.CreateDirectory(path);
             Assert.True(Directory.Exists(path));
 
@@ -35,6 +35,7 @@ namespace SparqlForHumans.UnitTests.Utilities
             using (var file = File.Create(path))
             {
             }
+
             Assert.True(File.Exists(path));
 
             path.DeleteIfExists();

@@ -2,15 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Core;
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
@@ -26,7 +22,8 @@ namespace SparqlForHumans.Lucene.Queries
         {
             try
             {
-                using (var luceneDirectory = FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                using (var luceneDirectory =
+                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
                 }
@@ -139,7 +136,7 @@ namespace SparqlForHumans.Lucene.Queries
                 return new List<Document>();
 
             var list = new List<Document>();
-            
+
             // NotEmpty Validation
             if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 -]", string.Empty)))
                 return list;
@@ -164,8 +161,8 @@ namespace SparqlForHumans.Lucene.Queries
             QueryParser parser, int resultsLimit, Filter filter = null)
         {
             //var sort = new Sort(SortField.FIELD_SCORE
-                //, new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true)
-                //);
+            //, new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true)
+            //);
 
             var query = BaseParser.ParseQuery(searchText, parser);
 

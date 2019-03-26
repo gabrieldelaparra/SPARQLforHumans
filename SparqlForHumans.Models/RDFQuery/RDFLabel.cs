@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SparqlForHumans.Models.RDFQuery
+﻿namespace SparqlForHumans.Models.RDFQuery
 {
     public class RDFLabel : ILabel
     {

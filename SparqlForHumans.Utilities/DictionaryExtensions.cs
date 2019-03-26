@@ -5,7 +5,7 @@ namespace SparqlForHumans.Utilities
 {
     public static class DictionaryExtensions
     {
-        public static void AddSafe<T1,T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, T2 value)
+        public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, T2 value)
         {
             if (dictionary.ContainsKey(key))
             {
@@ -14,7 +14,7 @@ namespace SparqlForHumans.Utilities
             }
             else
             {
-                dictionary.Add(key, new List<T2>() { value });
+                dictionary.Add(key, new List<T2> {value});
             }
         }
 

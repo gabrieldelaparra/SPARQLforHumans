@@ -73,6 +73,59 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestGetOutputFilename_All()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = -1;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_filtered_ntgz()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.filtered2K.nt.gz";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_NoLimit()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
+            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_nt()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_ntgz()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = 500;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
+        }
+
+        [Fact]
+        public void TestGetOutputFilename_Zero()
+        {
+            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
+            const int limit = 0;
+            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
+            Assert.Equal(@"TrimmedTestSet.filter0.gz", outputFilename);
+        }
+
+        [Fact]
         public void TestGetOutputFilteredFilename()
         {
             const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
@@ -97,59 +150,6 @@ namespace SparqlForHumans.UnitTests
             const int limit = 50000000;
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
             Assert.Equal(@"TrimmedTestSet.filter50M.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_nt()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt";
-            const int limit = 500;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_ntgz()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
-            const int limit = 500;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_filtered_ntgz()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.filtered2K.nt.gz";
-            const int limit = 500;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"TrimmedTestSet.filter500.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_All()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
-            const int limit = -1;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_NoLimit()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
-            Assert.Equal(@"TrimmedTestSet.filterAll.gz", outputFilename);
-        }
-
-        [Fact]
-        public void TestGetOutputFilename_Zero()
-        {
-            const string filename = @"C:\a\b\c\TrimmedTestSet.nt.gz";
-            const int limit = 0;
-            var outputFilename = FileHelper.GetFilteredOutputFilename(filename, limit);
-            Assert.Equal(@"TrimmedTestSet.filter0.gz", outputFilename);
         }
 
         [Fact]

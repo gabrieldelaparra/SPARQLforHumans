@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SparqlForHumans.Models;
-using SparqlForHumans.Models.RDFQuery;
+﻿using SparqlForHumans.Models.RDFQuery;
 using SparqlForHumans.RDF.Queries;
 using Xunit;
 
@@ -13,29 +9,30 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetLabelQuery()
         {
-            var entity = new RDFEntity()
+            var entity = new RDFEntity
             {
-                Id = "Q25",
+                Id = "Q25"
             };
-            var property = new RDFProperty()
+            var property = new RDFProperty
             {
-                Id = "P31",
+                Id = "P31"
             };
-            var rdfQuery = new RDFTriple()
+            var rdfQuery = new RDFTriple
             {
                 Subject = entity,
                 Predicate = property,
-                Object = new RDFEntity()
+                Object = new RDFEntity
                 {
-                    Label = "instanceOf",
-                },
+                    Label = "instanceOf"
+                }
             };
             var query = rdfQuery.BuildQuery();
 
             Assert.Contains("SELECT ?instanceOf", query.ToString());
             Assert.Contains("WHERE", query.ToString());
-            Assert.Contains("<http://www.wikidata.org/entity/Q25> <http://www.wikidata.org/prop/direct/P31> ?instanceOf .", query.ToString());
-
+            Assert.Contains(
+                "<http://www.wikidata.org/entity/Q25> <http://www.wikidata.org/prop/direct/P31> ?instanceOf .",
+                query.ToString());
         }
     }
 }

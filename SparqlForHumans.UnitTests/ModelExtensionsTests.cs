@@ -1,5 +1,4 @@
-﻿using SparqlForHumans.Models;
-using SparqlForHumans.Models.Extensions;
+﻿using SparqlForHumans.Models.Extensions;
 using SparqlForHumans.Models.RDFQuery;
 using Xunit;
 
@@ -10,9 +9,9 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetEntityUri()
         {
-            var entity = new RDFEntity()
+            var entity = new RDFEntity
             {
-                Id = "Q25",
+                Id = "Q25"
             };
             Assert.Equal("http://www.wikidata.org/entity/Q25", entity.WikidataUri());
         }
@@ -20,9 +19,9 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetPropertyUri()
         {
-            var property = new RDFProperty()
+            var property = new RDFProperty
             {
-                Id = "P31",
+                Id = "P31"
             };
             Assert.Equal("http://www.wikidata.org/prop/direct/P31", property.WikidataUri());
         }

@@ -1,10 +1,7 @@
-﻿using Lucene.Net.Analysis.Core;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
@@ -107,7 +104,7 @@ namespace SparqlForHumans.Lucene.Queries
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
                 var parser = BaseParser.GetMultiFieldParser();
-                document = BaseParser.QueryDocumentByRank(searchText, searcher, parser, filter); 
+                document = BaseParser.QueryDocumentByRank(searchText, searcher, parser, filter);
             }
 
             return document;

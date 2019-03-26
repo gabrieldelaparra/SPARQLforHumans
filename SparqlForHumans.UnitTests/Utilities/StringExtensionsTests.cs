@@ -6,10 +6,10 @@ namespace SparqlForHumans.UnitTests.Utilities
     public class StringExtensionsTests
     {
         [Fact]
-        public void TestToIntOnlyNumbers()
+        public void TestToIntMix()
         {
-            const string sample = "1234";
-            const int expected = 1234;
+            const string sample = "a1a1";
+            const int expected = 11;
             Assert.Equal(expected, sample.ToInt());
         }
 
@@ -22,10 +22,10 @@ namespace SparqlForHumans.UnitTests.Utilities
         }
 
         [Fact]
-        public void TestToIntMix()
+        public void TestToIntOnlyNumbers()
         {
-            const string sample = "a1a1";
-            const int expected = 11;
+            const string sample = "1234";
+            const int expected = 1234;
             Assert.Equal(expected, sample.ToInt());
         }
     }

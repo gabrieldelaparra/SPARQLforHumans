@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -10,12 +7,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class InvertedPropertiesTests
     {
-        [Fact]
-        public void TestCreateEntityType2DArray()
-        {
-
-        }
-
         public int getMax(int current, int compare)
         {
             return current <= compare ? compare : current;
@@ -51,6 +42,11 @@ namespace SparqlForHumans.UnitTests
             }
 
             return null;
+        }
+
+        [Fact]
+        public void TestCreateEntityType2DArray()
+        {
         }
     }
 }

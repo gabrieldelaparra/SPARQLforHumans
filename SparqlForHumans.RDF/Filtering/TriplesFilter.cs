@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.Utilities;
 using VDS.RDF;
 using static SparqlForHumans.Utilities.FileHelper;
-using ICSharpCode.SharpZipLib.Zip;
-using ICSharpCode.SharpZipLib.GZip;
 
 namespace SparqlForHumans.RDF.Filtering
 {
@@ -37,7 +34,7 @@ namespace SparqlForHumans.RDF.Filtering
         public static void Filter(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
             if (string.IsNullOrWhiteSpace(outputTriplesFilename))
-                outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+                outputTriplesFilename = GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
 
             Options.InternUris = false;
 
@@ -52,8 +49,8 @@ namespace SparqlForHumans.RDF.Filtering
             long readCount = 0;
             long writeCount = 0;
 
-            var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
-            
+            var wikidataDumpLines = GetInputLines(inputTriplesFilename);
+
             using (var fileToCompress = File.Create(outputTriplesFilename))
             using (var gZipStream = new GZipStream(fileToCompress, CompressionMode.Compress, true))
             {

@@ -1,14 +1,7 @@
 ﻿using System.Linq;
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Index;
-using Lucene.Net.QueryParsers.Classic;
-using Lucene.Net.Search;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;
 
@@ -16,136 +9,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class QueryRankTests
     {
-        [Fact]
-        public void TestRankMultiQuery_ShouldBeSortedByRank_OnlyLabels()
-        {
-            const string filename = "Resources/QueryRanksOnlyLabels.nt";
-            const string outputPath = "QueryRanksSortedByPageRankOnlyLabels";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts:true);
-
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
-
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRankMultiQuery_ShouldBeSortedByRank_OneWithAltLabels()
-        {
-            const string filename = "Resources/QueryRanksOneWithAltLabels.nt";
-            const string outputPath = "QueryRanksOneAltLabelsSortedByPageRank";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
-
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
-
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRankMultiQuery_ShouldBeSortedByRank_AllWithSameAltLabels()
-        {
-            const string filename = "Resources/QueryRanksAllWithAltLabels.nt";
-            const string outputPath = "QueryRanksAllSameAltLabelsSortedByPageRank";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
-
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
-
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRankMultiQuery_ShouldBeSortedByRank_AllWithAltLabels_Q1More()
-        {
-            const string filename = "Resources/QueryRanksAllWithAltLabelsQ1More.nt";
-            const string outputPath = "QueryRanksAllWithAltLabelsQ1SortedByPageRank";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
-
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
-
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRankMultiQuery_ShouldBeSortedByRank_OnlyAltLabels()
-        {
-            const string filename = "Resources/QueryRanksOnlyAltLabels.nt";
-            const string outputPath = "QueryRanksSortedByPageRankOnlyAltLabels";
-
-            outputPath.DeleteIfExists();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
-
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
-
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
         /// <summary>
         ///     An issue while testing ranking, is that ranking it's not being displayed when the index is read.
         ///     Not sure why is this or if this might an issue of the current Lucene.Net library version.
@@ -218,6 +81,136 @@ namespace SparqlForHumans.UnitTests
 
             //outputPath1.DeleteIfExists();
             //outputPath2.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestRankMultiQuery_ShouldBeSortedByRank_AllWithAltLabels_Q1More()
+        {
+            const string filename = "Resources/QueryRanksAllWithAltLabelsQ1More.nt";
+            const string outputPath = "QueryRanksAllWithAltLabelsQ1SortedByPageRank";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestRankMultiQuery_ShouldBeSortedByRank_AllWithSameAltLabels()
+        {
+            const string filename = "Resources/QueryRanksAllWithAltLabels.nt";
+            const string outputPath = "QueryRanksAllSameAltLabelsSortedByPageRank";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestRankMultiQuery_ShouldBeSortedByRank_OneWithAltLabels()
+        {
+            const string filename = "Resources/QueryRanksOneWithAltLabels.nt";
+            const string outputPath = "QueryRanksOneAltLabelsSortedByPageRank";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestRankMultiQuery_ShouldBeSortedByRank_OnlyAltLabels()
+        {
+            const string filename = "Resources/QueryRanksOnlyAltLabels.nt";
+            const string outputPath = "QueryRanksSortedByPageRankOnlyAltLabels";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestRankMultiQuery_ShouldBeSortedByRank_OnlyLabels()
+        {
+            const string filename = "Resources/QueryRanksOnlyLabels.nt";
+            const string outputPath = "QueryRanksSortedByPageRankOnlyLabels";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+
+                Assert.Equal("Q6", entities[0].Id); //0.222
+                Assert.Equal("Q4", entities[1].Id); //0.180
+                Assert.Equal("Q7", entities[2].Id); //0.180
+                Assert.Equal("Q1", entities[3].Id); //0.138
+                Assert.Equal("Q5", entities[4].Id); //0.128
+                Assert.Equal("Q2", entities[5].Id); //0.087
+                Assert.Equal("Q3", entities[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
         }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;

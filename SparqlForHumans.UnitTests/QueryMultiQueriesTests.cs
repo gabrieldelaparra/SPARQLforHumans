@@ -19,7 +19,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory);
                 var entity = entities.FirstOrDefault();
                 Assert.Equal("Q76", entity.Id);
@@ -38,7 +38,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, addBoosts: true);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory);
                 var entity = entities.FirstOrDefault();
                 Assert.Equal("Q13133", entity.Id);

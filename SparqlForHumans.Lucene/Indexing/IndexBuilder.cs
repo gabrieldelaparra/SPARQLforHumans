@@ -3,7 +3,6 @@ using System.Linq;
 using Lucene.Net.Analysis.Core;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.Search.Similarities;
 using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
@@ -21,9 +20,8 @@ namespace SparqlForHumans.Lucene.Indexing
             Options.InternUris = false;
             var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, new KeywordAnalyzer())
             {
-                OpenMode = OpenMode.CREATE_OR_APPEND,
+                OpenMode = OpenMode.CREATE_OR_APPEND
                 //Similarity = new DefaultSimilarity(),
-
             };
             return indexConfig;
         }
@@ -32,12 +30,11 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             var altLabels = new List<string>();
             var nonAltLabelFields = new List<Field>();
-            
+
             foreach (var field in fields)
-            {
                 if (field.Name.Equals(Labels.Label.ToString()))
                 {
-                    field.Boost = (float)boost;
+                    field.Boost = (float) boost;
                     nonAltLabelFields.Add(field);
                 }
                 else if (field.Name.Equals(Labels.AltLabel.ToString()))
@@ -49,17 +46,13 @@ namespace SparqlForHumans.Lucene.Indexing
                     nonAltLabelFields.Add(field);
                 }
 
-                //doc.Add(field);
-            }
+            //doc.Add(field);
 
             var altLabelFields = new TextField(Labels.AltLabel.ToString(), string.Join("##", altLabels),
                 Field.Store.YES);
             altLabelFields.Boost = (float) boost;
             //nonAltLabelFields.Add(altLabelFields);
-            foreach (var nonAltLabelField in nonAltLabelFields)
-            {
-                doc.Add(nonAltLabelField);
-            }
+            foreach (var nonAltLabelField in nonAltLabelFields) doc.Add(nonAltLabelField);
             doc.Add(altLabelFields);
         }
 
@@ -91,7 +84,6 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     foreach (var instanceOf in entity.InstanceOf)
                         dictionary.AddSafe(instanceOf.ToInt(), entity.Properties.Select(x => x.Id.ToInt()));
-
                 }
             }
 

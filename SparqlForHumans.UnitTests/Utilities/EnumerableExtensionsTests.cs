@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Utilities

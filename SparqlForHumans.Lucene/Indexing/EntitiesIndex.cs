@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
@@ -8,7 +7,6 @@ using Lucene.Net.Store;
 using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
@@ -67,7 +65,8 @@ namespace SparqlForHumans.Lucene.Indexing
                     if (typePropertiesDictionary.TryGetValue(id.ToInt(), out var properties))
                         foreach (var property in properties)
                         {
-                            var propertyField = new StringField(Labels.Property.ToString(), $"P{property}", Field.Store.YES);
+                            var propertyField = new StringField(Labels.Property.ToString(), $"P{property}",
+                                Field.Store.YES);
                             document.Add(propertyField);
                         }
 
@@ -162,21 +161,21 @@ namespace SparqlForHumans.Lucene.Indexing
                         }
 
                         fields.AddRange(ParsePredicate(ntPredicate, ntObject));
-
                     }
 
                     if (addBoosts)
                     {
                         nodesDictionary.TryGetValue(id.ToInt(), out var subjectIndex);
 
-                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],Field.Store.YES));
+                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
+                            Field.Store.YES));
                         IndexBuilder.AddFields(luceneDocument, fields, nodesGraphRanks[subjectIndex]);
                     }
                     else
                     {
                         IndexBuilder.AddFields(luceneDocument, fields, 0);
                     }
-                    
+
                     writer.AddDocument(luceneDocument);
                     readCount++;
                 }

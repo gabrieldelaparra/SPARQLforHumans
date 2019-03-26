@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SparqlForHumans.Models.RDFQuery
 {
-    interface IRDFGraph
+    internal interface IRDFGraph
     {
         List<RDFTriple> QueryTriples { get; set; }
     }

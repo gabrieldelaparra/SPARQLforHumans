@@ -2,7 +2,6 @@
 using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -179,7 +178,5 @@ namespace SparqlForHumans.UnitTests
                 Assert.Equal("Q26", entity.Id);
             }
         }
-
-        
     }
 }

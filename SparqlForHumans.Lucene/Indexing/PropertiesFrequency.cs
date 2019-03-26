@@ -1,8 +1,4 @@
 ﻿using System.Collections.Generic;
-using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Models;
-using SparqlForHumans.Models.LuceneIndex;
-using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -57,7 +53,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
             //var predicateId = line.GetTriple().Predicate.GetId();
 
-            
+
             //if (!predicateId.Contains(WikidataDump.PropertyPrefix))
             //    return;
 

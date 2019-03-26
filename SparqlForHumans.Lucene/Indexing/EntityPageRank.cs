@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 
@@ -10,9 +8,8 @@ namespace SparqlForHumans.Lucene.Indexing
 {
     public static class EntityPageRank
     {
-        private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-
         private const double PageRankAlpha = 0.85d;
+        private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
 
 
@@ -44,7 +41,6 @@ namespace SparqlForHumans.Lucene.Indexing
 
             return dictionary;
         }
-
 
 
         /// <summary>
@@ -145,7 +141,6 @@ namespace SparqlForHumans.Lucene.Indexing
             var ranks = new double[nodesCount];
 
             for (var i = 0; i < nodesCount; i++)
-            {
                 if (graph[i].Length > 0)
                 {
                     var share = oldRanks[i] * PageRankAlpha / graph[i].Length;
@@ -155,7 +150,6 @@ namespace SparqlForHumans.Lucene.Indexing
                 {
                     noLinkRank += oldRanks[i];
                 }
-            }
 
             var shareNoLink = noLinkRank * PageRankAlpha / nodesCount;
             var shareMinusD = (1d - PageRankAlpha) / nodesCount;

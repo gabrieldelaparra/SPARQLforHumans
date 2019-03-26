@@ -8,9 +8,13 @@ namespace SparqlForHumans.RDF.Models
 {
     public class SubjectGroup : Grouping<string, Triple>
     {
-        public SubjectGroup() : this(string.Empty, new List<Triple>()) { }
+        public SubjectGroup() : this(string.Empty, new List<Triple>())
+        {
+        }
 
-        public SubjectGroup(string key, IEnumerable<string> elements) : this(key, elements.Select(x => x.ToTriple())) { }
+        public SubjectGroup(string key, IEnumerable<string> elements) : this(key, elements.Select(x => x.ToTriple()))
+        {
+        }
 
         public SubjectGroup(string key, IEnumerable<Triple> elements) : base(key, elements)
         {

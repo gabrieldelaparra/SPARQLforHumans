@@ -4,7 +4,9 @@ namespace SparqlForHumans.Models.RDFQuery
 {
     public class RDFProperty : Property, IRDFSubject
     {
-        public RDFProperty() {}
+        public RDFProperty()
+        {
+        }
 
         public RDFProperty(Property property)
         {

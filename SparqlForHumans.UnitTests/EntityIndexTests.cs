@@ -25,7 +25,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
 
                 Assert.True(Directory.Exists(outputPath));
 
@@ -52,7 +52,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts:false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
             }
 
             Assert.True(Directory.Exists(outputPath));
@@ -71,7 +71,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -108,7 +108,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -129,7 +129,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -154,7 +154,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -175,7 +175,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -196,7 +196,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc1 = reader.Document(0);
@@ -222,7 +222,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -243,7 +243,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -269,7 +269,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -290,7 +290,7 @@ namespace SparqlForHumans.UnitTests
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, addBoosts: false);
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -337,7 +337,5 @@ namespace SparqlForHumans.UnitTests
 
         //    outputPath.DeleteIfExists();
         //}
-
-        
     }
 }
