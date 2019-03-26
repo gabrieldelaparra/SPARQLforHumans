@@ -18,7 +18,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyIndex.nt";
             Assert.True(File.Exists(filename));
 
-            const string outputPath = "PropertyIndex";
+            const string outputPath = "CreateBasicPropertyIndex";
 
             outputPath.DeleteIfExists();
 

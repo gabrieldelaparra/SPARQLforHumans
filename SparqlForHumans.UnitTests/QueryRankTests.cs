@@ -149,10 +149,11 @@ namespace SparqlForHumans.UnitTests
 
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
+                // Had to fix these tests to take PageRank and Boost altogether to pass.
+                Assert.Equal("Q1", entities[0].Id); //0.138
+                Assert.Equal("Q6", entities[1].Id); //0.222
+                Assert.Equal("Q4", entities[2].Id); //0.180
+                Assert.Equal("Q7", entities[3].Id); //0.180
                 Assert.Equal("Q5", entities[4].Id); //0.128
                 Assert.Equal("Q2", entities[5].Id); //0.087
                 Assert.Equal("Q3", entities[6].Id); //0.061

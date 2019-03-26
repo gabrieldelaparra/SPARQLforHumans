@@ -26,36 +26,45 @@ namespace SparqlForHumans.Lucene.Indexing
             return indexConfig;
         }
 
+        /// <summary>
+        /// This method takes a document, all fields that are going to be added to that document and
+        /// a boost factor. That boost factor is only added to the `Label` and `AltLabel` fields.
+        /// Before, each `AltLabel` item was added as a new Field. Now all `AltLabel`s are concatenated with
+        /// `##` and a single boost is added to the `AltLabel` field. On Query/Map, `AltLabel`s are split.
+        /// </summary>
+        /// <param name="doc"></param>
+        /// <param name="fields"></param>
+        /// <param name="boost"></param>
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
-            var altLabels = new List<string>();
-            var nonAltLabelFields = new List<Field>();
+             //AltLabels: Join with ## and add Boost.
+            var altLabelValues = fields
+                .Where(x => x.Name.Equals(Labels.AltLabel.ToString()))
+                .Select(x => x.GetStringValue());
 
+            var altLabelField = new TextField(Labels.AltLabel.ToString(),
+                string.Join(" ## ", altLabelValues),
+                Field.Store.YES)
+            {
+                Boost = (float)boost
+            };
+
+            doc.Add(altLabelField);
+
+            //Labels: Set Boost
+            foreach (var field in fields.Where(x => x.Name.Equals(Labels.Label.ToString())))
+                field.Boost = (float)boost;
+
+            //Non AltLabels
+            fields = fields.Where(x => !x.Name.Equals(Labels.AltLabel.ToString()));
             foreach (var field in fields)
-                if (field.Name.Equals(Labels.Label.ToString()))
-                {
-                    field.Boost = (float) boost;
-                    nonAltLabelFields.Add(field);
-                }
-                else if (field.Name.Equals(Labels.AltLabel.ToString()))
-                {
-                    altLabels.Add(field.GetStringValue());
-                }
-                else
-                {
-                    nonAltLabelFields.Add(field);
-                }
-
-            //doc.Add(field);
-
-            var altLabelFields = new TextField(Labels.AltLabel.ToString(), string.Join("##", altLabels),
-                Field.Store.YES);
-            altLabelFields.Boost = (float) boost;
-            //nonAltLabelFields.Add(altLabelFields);
-            foreach (var nonAltLabelField in nonAltLabelFields) doc.Add(nonAltLabelField);
-            doc.Add(altLabelFields);
+                doc.Add(field);
         }
 
+        /// <summary>
+        /// From the default Entities Index, for each `entityId` get all the `propertyId` of that Entity.
+        /// </summary>
+        /// <returns></returns>
         public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary()
         {
             using (var entitiesIndexDirectory =
@@ -65,6 +74,11 @@ namespace SparqlForHumans.Lucene.Indexing
             }
         }
 
+        /// <summary>
+        /// From an existing Entities Index, for each `entityId` get all the `propertyId` of that Entity.
+        /// </summary>
+        /// <param name="entitiesIndexDirectory"></param>
+        /// <returns></returns>
         public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary(
             Directory entitiesIndexDirectory)
         {

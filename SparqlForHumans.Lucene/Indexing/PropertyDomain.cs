@@ -39,7 +39,8 @@ namespace SparqlForHumans.Lucene.Indexing
         public static Dictionary<int, int[]> GetPropertyDomainTypes(this IEnumerable<SubjectGroup> subjectGroups)
         {
             var dictionary = new Dictionary<int, List<int>>();
-            foreach (var subjectGroup in subjectGroups) dictionary.AddPropertyDomainTypesForSubjectGroup(subjectGroup);
+            foreach (var subjectGroup in subjectGroups) 
+                dictionary.AddPropertyDomainTypesForSubjectGroup(subjectGroup);
 
             return dictionary.ToArrayDictionary();
         }
@@ -89,7 +90,7 @@ namespace SparqlForHumans.Lucene.Indexing
             SubjectGroup subjectGroup)
         {
             //Hopefully they should be already filtered.
-            var propertiesTriples = subjectGroup.FilterPropertiesOnly();
+            var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
 
             var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 
@@ -97,7 +98,8 @@ namespace SparqlForHumans.Lucene.Indexing
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
             var domainIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var propertyId in propertyIds) dictionary.AddSafe(propertyId, domainIds);
+            foreach (var propertyId in propertyIds) 
+                dictionary.AddSafe(propertyId, domainIds);
         }
 
 
@@ -106,7 +108,7 @@ namespace SparqlForHumans.Lucene.Indexing
         /// </summary>
         /// <param name="entityGroupTriples"></param>
         /// <returns></returns>
-        private static IEnumerable<Triple> FilterPropertiesOnly(this IEnumerable<Triple> entityGroupTriples)
+        private static IEnumerable<Triple> FilterPropertyPredicatesOnly(this IEnumerable<Triple> entityGroupTriples)
         {
             return entityGroupTriples.Where(x => x.Predicate.IsProperty());
         }

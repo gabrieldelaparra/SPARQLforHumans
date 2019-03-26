@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Extensions
             if (toSplit.Length.Equals(1))
             {
                 var singleJoin = string.Join("", toSplit);
-                var split = singleJoin.Split(new[] {"##"}, StringSplitOptions.RemoveEmptyEntries);
+                var split = singleJoin.Split(new[] {" ## "}, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1)
                     toSplit = split;
             }

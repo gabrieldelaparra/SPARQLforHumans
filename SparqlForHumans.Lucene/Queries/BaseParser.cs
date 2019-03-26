@@ -29,16 +29,13 @@ namespace SparqlForHumans.Lucene.Queries
 
         public static string PrepareSearchTerm(string input)
         {
-            //return input;
-            //return $"*{input.Trim()}*";
-
             var terms = input.Trim()
                 .Replace("-", " ")
                 .Split(' ')
                 .Where(x => !string.IsNullOrEmpty(x))
-                .Select(x => $"*{x.Trim()}*");
+                .Select(x => $"{x.Trim()}*");
 
-            var result = string.Join(" ", terms);
+            var result = string.Join(" AND ", terms);
             return result;
         }
 
