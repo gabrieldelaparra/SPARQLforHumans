@@ -1,4 +1,5 @@
-﻿using Lucene.Net.Documents;
+﻿using System;
+using Lucene.Net.Documents;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 
@@ -19,7 +20,16 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static string[] GetValues(this Document document, Labels label)
         {
-            return document?.GetValues(label.ToString());
+            var toSplit = document?.GetValues(label.ToString());
+            if (toSplit.Length.Equals(1))
+            {
+                var singleJoin = string.Join("", toSplit);
+                var split = singleJoin.Split(new [] {"##"} ,StringSplitOptions.RemoveEmptyEntries);
+                if (split.Length > 1)
+                    toSplit = split;
+            }
+
+            return toSplit;
         }
     }
 }

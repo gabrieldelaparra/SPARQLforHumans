@@ -135,8 +135,6 @@ namespace SparqlForHumans.UnitTests
                     var doc = reader.Document(0);
                     Assert.Equal(3, doc.GetValues(Labels.AltLabel).Length);
 
-                    Assert.Equal("NIR", doc.GetValue(Labels.AltLabel));
-
                     Assert.Equal("NIR", doc.GetValues(Labels.AltLabel)[0]);
                     Assert.Equal("UKN", doc.GetValues(Labels.AltLabel)[1]);
                     Assert.Equal("North Ireland", doc.GetValues(Labels.AltLabel)[2]);

@@ -52,8 +52,6 @@ namespace SparqlForHumans.UnitTests
                     //Alt-Label:
                     Assert.Equal(4, doc.GetValues(Labels.AltLabel).Length);
 
-                    Assert.Equal("sovereign state", doc.GetValue(Labels.AltLabel));
-
                     Assert.Equal("sovereign state", doc.GetValues(Labels.AltLabel)[0]);
                     Assert.Equal("state", doc.GetValues(Labels.AltLabel)[1]);
                     Assert.Equal("land", doc.GetValues(Labels.AltLabel)[2]);
