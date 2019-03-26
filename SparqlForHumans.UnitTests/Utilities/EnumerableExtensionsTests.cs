@@ -14,17 +14,17 @@ namespace SparqlForHumans.UnitTests.Utilities
         {
             IEnumerable<string> lines = new List<string>
             {
-                "1 1",
-                "1 2",
-                "1 3",
-                "2 1",
-                "2 2",
-                "2 3",
-                "2 4",
-                "2 5",
-                "3 1",
-                "4 A",
-                "4 B"
+                "<http://subject/1> <http://predicate/1> <http://object/x> .",
+                "<http://subject/1> <http://predicate/2> <http://object/x> .",
+                "<http://subject/1> <http://predicate/3> <http://object/x> .",
+                "<http://subject/2> <http://predicate/1> <http://object/x> .",
+                "<http://subject/2> <http://predicate/2> <http://object/x> .",
+                "<http://subject/2> <http://predicate/3> <http://object/x> .",
+                "<http://subject/2> <http://predicate/4> <http://object/x> .",
+                "<http://subject/2> <http://predicate/5> <http://object/x> .",
+                "<http://subject/3> <http://predicate/1> <http://object/x> .",
+                "<http://subject/4> <http://predicate/A> <http://object/x> .",
+                "<http://subject/4> <http://predicate/B> <http://object/x> ."
             };
 
             Assert.Equal(11, lines.Count());
