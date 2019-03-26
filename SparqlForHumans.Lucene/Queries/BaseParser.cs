@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
@@ -31,14 +32,17 @@ namespace SparqlForHumans.Lucene.Queries
 
         public static string PrepareSearchTerm(string input)
         {
-            return $"{input}*";
-            //var terms = input.Trim()
-            //    .Replace("-", " ")
-            //    .Split(' ')
-            //    .Where(x => !string.IsNullOrEmpty(x))
-            //    .Select(x => x.Trim() + "*");
+            //return input;
+            //return $"*{input.Trim()}*";
 
-            //return string.Join(" ", terms);
+            var terms = input.Trim()
+                .Replace("-", " ")
+                .Split(' ')
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Select(x => $"*{x.Trim()}*");
+
+            var result = string.Join(" ", terms);
+            return result;
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
@@ -72,7 +76,7 @@ namespace SparqlForHumans.Lucene.Queries
                 );
 
             parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);
-            //parser.AllowLeadingWildcard = true;
+            parser.AllowLeadingWildcard = true;
 
             return parser;
         }
