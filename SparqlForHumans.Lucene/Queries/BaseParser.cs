@@ -31,13 +31,14 @@ namespace SparqlForHumans.Lucene.Queries
 
         public static string PrepareSearchTerm(string input)
         {
-            var terms = input.Trim()
-                .Replace("-", " ")
-                .Split(' ')
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Select(x => x.Trim() + "*");
+            return $"{input}*";
+            //var terms = input.Trim()
+            //    .Replace("-", " ")
+            //    .Split(' ')
+            //    .Where(x => !string.IsNullOrEmpty(x))
+            //    .Select(x => x.Trim() + "*");
 
-            return string.Join(" ", terms);
+            //return string.Join(" ", terms);
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
