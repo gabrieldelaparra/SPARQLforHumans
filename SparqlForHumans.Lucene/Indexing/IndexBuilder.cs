@@ -30,19 +30,41 @@ namespace SparqlForHumans.Lucene.Indexing
 
         public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
         {
-            var altLabelCount = fields.Count(x => x.Name.Equals(Labels.AltLabel.ToString()))+1;
+            var altLabelCount = fields.Count(x => x.Name.Equals(Labels.AltLabel.ToString()));
+            var altLabels = new List<string>();
+            var nonAltLabelFields = new List<Field>();
+            
+            var AltLabelBoost = false;
 
             foreach (var field in fields)
             {
                 if (field.Name.Equals(Labels.Label.ToString()))
+                {
                     field.Boost = (float)boost;
+                    nonAltLabelFields.Add(field);
+                }
+                else if (field.Name.Equals(Labels.AltLabel.ToString()))
+                {
+                    altLabels.Add(field.GetStringValue());
+                    //AltLabelBoost = true;
+                }
+                else
+                {
+                    nonAltLabelFields.Add(field);
+                }
 
-                if (field.Name.Equals(Labels.AltLabel.ToString()))
-                    field.Boost = (float)(boost / altLabelCount);
-                //field.Boost = ((float)boost / altLabelCount);
-
-                doc.Add(field);
+                //doc.Add(field);
             }
+
+            var altLabelFields = new TextField(Labels.AltLabel.ToString(), string.Join("##", altLabels),
+                Field.Store.YES);
+            altLabelFields.Boost = (float) boost;
+            nonAltLabelFields.Add(altLabelFields);
+            foreach (var nonAltLabelField in nonAltLabelFields)
+            {
+                doc.Add(nonAltLabelField);
+            }
+            //doc.Add(altLabelFields);
         }
 
         public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary()
