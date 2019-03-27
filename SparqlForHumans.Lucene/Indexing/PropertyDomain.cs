@@ -46,9 +46,9 @@ namespace SparqlForHumans.Lucene.Indexing
         }
 
         public static void AddDomainTypesToIndex(Directory propertiesIndexDirectory,
-            Dictionary<int, IEnumerable<int>> propertyDomainTypes)
+            Dictionary<int, int[]> propertyDomainTypes)
         {
-            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
+            var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
 
             using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
             {
@@ -69,7 +69,7 @@ namespace SparqlForHumans.Lucene.Indexing
         }
 
         private static void AddDomainTypesToIndexDocument(this Document document,
-            KeyValuePair<int, IEnumerable<int>> propertyDomain)
+            KeyValuePair<int, int[]> propertyDomain)
         {
             foreach (var domainType in propertyDomain.Value)
             {

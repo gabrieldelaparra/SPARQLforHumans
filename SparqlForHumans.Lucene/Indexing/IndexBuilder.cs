@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Analysis;
 using Lucene.Net.Analysis.Core;
+using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
@@ -15,16 +17,7 @@ namespace SparqlForHumans.Lucene.Indexing
 {
     public static class IndexBuilder
     {
-        public static IndexWriterConfig CreateIndexWriterConfig()
-        {
-            Options.InternUris = false;
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, new KeywordAnalyzer())
-            {
-                OpenMode = OpenMode.CREATE_OR_APPEND
-                //Similarity = new DefaultSimilarity(),
-            };
-            return indexConfig;
-        }
+       
 
         /// <summary>
         /// This method takes a document, all fields that are going to be added to that document and

@@ -42,7 +42,7 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             long readCount = 1;
 
-            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
+            var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
 
             using (var writer = new IndexWriter(entitiesIndexDirectory, indexConfig))
             {
@@ -101,23 +101,13 @@ namespace SparqlForHumans.Lucene.Indexing
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            double[] nodesGraphRanks = null;
-            Dictionary<int, int> nodesDictionary = null;
+
+            var entityPageRankDictionary = new Dictionary<int, double>();
             if (addBoosts)
-            {
-                //Ranking:
-                Logger.Info("Building Dictionary");
-                nodesDictionary = EntityPageRank.BuildNodesDictionary(inputTriplesFilename);
-                Logger.Info("Building Graph");
-                var nodesGraphArray = EntityPageRank.BuildSimpleNodesGraph(inputTriplesFilename, nodesDictionary);
-                Logger.Info("Calculating Ranks");
-                nodesGraphRanks = EntityPageRank.CalculateRanks(nodesGraphArray, 20);
-            }
+                entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
 
             Logger.Info("Building Index");
-            var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
-
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer);
+            var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
 
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
@@ -140,6 +130,10 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     //entityId
                     var id = string.Empty;
+                    var intId = 0;
+
+                    //PageRank
+                    var pageRank = 0.0;
 
                     //Lucene document for each entity
                     var luceneDocument = new Document();
@@ -153,6 +147,7 @@ namespace SparqlForHumans.Lucene.Indexing
                         if (!hasDocument)
                         {
                             id = ntSubject.GetId();
+                            intId = id.ToInt();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             fields.Add(new StringField(Labels.Id.ToString(), id, Field.Store.YES));
@@ -163,19 +158,13 @@ namespace SparqlForHumans.Lucene.Indexing
                         fields.AddRange(ParsePredicate(ntPredicate, ntObject));
                     }
 
-                    if (addBoosts)
-                    {
-                        nodesDictionary.TryGetValue(id.ToInt(), out var subjectIndex);
-
-                        fields.Add(new DoubleField(Labels.Rank.ToString(), nodesGraphRanks[subjectIndex],
-                            Field.Store.YES));
-                        IndexBuilder.AddFields(luceneDocument, fields, nodesGraphRanks[subjectIndex]);
-                    }
-                    else
-                    {
-                        IndexBuilder.AddFields(luceneDocument, fields, 0);
-                    }
-
+                    //PageRank Value
+                    if (entityPageRankDictionary.ContainsKey(intId))
+                        pageRank = entityPageRankDictionary[intId];
+                    fields.Add(new DoubleField(Labels.Rank.ToString(), pageRank, Field.Store.YES));
+                    
+                    //Write All Fields to the doc and write the doc.
+                    IndexBuilder.AddFields(luceneDocument, fields, pageRank);
                     writer.AddDocument(luceneDocument);
                     readCount++;
                 }

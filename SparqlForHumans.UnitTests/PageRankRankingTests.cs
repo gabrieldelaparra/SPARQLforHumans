@@ -10,6 +10,42 @@ namespace SparqlForHumans.UnitTests
     public class PageRankRankingTests
     {
         [Fact]
+        public void TestBuildIdRankDictionarySimpleIds()
+        {
+            const string filename = "Resources/buildGraph.nt";
+
+            var idRankDictionary = EntityPageRank.BuildPageRank(filename);
+
+            Assert.Equal(1, Math.Round(idRankDictionary.Select(x=>x.Value).Sum()), 10);
+
+            Assert.Equal(0.138, idRankDictionary[1].ToThreeDecimals());
+            Assert.Equal(0.087, idRankDictionary[2].ToThreeDecimals());
+            Assert.Equal(0.061, idRankDictionary[3].ToThreeDecimals());
+            Assert.Equal(0.180, idRankDictionary[4].ToThreeDecimals());
+            Assert.Equal(0.128, idRankDictionary[5].ToThreeDecimals());
+            Assert.Equal(0.222, idRankDictionary[6].ToThreeDecimals());
+            Assert.Equal(0.180, idRankDictionary[7].ToThreeDecimals());
+        }
+
+        [Fact]
+        public void TestBuildIdRankDictionaryDifferentIds()
+        {
+            const string filename = "Resources/buildGraphDifferentIds.nt";
+
+            var idRankDictionary = EntityPageRank.BuildPageRank(filename);
+
+            Assert.Equal(1, Math.Round(idRankDictionary.Select(x=>x.Value).Sum()), 10);
+
+            Assert.Equal(0.138, idRankDictionary[332].ToThreeDecimals());
+            Assert.Equal(0.087, idRankDictionary[8424].ToThreeDecimals());
+            Assert.Equal(0.061, idRankDictionary[842].ToThreeDecimals());
+            Assert.Equal(0.180, idRankDictionary[124].ToThreeDecimals());
+            Assert.Equal(0.128, idRankDictionary[8].ToThreeDecimals());
+            Assert.Equal(0.222, idRankDictionary[97].ToThreeDecimals());
+            Assert.Equal(0.180, idRankDictionary[33].ToThreeDecimals());
+        }
+
+        [Fact]
         public void TestBuildDictionary()
         {
             var filename = "Resources/buildGraph.nt";

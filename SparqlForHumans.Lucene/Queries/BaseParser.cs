@@ -6,6 +6,7 @@ using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Util;
+using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Models.LuceneIndex;
 
 namespace SparqlForHumans.Lucene.Queries
@@ -49,20 +50,20 @@ namespace SparqlForHumans.Lucene.Queries
 
         internal static QueryParser GetIdParser()
         {
-            return new QueryParser(LuceneVersion.LUCENE_48, Labels.Id.ToString(), new KeywordAnalyzer());
+            return new QueryParser(IndexConfiguration.IndexVersion, Labels.Id.ToString(), new KeywordAnalyzer());
         }
 
         internal static QueryParser GetMultiFieldParser()
         {
             var boostsDictionary = new Dictionary<string, float>();
             QueryParser parser = new MultiFieldQueryParser(
-                LuceneVersion.LUCENE_48,
+                IndexConfiguration.IndexVersion,
                 new[]
                 {
                     Labels.Label.ToString(),
                     Labels.AltLabel.ToString()
                 },
-                new StandardAnalyzer(LuceneVersion.LUCENE_48),
+                new StandardAnalyzer(IndexConfiguration.IndexVersion),
                 boostsDictionary
             );
 

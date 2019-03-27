@@ -12,6 +12,24 @@ namespace SparqlForHumans.Lucene.Indexing
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
 
+        public static Dictionary<int, double> BuildPageRank(string triplesFilename)
+        {
+            var dictionary = new Dictionary<int, double>();
+
+            var nodesDictionary = BuildNodesDictionary(triplesFilename);
+            var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
+           
+            var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
+
+            foreach (var node in nodesDictionary)
+            {
+                nodesDictionary.TryGetValue(node.Key, out var subjectIndex);
+                var boost = nodesGraphRanks[subjectIndex];
+                dictionary.Add(node.Key, boost);
+            }
+
+            return dictionary;
+        }
 
         /// <summary>
         ///     Reads the triples file (Order n)
@@ -134,16 +152,16 @@ namespace SparqlForHumans.Lucene.Indexing
             return oldRanks;
         }
 
-        private static double[] IterateGraph(IReadOnlyList<int[]> graph, IReadOnlyList<double> oldRanks)
+        private static double[] IterateGraph(IReadOnlyList<IReadOnlyList<int>> graph, IReadOnlyList<double> oldRanks)
         {
             var noLinkRank = 0d;
             var nodesCount = graph.Count;
             var ranks = new double[nodesCount];
 
             for (var i = 0; i < nodesCount; i++)
-                if (graph[i].Length > 0)
+                if (graph[i].Count > 0)
                 {
-                    var share = oldRanks[i] * PageRankAlpha / graph[i].Length;
+                    var share = oldRanks[i] * PageRankAlpha / graph[i].Count;
                     foreach (var j in graph[i]) ranks[j] += share;
                 }
                 else

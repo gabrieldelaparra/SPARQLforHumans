@@ -37,7 +37,6 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             long readCount = 1;
             Options.InternUris = false;
-            var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
 
             var dictionary = new Dictionary<int, int>();
 
@@ -47,7 +46,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
             Logger.Info("Building Properties Index");
-            var indexConfig = new IndexWriterConfig(LuceneVersion.LUCENE_48, analyzer);
+            var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
                 //Group them by QCode.
@@ -130,7 +129,8 @@ namespace SparqlForHumans.Lucene.Indexing
         {
             long readCount = 0;
 
-            var indexConfig = IndexBuilder.CreateIndexWriterConfig();
+            // Not sure why Keyword and not Standard Analyzer. (Tests Fail) 
+            var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
 
             using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
             {

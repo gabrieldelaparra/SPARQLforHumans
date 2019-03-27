@@ -6,9 +6,6 @@ namespace SparqlForHumans.Lucene.Indexing
 {
     public static class PropertyRange
     {
-        // TODO: Check if ref hace que sea menos memoria.
-        // No estoy seguro si con los array se pasan en ref también.
-        // Pero mejor irse a la segura con el ref.
         // ! Checkear que Property no sea InstanceOf
         // ! Checkear que Object sea Q-Entity
         public static (int PropertyId, int[] RangeTypeIds) GetPropertyRangeType(this Triple propertyTriple,

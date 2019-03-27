@@ -51,9 +51,9 @@ namespace SparqlForHumans.UnitTests
 
             //    Assert.Equal(docCountNoBoost, docCountWithBoost);
 
-            //    var analyzer = new StandardAnalyzer(LuceneVersion.LUCENE_48);
+            //    var analyzer = new StandardAnalyzer(IndexConfiguration.IndexVersion);
 
-            //    QueryParser parser = new MultiFieldQueryParser(LuceneVersion.LUCENE_48,
+            //    QueryParser parser = new MultiFieldQueryParser(IndexConfiguration.IndexVersion,
             //        new[] { Labels.Label.ToString(), Labels.AltLabel.ToString() },
             //        analyzer);
 
