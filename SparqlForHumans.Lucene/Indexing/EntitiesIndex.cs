@@ -99,38 +99,41 @@ namespace SparqlForHumans.Lucene.Indexing
             long readCount = 1;
             Options.InternUris = false;
 
+            // Read All lines in the file (IEnumerable, yield)
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
-
+            // Do PageRank (Document Boosts)
             var entityPageRankDictionary = new Dictionary<int, double>();
             if (addBoosts)
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
 
-            Logger.Info("Building Index");
+            // Create Entity/Types Dictionary (needed for? I think that I need them for Property Range)
+
+
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
 
+            Logger.Info("Building Index");
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
                 //Group them by QCode.
                 var entityGroups = lines.GroupBySubject();
 
+                // TODO: Refactor this, create a Model, then push the whole model to the Index.
                 foreach (var group in entityGroups)
                 {
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
-                    var subject = group.FirstOrDefault().AsTuple().subject;
-
                     //Excludes Properties, will only add entities.
-                    if (!subject.IsEntityQ())
+                    if (!group.IsEntityQ())
                         continue;
 
                     //Flag to create a new Lucene Document
                     var hasDocument = false;
 
                     //entityId
-                    var id = string.Empty;
-                    var intId = 0;
+                    var id = group.Id;
+                    var intId = group.IntId;
 
                     //PageRank
                     var pageRank = 0.0;
@@ -146,8 +149,6 @@ namespace SparqlForHumans.Lucene.Indexing
 
                         if (!hasDocument)
                         {
-                            id = ntSubject.GetId();
-                            intId = id.ToInt();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             fields.Add(new StringField(Labels.Id.ToString(), id, Field.Store.YES));

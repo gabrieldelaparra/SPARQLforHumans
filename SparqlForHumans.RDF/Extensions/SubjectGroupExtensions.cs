@@ -42,5 +42,15 @@ namespace SparqlForHumans.RDF.Extensions
 
             yield return subjectGroup;
         }
+
+        public static bool IsEntityQ(this SubjectGroup subjectGroup)
+        {
+            return subjectGroup.Id.StartsWith("Q");
+        }
+
+        public static bool IsEntityP(this SubjectGroup subjectGroup)
+        {
+            return subjectGroup.Id.StartsWith("P");
+        }
     }
 }
