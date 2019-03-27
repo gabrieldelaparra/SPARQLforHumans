@@ -1,17 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Analysis;
-using Lucene.Net.Analysis.Core;
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
-using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
