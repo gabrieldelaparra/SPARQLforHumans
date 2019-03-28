@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Models.RDFQuery
 {
-    public class RDFProperty : Property, IRDFSubject
+    public class RDFProperty : Property, IHasURI
     {
         public RDFProperty()
         {

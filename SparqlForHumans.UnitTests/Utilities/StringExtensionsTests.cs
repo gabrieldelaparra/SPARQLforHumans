@@ -28,5 +28,13 @@ namespace SparqlForHumans.UnitTests.Utilities
             const int expected = 1234;
             Assert.Equal(expected, sample.ToInt());
         }
+
+        [Fact]
+        public void TestToIntNegativeNumbers()
+        {
+            const string sample = "-1234";
+            const int expected = -1234;
+            Assert.Equal(expected, sample.ToInt());
+        }
     }
 }

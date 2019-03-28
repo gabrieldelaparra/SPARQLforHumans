@@ -1,6 +1,6 @@
 ﻿namespace SparqlForHumans.Models.RDFQuery
 {
-    public interface IRDFSubject : ISubject
+    public interface IHasURI
     {
         string Uri();
     }

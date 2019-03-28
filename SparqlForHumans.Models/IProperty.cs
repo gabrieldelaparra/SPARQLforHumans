@@ -2,11 +2,10 @@
 
 namespace SparqlForHumans.Models
 {
-    public interface IProperty : ISubject
+    public interface IProperty : ISubject, IHasRank<int>
     {
         string Value { get; set; }
-        string Frequency { get; set; }
-        int FrequencyValue { get; }
+        int Rank { get; set; }
         IEnumerable<string> DomainTypes { get; set; }
     }
 }

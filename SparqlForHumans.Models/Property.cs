@@ -4,26 +4,19 @@ namespace SparqlForHumans.Models
 {
     public class Property : Subject, IProperty
     {
-        public Property()
-        {
-        }
-
-        public Property(ISubject baseSubject)
-        {
-            Id = baseSubject.Id;
-            Label = baseSubject.Label;
-        }
+        public Property() : base() { }
+        public Property(string id) : base(id) { }
+        public Property(string id, string label) : base(id, label) { }
+        public Property(ISubject baseSubject) : base (baseSubject) { }
 
         public string Value { get; set; } = string.Empty;
-        public string Frequency { get; set; } = string.Empty;
-
-        public int FrequencyValue => int.TryParse(Frequency, out var value) ? value : 0;
+        public int Rank { get; set; } = 0;
 
         public IEnumerable<string> DomainTypes { get; set; } = new List<string>();
 
         public string ToRankedString()
         {
-            return $"[{FrequencyValue}] {ToString()}";
+            return $"[{Rank}] {ToString()}";
         }
 
         public override string ToString()

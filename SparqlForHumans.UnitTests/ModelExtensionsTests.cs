@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Models.Extensions;
+﻿using SparqlForHumans.Models;
+using SparqlForHumans.Models.Extensions;
 using SparqlForHumans.Models.RDFQuery;
 using Xunit;
 
@@ -24,6 +25,13 @@ namespace SparqlForHumans.UnitTests
                 Id = "P31"
             };
             Assert.Equal("http://www.wikidata.org/prop/direct/P31", property.WikidataUri());
+        }
+
+        [Fact]
+        public void TestSubjectToString()
+        {
+            var subject = new Subject("Id", "Label");
+            Assert.Equal("Label (Id)", subject.ToString());
         }
     }
 }

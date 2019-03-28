@@ -2,8 +2,8 @@
 {
     public interface IRDFTriple
     {
-        IRDFSubject Subject { get; set; }
-        IRDFSubject Predicate { get; set; }
-        ILabel Object { get; set; }
+        IHasURI Subject { get; set; }
+        IHasURI Predicate { get; set; }
+        IHasLabel Object { get; set; }
     }
 }

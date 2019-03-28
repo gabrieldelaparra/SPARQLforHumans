@@ -62,7 +62,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
                     var id = document.MapBaseSubject().Id;
 
-                    if (typePropertiesDictionary.TryGetValue(id.ToInt(), out var properties))
+                    if (typePropertiesDictionary.TryGetValue(id.ToNumbers(), out var properties))
                         foreach (var property in properties)
                         {
                             var propertyField = new StringField(Labels.Property.ToString(), $"P{property}",
@@ -93,84 +93,44 @@ namespace SparqlForHumans.Lucene.Indexing
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
         /// Entities have properties, not sure if properties have properties;
-        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory,
-            bool addBoosts = false)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = false)
         {
             long readCount = 1;
-            Options.InternUris = false;
 
             // Read All lines in the file (IEnumerable, yield)
+            // And group them by QCode.
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
+            var entityGroups = lines.GroupBySubject().Where(x => x.IsEntityQ());
 
-            // Do PageRank (Document Boosts)
+            // Run PageRank (Document Boosts). Read all file: +2
             var entityPageRankDictionary = new Dictionary<int, double>();
             if (addBoosts)
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
 
-            // Create Entity/Types Dictionary (needed for? I think that I need them for Property Range)
-
-
-            var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
+            // Get Entity and Types Dictionary. Read all file: +1
+            var entityTypesDictionary = entityGroups.GetEntityTypes().InvertDictionary();
 
             Logger.Info("Building Index");
+            var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
-                //Group them by QCode.
-                var entityGroups = lines.GroupBySubject();
 
-                // TODO: Refactor this, create a Model, then push the whole model to the Index.
+                //Excludes Properties, will only add entities.
                 foreach (var group in entityGroups)
                 {
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
-                    //Excludes Properties, will only add entities.
-                    if (!group.IsEntityQ())
-                        continue;
+                    var rdfIndexEntity = group.ParseSubjectGroup();
+                    if (entityPageRankDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
+                        rdfIndexEntity.Rank = entityPageRankDictionary[rdfIndexEntity.Id.ToNumbers()];
+                    if (entityTypesDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
+                        rdfIndexEntity.IsType = true;
+                    writer.AddEntityDocument(rdfIndexEntity);
 
-                    //Flag to create a new Lucene Document
-                    var hasDocument = false;
-
-                    //entityId
-                    var id = group.Id;
-                    var intId = group.IntId;
-
-                    //PageRank
-                    var pageRank = 0.0;
-
-                    //Lucene document for each entity
-                    var luceneDocument = new Document();
-
-                    var fields = new List<Field>();
-
-                    foreach (var line in group)
-                    {
-                        var (ntSubject, ntPredicate, ntObject) = line.AsTuple();
-
-                        if (!hasDocument)
-                        {
-                            Logger.Trace($"Indexing: {id}");
-                            luceneDocument = new Document();
-                            fields.Add(new StringField(Labels.Id.ToString(), id, Field.Store.YES));
-
-                            hasDocument = true;
-                        }
-
-                        fields.AddRange(ParsePredicate(ntPredicate, ntObject));
-                    }
-
-                    //PageRank Value
-                    if (entityPageRankDictionary.ContainsKey(intId))
-                        pageRank = entityPageRankDictionary[intId];
-                    fields.Add(new DoubleField(Labels.Rank.ToString(), pageRank, Field.Store.YES));
-                    
-                    //Write All Fields to the doc and write the doc.
-                    IndexBuilder.AddFields(luceneDocument, fields, pageRank);
-                    writer.AddDocument(luceneDocument);
                     readCount++;
                 }
 
-                writer.Dispose();
                 Logger.Info($"Build Entity Index, Group: {readCount:N0}");
             }
         }

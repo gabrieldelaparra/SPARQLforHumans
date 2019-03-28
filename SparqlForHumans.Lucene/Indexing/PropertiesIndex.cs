@@ -80,7 +80,7 @@ namespace SparqlForHumans.Lucene.Indexing
                         if (!hasDocument)
                         {
                             var id = ntSubject.GetId();
-                            propertyId = id.ToInt();
+                            propertyId = id.ToNumbers();
                             Logger.Trace($"Indexing: {id}");
                             luceneDocument = new Document();
                             fields.Add(new StringField(Labels.Id.ToString(), id, Field.Store.YES));

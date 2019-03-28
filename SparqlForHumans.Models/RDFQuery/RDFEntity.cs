@@ -1,14 +1,13 @@
-﻿using SparqlForHumans.Models.Extensions;
+﻿using System.Collections.Generic;
+using SparqlForHumans.Models.Extensions;
 
 namespace SparqlForHumans.Models.RDFQuery
 {
-    public class RDFEntity : Entity, IRDFSubject
+    public class RDFEntity : BaseEntity, IHasProperties<Property>, IHasRank<double>, IHasURI
     {
-        public RDFEntity()
-        {
-        }
+        public RDFEntity() {}
 
-        public RDFEntity(IEntity entity)
+        public RDFEntity(Entity entity)
         {
             Id = entity.Id;
             Label = entity.Label;
@@ -18,10 +17,13 @@ namespace SparqlForHumans.Models.RDFQuery
             Properties = entity.Properties;
         }
 
-        public RDFEntity(ISubject iSubject)
+        public RDFEntity(IHasId hasId)
         {
-            Id = iSubject.Id;
+            Id = hasId.Id;
         }
+
+        public double Rank { get; set; }
+        public IList<Property> Properties { get; set; }
 
         public string Uri()
         {

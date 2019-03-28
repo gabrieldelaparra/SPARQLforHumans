@@ -147,7 +147,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static int GetIntId(this INode node)
         {
-            return node.GetId().ToInt();
+            return node.GetId().ToNumbers();
         }
 
         public static string GetId(this INode node)

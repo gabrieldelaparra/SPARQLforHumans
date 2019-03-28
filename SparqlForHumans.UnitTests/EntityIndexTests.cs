@@ -297,8 +297,6 @@ namespace SparqlForHumans.UnitTests
 
                     Assert.Equal(4, doc.GetValues(Labels.Property).Length);
 
-                    Assert.Equal("P17", doc.GetValue(Labels.Property));
-
                     Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
                     Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
                     Assert.Equal("P30", doc.GetValues(Labels.Property)[2]);

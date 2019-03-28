@@ -1,45 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using SparqlForHumans.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SparqlForHumans.Models
 {
-    public class Entity : Subject, IEntity
+    public class Entity : BaseEntity, IHasRank<double>, IHasProperties<Property>
     {
-        public Entity()
-        {
-        }
+        //Constructor
+        public Entity() : base() { }
+        public Entity(string id) : base(id) { }
+        public Entity(string id, string label) : base(id, label) { }
+        public Entity(ISubject baseSubject) : base (baseSubject) { }
 
-        public Entity(ISubject iEntity)
-        {
-            Id = iEntity.Id;
-            Label = iEntity.Label;
-        }
+        public IList<Property> Properties { get; set; } = new List<Property>();
 
-        public string Description { get; set; } = string.Empty;
+        public double Rank { get; set; } = 0.0;
 
-        public IEnumerable<string> InstanceOf { get; set; } = new List<string>();
+        public string ToRankedString() => $"[{Rank}] {ToString()}";
 
-        public string InstanceOfId => InstanceOf?.FirstOrDefault();
-
-        //TODO: Modify
-        public string InstanceOfLabel => InstanceOf?.FirstOrDefault();
-
-        public virtual IEnumerable<IProperty> Properties { get; set; } = new List<Property>();
-
-        public IEnumerable<string> AltLabels { get; set; } = new List<string>();
-
-        public string Rank { get; set; } = string.Empty;
-
-        public double RankValue => double.TryParse(Rank, out var value) ? value : 0;
-
-        public string ToRankedString()
-        {
-            return $"[{Rank}] {ToString()}";
-        }
-
-        public override string ToString()
-        {
-            return $"{base.ToString()} - ({InstanceOfId}) - {Description}";
-        }
     }
 }

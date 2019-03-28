@@ -65,7 +65,7 @@ namespace SparqlForHumans.UnitTests
 
                 //InstanceOf
                 //Assert.Equal(entity.InstanceOf, first.InstanceOf);
-                Assert.Equal(entity.InstanceOfLabel, first.InstanceOfLabel);
+                //Assert.Equal(entity.InstanceOfLabel, first.InstanceOfLabel);
 
                 //Alt-Label:
                 Assert.Equal(entity.AltLabels.Count(), first.AltLabels.Count());

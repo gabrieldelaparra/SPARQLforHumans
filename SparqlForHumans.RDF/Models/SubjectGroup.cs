@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
@@ -18,8 +19,8 @@ namespace SparqlForHumans.RDF.Models
 
         public SubjectGroup(string key, IEnumerable<Triple> elements) : base(key, elements)
         {
-            Id = key.Replace("<http://www.wikidata.org/entity/", string.Empty).Replace(">", string.Empty);
-            IntId = Id.ToInt();
+            Id = key.Replace($"<{WikidataDump.EntityIRI}", string.Empty).Replace(">", string.Empty);
+            IntId = Id.ToNumbers();
         }
 
         public string Id { get; }

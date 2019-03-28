@@ -50,7 +50,7 @@ namespace SparqlForHumans.Lucene.Extensions
         /// </summary>
         /// <param name="doc"></param>
         /// <returns></returns>
-        public static IEnumerable<string> GetAltLabels(this Document doc)
+        public static IList<string> GetAltLabels(this Document doc)
         {
             var labels = doc.GetValues(Labels.Label);
             var altLabels = doc.GetValues(Labels.AltLabel);
@@ -72,7 +72,7 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static Entity MapRank(this Entity entity, Document document)
         {
-            entity.Rank = document.GetValue(Labels.Rank);
+            entity.Rank = document.GetValue(Labels.Rank).ToDouble();
             return entity;
         }
 
@@ -102,7 +102,7 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static Property MapFrequency(this Property property, Document document)
         {
-            property.Frequency = document.GetValue(Labels.Rank);
+            property.Rank = document.GetValue(Labels.Rank).ToInt();
             return property;
         }
 

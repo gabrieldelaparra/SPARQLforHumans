@@ -12,11 +12,19 @@ namespace SparqlForHumans.Lucene.Indexing
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
 
+        /// <summary>
+        /// Read file x2
+        /// </summary>
+        /// <param name="triplesFilename"></param>
+        /// <returns></returns>
         public static Dictionary<int, double> BuildPageRank(string triplesFilename)
         {
             var dictionary = new Dictionary<int, double>();
 
+            //Read +1
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
+
+            //Read +1
             var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
            
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
