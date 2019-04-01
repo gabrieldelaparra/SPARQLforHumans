@@ -56,7 +56,7 @@ namespace SparqlForHumans.RDF.Extensions
             return subjectGroup.Id.StartsWith("P");
         }
 
-        public static RDFIndexEntity ParseSubjectGroup(this SubjectGroup subjectGroup)
+        public static RDFIndexEntity ToIndexEntity(this SubjectGroup subjectGroup)
         {
             var entity = new RDFIndexEntity(subjectGroup.Id);
 

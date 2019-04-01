@@ -108,7 +108,7 @@ namespace SparqlForHumans.Lucene.Indexing
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
 
             // Get Entity and Types Dictionary. Read all file: +1
-            var entityTypesDictionary = entityGroups.GetEntityTypes().InvertDictionary();
+            var typeEntitiesDictionary = entityGroups.GetTypeEntities();
 
             Logger.Info("Building Index");
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
@@ -121,10 +121,10 @@ namespace SparqlForHumans.Lucene.Indexing
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
-                    var rdfIndexEntity = group.ParseSubjectGroup();
+                    var rdfIndexEntity = group.ToIndexEntity();
                     if (entityPageRankDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
                         rdfIndexEntity.Rank = entityPageRankDictionary[rdfIndexEntity.Id.ToNumbers()];
-                    if (entityTypesDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
+                    if (typeEntitiesDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
                         rdfIndexEntity.IsType = true;
                     writer.AddEntityDocument(rdfIndexEntity);
 

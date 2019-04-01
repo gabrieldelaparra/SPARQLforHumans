@@ -59,8 +59,7 @@ namespace SparqlForHumans.UnitTests
 
             //EntityTypes Dictionary
             var entityTypes = entityGroups
-                .Select(x => x.GetEntityTypes())
-                .ToDictionary();
+                .GetEntityTypes();
 
             //Filter valid properties for group
             var propertyRangeTriples = lines

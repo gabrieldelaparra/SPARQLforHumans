@@ -15,23 +15,41 @@ namespace SparqlForHumans.Lucene.Indexing
         // Pero es más legible.
         // Pudo ser KeyValuePair, pero Tuple es más liviano.
         // El Tuple<int, int> no es tán pesado: https://stackoverflow.com/questions/4676249/tupleint-int-versus-int2-memory-usage
-        public static (int EntityId, int[] TypeIds) GetEntityTypes(this SubjectGroup entityGroupedLines)
-        {
-            // Overload
-            return entityGroupedLines.GetEntityTypes(entityGroupedLines.IntId);
-        }
+        //public static (int EntityId, int[] TypeIds) GetEntityTypes(this SubjectGroup entityGroupedLines)
+        //{
+        //    // Overload
+        //    return entityGroupedLines.GetEntityTypes(entityGroupedLines.IntId);
+        //}
 
-        // También agregar la opción que el input ya sea un group de Triples.
-        private static (int EntityId, int[] TypeIds) GetEntityTypes(this IEnumerable<Triple> entityGroupTriples,
-            int entityId)
-        {
-            // Types
-            var entityTypes = entityGroupTriples
-                .Where(x => x.Predicate.IsInstanceOf())
-                .Select(x => x.Object.GetIntId()).ToArray();
+        //// También agregar la opción que el input ya sea un group de Triples.
+        //private static (int EntityId, int[] TypeIds) GetEntityTypes(this IEnumerable<Triple> entityGroupTriples,
+        //    int entityId)
+        //{
+        //    // Types
+        //    var entityTypes = entityGroupTriples
+        //        .Where(x => x.Predicate.IsInstanceOf())
+        //        .Select(x => x.Object.GetIntId()).ToArray();
 
-            // Done
-            return (entityId, entityTypes);
+        //    // Done
+        //    return (entityId, entityTypes);
+        //}
+
+        public static Dictionary<int, int[]> GetTypeEntities(this IEnumerable<SubjectGroup> entityGroups)
+        {
+            var dictionary = new Dictionary<int, List<int>>();
+            foreach (var entityGroup in entityGroups)
+            {
+                var entityTypes = entityGroup
+                    .Where(x => x.Predicate.IsInstanceOf())
+                    .Select(x => x.Object.GetIntId()).ToArray();
+
+                foreach (var entityType in entityTypes)
+                {
+                    dictionary.AddSafe(entityType, entityGroup.IntId);
+                }
+            }
+
+            return dictionary.ToArrayDictionary();
         }
 
         public static Dictionary<int, int[]> GetEntityTypes(this IEnumerable<SubjectGroup> entityGroups)
@@ -39,9 +57,12 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<int, List<int>>();
             foreach (var entityGroup in entityGroups)
             {
-                var tuple = entityGroup.GetEntityTypes();
-                //if(tuple.TypeIds.Length > 0) // This is inside the AddSafe
-                dictionary.AddSafe(tuple.EntityId, tuple.TypeIds);
+                // Types
+                var entityTypes = entityGroup
+                    .Where(x => x.Predicate.IsInstanceOf())
+                    .Select(x => x.Object.GetIntId()).ToArray();
+                
+                dictionary.AddSafe(entityGroup.IntId, entityTypes);
             }
 
             return dictionary.ToArrayDictionary();
@@ -59,13 +80,6 @@ namespace SparqlForHumans.Lucene.Indexing
 
             // Magic Cast. I will regret all my life.
             return dictionary.ToArrayDictionary();
-        }
-
-        public static string ToEntityTypesString(this (int entityId, int[] typeIds) entityTypesTuple)
-        {
-            return entityTypesTuple.typeIds.Length > 0
-                ? $"{entityTypesTuple.entityId} {string.Join(" ", entityTypesTuple.typeIds)}"
-                : entityTypesTuple.entityId.ToString();
         }
     }
 }
