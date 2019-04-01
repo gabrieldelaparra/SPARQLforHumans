@@ -25,9 +25,9 @@ namespace SparqlForHumans.CLI
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            // CreateIndex2MM(true);
+            CreateIndex("filtered-All-500K.nt", true);
             QueryEntities("obama");
-            QueryProperties("city");
+            //QueryProperties("city");
 
             Console.Read();
 
@@ -51,13 +51,13 @@ namespace SparqlForHumans.CLI
 
             EntitiesIndex.CreateEntitiesIndex(filename, true);
 
-            var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
-            EntitiesIndex.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
+            //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
+            ////EntitiesIndex.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
 
-            PropertiesIndex.CreatePropertiesIndex(filename, true);
+            //PropertiesIndex.CreatePropertiesIndex(filename, true);
 
-            var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
-            PropertiesIndex.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
+            //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
+            //PropertiesIndex.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
         private static void Filter2MM()

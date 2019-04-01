@@ -49,7 +49,7 @@ namespace SparqlForHumans.Lucene.Indexing
         public static Dictionary<int, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupBySubject();
+            var groups = lines.GroupBySubject().Where(x=>x.IsEntityQ());
 
             var nodeIndex = 0;
             var dictionary = new Dictionary<int, int>();
