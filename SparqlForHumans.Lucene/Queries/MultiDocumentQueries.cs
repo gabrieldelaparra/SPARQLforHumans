@@ -145,7 +145,7 @@ namespace SparqlForHumans.Lucene.Queries
 
             Filter filter = null;
             if (isType)
-                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
+                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), true.ToString()));
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {

@@ -18,7 +18,7 @@ namespace SparqlForHumans.Utilities
 
         public static double ToDouble(this string input)
         {
-            var index = Regex.Replace(input, "[^0-9+-.,]", string.Empty);
+            var index = Regex.Replace(input, "[^0-9+-.,eE]", string.Empty);
             return string.IsNullOrWhiteSpace(index) ? 0 : double.Parse(index);
         }
     }

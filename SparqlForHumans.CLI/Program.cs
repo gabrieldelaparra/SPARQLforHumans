@@ -25,7 +25,7 @@ namespace SparqlForHumans.CLI
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            CreateIndex("filtered-All-500K.nt", true);
+            //CreateIndex("filtered-All-500k.nt", true);
             QueryEntities("obama");
             //QueryProperties("city");
 
