@@ -23,7 +23,6 @@ namespace SparqlForHumans.Lucene.Relations
         public virtual Dictionary<T1, T2[]> GetRelationDictionary(IEnumerable<SubjectGroup> subjectGroups)
         {
             var dictionary = new Dictionary<T1, List<T2>>();
-
             foreach (var subjectGroup in subjectGroups)
             {
                 if (nodeCount % NotifyTicks == 0)
@@ -35,7 +34,6 @@ namespace SparqlForHumans.Lucene.Relations
             }
 
             Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
-
             return dictionary.ToArrayDictionary();
         }
 
