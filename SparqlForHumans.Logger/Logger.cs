@@ -22,6 +22,7 @@ namespace SparqlForHumans.Logger
                     {
                         new CsvColumn("Time", "${longdate}"),
                         new CsvColumn("Severity", "${uppercase:${level}}"),
+                        new CsvColumn("Memory", "${gc:property=TotalMemory}"),
                         new CsvColumn("Location",
                             "${callsite:className=True:fileName=True:includeSourcePath=False:methodName=True}"),
                         new CsvColumn("Detail", "${message}"),
@@ -33,7 +34,7 @@ namespace SparqlForHumans.Logger
 
             var consoleTarget = new ConsoleTarget("logconsole")
             {
-                Layout = "${longdate} ${uppercase:${level}} ${message}"
+                Layout = "${longdate} ${uppercase:${level}} ${gc:property=TotalMemory} ${message}"
             };
             config.AddTarget(consoleTarget);
 

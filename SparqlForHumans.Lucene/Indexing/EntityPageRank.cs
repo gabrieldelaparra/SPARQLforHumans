@@ -28,6 +28,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
            
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
+            nodesGraphArray = null;
 
             foreach (var node in nodesDictionary)
             {
@@ -49,13 +50,16 @@ namespace SparqlForHumans.Lucene.Indexing
         public static Dictionary<int, int> BuildNodesDictionary(string triplesFilename)
         {
             var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupBySubject().Where(x=>x.IsEntityQ());
+            var groups = lines.GroupBySubject();
 
             var nodeIndex = 0;
             var dictionary = new Dictionary<int, int>();
 
+            //TODO: Check if this can be done inside another existing loop (performance)
             foreach (var group in groups)
             {
+                if (!group.IsEntityQ()) continue;
+
                 if (nodeIndex % NotifyTicks == 0)
                     Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
@@ -68,6 +72,58 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
+        public static Dictionary<int, int[]> BuildNodesGraph(string triplesFilename)
+        {
+            var nodeCount = 0;
+            var dictionary = new Dictionary<int, int[]>();
+            //var dictionary = new Dictionary<int, List<int>>();
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var list = new List<int>();
+            var currentId = 0;
+
+            foreach (var line in lines)
+            {
+                var triple = line.ToTriple();
+
+                var entityId = triple.Subject.GetIntId();
+
+                if (currentId != entityId)
+                {
+                    if(list.Any())
+                        dictionary.Add(currentId, list.ToArray());
+                    list = new List<int>();
+                    if (nodeCount % NotifyTicks == 0)
+                        Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+                    currentId = entityId;
+                    nodeCount++;
+                }
+
+                if (triple.Subject.IsEntityQ() && triple.Object.IsEntityQ() && !triple.Predicate.IsInstanceOf())
+                {
+                    list.Add(triple.Object.GetIntId());
+                    //dictionary.AddSafe(entityId, triple.Object.GetIntId());
+                }
+            }
+
+            Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+            return dictionary;
+
+            //var subjectGroups = lines.GroupBySubject().Where(x=>x.IsEntityQ());
+
+            //foreach (var subjectGroup in subjectGroups)
+            //{
+            //    if (nodeCount % NotifyTicks == 0)
+            //        Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+
+            //    var triples = subjectGroup.Where(x => x.Object.IsEntityQ());
+                
+            //    dictionary.Add(subjectGroup.IntId, triples.Select(x=>x.Object.GetIntId()).Distinct().ToArray());
+            //    nodeCount++;
+            //}
+
+            //Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+            //return dictionary;
+        }
 
         /// <summary>
         ///     Uses the <Q-EntityId, NodeIndex> to build an array with arrays.

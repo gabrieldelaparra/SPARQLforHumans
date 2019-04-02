@@ -104,10 +104,12 @@ namespace SparqlForHumans.Lucene.Indexing
 
             // Run PageRank (Document Boosts). Read all file: +2
             var entityPageRankDictionary = new Dictionary<int, double>();
-            if (addBoosts)
+            if (addBoosts){
+                Logger.Info("Building <EntityId, PageRankValue> Dictionary");
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
-
+            }
             // Get Entity and Types Dictionary. Read all file: +1
+            Logger.Info("Building <TypeId, EntityId[]> Dictionary");
             var typeEntitiesDictionary = entityGroups.GetTypeEntities();
 
             Logger.Info("Building Index");
