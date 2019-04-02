@@ -41,6 +41,28 @@ namespace SparqlForHumans.Lucene.Indexing
             return dictionary;
         }
 
+        public static Dictionary<int, int[]> BuildNodesGraph(string triplesFilename)
+        {
+            var nodeCount = 0;
+            var dictionary = new Dictionary<int, int[]>();
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var subjectGroups = lines.GroupBySubject().Where(x => x.IsEntityQ());
+
+            foreach (var subjectGroup in subjectGroups)
+            {
+                if (nodeCount % NotifyTicks == 0)
+                    Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+
+                var triples = subjectGroup.Where(x => x.Object.IsEntityQ());
+
+                dictionary.Add(subjectGroup.IntId, triples.Select(x => x.Object.GetIntId()).Distinct().ToArray());
+                nodeCount++;
+            }
+
+            Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+            return dictionary;
+        }
+
         /// <summary>
         ///     Reads the triples file (Order n)
         ///     Creates a Dictionary(string Q-entity, entityIndexInFile)
