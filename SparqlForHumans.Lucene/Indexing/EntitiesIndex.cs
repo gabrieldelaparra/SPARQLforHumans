@@ -96,6 +96,7 @@ namespace SparqlForHumans.Lucene.Indexing
         public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = false)
         {
             long readCount = 1;
+            Options.InternUris = false;
 
             // Read All lines in the file (IEnumerable, yield)
             // And group them by QCode.
