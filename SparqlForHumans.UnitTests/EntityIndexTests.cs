@@ -332,6 +332,63 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
         }
 
+        [Fact]
+        public void TestCreateSingleInstanceIndexIsType()
+        {
+            const string filename = "Resources/EntityIndexTwoInstanceOfWithTypes.nt";
+            const string outputPath = "TwoInstanceOfIndexWithTypes";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
+                using (var reader = DirectoryReader.Open(luceneDirectory))
+                {
+                    var doc = reader.Document(0);
+                    Assert.Empty(doc.GetValue(Labels.IsTypeEntity));
+                    doc = reader.Document(1);
+                    Assert.True(bool.Parse(doc.GetValue(Labels.IsTypeEntity)));
+                    doc = reader.Document(2);
+                    Assert.True(bool.Parse(doc.GetValue(Labels.IsTypeEntity)));
+                }
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public static void TestCreateIndexAddTypesFields()
+        {
+            const string filename = "Resources/EntityIndexTypes.nt";
+            const string outputPath = "EntityIndexAddIsType";
+
+            outputPath.DeleteIfExists();
+            Assert.False(Directory.Exists(outputPath));
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+
+                var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
+                var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
+                var countryDocument = SingleDocumentQueries.QueryDocumentById("Q17", luceneIndexDirectory);
+                var chileDocument = SingleDocumentQueries.QueryDocumentById("Q298", luceneIndexDirectory);
+
+                Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
+                Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
+                Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
+                Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
+
+                Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
+                Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
+                Assert.True(bool.Parse(personDocument.GetValue(Labels.IsTypeEntity)));
+                Assert.True(bool.Parse(countryDocument.GetValue(Labels.IsTypeEntity)));
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
         //[Fact]
         //public void TestCreateSingleInstanceIndexPropertiesAndValues()
         //{

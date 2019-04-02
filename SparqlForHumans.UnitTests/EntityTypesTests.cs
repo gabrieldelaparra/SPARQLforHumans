@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -22,7 +23,7 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypesDictionary = entityGroups.GetEntityTypes().ToArray();
+            var entityTypesDictionary = new EntityToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // Assert
             // Expected (2): 76, 77
@@ -49,7 +50,7 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypesDictionary = entityGroups.GetEntityTypes().ToArray();
+            var entityTypesDictionary = new EntityToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // Assert
             // Expected (4): 76, 77, 298, 414,
@@ -88,7 +89,7 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var typeEntitiesDictionary = entityGroups.GetTypeEntities().ToArray();
+            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // Assert
             // Expected (2): 5
@@ -115,7 +116,7 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var typeEntitiesDictionary = entityGroups.GetTypeEntities().ToArray();
+            var typeEntitiesDictionary =  new TypeToEntitiesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // Assert
             // Expected (3): 5, 17, 30461

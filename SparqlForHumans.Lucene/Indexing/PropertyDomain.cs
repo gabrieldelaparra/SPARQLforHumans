@@ -5,6 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -36,81 +37,85 @@ namespace SparqlForHumans.Lucene.Indexing
         ///     Key: 555; Values[]: 5, 17
         ///     Key: 777; Values[]: 17
         /// </summary>
-        public static Dictionary<int, int[]> GetPropertyDomainTypes(this IEnumerable<SubjectGroup> subjectGroups)
-        {
-            var dictionary = new Dictionary<int, List<int>>();
-            foreach (var subjectGroup in subjectGroups)
-                dictionary.AddPropertyDomainTypesForSubjectGroup(subjectGroup);
+        //public static Dictionary<int, int[]> GetPropertyTypesDictionary(string inputFilename)
+        //{
+        //    var lines = FileHelper.GetInputLines(inputFilename);
+        //    var subjectGroups = lines.GroupBySubject();
 
-            return dictionary.ToArrayDictionary();
-        }
+        //    return GetPropertyTypesDictionary(subjectGroups);
+        //}
 
-        public static void AddDomainTypesToIndex(Directory propertiesIndexDirectory,
-            Dictionary<int, int[]> propertyDomainTypes)
-        {
-            var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
+        //// TODO: Check if the ToArrayDictionary is such a bad idea.
+        //public static Dictionary<int, int[]> GetPropertyTypesDictionary(this IEnumerable<SubjectGroup> subjectGroups)
+        //{
+        //    var dictionary = new Dictionary<int, List<int>>();
+        //    foreach (var subjectGroup in subjectGroups)
+        //        dictionary.GetPropertyTypesDictionary(subjectGroup);
 
-            using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
-            {
-                foreach (var propertyDomain in propertyDomainTypes)
-                {
-                    var propertyId = $"Q{propertyDomain.Key}";
+        //    return dictionary.ToArrayDictionary();
+        //}
 
-                    // Get the required document.
-                    // TODO: Check if it is better to iterate over all documents and update, or to search for it each time.
-                    var document = SingleDocumentQueries.QueryDocumentById(propertyId, propertiesIndexDirectory);
+        ///// <summary>
+        /////     Given a SubjectGroup, get only the property-predicates.
+        /////     Slice into instanceOf and direct-properties.
+        /////     For each directProperty-Id, add all the instanceOf-Id
+        ///// </summary>
+        ///// <param name="dictionary"></param>
+        ///// <param name="subjectGroup"></param>
+        //private static void GetPropertyTypesDictionary(this Dictionary<int, List<int>> dictionary,
+        //    SubjectGroup subjectGroup)
+        //{
+        //    //Hopefully they should be already filtered.
+        //    var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
 
-                    // TODO: Recently removed the null check/continue. What if there is null doc?
-                    document?.AddDomainTypesToIndexDocument(propertyDomain);
+        //    var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 
-                    writer.UpdateDocument(new Term(Labels.Id.ToString(), propertyId), document);
-                }
-            }
-        }
+        //    // InstanceOf Ids (Domain Types) and Properties
+        //    var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
+        //    var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-        private static void AddDomainTypesToIndexDocument(this Document document,
-            KeyValuePair<int, int[]> propertyDomain)
-        {
-            foreach (var domainType in propertyDomain.Value)
-            {
-                var domainId = $"Q{domainType}";
-                var field = new TextField(Labels.DomainType.ToString(), domainId, Field.Store.YES);
-                document.Add(field);
-            }
-        }
+        //    // TODO: Check if the List is such a bad idea.
+        //    // TODO: Update: Add TrimExcess, maybe helps with memory.
+        //    foreach (var propertyId in propertyIds)
+        //        dictionary.AddSafe(propertyId, instanceOfIds);
+        //}
 
-        /// <summary>
-        ///     Given a SubjectGroup, get only the property-predicates.
-        ///     Slice into instanceOf and direct-properties.
-        ///     For each directProperty-Id, add all the instanceOf-Id
-        /// </summary>
-        /// <param name="dictionary"></param>
-        /// <param name="subjectGroup"></param>
-        private static void AddPropertyDomainTypesForSubjectGroup(this Dictionary<int, List<int>> dictionary,
-            SubjectGroup subjectGroup)
-        {
-            //Hopefully they should be already filtered.
-            var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
+        //TODO: Check if required.
+        //public static void AddDomainTypesToIndex(Directory propertiesIndexDirectory,
+        //    Dictionary<int, int[]> propertyDomainTypes)
+        //{
+        //    var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
 
-            var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
+        //    using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
+        //    {
+        //        foreach (var propertyDomain in propertyDomainTypes)
+        //        {
+        //            var propertyId = $"{WikidataDump.EntityPrefix}{propertyDomain.Key}";
 
-            // InstanceOf Ids (Domain Types) and Properties
-            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
-            var domainIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
+        //            // Get the required document.
+        //            // TODO: Check if it is better to iterate over all documents and update, or to search for it each time.
+        //            var document = SingleDocumentQueries.QueryDocumentById(propertyId, propertiesIndexDirectory);
 
-            foreach (var propertyId in propertyIds)
-                dictionary.AddSafe(propertyId, domainIds);
-        }
+        //            // TODO: Recently removed the null check/continue. What if there is null doc?
+        //            document?.AddDomainTypesToIndexDocument(propertyDomain);
 
+        //            writer.UpdateDocument(new Term(Labels.Id.ToString(), propertyId), document);
+        //        }
+        //    }
+        //}
 
-        /// <summary>
-        ///     Allow only triples that have property predicates.
-        /// </summary>
-        /// <param name="entityGroupTriples"></param>
-        /// <returns></returns>
-        private static IEnumerable<Triple> FilterPropertyPredicatesOnly(this IEnumerable<Triple> entityGroupTriples)
-        {
-            return entityGroupTriples.Where(x => x.Predicate.IsProperty());
-        }
+        //TODO: Check if required.
+        //private static void AddDomainTypesToIndexDocument(this Document document,
+        //    KeyValuePair<int, int[]> propertyDomain)
+        //{
+        //    foreach (var domainType in propertyDomain.Value)
+        //    {
+        //        var domainId = $"{WikidataDump.EntityPrefix}{domainType}";
+        //        var field = new TextField(Labels.DomainType.ToString(), domainId, Field.Store.YES);
+        //        document.Add(field);
+        //    }
+        //}
+
+        
     }
 }

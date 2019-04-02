@@ -14,7 +14,7 @@ namespace SparqlForHumans.Utilities
             }
             else
             {
-                dictionary.Add(key, new List<T2> {value});
+                dictionary.Add(key, new List<T2> { value });
             }
         }
 
@@ -22,6 +22,9 @@ namespace SparqlForHumans.Utilities
         {
             foreach (var value in values)
                 dictionary.AddSafe(key, value);
+
+            if (dictionary.ContainsKey(key))
+                dictionary[key].TrimExcess();
         }
 
         public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
@@ -29,8 +32,8 @@ namespace SparqlForHumans.Utilities
             var invertedDictionary = new Dictionary<T2, List<T1>>();
 
             foreach (var type in dictionary)
-            foreach (var property in type.Value)
-                invertedDictionary.AddSafe(property, type.Key);
+                foreach (var property in type.Value)
+                    invertedDictionary.AddSafe(property, type.Key);
 
             return invertedDictionary;
         }
@@ -40,8 +43,8 @@ namespace SparqlForHumans.Utilities
             var invertedDictionary = new Dictionary<T2, List<T1>>();
 
             foreach (var type in dictionary)
-            foreach (var property in type.Value)
-                invertedDictionary.AddSafe(property, type.Key);
+                foreach (var property in type.Value)
+                    invertedDictionary.AddSafe(property, type.Key);
 
             return invertedDictionary.ToArrayDictionary();
         }
@@ -49,6 +52,15 @@ namespace SparqlForHumans.Utilities
         public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
             return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
+        }
+
+        public static void TrimExcess<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
+        {
+            foreach (var pair in dictionary)
+            {
+                pair.Value.TrimExcess();
+            }
+            dictionary.TrimExcess();
         }
     }
 }

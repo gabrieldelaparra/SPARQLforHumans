@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Models.RDFIndex;
 using SparqlForHumans.Models.Wikidata;
@@ -64,6 +65,16 @@ namespace SparqlForHumans.RDF.Extensions
                 entity.ParseSubjectGroupTriple(triple);
 
             return entity;
+        }
+
+        /// <summary>
+        ///     Allow only triples that have property predicates.
+        /// </summary>
+        /// <param name="entityGroupTriples"></param>
+        /// <returns></returns>
+        public static IEnumerable<Triple> FilterPropertyPredicatesOnly(this SubjectGroup entityGroupTriples)
+        {
+            return entityGroupTriples.Where(x => x.Predicate.IsProperty());
         }
 
         // TODO: Add SubClass support

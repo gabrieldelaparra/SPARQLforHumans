@@ -48,19 +48,6 @@ namespace SparqlForHumans.Lucene.Indexing
         }
 
         /// <summary>
-        ///     From the default Entities Index, for each `entityId` get all the `propertyId` of that Entity.
-        /// </summary>
-        /// <returns></returns>
-        public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary()
-        {
-            using (var entitiesIndexDirectory =
-                FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
-            {
-                return CreateTypesAndPropertiesDictionary(entitiesIndexDirectory);
-            }
-        }
-
-        /// <summary>
         ///     From an existing Entities Index, for each `entityId` get all the `propertyId` of that Entity.
         /// </summary>
         /// <param name="entitiesIndexDirectory"></param>

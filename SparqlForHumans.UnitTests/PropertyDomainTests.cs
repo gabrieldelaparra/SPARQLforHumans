@@ -4,6 +4,7 @@ using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -112,7 +113,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
+            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -153,7 +154,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
+            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -189,7 +190,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = entityGroups.GetPropertyDomainTypes().ToArray();
+            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555
             Assert.Equal(2, propertyDomainTypes.Length);

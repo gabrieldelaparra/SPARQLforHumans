@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -58,8 +59,7 @@ namespace SparqlForHumans.UnitTests
             var entityGroups = lines.GroupBySubject().ToArray();
 
             //EntityTypes Dictionary
-            var entityTypes = entityGroups
-                .GetEntityTypes();
+            var entityTypes = new EntityToTypesRelationMapper().GetRelationDictionary(entityGroups);
 
             //Filter valid properties for group
             var propertyRangeTriples = lines

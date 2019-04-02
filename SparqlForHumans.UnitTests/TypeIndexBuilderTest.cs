@@ -12,56 +12,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class TypeIndexBuilderTest
     {
-        [Fact]
-        public static void TestAddTypesFields()
-        {
-            const string filename = "Resources/TypeProperties.nt";
-            const string outputPath = "TypeAddFolderEntityType";
-
-            outputPath.DeleteIfExists();
-            Assert.False(Directory.Exists(outputPath));
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
-                var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
-                var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
-                var countryDocument = SingleDocumentQueries.QueryDocumentById("Q17", luceneIndexDirectory);
-                var chileDocument = SingleDocumentQueries.QueryDocumentById("Q298", luceneIndexDirectory);
-
-                Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
-                Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
-                Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
-                Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
-            }
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-                EntitiesIndex.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
-
-                Assert.True(Directory.Exists(outputPath));
-
-                var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
-                var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
-                var countryDocument = SingleDocumentQueries.QueryDocumentById("Q17", luceneIndexDirectory);
-                var chileDocument = SingleDocumentQueries.QueryDocumentById("Q298", luceneIndexDirectory);
-
-                Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
-                Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
-                Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
-                Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
-
-                Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
-                Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
-                Assert.Equal("True", personDocument.GetValue(Labels.IsTypeEntity));
-                Assert.Equal("True", countryDocument.GetValue(Labels.IsTypeEntity));
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
         /// <summary>
         ///     Given the following nTriples file:
         ///     Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
@@ -168,10 +118,10 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public static void TestQueryTypesFields()
+        public static void TestQueryIsTypeFields()
         {
             const string filename = "Resources/TypeProperties.nt";
-            const string outputPath = "TypeAddFolderTypesFields";
+            const string outputPath = "CreateIndexIsTypeFields";
 
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
@@ -179,9 +129,6 @@ namespace SparqlForHumans.UnitTests
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-                var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-
-                EntitiesIndex.AddIsTypeEntityToEntitiesIndex(dictionary, luceneIndexDirectory);
 
                 var query = "chile";
                 var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);

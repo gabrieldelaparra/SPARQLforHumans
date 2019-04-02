@@ -5,6 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
@@ -18,63 +19,63 @@ namespace SparqlForHumans.Lucene.Indexing
 
         public static int NotifyTicks { get; } = 100000;
 
-        //TODO: Replace Dictionary with int[][]
-        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary)
-        {
-            using (var entitiesIndexDirectory =
-                FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
-            {
-                AddIsTypeEntityToEntitiesIndex(typePropertiesDictionary, entitiesIndexDirectory);
-            }
-        }
+        ////TODO: Replace Dictionary with int[][]
+        //public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary)
+        //{
+        //    using (var entitiesIndexDirectory =
+        //        FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+        //    {
+        //        AddIsTypeEntityToEntitiesIndex(typePropertiesDictionary, entitiesIndexDirectory);
+        //    }
+        //}
 
-        //TODO: Replace Dictionary with int[][]
-        /// <summary>
-        ///     Takes a dictionary(QEntityType, ListOfProperties) and adds a new Field (IsEntityType) to all Entities
-        ///     that have the QEntityType as InstanceOf.
-        /// </summary>
-        /// <param name="typePropertiesDictionary"></param>
-        /// <param name="entitiesIndexDirectory"></param>
-        public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary,
-            Directory entitiesIndexDirectory)
-        {
-            long readCount = 1;
+        ////TODO: Replace Dictionary with int[][]
+        ///// <summary>
+        /////     Takes a dictionary(QEntityType, ListOfProperties) and adds a new Field (IsEntityType) to all Entities
+        /////     that have the QEntityType as InstanceOf.
+        ///// </summary>
+        ///// <param name="typePropertiesDictionary"></param>
+        ///// <param name="entitiesIndexDirectory"></param>
+        //public static void AddIsTypeEntityToEntitiesIndex(Dictionary<int, int[]> typePropertiesDictionary,
+        //    Directory entitiesIndexDirectory)
+        //{
+        //    long readCount = 1;
 
-            var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
+        //    var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
 
-            using (var writer = new IndexWriter(entitiesIndexDirectory, indexConfig))
-            {
-                var entityIds = typePropertiesDictionary.Select(x => $"Q{x.Key}");
-                var documents = MultiDocumentQueries.QueryDocumentsByIds(entityIds,
-                    entitiesIndexDirectory);
+        //    using (var writer = new IndexWriter(entitiesIndexDirectory, indexConfig))
+        //    {
+        //        var entityIds = typePropertiesDictionary.Select(x => $"Q{x.Key}");
+        //        var documents = MultiDocumentQueries.QueryDocumentsByIds(entityIds,
+        //            entitiesIndexDirectory);
 
-                foreach (var document in documents)
-                {
-                    if (document == null) continue;
+        //        foreach (var document in documents)
+        //        {
+        //            if (document == null) continue;
 
-                    if (readCount % NotifyTicks == 0)
-                        Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
+        //            if (readCount % NotifyTicks == 0)
+        //                Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
 
-                    var field = new StringField(Labels.IsTypeEntity.ToString(), "true", Field.Store.YES);
-                    document.Add(field);
+        //            var field = new StringField(Labels.IsTypeEntity.ToString(), "true", Field.Store.YES);
+        //            document.Add(field);
 
-                    var id = document.MapBaseSubject().Id;
+        //            var id = document.MapBaseSubject().Id;
 
-                    if (typePropertiesDictionary.TryGetValue(id.ToNumbers(), out var properties))
-                        foreach (var property in properties)
-                        {
-                            var propertyField = new StringField(Labels.Property.ToString(), $"P{property}",
-                                Field.Store.YES);
-                            document.Add(propertyField);
-                        }
+        //            if (typePropertiesDictionary.TryGetValue(id.ToNumbers(), out var properties))
+        //                foreach (var property in properties)
+        //                {
+        //                    var propertyField = new StringField(Labels.Property.ToString(), $"P{property}",
+        //                        Field.Store.YES);
+        //                    document.Add(propertyField);
+        //                }
 
-                    writer.UpdateDocument(new Term(Labels.Id.ToString(), id), document);
-                    readCount++;
-                }
-            }
+        //            writer.UpdateDocument(new Term(Labels.Id.ToString(), id), document);
+        //            readCount++;
+        //        }
+        //    }
 
-            Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
-        }
+        //    Logger.Info($"Adding IsType To Entities Index. Group: {readCount:N0}");
+        //}
 
         public static void CreateEntitiesIndex(string inputTriplesFilename, bool addBoosts = false)
         {
@@ -112,7 +113,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
             // Get Entity and Types Dictionary. Read all file: +1
             Logger.Info("Building <TypeId, EntityId[]> Dictionary");
-            var typeEntitiesDictionary = entityGroups.GetTypeEntities();
+            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper().GetRelationDictionary(entityGroups);
 
             Logger.Info("Building Index");
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
