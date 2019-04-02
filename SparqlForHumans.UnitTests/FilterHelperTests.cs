@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
@@ -96,7 +97,7 @@ namespace SparqlForHumans.UnitTests
             Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename, 50));
 
             var lines = FileHelper.GetInputLines(outputFilename);
-            var firstItemList = lines.Select(x => x.Split(" ").FirstOrDefault());
+            var firstItemList = lines.Select(x => x.Split(WikidataDump.BlankSpaceChar).FirstOrDefault());
 
             Assert.NotNull(firstItemList);
             Assert.NotEmpty(firstItemList);

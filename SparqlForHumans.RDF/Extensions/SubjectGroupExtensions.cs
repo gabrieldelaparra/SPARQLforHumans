@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFIndex;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 
@@ -17,7 +17,7 @@ namespace SparqlForHumans.RDF.Extensions
 
             foreach (var line in lines)
             {
-                var entity = line.Split(' ').FirstOrDefault();
+                var entity = line.Split(WikidataDump.BlankSpaceChar).FirstOrDefault();
 
                 //Base case: first value:
                 if (last == string.Empty)
@@ -48,12 +48,12 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static bool IsEntityQ(this SubjectGroup subjectGroup)
         {
-            return subjectGroup.Id.StartsWith("Q");
+            return subjectGroup.Id.StartsWith(WikidataDump.EntityPrefix);
         }
 
         public static bool IsEntityP(this SubjectGroup subjectGroup)
         {
-            return subjectGroup.Id.StartsWith("P");
+            return subjectGroup.Id.StartsWith(WikidataDump.PropertyPrefix);
         }
 
         public static RDFIndexEntity ToIndexEntity(this SubjectGroup subjectGroup)

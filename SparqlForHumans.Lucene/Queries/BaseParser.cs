@@ -7,6 +7,7 @@ using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.Models.Wikidata;
 
 namespace SparqlForHumans.Lucene.Queries
 {
@@ -30,12 +31,12 @@ namespace SparqlForHumans.Lucene.Queries
         public static string PrepareSearchTerm(string input)
         {
             var terms = input.Trim()
-                .Replace("-", " ")
-                .Split(' ')
+                .Replace(WikidataDump.HyphenChar , WikidataDump.BlankSpaceChar)
+                .Split(WikidataDump.BlankSpaceChar)
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => $"{x.Trim()}*");
 
-            var result = string.Join(" AND ", terms);
+            var result = string.Join(WikidataDump.QueryConcatenator, terms);
             return result;
         }
 
