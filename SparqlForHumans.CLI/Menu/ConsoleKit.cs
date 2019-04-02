@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
 
 namespace ConsoleKit
 {
     public class Menu
     {
         /// <summary>
-        ///  A list of options to choose. Indexing and numeric quantifying is handled automatically.
-        /// </summary>
-        public string[] Options;
-
-        /// <summary>
-        ///  The selected color to highlight the option with.
+        ///     The selected color to highlight the option with.
         /// </summary>
         public ConsoleColor HighlightColor;
+
+        /// <summary>
+        ///     A list of options to choose. Indexing and numeric quantifying is handled automatically.
+        /// </summary>
+        public string[] Options;
 
         /// <summary>Prompts for input, handles everything. Returns the corresponding choice against the Options.</summary>
         /// <param name="selected"> Which item/position should be highlighted on print. Ignore for first.</param>
         /// <code>int choice = menu.AwaitInput();</code>
         public int AwaitInput(int selected = 0, string title = "")
         {
-            if(!string.IsNullOrWhiteSpace(title))
+            if (!string.IsNullOrWhiteSpace(title))
                 Console.WriteLine(title);
 
             for (var i = 0; i < Options.Length; i++)
@@ -30,7 +29,7 @@ namespace ConsoleKit
                 if (selected == i)
                     Console.ForegroundColor = HighlightColor;
 
-                Console.WriteLine(string.Format("{0}.\t{1}", i + 1, Options[i]));
+                Console.WriteLine("{0}.\t{1}", i + 1, Options[i]);
                 Console.ResetColor();
             }
 
@@ -41,8 +40,7 @@ namespace ConsoleKit
 
             if (info == -1)
                 return selected;
-            else
-                return this.AwaitInput(info);
+            return AwaitInput(info);
         }
 
         private int TranslateKeyInput(ConsoleKey key, int selected)
@@ -62,11 +60,11 @@ namespace ConsoleKit
             }
         }
     }
-    
+
     public class Table
     {
-        private readonly int _tableWidth;
         private readonly int _indent;
+        private readonly int _tableWidth;
 
         /// <summary>Initializes the Table.</summary>
         /// <param name="width"> Width of the table.</param>
@@ -120,7 +118,7 @@ namespace ConsoleKit
         private void PrintDivider()
         {
             PrintIndent();
-            Console.WriteLine(new string('-', (_tableWidth - 1)));
+            Console.WriteLine(new string('-', _tableWidth - 1));
         }
 
         private string BuildCellString(string text, int width)
@@ -130,8 +128,7 @@ namespace ConsoleKit
 
             if (string.IsNullOrEmpty(text))
                 return new string(' ', width);
-            else
-                return text?.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            return text?.PadRight(width - (width - text.Length) / 2).PadLeft(width);
         }
 
         private string Ellipsis(string text, int width)
@@ -144,7 +141,8 @@ namespace ConsoleKit
     {
         /// <summary>Prompts and attempts to convert input from the user.</summary>
         /// <param name="prompt"> Instructions to prompt the user. ": " is appended automatically for cleaner formatting.</param>
-        /// /// <param name="retry"> A message if conversion has failed i.e. user must retry.</param>
+        /// ///
+        /// <param name="retry"> A message if conversion has failed i.e. user must retry.</param>
         public static T GetInput<T>(string prompt, string retry)
         {
             Console.Write(prompt + ": ");
@@ -152,7 +150,7 @@ namespace ConsoleKit
 
             try
             {
-                return (T)Convert.ChangeType(input, typeof(T));
+                return (T) Convert.ChangeType(input, typeof(T));
             }
             catch
             {
@@ -179,7 +177,7 @@ namespace ConsoleKit
                     Console.WriteLine(retry);
             } while (!valid);
 
-            return (T)Convert.ChangeType(input, typeof(T));
+            return (T) Convert.ChangeType(input, typeof(T));
         }
     }
 }

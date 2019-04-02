@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
-using VDS.RDF;
 
 namespace SparqlForHumans.CLI
 {

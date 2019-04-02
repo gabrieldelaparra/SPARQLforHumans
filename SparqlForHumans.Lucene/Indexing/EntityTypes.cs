@@ -3,7 +3,6 @@ using System.Linq;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
@@ -43,10 +42,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     .Where(x => x.Predicate.IsInstanceOf())
                     .Select(x => x.Object.GetIntId()).ToArray();
 
-                foreach (var entityType in entityTypes)
-                {
-                    dictionary.AddSafe(entityType, entityGroup.IntId);
-                }
+                foreach (var entityType in entityTypes) dictionary.AddSafe(entityType, entityGroup.IntId);
             }
 
             return dictionary.ToArrayDictionary();
@@ -61,7 +57,7 @@ namespace SparqlForHumans.Lucene.Indexing
                 var entityTypes = entityGroup
                     .Where(x => x.Predicate.IsInstanceOf())
                     .Select(x => x.Object.GetIntId()).ToArray();
-                
+
                 dictionary.AddSafe(entityGroup.IntId, entityTypes);
             }
 

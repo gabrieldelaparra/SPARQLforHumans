@@ -31,7 +31,7 @@ namespace SparqlForHumans.Lucene.Queries
         public static string PrepareSearchTerm(string input)
         {
             var terms = input.Trim()
-                .Replace(WikidataDump.HyphenChar , WikidataDump.BlankSpaceChar)
+                .Replace(WikidataDump.HyphenChar, WikidataDump.BlankSpaceChar)
                 .Split(WikidataDump.BlankSpaceChar)
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => $"{x.Trim()}*");

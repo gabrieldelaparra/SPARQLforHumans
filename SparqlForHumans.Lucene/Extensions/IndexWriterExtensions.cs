@@ -13,15 +13,21 @@ namespace SparqlForHumans.Lucene.Extensions
             var document = new Document();
 
             if (entity.InstanceOf.Count > 0)
-                document.Add(new StringField(Labels.InstanceOf.ToString(), string.Join(" ## ", entity.InstanceOf), Field.Store.YES));
+                document.Add(new StringField(Labels.InstanceOf.ToString(), string.Join(" ## ", entity.InstanceOf),
+                    Field.Store.YES));
             if (entity.Properties.Count > 0)
-                document.Add(new StringField(Labels.Property.ToString(), string.Join(" ## ", entity.Properties.Distinct()), Field.Store.YES));
+                document.Add(new StringField(Labels.Property.ToString(),
+                    string.Join(" ## ", entity.Properties.Distinct()), Field.Store.YES));
             if (entity.IsType)
-                document.Add(new StringField(Labels.IsTypeEntity.ToString(), entity.IsType.ToString(), Field.Store.YES));
+                document.Add(new StringField(Labels.IsTypeEntity.ToString(), entity.IsType.ToString(),
+                    Field.Store.YES));
             if (!string.IsNullOrWhiteSpace(entity.Label))
-                document.Add(new TextField(Labels.Label.ToString(), entity.Label, Field.Store.YES) { Boost = (float)entity.Rank });
+                document.Add(new TextField(Labels.Label.ToString(), entity.Label, Field.Store.YES)
+                    {Boost = (float) entity.Rank});
             if (entity.AltLabels.Count > 0)
-                document.Add(new TextField(Labels.AltLabel.ToString(), string.Join(" ## ", entity.AltLabels), Field.Store.YES) { Boost = (float)entity.Rank });
+                document.Add(
+                    new TextField(Labels.AltLabel.ToString(), string.Join(" ## ", entity.AltLabels), Field.Store.YES)
+                        {Boost = (float) entity.Rank});
             if (!string.IsNullOrWhiteSpace(entity.Description))
                 document.Add(new TextField(Labels.Description.ToString(), entity.Description, Field.Store.YES));
             if (entity.Rank > 0)

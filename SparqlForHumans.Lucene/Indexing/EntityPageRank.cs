@@ -14,7 +14,7 @@ namespace SparqlForHumans.Lucene.Indexing
         public static int NotifyTicks { get; } = 100000;
 
         /// <summary>
-        /// Read file x2
+        ///     Read file x2
         /// </summary>
         /// <param name="triplesFilename"></param>
         /// <returns></returns>
@@ -28,7 +28,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
             //Read +1
             var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
-           
+
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
 
             foreach (var node in nodesDictionary)
@@ -116,7 +116,7 @@ namespace SparqlForHumans.Lucene.Indexing
                     var (_, _, ntObject) = line.AsTuple();
 
                     //This takes, not only the properties, but direct/properties or other things that are not properties
-                    
+
                     if (!ntObject.IsEntityQ())
                         continue;
 

@@ -39,7 +39,7 @@ namespace SparqlForHumans.Lucene.Indexing
         public static Dictionary<int, int[]> GetPropertyDomainTypes(this IEnumerable<SubjectGroup> subjectGroups)
         {
             var dictionary = new Dictionary<int, List<int>>();
-            foreach (var subjectGroup in subjectGroups) 
+            foreach (var subjectGroup in subjectGroups)
                 dictionary.AddPropertyDomainTypesForSubjectGroup(subjectGroup);
 
             return dictionary.ToArrayDictionary();
@@ -98,7 +98,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
             var domainIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var propertyId in propertyIds) 
+            foreach (var propertyId in propertyIds)
                 dictionary.AddSafe(propertyId, domainIds);
         }
 

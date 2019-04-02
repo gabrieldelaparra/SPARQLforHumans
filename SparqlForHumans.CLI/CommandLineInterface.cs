@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ConsoleKit;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.RDFQuery;
@@ -11,19 +10,19 @@ namespace SparqlForHumans.CLI
     public class CommandLineInterface
     {
         private static Menu _menu;
-        private static List<RDFEntity> entities = new List<RDFEntity>();
+        private static readonly List<RDFEntity> entities = new List<RDFEntity>();
 
-        private static RDFGraph rdfGraph = new RDFGraph();
+        private static readonly RDFGraph rdfGraph = new RDFGraph();
 
         public CommandLineInterface()
         {
             Console.Title = "Console Kit Demonstration";
 
-            _menu = new Menu()
+            _menu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
 
-                Options = new string[]
+                Options = new[]
                 {
                     "Add new Entity",
                     "Add new Type",
@@ -58,8 +57,6 @@ namespace SparqlForHumans.CLI
                 case 4:
                     PrintGraph();
                     break;
-                default:
-                    break;
             }
         }
 
@@ -93,7 +90,7 @@ namespace SparqlForHumans.CLI
         private static void AddRelations()
         {
             //Select Subject
-            var subjectMenu = new Menu()
+            var subjectMenu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
                 Options = entities?.Select(x => x.ToString()).ToArray()
@@ -105,7 +102,7 @@ namespace SparqlForHumans.CLI
             Console.WriteLine($"Subject: {selectedSubject}");
 
             //Select Object
-            var objectMenu = new Menu()
+            var objectMenu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
                 Options = entities?.Select(x => x.ToString()).ToArray()
@@ -116,25 +113,24 @@ namespace SparqlForHumans.CLI
             Console.WriteLine($"Object: {selectedObject}");
 
             //Select Predicate
-            var propertiesMenu = new Menu()
+            var propertiesMenu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
-                Options = selectedSubject.Properties.Select(x=>x.ToString()).ToArray(),
+                Options = selectedSubject.Properties.Select(x => x.ToString()).ToArray()
             };
             Console.WriteLine("Selected Predicate:");
             var propertyChoice = propertiesMenu.AwaitInput();
             var selectedProperty = selectedSubject.Properties.ElementAt(propertyChoice);
             Console.WriteLine($"Property: {selectedProperty}");
 
-            rdfGraph.QueryTriples.Add(new RDFTriple()
+            rdfGraph.QueryTriples.Add(new RDFTriple
             {
                 Subject = selectedSubject,
                 Predicate = new RDFProperty(selectedProperty),
-                Object =  selectedObject,
+                Object = selectedObject
             });
 
             DisplayInterstitial("Relation Added");
-
         }
 
         private static void AddType()
@@ -148,12 +144,9 @@ namespace SparqlForHumans.CLI
 
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query, true);
 
-            if (results == null || results.Count().Equals(0))
-            {
-                DisplayInterstitial($"No results found!");
-            }
+            if (results == null || results.Count().Equals(0)) DisplayInterstitial("No results found!");
 
-            var entityMenu = new Menu()
+            var entityMenu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
                 Options = results?.Select(x => x.ToRankedString()).ToArray()
@@ -165,7 +158,6 @@ namespace SparqlForHumans.CLI
             entities.Add(new RDFEntity(selectedEntity));
 
             DisplayInterstitial($"Added {selectedEntity}");
-
         }
 
         private static void AddEntity()
@@ -178,12 +170,9 @@ namespace SparqlForHumans.CLI
                 query = Console.ReadLine();
 
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
-            if (results == null || results.Count().Equals(0))
-            {
-                DisplayInterstitial($"No results found!");
-            }
+            if (results == null || results.Count().Equals(0)) DisplayInterstitial("No results found!");
 
-            var entityMenu = new Menu()
+            var entityMenu = new Menu
             {
                 HighlightColor = ConsoleColor.Green,
                 Options = results?.Select(x => x.ToRankedString()).ToArray()

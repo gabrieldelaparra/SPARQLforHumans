@@ -2,7 +2,9 @@
 {
     public class Subject : ISubject
     {
-        public Subject() { }
+        public Subject()
+        {
+        }
 
         public Subject(string id)
         {

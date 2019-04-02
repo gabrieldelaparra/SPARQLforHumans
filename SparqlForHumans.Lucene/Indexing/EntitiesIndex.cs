@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using Lucene.Net.Util;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
@@ -93,7 +91,8 @@ namespace SparqlForHumans.Lucene.Indexing
         /// Include Subjects only if Id starts with Q;
         /// Rank with boosts;
         /// Entities have properties, not sure if properties have properties;
-        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory, bool addBoosts = false)
+        public static void CreateEntitiesIndex(string inputTriplesFilename, Directory outputDirectory,
+            bool addBoosts = false)
         {
             long readCount = 1;
             Options.InternUris = false;
@@ -105,10 +104,12 @@ namespace SparqlForHumans.Lucene.Indexing
 
             // Run PageRank (Document Boosts). Read all file: +2
             var entityPageRankDictionary = new Dictionary<int, double>();
-            if (addBoosts){
+            if (addBoosts)
+            {
                 Logger.Info("Building <EntityId, PageRankValue> Dictionary");
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
             }
+
             // Get Entity and Types Dictionary. Read all file: +1
             Logger.Info("Building <TypeId, EntityId[]> Dictionary");
             var typeEntitiesDictionary = entityGroups.GetTypeEntities();
@@ -117,7 +118,6 @@ namespace SparqlForHumans.Lucene.Indexing
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
-
                 //Excludes Properties, will only add entities.
                 foreach (var group in entityGroups)
                 {

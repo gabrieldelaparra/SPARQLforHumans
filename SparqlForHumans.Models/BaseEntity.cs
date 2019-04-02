@@ -1,16 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace SparqlForHumans.Models
 {
     public class BaseEntity : Subject, IBaseEntity
     {
         //Constructor
-        public BaseEntity() { }
-        public BaseEntity(string id) : base(id){}
-        public BaseEntity(string id, string label) : base(id, label){}
-        public BaseEntity(ISubject baseSubject) : base (baseSubject) { }
+        public BaseEntity()
+        {
+        }
+
+        public BaseEntity(string id) : base(id)
+        {
+        }
+
+        public BaseEntity(string id, string label) : base(id, label)
+        {
+        }
+
+        public BaseEntity(ISubject baseSubject) : base(baseSubject)
+        {
+        }
 
         // IBasicEntity
         public string Description { get; set; } = string.Empty;
@@ -18,6 +27,9 @@ namespace SparqlForHumans.Models
         public IList<string> AltLabels { get; set; } = new List<string>();
         public bool IsType { get; set; } = false;
 
-        public override string ToString() => $"{base.ToString()} - ({string.Join("-", InstanceOf)}) - {Description}";
+        public override string ToString()
+        {
+            return $"{base.ToString()} - ({string.Join("-", InstanceOf)}) - {Description}";
+        }
     }
 }

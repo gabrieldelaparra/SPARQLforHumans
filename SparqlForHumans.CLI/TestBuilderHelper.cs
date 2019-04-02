@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 

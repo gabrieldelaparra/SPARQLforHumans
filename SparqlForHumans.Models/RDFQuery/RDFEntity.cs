@@ -5,7 +5,9 @@ namespace SparqlForHumans.Models.RDFQuery
 {
     public class RDFEntity : BaseEntity, IHasProperties<Property>, IHasRank<double>, IHasURI
     {
-        public RDFEntity() {}
+        public RDFEntity()
+        {
+        }
 
         public RDFEntity(Entity entity)
         {
@@ -22,8 +24,9 @@ namespace SparqlForHumans.Models.RDFQuery
             Id = hasId.Id;
         }
 
-        public double Rank { get; set; }
         public IList<Property> Properties { get; set; }
+
+        public double Rank { get; set; }
 
         public string Uri()
         {
