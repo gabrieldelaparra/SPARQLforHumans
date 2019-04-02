@@ -14,6 +14,8 @@
     <None Remove="Resources\empty.nt" />
     <None Remove="Resources\empty.nt.gz" />
     <None Remove="Resources\empty.txt" />
+    <None Remove="Resources\EntityIndexMultipleInstance.nt" />
+    <None Remove="Resources\EntityIndexSingleInstance.nt" />
     <None Remove="Resources\EntityTypes.nt" />
     <None Remove="Resources\filtered-All-500.nt" />
     <None Remove="Resources\filtered-All-5k.nt" />
@@ -24,7 +26,6 @@
     <None Remove="Resources\IndexSingle\segments.gen" />
     <None Remove="Resources\IndexSingle\segments_2" />
     <None Remove="Resources\IndexSingle\_0.cfs" />
-    <None Remove="Resources\MultipleInstanceDump.nt" />
     <None Remove="Resources\PropertyDomain.nt" />
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
@@ -43,7 +44,6 @@
     <None Remove="Resources\QueryRanksOnlyAltLabels.nt" />
     <None Remove="Resources\QueryRanksOnlyLabels.nt" />
     <None Remove="Resources\QuerySingle.nt" />
-    <None Remove="Resources\SingleInstanceDump.nt" />
     <None Remove="Resources\TenLines.nt" />
     <None Remove="Resources\TenLines.nt.gz" />
     <None Remove="Resources\trimmed.nt" />
@@ -131,7 +131,7 @@
     <Content Include="Resources\QueryMulti.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\MultipleInstanceDump.nt">
+    <Content Include="Resources\EntityIndexMultipleInstance.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyFrequencies.nt">
@@ -167,7 +167,7 @@
     <Content Include="Resources\TwoInstanceOf.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\SingleInstanceDump.nt">
+    <Content Include="Resources\EntityIndexSingleInstance.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\filtered-All-500.nt">

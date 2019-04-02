@@ -8,31 +8,6 @@ namespace SparqlForHumans.Lucene.Indexing
 {
     public static class EntityTypes
     {
-        // No muy eficiente.
-        // Lee el grupo de nuevo.
-        // Al final, lo leeré N-veces por cada cosa que quiera sacar.
-        // Pero es más legible.
-        // Pudo ser KeyValuePair, pero Tuple es más liviano.
-        // El Tuple<int, int> no es tán pesado: https://stackoverflow.com/questions/4676249/tupleint-int-versus-int2-memory-usage
-        //public static (int EntityId, int[] TypeIds) GetEntityTypes(this SubjectGroup entityGroupedLines)
-        //{
-        //    // Overload
-        //    return entityGroupedLines.GetEntityTypes(entityGroupedLines.IntId);
-        //}
-
-        //// También agregar la opción que el input ya sea un group de Triples.
-        //private static (int EntityId, int[] TypeIds) GetEntityTypes(this IEnumerable<Triple> entityGroupTriples,
-        //    int entityId)
-        //{
-        //    // Types
-        //    var entityTypes = entityGroupTriples
-        //        .Where(x => x.Predicate.IsInstanceOf())
-        //        .Select(x => x.Object.GetIntId()).ToArray();
-
-        //    // Done
-        //    return (entityId, entityTypes);
-        //}
-
         public static Dictionary<int, int[]> GetTypeEntities(this IEnumerable<SubjectGroup> entityGroups)
         {
             var dictionary = new Dictionary<int, List<int>>();

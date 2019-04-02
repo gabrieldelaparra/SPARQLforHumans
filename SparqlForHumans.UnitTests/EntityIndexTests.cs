@@ -44,7 +44,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateEntityIndexAddsFolders()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexCreateFolder";
 
             outputPath.DeleteIfExists();
@@ -64,7 +64,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateEntityMultipleInstanceIndex()
         {
-            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
             const string outputPath = "IndexMultiple";
 
             outputPath.DeleteIfExists();
@@ -102,7 +102,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateEntityMultipleInstanceIndexDocCount()
         {
-            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
             const string outputPath = "IndexDocCount";
             outputPath.DeleteIfExists();
 
@@ -122,7 +122,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexAltLabel()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexSingleAltLabel";
 
             outputPath.DeleteIfExists();
@@ -147,7 +147,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexDescription()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexSingleDescription";
 
             outputPath.DeleteIfExists();
@@ -169,7 +169,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexDocCount()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexDocCount";
             outputPath.DeleteIfExists();
 
@@ -189,7 +189,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexDocNotNull()
         {
-            const string filename = "Resources/MultipleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
             const string outputPath = "IndexDocNotNull";
 
             outputPath.DeleteIfExists();
@@ -215,7 +215,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexId()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexSingleId";
 
             outputPath.DeleteIfExists();
@@ -262,7 +262,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexLabel()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexSingleLabel";
 
             outputPath.DeleteIfExists();
@@ -283,7 +283,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexProperties()
         {
-            const string filename = "Resources/SingleInstanceDump.nt";
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
             const string outputPath = "IndexSingleProperties";
 
             outputPath.DeleteIfExists();
