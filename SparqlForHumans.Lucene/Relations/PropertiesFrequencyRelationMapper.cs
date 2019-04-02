@@ -4,6 +4,26 @@ using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.Lucene.Relations
 {
+    /// <summary>
+    ///     Given the following data:
+    ///     ```
+    ///     ...
+    ///     Qxx -> P45 -> Qxx
+    ///     Qxx -> P56 -> Qxx
+    ///     ...
+    ///     Qxx -> P34 -> Qxx
+    ///     Qxx -> P56 -> Qxx
+    ///     ...
+    ///     ```
+    ///     Returns the following:
+    ///     P45: 1
+    ///     P56: 2
+    ///     P34: 1
+    ///     Translated to the following KeyValue Pairs:
+    ///     Key: 45; Value: 1
+    ///     Key: 56; Value: 2
+    ///     Key: 34; Value: 1
+    /// </summary>
     public class PropertiesFrequencyRelationMapper : AbstractOneToOneRelationMapper<int, int>
     {
         public override string NotifyMessage { get; set; } = "Building <Property, Frequency> Dictionary";
