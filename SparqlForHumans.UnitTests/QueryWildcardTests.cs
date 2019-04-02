@@ -12,7 +12,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFullQueryResults()
         {
-            const string filename = "Resources/WildcardOnePerLetter.nt";
+            const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardQueriesFullWord";
 
             outputPath.DeleteIfExists();
@@ -31,7 +31,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestNoEndWildcardQueryResults()
         {
-            const string filename = "Resources/WildcardOnePerLetter.nt";
+            const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardHalfWord";
 
             outputPath.DeleteIfExists();
@@ -50,7 +50,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestWithEndWildcardQueryResults()
         {
-            const string filename = "Resources/WildcardOnePerLetter.nt";
+            const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardWithAsterisk";
 
             outputPath.DeleteIfExists();

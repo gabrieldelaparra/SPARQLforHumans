@@ -11,7 +11,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCountLines()
         {
-            const string filename = @"Resources/TenLines.nt";
+            const string filename = @"Resources/ReadFileTenLines.nt";
             Assert.NotEqual(0, FileHelper.GetLineCount(filename));
             Assert.Equal(10, FileHelper.GetLineCount(filename));
         }
@@ -20,9 +20,9 @@ namespace SparqlForHumans.UnitTests
         public void TestGetFilenameType()
         {
             Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFilenameType("Resources/IndexSingle/segments.gen"));
-            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/empty.nt"));
-            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/empty.nt.gz"));
-            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType("Resources/TenLines.nt.gz"));
+            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/ReadFileEmpty.nt"));
+            Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/ReadFileEmpty.nt.gz"));
+            Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType("Resources/ReadFileTenLines.nt.gz"));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestGetLinesCompressed()
         {
-            const string filename = "Resources/TenLines.nt.gz";
+            const string filename = "Resources/ReadFileTenLines.nt.gz";
 
             Assert.True(File.Exists(filename));
 
@@ -155,7 +155,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestReadLines()
         {
-            const string filename = "Resources/TenLines.nt";
+            const string filename = "Resources/ReadFileTenLines.nt";
 
             Assert.True(File.Exists(filename));
 
@@ -181,7 +181,7 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(File.Exists(outputFilename));
 
-            const string filename = @"Resources/TenLines.nt";
+            const string filename = @"Resources/ReadFileTenLines.nt";
             Assert.Equal(10, FileHelper.GetLineCount(filename));
 
             FileHelper.TrimFile(filename, outputFilename, 5);

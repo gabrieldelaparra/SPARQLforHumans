@@ -7,25 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\buildGraph.nt" />
-    <None Remove="Resources\buildGraphDifferentIds.nt" />
-    <None Remove="Resources\buildGraphMultipleProperties.nt" />
-    <None Remove="Resources\empty.gz" />
-    <None Remove="Resources\empty.nt" />
-    <None Remove="Resources\empty.nt.gz" />
-    <None Remove="Resources\empty.txt" />
     <None Remove="Resources\EntityIndexMultipleInstance.nt" />
     <None Remove="Resources\EntityIndexSingleInstance.nt" />
+    <None Remove="Resources\EntityIndexTwoInstanceOf.nt" />
     <None Remove="Resources\EntityTypes.nt" />
-    <None Remove="Resources\filtered-All-500.nt" />
-    <None Remove="Resources\filtered-All-5k.nt" />
+    <None Remove="Resources\Filter500.nt" />
     <None Remove="Resources\filtered.nt" />
+    <None Remove="Resources\FilterTrimmed.nt" />
     <None Remove="Resources\IndexMultiple\segments.gen" />
     <None Remove="Resources\IndexMultiple\segments_2" />
     <None Remove="Resources\IndexMultiple\_0.cfs" />
     <None Remove="Resources\IndexSingle\segments.gen" />
     <None Remove="Resources\IndexSingle\segments_2" />
     <None Remove="Resources\IndexSingle\_0.cfs" />
+    <None Remove="Resources\PageRankBuildGraph.nt" />
+    <None Remove="Resources\PageRankBuildGraphDifferentIds.nt" />
+    <None Remove="Resources\PageRankBuildGraphMultipleProperties.nt" />
     <None Remove="Resources\PropertyDomain.nt" />
     <None Remove="Resources\PropertyFrequencies.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
@@ -44,16 +41,18 @@
     <None Remove="Resources\QueryRanksOnlyAltLabels.nt" />
     <None Remove="Resources\QueryRanksOnlyLabels.nt" />
     <None Remove="Resources\QuerySingle.nt" />
-    <None Remove="Resources\TenLines.nt" />
-    <None Remove="Resources\TenLines.nt.gz" />
-    <None Remove="Resources\trimmed.nt" />
-    <None Remove="Resources\TwoInstanceOf.nt" />
+    <None Remove="Resources\QueryWildcardOnePerLetter.nt" />
+    <None Remove="Resources\ReadFileEmpty.gz" />
+    <None Remove="Resources\ReadFileEmpty.nt" />
+    <None Remove="Resources\ReadFileEmpty.nt.gz" />
+    <None Remove="Resources\ReadFileEmpty.txt" />
+    <None Remove="Resources\ReadFileTenLines.nt" />
+    <None Remove="Resources\ReadFileTenLines.nt.gz" />
     <None Remove="Resources\TypeProperties.nt" />
-    <None Remove="Resources\WildcardOnePerLetter.nt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Resources\buildGraphDifferentIds.nt">
+    <Content Include="Resources\PageRankBuildGraphDifferentIds.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QueryRanksOnlyAltLabels.nt">
@@ -71,13 +70,13 @@
     <Content Include="Resources\QueryRanksOnlyLabels.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\buildGraphMultipleProperties.nt">
+    <Content Include="Resources\PageRankBuildGraphMultipleProperties.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QuerySingle.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\WildcardOnePerLetter.nt">
+    <Content Include="Resources\QueryWildcardOnePerLetter.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyRange.nt">
@@ -92,22 +91,19 @@
     <Content Include="Resources\TypeProperties.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\empty.gz">
+    <Content Include="Resources\ReadFileEmpty.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\empty.nt">
+    <Content Include="Resources\ReadFileEmpty.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\empty.nt.gz">
+    <Content Include="Resources\ReadFileEmpty.nt.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\empty.txt">
+    <Content Include="Resources\ReadFileEmpty.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\buildGraph.nt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\filtered-All-5k.nt">
+    <Content Include="Resources\PageRankBuildGraph.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\IndexMultiple\segments.gen">
@@ -161,25 +157,25 @@
     <Content Include="Resources\PropertyRange.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\TenLines.nt.gz">
+    <Content Include="Resources\ReadFileTenLines.nt.gz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\TwoInstanceOf.nt">
+    <Content Include="Resources\EntityIndexTwoInstanceOf.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\EntityIndexSingleInstance.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\filtered-All-500.nt">
+    <Content Include="Resources\Filter500.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\filtered.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\TenLines.nt">
+    <Content Include="Resources\ReadFileTenLines.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\trimmed.nt">
+    <Content Include="Resources\FilterTrimmed.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

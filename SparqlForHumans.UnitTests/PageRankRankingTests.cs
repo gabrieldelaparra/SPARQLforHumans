@@ -12,7 +12,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestBuildIdRankDictionarySimpleIds()
         {
-            const string filename = "Resources/buildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph.nt";
 
             var idRankDictionary = EntityPageRank.BuildPageRank(filename);
 
@@ -30,7 +30,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestBuildIdRankDictionaryDifferentIds()
         {
-            const string filename = "Resources/buildGraphDifferentIds.nt";
+            const string filename = "Resources/PageRankBuildGraphDifferentIds.nt";
 
             var idRankDictionary = EntityPageRank.BuildPageRank(filename);
 
@@ -48,7 +48,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestBuildDictionary()
         {
-            var filename = "Resources/buildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph.nt";
             var lines = FileHelper.GetInputLines(filename);
             var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
@@ -67,7 +67,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestBuildNodeArrayGraph()
         {
-            var filename = "Resources/buildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph.nt";
             var lines = FileHelper.GetInputLines(filename);
             var groups = lines.GroupBySubject();
             var entitiesCount = groups.Count();
@@ -87,7 +87,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankOneIteration()
         {
-            var filename = "Resources/buildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 1);
@@ -106,7 +106,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankSevenIterations()
         {
-            var filename = "Resources/buildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
@@ -125,7 +125,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankSevenIterationsDifferentIds()
         {
-            var filename = "Resources/buildGraphDifferentIds.nt";
+            const string filename = "Resources/PageRankBuildGraphDifferentIds.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
@@ -144,7 +144,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankSevenIterationsMultipleProperties()
         {
-            var filename = "Resources/buildGraphMultipleProperties.nt";
+            const string filename = "Resources/PageRankBuildGraphMultipleProperties.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);

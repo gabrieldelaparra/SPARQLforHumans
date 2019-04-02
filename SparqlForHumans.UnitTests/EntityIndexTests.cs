@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateEntityIndex500()
         {
-            const string filename = "Resources/filtered-All-500.nt";
+            const string filename = "Resources/Filter500.nt";
             const string outputPath = "Index500";
 
             outputPath.DeleteIfExists();
@@ -236,7 +236,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateSingleInstanceIndexInstanceOf()
         {
-            const string filename = "Resources/TwoInstanceOf.nt";
+            const string filename = "Resources/EntityIndexTwoInstanceOf.nt";
             const string outputPath = "TwoInstanceOfIndex";
 
             outputPath.DeleteIfExists();

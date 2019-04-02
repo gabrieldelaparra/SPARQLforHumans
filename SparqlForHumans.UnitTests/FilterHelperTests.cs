@@ -13,7 +13,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterCompareWithPlainCount()
         {
-            const string filename = "Resources/filtered-All-5k.nt";
+            const string filename = "Resources/Filter500.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
 
@@ -35,7 +35,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterCompareWithPlainLineByLine()
         {
-            const string filename = "Resources/filtered-All-500.nt";
+            const string filename = "Resources/Filter500.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
 
@@ -57,7 +57,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilteredOutputTypeIsCompressed()
         {
-            const string filename = "Resources/trimmed.nt";
+            const string filename = "Resources/FilterTrimmed.nt";
             Assert.True(File.Exists(filename));
 
             const int limit = 100;
@@ -79,7 +79,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterFileLimit200()
         {
-            const string filename = @"Resources/trimmed.nt";
+            const string filename = @"Resources/FilterTrimmed.nt";
             Assert.True(File.Exists(filename));
 
             const int limit = 200;
@@ -113,7 +113,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterFileLimitZero()
         {
-            const string filename = @"Resources/trimmed.nt";
+            const string filename = @"Resources/FilterTrimmed.nt";
             Assert.True(File.Exists(filename));
 
             const int limit = 0;
@@ -135,7 +135,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterGZipOutput()
         {
-            const string filename = "Resources/trimmed.nt";
+            const string filename = "Resources/FilterTrimmed.nt";
             Assert.True(File.Exists(filename));
 
             const int limit = 100;
