@@ -5,6 +5,7 @@ using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -16,8 +17,8 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreateEntityIndex500()
         {
-            const string filename = "Resources/Filter500.nt";
-            const string outputPath = "Index500";
+            const string filename = "Resources/Filter5k.nt";
+            const string outputPath = "Index5k";
 
             outputPath.DeleteIfExists();
 
@@ -180,6 +181,30 @@ namespace SparqlForHumans.UnitTests
                 {
                     var docCount = reader.MaxDoc;
                     Assert.Equal(1, docCount);
+                }
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateIndexDocumentCountEqualsGroupsCounts()
+        {
+            var filename = "Resources/Filter500.nt";
+            var lines = FileHelper.GetInputLines(filename);
+            var groups = lines.GroupBySubject();
+            var entitiesCount = groups.Count();
+
+            var outputPath = "Index500Count";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory);
+                using (var reader = DirectoryReader.Open(luceneIndexDirectory))
+                {
+                    Assert.Equal(entitiesCount, reader.NumDocs);
                 }
             }
 

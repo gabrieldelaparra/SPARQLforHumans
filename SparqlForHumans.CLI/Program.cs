@@ -18,14 +18,14 @@ namespace SparqlForHumans.CLI
             //Filter500k();
             //CreateIndex("filtered-All-5k.nt", true);
             //var cli = new CommandLineInterface();
-            ////Filter5k();
+            Filter500();
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            CreateIndex("filtered-All.nt", true);
-            QueryEntities("obama");
+            //CreateIndex("filtered-All.nt", true);
+            //QueryEntities("obama");
             //QueryProperties("city");
 
             Console.Read();
@@ -78,6 +78,13 @@ namespace SparqlForHumans.CLI
             var inputFilename = @"filtered-All-2MM.nt";
             var outputFilename = "filtered-All-5k.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, 5000);
+        }
+
+        private static void Filter500()
+        {
+            var inputFilename = @"filtered-All-5k.nt";
+            var outputFilename = "filtered-All-500.nt";
+            TriplesFilter.Filter(inputFilename, outputFilename, 500);
         }
 
         private static void FilterAll()

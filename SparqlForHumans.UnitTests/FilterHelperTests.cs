@@ -13,7 +13,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterCompareWithPlainCount()
         {
-            const string filename = "Resources/Filter500.nt";
+            const string filename = "Resources/Filter5k.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
 
@@ -35,7 +35,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterCompareWithPlainLineByLine()
         {
-            const string filename = "Resources/Filter500.nt";
+            const string filename = "Resources/Filter5k.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
 
@@ -49,7 +49,8 @@ namespace SparqlForHumans.UnitTests
             var gZipLines = SharpZipHandler.ReadGZip(outputFilename).ToArray();
             var plainLines = FileHelper.ReadLines(filename).ToArray();
 
-            for (var i = 0; i < plainLines.Count(); i++) Assert.Equal(gZipLines[i], plainLines[i]);
+            for (var i = 0; i < plainLines.Count(); i++) 
+                Assert.Equal(gZipLines[i], plainLines[i]);
 
             outputFilename.DeleteIfExists();
         }
@@ -155,7 +156,7 @@ namespace SparqlForHumans.UnitTests
             Assert.NotEmpty(lines);
 
             //Hardcoded number, Heuristic.
-            Assert.Equal(208, lines.Count());
+            Assert.Equal(136, lines.Count());
 
             outputFilename.DeleteIfExists();
         }
