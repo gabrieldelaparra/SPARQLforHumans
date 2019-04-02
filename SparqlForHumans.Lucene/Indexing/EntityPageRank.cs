@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
@@ -19,6 +20,7 @@ namespace SparqlForHumans.Lucene.Indexing
         /// <returns></returns>
         public static Dictionary<int, double> BuildPageRank(string triplesFilename)
         {
+            Options.InternUris = false;
             var dictionary = new Dictionary<int, double>();
 
             //Read +1
@@ -28,7 +30,6 @@ namespace SparqlForHumans.Lucene.Indexing
             var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
            
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
-            nodesGraphArray = null;
 
             foreach (var node in nodesDictionary)
             {
@@ -70,59 +71,6 @@ namespace SparqlForHumans.Lucene.Indexing
             Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
             return dictionary;
-        }
-
-        public static Dictionary<int, int[]> BuildNodesGraph(string triplesFilename)
-        {
-            var nodeCount = 0;
-            var dictionary = new Dictionary<int, int[]>();
-            //var dictionary = new Dictionary<int, List<int>>();
-            var lines = FileHelper.GetInputLines(triplesFilename);
-            var list = new List<int>();
-            var currentId = 0;
-
-            foreach (var line in lines)
-            {
-                var triple = line.ToTriple();
-
-                var entityId = triple.Subject.GetIntId();
-
-                if (currentId != entityId)
-                {
-                    if(list.Any())
-                        dictionary.Add(currentId, list.ToArray());
-                    list = new List<int>();
-                    if (nodeCount % NotifyTicks == 0)
-                        Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-                    currentId = entityId;
-                    nodeCount++;
-                }
-
-                if (triple.Subject.IsEntityQ() && triple.Object.IsEntityQ() && !triple.Predicate.IsInstanceOf())
-                {
-                    list.Add(triple.Object.GetIntId());
-                    //dictionary.AddSafe(entityId, triple.Object.GetIntId());
-                }
-            }
-
-            Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-            return dictionary;
-
-            //var subjectGroups = lines.GroupBySubject().Where(x=>x.IsEntityQ());
-
-            //foreach (var subjectGroup in subjectGroups)
-            //{
-            //    if (nodeCount % NotifyTicks == 0)
-            //        Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-
-            //    var triples = subjectGroup.Where(x => x.Object.IsEntityQ());
-                
-            //    dictionary.Add(subjectGroup.IntId, triples.Select(x=>x.Object.GetIntId()).Distinct().ToArray());
-            //    nodeCount++;
-            //}
-
-            //Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-            //return dictionary;
         }
 
         /// <summary>
@@ -168,8 +116,8 @@ namespace SparqlForHumans.Lucene.Indexing
                     var (_, _, ntObject) = line.AsTuple();
 
                     //This takes, not only the properties, but direct/properties or other things that are not properties
-                    //TODO: Use only properties (?)
-                    if (!ntObject.IsEntity())
+                    
+                    if (!ntObject.IsEntityQ())
                         continue;
 
                     var objectId = ntObject.GetIntId();

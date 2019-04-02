@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
 
 namespace SparqlForHumans.CLI
 {
@@ -25,13 +27,10 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            //CreateIndex("filtered-All.nt", true);
-            //QueryEntities("obama");
+            CreateIndex("filtered-All.nt", true);
+            QueryEntities("obama");
             //QueryProperties("city");
 
-            //var pagerank = EntityPageRank.BuildPageRank("filtered-All.nt");
-            var pagerank = EntityPageRank.BuildNodesGraph("filtered-All.nt");
-            Console.WriteLine(pagerank.Count);
             Console.Read();
 
             //TestBuilderHelper.GetFirst20ObamaTriplesGroups();
