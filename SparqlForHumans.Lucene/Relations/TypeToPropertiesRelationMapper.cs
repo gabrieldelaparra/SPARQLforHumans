@@ -28,6 +28,8 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class TypeToPropertiesRelationMapper : AbstractOneToManyRelationMapper<int, int>
     {
+        public override string NotifyMessage { get; set; } = "Building <Type, Properties[]> Dictionary";
+
         internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             //Hopefully they should be already filtered.

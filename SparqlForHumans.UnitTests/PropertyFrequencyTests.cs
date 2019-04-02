@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Relations;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -13,7 +14,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyFrequencies.nt";
             Assert.True(File.Exists(filename));
 
-            var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);
+            var dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(filename);
 
             Assert.NotNull(dictionary);
 
@@ -35,7 +36,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyFrequenciesWithGarbage.nt";
             Assert.True(File.Exists(filename));
 
-            var dictionary = PropertiesFrequency.GetPropertiesFrequency(filename);
+            var dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(filename);
 
             Assert.NotNull(dictionary);
 

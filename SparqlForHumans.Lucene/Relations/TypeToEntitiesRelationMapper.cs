@@ -28,6 +28,8 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class TypeToEntitiesRelationMapper : AbstractOneToManyRelationMapper<int, int>
     {
+        public override string NotifyMessage { get; set; } = "Building <Type, Entities[]> Dictionary";
+
         internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             var entityTypes = subjectGroup

@@ -30,6 +30,8 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class PropertyToTypesRelationMapper : AbstractOneToManyRelationMapper<int, int>
     {
+        public override string NotifyMessage { get; set; } = "Building <Property, Types[]> Dictionary";
+
         internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             // Filter those the triples that are properties only (Exclude description, label, etc.)

@@ -5,6 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
@@ -39,7 +40,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<int, int>();
 
             if (indexFrequency)
-                dictionary = PropertiesFrequency.GetPropertiesFrequency(inputTriplesFilename);
+                dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
