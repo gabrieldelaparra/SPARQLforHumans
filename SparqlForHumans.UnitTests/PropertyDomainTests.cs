@@ -113,7 +113,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
+            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -154,7 +154,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
+            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -190,7 +190,7 @@ namespace SparqlForHumans.UnitTests
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
+            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper().GetRelationDictionary(entityGroups).ToArray();
 
             // P27, P555
             Assert.Equal(2, propertyDomainTypes.Length);

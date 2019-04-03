@@ -2,8 +2,11 @@
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Relations;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
 
 namespace SparqlForHumans.CLI
 {
@@ -13,12 +16,13 @@ namespace SparqlForHumans.CLI
 
         private static void Main(string[] args)
         {
+            Options.InternUris = false;
             //FilterAll();
             //Filter5k();
             //Filter500k();
             //CreateIndex("filtered-All-5k.nt", true);
             //var cli = new CommandLineInterface();
-            Filter500();
+            //Filter500();
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
@@ -28,6 +32,21 @@ namespace SparqlForHumans.CLI
             //QueryEntities("obama");
             //QueryProperties("city");
 
+            var subjectGroups = FileHelper.GetInputLines(@"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt").GroupBySubject();
+
+            //EntityTypes
+            // TODO: Intensive Memory Object++
+            var entityToTypesDictionary = new EntityToTypesRelationMapper().GetRelationDictionary(subjectGroups);
+
+            // Build PropertyRanges
+            // TODO: Intensive Memory Object++
+            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper().GetRelationDictionary(subjectGroups);
+
+            // TODO: Intensive Memory Object++
+            var dictionary = PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
+
+            dictionary.Print();
+            //Console.WriteLine(dictionary.Count);
             Console.Read();
 
             //TestBuilderHelper.GetFirst20ObamaTriplesGroups();

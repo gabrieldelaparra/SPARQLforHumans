@@ -9,27 +9,25 @@ namespace SparqlForHumans.Lucene.Relations
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public int NotifyTicks { get; } = 100000;
-        public abstract string NotifyMessage { get; set; }
-        private int nodeCount = 0;
+        public abstract string NotifyMessage { get; internal set; }
 
         public virtual Dictionary<T1, T2[]> GetRelationDictionary(string inputFilename)
         {
-            var lines = FileHelper.GetInputLines(inputFilename);
-            var subjectGroups = lines.GroupBySubject();
-
+            var subjectGroups = FileHelper.GetInputLines(inputFilename).GroupBySubject();
             return GetRelationDictionary(subjectGroups);
         }
 
         public virtual Dictionary<T1, T2[]> GetRelationDictionary(IEnumerable<SubjectGroup> subjectGroups)
         {
+            var nodeCount = 0;
             var dictionary = new Dictionary<T1, List<T2>>();
             foreach (var subjectGroup in subjectGroups)
             {
                 if (nodeCount % NotifyTicks == 0)
                     Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
-                
+
                 AddToDictionary(dictionary, subjectGroup);
-                
+
                 nodeCount++;
             }
 

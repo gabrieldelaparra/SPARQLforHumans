@@ -9,14 +9,12 @@ namespace SparqlForHumans.Lucene.Relations
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public int NotifyTicks { get; } = 100000;
-        public abstract string NotifyMessage { get; set; }
+        public abstract string NotifyMessage { get; internal set; }
         private int nodeCount = 0;
 
         public virtual Dictionary<T1, T2> GetRelationDictionary(string inputFilename)
         {
-            var lines = FileHelper.GetInputLines(inputFilename);
-            var subjectGroups = lines.GroupBySubject();
-
+            var subjectGroups = FileHelper.GetInputLines(inputFilename).GroupBySubject();
             return GetRelationDictionary(subjectGroups);
         }
 

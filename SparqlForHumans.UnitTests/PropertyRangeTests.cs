@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.RDF.Extensions;
@@ -9,12 +10,6 @@ namespace SparqlForHumans.UnitTests
 {
     public class PropertyRangeTests
     {
-        //[Fact]
-        //public void TestAddRangeToIndex()
-        //{
-        //    Assert.False(true);
-        //}
-
         /// <summary>
         ///     Este test crea un indice y agrega el Range (Destino) de las propiedades.
         ///     Se dan los siguientes ejemplios:
@@ -55,21 +50,18 @@ namespace SparqlForHumans.UnitTests
         {
             // Arrange
             const string filename = "Resources/PropertyRange.nt";
-            var lines = FileHelper.GetInputLines(filename);
-            var entityGroups = lines.GroupBySubject().ToArray();
+            var subjectGroups = FileHelper.GetInputLines(filename).GroupBySubject();
 
-            //EntityTypes Dictionary
-            var entityTypes = new EntityToTypesRelationMapper().GetRelationDictionary(entityGroups);
+            //EntityTypes
+            // TODO: Intensive Memory Object++
+            var entityToTypesDictionary = new EntityToTypesRelationMapper().GetRelationDictionary(subjectGroups);
 
-            //Filter valid properties for group
-            var propertyRangeTriples = lines
-                .Select(x => x.ToTriple())
-                .Where(PropertyRange.IsValidPropertyRangeTriple);
-
-            // Act: Build PropertyRanges
-            var dictionary = propertyRangeTriples
-                .Select(x => x.GetPropertyRangeType(entityTypes))
-                .ToDictionary();
+            // Build PropertyRanges
+            // TODO: Intensive Memory Object++
+            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper().GetRelationDictionary(subjectGroups);
+            
+            // TODO: Intensive Memory Object++
+            var dictionary =  PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
 
             // Assert
             Assert.Equal(2, dictionary.Count);

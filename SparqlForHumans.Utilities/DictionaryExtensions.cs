@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SparqlForHumans.Utilities
@@ -23,6 +24,7 @@ namespace SparqlForHumans.Utilities
             foreach (var value in values)
                 dictionary.AddSafe(key, value);
 
+            // TODO: Check performance of this.
             if (dictionary.ContainsKey(key))
                 dictionary[key].TrimExcess();
         }
@@ -35,6 +37,7 @@ namespace SparqlForHumans.Utilities
                 foreach (var property in type.Value)
                     invertedDictionary.AddSafe(property, type.Key);
 
+            invertedDictionary.TrimExcessDeep();
             return invertedDictionary;
         }
 
@@ -51,16 +54,25 @@ namespace SparqlForHumans.Utilities
 
         public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
+            dictionary.TrimExcessDeep();
             return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
 
-        public static void TrimExcess<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
+        public static void TrimExcessDeep<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
             foreach (var pair in dictionary)
             {
                 pair.Value.TrimExcess();
             }
-            dictionary.TrimExcess();
+            //dictionary.TrimExcess();
+        }
+
+        public static void Print<T1, T2>(this Dictionary<T1, T2[]> dictionary)
+        {
+            foreach (var pair in dictionary)
+            {
+                Console.WriteLine($"{pair.Key} {string.Join(" ", pair.Value)}");
+            }
         }
     }
 }

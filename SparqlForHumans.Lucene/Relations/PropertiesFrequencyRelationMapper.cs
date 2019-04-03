@@ -26,7 +26,7 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class PropertiesFrequencyRelationMapper : AbstractOneToOneRelationMapper<int, int>
     {
-        public override string NotifyMessage { get; set; } = "Building <Property, Frequency> Dictionary";
+        public override string NotifyMessage { get; internal set; } = "Building <Property, Frequency> Dictionary";
 
         internal override void AddToDictionary(Dictionary<int, int> dictionary, SubjectGroup subjectGroup)
         {
