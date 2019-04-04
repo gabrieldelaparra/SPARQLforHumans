@@ -37,15 +37,11 @@ namespace SparqlForHumans.Lucene.Relations
             var validProperties = subjectGroup
                 .Where(x => x.Predicate.IsProperty()
                             && !x.Predicate.IsInstanceOf()
-                            && x.Object.IsEntityQ());
+                            && x.Object.IsEntityQ())
+                .Select(x => new { PropertyId = x.Predicate.GetIntId(), ObjectId = x.Object.GetIntId() });
 
             foreach (var validProperty in validProperties)
-                dictionary.AddSafe(validProperty.Predicate.GetIntId(), validProperty.Object.GetIntId());
-        }
-
-        public void PostProcess()
-        {
-
+                dictionary.AddSafe(validProperty.PropertyId, validProperty.ObjectId);
         }
     }
 }

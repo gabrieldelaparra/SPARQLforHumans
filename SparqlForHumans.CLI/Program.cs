@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
@@ -28,24 +29,10 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            //CreateIndex("filtered-All.nt", true);
-            //QueryEntities("obama");
+            CreateIndex("filtered-All.nt", true);
+            QueryEntities("obama");
             //QueryProperties("city");
 
-            var subjectGroups = FileHelper.GetInputLines(@"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt").GroupBySubject();
-
-            //EntityTypes
-            // TODO: Intensive Memory Object++
-            var entityToTypesDictionary = new EntityToTypesRelationMapper().GetRelationDictionary(subjectGroups);
-
-            // Build PropertyRanges
-            // TODO: Intensive Memory Object++
-            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper().GetRelationDictionary(subjectGroups);
-
-            // TODO: Intensive Memory Object++
-            var dictionary = PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
-
-            dictionary.Print();
             //Console.WriteLine(dictionary.Count);
             Console.Read();
 

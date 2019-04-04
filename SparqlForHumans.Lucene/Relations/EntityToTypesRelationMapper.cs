@@ -33,7 +33,7 @@ namespace SparqlForHumans.Lucene.Relations
             // Types
             var entityTypes = subjectGroup
                 .Where(x => x.Predicate.IsInstanceOf())
-                .Select(x => x.Object.GetIntId()).ToArray();
+                .Select(x => x.Object.GetIntId());
 
             dictionary.AddSafe(subjectGroup.IntId, entityTypes);
         }
