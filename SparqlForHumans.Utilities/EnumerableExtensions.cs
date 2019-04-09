@@ -20,6 +20,12 @@ namespace SparqlForHumans.Utilities
             return (trueSlice, falseSlice);
         }
 
+        public static void AddSafe<T>(this IList<T> list, T value)
+        {
+            if (!list.Contains(value))
+                list.Add(value);
+        }
+
         //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
         //{
         //    return items.GroupBy(property).Select(x => x.First());

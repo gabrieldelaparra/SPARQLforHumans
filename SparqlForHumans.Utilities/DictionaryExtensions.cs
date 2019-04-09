@@ -9,16 +9,9 @@ namespace SparqlForHumans.Utilities
         public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, T2 value)
         {
             if (dictionary.ContainsKey(key))
-            {
-                var dictionaryEntry = dictionary[key];
-
-                if (!dictionaryEntry.Contains(value))
-                    dictionaryEntry.Add(value);
-            }
+                dictionary[key].AddSafe(value);
             else
-            {
                 dictionary.Add(key, new List<T2> { value });
-            }
         }
 
         public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, IEnumerable<T2> values)
@@ -69,9 +62,7 @@ namespace SparqlForHumans.Utilities
         public static void Print<T1, T2>(this Dictionary<T1, T2[]> dictionary)
         {
             foreach (var pair in dictionary)
-            {
                 Console.WriteLine($"{pair.Key}:{string.Join(" ", pair.Value)}");
-            }
         }
     }
 }
