@@ -10,8 +10,10 @@ namespace SparqlForHumans.Utilities
         {
             if (dictionary.ContainsKey(key))
             {
-                if (!dictionary[key].Contains(value))
-                    dictionary[key].Add(value);
+                var dictionaryEntry = dictionary[key];
+
+                if (!dictionaryEntry.Contains(value))
+                    dictionaryEntry.Add(value);
             }
             else
             {
@@ -21,12 +23,12 @@ namespace SparqlForHumans.Utilities
 
         public static void AddSafe<T1, T2>(this Dictionary<T1, List<T2>> dictionary, T1 key, IEnumerable<T2> values)
         {
-            foreach (var value in values)
-                dictionary.AddSafe(key, value);
+            if (!values.Any()) return;
 
-            // TODO: Check performance of this.
             if (dictionary.ContainsKey(key))
-                dictionary[key].TrimExcess();
+                dictionary[key] = dictionary[key].Union(values).ToList();
+            else
+                dictionary.Add(key, values.Distinct().ToList());
         }
 
         public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
@@ -61,10 +63,7 @@ namespace SparqlForHumans.Utilities
         public static void TrimExcessDeep<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
             foreach (var pair in dictionary)
-            {
                 pair.Value.TrimExcess();
-            }
-            //dictionary.TrimExcess();
         }
 
         public static void Print<T1, T2>(this Dictionary<T1, T2[]> dictionary)
