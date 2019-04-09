@@ -70,7 +70,7 @@ namespace SparqlForHumans.Utilities
         {
             foreach (var pair in dictionary)
             {
-                Console.WriteLine($"{pair.Key} {string.Join(" ", pair.Value)}");
+                Console.WriteLine($"{pair.Key}:{string.Join(" ", pair.Value)}");
             }
         }
     }
