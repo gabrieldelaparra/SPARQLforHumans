@@ -29,8 +29,10 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-5k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            CreateIndex("filtered-All.nt", true);
+            //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
             QueryEntities("obama");
+            QueryEntities("city");
+            QueryEntities("michelle obama");
             //QueryProperties("city");
 
             //Console.WriteLine(dictionary.Count);

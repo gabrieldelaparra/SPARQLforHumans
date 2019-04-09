@@ -23,6 +23,8 @@ namespace SparqlForHumans.Lucene.Indexing
             Options.InternUris = false;
             var dictionary = new Dictionary<int, double>();
 
+            Logger.Info("Building <EntityId, PageRankValue> Dictionary");
+
             //Read +1
             var nodesDictionary = BuildNodesDictionary(triplesFilename);
 
