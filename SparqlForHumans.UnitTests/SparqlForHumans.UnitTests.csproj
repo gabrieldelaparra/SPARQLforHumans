@@ -16,6 +16,7 @@
     <None Remove="Resources\EntityIndexTypes.nt" />
     <None Remove="Resources\EntityTypes.nt" />
     <None Remove="Resources\Filter500.nt" />
+    <None Remove="Resources\Filter5k-Index.nt" />
     <None Remove="Resources\Filter5k.nt" />
     <None Remove="Resources\filtered.nt" />
     <None Remove="Resources\FilterTrimmed.nt" />
@@ -25,7 +26,11 @@
     <None Remove="Resources\IndexSingle\segments.gen" />
     <None Remove="Resources\IndexSingle\segments_2" />
     <None Remove="Resources\IndexSingle\_0.cfs" />
+    <None Remove="Resources\PageRankBuildGraph-Floats.nt" />
+    <None Remove="Resources\PageRankBuildGraph-Floats7.nt" />
     <None Remove="Resources\PageRankBuildGraph.nt" />
+    <None Remove="Resources\PageRankBuildGraphDifferentIds-Floats.nt" />
+    <None Remove="Resources\PageRankBuildGraphDifferentIds-Index.nt" />
     <None Remove="Resources\PageRankBuildGraphDifferentIds.nt" />
     <None Remove="Resources\PageRankBuildGraphMultipleProperties.nt" />
     <None Remove="Resources\PropertyDomain.nt" />
@@ -60,7 +65,22 @@
     <Content Include="Resources\EntityIndexTwoInstanceOfWithTypes.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Filter5k-Index.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Filter5k.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PageRankBuildGraph-Floats7.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PageRankBuildGraph-Floats.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PageRankBuildGraphDifferentIds-Floats.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\PageRankBuildGraphDifferentIds-Index.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PageRankBuildGraphDifferentIds.nt">

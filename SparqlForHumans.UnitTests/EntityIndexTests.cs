@@ -15,9 +15,9 @@ namespace SparqlForHumans.UnitTests
     public class EntityIndexTests
     {
         [Fact]
-        public void TestCreateEntityIndex500()
+        public void TestCreateEntityIndex5k()
         {
-            const string filename = "Resources/Filter5k.nt";
+            const string filename = "Resources/Filter5k-Index.nt";
             const string outputPath = "Index5k";
 
             outputPath.DeleteIfExists();

@@ -87,7 +87,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankOneIteration()
         {
-            const string filename = "Resources/PageRankBuildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph-Floats.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 1);
@@ -106,7 +106,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankSevenIterations()
         {
-            const string filename = "Resources/PageRankBuildGraph.nt";
+            const string filename = "Resources/PageRankBuildGraph-Floats7.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);
@@ -125,7 +125,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCalculateFloatRankSevenIterationsDifferentIds()
         {
-            const string filename = "Resources/PageRankBuildGraphDifferentIds.nt";
+            const string filename = "Resources/PageRankBuildGraphDifferentIds-Floats.nt";
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 7);

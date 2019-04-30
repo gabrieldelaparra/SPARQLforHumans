@@ -161,6 +161,7 @@ namespace SparqlForHumans.UnitTests
             outputFilename.DeleteIfExists();
         }
 
+        //TODO: Split into individual Tests
         [Fact]
         public void TestIsValidTriple()
         {

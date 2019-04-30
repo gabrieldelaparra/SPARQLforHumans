@@ -55,7 +55,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIndexWithDifferentIdsHasCorrectRankingFields()
         {
-            const string filename = "Resources/PageRankBuildGraphDifferentIds.nt";
+            const string filename = "Resources/PageRankBuildGraphDifferentIds-Index.nt";
             const string outputPath = "IndexRanks";
 
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
