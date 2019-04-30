@@ -56,13 +56,11 @@ namespace SparqlForHumans.Lucene.Indexing
                     if (readCount % NotifyTicks == 0)
                         Logger.Info($"Build Property Index, Group: {readCount:N0}");
 
-                    var subject = group.FirstOrDefault().AsTuple().subject;
-
                     //Excludes Entities, will only add properties.
-                    if (!subject.IsEntityP())
+                    if (!group.IsEntityP())
                         continue;
 
-                    var propertyId = subject.GetIntId();
+                    var propertyId = group.IntId;
 
                     //Flag to create a new Lucene Document
                     var hasDocument = false;

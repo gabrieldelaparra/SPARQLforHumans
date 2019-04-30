@@ -21,5 +21,10 @@ namespace SparqlForHumans.Utilities
             var index = Regex.Replace(input, "[^0-9+-.,eE]", string.Empty);
             return string.IsNullOrWhiteSpace(index) ? 0 : double.Parse(index);
         }
+
+        public static bool ToBool(this string input)
+        {
+            return !string.IsNullOrWhiteSpace(input) && bool.Parse(input);
+        }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Index;
 using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;
 
@@ -11,11 +15,19 @@ namespace SparqlForHumans.UnitTests
     public class DocumentMapperTests
     {
         [Fact]
-        public static void TestMapEntity()
+        public static void TestMapEntitySingleInstance()
         {
-            const string outputPath = "Resources/IndexSingle";
+            const string filename = "Resources/EntityIndexSingleInstance-Map.nt";
+            const string outputPath = "Resources/IndexSingleMapping";
 
-            var entity = new Entity
+            outputPath.DeleteIfExists();
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
+            }
+
+            var expected = new Entity
             {
                 Id = "Q26",
                 Label = "Northern Ireland",
@@ -25,6 +37,14 @@ namespace SparqlForHumans.UnitTests
                     "NIR",
                     "UKN",
                     "North Ireland"
+                },
+                InstanceOf = new List<string>
+                {
+                    "Q100",
+                },
+                SubClass = new List<string>
+                {
+                    "Q46",
                 },
                 Properties = new List<Property>
                 {
@@ -40,8 +60,100 @@ namespace SparqlForHumans.UnitTests
                     },
                     new Property
                     {
-                        Id = "P30",
-                        Value = "Q46"
+                        Id = "P131",
+                        Value = "Q145"
+                    }
+                }
+            };
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var actual = SingleDocumentQueries.QueryEntityByLabel(expected.Label, luceneDirectory);
+
+                Assert.NotNull(actual);
+
+                //Id
+                Assert.Equal(expected.Id, actual.Id);
+
+                //Label
+                Assert.Equal(expected.Label, actual.Label);
+
+                //InstanceOf
+                Assert.Equal(expected.InstanceOf.Count, actual.InstanceOf.Count);
+                Assert.Equal(expected.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
+
+                //SubClass
+                Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
+                Assert.Equal(expected.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
+
+                //IsType
+                Assert.False(actual.IsType);
+
+                //Rank
+                Assert.Equal(1, actual.Rank);
+
+                //Alt-Label:
+                Assert.Equal(expected.AltLabels.Count(), actual.AltLabels.Count());
+                Assert.Equal(expected.AltLabels.ElementAt(0), actual.AltLabels.ElementAt(0));
+                Assert.Equal(expected.AltLabels.ElementAt(1), actual.AltLabels.ElementAt(1));
+                Assert.Equal(expected.AltLabels.ElementAt(2), actual.AltLabels.ElementAt(2));
+
+                //Description
+                Assert.Equal(expected.Description, actual.Description);
+
+                //Properties
+                Assert.Equal(expected.Properties.Count(), actual.Properties.Count());
+                Assert.Equal(expected.Properties.ElementAt(0).Id, actual.Properties.ElementAt(0).Id);
+                Assert.Equal(expected.Properties.ElementAt(1).Id, actual.Properties.ElementAt(1).Id);
+                Assert.Equal(expected.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
+            }
+        }
+
+        [Fact]
+        public static void TestMapEntityTwoInstances()
+        {
+            const string filename = "Resources/EntityIndexTwoInstanceOfWithTypes-Map.nt";
+            const string outputPath = "Resources/IndexTwoInstanceMapping";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
+            }
+
+            var expected1 = new Entity
+            {
+                Id = "Q26",
+                Label = "Northern Ireland",
+                Description = "region in north-west Europe, part of the United Kingdom",
+                AltLabels = new List<string>
+                {
+                    "NIR",
+                    "UKN",
+                    "North Ireland"
+                },
+                InstanceOf = new List<string>
+                {
+                    "Q27",
+                    "Q145",
+                },
+                SubClass = new List<string>
+                {
+                    "Q46",
+                    "Q47",
+                },
+                Properties = new List<Property>
+                {
+                    new Property
+                    {
+                        Id = "P17",
+                        Value = "Q145"
+                    },
+                    new Property
+                    {
+                        Id = "P47",
+                        Value = "Q27"
                     },
                     new Property
                     {
@@ -51,50 +163,60 @@ namespace SparqlForHumans.UnitTests
                 }
             };
 
+            var expected2 = new Entity
+            {
+                Id = "Q145",
+                Label = "Base1",
+                Description = "Base Type1",
+            };
+
+            var expected3 = new Entity
+            {
+                Id = "Q27",
+                Label = "Base2",
+                Description = "Base Type2",
+            };
+
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var first = SingleDocumentQueries.QueryEntityByLabel(entity.Label, luceneDirectory);
+                //Expected 1: Id, Label, InstanceOf, SubClass, Rank, IsType, Alt-Label, Description, Properties
+                var actual = SingleDocumentQueries.QueryEntityByLabel(expected1.Label, luceneDirectory);
 
-                Assert.NotNull(first);
+                Assert.NotNull(actual);
 
-                //Id
-                Assert.Equal(entity.Id, first.Id);
+                Assert.Equal(expected1.Id, actual.Id);
+                Assert.Equal(expected1.Label, actual.Label);
+                Assert.Equal(expected1.Description, actual.Description);
+                Assert.Equal(expected1.InstanceOf.Count, actual.InstanceOf.Count);
+                Assert.Equal(expected1.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
+                Assert.Equal(expected1.SubClass.Count, actual.SubClass.Count);
+                Assert.Equal(expected1.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
+                Assert.False(actual.IsType);
+                Assert.Equal(0.333, actual.Rank.ToThreeDecimals());
+                Assert.Equal(expected1.AltLabels.Count(), actual.AltLabels.Count());
+                Assert.Equal(expected1.AltLabels.ElementAt(0), actual.AltLabels.ElementAt(0));
+                Assert.Equal(expected1.AltLabels.ElementAt(1), actual.AltLabels.ElementAt(1));
+                Assert.Equal(expected1.AltLabels.ElementAt(2), actual.AltLabels.ElementAt(2));
+                Assert.Equal(expected1.Properties.Count(), actual.Properties.Count());
+                Assert.Equal(expected1.Properties.ElementAt(0).Id, actual.Properties.ElementAt(0).Id);
+                Assert.Equal(expected1.Properties.ElementAt(1).Id, actual.Properties.ElementAt(1).Id);
+                Assert.Equal(expected1.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
 
-                //Label
-                Assert.Equal(entity.Label, first.Label);
+                //Expected 2: Id, Label
+                actual = SingleDocumentQueries.QueryEntityByLabel(expected2.Label, luceneDirectory);
+                Assert.NotNull(actual);
+                Assert.Equal(expected2.Id, actual.Id);
+                Assert.True(actual.IsType);
+                Assert.Equal(0.333, actual.Rank.ToThreeDecimals());
+                Assert.Equal(expected2.Label, actual.Label);
 
-                //InstanceOf
-                //Assert.Equal(entity.InstanceOf, first.InstanceOf);
-                //Assert.Equal(entity.InstanceOfLabel, first.InstanceOfLabel);
-
-                //Alt-Label:
-                Assert.Equal(entity.AltLabels.Count(), first.AltLabels.Count());
-
-                Assert.Equal(entity.AltLabels.ElementAt(0), first.AltLabels.ElementAt(0));
-                Assert.Equal(entity.AltLabels.ElementAt(1), first.AltLabels.ElementAt(1));
-                Assert.Equal(entity.AltLabels.ElementAt(2), first.AltLabels.ElementAt(2));
-
-                //Description
-                Assert.Equal(entity.Description, first.Description);
-
-                //Properties and Values
-                Assert.Equal(entity.Properties.Count(), first.Properties.Count());
-
-                Assert.Equal(entity.Properties.ElementAt(0).Id, first.Properties.ElementAt(0).Id);
-                //Assert.Equal(entity.Properties.ElementAt(0).Label, first.Properties.ElementAt(0).Label);
-                //Assert.Equal(entity.Properties.ElementAt(0).Value, first.Properties.ElementAt(0).Value);
-
-                Assert.Equal(entity.Properties.ElementAt(1).Id, first.Properties.ElementAt(1).Id);
-                //Assert.Equal(entity.Properties.ElementAt(1).Label, first.Properties.ElementAt(1).Label);
-                //Assert.Equal(entity.Properties.ElementAt(1).Value, first.Properties.ElementAt(1).Value);
-
-                Assert.Equal(entity.Properties.ElementAt(2).Id, first.Properties.ElementAt(2).Id);
-                //Assert.Equal(entity.Properties.ElementAt(2).Label, first.Properties.ElementAt(2).Label);
-                //Assert.Equal(entity.Properties.ElementAt(2).Value, first.Properties.ElementAt(2).Value);
-
-                Assert.Equal(entity.Properties.ElementAt(3).Id, first.Properties.ElementAt(3).Id);
-                //Assert.Equal(entity.Properties.ElementAt(3).Label, first.Properties.ElementAt(3).Label);
-                //Assert.Equal(entity.Properties.ElementAt(3).Value, first.Properties.ElementAt(3).Value);
+                //Expected 3: Id, Label
+                actual = SingleDocumentQueries.QueryEntityByLabel(expected3.Label, luceneDirectory);
+                Assert.NotNull(actual);
+                Assert.Equal(expected3.Id, actual.Id);
+                Assert.True(actual.IsType);
+                Assert.Equal(0.333, actual.Rank.ToThreeDecimals());
+                Assert.Equal(expected3.Label, actual.Label);
             }
         }
     }

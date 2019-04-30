@@ -29,7 +29,7 @@ namespace SparqlForHumans.RDF.Extensions
                 }
 
                 //Switch/Different of entity:
-                // - Return list,
+                // - Return existing list,
                 // - Create new list,
                 // - Assign last to current
                 else if (last != entity)
@@ -80,7 +80,6 @@ namespace SparqlForHumans.RDF.Extensions
             return entityGroupTriples.Where(x => x.Predicate.IsProperty());
         }
 
-        // TODO: Add SubClass support
         private static void ParseSubjectGroupTriple(this RDFIndexEntity entity, Triple triple)
         {
             switch (triple.Predicate.GetPredicateType())

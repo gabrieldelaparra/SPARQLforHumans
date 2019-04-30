@@ -76,9 +76,21 @@ namespace SparqlForHumans.Lucene.Extensions
             return entity;
         }
 
+        public static Entity MapIsType(this Entity entity, Document document)
+        {
+            entity.IsType = document.GetValue(Labels.IsTypeEntity).ToBool();
+            return entity;
+        }
+
         public static Entity MapInstanceOf(this Entity entity, Document doc)
         {
             entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
+            return entity;
+        }
+
+        public static Entity MapSubClass(this Entity entity, Document doc)
+        {
+            entity.SubClass = doc.GetValues(Labels.SubClass);
             return entity;
         }
 
@@ -94,6 +106,8 @@ namespace SparqlForHumans.Lucene.Extensions
                 .MapAltLabels(document)
                 .MapDescription(document)
                 .MapRank(document)
+                .MapIsType(document)
+                .MapSubClass(document)
                 .MapInstanceOf(document)
                 .MapBaseProperties(document);
 
