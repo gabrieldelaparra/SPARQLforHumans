@@ -94,28 +94,24 @@ namespace SparqlForHumans.RDF.Extensions
             return node.IsUriNode() ? ((UriNode) node).Uri.ToString() : string.Empty;
         }
 
-        //TODO: Replace with StartsWith
         public static bool IsEntity(this INode node)
         {
-            return node.IsUriNode() && node.GetUri().Contains(WikidataDump.EntityIRI);
+            return node.IsUriNode() && node.GetUri().StartsWith(WikidataDump.EntityIRI);
         }
 
-        //TODO: Replace with StartsWith
         public static bool IsEntityQ(this INode node)
         {
-            return node.IsEntity() && node.GetId().Contains(WikidataDump.EntityPrefix);
+            return node.IsEntity() && node.GetId().StartsWith(WikidataDump.EntityPrefix);
         }
 
-        //TODO: Replace with StartsWith
         public static bool IsEntityP(this INode node)
         {
-            return node.IsEntity() && node.GetId().Contains(WikidataDump.PropertyPrefix);
+            return node.IsEntity() && node.GetId().StartsWith(WikidataDump.PropertyPrefix);
         }
 
-        //TODO: Replace with StartsWith
         public static bool IsProperty(this INode node)
         {
-            return node.IsUriNode() && node.GetUri().Contains(WikidataDump.PropertyIRI);
+            return node.IsUriNode() && node.GetUri().StartsWith(WikidataDump.PropertyIRI);
         }
 
         public static PredicateType GetPredicateType(this INode node)
