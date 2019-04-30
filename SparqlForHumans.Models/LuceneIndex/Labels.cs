@@ -10,7 +10,8 @@
         Description,
         Rank,
         IsTypeEntity,
-        DomainType
+        DomainType,
+        SubClass
     }
 
     //PropertyAndValue,

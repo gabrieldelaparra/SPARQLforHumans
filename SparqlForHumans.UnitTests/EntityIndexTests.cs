@@ -320,12 +320,35 @@ namespace SparqlForHumans.UnitTests
                 {
                     var doc = reader.Document(0);
 
-                    Assert.Equal(4, doc.GetValues(Labels.Property).Length);
+                    Assert.Equal(3, doc.GetValues(Labels.Property).Length);
 
                     Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
                     Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
-                    Assert.Equal("P30", doc.GetValues(Labels.Property)[2]);
-                    Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
+                    Assert.Equal("P131", doc.GetValues(Labels.Property)[2]);
+                }
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexSubClass()
+        {
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
+            const string outputPath = "IndexSingleSubClass";
+
+            outputPath.DeleteIfExists();
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
+                using (var reader = DirectoryReader.Open(luceneDirectory))
+                {
+                    var doc = reader.Document(0);
+
+                    Assert.Single(doc.GetValues(Labels.SubClass));
+
+                    Assert.Equal("Q46", doc.GetValues(Labels.SubClass)[0]);
                 }
             }
 

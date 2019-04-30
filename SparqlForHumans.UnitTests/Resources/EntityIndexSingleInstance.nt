@@ -8,7 +8,7 @@
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "North Ireland"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q27> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P30> <http://www.wikidata.org/entity/Q46> .
+<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q46> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P349> <http://id.ndl.go.jp/auth/ndlna/00566023> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P227> <http://d-nb.info/gnd/4075462-5> .
