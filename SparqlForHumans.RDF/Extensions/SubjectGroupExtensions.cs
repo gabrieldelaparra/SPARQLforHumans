@@ -47,16 +47,7 @@ namespace SparqlForHumans.RDF.Extensions
             yield return subjectGroup;
         }
 
-        public static bool IsEntityQ(this SubjectGroup subjectGroup)
-        {
-            return subjectGroup.Id.StartsWith(WikidataDump.EntityPrefix);
-        }
-
-        public static bool IsEntityP(this SubjectGroup subjectGroup)
-        {
-            return subjectGroup.Id.StartsWith(WikidataDump.PropertyPrefix);
-        }
-
+        // TODO: Test
         public static RDFIndexEntity ToIndexEntity(this SubjectGroup subjectGroup)
         {
             var entity = new RDFIndexEntity(subjectGroup.Id);
@@ -65,6 +56,18 @@ namespace SparqlForHumans.RDF.Extensions
                 entity.ParseSubjectGroupTriple(triple);
 
             return entity;
+        }
+
+        // TODO: Test
+        public static bool IsEntityQ(this SubjectGroup subjectGroup)
+        {
+            return subjectGroup.Id.StartsWith(WikidataDump.EntityPrefix);
+        }
+
+        // TODO: Test
+        public static bool IsEntityP(this SubjectGroup subjectGroup)
+        {
+            return subjectGroup.Id.StartsWith(WikidataDump.PropertyPrefix);
         }
 
         /// <summary>
@@ -108,6 +111,10 @@ namespace SparqlForHumans.RDF.Extensions
                 //PropertyPredicate is InstanceOf another type of Property:
                 case RDFExtensions.PropertyType.InstanceOf:
                     entity.InstanceOf.Add(triple.Object.GetId());
+                    break;
+
+                case RDFExtensions.PropertyType.SubClass:
+                    entity.SubClass.Add(triple.Object.GetId());
                     break;
 
                 //Other cases, considered but not used.

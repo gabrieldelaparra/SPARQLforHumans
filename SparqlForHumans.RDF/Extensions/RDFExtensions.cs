@@ -20,6 +20,7 @@ namespace SparqlForHumans.RDF.Extensions
         public enum PropertyType
         {
             InstanceOf,
+            SubClass,
             EntityDirected,
             LiteralDirected,
             Other
@@ -31,6 +32,8 @@ namespace SparqlForHumans.RDF.Extensions
         {
             if (ntPredicate.IsInstanceOf())
                 return PropertyType.InstanceOf;
+            if (ntPredicate.IsSubClass())
+                return PropertyType.SubClass;
             if (ntObject.IsEntity())
                 return PropertyType.EntityDirected;
             if (ntObject.IsLiteral())
@@ -91,21 +94,25 @@ namespace SparqlForHumans.RDF.Extensions
             return node.IsUriNode() ? ((UriNode) node).Uri.ToString() : string.Empty;
         }
 
+        //TODO: Replace with StartsWith
         public static bool IsEntity(this INode node)
         {
             return node.IsUriNode() && node.GetUri().Contains(WikidataDump.EntityIRI);
         }
 
+        //TODO: Replace with StartsWith
         public static bool IsEntityQ(this INode node)
         {
             return node.IsEntity() && node.GetId().Contains(WikidataDump.EntityPrefix);
         }
 
+        //TODO: Replace with StartsWith
         public static bool IsEntityP(this INode node)
         {
             return node.IsEntity() && node.GetId().Contains(WikidataDump.PropertyPrefix);
         }
 
+        //TODO: Replace with StartsWith
         public static bool IsProperty(this INode node)
         {
             return node.IsUriNode() && node.GetUri().Contains(WikidataDump.PropertyIRI);
@@ -133,6 +140,11 @@ namespace SparqlForHumans.RDF.Extensions
         public static bool IsInstanceOf(this INode node)
         {
             return node.GetId().Equals(WikidataDump.InstanceOf);
+        }
+
+        public static bool IsSubClass(this INode node)
+        {
+            return node.GetId().Equals(WikidataDump.SubClass);
         }
 
         private static bool IsDescription(this INode node)

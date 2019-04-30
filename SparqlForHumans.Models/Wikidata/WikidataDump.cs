@@ -17,6 +17,7 @@
         public const string DescriptionIRI = "http://schema.org/description";
 
         public const string InstanceOf = "P31";
+        public const string SubClass = "P279";
 
         public const string PropertyValueSeparator = "##";
         public const char BlankSpaceChar = ' ';

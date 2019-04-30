@@ -55,6 +55,7 @@ namespace SparqlForHumans.Lucene.Indexing
 
             Logger.Info("Building Index");
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
+
             using (var writer = new IndexWriter(outputDirectory, indexConfig))
             {
                 //Excludes Properties, will only add entities.
@@ -64,10 +65,12 @@ namespace SparqlForHumans.Lucene.Indexing
                         Logger.Info($"Build Entity Index, Group: {readCount:N0}");
 
                     var rdfIndexEntity = group.ToIndexEntity();
+
                     if (entityPageRankDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
                         rdfIndexEntity.Rank = entityPageRankDictionary[rdfIndexEntity.Id.ToNumbers()];
                     if (typeEntitiesDictionary.ContainsKey(rdfIndexEntity.Id.ToNumbers()))
                         rdfIndexEntity.IsType = true;
+                    
                     writer.AddEntityDocument(rdfIndexEntity);
 
                     readCount++;

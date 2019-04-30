@@ -207,6 +207,22 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestIsSubClass()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.ToTriple();
+
+            Assert.False(triple.Predicate.IsSubClass());
+
+            line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q26> .";
+            triple = line.ToTriple();
+
+            Assert.True(triple.Predicate.IsSubClass());
+        }
+
+        [Fact]
         public void TestIsLiteral()
         {
             var line =
