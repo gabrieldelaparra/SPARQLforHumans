@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>SparqlForHumans.Benchmark.Program</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SparqlForHumans.Logger\SparqlForHumans.Logger.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Lucene\SparqlForHumans.Lucene.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
