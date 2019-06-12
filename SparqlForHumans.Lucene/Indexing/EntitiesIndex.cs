@@ -4,7 +4,6 @@ using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
@@ -38,7 +37,6 @@ namespace SparqlForHumans.Lucene.Indexing
             bool addBoosts = false)
         {
             long readCount = 1;
-            Options.InternUris = false;
 
             // Read All lines in the file (IEnumerable, yield)
             // And group them by QCode.
