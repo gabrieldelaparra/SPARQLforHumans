@@ -1,5 +1,5 @@
 ﻿using System;
-using SparqlForHumans.Benchmark.Models;
+using SparqlForHumans.Benchmark.Sources;
 
 namespace SparqlForHumans.Benchmark
 {
@@ -12,7 +12,10 @@ namespace SparqlForHumans.Benchmark
                                 ?item wdt:P31 wd:Q39715 ; 
                                 wdt:P17 wd:Q20 ; 
                             }";
-            new WikidataEndpointBenchmark(query);
+            var wikidataBenchmark = new WikidataEndpointBenchmark(query);
+            var results = wikidataBenchmark.RunBenchmark();
+            Console.WriteLine(results);
+
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();
         }
