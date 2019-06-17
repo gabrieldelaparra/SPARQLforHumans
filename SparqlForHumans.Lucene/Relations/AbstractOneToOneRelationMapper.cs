@@ -5,7 +5,7 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
-    public abstract class AbstractOneToOneRelationMapper<T1, T2>
+    public abstract class AbstractOneToOneRelationMapper<T1, T2> : IRelationMapper
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public int NotifyTicks { get; } = 100000;
