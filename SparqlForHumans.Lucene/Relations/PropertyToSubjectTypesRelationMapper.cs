@@ -32,7 +32,7 @@ namespace SparqlForHumans.Lucene.Relations
     {
         public override string NotifyMessage { get; internal set; } = "Building <Property, Types[]> Dictionary";
 
-        internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
+        internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             // Filter those the triples that are properties only (Exclude description, label, etc.)
             var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();

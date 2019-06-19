@@ -1,4 +1,10 @@
-﻿namespace SparqlForHumans.Lucene.Relations
+﻿using System.Collections.Generic;
+using SparqlForHumans.RDF.Models;
+
+namespace SparqlForHumans.Lucene.Relations
 {
-    interface IRelationMapper { }
+    public interface IRelationMapper<out TDictionaryType>
+    {
+        TDictionaryType BuildDictionary(IEnumerable<SubjectGroup> subjectGroups);
+    }
 }

@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.BaseFields;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing.EntityFields
 {
-    public class LabelIndexer : AbstractFieldIndexer<TextField>
+    public class LabelIndexer : AbstractSubjectGroupIndexer<TextField>
     {
         public override string FieldName => Labels.Label.ToString();
 
@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Indexing.EntityFields
             return triple.Object.GetLiteralValue();
         }
 
-        public override TextField TriplesToField(IEnumerable<Triple> tripleGroup)
+        public override TextField TriplesToField(SubjectGroup tripleGroup)
         {
             return new TextField(FieldName, TriplesToValue(tripleGroup), Field.Store.YES) {Boost = (float) Boost};
         }

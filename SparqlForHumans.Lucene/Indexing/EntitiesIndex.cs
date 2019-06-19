@@ -49,7 +49,7 @@ namespace SparqlForHumans.Lucene.Indexing
                 entityPageRankDictionary = EntityPageRank.BuildPageRank(inputTriplesFilename);
 
             // Get Entity and Types Dictionary. Read all file: +1
-            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper().GetRelationDictionary(entityGroups);
+            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper().BuildDictionary(entityGroups);
 
             Logger.Info("Building Index");
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();

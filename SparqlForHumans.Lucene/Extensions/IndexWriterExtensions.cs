@@ -49,7 +49,9 @@ namespace SparqlForHumans.Lucene.Extensions
             if (entity.Rank > 0)
                 document.Add(new DoubleField(Labels.Rank.ToString(), entity.Rank, Field.Store.YES));
 
+            //OK
             document.Add(new StringField(Labels.Id.ToString(), entity.Id, Field.Store.YES));
+
             writer.AddDocument(document);
         }
     }

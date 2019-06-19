@@ -1,76 +1,34 @@
 ﻿using System.Collections.Generic;
-using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
-    public abstract class AbstractOneToManyRelationMapper<T1, T2> : IRelationMapper
+    public abstract class AbstractOneToManyRelationMapper<TKey, TValue> : IRelationMapper<Dictionary<TKey, TValue[]>>
     {
-        private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-        public int NotifyTicks { get; } = 100000;
-        public abstract string NotifyMessage { get; internal set; }
+        public int NotifyTicks { get; set; } = 100000;
+        public delegate void EventHandler(int Ticks);
+        public event EventHandler OnNotifyTicks;
+        public abstract string NotifyMessage { get; internal set; } 
 
-        public virtual Dictionary<T1, T2[]> GetRelationDictionary(string inputFilename)
+        public virtual Dictionary<TKey, TValue[]> BuildDictionary(IEnumerable<SubjectGroup> subjectGroups)
         {
-            var subjectGroups = FileHelper.GetInputLines(inputFilename).GroupBySubject();
-            return GetRelationDictionary(subjectGroups);
-        }
+            var ticks = 0;
+            var dictionary = new Dictionary<TKey, List<TValue>>();
 
-        public virtual Dictionary<T1, T2[]> GetRelationDictionary(IEnumerable<SubjectGroup> subjectGroups)
-        {
-            var nodeCount = 0;
-            var dictionary = new Dictionary<T1, List<T2>>();
             foreach (var subjectGroup in subjectGroups)
             {
-                if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
+                if (ticks % NotifyTicks == 0) 
+                    OnNotifyTicks?.Invoke(ticks);
 
-                AddToDictionary(dictionary, subjectGroup);
-
-                nodeCount++;
+                ParseTripleGroup(dictionary, subjectGroup);
+                ticks++;
             }
 
-            Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
+            OnNotifyTicks?.Invoke(ticks);
             return dictionary.ToArrayDictionary();
         }
 
-        internal abstract void AddToDictionary(Dictionary<T1, List<T2>> dictionary, SubjectGroup subjectGroup);
-
-        //TODO: Check if required.
-        //public static void AddDomainTypesToIndex(Directory propertiesIndexDirectory,
-        //    Dictionary<int, int[]> propertyDomainTypes)
-        //{
-        //    var indexConfig = IndexConfiguration.CreateKeywordIndexWriterConfig();
-
-        //    using (var writer = new IndexWriter(propertiesIndexDirectory, indexConfig))
-        //    {
-        //        foreach (var propertyDomain in propertyDomainTypes)
-        //        {
-        //            var propertyId = $"{WikidataDump.EntityPrefix}{propertyDomain.Key}";
-
-        //            // Get the required document.
-        //            // TODO: Check if it is better to iterate over all documents and update, or to search for it each time.
-        //            var document = SingleDocumentQueries.QueryDocumentById(propertyId, propertiesIndexDirectory);
-
-        //            // TODO: Recently removed the null check/continue. What if there is null doc?
-        //            document?.AddDomainTypesToIndexDocument(propertyDomain);
-
-        //            writer.UpdateDocument(new Term(Labels.Id.ToString(), propertyId), document);
-        //        }
-        //    }
-        //}
-
-        //TODO: Check if required.
-        //private static void AddDomainTypesToIndexDocument(this Document document,
-        //    KeyValuePair<int, int[]> propertyDomain)
-        //{
-        //    foreach (var domainType in propertyDomain.Value)
-        //    {
-        //        var domainId = $"{WikidataDump.EntityPrefix}{domainType}";
-        //        var field = new TextField(Labels.DomainType.ToString(), domainId, Field.Store.YES);
-        //        document.Add(field);
-        //    }
-        //}
+        internal abstract void ParseTripleGroup(Dictionary<TKey, List<TValue>> dictionary, SubjectGroup subjectGroup);
     }
 }

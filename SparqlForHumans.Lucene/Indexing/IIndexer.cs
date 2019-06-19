@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
 using Lucene.Net.Index;
-using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing.BaseFields;
 using SparqlForHumans.Lucene.Relations;
+using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    interface IIndexer
+    interface IIndexer<TFieldTypes, TKey, TValue>
+        where TFieldTypes : IIndexableField
     {
-        IList<IRelationMapper> RelationMappers { get; set; }
-        IList<IFieldIndexer<Field>> Fields { get; set; }
-        string Filename { get; set; }
-        Directory Directory { get; set; }
+        IEnumerable<IRelationMapper<IDictionary<TKey, TValue>>> RelationMappers { get; set; }
+        IEnumerable<ISubjectGroupIndexer<TFieldTypes>> FieldIndexers { get; set; }
+        string InputFilename { get; set; }
+        string OutputDirectory { get; set; }
+        bool FilterGroups(SubjectGroup tripleGroup);
+        void Index();
     }
 }

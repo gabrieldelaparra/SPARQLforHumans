@@ -1,40 +1,33 @@
 ﻿using System.Collections.Generic;
-using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
-using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
-    public abstract class AbstractOneToOneRelationMapper<T1, T2> : IRelationMapper
+    public abstract class AbstractOneToOneRelationMapper<TKey, TValue> : IRelationMapper<Dictionary<TKey, TValue>>
     {
-        private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-        public int NotifyTicks { get; } = 100000;
-        public abstract string NotifyMessage { get; internal set; }
+        public int NotifyTicks { get; set; } = 100000;
+        public delegate void EventHandler(int Ticks);
+        public event EventHandler OnNotifyTicks;
+        public abstract string NotifyMessage { get; internal set; } 
 
-        public virtual Dictionary<T1, T2> GetRelationDictionary(string inputFilename)
+        public virtual Dictionary<TKey, TValue> BuildDictionary(IEnumerable<SubjectGroup> subjectGroups)
         {
-            var subjectGroups = FileHelper.GetInputLines(inputFilename).GroupBySubject();
-            return GetRelationDictionary(subjectGroups);
-        }
+            var ticks = 0;
+            var dictionary = new Dictionary<TKey, TValue>();
 
-        public virtual Dictionary<T1, T2> GetRelationDictionary(IEnumerable<SubjectGroup> subjectGroups)
-        {
-            var nodeCount = 0;
-            var dictionary = new Dictionary<T1, T2>();
             foreach (var subjectGroup in subjectGroups)
             {
-                if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
+                if (ticks % NotifyTicks == 0)
+                    OnNotifyTicks?.Invoke(ticks);
 
-                AddToDictionary(dictionary, subjectGroup);
-
-                nodeCount++;
+                ParseTripleGroup(dictionary, subjectGroup);
+                ticks++;
             }
 
-            Logger.Info($"{NotifyMessage}, Entity Group: {nodeCount:N0}");
+            OnNotifyTicks?.Invoke(ticks);
             return dictionary;
         }
 
-        internal abstract void AddToDictionary(Dictionary<T1, T2> dictionary, SubjectGroup subjectGroup);
+        internal abstract void ParseTripleGroup(Dictionary<TKey, TValue> dictionary, SubjectGroup subjectGroup);
     }
 }

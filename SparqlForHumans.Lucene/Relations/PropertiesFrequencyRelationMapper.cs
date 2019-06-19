@@ -28,7 +28,7 @@ namespace SparqlForHumans.Lucene.Relations
     {
         public override string NotifyMessage { get; internal set; } = "Building <Property, Frequency> Dictionary";
 
-        internal override void AddToDictionary(Dictionary<int, int> dictionary, SubjectGroup subjectGroup)
+        internal override void ParseTripleGroup(Dictionary<int, int> dictionary, SubjectGroup subjectGroup)
         {
             foreach (var triple in subjectGroup)
             {

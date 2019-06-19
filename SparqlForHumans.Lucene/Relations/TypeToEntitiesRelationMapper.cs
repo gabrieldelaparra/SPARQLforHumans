@@ -30,7 +30,7 @@ namespace SparqlForHumans.Lucene.Relations
     {
         public override string NotifyMessage { get; internal set; } = "Building <Type, Entities[]> Dictionary";
 
-        internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
+        internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             var entityTypes = subjectGroup
                 .Where(x => x.Predicate.IsInstanceOf())

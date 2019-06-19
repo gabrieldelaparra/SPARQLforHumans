@@ -40,7 +40,7 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<int, int>();
 
             if (indexFrequency)
-                dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(inputTriplesFilename);
+                dictionary = new PropertiesFrequencyRelationMapper().BuildDictionary(inputTriplesFilename);
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 
