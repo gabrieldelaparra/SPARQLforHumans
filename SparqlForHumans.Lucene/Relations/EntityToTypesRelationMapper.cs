@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Indexing.Mappings.Base;
+using SparqlForHumans.Lucene.Indexing.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -24,9 +26,12 @@ namespace SparqlForHumans.Lucene.Relations
     ///     Key: 76; Values[]: 5, 6
     ///     Key: 298; Values[]: 17, 5
     /// </summary>
-    public class EntityToTypesRelationMapper : AbstractOneToManyRelationMapper<int, int>
+    public class EntityToTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public override string NotifyMessage { get; internal set; } = "Building <Entity, Types[]> Dictionary";
+        public EntityToTypesRelationMapper(string inputFilename) : base(inputFilename) { }
+        public EntityToTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup) { }
+
+        public override string NotifyMessage { get; } = "Building <Entity, Types[]> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {

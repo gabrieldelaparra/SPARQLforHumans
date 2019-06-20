@@ -54,11 +54,11 @@ namespace SparqlForHumans.UnitTests
 
             //EntityTypes
             // TODO: Intensive Memory Object++
-            var entityToTypesDictionary = new EntityToTypesRelationMapper().BuildDictionary(subjectGroups);
+            var entityToTypesDictionary = new EntityToTypesRelationMapper(subjectGroups).RelationIndex;
 
             // Build PropertyRanges
             // TODO: Intensive Memory Object++
-            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper().BuildDictionary(subjectGroups);
+            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper(subjectGroups).RelationIndex;
             
             // TODO: Intensive Memory Object++
             var dictionary =  PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
