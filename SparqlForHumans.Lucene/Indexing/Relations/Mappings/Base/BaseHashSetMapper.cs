@@ -27,14 +27,11 @@ namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
 
             foreach (var subjectGroup in subjectGroups)
             {
-                if (ticks % NotifyTicks == 0)
-                    LogProgress(ticks);
-
                 ParseTripleGroup(hashSet, subjectGroup);
-                ticks++;
+                LogProgress(ticks++);
             }
 
-            LogProgress(ticks);
+            LogProgress(ticks, true);
             return hashSet;
         }
 

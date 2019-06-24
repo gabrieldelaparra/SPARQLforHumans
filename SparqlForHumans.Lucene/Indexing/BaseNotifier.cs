@@ -6,9 +6,10 @@
         public int NotifyTicks { get; } = 100000;
         public abstract string NotifyMessage { get; }
 
-        public virtual void LogProgress(int Ticks)
+        public virtual void LogProgress(long Ticks, bool overrideCheck = false)
         {
-            Logger.Info($"{NotifyMessage}, Count: {Ticks:N0}");
+            if (Ticks % NotifyTicks == 0 || overrideCheck)
+                Logger.Info($"{NotifyMessage}, Count: {Ticks:N0}");
         }
     }
 }

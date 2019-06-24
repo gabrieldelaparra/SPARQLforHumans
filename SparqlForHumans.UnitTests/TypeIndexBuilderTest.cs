@@ -87,7 +87,7 @@ namespace SparqlForHumans.UnitTests
             Assert.False(Directory.Exists(outputPath));
 
             Assert.False(true);
-            var entitiesIndexer = new EntitiesIndexer(filename, outputPath);
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 //var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);

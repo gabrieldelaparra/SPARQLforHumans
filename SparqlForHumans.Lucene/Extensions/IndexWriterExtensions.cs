@@ -27,6 +27,7 @@ namespace SparqlForHumans.Lucene.Extensions
                 document.Add(new StringField(Labels.Property.ToString(),
                     string.Join(" ## ", entity.Properties.Distinct()), Field.Store.YES));
 
+            //OK
             if (entity.IsType)
                 document.Add(new StringField(Labels.IsTypeEntity.ToString(), entity.IsType.ToString(),
                     Field.Store.YES));
@@ -46,6 +47,7 @@ namespace SparqlForHumans.Lucene.Extensions
             if (!string.IsNullOrWhiteSpace(entity.Description))
                 document.Add(new TextField(Labels.Description.ToString(), entity.Description, Field.Store.YES));
 
+            //OK
             if (entity.Rank > 0)
                 document.Add(new DoubleField(Labels.Rank.ToString(), entity.Rank, Field.Store.YES));
 

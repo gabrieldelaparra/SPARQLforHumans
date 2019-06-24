@@ -48,38 +48,41 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestCreatePropertyRange()
         {
-            // Arrange
-            const string filename = "Resources/PropertyRange.nt";
-            var subjectGroups = FileHelper.GetInputLines(filename).GroupBySubject();
+            Assert.False(true);
+            //TODO: Test by adding it to the Index;
 
-            //EntityTypes
-            // TODO: Intensive Memory Object++
-            var entityToTypesDictionary = new EntityToTypesRelationMapper(subjectGroups).RelationIndex;
+            //// Arrange
+            //const string filename = "Resources/PropertyRange.nt";
+            //var subjectGroups = FileHelper.GetInputLines(filename).GroupBySubject();
 
-            // Build PropertyRanges
-            // TODO: Intensive Memory Object++
-            var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper(subjectGroups).RelationIndex;
+            ////EntityTypes
+            //// TODO: Intensive Memory Object++
+            //var entityToTypesDictionary = new EntityToTypesRelationMapper(subjectGroups).RelationIndex;
+
+            //// Build PropertyRanges
+            //// TODO: Intensive Memory Object++
+            //var propertyEntitiesDictionary = new PropertyToObjectEntitiesRelationMapper(subjectGroups).RelationIndex;
             
-            // TODO: Intensive Memory Object++
-            var dictionary =  PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
+            //// TODO: Intensive Memory Object++
+            //var dictionary =  PropertyRange.PostProcessDictionary(entityToTypesDictionary, propertyEntitiesDictionary);
 
-            // Assert
-            Assert.Equal(2, dictionary.Count);
-            var property69WithRange = dictionary[69];
-            var property38WithRange = dictionary[38];
+            //// Assert
+            //Assert.Equal(2, dictionary.Count);
+            //var property69WithRange = dictionary[69];
+            //var property38WithRange = dictionary[38];
 
-            Assert.NotEmpty(property69WithRange);
-            Assert.Equal(902104, property69WithRange[0]);
-            Assert.Equal(15936437, property69WithRange[1]);
-            Assert.Equal(1188663, property69WithRange[2]);
-            Assert.Equal(23002054, property69WithRange[3]);
-            Assert.Equal(13220391, property69WithRange[4]);
-            Assert.Equal(1321960, property69WithRange[5]);
+            //Assert.NotEmpty(property69WithRange);
+            //Assert.Equal(902104, property69WithRange[0]);
+            //Assert.Equal(15936437, property69WithRange[1]);
+            //Assert.Equal(1188663, property69WithRange[2]);
+            //Assert.Equal(23002054, property69WithRange[3]);
+            //Assert.Equal(13220391, property69WithRange[4]);
+            //Assert.Equal(1321960, property69WithRange[5]);
 
-            Assert.NotEmpty(property38WithRange);
-            Assert.Equal(1643989, property38WithRange[0]);
-            Assert.Equal(8142, property38WithRange[1]);
-            Assert.Equal(747699, property38WithRange[2]);
+            //Assert.NotEmpty(property38WithRange);
+            //Assert.Equal(1643989, property38WithRange[0]);
+            //Assert.Equal(8142, property38WithRange[1]);
+            //Assert.Equal(747699, property38WithRange[2]);
         }
     }
 }

@@ -11,7 +11,7 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Indexing.Indexer
 {
-    public abstract class BaseIndexer : IIndexer
+    public abstract class BaseIndexer : BaseNotifier, IIndexer
     {
         protected BaseIndexer(string inputFilename, string outputDirectory)
         {
@@ -22,8 +22,8 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
         public string InputFilename { get; set; }
         public string OutputDirectory { get; set; }
 
-        public abstract IEnumerable<IFieldIndexer<IIndexableField>> RelationMappers { get; set; }
-        public abstract IEnumerable<IFieldIndexer<IIndexableField>> FieldIndexers { get; set; }
+        public IEnumerable<IFieldIndexer<IIndexableField>> RelationMappers { get; set; }
+        public IEnumerable<IFieldIndexer<IIndexableField>> FieldIndexers { get; set; }
 
         public virtual void Index()
         {
@@ -58,12 +58,13 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                     foreach (var fields in FieldIndexers.Select(x => x.GetField(entityGroup)).Where(x => x != null))
                         document.Add(fields);
 
-                    readCount++;
+                    LogProgress(readCount++);
 
                     if (FilterGroups(entityGroup))
                         writer.AddDocument(document);
                 }
             }
+            LogProgress(readCount, true);
         }
 
         public abstract bool FilterGroups(SubjectGroup tripleGroup);

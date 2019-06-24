@@ -10,6 +10,8 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
 {
     public class PropertiesIndexer : BaseIndexer
     {
+        public override string NotifyMessage => "Build Properties Index";
+
         public PropertiesIndexer(string inputFilename, string outputDirectory) : base(inputFilename, outputDirectory)
         {
             FieldIndexers = new List<IFieldIndexer<IIndexableField>>
@@ -25,10 +27,9 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 new FrequencyIndexer(inputFilename),
                 new PropertyDomainIndexer(inputFilename)
             };
-        }
 
-        public override IEnumerable<IFieldIndexer<IIndexableField>> RelationMappers { get; set; }
-        public override IEnumerable<IFieldIndexer<IIndexableField>> FieldIndexers { get; set; }
+            //Index();
+        }
 
         public override bool FilterGroups(SubjectGroup tripleGroup)
         {
