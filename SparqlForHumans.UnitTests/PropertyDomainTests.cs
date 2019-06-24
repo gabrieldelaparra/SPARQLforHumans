@@ -68,32 +68,19 @@ namespace SparqlForHumans.UnitTests
                 var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
                 var property777 = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
 
-                Assert.Empty(property27.DomainTypes);
-                Assert.Empty(property555.DomainTypes);
-                Assert.Empty(property777.DomainTypes);
+                Assert.Equal("country of citinzenship", property27.Label);
+                Assert.Equal("random property 555", property555.Label);
+                Assert.Equal("random property 777", property777.Label);
 
-                //Assert.False(true);
-                // Build Domains
-                //var propertyDomainTypes = PropertyDomain.GetPropertyDomainTypes();
-                //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
+                Assert.NotEmpty(property27.DomainTypes);
+                Assert.Equal("5", property27.DomainTypes.ElementAt(0));
 
-                //PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+                Assert.NotEmpty(property555.DomainTypes);
+                Assert.Equal("5", property555.DomainTypes.ElementAt(0));
+                Assert.Equal("17", property555.DomainTypes.ElementAt(1));
 
-                // Check Domains
-                var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
-                var property555WithDomain = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
-                var property777WithDomain = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
-
-                Assert.NotEmpty(property27WithDomain.DomainTypes);
-                Assert.Equal("Q5", property27WithDomain.DomainTypes.ElementAt(0));
-
-                Assert.NotEmpty(property555WithDomain.DomainTypes);
-                Assert.Equal("Q5", property555WithDomain.DomainTypes.ElementAt(0));
-                Assert.Equal("Q17", property555WithDomain.DomainTypes.ElementAt(1));
-
-                Assert.NotEmpty(property777WithDomain.DomainTypes);
-                Assert.Equal("Q17", property777WithDomain.DomainTypes.ElementAt(0));
+                Assert.NotEmpty(property777.DomainTypes);
+                Assert.Equal("17", property777.DomainTypes.ElementAt(0));
             }
 
             propertyOutputPath.DeleteIfExists();

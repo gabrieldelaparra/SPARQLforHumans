@@ -47,8 +47,10 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                     foreach (var mapper in RelationMappers.Select(x => x.GetField(entityGroup)).Where(x => x != null))
                         document.Add(mapper);
 
-                    var boost = (double)document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()))
-                        .GetDoubleValue();
+                    var boostField = document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()));
+                    var boost = 0.0;
+                    if (boostField != null)
+                        boost = (double)boostField.GetDoubleValue();
 
                     foreach (var fieldIndexer in FieldIndexers)
                         fieldIndexer.Boost = boost;
@@ -58,7 +60,8 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
 
                     readCount++;
 
-                    writer.AddDocument(document);
+                    if (FilterGroups(entityGroup))
+                        writer.AddDocument(document);
                 }
             }
         }

@@ -32,7 +32,7 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
 
         public override bool FilterGroups(SubjectGroup tripleGroup)
         {
-            return true;
+            return tripleGroup.IsEntityP();
         }
     }
 }

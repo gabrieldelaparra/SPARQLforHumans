@@ -33,6 +33,7 @@ namespace SparqlForHumans.Lucene.Relations
     public class PropertyToSubjectTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
         public PropertyToSubjectTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups){}
+        public PropertyToSubjectTypesRelationMapper(string inputFilename) : base(inputFilename){}
 
         public override string NotifyMessage { get; } = "Building <Property, Types[]> Dictionary";
 

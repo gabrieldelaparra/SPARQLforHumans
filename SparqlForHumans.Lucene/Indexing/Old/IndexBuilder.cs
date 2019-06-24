@@ -17,30 +17,30 @@ namespace SparqlForHumans.Lucene.Indexing
         /// </summary>
         /// <param name="entitiesIndexDirectory"></param>
         /// <returns></returns>
-        public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary(
-            Directory entitiesIndexDirectory)
-        {
-            var dictionary = new Dictionary<int, List<int>>();
+        //public static Dictionary<int, int[]> CreateTypesAndPropertiesDictionary(
+        //    Directory entitiesIndexDirectory)
+        //{
+        //    var dictionary = new Dictionary<int, List<int>>();
 
-            using (var entityReader = DirectoryReader.Open(entitiesIndexDirectory))
-            {
-                var docCount = entityReader.NumDocs;
-                for (var i = 0; i < docCount; i++)
-                {
-                    var doc = entityReader.Document(i);
+        //    using (var entityReader = DirectoryReader.Open(entitiesIndexDirectory))
+        //    {
+        //        var docCount = entityReader.NumDocs;
+        //        for (var i = 0; i < docCount; i++)
+        //        {
+        //            var doc = entityReader.Document(i);
 
-                    var entity = new Entity(doc.MapBaseSubject())
-                        .MapInstanceOf(doc)
-                        .MapRank(doc)
-                        .MapBaseProperties(doc);
+        //            var entity = new Entity(doc.MapBaseSubject())
+        //                .MapInstanceOf(doc)
+        //                .MapRank(doc)
+        //                .MapBaseProperties(doc);
 
-                    foreach (var instanceOf in entity.InstanceOf)
-                        dictionary.AddSafe(instanceOf.ToInt(), entity.Properties.Select(x => x.Id.ToInt()));
-                }
-            }
+        //            foreach (var instanceOf in entity.InstanceOf)
+        //                dictionary.AddSafe(instanceOf.ToInt(), entity.Properties.Select(x => x.Id.ToInt()));
+        //        }
+        //    }
 
-            return dictionary.ToArrayDictionary();
-        }
+        //    return dictionary.ToArrayDictionary();
+        //}
 
         ///// <summary>
         /////     This method takes a document, all fields that are going to be added to that document and
