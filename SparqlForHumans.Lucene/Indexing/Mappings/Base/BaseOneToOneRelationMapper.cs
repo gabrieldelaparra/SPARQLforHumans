@@ -35,6 +35,6 @@ namespace SparqlForHumans.Lucene.Indexing.Mappings.Base
         }
 
         //Derived Class Implementation:
-        internal abstract void ParseTripleGroup(Dictionary<TKey, TValue> dictionary, SubjectGroup subjectGroup) { }
+        internal abstract void ParseTripleGroup(Dictionary<TKey, TValue> dictionary, SubjectGroup subjectGroup);
     }
 }
