@@ -10,7 +10,6 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
     public class AltLabelIndexer : BaseFieldIndexer<TextField>
     {
         public override string FieldName => Labels.AltLabel.ToString();
-        public double Boost { get; set; }
 
         public override bool FilterValidTriples(Triple triple)
         {

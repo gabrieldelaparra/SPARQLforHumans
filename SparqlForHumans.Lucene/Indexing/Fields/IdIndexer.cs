@@ -9,6 +9,8 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
     {
         public string FieldName => Labels.Id.ToString();
 
+        public double Boost { get; set; }
+
         public StringField GetField(SubjectGroup tripleGroup)
         {
             var value = tripleGroup.Id;

@@ -1,38 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Relations;
+using System.Text;
 using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Relations
+namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
-    /// <summary>
-    ///     Given the following data:
-    ///     ```
-    ///     ...
-    ///     Q76 -> P31 (Type) -> Q5
-    ///     Q76 -> P27 -> Qxx
-    ///     Q76 -> P555 -> Qxx
-    ///     ...
-    ///     Q298 -> P31 -> Q17
-    ///     Q298 -> P555 -> Qxx
-    ///     Q298 -> P777 -> Qxx
-    ///     ...
-    ///     ```
-    ///     Returns the following domain:
-    ///     Q5: P27, P555
-    ///     Q17: P555, P777
-    ///     Translated to the following KeyValue Pairs:
-    ///     Key: 5; Values[]: 27, 555
-    ///     Key: 17; Values[]: 555, 777
-    /// </summary>
-    public class TypeToPropertiesRelationMapper : BaseOneToManyRelationMapper<int, int>
+    public class TypeToPropertiesMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public TypeToPropertiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups) { }
-
         public override string NotifyMessage { get;  } = "Building <Type, Properties[]> Dictionary";
+
+        public TypeToPropertiesMapper(string inputFilename) : base(inputFilename)
+        {
+        }
+
+        public TypeToPropertiesMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
+        {
+        }
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
@@ -48,5 +35,7 @@ namespace SparqlForHumans.Lucene.Relations
             foreach (var instanceOfId in instanceOfIds)
                 dictionary.AddSafe(instanceOfId, propertyIds);
         }
+
+        
     }
 }

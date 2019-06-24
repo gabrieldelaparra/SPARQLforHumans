@@ -13,41 +13,6 @@ namespace SparqlForHumans.Lucene.Indexing
     public static class IndexBuilder
     {
         /// <summary>
-        ///     This method takes a document, all fields that are going to be added to that document and
-        ///     a boost factor. That boost factor is only added to the `Label` and `AltLabel` fields.
-        ///     Before, each `AltLabel` item was added as a new Field. Now all `AltLabel`s are concatenated with
-        ///     `##` and a single boost is added to the `AltLabel` field. On Query/Map, `AltLabel`s are split.
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <param name="fields"></param>
-        /// <param name="boost"></param>
-        public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
-        {
-            //AltLabels: Join with ## and add Boost.
-            var altLabelValues = fields
-                .Where(x => x.Name.Equals(Labels.AltLabel.ToString()))
-                .Select(x => x.GetStringValue());
-
-            var altLabelField = new TextField(Labels.AltLabel.ToString(),
-                string.Join(" ## ", altLabelValues),
-                Field.Store.YES)
-            {
-                Boost = (float) boost
-            };
-
-            doc.Add(altLabelField);
-
-            //Labels: Set Boost
-            foreach (var field in fields.Where(x => x.Name.Equals(Labels.Label.ToString())))
-                field.Boost = (float) boost;
-
-            //Non AltLabels
-            fields = fields.Where(x => !x.Name.Equals(Labels.AltLabel.ToString()));
-            foreach (var field in fields)
-                doc.Add(field);
-        }
-
-        /// <summary>
         ///     From an existing Entities Index, for each `entityId` get all the `propertyId` of that Entity.
         /// </summary>
         /// <param name="entitiesIndexDirectory"></param>
@@ -76,5 +41,42 @@ namespace SparqlForHumans.Lucene.Indexing
 
             return dictionary.ToArrayDictionary();
         }
+
+        ///// <summary>
+        /////     This method takes a document, all fields that are going to be added to that document and
+        /////     a boost factor. That boost factor is only added to the `Label` and `AltLabel` fields.
+        /////     Before, each `AltLabel` item was added as a new Field. Now all `AltLabel`s are concatenated with
+        /////     `##` and a single boost is added to the `AltLabel` field. On Query/Map, `AltLabel`s are split.
+        ///// </summary>
+        ///// <param name="doc"></param>
+        ///// <param name="fields"></param>
+        ///// <param name="boost"></param>
+        //public static void AddFields(Document doc, IEnumerable<Field> fields, double boost = 0)
+        //{
+        //    //AltLabels: Join with ## and add Boost.
+        //    var altLabelValues = fields
+        //        .Where(x => x.Name.Equals(Labels.AltLabel.ToString()))
+        //        .Select(x => x.GetStringValue());
+
+        //    var altLabelField = new TextField(Labels.AltLabel.ToString(),
+        //        string.Join(" ## ", altLabelValues),
+        //        Field.Store.YES)
+        //    {
+        //        Boost = (float) boost
+        //    };
+
+        //    doc.Add(altLabelField);
+
+        //    //Labels: Set Boost
+        //    foreach (var field in fields.Where(x => x.Name.Equals(Labels.Label.ToString())))
+        //        field.Boost = (float) boost;
+
+        //    //Non AltLabels
+        //    fields = fields.Where(x => !x.Name.Equals(Labels.AltLabel.ToString()));
+        //    foreach (var field in fields)
+        //        doc.Add(field);
+        //}
+
+        
     }
 }

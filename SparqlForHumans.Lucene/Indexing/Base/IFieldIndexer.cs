@@ -11,6 +11,7 @@ namespace SparqlForHumans.Lucene.Indexing.Base
     public interface IFieldIndexer<out TField> : IFieldIndexer
         where TField : IIndexableField
     {
+        double Boost { get; set; }
         TField GetField(SubjectGroup tripleGroup);
     }
 }

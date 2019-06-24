@@ -4,6 +4,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
@@ -22,10 +23,7 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
-            }
+            new EntitiesIndexer(filename, outputPath).Index();
 
             var expected = new Entity
             {
@@ -117,11 +115,6 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, true);
-            }
-
             var expected1 = new Entity
             {
                 Id = "Q26",
@@ -177,7 +170,9 @@ namespace SparqlForHumans.UnitTests
                 Description = "Base Type2",
             };
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            new EntitiesIndexer(filename, outputPath).Index();
+
+            using (var luceneDirectory = FSDirectory.Open(outputPath))
             {
                 //Expected 1: Id, Label, InstanceOf, SubClass, Rank, IsType, Alt-Label, Description, Properties
                 var actual = SingleDocumentQueries.QueryEntityByLabel(expected1.Label, luceneDirectory);

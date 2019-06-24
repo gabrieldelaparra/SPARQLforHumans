@@ -4,7 +4,7 @@ using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Indexing.Mappings.Base
+namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
 {
     public abstract class BaseOneToOneRelationMapper<TKey, TValue> : BaseNotifier,
         IRelationMapper<Dictionary<TKey, TValue>>
@@ -35,6 +35,6 @@ namespace SparqlForHumans.Lucene.Indexing.Mappings.Base
         }
 
         //Derived Class Implementation:
-        internal abstract void ParseTripleGroup(Dictionary<TKey, TValue> dictionary, SubjectGroup subjectGroup) { }
+        internal abstract void ParseTripleGroup(Dictionary<TKey, TValue> dictionary, SubjectGroup subjectGroup);
     }
 }

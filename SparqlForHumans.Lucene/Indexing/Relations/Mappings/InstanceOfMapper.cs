@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Mappings.Base;
+using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 
-namespace SparqlForHumans.Lucene.Indexing.Mappings
+namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
     public class InstanceOfMapper : BaseHashSetMapper<int>
     {

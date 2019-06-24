@@ -9,7 +9,6 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
 {
     public class LabelIndexer : BaseFieldIndexer<TextField>, IFieldIndexer<TextField>
     {
-        public double Boost { get; set; }
         public override string FieldName => Labels.Label.ToString();
 
         public override TextField GetField(SubjectGroup tripleGroup)

@@ -3,6 +3,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -24,10 +25,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(Directory.Exists(outputPath));
 
+            new PropertiesIndexer(filename, outputPath).Index();
+
             using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
+                //Assert.False(true);
                 //ACT
-                PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
+                //PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
 
                 //ASSERT
                 Assert.True(Directory.Exists(outputPath));

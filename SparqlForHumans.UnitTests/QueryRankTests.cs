@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -19,6 +20,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestHasRanking()
         {
+            Assert.False(true);
             //const string filename = "Resources/filtered-All-500.nt";
             //const string outputPath1 = "IndexRank1";
             //const string outputPath2 = "IndexRank2";
@@ -91,10 +93,10 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
+
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
                 Assert.Equal("Q6", entities[0].Id); //0.222
@@ -117,10 +119,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
                 Assert.Equal("Q6", entities[0].Id); //0.222
@@ -143,10 +144,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
                 // Had to fix these tests to take PageRank and Boost altogether to pass.
@@ -170,10 +170,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
                 Assert.Equal("Q6", entities[0].Id); //0.222
@@ -196,10 +195,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
 
                 Assert.Equal("Q6", entities[0].Id); //0.222

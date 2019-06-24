@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using SparqlForHumans.Benchmark.Sources;
-using SparqlForHumans.Lucene.Indexing.Mappings;
 using SparqlForHumans.Lucene.Indexing.Relations;
+using SparqlForHumans.Lucene.Indexing.Relations.Mappings;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 

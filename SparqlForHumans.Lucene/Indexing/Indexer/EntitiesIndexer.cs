@@ -18,6 +18,8 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 new BoostIndexer(inputFilename)
             };
 
+            //TODO: No 'prefLabel' in the current index:
+            //TODO: No 'name' in the current index:
             FieldIndexers = new List<IFieldIndexer<IIndexableField>>
             {
                 new IdIndexer(),
@@ -26,11 +28,10 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 new DescriptionIndexer(),
                 new InstanceOfIndexer(),
                 new SubClassIndexer(),
-                new PropertiesIndexer()
+                new EntityPropertiesIndexer()
             };
         }
 
-        //public sealed override IEnumerable<IRelationMapper<TDictionary>> RelationMappers { get; set; }
         public sealed override IEnumerable<IFieldIndexer<IIndexableField>> RelationMappers { get; set; }
         public sealed override IEnumerable<IFieldIndexer<IIndexableField>> FieldIndexers { get; set; }
 

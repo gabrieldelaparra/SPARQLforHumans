@@ -3,6 +3,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
@@ -24,10 +25,10 @@ namespace SparqlForHumans.UnitTests
 
             Assert.False(Directory.Exists(outputPath));
 
+            new EntitiesIndexer(filename, outputPath).Index();
+
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
-
                 Assert.True(Directory.Exists(outputPath));
 
                 var q1 = MultiDocumentQueries.QueryEntitiesByLabel("Berlin", luceneDirectory);
@@ -51,10 +52,7 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
-            }
+            new EntitiesIndexer(filename, outputPath).Index();;
 
             Assert.True(Directory.Exists(outputPath));
 
@@ -70,9 +68,10 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();;
+
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -107,9 +106,10 @@ namespace SparqlForHumans.UnitTests
             const string outputPath = "IndexDocCount";
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();;
+
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -128,9 +128,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -153,9 +153,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -174,9 +174,9 @@ namespace SparqlForHumans.UnitTests
             const string outputPath = "IndexDocCount";
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -199,9 +199,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory);
                 using (var reader = DirectoryReader.Open(luceneIndexDirectory))
                 {
                     Assert.Equal(entitiesCount, reader.NumDocs);
@@ -219,9 +219,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc1 = reader.Document(0);
@@ -245,9 +245,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -266,9 +266,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -292,9 +292,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -313,9 +313,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -339,9 +339,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -363,9 +363,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneDirectory, false);
                 using (var reader = DirectoryReader.Open(luceneDirectory))
                 {
                     var doc = reader.Document(0);
@@ -389,9 +389,9 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
 
                 var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
                 var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
@@ -412,33 +412,34 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
         }
 
-        //[Fact]
-        //public void TestCreateSingleInstanceIndexPropertiesAndValues()
-        //{
-        //    const string filename = "Resources/SingleInstanceDump.nt";
-        //    const string outputPath = "IndexSinglePropAndValues";
+        [Fact]
+        public void TestCreateSingleInstanceIndexPropertiesAndValues()
+        {
+            Assert.False(true);
+            //const string filename = "Resources/SingleInstanceDump.nt";
+            //const string outputPath = "IndexSinglePropAndValues";
 
-        //    outputPath.DeleteIfExists();
+            //outputPath.DeleteIfExists();
 
-        //    using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-        //    {
-        //        IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, false);
-        //        using (var reader = DirectoryReader.Open(luceneDirectory))
-        //        {
-        //            var doc = reader.Document(0);
+            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            //{
+            //    IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, false);
+            //    using (var reader = DirectoryReader.Open(luceneDirectory))
+            //    {
+            //        var doc = reader.Document(0);
 
-        //            Assert.Equal(4, doc.GetValues(Labels.PropertyAndValue).Length);
+            //        Assert.Equal(4, doc.GetValues(Labels.PropertyAndValue).Length);
 
-        //            Assert.Equal("P17##Q145", doc.GetValue(Labels.PropertyAndValue));
+            //        Assert.Equal("P17##Q145", doc.GetValue(Labels.PropertyAndValue));
 
-        //            Assert.Equal("P17##Q145", doc.GetValues(Labels.PropertyAndValue)[0]);
-        //            Assert.Equal("P47##Q27", doc.GetValues(Labels.PropertyAndValue)[1]);
-        //            Assert.Equal("P30##Q46", doc.GetValues(Labels.PropertyAndValue)[2]);
-        //            Assert.Equal("P131##Q145", doc.GetValues(Labels.PropertyAndValue)[3]);
-        //        }
-        //    }
+            //        Assert.Equal("P17##Q145", doc.GetValues(Labels.PropertyAndValue)[0]);
+            //        Assert.Equal("P47##Q27", doc.GetValues(Labels.PropertyAndValue)[1]);
+            //        Assert.Equal("P30##Q46", doc.GetValues(Labels.PropertyAndValue)[2]);
+            //        Assert.Equal("P131##Q145", doc.GetValues(Labels.PropertyAndValue)[3]);
+            //    }
+            //}
 
-        //    outputPath.DeleteIfExists();
-        //}
+            //outputPath.DeleteIfExists();
+        }
     }
 }

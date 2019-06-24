@@ -10,6 +10,7 @@ namespace SparqlForHumans.Lucene.Indexing.Base
         where TField : IIndexableField
     {
         public abstract string FieldName { get; }
+        public double Boost { get; set; }
         public abstract TField GetField(SubjectGroup tripleGroup);
 
         public abstract bool FilterValidTriples(Triple triple);

@@ -7,7 +7,7 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing.Fields
 {
-    public class PropertiesIndexer : BaseFieldIndexer<StringField>
+    public class EntityPropertiesIndexer : BaseFieldIndexer<StringField>
     {
         public override string FieldName => Labels.Property.ToString();
 

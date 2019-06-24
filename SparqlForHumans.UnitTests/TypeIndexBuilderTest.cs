@@ -2,6 +2,7 @@
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
@@ -43,22 +44,22 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
+            Assert.False(true);
+            var entitiesIndexer = new EntitiesIndexer(filename, outputPath);
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                //var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
 
-                var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
+                //Assert.Equal(2, dictionary.Count);
 
-                Assert.Equal(2, dictionary.Count);
+                //Assert.Equal(5, dictionary.Keys.ElementAt(0));
+                //Assert.Equal(17, dictionary.Keys.ElementAt(1));
 
-                Assert.Equal(5, dictionary.Keys.ElementAt(0));
-                Assert.Equal(17, dictionary.Keys.ElementAt(1));
+                ////P27, P555, P33, P44
+                //Assert.Equal(4, dictionary.ElementAt(0).Value.Length);
 
-                //P27, P555, P33, P44
-                Assert.Equal(4, dictionary.ElementAt(0).Value.Length);
-
-                //P555, P777
-                Assert.Equal(2, dictionary.ElementAt(1).Value.Length);
+                ////P555, P777
+                //Assert.Equal(2, dictionary.ElementAt(1).Value.Length);
             }
 
             outputPath.DeleteIfExists();
@@ -85,33 +86,33 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
+            Assert.False(true);
+            var entitiesIndexer = new EntitiesIndexer(filename, outputPath);
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
+                //var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
+                //var propertiesDictionary = typesDictionary.InvertDictionary();
 
-                var typesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-                var propertiesDictionary = typesDictionary.InvertDictionary();
+                //Assert.Equal(5, propertiesDictionary.Count);
 
-                Assert.Equal(5, propertiesDictionary.Count);
+                //Assert.Equal(27, propertiesDictionary.Keys.ElementAt(0));
+                //Assert.Equal(555, propertiesDictionary.Keys.ElementAt(1));
+                //Assert.Equal(33, propertiesDictionary.Keys.ElementAt(2));
+                //Assert.Equal(44, propertiesDictionary.Keys.ElementAt(3));
+                //Assert.Equal(777, propertiesDictionary.Keys.ElementAt(4));
 
-                Assert.Equal(27, propertiesDictionary.Keys.ElementAt(0));
-                Assert.Equal(555, propertiesDictionary.Keys.ElementAt(1));
-                Assert.Equal(33, propertiesDictionary.Keys.ElementAt(2));
-                Assert.Equal(44, propertiesDictionary.Keys.ElementAt(3));
-                Assert.Equal(777, propertiesDictionary.Keys.ElementAt(4));
+                ////P27>Q30 (Q5)
+                //Assert.Single(propertiesDictionary.ElementAt(0).Value);
+                //Assert.Equal(5, propertiesDictionary.ElementAt(0).Value.ElementAt(0));
 
-                //P27>Q30 (Q5)
-                Assert.Single(propertiesDictionary.ElementAt(0).Value);
-                Assert.Equal(5, propertiesDictionary.ElementAt(0).Value.ElementAt(0));
+                ////P555>Q555 (Q17)
+                //Assert.Equal(2, propertiesDictionary.ElementAt(1).Value.Length);
+                //Assert.Equal(5, propertiesDictionary.ElementAt(1).Value.ElementAt(0));
+                //Assert.Equal(17, propertiesDictionary.ElementAt(1).Value.ElementAt(1));
 
-                //P555>Q555 (Q17)
-                Assert.Equal(2, propertiesDictionary.ElementAt(1).Value.Length);
-                Assert.Equal(5, propertiesDictionary.ElementAt(1).Value.ElementAt(0));
-                Assert.Equal(17, propertiesDictionary.ElementAt(1).Value.ElementAt(1));
-
-                //P777>Q777 (Q17)
-                Assert.Single(propertiesDictionary.ElementAt(4).Value);
-                Assert.Equal(17, propertiesDictionary.ElementAt(4).Value.ElementAt(0));
+                ////P777>Q777 (Q17)
+                //Assert.Single(propertiesDictionary.ElementAt(4).Value);
+                //Assert.Equal(17, propertiesDictionary.ElementAt(4).Value.ElementAt(0));
             }
 
             outputPath.DeleteIfExists();
@@ -126,10 +127,9 @@ namespace SparqlForHumans.UnitTests
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var query = "chile";
                 var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
                 var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);

@@ -1,6 +1,7 @@
 ﻿using System;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
@@ -55,7 +56,9 @@ namespace SparqlForHumans.CLI
             entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            EntitiesIndex.CreateEntitiesIndex(filename, true);
+            var indexer = new EntitiesIndexer(filename, LuceneIndexExtensions.EntityIndexPath);
+
+            //EntitiesIndex.CreateEntitiesIndex(filename, true);
 
             //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
             ////EntitiesIndex.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);

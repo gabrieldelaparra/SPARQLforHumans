@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.RDF.Extensions;
@@ -55,13 +56,13 @@ namespace SparqlForHumans.UnitTests
             Assert.False(Directory.Exists(entitiesOutputPath));
             Assert.False(Directory.Exists(propertyOutputPath));
 
+            new EntitiesIndexer(filename, entitiesOutputPath).Index();
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+
             // Create indexes
             using (var entitiesDirectory = FSDirectory.Open(entitiesOutputPath.GetOrCreateDirectory()))
             using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, entitiesDirectory, true);
-                PropertiesIndex.CreatePropertiesIndex(filename, propertiesDirectory, true);
-
                 //No domains in the Index
                 var property27 = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
                 var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
@@ -71,12 +72,13 @@ namespace SparqlForHumans.UnitTests
                 Assert.Empty(property555.DomainTypes);
                 Assert.Empty(property777.DomainTypes);
 
+                //Assert.False(true);
                 // Build Domains
                 //var propertyDomainTypes = PropertyDomain.GetPropertyDomainTypes();
-                var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
-                var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
+                //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(entitiesDirectory);
+                //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
 
-                PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
+                //PropertiesIndex.AddDomainTypesToPropertiesIndex(propertiesDirectory, invertedPropertiesDictionary);
 
                 // Check Domains
                 var property27WithDomain = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);

@@ -7,9 +7,9 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations
 {
-    public class BoostIndexer : BoostMapper, IFieldIndexer<DoubleField>
+    public class FrequencyIndexer : FrequencyMapper, IFieldIndexer<DoubleField>
     {
-        public BoostIndexer(string inputFilename) : base(inputFilename)
+        public FrequencyIndexer(string inputFilename) : base(inputFilename)
         {
         }
 

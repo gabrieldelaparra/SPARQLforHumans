@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
-using SparqlForHumans.Lucene.Indexing.Mappings;
+using SparqlForHumans.Lucene.Indexing.Relations.Mappings;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -17,6 +17,8 @@ namespace SparqlForHumans.Lucene.Indexing.Relations
         public IsTypeIndexer(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
         {
         }
+
+        public double Boost { get; set; }
 
         public string FieldName => Labels.IsTypeEntity.ToString();
 

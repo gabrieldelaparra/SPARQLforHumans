@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using SparqlForHumans.Lucene.Indexing.Mappings.Base;
+using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Models;
 
-namespace SparqlForHumans.Lucene.Indexing.Mappings
+namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
     public class BoostMapper : BaseOneToOneRelationMapper<int, double>
     {
@@ -10,7 +10,7 @@ namespace SparqlForHumans.Lucene.Indexing.Mappings
         {
         }
 
-        public override string NotifyMessage { get;  } = "Building <EntityId, Boost> Dictionary";
+        public override string NotifyMessage { get; } = "Building <EntityId, Boost> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, double> dictionary, SubjectGroup subjectGroup)
         {

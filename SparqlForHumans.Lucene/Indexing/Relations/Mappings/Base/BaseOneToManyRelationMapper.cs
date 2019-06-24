@@ -4,7 +4,7 @@ using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Indexing.Mappings.Base
+namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
 {
     public abstract class BaseOneToManyRelationMapper<TKey, TValue> : BaseNotifier,
         IRelationMapper<Dictionary<TKey, TValue[]>>

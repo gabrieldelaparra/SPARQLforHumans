@@ -1,5 +1,6 @@
 ﻿using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing;
+using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -16,10 +17,10 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
+
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
                 Assert.Equal("Q76", entity.Id);
             }
@@ -35,10 +36,9 @@ namespace SparqlForHumans.UnitTests
 
             outputPath.DeleteIfExists();
 
+            new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                EntitiesIndex.CreateEntitiesIndex(filename, luceneIndexDirectory, true);
-
                 var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
                 Assert.Equal("Q13133", entity.Id);
             }

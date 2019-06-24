@@ -3,8 +3,8 @@ using System.Linq;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing.Base;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -44,11 +44,17 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 {
                     var document = new Document();
 
-                    foreach (var fields in FieldIndexers.Select(x => x.GetField(entityGroup)).Where(x => x != null))
-                        document.Add(fields);
-
                     foreach (var mapper in RelationMappers.Select(x => x.GetField(entityGroup)).Where(x => x != null))
                         document.Add(mapper);
+
+                    var boost = (double)document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()))
+                        .GetDoubleValue();
+
+                    foreach (var fieldIndexer in FieldIndexers)
+                        fieldIndexer.Boost = boost;
+
+                    foreach (var fields in FieldIndexers.Select(x => x.GetField(entityGroup)).Where(x => x != null))
+                        document.Add(fields);
 
                     readCount++;
 
