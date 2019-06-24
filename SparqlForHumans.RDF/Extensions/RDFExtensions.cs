@@ -34,10 +34,10 @@ namespace SparqlForHumans.RDF.Extensions
                 return PropertyType.InstanceOf;
             if (ntPredicate.IsSubClass())
                 return PropertyType.SubClass;
-            if (ntObject.IsEntity())
-                return PropertyType.EntityDirected;
-            if (ntObject.IsLiteral())
-                return PropertyType.LiteralDirected;
+            //if (ntObject.IsEntity())
+            //    return PropertyType.EntityDirected;
+            //if (ntObject.IsLiteral())
+            //    return PropertyType.LiteralDirected;
             return PropertyType.Other;
         }
 

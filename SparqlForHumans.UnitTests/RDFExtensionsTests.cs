@@ -310,13 +310,13 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(ntPredicate.IsProperty());
 
-            Assert.Equal(RDFExtensions.PropertyType.LiteralDirected,
+            Assert.Equal(RDFExtensions.PropertyType.Other,
                 RDFExtensions.GetPropertyType(ntPredicate, ntObject));
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.EntityDirected,
+            Assert.Equal(RDFExtensions.PropertyType.Other,
                 RDFExtensions.GetPropertyType(ntPredicate, ntObject));
 
             line =

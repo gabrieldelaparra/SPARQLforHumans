@@ -1,9 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
@@ -44,23 +40,21 @@ namespace SparqlForHumans.Lucene.Indexing
     /// </summary>
     public static class PropertyRange
     {
-        public static Dictionary<int, int[]> PostProcessDictionary( 
-            Dictionary<int, int[]> entityToTypesRelationDictionary, 
+        public static Dictionary<int, int[]> PostProcessDictionary(
+            Dictionary<int, int[]> entityToTypesRelationDictionary,
             Dictionary<int, int[]> propertyToEntitiesDictionary)
         {
             var dictionary = new Dictionary<int, List<int>>();
             // Currently the `propertyToEntitiesDictionary` is created with `<PropertyId, ObjectIds[]>`
             // We need to replace the `ObjectTypeIds[]` of those `ObjectIds[]`
             foreach (var pair in propertyToEntitiesDictionary)
+            foreach (var objectId in pair.Value)
             {
-                foreach (var objectId in pair.Value)
-                {
-                    if (!entityToTypesRelationDictionary.ContainsKey(objectId))
-                        continue;
+                if (!entityToTypesRelationDictionary.ContainsKey(objectId))
+                    continue;
 
-                    var objectTypes = entityToTypesRelationDictionary[objectId];
-                    dictionary.AddSafe(pair.Key, objectTypes);
-                }
+                var objectTypes = entityToTypesRelationDictionary[objectId];
+                dictionary.AddSafe(pair.Key, objectTypes);
             }
 
             return dictionary.ToArrayDictionary();

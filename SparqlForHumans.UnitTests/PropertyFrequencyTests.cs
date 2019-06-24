@@ -14,7 +14,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyFrequencies.nt";
             Assert.True(File.Exists(filename));
 
-            var dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(filename);
+            var dictionary = new PropertiesFrequencyRelationMapper(filename).RelationIndex;
 
             Assert.NotNull(dictionary);
 
@@ -36,7 +36,7 @@ namespace SparqlForHumans.UnitTests
             const string filename = @"Resources/PropertyFrequenciesWithGarbage.nt";
             Assert.True(File.Exists(filename));
 
-            var dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(filename);
+            var dictionary = new PropertiesFrequencyRelationMapper(filename).RelationIndex;
 
             Assert.NotNull(dictionary);
 

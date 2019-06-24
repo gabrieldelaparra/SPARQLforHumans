@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
 
@@ -20,16 +21,24 @@ namespace SparqlForHumans.Lucene.Indexing
         /// <returns></returns>
         public static Dictionary<int, double> BuildPageRank(string triplesFilename)
         {
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var groups = lines.GroupBySubject();
+
+            return BuildPageRank(groups);
+        }
+
+        public static Dictionary<int, double> BuildPageRank(IEnumerable<SubjectGroup> subjectGroups)
+        {
             Options.InternUris = false;
             var dictionary = new Dictionary<int, double>();
 
             Logger.Info("Building <EntityId, PageRankValue> Dictionary");
 
             //Read +1
-            var nodesDictionary = BuildNodesDictionary(triplesFilename);
+            var nodesDictionary = BuildNodesDictionary(subjectGroups);
 
             //Read +1
-            var nodesGraphArray = BuildSimpleNodesGraph(triplesFilename, nodesDictionary);
+            var nodesGraphArray = BuildSimpleNodesGraph(subjectGroups, nodesDictionary);
 
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
 
@@ -40,28 +49,6 @@ namespace SparqlForHumans.Lucene.Indexing
                 dictionary.Add(node.Key, boost);
             }
 
-            return dictionary;
-        }
-
-        public static Dictionary<int, int[]> BuildNodesGraph(string triplesFilename)
-        {
-            var nodeCount = 0;
-            var dictionary = new Dictionary<int, int[]>();
-            var lines = FileHelper.GetInputLines(triplesFilename);
-            var subjectGroups = lines.GroupBySubject().Where(x => x.IsEntityQ());
-
-            foreach (var subjectGroup in subjectGroups)
-            {
-                if (nodeCount % NotifyTicks == 0)
-                    Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-
-                var triples = subjectGroup.Where(x => x.Object.IsEntityQ());
-
-                dictionary.Add(subjectGroup.IntId, triples.Select(x => x.Object.GetIntId()).Distinct().ToArray());
-                nodeCount++;
-            }
-
-            Logger.Info($"Building Graph, Group: {nodeCount:N0}");
             return dictionary;
         }
 
@@ -77,10 +64,14 @@ namespace SparqlForHumans.Lucene.Indexing
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
+            return BuildNodesDictionary(groups);
+        }
+
+        public static Dictionary<int, int> BuildNodesDictionary(IEnumerable<SubjectGroup> groups)
+        {
             var nodeIndex = 0;
             var dictionary = new Dictionary<int, int>();
 
-            //TODO: Check if this can be done inside another existing loop (performance)
             foreach (var group in groups)
             {
                 if (!group.IsEntityQ()) continue;
@@ -123,6 +114,12 @@ namespace SparqlForHumans.Lucene.Indexing
             var lines = FileHelper.GetInputLines(triplesFilename);
             var groups = lines.GroupBySubject();
 
+            return BuildSimpleNodesGraph(groups, nodesDictionary);
+        }
+
+        public static int[][] BuildSimpleNodesGraph(IEnumerable<SubjectGroup> groups,
+            Dictionary<int, int> nodesDictionary)
+        {
             var nodeCount = 0;
             var nodeArray = new int[nodesDictionary.Count][];
 

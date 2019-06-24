@@ -19,9 +19,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Utilities",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Server", "SparqlForHumans.Server\SparqlForHumans.Server.csproj", "{2574974E-ADEC-47B9-A198-912BCAA1BEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparqlForHumans.Benchmark", "SparqlForHumans.Benchmark\SparqlForHumans.Benchmark.csproj", "{FD0037DE-CD17-4034-AE56-ADBFD23C7534}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Benchmark", "SparqlForHumans.Benchmark\SparqlForHumans.Benchmark.csproj", "{FD0037DE-CD17-4034-AE56-ADBFD23C7534}"
 EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64

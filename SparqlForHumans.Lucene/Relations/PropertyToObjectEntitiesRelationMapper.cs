@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Indexing.Mappings.Base;
+using SparqlForHumans.Lucene.Indexing.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -28,11 +30,13 @@ namespace SparqlForHumans.Lucene.Relations
     ///     Key: 555; Values[]: 24, 35
     ///     Key: 777; Values[]: 47
     /// </summary>
-    public class PropertyToObjectEntitiesRelationMapper : AbstractOneToManyRelationMapper<int, int>
+    public class PropertyToObjectEntitiesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public override string NotifyMessage { get; internal set; } = "Building <Property, Entities[]> Dictionary";
+        public PropertyToObjectEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups){}
 
-        internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
+        public override string NotifyMessage { get;} = "Building <Property, Entities[]> Dictionary";
+
+        internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             var validProperties = subjectGroup
                 .Where(x => x.Predicate.IsProperty()

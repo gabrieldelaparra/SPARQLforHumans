@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
@@ -40,7 +39,10 @@ namespace SparqlForHumans.Lucene.Indexing
             var dictionary = new Dictionary<int, int>();
 
             if (indexFrequency)
-                dictionary = new PropertiesFrequencyRelationMapper().GetRelationDictionary(inputTriplesFilename);
+            {
+            }
+
+            dictionary = new PropertiesFrequencyRelationMapper(inputTriplesFilename).RelationIndex;
 
             var lines = FileHelper.GetInputLines(inputTriplesFilename);
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Indexing.Mappings.Base;
+using SparqlForHumans.Lucene.Indexing.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
@@ -28,11 +30,13 @@ namespace SparqlForHumans.Lucene.Relations
     ///     Key: 555; Values[]: 5, 17
     ///     Key: 777; Values[]: 17
     /// </summary>
-    public class PropertyToSubjectTypesRelationMapper : AbstractOneToManyRelationMapper<int, int>
+    public class PropertyToSubjectTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public override string NotifyMessage { get; internal set; } = "Building <Property, Types[]> Dictionary";
+        public PropertyToSubjectTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups){}
 
-        internal override void AddToDictionary(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
+        public override string NotifyMessage { get; } = "Building <Property, Types[]> Dictionary";
+
+        internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             // Filter those the triples that are properties only (Exclude description, label, etc.)
             var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
