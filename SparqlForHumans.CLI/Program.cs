@@ -25,12 +25,12 @@ namespace SparqlForHumans.CLI
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
-            //CreateIndex("filtered-All-500k.nt", true);
+            CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
             //QueryEntities("obam");
             //QueryEntities("hum");
-            QueryEntities("person");
+            //QueryEntities("person");
             //QueryEntities("city");
             //QueryEntities("michelle obama");
             //QueryProperties("city");
@@ -56,7 +56,8 @@ namespace SparqlForHumans.CLI
             entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            var indexer = new EntitiesIndexer(filename, LuceneIndexExtensions.EntityIndexPath);
+            new EntitiesIndexer(filename, LuceneIndexExtensions.EntityIndexPath).Index();
+            new PropertiesIndexer(filename, LuceneIndexExtensions.PropertyIndexPath).Index();
 
             //EntitiesIndex.CreateEntitiesIndex(filename, true);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
@@ -25,16 +26,11 @@ namespace SparqlForHumans.Lucene.Indexing.Relations
         {
         }
 
-        public StringField GetField(SubjectGroup tripleGroup)
+        public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
         {
-            if (RelationIndex.ContainsKey(tripleGroup.Id.ToNumbers()))
-            {
-                var values = string.Join(WikidataDump.PropertyValueSeparator,
-                    RelationIndex[tripleGroup.Id.ToNumbers()]);
-                return new StringField(FieldName, values, Field.Store.YES);
-            }
-
-            return null;
+            return RelationIndex.ContainsKey(tripleGroup.Id.ToNumbers())
+                ? RelationIndex[tripleGroup.Id.ToNumbers()].Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES)).ToList()
+                : new List<StringField>();
         }
     }
 }

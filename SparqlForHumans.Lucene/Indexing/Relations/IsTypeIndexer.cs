@@ -22,11 +22,11 @@ namespace SparqlForHumans.Lucene.Indexing.Relations
 
         public string FieldName => Labels.IsTypeEntity.ToString();
 
-        public StringField GetField(SubjectGroup subjectGroup)
+        public IReadOnlyList<StringField> GetField(SubjectGroup subjectGroup)
         {
             return RelationIndex.Contains(subjectGroup.Id.ToNumbers())
-                ? new StringField(FieldName, true.ToString(), Field.Store.YES)
-                : null;
+                ? new List<StringField> { new StringField(FieldName, true.ToString(), Field.Store.YES) }
+                : new List<StringField>();
         }
     }
 }

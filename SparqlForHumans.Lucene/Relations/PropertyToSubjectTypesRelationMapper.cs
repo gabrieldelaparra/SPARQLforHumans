@@ -45,11 +45,12 @@ namespace SparqlForHumans.Lucene.Relations
             var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 
             // InstanceOf Ids (Domain Types) and Properties
-            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
-            var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
+            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
+            var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
             foreach (var propertyId in propertyIds)
-                dictionary.AddSafe(propertyId, instanceOfIds);;
+                dictionary.AddSafe(propertyId, instanceOfIds);
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Lucene.Net.Index;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
@@ -11,18 +12,17 @@ namespace SparqlForHumans.Lucene.Indexing.Base
     {
         public abstract string FieldName { get; }
         public double Boost { get; set; }
-        public abstract TField GetField(SubjectGroup tripleGroup);
+        public abstract IReadOnlyList<TField> GetField(SubjectGroup tripleGroup);
 
         public abstract bool FilterValidTriples(Triple triple);
         public abstract string SelectTripleValue(Triple triple);
 
-        public string TriplesToValue(SubjectGroup triples)
+        public IEnumerable<string> TriplesToValue(SubjectGroup triples)
         {
-            var values = string.Join(WikidataDump.PropertyValueSeparator,
-                triples.Where(FilterValidTriples)
+            var values = triples.Where(FilterValidTriples)
                     .Distinct()
                     .Select(SelectTripleValue)
-                    .Where(x => !string.IsNullOrWhiteSpace(x)));
+                    .Where(x => !string.IsNullOrWhiteSpace(x));
 
             return values;
         }

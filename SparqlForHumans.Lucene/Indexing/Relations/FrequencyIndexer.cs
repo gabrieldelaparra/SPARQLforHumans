@@ -1,4 +1,5 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Lucene.Indexing.Relations.Mappings;
 using SparqlForHumans.Models.LuceneIndex;
@@ -17,11 +18,12 @@ namespace SparqlForHumans.Lucene.Indexing.Relations
 
         public string FieldName => Labels.Rank.ToString();
 
-        public DoubleField GetField(SubjectGroup subjectGroup)
+        public IReadOnlyList<DoubleField> GetField(SubjectGroup subjectGroup)
         {
-            return RelationIndex.ContainsKey(subjectGroup.Id.ToNumbers())
-                ? new DoubleField(FieldName, RelationIndex[subjectGroup.Id.ToNumbers()], Field.Store.YES)
-                : null;
+            var subjectId = subjectGroup.Id.ToNumbers();
+            return RelationIndex.ContainsKey(subjectId)
+                ? new List<DoubleField> { new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES) }
+                : new List<DoubleField>();
         }
     }
 }

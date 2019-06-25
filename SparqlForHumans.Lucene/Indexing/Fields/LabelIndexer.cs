@@ -1,6 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Models.LuceneIndex;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using VDS.RDF;
@@ -11,12 +14,14 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
     {
         public override string FieldName => Labels.Label.ToString();
 
-        public override TextField GetField(SubjectGroup tripleGroup)
+        public override IReadOnlyList<TextField> GetField(SubjectGroup tripleGroup)
         {
-            var value = TriplesToValue(tripleGroup);
-            return !string.IsNullOrWhiteSpace(value)
-                ? new TextField(FieldName, value, Field.Store.YES) {Boost = (float) Boost}
-                : null;
+            var values = TriplesToValue(tripleGroup);
+            return values.Any()
+                ? new List<TextField> {
+                        new TextField(FieldName, string.Join(WikidataDump.PropertyValueSeparator, values), Field.Store.YES)
+                        {Boost = (float) Boost}}
+                : new List<TextField>();
         }
 
         public override bool FilterValidTriples(Triple triple)

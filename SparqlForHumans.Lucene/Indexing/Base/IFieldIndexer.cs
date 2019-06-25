@@ -1,4 +1,5 @@
-﻿using Lucene.Net.Index;
+﻿using System.Collections.Generic;
+using Lucene.Net.Index;
 using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.Lucene.Indexing.Base
@@ -12,6 +13,6 @@ namespace SparqlForHumans.Lucene.Indexing.Base
         where TField : IIndexableField
     {
         double Boost { get; set; }
-        TField GetField(SubjectGroup tripleGroup);
+        IReadOnlyList<TField> GetField(SubjectGroup tripleGroup);
     }
 }

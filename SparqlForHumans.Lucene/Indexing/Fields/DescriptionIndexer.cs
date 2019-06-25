@@ -1,4 +1,6 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
@@ -21,12 +23,12 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
             return triple.Object.GetLiteralValue();
         }
 
-        public override TextField GetField(SubjectGroup tripleGroup)
+        public override IReadOnlyList<TextField> GetField(SubjectGroup tripleGroup)
         {
-            var value = TriplesToValue(tripleGroup);
-            return !string.IsNullOrWhiteSpace(value)
-                ? new TextField(FieldName, value, Field.Store.YES)
-                : null;
+            var values = TriplesToValue(tripleGroup);
+            return values.Any()
+                ? values.Select(x=>new TextField(FieldName, x, Field.Store.YES)).ToList()
+                : new List<TextField>();
         }
     }
 }

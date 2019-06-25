@@ -26,9 +26,9 @@ namespace SparqlForHumans.UnitTests.Index.Fields
 
             //Assert
             Assert.NotNull(actual);
-            Assert.Equal(expected.FieldType, actual.FieldType);
-            Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.GetStringValue(), actual.GetStringValue());
+            Assert.Equal(expected.FieldType, actual[0].FieldType);
+            Assert.Equal(expected.Name, actual[0].Name);
+            Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
         }
     }
 }
