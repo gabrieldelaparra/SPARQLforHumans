@@ -11,7 +11,8 @@
         Rank,
         IsTypeEntity,
         DomainType,
-        SubClass
+        SubClass,
+        Range
     }
 
     //PropertyAndValue,

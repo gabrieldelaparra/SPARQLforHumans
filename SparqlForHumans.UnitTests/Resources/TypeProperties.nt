@@ -16,3 +16,13 @@
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17> .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q555> .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q777> .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
+<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "Property 27"@en .
+<http://www.wikidata.org/entity/P555> <http://www.w3.org/2000/01/rdf-schema#label> "Property 555"@en .
+<http://www.wikidata.org/entity/P777> <http://www.w3.org/2000/01/rdf-schema#label> "Property 777"@en .
+<http://www.wikidata.org/entity/P33> <http://www.w3.org/2000/01/rdf-schema#label> "Property 33"@en .
+<http://www.wikidata.org/entity/P44> <http://www.w3.org/2000/01/rdf-schema#label> "Property 44"@en .
+<http://www.wikidata.org/entity/P22> <http://www.w3.org/2000/01/rdf-schema#label> "Property 22"@en .
+<http://www.wikidata.org/entity/P26> <http://www.w3.org/2000/01/rdf-schema#label> "Instance 26"@en .
+<http://www.wikidata.org/entity/P222> <http://www.w3.org/2000/01/rdf-schema#label> "Property 222"@en .
+<http://www.wikidata.org/entity/P132> <http://www.w3.org/2000/01/rdf-schema#label> "Property 132"@en .

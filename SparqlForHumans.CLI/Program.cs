@@ -25,15 +25,15 @@ namespace SparqlForHumans.CLI
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
-            CreateIndex("filtered-All-2MM.nt", true);
+            //CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
-            //QueryEntities("obam");
-            //QueryEntities("hum");
-            //QueryEntities("person");
-            //QueryEntities("city");
-            //QueryEntities("michelle obama");
-            //QueryProperties("city");
+            // CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
+            QueryEntities("obam");
+            QueryEntities("hum");
+            QueryEntities("person");
+            QueryEntities("city");
+            QueryEntities("michelle obama");
+            QueryProperties("city");
 
             //Console.WriteLine(dictionary.Count);
             Console.Read();

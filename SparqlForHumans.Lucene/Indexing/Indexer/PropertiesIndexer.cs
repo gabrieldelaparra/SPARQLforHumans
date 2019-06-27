@@ -25,7 +25,8 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
             RelationMappers = new List<IFieldIndexer<IIndexableField>>
             {
                 new FrequencyIndexer(inputFilename),
-                new PropertyDomainIndexer(inputFilename)
+                new PropertyDomainIndexer(inputFilename),
+                new PropertyRangeIndexer(inputFilename)
             };
 
             //Index();
