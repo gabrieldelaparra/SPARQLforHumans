@@ -11,7 +11,7 @@ Search on the Lucene Index
 <p />
 <div>
     <label>Search: </label>
-    <input type="text" id="LuceneAutocomplete" data-autocomplete="@Url.Action("Autocomplete","Lucene")" autocomplete="on" />
+    <input type="text" id="LuceneAutocomplete" data-autocomplete="@Url.Action("Run","MultiEntityQuery")" autocomplete="on" />
     <br /><br /><br />
     <label>Selected Item:</label>
     <h2 id="txtLabel"></h2>
@@ -41,6 +41,7 @@ Search on the Lucene Index
                     $('#txtLabel').text("Label: " + ui.item.label);
                     $('#txtType').text("Type: " + ui.item.instanceOfLabel + " (" + ui.item.instanceOf + ")");
                     $('#txtDescription').text("Description: " + ui.item.description);
+                    $('#txtProperties').text("");
                     $.each(ui.item.properties, function (index, property) {
                         $('#txtProperties').append("<li>" + property.label + " (" + property.id + ") = "+ property.value + "</li>");
                     });
