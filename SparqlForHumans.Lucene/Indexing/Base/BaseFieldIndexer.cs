@@ -20,8 +20,8 @@ namespace SparqlForHumans.Lucene.Indexing.Base
         public IEnumerable<string> TriplesToValue(SubjectGroup triples)
         {
             var values = triples.Where(FilterValidTriples)
-                    .Distinct()
                     .Select(SelectTripleValue)
+                    .Distinct()
                     .Where(x => !string.IsNullOrWhiteSpace(x));
 
             return values;

@@ -22,10 +22,6 @@ namespace SparqlForHumans.Benchmark
             //Console.WriteLine(results);
 
             
-
-            string filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.UnitTests\Resources\Filter5k.nt";
-            var mapper = new BoostMapper(filename);
-
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();
         }
