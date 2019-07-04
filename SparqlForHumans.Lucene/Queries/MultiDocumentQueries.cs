@@ -86,6 +86,11 @@ namespace SparqlForHumans.Lucene.Queries
             }
         }
 
+        public static IEnumerable<Entity> QueryEntitiesTopRankedResults(Directory luceneDirectory, bool isType = false)
+        {
+            return QueryDocumentsByLabel("*", luceneDirectory, isType)?.Select(x => x.MapEntity());
+        }
+
         public static IEnumerable<Entity> QueryEntitiesByLabel(string searchText, Directory luceneDirectory,
             bool isType = false)
         {
@@ -96,6 +101,11 @@ namespace SparqlForHumans.Lucene.Queries
             Directory luceneDirectory)
         {
             return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
+        }
+
+        public static IEnumerable<Property> QueryPropertiesTopRankedResults(Directory luceneDirectory, bool isType = false)
+        {
+            return QueryDocumentsByLabel("*", luceneDirectory, isType)?.Select(x => x.MapProperty());
         }
 
         public static IEnumerable<Property> QueryPropertiesByLabel(string searchText, Directory luceneDirectory,

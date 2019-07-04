@@ -20,7 +20,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var actual = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneIndexDirectory, false).ToArray();
+                var actual = MultiDocumentQueries.QueryEntitiesTopRankedResults(luceneIndexDirectory, false).ToArray();
 
                 Assert.NotEmpty(actual);
                 Assert.Equal("Q6", actual[0].Id); //0.222
@@ -46,7 +46,7 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var actual = MultiDocumentQueries.QueryPropertiesByLabel("*", luceneIndexDirectory, false).ToArray();
+                var actual = MultiDocumentQueries.QueryPropertiesTopRankedResults(luceneIndexDirectory, false).ToArray();
 
                 Assert.NotEmpty(actual);
                 Assert.Equal("P530", actual[0].Id);//50
