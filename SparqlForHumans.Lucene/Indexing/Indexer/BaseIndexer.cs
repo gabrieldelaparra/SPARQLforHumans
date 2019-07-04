@@ -31,20 +31,20 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
 
             // Read All lines in the file (IEnumerable, yield)
             // And group them by QCode.
-            var entityGroups = FileHelper.GetInputLines(InputFilename)
+            var subjectGroups = FileHelper.GetInputLines(InputFilename)
                 .GroupBySubject()
                 .Where(FilterGroups);
 
             var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
 
-            using (var entitiesDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
-            using (var writer = new IndexWriter(entitiesDirectory, indexConfig))
+            using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
+            using (var writer = new IndexWriter(indexDirectory, indexConfig))
             {
-                foreach (var entityGroup in entityGroups)
+                foreach (var subjectGroup in subjectGroups)
                 {
                     var document = new Document();
 
-                    foreach (var mapper in RelationMappers.SelectMany(x => x.GetField(entityGroup)))
+                    foreach (var mapper in RelationMappers.SelectMany(x => x.GetField(subjectGroup)))
                         document.Add(mapper);
 
                     var boostField = document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()));
@@ -55,12 +55,12 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                     foreach (var fieldIndexer in FieldIndexers)
                         fieldIndexer.Boost = boost;
 
-                    foreach (var fields in FieldIndexers.SelectMany(x => x.GetField(entityGroup)))
+                    foreach (var fields in FieldIndexers.SelectMany(x => x.GetField(subjectGroup)))
                         document.Add(fields);
 
                     LogProgress(readCount++);
 
-                    if (FilterGroups(entityGroup))
+                    if (FilterGroups(subjectGroup))
                         writer.AddDocument(document);
                 }
             }

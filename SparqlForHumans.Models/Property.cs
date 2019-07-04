@@ -32,7 +32,9 @@ namespace SparqlForHumans.Models
 
         public override string ToString()
         {
-            return $"{base.ToString()} -> {Value}";
+            var basic = $"{base.ToString()}";
+            return string.IsNullOrWhiteSpace(Value) ? basic : $"{basic} -> {Value}";
+
         }
     }
 }

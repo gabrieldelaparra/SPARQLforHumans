@@ -5,7 +5,7 @@ using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryIsTypeTests
     {

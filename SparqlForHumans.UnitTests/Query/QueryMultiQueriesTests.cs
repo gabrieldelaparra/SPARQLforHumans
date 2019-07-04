@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryMultiQueriesTests
     {

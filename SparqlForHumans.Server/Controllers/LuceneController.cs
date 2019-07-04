@@ -15,8 +15,10 @@ namespace SparqlForHumans.Server.Controllers
          */
         public IActionResult Run(string term)
         {
-            var filteredItems = MultiDocumentQueries.QueryEntitiesByLabel(term);
-            filteredItems = filteredItems.Select(x => x.AddProperties());
+            var filteredItems = MultiDocumentQueries.QueryEntitiesByLabel(term).ToList();
+            filteredItems.AddProperties();
+            //filteredItems = filteredItems.AddProperties();
+            //filteredItems = filteredItems.Select(x=>x.AddProperties());
 
             return Json(filteredItems);
         }

@@ -7,7 +7,7 @@ using SparqlForHumans.Utilities;
 using Xunit;
 using Directory = System.IO.Directory;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryServiceTests
     {
@@ -66,7 +66,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestQueryByMultipleIds()
         {
-            var ids = new List<string> {"Q26", "Q27", "Q29"};
+            var ids = new List<string> { "Q26", "Q27", "Q29" };
             const string indexPath = "Resources/IndexMultiple";
             Assert.True(Directory.Exists(indexPath));
 
