@@ -138,7 +138,7 @@ namespace SparqlForHumans.Lucene.Queries
             var list = new List<Document>();
 
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 -]", string.Empty)))
+            if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 - *]", string.Empty)))
                 return list;
 
             searchText = BaseParser.PrepareSearchTerm(searchText);
@@ -160,22 +160,16 @@ namespace SparqlForHumans.Lucene.Queries
         private static List<Document> SearchDocumentsByRank(string searchText, IndexSearcher searcher,
             QueryParser parser, int resultsLimit, Filter filter = null)
         {
-            //var sort = new Sort(SortField.FIELD_SCORE
-            //, new SortField(Labels.Rank.ToString(), SortFieldType.DOUBLE, true)
-            //);
-
             var query = BaseParser.ParseQuery(searchText, parser);
 
-            //var hits = searcher.Search(query, filter, resultsLimit, sort).ScoreDocs;
             var hits = searcher.Search(query, filter, resultsLimit).ScoreDocs;
 
             foreach (var scoreDoc in hits)
             {
-                var explain = searcher.Explain(query, scoreDoc.Doc);
+                //var explain = searcher.Explain(query, scoreDoc.Doc);
                 var score = scoreDoc.Score;
-                var entity = searcher.Doc(scoreDoc.Doc).MapEntity();
+                //var entity = searcher.Doc(scoreDoc.Doc).MapEntity();
             }
-
 
             return hits.Select(hit => searcher.Doc(hit.Doc)).ToList();
         }
