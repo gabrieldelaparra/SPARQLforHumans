@@ -236,6 +236,9 @@
 <http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P190> <http://www.wikidata.org/entity/Q90> .
 <http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q183> .
 <http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q183> .
+<http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q515> .
+<http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5119> .
+<http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q999> .
 <http://www.wikidata.org/entity/Q64> <http://www.wikidata.org/prop/direct/P1376> <http://www.wikidata.org/entity/Q183> .
 <http://www.wikidata.org/entity/Q71> <http://www.w3.org/2000/01/rdf-schema#label> "Geneva"@en .
 <http://www.wikidata.org/entity/Q71> <http://schema.org/description> "city in Switzerland and capital of its canton"@en .
