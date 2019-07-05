@@ -16,19 +16,9 @@ namespace SparqlForHumans.Lucene.Extensions
             using (var propertiesDirectory =
                 FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
             {
-                var propertiesIds = entities.SelectMany(x=>x.Properties).Select(x => x.Id).Distinct();
+                var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
                 var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, propertiesDirectory);
 
-                //for (int i = 0; i < entities.Count(); i++)
-                //{
-                //    var entity = entities.ElementAt(i);
-                //    for (int j = 0; j < entity.Properties.Count(); j++)
-                //    {
-                //        var property = entity.Properties.ElementAt(j);
-                //        var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                //        property.Label = prop.Label;
-                //    }
-                //}
                 foreach (var entity in entities)
                 {
                     foreach (var property in entity.Properties)
@@ -40,16 +30,7 @@ namespace SparqlForHumans.Lucene.Extensions
             }
         }
 
-        public static Entity AddProperties(this Entity entity)
-        {
-            using (var propertiesDirectory =
-                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
-            {
-                return AddProperties(entity, propertiesDirectory);
-            }
-        }
-
-        public static Entity AddProperties(this Entity entity, Directory luceneDirectory)
+        public static void AddProperties(this Entity entity, Directory luceneDirectory)
         {
             var propertiesIds = entity.Properties.Select(x => x.Id);
             var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
@@ -61,113 +42,98 @@ namespace SparqlForHumans.Lucene.Extensions
                 property.Label = prop.Label;
             }
 
-            return entity;
+            //return entity;
         }
 
-        public static ISubject MapBaseSubject(this Document document)
+        public static void MapRank(this IHasRank<double> element, Document document)
         {
-            ISubject entity = new Subject
-            {
-                Id = document.GetValue(Labels.Id),
-                Label = document.GetValue(Labels.Label)
-            };
-            return entity;
+            element.Rank = document.GetValue(Labels.Rank).ToDouble();
         }
 
-        /// <summary>
-        ///     Gets Alt-Label collection for a document.
-        /// </summary>
-        /// <param name="doc"></param>
-        /// <returns></returns>
-        public static IList<string> GetAltLabels(this Document doc)
+        public static void MapIsType(this IHasIsType element, Document document)
         {
-            var labels = doc.GetValues(Labels.Label);
-            var altLabels = doc.GetValues(Labels.AltLabel);
-
-            return altLabels.Length.Equals(0) ? labels : altLabels;
+            element.IsType = document.GetValue(Labels.IsTypeEntity).ToBool();
         }
 
-        public static Entity MapAltLabels(this Entity entity, Document document)
+        public static void MapId(this IHasId element, Document document)
         {
-            entity.AltLabels = GetAltLabels(document);
-            return entity;
+            element.Id = document.GetValue(Labels.Id);
         }
 
-        public static Entity MapDescription(this Entity entity, Document document)
+        public static void MapLabel(this IHasLabel element, Document document)
         {
-            entity.Description = document.GetValue(Labels.Description);
-            return entity;
+            element.Label = document.GetValue(Labels.Label);
         }
 
-        public static Entity MapRank(this Entity entity, Document document)
-        {
-            entity.Rank = document.GetValue(Labels.Rank).ToDouble();
-            return entity;
-        }
-
-        public static Entity MapIsType(this Entity entity, Document document)
-        {
-            entity.IsType = document.GetValue(Labels.IsTypeEntity).ToBool();
-            return entity;
-        }
-
-        public static Entity MapInstanceOf(this Entity entity, Document doc)
+        public static void MapInstanceOf(this Entity entity, Document doc)
         {
             entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
-            return entity;
         }
 
-        public static Entity MapSubClass(this Entity entity, Document doc)
+        public static void MapSubClass(this Entity entity, Document doc)
         {
             entity.SubClass = doc.GetValues(Labels.SubClass);
-            return entity;
         }
 
-        public static Entity MapBaseProperties(this Entity entity, Document document)
+        public static void MapBaseProperties(this Entity entity, Document document)
         {
             entity.Properties = document.ParseProperties().ToList();
-            return entity;
         }
 
         public static Entity MapEntity(this Document document)
         {
-            var entity = new Entity(document.MapBaseSubject())
-                .MapAltLabels(document)
-                .MapDescription(document)
-                .MapRank(document)
-                .MapIsType(document)
-                .MapSubClass(document)
-                .MapInstanceOf(document)
-                .MapBaseProperties(document);
+            var entity = new Entity();
+            entity.MapId(document);
+            entity.MapLabel(document);
+            entity.MapAltLabels(document);
+            entity.MapDescription(document);
+
+            entity.MapInstanceOf(document);
+            entity.MapSubClass(document);
+            entity.MapRank(document);
+            entity.MapIsType(document);
+
+            entity.MapBaseProperties(document);
 
             return entity;
         }
 
-        public static Property MapFrequency(this Property property, Document document)
+        public static void MapRank(this IHasRank<int> element, Document document)
         {
-            property.Rank = document.GetValue(Labels.Rank).ToInt();
-            return property;
+            element.Rank = document.GetValue(Labels.Rank).ToInt();
         }
 
-        public static Property MapDomainTypes(this Property property, Document document)
+        public static void MapDescription(this IHasDescription element, Document document)
+        {
+            element.Description = document.GetValue(Labels.Description);
+        }
+
+        public static void MapAltLabels(this IHasAltLabel element, Document document)
+        {
+            element.AltLabels = document.GetValues(Labels.AltLabel);
+        }
+
+        public static void MapDomainTypes(this Property property, Document document)
         {
             property.DomainTypes = document.GetValues(Labels.DomainType);
-            return property;
         }
 
         public static Property MapProperty(this Document document)
         {
-            var property = new Property(document.MapBaseSubject())
-                .MapFrequency(document)
-                .MapDomainTypes(document);
+            var property = new Property();
+            property.MapId(document);
+            property.MapLabel(document);
+            property.MapAltLabels(document);
+            property.MapDescription(document);
+
+            property.MapRank(document);
+            property.MapDomainTypes(document);
 
             return property;
         }
 
-        private static Property ParseProperty(string indexProperty)
+        private static Property ParseProperty(string propertyId)
         {
-            var propertyId = indexProperty;
-
             return new Property
             {
                 Id = propertyId,

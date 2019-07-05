@@ -4,23 +4,6 @@ namespace SparqlForHumans.Models
 {
     public class BaseEntity : Subject, IBaseEntity
     {
-        //Constructor
-        public BaseEntity()
-        {
-        }
-
-        public BaseEntity(string id) : base(id)
-        {
-        }
-
-        public BaseEntity(string id, string label) : base(id, label)
-        {
-        }
-
-        public BaseEntity(ISubject baseSubject) : base(baseSubject)
-        {
-        }
-
         // IBasicEntity
         public string Description { get; set; } = string.Empty;
         public IList<string> InstanceOf { get; set; } = new List<string>();

@@ -50,7 +50,10 @@ namespace SparqlForHumans.RDF.Extensions
         // TODO: Test
         public static RDFIndexEntity ToIndexEntity(this SubjectGroup subjectGroup)
         {
-            var entity = new RDFIndexEntity(subjectGroup.Id);
+            var entity = new RDFIndexEntity
+            {
+                Id = subjectGroup.Id
+            };
 
             foreach (var triple in subjectGroup)
                 entity.ParseSubjectGroupTriple(triple);

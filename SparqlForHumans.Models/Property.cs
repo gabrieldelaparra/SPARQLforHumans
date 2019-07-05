@@ -4,26 +4,19 @@ namespace SparqlForHumans.Models
 {
     public class Property : Subject, IProperty
     {
-        public Property()
-        {
-        }
+        //public Property()
+        //{
+        //}
 
-        public Property(string id) : base(id)
-        {
-        }
-
-        public Property(string id, string label) : base(id, label)
-        {
-        }
-
-        public Property(ISubject baseSubject) : base(baseSubject)
-        {
-        }
+        //public Property(ISubject baseSubject) : base(baseSubject)
+        //{
+        //}
 
         public string Value { get; set; } = string.Empty;
         public int Rank { get; set; } = 0;
-
         public IEnumerable<string> DomainTypes { get; set; } = new List<string>();
+        public IList<string> AltLabels { get; set; } = new List<string>();
+        public string Description { get; set; } = string.Empty;
 
         public string ToRankedString()
         {
