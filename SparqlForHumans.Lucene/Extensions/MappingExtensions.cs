@@ -83,7 +83,7 @@ namespace SparqlForHumans.Lucene.Extensions
         public static Entity MapEntity(this Document document)
         {
             var entity = new Entity();
-            
+
             entity.MapId(document);
             entity.MapLabel(document);
             entity.MapAltLabels(document);
