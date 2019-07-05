@@ -38,13 +38,13 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public static void TestCreateEntitiesTypesPropertiesDictionary()
         {
-            const string filename = "Resources/TypeProperties.nt";
-            const string outputPath = "TypeAddFolderProperties";
-
-            outputPath.DeleteIfExists();
-            Assert.False(Directory.Exists(outputPath));
-
             Assert.False(true);
+            //const string filename = "Resources/TypeProperties.nt";
+            //const string outputPath = "TypeAddFolderProperties";
+
+            //outputPath.DeleteIfExists();
+            //Assert.False(Directory.Exists(outputPath));
+
             //new EntitiesIndexer(filename, outputPath).Index();
             //using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             //{
@@ -62,7 +62,7 @@ namespace SparqlForHumans.UnitTests
             //    //Assert.Equal(2, dictionary.ElementAt(1).Value.Length);
             //}
 
-            outputPath.DeleteIfExists();
+            //outputPath.DeleteIfExists();
         }
 
        
