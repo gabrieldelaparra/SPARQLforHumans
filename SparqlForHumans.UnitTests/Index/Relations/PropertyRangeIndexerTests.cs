@@ -1,9 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Linq;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
-using System.Linq;
-using SparqlForHumans.Lucene.Index.Relations;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
@@ -83,5 +83,4 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.Equal(747699, property38WithRange[2]);
         }
     }
-
 }

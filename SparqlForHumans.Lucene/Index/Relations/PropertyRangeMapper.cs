@@ -62,37 +62,26 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             foreach (var subjectGroup in subjectGroups)
             {
-                if (!subjectGroup.IsEntityQ())
-                {
-                    continue;
-                }
+                if (!subjectGroup.IsEntityQ()) continue;
 
                 var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
-                var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
+                var (instanceOfSlice, otherPropertiesSlice) =
+                    propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 
                 foreach (var triple in otherPropertiesSlice)
-                {
                     propertyObjectIdsDictionary.AddSafe(triple.Predicate.GetIntId(), triple.Object.GetIntId());
-                }
 
                 foreach (var triple in instanceOfSlice)
-                {
                     subjectIdTypeIdsDictionary.AddSafe(subjectGroup.IntId, triple.Object.GetIntId());
-                }
             }
 
             foreach (var pair in propertyObjectIdsDictionary)
+            foreach (var objectId in pair.Value)
             {
-                foreach (var objectId in pair.Value)
-                {
-                    if (!subjectIdTypeIdsDictionary.ContainsKey(objectId))
-                    {
-                        continue;
-                    }
+                if (!subjectIdTypeIdsDictionary.ContainsKey(objectId)) continue;
 
-                    var objectTypes = subjectIdTypeIdsDictionary[objectId];
-                    propertyRangeDictionary.AddSafe(pair.Key, objectTypes);
-                }
+                var objectTypes = subjectIdTypeIdsDictionary[objectId];
+                propertyRangeDictionary.AddSafe(pair.Key, objectTypes);
             }
 
             return propertyRangeDictionary.ToArrayDictionary();

@@ -1,6 +1,6 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.RDF.Extensions;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Utilities

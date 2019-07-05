@@ -1,8 +1,7 @@
-﻿using SparqlForHumans.Models.RDFIndex;
+﻿using System.Collections.Generic;
+using System.Linq;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
-using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.RDF.Extensions
@@ -47,22 +46,6 @@ namespace SparqlForHumans.RDF.Extensions
         }
 
         // TODO: Test
-        public static RDFIndexEntity ToIndexEntity(this SubjectGroup subjectGroup)
-        {
-            var entity = new RDFIndexEntity
-            {
-                Id = subjectGroup.Id
-            };
-
-            foreach (var triple in subjectGroup)
-            {
-                entity.ParseSubjectGroupTriple(triple);
-            }
-
-            return entity;
-        }
-
-        // TODO: Test
         public static bool IsEntityQ(this SubjectGroup subjectGroup)
         {
             return subjectGroup.Id.StartsWith(WikidataDump.EntityPrefix);
@@ -82,52 +65,6 @@ namespace SparqlForHumans.RDF.Extensions
         public static IEnumerable<Triple> FilterPropertyPredicatesOnly(this SubjectGroup entityGroupTriples)
         {
             return entityGroupTriples.Where(x => x.Predicate.IsProperty());
-        }
-
-        private static void ParseSubjectGroupTriple(this RDFIndexEntity entity, Triple triple)
-        {
-            switch (triple.Predicate.GetPredicateType())
-            {
-                case RDFExtensions.PredicateType.Property:
-                    entity.ParseSubjectGroupProperties(triple);
-                    break;
-                case RDFExtensions.PredicateType.Label:
-                    entity.Label = triple.Object.GetLiteralValue();
-                    break;
-                case RDFExtensions.PredicateType.Description:
-                    entity.Description = triple.Object.GetLiteralValue();
-                    break;
-                case RDFExtensions.PredicateType.AltLabel:
-                    entity.AltLabels.Add(triple.Object.GetLiteralValue());
-                    break;
-                default:
-                case RDFExtensions.PredicateType.Other:
-                    break;
-            }
-        }
-
-        private static void ParseSubjectGroupProperties(this RDFIndexEntity entity, Triple triple)
-        {
-            var propertyCode = triple.Predicate.GetId();
-            switch (RDFExtensions.GetPropertyType(triple.Predicate, triple.Object))
-            {
-                //PropertyPredicate is InstanceOf another type of Property:
-                case RDFExtensions.PropertyType.InstanceOf:
-                    entity.InstanceOf.Add(triple.Object.GetId());
-                    break;
-
-                case RDFExtensions.PropertyType.SubClass:
-                    entity.SubClass.Add(triple.Object.GetId());
-                    break;
-
-                //Other cases, considered but not used.
-                default:
-                case RDFExtensions.PropertyType.EntityDirected:
-                case RDFExtensions.PropertyType.LiteralDirected:
-                case RDFExtensions.PropertyType.Other:
-                    entity.Properties.Add(propertyCode);
-                    break;
-            }
         }
     }
 }

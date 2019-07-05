@@ -10,9 +10,6 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
 {
     public class PropertyDomainIndexer : PropertyToSubjectTypesRelationMapper, IFieldIndexer<StringField>
     {
-        public string FieldName => Labels.DomainType.ToString();
-        public double Boost { get; set; }
-
         public PropertyDomainIndexer(string inputFilename) : base(inputFilename)
         {
         }
@@ -21,10 +18,14 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
         {
         }
 
+        public string FieldName => Labels.DomainType.ToString();
+        public double Boost { get; set; }
+
         public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
         {
             return RelationIndex.ContainsKey(tripleGroup.Id.ToNumbers())
-                ? RelationIndex[tripleGroup.Id.ToNumbers()].Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES)).ToList()
+                ? RelationIndex[tripleGroup.Id.ToNumbers()]
+                    .Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES)).ToList()
                 : new List<StringField>();
         }
     }

@@ -32,6 +32,44 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestMultiQueryBarackObamaShouldShowFirst()
+        {
+            const string filename = "Resources/QueryMulti.nt";
+            const string outputPath = "QueryMultiIndexBarack";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory);
+                var entity = entities.FirstOrDefault();
+                Assert.Equal("Q76", entity.Id);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestMultiQueryMichelleObamaShouldShowFirst()
+        {
+            const string filename = "Resources/QueryMulti.nt";
+            const string outputPath = "QueryMultiIndexMichelle";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory);
+                var entity = entities.FirstOrDefault();
+                Assert.Equal("Q13133", entity.Id);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
         public void TestNoEndWildcardQueryResults()
         {
             const string filename = "Resources/QueryWildcardOnePerLetter.nt";
@@ -45,111 +83,6 @@ namespace SparqlForHumans.UnitTests.Query
                 var actual = MultiDocumentQueries.QueryEntitiesByLabel("Oba", luceneIndexDirectory)
                     .FirstOrDefault();
                 Assert.Equal("Q76000000", actual.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestWithEndWildcardQueryResults()
-        {
-            const string filename = "Resources/QueryWildcardOnePerLetter.nt";
-            const string outputPath = "OneLetterWildcardWithAsterisk";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesByLabel("Oba*", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q76000000", actual.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestTopQueryEntitiesResults()
-        {
-            const string filename = "Resources/QueryEntityWildcardAllResults.nt";
-            const string outputPath = "AllEntitiesResultsWildcardQueriesFullWord";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesTopRankedResults(luceneIndexDirectory, false).ToArray();
-
-                Assert.NotEmpty(actual);
-                Assert.Equal("Q6", actual[0].Id); //0.222
-                Assert.Equal("Q4", actual[1].Id); //0.180
-                Assert.Equal("Q7", actual[2].Id); //0.180
-                Assert.Equal("Q1", actual[3].Id); //0.138
-                Assert.Equal("Q5", actual[4].Id); //0.128
-                Assert.Equal("Q2", actual[5].Id); //0.087
-                Assert.Equal("Q3", actual[6].Id); //0.061
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestTopQueryPropertiesResults()
-        {
-            const string filename = @"Resources/QueryPropertyWildcardAllResults.nt";
-            const string outputPath = "AllPropertiesResultsWildcardQueriesFullWord";
-
-            outputPath.DeleteIfExists();
-
-            new PropertiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryPropertiesTopRankedResults(luceneIndexDirectory, false).ToArray();
-
-                Assert.NotEmpty(actual);
-                Assert.Equal("P530", actual[0].Id);//50
-                Assert.Equal("P47", actual[1].Id);//5
-                Assert.Equal("P17", actual[2].Id); //3
-                Assert.Equal("P30", actual[3].Id); //3
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestSingleQuery_BarackObama_ShouldShowFirst()
-        {
-            const string filename = "Resources/QuerySingle.nt";
-            const string outputPath = "QuerySingleIndexBarack";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
-                Assert.Equal("Q76", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestSingleQuery_MichelleObama_ShouldShowFirst()
-        {
-            const string filename = "Resources/QuerySingle.nt";
-            const string outputPath = "QuerySingleIndexMichelle";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
-                Assert.Equal("Q13133", entity.Id);
             }
 
             outputPath.DeleteIfExists();
@@ -210,7 +143,7 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestQueryByMultipleIds()
         {
-            var ids = new List<string> { "Q26", "Q27", "Q29" };
+            var ids = new List<string> {"Q26", "Q27", "Q29"};
             const string indexPath = "Resources/IndexMultiple";
             Assert.True(Directory.Exists(indexPath));
 
@@ -236,6 +169,36 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal("Q29", doc.Id);
                 Assert.Equal("Spain", doc.Label);
             }
+        }
+
+        [Fact]
+        public static void TestQueryIsTypeFields()
+        {
+            const string filename = "Resources/TypeProperties.nt";
+            const string outputPath = "CreateIndexIsTypeFields";
+
+            outputPath.DeleteIfExists();
+            Assert.False(Directory.Exists(outputPath));
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var query = "chile";
+                var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
+                var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+
+                Assert.Empty(types);
+                Assert.Single(all);
+
+                query = "country";
+                types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
+                all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+
+                Assert.Single(types);
+                Assert.Single(all);
+            }
+
+            outputPath.DeleteIfExists();
         }
 
         [Fact]
@@ -321,44 +284,6 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.NotNull(entity);
                 Assert.Equal("Q26", entity.Id);
             }
-        }
-
-        [Fact]
-        public void TestMultiQueryBarackObamaShouldShowFirst()
-        {
-            const string filename = "Resources/QueryMulti.nt";
-            const string outputPath = "QueryMultiIndexBarack";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory);
-                var entity = entities.FirstOrDefault();
-                Assert.Equal("Q76", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestMultiQueryMichelleObamaShouldShowFirst()
-        {
-            const string filename = "Resources/QueryMulti.nt";
-            const string outputPath = "QueryMultiIndexMichelle";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory);
-                var entity = entities.FirstOrDefault();
-                Assert.Equal("Q13133", entity.Id);
-            }
-
-            outputPath.DeleteIfExists();
         }
 
         [Fact]
@@ -489,30 +414,106 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
-        public static void TestQueryIsTypeFields()
+        public void TestSingleQuery_BarackObama_ShouldShowFirst()
         {
-            const string filename = "Resources/TypeProperties.nt";
-            const string outputPath = "CreateIndexIsTypeFields";
+            const string filename = "Resources/QuerySingle.nt";
+            const string outputPath = "QuerySingleIndexBarack";
 
             outputPath.DeleteIfExists();
-            Assert.False(Directory.Exists(outputPath));
+
+            new EntitiesIndexer(filename, outputPath).Index();
+
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
+                Assert.Equal("Q76", entity.Id);
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestSingleQuery_MichelleObama_ShouldShowFirst()
+        {
+            const string filename = "Resources/QuerySingle.nt";
+            const string outputPath = "QuerySingleIndexMichelle";
+
+            outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var query = "chile";
-                var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+                var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
+                Assert.Equal("Q13133", entity.Id);
+            }
 
-                Assert.Empty(types);
-                Assert.Single(all);
+            outputPath.DeleteIfExists();
+        }
 
-                query = "country";
-                types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+        [Fact]
+        public void TestTopQueryEntitiesResults()
+        {
+            const string filename = "Resources/QueryEntityWildcardAllResults.nt";
+            const string outputPath = "AllEntitiesResultsWildcardQueriesFullWord";
 
-                Assert.Single(types);
-                Assert.Single(all);
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var actual = MultiDocumentQueries.QueryEntitiesTopRankedResults(luceneIndexDirectory, false).ToArray();
+
+                Assert.NotEmpty(actual);
+                Assert.Equal("Q6", actual[0].Id); //0.222
+                Assert.Equal("Q4", actual[1].Id); //0.180
+                Assert.Equal("Q7", actual[2].Id); //0.180
+                Assert.Equal("Q1", actual[3].Id); //0.138
+                Assert.Equal("Q5", actual[4].Id); //0.128
+                Assert.Equal("Q2", actual[5].Id); //0.087
+                Assert.Equal("Q3", actual[6].Id); //0.061
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestTopQueryPropertiesResults()
+        {
+            const string filename = @"Resources/QueryPropertyWildcardAllResults.nt";
+            const string outputPath = "AllPropertiesResultsWildcardQueriesFullWord";
+
+            outputPath.DeleteIfExists();
+
+            new PropertiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var actual = MultiDocumentQueries.QueryPropertiesTopRankedResults(luceneIndexDirectory, false)
+                    .ToArray();
+
+                Assert.NotEmpty(actual);
+                Assert.Equal("P530", actual[0].Id); //50
+                Assert.Equal("P47", actual[1].Id); //5
+                Assert.Equal("P17", actual[2].Id); //3
+                Assert.Equal("P30", actual[3].Id); //3
+            }
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestWithEndWildcardQueryResults()
+        {
+            const string filename = "Resources/QueryWildcardOnePerLetter.nt";
+            const string outputPath = "OneLetterWildcardWithAsterisk";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                var actual = MultiDocumentQueries.QueryEntitiesByLabel("Oba*", luceneIndexDirectory)
+                    .FirstOrDefault();
+                Assert.Equal("Q76000000", actual.Id);
             }
 
             outputPath.DeleteIfExists();

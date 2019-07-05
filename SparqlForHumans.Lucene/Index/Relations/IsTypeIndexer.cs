@@ -1,9 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using SparqlForHumans.Lucene.Index.Base;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -24,7 +24,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
         public IReadOnlyList<StringField> GetField(SubjectGroup subjectGroup)
         {
             return RelationIndex.Contains(subjectGroup.Id.ToNumbers())
-                ? new List<StringField> { new StringField(FieldName, true.ToString(), Field.Store.YES) }
+                ? new List<StringField> {new StringField(FieldName, true.ToString(), Field.Store.YES)}
                 : new List<StringField>();
         }
     }

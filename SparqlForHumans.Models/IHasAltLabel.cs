@@ -11,6 +11,7 @@ namespace SparqlForHumans.Models
     {
         IList<string> InstanceOf { get; set; }
     }
+
     public interface IHasIsType
     {
         bool IsType { get; set; }

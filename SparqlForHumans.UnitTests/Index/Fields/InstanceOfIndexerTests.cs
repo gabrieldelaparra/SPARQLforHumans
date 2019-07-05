@@ -1,9 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Index.Fields;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Fields
@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             //Arrange
             var lines = new List<string>
             {
-                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> .",
+                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> ."
             };
             var subjectGroup = lines.GroupBySubject().FirstOrDefault();
             var expected = new StringField(Labels.InstanceOf.ToString(), "Q145", Field.Store.YES);
@@ -38,7 +38,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             var lines = new List<string>
             {
                 "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> .",
-                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q146> .",
+                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q146> ."
             };
             var subjectGroup = lines.GroupBySubject().FirstOrDefault();
             var expected0 = new StringField(Labels.InstanceOf.ToString(), "Q145", Field.Store.YES);
@@ -58,5 +58,4 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             Assert.Equal(expected1.GetStringValue(), actual[1].GetStringValue());
         }
     }
-
 }

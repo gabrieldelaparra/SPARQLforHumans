@@ -16,7 +16,7 @@ namespace SparqlForHumans.Lucene.Index.Fields
         {
             var value = tripleGroup.Id;
             return !string.IsNullOrWhiteSpace(value)
-                ? new List<StringField> { new StringField(FieldName, value, Field.Store.YES) }
+                ? new List<StringField> {new StringField(FieldName, value, Field.Store.YES)}
                 : new List<StringField>();
         }
     }

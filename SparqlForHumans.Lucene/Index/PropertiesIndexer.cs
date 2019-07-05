@@ -11,8 +11,6 @@ namespace SparqlForHumans.Lucene.Index
 {
     public class PropertiesIndexer : BaseIndexer
     {
-        public override string NotifyMessage => "Build Properties Index";
-
         public PropertiesIndexer(string inputFilename, string outputDirectory) : base(inputFilename, outputDirectory)
         {
             FieldIndexers = new List<IFieldIndexer<IIndexableField>>
@@ -30,6 +28,8 @@ namespace SparqlForHumans.Lucene.Index
                 new PropertyRangeIndexer(inputFilename)
             };
         }
+
+        public override string NotifyMessage => "Build Properties Index";
 
         public override bool FilterGroups(SubjectGroup tripleGroup)
         {

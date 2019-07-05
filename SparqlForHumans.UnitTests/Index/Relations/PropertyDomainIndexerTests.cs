@@ -1,11 +1,10 @@
-﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Relations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Relations.Unsorted;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Index.Relations.Unsorted;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations

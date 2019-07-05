@@ -2,11 +2,20 @@
 
 namespace SparqlForHumans.Models
 {
-    public class Entity : BaseEntity, IHasRank<double>, IHasProperties<Property>
+    public class Entity : Subject, IEntity, IHasProperties<Property>
     {
+        public IList<string> SubClass { get; set; } = new List<string>();
+        public string Description { get; set; } = string.Empty;
+        public IList<string> InstanceOf { get; set; } = new List<string>();
+        public IList<string> AltLabels { get; set; } = new List<string>();
+        public bool IsType { get; set; } = false;
+        public double Rank { get; set; } = 0.0;
         public IList<Property> Properties { get; set; } = new List<Property>();
 
-        public double Rank { get; set; } = 0.0;
+        public override string ToString()
+        {
+            return $"{base.ToString()} - ({string.Join("-", InstanceOf)}) - {Description}";
+        }
 
         public string ToRankedString()
         {

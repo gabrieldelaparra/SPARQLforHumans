@@ -1,12 +1,12 @@
-﻿using Lucene.Net.Index;
+﻿using System;
+using System.Linq;
+using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
-using System;
-using System.Linq;
-using SparqlForHumans.Lucene.Index;
 using Xunit;
 using Directory = System.IO.Directory;
 

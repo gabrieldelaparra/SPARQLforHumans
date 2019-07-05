@@ -31,8 +31,13 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
     /// </summary>
     public class PropertyToSubjectTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public PropertyToSubjectTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups) { }
-        public PropertyToSubjectTypesRelationMapper(string inputFilename) : base(inputFilename) { }
+        public PropertyToSubjectTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
+        {
+        }
+
+        public PropertyToSubjectTypesRelationMapper(string inputFilename) : base(inputFilename)
+        {
+        }
 
         public override string NotifyMessage { get; } = "Building <Property, Types[]> Dictionary";
 
@@ -47,10 +52,7 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
-            foreach (var propertyId in propertyIds)
-            {
-                dictionary.AddSafe(propertyId, instanceOfIds);
-            }
+            foreach (var propertyId in propertyIds) dictionary.AddSafe(propertyId, instanceOfIds);
         }
     }
 }

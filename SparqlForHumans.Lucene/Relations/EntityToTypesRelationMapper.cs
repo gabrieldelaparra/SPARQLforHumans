@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using SparqlForHumans.Utilities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -27,8 +27,13 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class EntityToTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public EntityToTypesRelationMapper(string inputFilename) : base(inputFilename) { }
-        public EntityToTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup) { }
+        public EntityToTypesRelationMapper(string inputFilename) : base(inputFilename)
+        {
+        }
+
+        public EntityToTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
+        {
+        }
 
         public override string NotifyMessage { get; } = "Building <Entity, Types[]> Dictionary";
 

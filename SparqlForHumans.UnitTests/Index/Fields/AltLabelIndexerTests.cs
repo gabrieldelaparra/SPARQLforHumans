@@ -1,9 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Fields
@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             //Arrange
             var lines = new List<string>
             {
-                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> \"NIR\"@en .",
+                "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> \"NIR\"@en ."
             };
             var subjectGroup = lines.GroupBySubject().FirstOrDefault();
             var expected = new TextField(Labels.AltLabel.ToString(), "NIR", Field.Store.YES);
@@ -31,5 +31,4 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
         }
     }
-
 }

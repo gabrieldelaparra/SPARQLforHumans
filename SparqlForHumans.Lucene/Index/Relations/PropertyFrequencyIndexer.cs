@@ -21,7 +21,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
         {
             var subjectId = subjectGroup.Id.ToNumbers();
             return RelationIndex.ContainsKey(subjectId)
-                ? new List<DoubleField> { new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES) }
+                ? new List<DoubleField> {new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES)}
                 : new List<DoubleField>();
         }
     }

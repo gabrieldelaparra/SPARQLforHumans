@@ -9,7 +9,7 @@ namespace SparqlForHumans.Models.Extensions
             return $"{uri}{id}";
         }
 
-        public static string WikidataUri(this IBaseEntity entity)
+        public static string WikidataUri(this IEntity entity)
         {
             return entity.Id.FormatWithUri(WikidataDump.EntityIRI);
         }

@@ -55,7 +55,5 @@ namespace SparqlForHumans.UnitTests
 
             //outputPath.DeleteIfExists();
         }
-
-
     }
 }

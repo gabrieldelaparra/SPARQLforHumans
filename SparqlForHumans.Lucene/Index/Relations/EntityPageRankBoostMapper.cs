@@ -1,6 +1,6 @@
-﻿using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {

@@ -2,10 +2,6 @@
 {
     public class Subject : ISubject
     {
-        public Subject()
-        {
-        }
-
         //public Subject(ISubject baseSubject)
         //{
         //    Id = baseSubject.Id;

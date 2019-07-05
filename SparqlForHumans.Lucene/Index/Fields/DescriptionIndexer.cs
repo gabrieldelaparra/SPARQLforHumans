@@ -1,10 +1,10 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
-using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Fields
@@ -15,7 +15,7 @@ namespace SparqlForHumans.Lucene.Index.Fields
 
         public override bool FilterValidTriples(Triple triple)
         {
-            return triple.Predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Description);
+            return triple.Predicate.GetPredicateType().Equals(PredicateType.Description);
         }
 
         public override string SelectTripleValue(Triple triple)

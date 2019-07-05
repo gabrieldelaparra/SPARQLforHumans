@@ -1,7 +1,7 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -27,7 +27,9 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class PropertiesFrequencyRelationMapper : BaseOneToOneRelationMapper<int, int>
     {
-        public PropertiesFrequencyRelationMapper(string inputTriplesFilename) : base(inputTriplesFilename) { }
+        public PropertiesFrequencyRelationMapper(string inputTriplesFilename) : base(inputTriplesFilename)
+        {
+        }
 
         public override string NotifyMessage { get; } = "Building <Property, Frequency> Dictionary";
 
@@ -39,17 +41,11 @@ namespace SparqlForHumans.Lucene.Relations
 
                 // Filter Properties Only
                 // TODO: Check if InstanceOf should also be added
-                if (!predicate.IsProperty())
-                {
-                    continue;
-                }
+                if (!predicate.IsProperty()) continue;
 
                 var predicateIntId = predicate.GetIntId();
 
-                if (!dictionary.ContainsKey(predicateIntId))
-                {
-                    dictionary.Add(predicateIntId, 0);
-                }
+                if (!dictionary.ContainsKey(predicateIntId)) dictionary.Add(predicateIntId, 0);
 
                 dictionary[predicateIntId]++;
             }

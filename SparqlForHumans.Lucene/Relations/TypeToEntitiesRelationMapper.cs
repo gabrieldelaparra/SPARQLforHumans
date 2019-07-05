@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using SparqlForHumans.Utilities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -29,8 +29,13 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class TypeToEntitiesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public TypeToEntitiesRelationMapper(string inputFileName) : base(inputFileName) { }
-        public TypeToEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup) { }
+        public TypeToEntitiesRelationMapper(string inputFileName) : base(inputFileName)
+        {
+        }
+
+        public TypeToEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
+        {
+        }
 
         public override string NotifyMessage { get; } = "Building <Type, Entities[]> Dictionary";
 
@@ -40,10 +45,7 @@ namespace SparqlForHumans.Lucene.Relations
                 .Where(x => x.Predicate.IsInstanceOf())
                 .Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var entityType in entityTypes)
-            {
-                dictionary.AddSafe(entityType, subjectGroup.IntId);
-            }
+            foreach (var entityType in entityTypes) dictionary.AddSafe(entityType, subjectGroup.IntId);
         }
     }
 }

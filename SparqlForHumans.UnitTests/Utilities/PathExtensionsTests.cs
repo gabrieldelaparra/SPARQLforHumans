@@ -1,5 +1,5 @@
-﻿using SparqlForHumans.Utilities;
-using System.IO;
+﻿using System.IO;
+using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Utilities

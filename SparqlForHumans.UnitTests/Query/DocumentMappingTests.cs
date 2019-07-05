@@ -34,11 +34,11 @@ namespace SparqlForHumans.UnitTests.Query
                 },
                 InstanceOf = new List<string>
                 {
-                    "Q100",
+                    "Q100"
                 },
                 SubClass = new List<string>
                 {
-                    "Q46",
+                    "Q46"
                 },
                 Properties = new List<Property>
                 {
@@ -125,12 +125,12 @@ namespace SparqlForHumans.UnitTests.Query
                 InstanceOf = new List<string>
                 {
                     "Q27",
-                    "Q145",
+                    "Q145"
                 },
                 SubClass = new List<string>
                 {
                     "Q46",
-                    "Q47",
+                    "Q47"
                 },
                 Properties = new List<Property>
                 {
@@ -156,14 +156,14 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 Id = "Q145",
                 Label = "Base1",
-                Description = "Base Type1",
+                Description = "Base Type1"
             };
 
             var expected3 = new Entity
             {
                 Id = "Q27",
                 Label = "Base2",
-                Description = "Base Type2",
+                Description = "Base Type2"
             };
 
             new EntitiesIndexer(filename, outputPath).Index();

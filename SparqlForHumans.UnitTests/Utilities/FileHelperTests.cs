@@ -58,10 +58,7 @@ namespace SparqlForHumans.UnitTests.Utilities
         {
             const string path = "TestGetOrCreate";
 
-            if (Directory.Exists(path))
-            {
-                Directory.Delete(path);
-            }
+            if (Directory.Exists(path)) Directory.Delete(path);
 
             Assert.False(Directory.Exists(path));
 
@@ -178,10 +175,7 @@ namespace SparqlForHumans.UnitTests.Utilities
         {
             const string outputFilename = "trimmedFile.nt";
 
-            if (File.Exists(outputFilename))
-            {
-                File.Delete(outputFilename);
-            }
+            if (File.Exists(outputFilename)) File.Delete(outputFilename);
 
             Assert.False(File.Exists(outputFilename));
 

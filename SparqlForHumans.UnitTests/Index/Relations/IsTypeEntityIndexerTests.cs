@@ -1,39 +1,17 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
 {
     public class IsTypeEntityIndexerTests
     {
-        [Fact]
-        public void TestGetField()
-        {
-            //Arrange
-            var lines = new List<string>
-            {
-                "<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q126> .",
-                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> ."
-            };
-            var subjectGroups = lines.GroupBySubject();
-            var subjectGroup = subjectGroups.FirstOrDefault();
-            var expected = new StringField(Labels.IsTypeEntity.ToString(), true.ToString(), Field.Store.YES);
-
-            //Act
-            var actual = new IsTypeIndexer(subjectGroups).GetField(subjectGroup);
-
-            //Assert
-            Assert.NotNull(actual);
-            Assert.Equal(expected.FieldType, actual[0].FieldType);
-            Assert.Equal(expected.Name, actual[0].Name);
-            Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
-        }
         [Fact]
         public static void TestGetEntityType()
         {
@@ -101,34 +79,26 @@ namespace SparqlForHumans.UnitTests.Index.Relations
         }
 
         [Fact]
-        public static void TestGetTypeEntity()
+        public void TestGetField()
         {
             //Arrange
             var lines = new List<string>
             {
-                @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
-                @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q30461> .",
-                @"<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> ."
+                "<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q126> .",
+                "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> ."
             };
-            var entityGroups = lines.GroupBySubject();
+            var subjectGroups = lines.GroupBySubject();
+            var subjectGroup = subjectGroups.FirstOrDefault();
+            var expected = new StringField(Labels.IsTypeEntity.ToString(), true.ToString(), Field.Store.YES);
 
-            // Act
-            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper(entityGroups).RelationIndex.ToArray();
+            //Act
+            var actual = new IsTypeIndexer(subjectGroups).GetField(subjectGroup);
 
-            // Assert
-            // Expected (2): 5
-            Assert.Equal(2, typeEntitiesDictionary.Length);
-
-            //Q5 -> Q76, Q77
-            Assert.Equal(5, typeEntitiesDictionary[0].Key);
-            Assert.Equal(2, typeEntitiesDictionary[0].Value.Length);
-            Assert.Equal(76, typeEntitiesDictionary[0].Value[0]);
-            Assert.Equal(77, typeEntitiesDictionary[0].Value[1]);
-
-            //Q30461 -> Q76
-            Assert.Equal(30461, typeEntitiesDictionary[1].Key);
-            Assert.Single(typeEntitiesDictionary[1].Value);
-            Assert.Equal(76, typeEntitiesDictionary[1].Value[0]);
+            //Assert
+            Assert.NotNull(actual);
+            Assert.Equal(expected.FieldType, actual[0].FieldType);
+            Assert.Equal(expected.Name, actual[0].Name);
+            Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
         }
 
         [Fact]
@@ -168,6 +138,35 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.Empty(typeEntitiesDictionary.Where(x => x.Key.Equals(76)));
         }
 
-    }
+        [Fact]
+        public static void TestGetTypeEntity()
+        {
+            //Arrange
+            var lines = new List<string>
+            {
+                @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
+                @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q30461> .",
+                @"<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> ."
+            };
+            var entityGroups = lines.GroupBySubject();
 
+            // Act
+            var typeEntitiesDictionary = new TypeToEntitiesRelationMapper(entityGroups).RelationIndex.ToArray();
+
+            // Assert
+            // Expected (2): 5
+            Assert.Equal(2, typeEntitiesDictionary.Length);
+
+            //Q5 -> Q76, Q77
+            Assert.Equal(5, typeEntitiesDictionary[0].Key);
+            Assert.Equal(2, typeEntitiesDictionary[0].Value.Length);
+            Assert.Equal(76, typeEntitiesDictionary[0].Value[0]);
+            Assert.Equal(77, typeEntitiesDictionary[0].Value[1]);
+
+            //Q30461 -> Q76
+            Assert.Equal(30461, typeEntitiesDictionary[1].Key);
+            Assert.Single(typeEntitiesDictionary[1].Value);
+            Assert.Equal(76, typeEntitiesDictionary[1].Value[0]);
+        }
+    }
 }

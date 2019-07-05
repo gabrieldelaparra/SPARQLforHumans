@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using SparqlForHumans.Utilities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -29,7 +29,9 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class TypeToPropertiesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public TypeToPropertiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups) { }
+        public TypeToPropertiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
+        {
+        }
 
         public override string NotifyMessage { get; } = "Building <Type, Properties[]> Dictionary";
 
@@ -44,10 +46,7 @@ namespace SparqlForHumans.Lucene.Relations
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var instanceOfId in instanceOfIds)
-            {
-                dictionary.AddSafe(instanceOfId, propertyIds);
-            }
+            foreach (var instanceOfId in instanceOfIds) dictionary.AddSafe(instanceOfId, propertyIds);
         }
     }
 }

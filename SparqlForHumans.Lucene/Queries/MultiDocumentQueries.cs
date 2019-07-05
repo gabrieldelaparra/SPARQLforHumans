@@ -1,4 +1,8 @@
-﻿using Lucene.Net.Documents;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
@@ -7,10 +11,6 @@ using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace SparqlForHumans.Lucene.Queries
 {
@@ -103,7 +103,8 @@ namespace SparqlForHumans.Lucene.Queries
             return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
         }
 
-        public static IEnumerable<Property> QueryPropertiesTopRankedResults(Directory luceneDirectory, bool isType = false)
+        public static IEnumerable<Property> QueryPropertiesTopRankedResults(Directory luceneDirectory,
+            bool isType = false)
         {
             return QueryDocumentsByLabel("*", luceneDirectory, isType)?.Select(x => x.MapProperty());
         }
@@ -126,18 +127,13 @@ namespace SparqlForHumans.Lucene.Queries
             var documents = new List<Document>();
 
             // NotEmpty Validation
-            if (searchIds == null)
-            {
-                return documents;
-            }
+            if (searchIds == null) return documents;
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {
                 var searcher = new IndexSearcher(luceneDirectoryReader);
                 foreach (var searchText in searchIds)
-                {
                     documents.Add(BaseParser.QueryDocumentByIdAndRank(searchText, searcher));
-                }
             }
 
             return documents;
@@ -146,26 +142,17 @@ namespace SparqlForHumans.Lucene.Queries
         public static IEnumerable<Document> QueryDocumentsByLabel(string searchText, Directory luceneDirectory,
             bool isType, int resultsLimit = 20)
         {
-            if (string.IsNullOrEmpty(searchText))
-            {
-                return new List<Document>();
-            }
+            if (string.IsNullOrEmpty(searchText)) return new List<Document>();
 
             var list = new List<Document>();
 
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 - *]", string.Empty)))
-            {
-                return list;
-            }
+            if (string.IsNullOrEmpty(Regex.Replace(searchText, @"[^a-zA-Z0-9 - *]", string.Empty))) return list;
 
             searchText = BaseParser.PrepareSearchTerm(searchText);
 
             Filter filter = null;
-            if (isType)
-            {
-                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), true.ToString()));
-            }
+            if (isType) filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), true.ToString()));
 
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {

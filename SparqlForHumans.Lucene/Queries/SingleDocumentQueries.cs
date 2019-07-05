@@ -13,7 +13,8 @@ namespace SparqlForHumans.Lucene.Queries
     {
         public static Entity QueryEntityById(string searchId)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
+            using (var luceneDirectory =
+                FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
             {
                 return QueryDocumentById(searchId, luceneDirectory)?.MapEntity();
             }
@@ -30,7 +31,8 @@ namespace SparqlForHumans.Lucene.Queries
 
         public static Entity QueryEntityByLabel(string searchText)
         {
-            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
+            using (var luceneDirectory =
+                FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
             {
                 return QueryDocumentByLabel(searchText, luceneDirectory)?.MapEntity();
             }
@@ -68,10 +70,7 @@ namespace SparqlForHumans.Lucene.Queries
         public static Document QueryDocumentById(string searchId, Directory luceneDirectory)
         {
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(searchId))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(searchId)) return null;
 
             var document = new Document();
 
@@ -87,24 +86,15 @@ namespace SparqlForHumans.Lucene.Queries
         public static Document QueryDocumentByLabel(string searchText, Directory luceneDirectory,
             bool isType = false)
         {
-            if (string.IsNullOrEmpty(searchText))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(searchText)) return null;
 
             searchText = BaseParser.PrepareSearchTerm(searchText);
 
             // NotEmpty Validation
-            if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", ""))) return null;
 
             Filter filter = null;
-            if (isType)
-            {
-                filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
-            }
+            if (isType) filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
 
             var document = new Document();
 

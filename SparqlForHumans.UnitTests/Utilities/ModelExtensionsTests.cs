@@ -1,6 +1,5 @@
 ﻿using SparqlForHumans.Models;
 using SparqlForHumans.Models.Extensions;
-using SparqlForHumans.Models.RDFQuery;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Utilities
@@ -10,7 +9,7 @@ namespace SparqlForHumans.UnitTests.Utilities
         [Fact]
         public void TestGetEntityUri()
         {
-            var entity = new RDFEntity
+            var entity = new Entity
             {
                 Id = "Q25"
             };
@@ -20,7 +19,7 @@ namespace SparqlForHumans.UnitTests.Utilities
         [Fact]
         public void TestGetPropertyUri()
         {
-            var property = new RDFProperty
+            var property = new Property
             {
                 Id = "P31"
             };

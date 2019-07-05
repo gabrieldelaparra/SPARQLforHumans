@@ -2,6 +2,7 @@
 using SparqlForHumans.Utilities;
 using System;
 using System.Linq;
+using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.CLI
 {
@@ -22,7 +23,7 @@ namespace SparqlForHumans.CLI
                 var triples = group.Select(x => x.AsTuple());
 
                 var labelTriple = triples.FirstOrDefault(x =>
-                    x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label));
+                    x.predicate.GetPredicateType().Equals(PredicateType.Label));
 
                 if (labelTriple.predicate != null)
                 {
@@ -45,7 +46,7 @@ namespace SparqlForHumans.CLI
                 }
 
                 var obamaTriple = triples.Where(x =>
-                    x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Property));
+                    x.predicate.GetPredicateType().Equals(PredicateType.Property));
 
                 if (obamaTriple.Any())
                 {

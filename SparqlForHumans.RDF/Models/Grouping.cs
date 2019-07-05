@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SparqlForHumans.Utilities
+namespace SparqlForHumans.RDF.Models
 {
     public class Grouping<TKey, TElement> : IGrouping<TKey, TElement>
     {

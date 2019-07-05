@@ -1,11 +1,11 @@
-﻿using Lucene.Net.Analysis.Core;
+﻿using System.Linq;
+using Lucene.Net.Analysis.Core;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Models.Wikidata;
-using System.Linq;
 
 namespace SparqlForHumans.Lucene.Queries
 {
@@ -81,10 +81,7 @@ namespace SparqlForHumans.Lucene.Queries
             //var hit = searcher.Search(query, filter, 1, sort).ScoreDocs;
             var hit = searcher.Search(query, filter, 1).ScoreDocs;
 
-            if (hit == null || hit.Length.Equals(0))
-            {
-                return null;
-            }
+            if (hit == null || hit.Length.Equals(0)) return null;
 
             return searcher.Doc(hit.FirstOrDefault().Doc);
         }

@@ -18,15 +18,17 @@ namespace SparqlForHumans.Lucene.Index.Fields
         {
             var values = TriplesToValue(tripleGroup);
             return values.Any()
-                ? new List<TextField> {
-                        new TextField(FieldName, string.Join(WikidataDump.PropertyValueSeparator, values), Field.Store.YES)
-                        {Boost = (float) Boost}}
+                ? new List<TextField>
+                {
+                    new TextField(FieldName, string.Join(WikidataDump.PropertyValueSeparator, values), Field.Store.YES)
+                        {Boost = (float) Boost}
+                }
                 : new List<TextField>();
         }
 
         public override bool FilterValidTriples(Triple triple)
         {
-            return triple.Predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label);
+            return triple.Predicate.GetPredicateType().Equals(PredicateType.Label);
         }
 
         public override string SelectTripleValue(Triple triple)

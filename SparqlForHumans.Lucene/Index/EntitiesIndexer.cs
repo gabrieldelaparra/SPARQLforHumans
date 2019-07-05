@@ -10,8 +10,6 @@ namespace SparqlForHumans.Lucene.Index
 {
     public class EntitiesIndexer : BaseIndexer
     {
-        public override string NotifyMessage => "Build Entities Index";
-
         public EntitiesIndexer(string inputFilename, string outputDirectory) : base(inputFilename, outputDirectory)
         {
             RelationMappers = new List<IFieldIndexer<IIndexableField>>
@@ -33,6 +31,8 @@ namespace SparqlForHumans.Lucene.Index
                 new EntityPropertiesIndexer()
             };
         }
+
+        public override string NotifyMessage => "Build Entities Index";
 
         public override bool FilterGroups(SubjectGroup tripleGroup)
         {

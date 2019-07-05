@@ -9,8 +9,6 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
 {
     public class TypeToPropertiesMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public override string NotifyMessage { get; } = "Building <Type, Properties[]> Dictionary";
-
         public TypeToPropertiesMapper(string inputFilename) : base(inputFilename)
         {
         }
@@ -18,6 +16,8 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
         public TypeToPropertiesMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
         {
         }
+
+        public override string NotifyMessage { get; } = "Building <Type, Properties[]> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
@@ -30,12 +30,7 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var instanceOfId in instanceOfIds)
-            {
-                dictionary.AddSafe(instanceOfId, propertyIds);
-            }
+            foreach (var instanceOfId in instanceOfIds) dictionary.AddSafe(instanceOfId, propertyIds);
         }
-
-
     }
 }

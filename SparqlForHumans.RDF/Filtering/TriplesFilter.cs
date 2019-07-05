@@ -1,8 +1,9 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using System;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 using static SparqlForHumans.Utilities.FileHelper;
 
@@ -34,22 +35,14 @@ namespace SparqlForHumans.RDF.Filtering
         public static void Filter(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
             if (string.IsNullOrWhiteSpace(outputTriplesFilename))
-            {
                 outputTriplesFilename = GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
-            }
 
             Options.InternUris = false;
 
-            if (!new FileInfo(inputTriplesFilename).Exists)
-            {
-                return;
-            }
+            if (!new FileInfo(inputTriplesFilename).Exists) return;
 
             var outputFileInfo = new FileInfo(outputTriplesFilename);
-            if (outputFileInfo.Directory != null && !outputFileInfo.Directory.Exists)
-            {
-                outputFileInfo.Directory.Create();
-            }
+            if (outputFileInfo.Directory != null && !outputFileInfo.Directory.Exists) outputFileInfo.Directory.Create();
 
             const int notifyTicks = 100000;
             long readCount = 0;
@@ -65,19 +58,13 @@ namespace SparqlForHumans.RDF.Filtering
                 {
                     readCount++;
 
-                    if (readCount % notifyTicks == 0)
-                    {
-                        Logger.Info($"{readCount:N0};{writeCount:N0}");
-                    }
+                    if (readCount % notifyTicks == 0) Logger.Info($"{readCount:N0};{writeCount:N0}");
 
                     try
                     {
                         var triple = line.ToTriple();
 
-                        if (!IsValidTriple(triple, triplesLimit))
-                        {
-                            continue;
-                        }
+                        if (!IsValidTriple(triple, triplesLimit)) continue;
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
                         gZipStream.Write(data, 0, data.Length);
@@ -101,51 +88,31 @@ namespace SparqlForHumans.RDF.Filtering
             var ntObject = triple.Object;
 
             //Subject is not URI
-            if (!ntSubject.IsUriNode())
-            {
-                return false;
-            }
+            if (!ntSubject.IsUriNode()) return false;
 
             //Condition: Subject is not (Entity || Property): Skip
-            if (!ntSubject.IsEntity())
-            {
-                return false;
-            }
+            if (!ntSubject.IsEntity()) return false;
 
             //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
             //Condition: Object is Q-Entity and Q > triplesLimit: Skip
-            if (entityLimit > 0 && ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
-            {
-                return false;
-            }
+            if (entityLimit > 0 && ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit) return false;
 
-            if (entityLimit > 0 && ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
-            {
-                return false;
-            }
+            if (entityLimit > 0 && ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit) return false;
 
-            if (ntSubject.IsEntityP() && ntPredicate.IsProperty())
-            {
-                return false;
-            }
+            if (ntSubject.IsEntityP() && ntPredicate.IsProperty()) return false;
 
             switch (ntPredicate.GetPredicateType())
             {
-                case RDFExtensions.PredicateType.Other:
+                case PredicateType.Other:
                     return false;
 
-                case RDFExtensions.PredicateType.Label:
-                case RDFExtensions.PredicateType.Description:
-                case RDFExtensions.PredicateType.AltLabel:
+                case PredicateType.Label:
+                case PredicateType.Description:
+                case PredicateType.AltLabel:
                     if (!ntObject.IsLiteral())
-                    {
                         return false;
-                    }
                     //Condition: Object is Literal: Filter [@en, ...] only
-                    else if (!ntObject.IsValidLanguageLiteral())
-                    {
-                        return false;
-                    }
+                    else if (!ntObject.IsValidLanguageLiteral()) return false;
 
                     break;
             }
@@ -154,10 +121,7 @@ namespace SparqlForHumans.RDF.Filtering
             //And Object is literal (not an URI node) (e.g. 100 or 1998)
             //This rule filters out Population, birthdate, and stuff
             //TODO: This will be removed in the future to add search values.
-            if (ntPredicate.IsProperty() && !ntObject.IsEntity())
-            {
-                return false;
-            }
+            if (ntPredicate.IsProperty() && !ntObject.IsEntity()) return false;
 
             return true;
         }

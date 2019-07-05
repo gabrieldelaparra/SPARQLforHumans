@@ -1,4 +1,5 @@
 ﻿using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 using Xunit;
@@ -46,58 +47,58 @@ namespace SparqlForHumans.UnitTests
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> \"Ireland\"@en .";
             var triple = line.ToTriple();
             var predicate = triple.Predicate.GetPredicateType();
-            Assert.Equal(RDFExtensions.PredicateType.Label, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+            Assert.Equal(PredicateType.Label, predicate);
+            Assert.NotEqual(PredicateType.AltLabel, predicate);
+            Assert.NotEqual(PredicateType.Description, predicate);
+            Assert.NotEqual(PredicateType.Other, predicate);
+            Assert.NotEqual(PredicateType.Property, predicate);
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#altLabel> \"Ireland\"@en .";
             triple = line.ToTriple();
             predicate = triple.Predicate.GetPredicateType();
-            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
-            Assert.Equal(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+            Assert.NotEqual(PredicateType.Label, predicate);
+            Assert.Equal(PredicateType.AltLabel, predicate);
+            Assert.NotEqual(PredicateType.Description, predicate);
+            Assert.NotEqual(PredicateType.Other, predicate);
+            Assert.NotEqual(PredicateType.Property, predicate);
 
             line = "<http://www.wikidata.org/entity/Q27> <http://schema.org/description> \"Ireland\"@en .";
             triple = line.ToTriple();
             predicate = triple.Predicate.GetPredicateType();
-            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.Equal(RDFExtensions.PredicateType.Description, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+            Assert.NotEqual(PredicateType.Label, predicate);
+            Assert.NotEqual(PredicateType.AltLabel, predicate);
+            Assert.Equal(PredicateType.Description, predicate);
+            Assert.NotEqual(PredicateType.Other, predicate);
+            Assert.NotEqual(PredicateType.Property, predicate);
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2004/02/skos/core#prefLabel> \"Ireland\"@en .";
             triple = line.ToTriple();
             predicate = triple.Predicate.GetPredicateType();
-            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
-            Assert.Equal(RDFExtensions.PredicateType.Other, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+            Assert.NotEqual(PredicateType.Label, predicate);
+            Assert.NotEqual(PredicateType.AltLabel, predicate);
+            Assert.NotEqual(PredicateType.Description, predicate);
+            Assert.Equal(PredicateType.Other, predicate);
+            Assert.NotEqual(PredicateType.Property, predicate);
 
             line = "<http://www.wikidata.org/entity/Q27> <http://schema.org/name> \"Ireland\"@en .";
             triple = line.ToTriple();
             predicate = triple.Predicate.GetPredicateType();
-            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
-            Assert.Equal(RDFExtensions.PredicateType.Other, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Property, predicate);
+            Assert.NotEqual(PredicateType.Label, predicate);
+            Assert.NotEqual(PredicateType.AltLabel, predicate);
+            Assert.NotEqual(PredicateType.Description, predicate);
+            Assert.Equal(PredicateType.Other, predicate);
+            Assert.NotEqual(PredicateType.Property, predicate);
 
             line = "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P1559> \"Ireland\"@en .";
             triple = line.ToTriple();
             predicate = triple.Predicate.GetPredicateType();
-            Assert.NotEqual(RDFExtensions.PredicateType.Label, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.AltLabel, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Description, predicate);
-            Assert.NotEqual(RDFExtensions.PredicateType.Other, predicate);
-            Assert.Equal(RDFExtensions.PredicateType.Property, predicate);
+            Assert.NotEqual(PredicateType.Label, predicate);
+            Assert.NotEqual(PredicateType.AltLabel, predicate);
+            Assert.NotEqual(PredicateType.Description, predicate);
+            Assert.NotEqual(PredicateType.Other, predicate);
+            Assert.Equal(PredicateType.Property, predicate);
         }
 
         [Fact]
@@ -207,22 +208,6 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
-        public void TestIsSubClass()
-        {
-            var line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
-            var triple = line.ToTriple();
-
-            Assert.False(triple.Predicate.IsSubClass());
-
-            line =
-                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q26> .";
-            triple = line.ToTriple();
-
-            Assert.True(triple.Predicate.IsSubClass());
-        }
-
-        [Fact]
         public void TestIsLiteral()
         {
             var line =
@@ -255,6 +240,22 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestIsSubClass()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.ToTriple();
+
+            Assert.False(triple.Predicate.IsSubClass());
+
+            line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q26> .";
+            triple = line.ToTriple();
+
+            Assert.True(triple.Predicate.IsSubClass());
+        }
+
+        [Fact]
         public void TestIsUriNode()
         {
             var line =
@@ -269,7 +270,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsValidLanguage()
         {
-            string[] validLanguages = { "en", "es" };
+            string[] validLanguages = {"en", "es"};
             Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
             Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
             Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));
@@ -310,24 +311,24 @@ namespace SparqlForHumans.UnitTests
 
             Assert.True(ntPredicate.IsProperty());
 
-            Assert.Equal(RDFExtensions.PropertyType.Other,
-                RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+            Assert.Equal(PropertyType.Other,
+                RDFExtensions.GetPropertyType(ntPredicate));
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.Other,
-                RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+            Assert.Equal(PropertyType.Other,
+                RDFExtensions.GetPropertyType(ntPredicate));
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+            Assert.Equal(PropertyType.InstanceOf, RDFExtensions.GetPropertyType(ntPredicate));
 
             line =
                 "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/Other/Q32> <http://www.wikidata.org/other/P26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
-            Assert.Equal(RDFExtensions.PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate, ntObject));
+            Assert.Equal(PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate));
         }
     }
 }
