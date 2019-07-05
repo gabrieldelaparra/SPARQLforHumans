@@ -1,13 +1,13 @@
-﻿using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Indexing.Indexer;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Query
 {
     public class DocumentMappingTests
     {

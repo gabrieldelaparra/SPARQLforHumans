@@ -1,13 +1,12 @@
-﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Indexing.Base;
-using SparqlForHumans.Lucene.Relations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations
+namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
 {
     public class PropertyDomainIndexer : PropertyToSubjectTypesRelationMapper, IFieldIndexer<StringField>
     {

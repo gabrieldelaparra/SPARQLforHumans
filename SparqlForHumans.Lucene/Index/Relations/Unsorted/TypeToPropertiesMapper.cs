@@ -1,11 +1,11 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
+namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
 {
     public class TypeToPropertiesMapper : BaseOneToManyRelationMapper<int, int>
     {

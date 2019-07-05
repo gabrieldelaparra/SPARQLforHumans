@@ -1,11 +1,11 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace SparqlForHumans.Lucene.Relations
+namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
 {
     /// <summary>
     ///     Given the following data:

@@ -1,4 +1,4 @@
-﻿using SparqlForHumans.Lucene.Indexing;
+﻿using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using System;

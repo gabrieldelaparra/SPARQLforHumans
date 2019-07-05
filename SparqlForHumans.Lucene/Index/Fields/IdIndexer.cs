@@ -1,10 +1,10 @@
-﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Indexing.Base;
+﻿using System.Collections.Generic;
+using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
 
-namespace SparqlForHumans.Lucene.Indexing.Fields
+namespace SparqlForHumans.Lucene.Index.Fields
 {
     public class IdIndexer : IFieldIndexer<StringField>
     {

@@ -1,11 +1,11 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using System;
+using System.Collections.Generic;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System;
-using System.Collections.Generic;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
+namespace SparqlForHumans.Lucene.Index.Relations
 {
     ///// <summary>
     /////     Este test crea un indice y agrega el Range (Destino) de las propiedades.

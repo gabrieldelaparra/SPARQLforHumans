@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.Lucene.Relations;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+using SparqlForHumans.Lucene.Relations;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Index.Relations
 {
     public class PropertyFrequencyTests
     {

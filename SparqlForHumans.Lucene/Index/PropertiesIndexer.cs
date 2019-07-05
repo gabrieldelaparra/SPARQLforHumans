@@ -1,12 +1,13 @@
-﻿using Lucene.Net.Index;
-using SparqlForHumans.Lucene.Indexing.Base;
-using SparqlForHumans.Lucene.Indexing.Fields;
-using SparqlForHumans.Lucene.Indexing.Relations;
+﻿using System.Collections.Generic;
+using Lucene.Net.Index;
+using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.Lucene.Index.Fields;
+using SparqlForHumans.Lucene.Index.Relations;
+using SparqlForHumans.Lucene.Index.Relations.Unsorted;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
 
-namespace SparqlForHumans.Lucene.Indexing.Indexer
+namespace SparqlForHumans.Lucene.Index
 {
     public class PropertiesIndexer : BaseIndexer
     {

@@ -1,9 +1,9 @@
 ﻿using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
 using System;
+using SparqlForHumans.Lucene.Index;
 using VDS.RDF;
 
 namespace SparqlForHumans.CLI

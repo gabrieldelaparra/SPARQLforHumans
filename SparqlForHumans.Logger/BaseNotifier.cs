@@ -1,4 +1,4 @@
-﻿namespace SparqlForHumans.Lucene.Indexing
+﻿namespace SparqlForHumans.Logger
 {
     public abstract class BaseNotifier
     {

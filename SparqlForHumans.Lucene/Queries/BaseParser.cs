@@ -3,7 +3,6 @@ using Lucene.Net.Analysis.Standard;
 using Lucene.Net.Documents;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
-using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Models.Wikidata;
 using System.Linq;

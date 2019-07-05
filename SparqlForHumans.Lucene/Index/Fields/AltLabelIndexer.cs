@@ -1,5 +1,5 @@
 ﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Indexing.Base;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VDS.RDF;
 
-namespace SparqlForHumans.Lucene.Indexing.Fields
+namespace SparqlForHumans.Lucene.Index.Fields
 {
     public class AltLabelIndexer : BaseFieldIndexer<TextField>
     {

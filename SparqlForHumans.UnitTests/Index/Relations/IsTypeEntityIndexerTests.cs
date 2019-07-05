@@ -1,5 +1,5 @@
 ﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Indexing.Relations;
+using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;

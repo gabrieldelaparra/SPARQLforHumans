@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VDS.RDF;
 
-namespace SparqlForHumans.Lucene.Indexing.Base
+namespace SparqlForHumans.Lucene.Index.Base
 {
     public abstract class BaseFieldIndexer<TField> : IFieldIndexer<TField>
         where TField : IIndexableField

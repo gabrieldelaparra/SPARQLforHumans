@@ -5,7 +5,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Util;
 using VDS.RDF;
 
-namespace SparqlForHumans.Lucene.Indexing
+namespace SparqlForHumans.Lucene
 {
     public static class LuceneIndexDefaults
     {

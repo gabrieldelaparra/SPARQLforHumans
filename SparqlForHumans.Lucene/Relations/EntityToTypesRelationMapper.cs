@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
-using SparqlForHumans.RDF.Extensions;
+﻿using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Index.Base;
 
 namespace SparqlForHumans.Lucene.Relations
 {

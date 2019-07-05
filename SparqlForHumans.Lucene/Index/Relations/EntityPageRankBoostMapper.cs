@@ -1,8 +1,8 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
-using SparqlForHumans.RDF.Models;
+﻿using SparqlForHumans.RDF.Models;
 using System.Collections.Generic;
+using SparqlForHumans.Lucene.Index.Base;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
+namespace SparqlForHumans.Lucene.Index.Relations
 {
     public class EntityPageRankBoostMapper : BaseOneToOneRelationMapper<int, double>
     {

@@ -1,10 +1,11 @@
-﻿using SparqlForHumans.RDF.Extensions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.Logger;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
+namespace SparqlForHumans.Lucene.Index.Base
 {
     public abstract class BaseOneToManyRelationMapper<TKey, TValue> : BaseNotifier,
         IRelationMapper<Dictionary<TKey, TValue[]>>

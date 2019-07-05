@@ -1,15 +1,15 @@
 ﻿using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Logger;
 
-namespace SparqlForHumans.Lucene.Indexing.Indexer
+namespace SparqlForHumans.Lucene.Index.Base
 {
     public abstract class BaseIndexer : BaseNotifier, IIndexer
     {

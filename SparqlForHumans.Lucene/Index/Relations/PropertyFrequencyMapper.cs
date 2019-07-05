@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using System.Collections.Generic;
+using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
+namespace SparqlForHumans.Lucene.Index.Relations
 {
     public class PropertyFrequencyMapper : BaseOneToOneRelationMapper<int, int>
     {

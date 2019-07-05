@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VDS.RDF;
 
-namespace SparqlForHumans.Lucene.Indexing
+namespace SparqlForHumans.Lucene.Index.Relations
 {
     public static class EntityPageRank
     {

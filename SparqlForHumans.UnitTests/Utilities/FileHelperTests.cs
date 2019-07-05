@@ -1,10 +1,10 @@
-﻿using SparqlForHumans.Utilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using SparqlForHumans.Utilities;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Utilities
 {
     public class FileHelperTests
     {

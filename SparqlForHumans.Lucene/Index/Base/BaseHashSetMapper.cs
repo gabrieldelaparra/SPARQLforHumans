@@ -3,8 +3,9 @@ using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Logger;
 
-namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
+namespace SparqlForHumans.Lucene.Index.Base
 {
     public abstract class BaseHashSetMapper<TValue> : BaseNotifier, IRelationMapper<HashSet<TValue>>
     {

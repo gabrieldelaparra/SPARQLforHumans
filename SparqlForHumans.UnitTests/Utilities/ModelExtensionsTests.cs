@@ -3,7 +3,7 @@ using SparqlForHumans.Models.Extensions;
 using SparqlForHumans.Models.RDFQuery;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Utilities
 {
     public class ModelsExtensionsTests
     {
