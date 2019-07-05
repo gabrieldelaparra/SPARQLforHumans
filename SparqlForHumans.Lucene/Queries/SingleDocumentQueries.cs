@@ -69,7 +69,9 @@ namespace SparqlForHumans.Lucene.Queries
         {
             // NotEmpty Validation
             if (string.IsNullOrEmpty(searchId))
+            {
                 return null;
+            }
 
             var document = new Document();
 
@@ -86,17 +88,23 @@ namespace SparqlForHumans.Lucene.Queries
             bool isType = false)
         {
             if (string.IsNullOrEmpty(searchText))
+            {
                 return null;
+            }
 
             searchText = BaseParser.PrepareSearchTerm(searchText);
 
             // NotEmpty Validation
             if (string.IsNullOrEmpty(searchText.Replace("*", "").Replace("?", "")))
+            {
                 return null;
+            }
 
             Filter filter = null;
             if (isType)
+            {
                 filter = new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), "true"));
+            }
 
             var document = new Document();
 

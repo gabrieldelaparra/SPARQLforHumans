@@ -1,14 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Index;
-using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Indexing;
+﻿using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
-using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests

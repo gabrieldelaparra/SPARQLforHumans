@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ConsoleKit;
+﻿using ConsoleKit;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.RDFQuery;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.CLI
 {
@@ -140,11 +140,16 @@ namespace SparqlForHumans.CLI
             var query = string.Empty;
 
             while (string.IsNullOrWhiteSpace(query))
+            {
                 query = Console.ReadLine();
+            }
 
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query, true);
 
-            if (results == null || results.Count().Equals(0)) DisplayInterstitial("No results found!");
+            if (results == null || results.Count().Equals(0))
+            {
+                DisplayInterstitial("No results found!");
+            }
 
             var entityMenu = new Menu
             {
@@ -167,10 +172,15 @@ namespace SparqlForHumans.CLI
             var query = string.Empty;
 
             while (string.IsNullOrWhiteSpace(query))
+            {
                 query = Console.ReadLine();
+            }
 
             var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
-            if (results == null || results.Count().Equals(0)) DisplayInterstitial("No results found!");
+            if (results == null || results.Count().Equals(0))
+            {
+                DisplayInterstitial("No results found!");
+            }
 
             var entityMenu = new Menu
             {

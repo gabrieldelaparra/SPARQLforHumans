@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Index;
-using SparqlForHumans.Models.Wikidata;
+﻿using Lucene.Net.Index;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
+using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing.Base

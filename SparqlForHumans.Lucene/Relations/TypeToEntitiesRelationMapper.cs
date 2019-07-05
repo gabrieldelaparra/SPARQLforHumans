@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Relations;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -30,10 +29,10 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class TypeToEntitiesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public TypeToEntitiesRelationMapper(string inputFileName) : base(inputFileName){}
-        public TypeToEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup){}
+        public TypeToEntitiesRelationMapper(string inputFileName) : base(inputFileName) { }
+        public TypeToEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup) { }
 
-        public override string NotifyMessage { get;  } = "Building <Type, Entities[]> Dictionary";
+        public override string NotifyMessage { get; } = "Building <Type, Entities[]> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
@@ -42,7 +41,9 @@ namespace SparqlForHumans.Lucene.Relations
                 .Select(x => x.Object.GetIntId()).ToArray();
 
             foreach (var entityType in entityTypes)
+            {
                 dictionary.AddSafe(entityType, subjectGroup.IntId);
+            }
         }
     }
 }

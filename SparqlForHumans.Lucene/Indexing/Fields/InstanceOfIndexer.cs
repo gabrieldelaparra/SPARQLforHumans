@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
+using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing.Fields
@@ -29,7 +29,7 @@ namespace SparqlForHumans.Lucene.Indexing.Fields
         {
             var values = TriplesToValue(tripleGroup);
             return values.Any()
-                ? values.Select(x=>new StringField(FieldName, x, Field.Store.YES)).ToList()
+                ? values.Select(x => new StringField(FieldName, x, Field.Store.YES)).ToList()
                 : new List<StringField>();
         }
     }

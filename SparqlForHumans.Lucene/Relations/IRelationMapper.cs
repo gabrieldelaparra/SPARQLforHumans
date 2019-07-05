@@ -1,6 +1,6 @@
 ﻿namespace SparqlForHumans.Lucene.Relations
 {
-    interface IRelationMapper<T1,T2>
+    interface IRelationMapper<T1, T2>
     {
     }
 }

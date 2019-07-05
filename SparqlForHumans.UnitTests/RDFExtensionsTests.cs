@@ -269,7 +269,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestIsValidLanguage()
         {
-            string[] validLanguages = {"en", "es"};
+            string[] validLanguages = { "en", "es" };
             Assert.True(RDFExtensions.IsValidLanguage("en", validLanguages));
             Assert.True(RDFExtensions.IsValidLanguage("es", validLanguages));
             Assert.False(RDFExtensions.IsValidLanguage("de", validLanguages));

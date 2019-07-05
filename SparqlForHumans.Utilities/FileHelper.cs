@@ -1,9 +1,9 @@
-﻿using System;
+﻿using HeyRed.Mime;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using HeyRed.Mime;
 
 namespace SparqlForHumans.Utilities
 {
@@ -30,7 +30,10 @@ namespace SparqlForHumans.Utilities
             var filename = Path.GetFileNameWithoutExtension(inputFilename);
             var split = filename.Split('.');
             if (split.Length > 1)
+            {
                 filename = split[0];
+            }
+
             return filename;
         }
 
@@ -39,7 +42,9 @@ namespace SparqlForHumans.Utilities
             var directoryInfo = new DirectoryInfo(path);
 
             if (!directoryInfo.Exists)
+            {
                 directoryInfo.Create();
+            }
 
             return directoryInfo;
         }
@@ -62,7 +67,9 @@ namespace SparqlForHumans.Utilities
             {
                 lineCount++;
                 if (lineCount % notifyTicks == 0)
+                {
                     Logger.Trace($"{stopwatch.ElapsedMilliseconds},{lineCount}");
+                }
             }
 
             Logger.Trace($"{stopwatch.ElapsedMilliseconds},{lineCount}");
@@ -95,14 +102,18 @@ namespace SparqlForHumans.Utilities
             using (var streamReader = new StreamReader(new FileStream(filename, FileMode.Open)))
             {
                 while (!streamReader.EndOfStream)
+                {
                     yield return streamReader.ReadLine();
+                }
             }
         }
 
         public static FileType GetFilenameType(string filePath)
         {
             if (!File.Exists(filePath))
+            {
                 throw new ArgumentException("Filename does not exists");
+            }
 
             return GetFileType(filePath);
         }
@@ -126,9 +137,11 @@ namespace SparqlForHumans.Utilities
         public static string GetReducedLimitName(int limit)
         {
             if (limit < 0)
+            {
                 return "All";
+            }
 
-            string[] sizes = {"", "K", "M"};
+            string[] sizes = { "", "K", "M" };
             var order = 0;
             const int splitter = 1000;
             while (limit >= splitter && order < sizes.Length - 1)

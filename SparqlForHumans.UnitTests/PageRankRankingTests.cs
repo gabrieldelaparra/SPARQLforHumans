@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-using SparqlForHumans.Lucene.Indexing;
+﻿using SparqlForHumans.Lucene.Indexing;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests
 
             var idRankDictionary = EntityPageRank.BuildPageRank(filename);
 
-            Assert.Equal(1, Math.Round(idRankDictionary.Select(x=>x.Value).Sum()), 10);
+            Assert.Equal(1, Math.Round(idRankDictionary.Select(x => x.Value).Sum()), 10);
 
             Assert.Equal(0.138, idRankDictionary[1].ToThreeDecimals());
             Assert.Equal(0.087, idRankDictionary[2].ToThreeDecimals());
@@ -34,7 +34,7 @@ namespace SparqlForHumans.UnitTests
 
             var idRankDictionary = EntityPageRank.BuildPageRank(filename);
 
-            Assert.Equal(1, Math.Round(idRankDictionary.Select(x=>x.Value).Sum()), 10);
+            Assert.Equal(1, Math.Round(idRankDictionary.Select(x => x.Value).Sum()), 10);
 
             Assert.Equal(0.138, idRankDictionary[332].ToThreeDecimals());
             Assert.Equal(0.087, idRankDictionary[8424].ToThreeDecimals());

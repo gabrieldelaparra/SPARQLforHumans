@@ -1,12 +1,12 @@
-﻿using System.Linq;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
-using SparqlForHumans.Utilities;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
+using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -43,7 +43,7 @@ namespace SparqlForHumans.UnitTests.Index
                 Assert.False(result.IsType);
                 Assert.Contains("Q515", result.InstanceOf);
                 Assert.Contains("Q5119", result.InstanceOf);
-                Assert.Contains("Q999",result.SubClass);
+                Assert.Contains("Q999", result.SubClass);
             }
 
             outputPath.DeleteIfExists();
@@ -65,7 +65,7 @@ namespace SparqlForHumans.UnitTests.Index
             {
                 var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
                 Assert.NotEmpty(typesQuery);
-                Assert.Contains(typesQuery, x =>x.Id.Equals("Q5"));
+                Assert.Contains(typesQuery, x => x.Id.Equals("Q5"));
             }
             outputPath.DeleteIfExists();
         }

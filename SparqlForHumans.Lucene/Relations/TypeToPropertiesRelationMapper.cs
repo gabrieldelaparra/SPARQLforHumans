@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Relations;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -32,7 +31,7 @@ namespace SparqlForHumans.Lucene.Relations
     {
         public TypeToPropertiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups) { }
 
-        public override string NotifyMessage { get;  } = "Building <Type, Properties[]> Dictionary";
+        public override string NotifyMessage { get; } = "Building <Type, Properties[]> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
@@ -46,7 +45,9 @@ namespace SparqlForHumans.Lucene.Relations
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
             foreach (var instanceOfId in instanceOfIds)
+            {
                 dictionary.AddSafe(instanceOfId, propertyIds);
+            }
         }
     }
 }

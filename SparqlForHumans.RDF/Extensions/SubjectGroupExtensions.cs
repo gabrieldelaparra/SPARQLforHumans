@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Models.RDFIndex;
+﻿using SparqlForHumans.Models.RDFIndex;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
+using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.RDF.Extensions
@@ -56,7 +55,9 @@ namespace SparqlForHumans.RDF.Extensions
             };
 
             foreach (var triple in subjectGroup)
+            {
                 entity.ParseSubjectGroupTriple(triple);
+            }
 
             return entity;
         }

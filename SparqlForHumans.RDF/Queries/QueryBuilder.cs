@@ -1,5 +1,5 @@
-﻿using System;
-using SparqlForHumans.Models.RDFQuery;
+﻿using SparqlForHumans.Models.RDFQuery;
+using System;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
 

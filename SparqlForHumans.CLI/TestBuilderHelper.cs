@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using SparqlForHumans.RDF.Extensions;
+﻿using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System;
+using System.Linq;
 
 namespace SparqlForHumans.CLI
 {
@@ -25,29 +25,48 @@ namespace SparqlForHumans.CLI
                     x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Label));
 
                 if (labelTriple.predicate != null)
+                {
                     if (labelTriple.ntObject.IsLiteral())
+                    {
                         if (labelTriple.ntObject.ToString().ToUpper().Contains("OBAMA"))
+                        {
                             if (!countObama.Equals(limit))
                             {
-                                foreach (var line in group) Console.WriteLine(line);
+                                foreach (var line in group)
+                                {
+                                    Console.WriteLine(line);
+                                }
+
                                 countObama++;
                                 continue;
                             }
+                        }
+                    }
+                }
 
                 var obamaTriple = triples.Where(x =>
                     x.predicate.GetPredicateType().Equals(RDFExtensions.PredicateType.Property));
 
                 if (obamaTriple.Any())
+                {
                     if (obamaTriple.Any(x => x.ntObject.IsEntityQ() && x.ntObject.GetId().Equals("Q76")))
+                    {
                         if (!countPropObama.Equals(limit))
                         {
-                            foreach (var line in group) Console.WriteLine(line);
+                            foreach (var line in group)
+                            {
+                                Console.WriteLine(line);
+                            }
 
                             countPropObama++;
                         }
+                    }
+                }
 
                 if (countObama.Equals(limit) && countPropObama.Equals(limit))
+                {
                     return;
+                }
             }
 
 

@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using SparqlForHumans.Models.Wikidata;
+﻿using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.Utilities;
+using System.Linq;
 using VDS.RDF;
 using VDS.RDF.Parsing;
 
@@ -26,14 +26,19 @@ namespace SparqlForHumans.RDF.Extensions
             Other
         }
 
-        public static string[] ValidLanguages { get; } = {"en"};
+        public static string[] ValidLanguages { get; } = { "en" };
 
         public static PropertyType GetPropertyType(INode ntPredicate, INode ntObject)
         {
             if (ntPredicate.IsInstanceOf())
+            {
                 return PropertyType.InstanceOf;
+            }
+
             if (ntPredicate.IsSubClass())
+            {
                 return PropertyType.SubClass;
+            }
             //if (ntObject.IsEntity())
             //    return PropertyType.EntityDirected;
             //if (ntObject.IsLiteral())
@@ -81,17 +86,17 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static bool IsValidLanguageLiteral(this INode node)
         {
-            return node.IsLiteral() && IsValidLanguage(((LiteralNode) node).Language);
+            return node.IsLiteral() && IsValidLanguage(((LiteralNode)node).Language);
         }
 
         public static string GetLiteralValue(this INode node)
         {
-            return node.IsLiteral() ? ((LiteralNode) node).Value : string.Empty;
+            return node.IsLiteral() ? ((LiteralNode)node).Value : string.Empty;
         }
 
         public static string GetUri(this INode node)
         {
-            return node.IsUriNode() ? ((UriNode) node).Uri.ToString() : string.Empty;
+            return node.IsUriNode() ? ((UriNode)node).Uri.ToString() : string.Empty;
         }
 
         public static bool IsEntity(this INode node)
@@ -117,13 +122,24 @@ namespace SparqlForHumans.RDF.Extensions
         public static PredicateType GetPredicateType(this INode node)
         {
             if (node.IsLabel())
+            {
                 return PredicateType.Label;
+            }
+
             if (node.IsDescription())
+            {
                 return PredicateType.Description;
+            }
+
             if (node.IsAltLabel())
+            {
                 return PredicateType.AltLabel;
+            }
+
             if (node.IsProperty())
+            {
                 return PredicateType.Property;
+            }
 
             return PredicateType.Other;
         }
@@ -160,7 +176,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static string GetId(this INode node)
         {
-            return ((UriNode) node).Uri.Segments.Last();
+            return ((UriNode)node).Uri.Segments.Last();
         }
     }
 }

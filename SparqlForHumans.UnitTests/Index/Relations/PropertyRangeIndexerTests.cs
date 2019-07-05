@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
@@ -52,7 +51,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             //Arrange
             const string filename = "Resources/PropertyRange.nt";
             var subjectGroups = FileHelper.GetInputLines(filename).GroupBySubject();
-            var subjectGroup = subjectGroups.FirstOrDefault(x=>x.Id.Equals("P38"));
+            var subjectGroup = subjectGroups.FirstOrDefault(x => x.Id.Equals("P38"));
             var expected = new StringField(Labels.Range.ToString(), "1643989", Field.Store.YES);
 
             //Act

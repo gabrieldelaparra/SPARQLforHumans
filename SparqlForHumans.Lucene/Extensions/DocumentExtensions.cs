@@ -1,7 +1,7 @@
-﻿using System;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Models.Wikidata;
+using System;
 
 namespace SparqlForHumans.Lucene.Extensions
 {
@@ -24,9 +24,11 @@ namespace SparqlForHumans.Lucene.Extensions
             if (toSplit.Length.Equals(1))
             {
                 var singleJoin = string.Join("", toSplit);
-                var split = singleJoin.Split(new[] {WikidataDump.PropertyValueSeparator}, StringSplitOptions.RemoveEmptyEntries);
+                var split = singleJoin.Split(new[] { WikidataDump.PropertyValueSeparator }, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1)
+                {
                     toSplit = split;
+                }
             }
 
             return toSplit;

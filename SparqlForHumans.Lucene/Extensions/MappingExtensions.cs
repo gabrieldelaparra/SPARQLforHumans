@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Extensions
 {
@@ -146,7 +146,9 @@ namespace SparqlForHumans.Lucene.Extensions
         private static IEnumerable<Property> ParseProperties(this Document doc)
         {
             foreach (var item in doc.GetValues(Labels.Property))
+            {
                 yield return ParseProperty(item);
+            }
         }
     }
 }

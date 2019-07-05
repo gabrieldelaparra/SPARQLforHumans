@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Relations;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -32,9 +31,9 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class PropertyToObjectEntitiesRelationMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public PropertyToObjectEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups){}
+        public PropertyToObjectEntitiesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups) { }
 
-        public override string NotifyMessage { get;} = "Building <Property, Entities[]> Dictionary";
+        public override string NotifyMessage { get; } = "Building <Property, Entities[]> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
@@ -45,7 +44,9 @@ namespace SparqlForHumans.Lucene.Relations
                 .Select(x => new { PropertyId = x.Predicate.GetIntId(), ObjectId = x.Object.GetIntId() });
 
             foreach (var validProperty in validProperties)
+            {
                 dictionary.AddSafe(validProperty.PropertyId, validProperty.ObjectId);
+            }
         }
     }
 }

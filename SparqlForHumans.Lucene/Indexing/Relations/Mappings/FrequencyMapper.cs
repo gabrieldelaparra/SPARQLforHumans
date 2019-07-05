@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
@@ -19,12 +19,16 @@ namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
             {
                 // Filter Properties Only
                 if (!triple.Predicate.IsProperty())
+                {
                     continue;
+                }
 
                 var predicateIntId = triple.Predicate.GetIntId();
 
                 if (!dictionary.ContainsKey(predicateIntId))
+                {
                     dictionary.Add(predicateIntId, 0);
+                }
 
                 dictionary[predicateIntId]++;
             }

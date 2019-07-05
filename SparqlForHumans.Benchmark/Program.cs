@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Linq;
-using SparqlForHumans.Benchmark.Sources;
-using SparqlForHumans.Lucene.Indexing.Relations;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings;
-using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Benchmark
 {
@@ -21,7 +15,7 @@ namespace SparqlForHumans.Benchmark
             //var results = wikidataBenchmark.RunBenchmark();
             //Console.WriteLine(results);
 
-            
+
             Console.WriteLine("Press Enter to exit");
             Console.ReadLine();
         }

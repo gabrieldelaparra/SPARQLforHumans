@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using SparqlForHumans.Lucene.Relations;
+using System.IO;
 using System.Linq;
-using SparqlForHumans.Lucene.Indexing;
-using SparqlForHumans.Lucene.Relations;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests

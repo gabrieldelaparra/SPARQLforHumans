@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
     public class TypeToPropertiesMapper : BaseOneToManyRelationMapper<int, int>
     {
-        public override string NotifyMessage { get;  } = "Building <Type, Properties[]> Dictionary";
+        public override string NotifyMessage { get; } = "Building <Type, Properties[]> Dictionary";
 
         public TypeToPropertiesMapper(string inputFilename) : base(inputFilename)
         {
@@ -33,9 +31,11 @@ namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
             foreach (var instanceOfId in instanceOfIds)
+            {
                 dictionary.AddSafe(instanceOfId, propertyIds);
+            }
         }
 
-        
+
     }
 }

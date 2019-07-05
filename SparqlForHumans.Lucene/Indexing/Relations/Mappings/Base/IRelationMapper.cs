@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SparqlForHumans.RDF.Models;
+﻿using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base
 {

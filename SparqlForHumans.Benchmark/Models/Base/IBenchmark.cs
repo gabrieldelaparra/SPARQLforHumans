@@ -1,5 +1,4 @@
 ﻿using SparqlForHumans.Benchmark.Models.Results;
-using System;
 using System.Collections.Generic;
 
 namespace SparqlForHumans.Benchmark.Models.Base

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.Lucene.Indexing.Relations.Mappings;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations
 {

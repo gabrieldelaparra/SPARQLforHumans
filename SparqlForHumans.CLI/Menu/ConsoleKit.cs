@@ -22,12 +22,16 @@ namespace ConsoleKit
         public int AwaitInput(int selected = 0, string title = "")
         {
             if (!string.IsNullOrWhiteSpace(title))
+            {
                 Console.WriteLine(title);
+            }
 
             for (var i = 0; i < Options.Length; i++)
             {
                 if (selected == i)
+                {
                     Console.ForegroundColor = HighlightColor;
+                }
 
                 Console.WriteLine("{0}.\t{1}", i + 1, Options[i]);
                 Console.ResetColor();
@@ -39,7 +43,10 @@ namespace ConsoleKit
             Console.Clear();
 
             if (info == -1)
+            {
                 return selected;
+            }
+
             return AwaitInput(info);
         }
 
@@ -80,7 +87,9 @@ namespace ConsoleKit
         public void BuildTable<T>(List<T> items)
         {
             for (var i = 0; i < _indent; i++)
+            {
                 Console.WriteLine();
+            }
 
             var props = typeof(T).GetProperties();
             var names = props.Select(p => p.Name);
@@ -88,7 +97,9 @@ namespace ConsoleKit
             PrintRow(names);
 
             for (var i = 0; i < items.Count; i++)
+            {
                 PrintRow(props.Select(p => p.GetValue(items[i])?.ToString()));
+            }
         }
 
         /// <summary>Prints a header-less row for easy formatting.</summary>
@@ -102,12 +113,16 @@ namespace ConsoleKit
             var width = (_tableWidth - length) / length;
 
             foreach (var column in items)
+            {
                 Console.Write(BuildCellString(column?.ToString(), width) + '|');
+            }
 
             Console.WriteLine();
 
             if (divider)
+            {
                 PrintDivider();
+            }
         }
 
         private void PrintIndent()
@@ -124,10 +139,15 @@ namespace ConsoleKit
         private string BuildCellString(string text, int width)
         {
             if (text?.Length > width)
+            {
                 text = Ellipsis(text, width);
+            }
 
             if (string.IsNullOrEmpty(text))
+            {
                 return new string(' ', width);
+            }
+
             return text?.PadRight(width - (width - text.Length) / 2).PadLeft(width);
         }
 
@@ -150,7 +170,7 @@ namespace ConsoleKit
 
             try
             {
-                return (T) Convert.ChangeType(input, typeof(T));
+                return (T)Convert.ChangeType(input, typeof(T));
             }
             catch
             {
@@ -174,10 +194,12 @@ namespace ConsoleKit
                 valid = comparer(input);
 
                 if (!valid)
+                {
                     Console.WriteLine(retry);
+                }
             } while (!valid);
 
-            return (T) Convert.ChangeType(input, typeof(T));
+            return (T)Convert.ChangeType(input, typeof(T));
         }
     }
 }

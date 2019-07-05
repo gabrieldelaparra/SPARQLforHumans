@@ -12,10 +12,16 @@ namespace SparqlForHumans.Utilities
             var falseSlice = new List<T>();
 
             foreach (var t in enumerable)
+            {
                 if (predicate(t))
+                {
                     trueSlice.Add(t);
+                }
                 else
+                {
                     falseSlice.Add(t);
+                }
+            }
 
             return (trueSlice, falseSlice);
         }
@@ -23,7 +29,9 @@ namespace SparqlForHumans.Utilities
         public static void AddSafe<T>(this IList<T> list, T value)
         {
             if (!list.Contains(value))
+            {
                 list.Add(value);
+            }
         }
 
         //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)

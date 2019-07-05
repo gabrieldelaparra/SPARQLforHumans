@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SparqlForHumans.Models.Extensions;
+﻿using SparqlForHumans.Models.Extensions;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Models.RDFQuery
 {

@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using SparqlForHumans.Lucene.Indexing.Relations;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -28,9 +27,9 @@ namespace SparqlForHumans.Lucene.Relations
     /// </summary>
     public class PropertiesFrequencyRelationMapper : BaseOneToOneRelationMapper<int, int>
     {
-        public PropertiesFrequencyRelationMapper(string inputTriplesFilename) : base(inputTriplesFilename){}
+        public PropertiesFrequencyRelationMapper(string inputTriplesFilename) : base(inputTriplesFilename) { }
 
-        public override string NotifyMessage { get;  } = "Building <Property, Frequency> Dictionary";
+        public override string NotifyMessage { get; } = "Building <Property, Frequency> Dictionary";
 
         internal override void ParseTripleGroup(Dictionary<int, int> dictionary, SubjectGroup subjectGroup)
         {
@@ -41,12 +40,16 @@ namespace SparqlForHumans.Lucene.Relations
                 // Filter Properties Only
                 // TODO: Check if InstanceOf should also be added
                 if (!predicate.IsProperty())
+                {
                     continue;
+                }
 
                 var predicateIntId = predicate.GetIntId();
 
                 if (!dictionary.ContainsKey(predicateIntId))
+                {
                     dictionary.Add(predicateIntId, 0);
+                }
 
                 dictionary[predicateIntId]++;
             }

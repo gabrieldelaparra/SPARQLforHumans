@@ -1,7 +1,7 @@
-﻿using System;
+﻿using SparqlForHumans.Utilities;
+using System;
 using System.IO;
 using System.Linq;
-using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -59,7 +59,9 @@ namespace SparqlForHumans.UnitTests
             const string path = "TestGetOrCreate";
 
             if (Directory.Exists(path))
+            {
                 Directory.Delete(path);
+            }
 
             Assert.False(Directory.Exists(path));
 
@@ -177,7 +179,9 @@ namespace SparqlForHumans.UnitTests
             const string outputFilename = "trimmedFile.nt";
 
             if (File.Exists(outputFilename))
+            {
                 File.Delete(outputFilename);
+            }
 
             Assert.False(File.Exists(outputFilename));
 

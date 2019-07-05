@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using SparqlForHumans.Lucene.Indexing.Base;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Indexer
 {

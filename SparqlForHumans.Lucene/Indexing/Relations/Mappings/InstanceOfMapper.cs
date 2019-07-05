@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
+﻿using SparqlForHumans.Lucene.Indexing.Relations.Mappings.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
@@ -25,7 +25,9 @@ namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
                 .Select(x => x.Object.GetIntId()).ToArray();
 
             foreach (var entityType in entityTypes)
+            {
                 hashSet.Add(entityType);
+            }
         }
     }
 }
