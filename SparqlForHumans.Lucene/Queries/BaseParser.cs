@@ -55,7 +55,6 @@ namespace SparqlForHumans.Lucene.Queries
 
         internal static QueryParser GetMultiFieldParser()
         {
-            var boostsDictionary = new Dictionary<string, float>();
             QueryParser parser = new MultiFieldQueryParser(
                 IndexConfiguration.IndexVersion,
                 new[]
@@ -63,8 +62,7 @@ namespace SparqlForHumans.Lucene.Queries
                     Labels.Label.ToString(),
                     Labels.AltLabel.ToString()
                 },
-                new StandardAnalyzer(IndexConfiguration.IndexVersion),
-                boostsDictionary
+                new StandardAnalyzer(IndexConfiguration.IndexVersion)
             );
 
             parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);
