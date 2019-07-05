@@ -35,7 +35,7 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 .GroupBySubject()
                 .Where(FilterGroups);
 
-            var indexConfig = IndexConfiguration.CreateStandardIndexWriterConfig();
+            var indexConfig = LuceneIndexDefaults.CreateStandardIndexWriterConfig();
 
             using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
             using (var writer = new IndexWriter(indexDirectory, indexConfig))

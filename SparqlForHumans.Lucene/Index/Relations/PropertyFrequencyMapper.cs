@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
-    public class FrequencyMapper : BaseOneToOneRelationMapper<int, int>
+    public class PropertyFrequencyMapper : BaseOneToOneRelationMapper<int, int>
     {
-        public FrequencyMapper(string inputFilename) : base(inputFilename)
+        public PropertyFrequencyMapper(string inputFilename) : base(inputFilename)
         {
         }
 

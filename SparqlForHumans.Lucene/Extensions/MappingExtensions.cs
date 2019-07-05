@@ -14,7 +14,7 @@ namespace SparqlForHumans.Lucene.Extensions
         public static void AddProperties(this List<Entity> entities)
         {
             using (var propertiesDirectory =
-                FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath.GetOrCreateDirectory()))
             {
                 var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
                 var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, propertiesDirectory);
@@ -83,16 +83,15 @@ namespace SparqlForHumans.Lucene.Extensions
         public static Entity MapEntity(this Document document)
         {
             var entity = new Entity();
+            
             entity.MapId(document);
             entity.MapLabel(document);
             entity.MapAltLabels(document);
             entity.MapDescription(document);
-
             entity.MapInstanceOf(document);
             entity.MapSubClass(document);
             entity.MapRank(document);
             entity.MapIsType(document);
-
             entity.MapBaseProperties(document);
 
             return entity;
@@ -121,11 +120,11 @@ namespace SparqlForHumans.Lucene.Extensions
         public static Property MapProperty(this Document document)
         {
             var property = new Property();
+
             property.MapId(document);
             property.MapLabel(document);
             property.MapAltLabels(document);
             property.MapDescription(document);
-
             property.MapRank(document);
             property.MapDomainTypes(document);
 

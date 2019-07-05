@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations
 {
-    public class BoostIndexer : BoostMapper, IFieldIndexer<DoubleField>
+    public class EntityPageRankBoostIndexer : EntityPageRankBoostMapper, IFieldIndexer<DoubleField>
     {
-        public BoostIndexer(string inputFilename) : base(inputFilename)
+        public EntityPageRankBoostIndexer(string inputFilename) : base(inputFilename)
         {
         }
 

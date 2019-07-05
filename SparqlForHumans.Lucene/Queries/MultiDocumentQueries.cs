@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Queries
             try
             {
                 using (var luceneDirectory =
-                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                    FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapEntity());
                 }
@@ -40,7 +40,7 @@ namespace SparqlForHumans.Lucene.Queries
             try
             {
                 using (var luceneDirectory =
-                    FSDirectory.Open(LuceneIndexExtensions.EntityIndexPath.GetOrCreateDirectory()))
+                    FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapEntity());
                 }
@@ -57,7 +57,7 @@ namespace SparqlForHumans.Lucene.Queries
             try
             {
                 using (var luceneDirectory =
-                    FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                    FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByLabel(searchText, luceneDirectory, isType)?.Select(x => x.MapProperty());
                 }
@@ -74,7 +74,7 @@ namespace SparqlForHumans.Lucene.Queries
             try
             {
                 using (var luceneDirectory =
-                    FSDirectory.Open(LuceneIndexExtensions.PropertyIndexPath.GetOrCreateDirectory()))
+                    FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath.GetOrCreateDirectory()))
                 {
                     return QueryDocumentsByIds(searchIds, luceneDirectory)?.Select(x => x.MapProperty());
                 }

@@ -6,13 +6,13 @@ using System.Linq;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
-    public class InstanceOfMapper : BaseHashSetMapper<int>
+    public class IsTypeMapper : BaseHashSetMapper<int>
     {
-        public InstanceOfMapper(string inputFileName) : base(inputFileName)
+        public IsTypeMapper(string inputFileName) : base(inputFileName)
         {
         }
 
-        public InstanceOfMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
+        public IsTypeMapper(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
         {
         }
 

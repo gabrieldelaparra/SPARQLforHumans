@@ -17,7 +17,7 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
             RelationMappers = new List<IFieldIndexer<IIndexableField>>
             {
                 new IsTypeIndexer(inputFilename),
-                new BoostIndexer(inputFilename)
+                new EntityPageRankBoostIndexer(inputFilename)
             };
 
             //TODO: No 'prefLabel' in the current index:
@@ -32,8 +32,6 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
                 new SubClassIndexer(),
                 new EntityPropertiesIndexer()
             };
-
-            //Index();
         }
 
         public override bool FilterGroups(SubjectGroup tripleGroup)

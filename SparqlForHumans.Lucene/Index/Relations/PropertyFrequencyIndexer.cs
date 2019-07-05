@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations
 {
-    public class FrequencyIndexer : FrequencyMapper, IFieldIndexer<DoubleField>
+    public class PropertyFrequencyIndexer : PropertyFrequencyMapper, IFieldIndexer<DoubleField>
     {
-        public FrequencyIndexer(string inputFilename) : base(inputFilename)
+        public PropertyFrequencyIndexer(string inputFilename) : base(inputFilename)
         {
         }
 

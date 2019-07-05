@@ -7,7 +7,7 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Indexing
 {
-    public static class IndexConfiguration
+    public static class LuceneIndexDefaults
     {
         public static LuceneVersion IndexVersion { get; } = LuceneVersion.LUCENE_48;
 
@@ -27,7 +27,6 @@ namespace SparqlForHumans.Lucene.Indexing
             var indexConfig = new IndexWriterConfig(IndexVersion, analyzer)
             {
                 OpenMode = OpenMode.CREATE_OR_APPEND
-                //Similarity = new DefaultSimilarity(),
             };
             return indexConfig;
         }

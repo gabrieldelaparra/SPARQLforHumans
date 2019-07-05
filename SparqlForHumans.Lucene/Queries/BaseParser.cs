@@ -49,19 +49,19 @@ namespace SparqlForHumans.Lucene.Queries
 
         internal static QueryParser GetIdParser()
         {
-            return new QueryParser(IndexConfiguration.IndexVersion, Labels.Id.ToString(), new KeywordAnalyzer());
+            return new QueryParser(LuceneIndexDefaults.IndexVersion, Labels.Id.ToString(), new KeywordAnalyzer());
         }
 
         internal static QueryParser GetMultiFieldParser()
         {
             QueryParser parser = new MultiFieldQueryParser(
-                IndexConfiguration.IndexVersion,
+                LuceneIndexDefaults.IndexVersion,
                 new[]
                 {
                     Labels.Label.ToString(),
                     Labels.AltLabel.ToString()
                 },
-                new StandardAnalyzer(IndexConfiguration.IndexVersion)
+                new StandardAnalyzer(LuceneIndexDefaults.IndexVersion)
             );
 
             parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);

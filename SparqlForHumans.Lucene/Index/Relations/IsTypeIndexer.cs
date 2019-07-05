@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations
 {
-    public class IsTypeIndexer : InstanceOfMapper, IFieldIndexer<StringField>
+    public class IsTypeIndexer : IsTypeMapper, IFieldIndexer<StringField>
     {
         public IsTypeIndexer(string inputFilename) : base(inputFilename)
         {

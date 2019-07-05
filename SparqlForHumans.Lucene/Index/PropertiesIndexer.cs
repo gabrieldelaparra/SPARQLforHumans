@@ -24,12 +24,10 @@ namespace SparqlForHumans.Lucene.Indexing.Indexer
 
             RelationMappers = new List<IFieldIndexer<IIndexableField>>
             {
-                new FrequencyIndexer(inputFilename),
+                new PropertyFrequencyIndexer(inputFilename),
                 new PropertyDomainIndexer(inputFilename),
                 new PropertyRangeIndexer(inputFilename)
             };
-
-            //Index();
         }
 
         public override bool FilterGroups(SubjectGroup tripleGroup)

@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Indexing.Relations.Mappings
 {
-    public class BoostMapper : BaseOneToOneRelationMapper<int, double>
+    public class EntityPageRankBoostMapper : BaseOneToOneRelationMapper<int, double>
     {
-        public BoostMapper(string inputFileName) : base(inputFileName)
+        public EntityPageRankBoostMapper(string inputFileName) : base(inputFileName)
         {
         }
 

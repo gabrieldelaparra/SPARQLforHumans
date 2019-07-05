@@ -1,4 +1,4 @@
-﻿using SparqlForHumans.Lucene.Extensions;
+﻿using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Indexing.Indexer;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
@@ -49,14 +49,14 @@ namespace SparqlForHumans.CLI
 
         public static void CreateIndex(string filename, bool overwrite = false)
         {
-            var entitiesOutputPath = LuceneIndexExtensions.EntityIndexPath;
-            var propertyOutputPath = LuceneIndexExtensions.PropertyIndexPath;
+            var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
+            var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
 
             entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            new EntitiesIndexer(filename, LuceneIndexExtensions.EntityIndexPath).Index();
-            new PropertiesIndexer(filename, LuceneIndexExtensions.PropertyIndexPath).Index();
+            new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
+            new PropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
 
             //EntitiesIndex.CreateEntitiesIndex(filename, true);
 
