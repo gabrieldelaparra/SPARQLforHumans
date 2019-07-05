@@ -30,7 +30,11 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestSubjectToString()
         {
-            var subject = new Subject("Id", "Label");
+            var subject = new Subject
+            {
+                Id = "Id",
+                Label = "Label"
+            };
             Assert.Equal("Label (Id)", subject.ToString());
         }
     }

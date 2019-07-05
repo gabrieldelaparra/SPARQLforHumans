@@ -13,7 +13,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    public class EntityIndexAndMappingTests
+    public class DocumentMappingTests
     {
         [Fact]
         public static void TestMapEntitySingleInstance()
