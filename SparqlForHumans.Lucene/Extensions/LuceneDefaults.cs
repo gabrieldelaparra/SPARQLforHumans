@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Lucene.Extensions
 {
-    public static class LuceneIndexExtensions
+    public static class LuceneDefaults
     {
         public static string EntityIndexPath =>
             $@"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}\DCC\SparqlForHumans\LuceneEntitiesIndex";
