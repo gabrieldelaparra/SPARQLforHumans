@@ -9,6 +9,30 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
+    /// <summary>
+    ///     Given the following data:
+    ///     ```
+    ///     ...
+    ///     Q76 -> P31 (Type) -> Q5
+    ///     Q76 -> P27 -> Qxx
+    ///     Q76 -> P555 -> Qxx
+    ///     ...
+    ///     Q45 -> P31 (Type) -> Q5
+    ///     Q45 -> P99 -> Qxx
+    ///     Q45 -> P79 -> Qxx
+    ///     ...
+    ///     Q298 -> P31 -> Q17
+    ///     Q298 -> P555 -> Qxx
+    ///     Q298 -> P777 -> Qxx
+    ///     ...
+    ///     ```
+    ///     Returns the following domain:
+    ///     Q5: P27, P555, P99, P79
+    ///     Q17: P555, P777
+    ///     Translated to the following KeyValue Pairs:
+    ///     Key: 5; Values[]: 27, 555, 99, 79
+    ///     Key: 17; Values[]: 555, 777
+    /// </summary>
     public class PropertyDomainIndexer : BaseOneToManyRelationMapper<int, int>, IFieldIndexer<StringField>
     {
         public PropertyDomainIndexer(string inputFilename) : base(inputFilename)
@@ -35,7 +59,8 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
-            foreach (var propertyId in propertyIds) dictionary.AddSafe(propertyId, instanceOfIds);
+            foreach (var propertyId in propertyIds) 
+                dictionary.AddSafe(propertyId, instanceOfIds);
         }
 
         public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
