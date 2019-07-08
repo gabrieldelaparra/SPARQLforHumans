@@ -5,6 +5,8 @@ using SparqlForHumans.Utilities;
 using System;
 using SparqlForHumans.Lucene.Index;
 using VDS.RDF;
+using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
 
 namespace SparqlForHumans.CLI
 {
@@ -28,14 +30,14 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-500k.nt", true);
             // CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
             QueryEntities("obam");
-            QueryEntities("hum");
-            QueryEntities("person");
-            QueryEntities("city");
-            QueryEntities("michelle obama");
-            QueryProperties("city");
+            //QueryEntities("hum");
+            //QueryEntities("person");
+            //QueryEntities("city");
+            //QueryEntities("michelle obama");
+            //QueryProperties("city");
 
-            //Console.WriteLine(dictionary.Count);
             Console.Read();
+            //Console.WriteLine(dictionary.Count);
 
             //TestBuilderHelper.GetFirst20ObamaTriplesGroups();
 
@@ -107,10 +109,12 @@ namespace SparqlForHumans.CLI
         private static void QueryEntities(string query)
         {
             Console.WriteLine($"Query Entity: {query}\n");
-            var results = MultiDocumentQueries.QueryEntitiesByLabel(query);
+            var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
+            MappingExtensions.AddProperties(results);
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());
+                Console.WriteLine($"     Props: {string.Join(",", result.Properties.OrderBy(x=>x.Rank).Select(x=>$"{x.Id}:{x.Label}").Distinct())}");
             }
         }
 

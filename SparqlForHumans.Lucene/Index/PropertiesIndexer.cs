@@ -3,7 +3,6 @@ using Lucene.Net.Index;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Lucene.Index.Relations;
-using SparqlForHumans.Lucene.Index.Relations.Unsorted;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 
