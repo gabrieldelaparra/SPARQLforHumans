@@ -29,12 +29,12 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             // CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
-            QueryEntities("obam");
+            //QueryEntities("obam");
             //QueryEntities("hum");
             //QueryEntities("person");
             //QueryEntities("city");
             //QueryEntities("michelle obama");
-            //QueryProperties("city");
+            QueryProperties("educated");
 
             Console.Read();
             //Console.WriteLine(dictionary.Count);
@@ -125,6 +125,7 @@ namespace SparqlForHumans.CLI
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());
+                Console.WriteLine($"     Domains: {string.Join(",", result.DomainTypes.Select(x=>$"{x}").Distinct())}");
             }
         }
     }

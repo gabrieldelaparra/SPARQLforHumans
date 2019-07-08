@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
+using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
@@ -25,7 +26,10 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypesDictionary = new EntityToTypesRelationMapper(entityGroups).RelationIndex.ToArray();
+
+            var entityTypesDictionary = entityGroups.ToDictionary(
+                key => key.IntId,
+                values => new InstanceOfIndexer().TriplesToValue(values).Select(id => id.ToInt()).ToArray()).ToArray();
 
             // Assert
             // Expected (2): 76, 77
@@ -52,12 +56,18 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             var entityGroups = lines.GroupBySubject();
 
             // Act
-            var entityTypesDictionary = new EntityToTypesRelationMapper(entityGroups).RelationIndex.ToArray();
+            var entityTypesDictionary = entityGroups.ToDictionary(
+                key => key.IntId,
+                values => new InstanceOfIndexer().TriplesToValue(values).Select(id => id.ToInt()).ToArray())
+                .ToArray();
 
             // Assert
             // Expected (4): 76, 77, 298, 414,
             // Excluded: 5, 17, 30461
-            Assert.Equal(4, entityTypesDictionary.Length);
+            Assert.Equal(7, entityTypesDictionary.Length);
+
+            //Let's just check those that have values:
+            entityTypesDictionary = entityTypesDictionary.Where(x=>x.Value.Any()).ToArray();
 
             //Q76 -> Q5, Q30461 (Obama -> Human, President)
             Assert.Equal(76, entityTypesDictionary[0].Key);
