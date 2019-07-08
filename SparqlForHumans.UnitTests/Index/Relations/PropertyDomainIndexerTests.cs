@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Index.Relations.Unsorted;
+using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
@@ -80,7 +80,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper(entityGroups).RelationIndex.ToArray();
+            var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -121,7 +121,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper(entityGroups).RelationIndex.ToArray();
+            var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
             // P27, P555, P777
             Assert.Equal(3, propertyDomainTypes.Length);
@@ -157,7 +157,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             };
             var entityGroups = lines.GroupBySubject();
 
-            var propertyDomainTypes = new PropertyToSubjectTypesRelationMapper(entityGroups).RelationIndex.ToArray();
+            var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
             // P27, P555
             Assert.Equal(2, propertyDomainTypes.Length);

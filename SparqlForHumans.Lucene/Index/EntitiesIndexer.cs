@@ -14,7 +14,7 @@ namespace SparqlForHumans.Lucene.Index
         {
             RelationMappers = new List<IFieldIndexer<IIndexableField>>
             {
-                new IsTypeIndexer(inputFilename),
+                new EntityIsTypeIndexer(inputFilename),
                 new EntityPageRankBoostIndexer(inputFilename)
             };
 

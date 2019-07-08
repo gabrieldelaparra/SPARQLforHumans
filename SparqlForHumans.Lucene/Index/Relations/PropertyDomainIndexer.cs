@@ -1,43 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
+using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
+namespace SparqlForHumans.Lucene.Index.Relations
 {
-    /// <summary>
-    ///     Given the following data:
-    ///     ```
-    ///     ...
-    ///     Qxx -> P31 (InstanceOf) -> Q5
-    ///     Qxx -> P27 -> Qxx
-    ///     Qxx -> P555 -> Qxx
-    ///     ...
-    ///     Qxx -> P31 (InstanceOf) -> Q17
-    ///     Qxx -> P555 -> Qxx
-    ///     Qxx -> P777 -> Qxx
-    ///     ...
-    ///     ```
-    ///     Returns the following domain:
-    ///     P27: Domain Q5
-    ///     P555: Domain Q5, Q17
-    ///     P777: Domain Q17
-    ///     Translated to the following KeyValue Pairs:
-    ///     Key: 27; Values[]: 5
-    ///     Key: 555; Values[]: 5, 17
-    ///     Key: 777; Values[]: 17
-    /// </summary>
-    public class PropertyToSubjectTypesRelationMapper : BaseOneToManyRelationMapper<int, int>
+    public class PropertyDomainIndexer : BaseOneToManyRelationMapper<int, int>, IFieldIndexer<StringField>
     {
-        public PropertyToSubjectTypesRelationMapper(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
+        public PropertyDomainIndexer(string inputFilename) : base(inputFilename)
         {
         }
 
-        public PropertyToSubjectTypesRelationMapper(string inputFilename) : base(inputFilename)
+        public PropertyDomainIndexer(IEnumerable<SubjectGroup> subjectGroups) : base(subjectGroups)
         {
         }
+
+        public string FieldName => Labels.DomainType.ToString();
+        public double Boost { get; set; }
 
         public override string NotifyMessage { get; } = "Building <Property, Types[]> Dictionary";
 
@@ -53,6 +36,14 @@ namespace SparqlForHumans.Lucene.Index.Relations.Unsorted
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
             foreach (var propertyId in propertyIds) dictionary.AddSafe(propertyId, instanceOfIds);
+        }
+
+        public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
+        {
+            return RelationIndex.ContainsKey(tripleGroup.Id.ToNumbers())
+                ? RelationIndex[tripleGroup.Id.ToNumbers()]
+                    .Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES)).ToList()
+                : new List<StringField>();
         }
     }
 }
