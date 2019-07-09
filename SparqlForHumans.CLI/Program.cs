@@ -111,7 +111,7 @@ namespace SparqlForHumans.CLI
             Console.WriteLine($"Query Entity: {query}\n");
             //var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
             var results = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, query).QueryDocuments().ToEntities();
-            MappingExtensions.AddProperties(results);
+            MappingExtensions.AddProperties(results, LuceneDirectoryDefaults.EntityIndexPath);
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());

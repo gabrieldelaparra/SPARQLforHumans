@@ -39,49 +39,49 @@ namespace SparqlForHumans.Lucene.Queries
         }
 
         // Pass SingleFieldQuery(Id), for searching by Id. Returns results sorted by rank.
-        internal static Document QueryDocumentByIdAndRank(string searchId, IndexSearcher searcher)
-        {
-            var parser = GetIdParser();
+        //internal static Document QueryDocumentByIdAndRank(string searchId, IndexSearcher searcher)
+        //{
+        //    var parser = GetIdParser();
 
-            return QueryDocumentByRank(searchId, searcher, parser);
-        }
+        //    return QueryDocumentByRank(searchId, searcher, parser);
+        //}
 
-        internal static QueryParser GetIdParser()
-        {
-            return new QueryParser(LuceneIndexDefaults.IndexVersion, Labels.Id.ToString(), new KeywordAnalyzer());
-        }
+        //internal static QueryParser GetIdParser()
+        //{
+        //    return new QueryParser(LuceneIndexDefaults.IndexVersion, Labels.Id.ToString(), new KeywordAnalyzer());
+        //}
 
-        internal static QueryParser GetMultiFieldParser()
-        {
-            QueryParser parser = new MultiFieldQueryParser(
-                LuceneIndexDefaults.IndexVersion,
-                new[]
-                {
-                    Labels.Label.ToString(),
-                    Labels.AltLabel.ToString()
-                },
-                new StandardAnalyzer(LuceneIndexDefaults.IndexVersion)
-            );
+        //internal static QueryParser GetMultiFieldParser()
+        //{
+        //    QueryParser parser = new MultiFieldQueryParser(
+        //        LuceneIndexDefaults.IndexVersion,
+        //        new[]
+        //        {
+        //            Labels.Label.ToString(),
+        //            Labels.AltLabel.ToString()
+        //        },
+        //        new StandardAnalyzer(LuceneIndexDefaults.IndexVersion)
+        //    );
 
-            parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);
-            parser.AllowLeadingWildcard = true;
+        //    parser.MultiTermRewriteMethod = new MultiTermQuery.TopTermsScoringBooleanQueryRewrite(int.MaxValue);
+        //    parser.AllowLeadingWildcard = true;
 
-            return parser;
-        }
+        //    return parser;
+        //}
 
-        // Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
-        internal static Document QueryDocumentByRank(string searchText, IndexSearcher searcher, QueryParser parser,
-            Filter filter = null)
-        {
-            var query = ParseQuery(searchText, parser);
-            var hit = searcher.Search(query, filter, 1).ScoreDocs;
+        //// Pass MultiFieldQuery(Label, AltLabel), for searching Labels. Returns results sorted by rank.
+        //internal static Document QueryDocumentByRank(string searchText, IndexSearcher searcher, QueryParser parser,
+        //    Filter filter = null)
+        //{
+        //    var query = ParseQuery(searchText, parser);
+        //    var hit = searcher.Search(query, filter, 1).ScoreDocs;
 
-            if (hit == null || hit.Length.Equals(0))
-            {
-                return null;
-            }
+        //    if (hit == null || hit.Length.Equals(0))
+        //    {
+        //        return null;
+        //    }
 
-            return searcher.Doc(hit.FirstOrDefault().Doc);
-        }
+        //    return searcher.Doc(hit.FirstOrDefault().Doc);
+        //}
     }
 }

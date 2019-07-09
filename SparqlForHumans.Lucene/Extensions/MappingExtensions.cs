@@ -11,55 +11,24 @@ namespace SparqlForHumans.Lucene.Extensions
 {
     public static class MappingExtensions
     {
-        public static void AddProperties(this List<Entity> entities)
+        public static void AddProperties(this List<Entity> entities, string indexPath)
         {
-            using (var propertiesDirectory =
-                FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath.GetOrCreateDirectory()))
-            {
-                var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
-                var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, propertiesDirectory);
+            var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
+            var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
 
-                foreach (var entity in entities)
+            foreach (var entity in entities)
+            {
+                foreach (var property in entity.Properties)
                 {
-                    foreach (var property in entity.Properties)
-                    {
-                        var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                        property.Label = prop.Label;
-                    }
+                    var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                    property.Label = prop.Label;
                 }
             }
         }
 
         public static void AddProperties(this Entity entity, string indexPath)
         {
-            var propertiesIds = entity.Properties.Select(x => x.Id);
-            var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
-            //var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
-
-            for (var i = 0; i < entity.Properties.Count(); i++)
-            {
-                var property = entity.Properties.ElementAt(i);
-                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                property.Label = prop.Label;
-            }
-
-            //return entity;
-        }
-
-        public static void AddProperties(this Entity entity, Directory luceneDirectory)
-        {
-            var propertiesIds = entity.Properties.Select(x => x.Id);
-            //var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
-            var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
-
-            for (var i = 0; i < entity.Properties.Count(); i++)
-            {
-                var property = entity.Properties.ElementAt(i);
-                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                property.Label = prop.Label;
-            }
-
-            //return entity;
+            AddProperties(new List<Entity> { entity }, indexPath);
         }
 
         public static void MapRank(this IHasRank<double> element, Document document)

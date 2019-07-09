@@ -18,7 +18,7 @@ namespace SparqlForHumans.Server.Controllers
         {
             //var filteredItems = MultiDocumentQueries.QueryEntitiesByLabel(term).ToList();
             var filteredItems = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, term).QueryDocuments().ToEntities().ToList();
-            filteredItems.AddProperties();
+            filteredItems.AddProperties(LuceneDirectoryDefaults.EntityIndexPath);
             //filteredItems = filteredItems.AddProperties();
             //filteredItems = filteredItems.Select(x=>x.AddProperties());
 

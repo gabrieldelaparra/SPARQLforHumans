@@ -146,6 +146,7 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public static void TestQueryIsTypeFields()
         {
+            Assert.False(true);
             const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "CreateIndexIsTypeFields";
 
@@ -156,7 +157,6 @@ namespace SparqlForHumans.UnitTests.Query
             //using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 var query = "chile";
-                Assert.False(true);
                 //var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
                 var all = new MultiLabelQuery(outputPath, query).QueryDocuments().ToEntities();
                 //var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
@@ -180,53 +180,46 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestQueryNonExistingEntityById()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
-            {
-                var entity = SingleDocumentQueries.QueryEntityById("Q666", luceneIndexDirectory);
-                Assert.Null(entity);
-            }
+            var actual = new SingleIdQuery(indexPath, "Q666").QueryDocuments().ToEntities();
+
+            Assert.Empty(actual);
         }
 
         [Fact]
         public void TestQueryNonExistingEntityByLabel()
         {
             const string indexPath = "Resources/IndexSingle";
-            var entity = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToEntities();
-            Assert.Empty(entity);
+            var actual = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToEntities();
+
+            Assert.Empty(actual);
         }
 
         [Fact]
         public void TestQueryNonExistingPropertyById()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
+            var actual = new SingleIdQuery(indexPath, "P666").QueryDocuments().ToProperties();
 
-            {
-                var entity = SingleDocumentQueries.QueryPropertyById("P666", luceneIndexDirectory);
-                Assert.Null(entity);
-            }
+            Assert.Empty(actual);
         }
 
         [Fact]
         public void TestQueryNonExistingPropertyByLabel()
         {
             const string indexPath = "Resources/IndexSingle";
-            var entity = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToProperties().FirstOrDefault();
+            var actual = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToProperties();
 
-            Assert.Null(entity);
+            Assert.Empty(actual);
         }
 
         [Fact]
         public void TestQuerySingleInstanceById()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
+            var actual = new SingleIdQuery(indexPath, "Q26").QueryDocuments().ToEntities().FirstOrDefault();
 
-            {
-                var entity = SingleDocumentQueries.QueryEntityById("Q26", luceneIndexDirectory);
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
-            }
+            Assert.NotNull(actual);
+            Assert.Equal("Q26", actual.Id);
         }
 
         [Fact]

@@ -1,4 +1,5 @@
 ﻿using Lucene.Net.Store;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
@@ -60,47 +61,45 @@ namespace SparqlForHumans.UnitTests.Query
                 }
             };
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = SingleDocumentQueries.QueryEntityByLabel(expected.Label, luceneDirectory);
+            var actual = new SingleLabelQuery(outputPath, expected.Label).QueryDocuments().ToEntities().FirstOrDefault();
+            //var actual = SingleDocumentQueries.QueryEntityByLabel(expected.Label, luceneDirectory);
 
-                Assert.NotNull(actual);
+            Assert.NotNull(actual);
 
-                //Id
-                Assert.Equal(expected.Id, actual.Id);
+            //Id
+            Assert.Equal(expected.Id, actual.Id);
 
-                //Label
-                Assert.Equal(expected.Label, actual.Label);
+            //Label
+            Assert.Equal(expected.Label, actual.Label);
 
-                //InstanceOf
-                Assert.Equal(expected.InstanceOf.Count, actual.InstanceOf.Count);
-                Assert.Equal(expected.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
+            //InstanceOf
+            Assert.Equal(expected.InstanceOf.Count, actual.InstanceOf.Count);
+            Assert.Equal(expected.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
 
-                //SubClass
-                Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
-                Assert.Equal(expected.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
+            //SubClass
+            Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
+            Assert.Equal(expected.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
 
-                //IsType
-                Assert.False(actual.IsType);
+            //IsType
+            Assert.False(actual.IsType);
 
-                //Rank
-                Assert.Equal(1, actual.Rank);
+            //Rank
+            Assert.Equal(1, actual.Rank);
 
-                //Alt-Label:
-                Assert.Equal(expected.AltLabels.Count(), actual.AltLabels.Count());
-                Assert.Equal(expected.AltLabels.ElementAt(0), actual.AltLabels.ElementAt(0));
-                Assert.Equal(expected.AltLabels.ElementAt(1), actual.AltLabels.ElementAt(1));
-                Assert.Equal(expected.AltLabels.ElementAt(2), actual.AltLabels.ElementAt(2));
+            //Alt-Label:
+            Assert.Equal(expected.AltLabels.Count(), actual.AltLabels.Count());
+            Assert.Equal(expected.AltLabels.ElementAt(0), actual.AltLabels.ElementAt(0));
+            Assert.Equal(expected.AltLabels.ElementAt(1), actual.AltLabels.ElementAt(1));
+            Assert.Equal(expected.AltLabels.ElementAt(2), actual.AltLabels.ElementAt(2));
 
-                //Description
-                Assert.Equal(expected.Description, actual.Description);
+            //Description
+            Assert.Equal(expected.Description, actual.Description);
 
-                //Properties
-                Assert.Equal(expected.Properties.Count(), actual.Properties.Count());
-                Assert.Equal(expected.Properties.ElementAt(0).Id, actual.Properties.ElementAt(0).Id);
-                Assert.Equal(expected.Properties.ElementAt(1).Id, actual.Properties.ElementAt(1).Id);
-                Assert.Equal(expected.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
-            }
+            //Properties
+            Assert.Equal(expected.Properties.Count(), actual.Properties.Count());
+            Assert.Equal(expected.Properties.ElementAt(0).Id, actual.Properties.ElementAt(0).Id);
+            Assert.Equal(expected.Properties.ElementAt(1).Id, actual.Properties.ElementAt(1).Id);
+            Assert.Equal(expected.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
         }
 
         [Fact]
@@ -168,10 +167,9 @@ namespace SparqlForHumans.UnitTests.Query
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath))
+            var actual = new SingleLabelQuery(outputPath, expected1.Label).QueryDocuments().ToEntities().FirstOrDefault();
             {
                 //Expected 1: Id, Label, InstanceOf, SubClass, Rank, IsType, Alt-Label, Description, Properties
-                var actual = SingleDocumentQueries.QueryEntityByLabel(expected1.Label, luceneDirectory);
 
                 Assert.NotNull(actual);
 
@@ -194,7 +192,7 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected1.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
 
                 //Expected 2: Id, Label
-                actual = SingleDocumentQueries.QueryEntityByLabel(expected2.Label, luceneDirectory);
+                actual = new SingleLabelQuery(outputPath, expected2.Label).QueryDocuments().ToEntities().FirstOrDefault();
                 Assert.NotNull(actual);
                 Assert.Equal(expected2.Id, actual.Id);
                 Assert.True(actual.IsType);
@@ -202,7 +200,7 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected2.Label, actual.Label);
 
                 //Expected 3: Id, Label
-                actual = SingleDocumentQueries.QueryEntityByLabel(expected3.Label, luceneDirectory);
+                actual = new SingleLabelQuery(outputPath, expected3.Label).QueryDocuments().ToEntities().FirstOrDefault();
                 Assert.NotNull(actual);
                 Assert.Equal(expected3.Id, actual.Id);
                 Assert.True(actual.IsType);

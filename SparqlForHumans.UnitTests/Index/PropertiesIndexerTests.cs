@@ -5,6 +5,7 @@ using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -48,27 +49,33 @@ namespace SparqlForHumans.UnitTests.Index
             //Act:
             new PropertiesIndexer(filename, propertyOutputPath).Index();
 
-            using (var propertiesDirectory = FSDirectory.Open(propertyOutputPath.GetOrCreateDirectory()))
-            {
-                //Assert:
-                var property27 = SingleDocumentQueries.QueryPropertyById("P27", propertiesDirectory);
-                var property555 = SingleDocumentQueries.QueryPropertyById("P555", propertiesDirectory);
-                var property777 = SingleDocumentQueries.QueryPropertyById("P777", propertiesDirectory);
+            var properties = new BatchIdQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).QueryDocuments().ToProperties().ToArray();
+            
+            //Assert:
+            Assert.NotEmpty(properties);
+            Assert.Equal(3, properties.Length);
 
-                Assert.Equal("country of citinzenship", property27.Label);
-                Assert.Equal("random property 555", property555.Label);
-                Assert.Equal("random property 777", property777.Label);
+            Assert.Equal("P27", properties[0].Id);
+            Assert.Equal("P555", properties[1].Id);
+            Assert.Equal("P777", properties[2].Id);
 
-                Assert.NotEmpty(property27.DomainTypes);
-                Assert.Equal("5", property27.DomainTypes.ElementAt(0));
+            var property27 = properties[0];
+            var property555 = properties[1];
+            var property777 = properties[2];
 
-                Assert.NotEmpty(property555.DomainTypes);
-                Assert.Equal("5", property555.DomainTypes.ElementAt(0));
-                Assert.Equal("17", property555.DomainTypes.ElementAt(1));
+            Assert.Equal("country of citinzenship", property27.Label);
+            Assert.Equal("random property 555", property555.Label);
+            Assert.Equal("random property 777", property777.Label);
 
-                Assert.NotEmpty(property777.DomainTypes);
-                Assert.Equal("17", property777.DomainTypes.ElementAt(0));
-            }
+            Assert.NotEmpty(property27.DomainTypes);
+            Assert.Equal("5", property27.DomainTypes.ElementAt(0));
+
+            Assert.NotEmpty(property555.DomainTypes);
+            Assert.Equal("5", property555.DomainTypes.ElementAt(0));
+            Assert.Equal("17", property555.DomainTypes.ElementAt(1));
+
+            Assert.NotEmpty(property777.DomainTypes);
+            Assert.Equal("17", property777.DomainTypes.ElementAt(0));
 
             propertyOutputPath.DeleteIfExists();
         }

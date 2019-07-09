@@ -142,10 +142,10 @@ namespace SparqlForHumans.UnitTests.Index
             new EntitiesIndexer(filename, outputPath).Index();
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var obamaDocument = SingleDocumentQueries.QueryDocumentById("Q76", luceneIndexDirectory);
-                var personDocument = SingleDocumentQueries.QueryDocumentById("Q5", luceneIndexDirectory);
-                var countryDocument = SingleDocumentQueries.QueryDocumentById("Q17", luceneIndexDirectory);
-                var chileDocument = SingleDocumentQueries.QueryDocumentById("Q298", luceneIndexDirectory);
+                var obamaDocument = new SingleIdQuery(outputPath, "Q76").QueryDocuments().FirstOrDefault();
+                var personDocument = new SingleIdQuery(outputPath, "Q5").QueryDocuments().FirstOrDefault();
+                var countryDocument = new SingleIdQuery(outputPath, "Q17").QueryDocuments().FirstOrDefault();
+                var chileDocument = new SingleIdQuery(outputPath, "Q298").QueryDocuments().FirstOrDefault();
 
                 Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
                 Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
