@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Index.Base;
+﻿using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -43,10 +43,12 @@ namespace SparqlForHumans.Lucene.Relations
                 .Where(x => x.Predicate.IsProperty()
                             && !x.Predicate.IsInstanceOf()
                             && x.Object.IsEntityQ())
-                .Select(x => new {PropertyId = x.Predicate.GetIntId(), ObjectId = x.Object.GetIntId()});
+                .Select(x => new { PropertyId = x.Predicate.GetIntId(), ObjectId = x.Object.GetIntId() });
 
             foreach (var validProperty in validProperties)
+            {
                 dictionary.AddSafe(validProperty.PropertyId, validProperty.ObjectId);
+            }
         }
     }
 }

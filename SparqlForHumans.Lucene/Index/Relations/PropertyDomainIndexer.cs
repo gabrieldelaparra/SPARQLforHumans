@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -59,8 +59,10 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
-            foreach (var propertyId in propertyIds) 
+            foreach (var propertyId in propertyIds)
+            {
                 dictionary.AddSafe(propertyId, instanceOfIds);
+            }
         }
 
         public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)

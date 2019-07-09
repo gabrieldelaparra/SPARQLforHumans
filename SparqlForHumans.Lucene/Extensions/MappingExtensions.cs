@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Extensions
 {
@@ -20,10 +20,12 @@ namespace SparqlForHumans.Lucene.Extensions
                 var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, propertiesDirectory);
 
                 foreach (var entity in entities)
-                foreach (var property in entity.Properties)
                 {
-                    var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                    property.Label = prop.Label;
+                    foreach (var property in entity.Properties)
+                    {
+                        var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                        property.Label = prop.Label;
+                    }
                 }
             }
         }
@@ -78,6 +80,15 @@ namespace SparqlForHumans.Lucene.Extensions
             entity.Properties = document.ParseProperties().ToList();
         }
 
+        public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapEntity).ToList();
+        }
+
+        public static List<Property> ToProperties(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapProperty).ToList();
+        }
         public static Entity MapEntity(this Document document)
         {
             var entity = new Entity();
@@ -142,7 +153,10 @@ namespace SparqlForHumans.Lucene.Extensions
 
         private static IEnumerable<Property> ParseProperties(this Document doc)
         {
-            foreach (var item in doc.GetValues(Labels.Property)) yield return ParseProperty(item);
+            foreach (var item in doc.GetValues(Labels.Property))
+            {
+                yield return ParseProperty(item);
+            }
         }
     }
 }

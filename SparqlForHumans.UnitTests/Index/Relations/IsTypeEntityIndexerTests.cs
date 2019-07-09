@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Lucene.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
@@ -67,7 +67,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.Equal(7, entityTypesDictionary.Length);
 
             //Let's just check those that have values:
-            entityTypesDictionary = entityTypesDictionary.Where(x=>x.Value.Any()).ToArray();
+            entityTypesDictionary = entityTypesDictionary.Where(x => x.Value.Any()).ToArray();
 
             //Q76 -> Q5, Q30461 (Obama -> Human, President)
             Assert.Equal(76, entityTypesDictionary[0].Key);

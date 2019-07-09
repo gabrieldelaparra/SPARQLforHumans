@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Store;
+﻿using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -21,12 +21,8 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q76000000", actual.Id);
-            }
+            var actual = new MultiLabelQuery(outputPath, "Obama").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -40,12 +36,8 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Obama", luceneIndexDirectory);
-                var entity = entities.FirstOrDefault();
-                Assert.Equal("Q76", entity.Id);
-            }
+            var actual = new MultiLabelQuery(outputPath, "Obama").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.Equal("Q76", actual.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -59,12 +51,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("Michelle Obama", luceneIndexDirectory);
-                var entity = entities.FirstOrDefault();
-                Assert.Equal("Q13133", entity.Id);
-            }
+            var entity = new MultiLabelQuery(outputPath, "Michelle Obama").QueryDocuments().ToEntities().FirstOrDefault();
+
+            Assert.Equal("Q13133", entity.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -78,12 +67,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesByLabel("Oba", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q76000000", actual.Id);
-            }
+            var actual = new MultiLabelQuery(outputPath, "Oba").QueryDocuments().ToEntities().FirstOrDefault();
+
+            Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -91,61 +77,64 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestQueryAddProperties()
         {
+            Assert.False(true);
             const string outputPath = "Resources/PropertyIndex";
-
             Assert.True(Directory.Exists(outputPath));
+
+            var entity = new SingleIdQuery(outputPath, "Q26").QueryDocuments().ToEntities().FirstOrDefault();
+
+            Assert.NotNull(entity);
+            Assert.Equal("Q26", entity.Id);
+
+            //Properties
+            Assert.Equal(4, entity.Properties.Count());
+
+            Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
+            //Assert.Equal("Q145", entity.Properties.ElementAt(0).Value);
+            //Assert.Equal(string.Empty, entity.Properties.ElementAt(0).Label);
+
+            Assert.Equal("P47", entity.Properties.ElementAt(1).Id);
+            //Assert.Equal("Q27", entity.Properties.ElementAt(1).Value);
+            //Assert.Equal(string.Empty, entity.Properties.ElementAt(1).Label);
+
+            Assert.Equal("P30", entity.Properties.ElementAt(2).Id);
+            //Assert.Equal("Q46", entity.Properties.ElementAt(2).Value);
+            //Assert.Equal(string.Empty, entity.Properties.ElementAt(2).Label);
+
+            Assert.Equal("P131", entity.Properties.ElementAt(3).Id);
+            //Assert.Equal("Q145", entity.Properties.ElementAt(3).Value);
+            //Assert.Equal(string.Empty, entity.Properties.ElementAt(3).Label);
+
             using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var entity = SingleDocumentQueries.QueryEntityById("Q26", luceneIndexDirectory);
-
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
-
-                //Properties
-                Assert.Equal(4, entity.Properties.Count());
-
-                Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
-                //Assert.Equal("Q145", entity.Properties.ElementAt(0).Value);
-                //Assert.Equal(string.Empty, entity.Properties.ElementAt(0).Label);
-
-                Assert.Equal("P47", entity.Properties.ElementAt(1).Id);
-                //Assert.Equal("Q27", entity.Properties.ElementAt(1).Value);
-                //Assert.Equal(string.Empty, entity.Properties.ElementAt(1).Label);
-
-                Assert.Equal("P30", entity.Properties.ElementAt(2).Id);
-                //Assert.Equal("Q46", entity.Properties.ElementAt(2).Value);
-                //Assert.Equal(string.Empty, entity.Properties.ElementAt(2).Label);
-
-                Assert.Equal("P131", entity.Properties.ElementAt(3).Id);
-                //Assert.Equal("Q145", entity.Properties.ElementAt(3).Value);
-                //Assert.Equal(string.Empty, entity.Properties.ElementAt(3).Label);
-
                 entity.AddProperties(luceneIndexDirectory);
-
-                Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
-                //Assert.Equal("Q145", entity.Properties.ElementAt(0).Value);
-                Assert.Equal("country", entity.Properties.ElementAt(0).Label);
-
-                Assert.Equal("P47", entity.Properties.ElementAt(1).Id);
-                //Assert.Equal("Q27", entity.Properties.ElementAt(1).Value);
-                Assert.Equal("shares border with", entity.Properties.ElementAt(1).Label);
-
-                Assert.Equal("P30", entity.Properties.ElementAt(2).Id);
-                //Assert.Equal("Q46", entity.Properties.ElementAt(2).Value);
-                Assert.Equal("continent", entity.Properties.ElementAt(2).Label);
-
-                Assert.Equal("P131", entity.Properties.ElementAt(3).Id);
-                //Assert.Equal("Q145", entity.Properties.ElementAt(3).Value);
-                Assert.Equal("located in the administrative territorial entity", entity.Properties.ElementAt(3).Label);
             }
+
+            Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
+            //Assert.Equal("Q145", entity.Properties.ElementAt(0).Value);
+            Assert.Equal("country", entity.Properties.ElementAt(0).Label);
+
+            Assert.Equal("P47", entity.Properties.ElementAt(1).Id);
+            //Assert.Equal("Q27", entity.Properties.ElementAt(1).Value);
+            Assert.Equal("shares border with", entity.Properties.ElementAt(1).Label);
+
+            Assert.Equal("P30", entity.Properties.ElementAt(2).Id);
+            //Assert.Equal("Q46", entity.Properties.ElementAt(2).Value);
+            Assert.Equal("continent", entity.Properties.ElementAt(2).Label);
+
+            Assert.Equal("P131", entity.Properties.ElementAt(3).Id);
+            //Assert.Equal("Q145", entity.Properties.ElementAt(3).Value);
+            Assert.Equal("located in the administrative territorial entity", entity.Properties.ElementAt(3).Label);
         }
 
         [Fact]
         public void TestQueryByMultipleIds()
         {
-            var ids = new List<string> {"Q26", "Q27", "Q29"};
+            var ids = new List<string> { "Q26", "Q27", "Q29" };
             const string indexPath = "Resources/IndexMultiple";
             Assert.True(Directory.Exists(indexPath));
+
+            Assert.False(true);
 
             using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
             {
@@ -181,20 +170,23 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            //using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 var query = "chile";
-                var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+                Assert.False(true);
+                //var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
+                var all = new MultiLabelQuery(outputPath, query).QueryDocuments().ToEntities();
+                //var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
 
-                Assert.Empty(types);
+                //Assert.Empty(types);
                 Assert.Single(all);
 
                 query = "country";
-                types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+                //types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
+                all = new MultiLabelQuery(outputPath, query).QueryDocuments().ToEntities();
+                //all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
 
-                Assert.Single(types);
+                //Assert.Single(types);
                 Assert.Single(all);
             }
 
@@ -216,12 +208,8 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestQueryNonExistingEntityByLabel()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
-
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Non-Existing", luceneIndexDirectory);
-                Assert.Null(entity);
-            }
+            var entity = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToEntities();
+            Assert.Empty(entity);
         }
 
         [Fact]
@@ -240,12 +228,9 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestQueryNonExistingPropertyByLabel()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
+            var entity = new SingleLabelQuery(indexPath, "Non-Existing").QueryDocuments().ToProperties().FirstOrDefault();
 
-            {
-                var entity = SingleDocumentQueries.QueryPropertyByLabel("Non-Existing", luceneIndexDirectory);
-                Assert.Null(entity);
-            }
+            Assert.Null(entity);
         }
 
         [Fact]
@@ -265,25 +250,22 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestQuerySingleInstanceByLabel()
         {
             const string indexPath = "Resources/IndexSingle";
-            using (var luceneIndexDirectory = FSDirectory.Open(indexPath.GetOrCreateDirectory()))
 
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Northern Ireland", luceneIndexDirectory);
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
+            var entity = new SingleLabelQuery(indexPath, "Northern Ireland").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.NotNull(entity);
+            Assert.Equal("Q26", entity.Id);
 
-                entity = SingleDocumentQueries.QueryEntityByLabel("Ireland", luceneIndexDirectory);
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
+            entity = new SingleLabelQuery(indexPath, "Ireland").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.NotNull(entity);
+            Assert.Equal("Q26", entity.Id);
 
-                entity = SingleDocumentQueries.QueryEntityByLabel("Northern", luceneIndexDirectory);
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
+            entity = new SingleLabelQuery(indexPath, "Northern").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.NotNull(entity);
+            Assert.Equal("Q26", entity.Id);
 
-                entity = SingleDocumentQueries.QueryEntityByLabel("north", luceneIndexDirectory);
-                Assert.NotNull(entity);
-                Assert.Equal("Q26", entity.Id);
-            }
+            entity = new SingleLabelQuery(indexPath, "north").QueryDocuments().ToEntities().FirstOrDefault();
+            Assert.NotNull(entity);
+            Assert.Equal("Q26", entity.Id);
         }
 
         [Fact]
@@ -296,18 +278,15 @@ namespace SparqlForHumans.UnitTests.Query
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+            var entities = new MultiLabelQuery(outputPath, "EntityQ").QueryDocuments().ToEntities().ToArray();
 
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
+            Assert.Equal("Q6", entities[0].Id); //0.222
+            Assert.Equal("Q4", entities[1].Id); //0.180
+            Assert.Equal("Q7", entities[2].Id); //0.180
+            Assert.Equal("Q1", entities[3].Id); //0.138
+            Assert.Equal("Q5", entities[4].Id); //0.128
+            Assert.Equal("Q2", entities[5].Id); //0.087
+            Assert.Equal("Q3", entities[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -321,18 +300,15 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+            var entities = new MultiLabelQuery(outputPath, "EntityQ").QueryDocuments().ToEntities().ToArray();
 
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
+            Assert.Equal("Q6", entities[0].Id); //0.222
+            Assert.Equal("Q4", entities[1].Id); //0.180
+            Assert.Equal("Q7", entities[2].Id); //0.180
+            Assert.Equal("Q1", entities[3].Id); //0.138
+            Assert.Equal("Q5", entities[4].Id); //0.128
+            Assert.Equal("Q2", entities[5].Id); //0.087
+            Assert.Equal("Q3", entities[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -346,19 +322,16 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+            var entities = new MultiLabelQuery(outputPath, "EntityQ").QueryDocuments().ToEntities().ToArray();
 
-                // Had to fix these tests to take PageRank and Boost altogether to pass.
-                Assert.Equal("Q1", entities[0].Id); //0.138
-                Assert.Equal("Q6", entities[1].Id); //0.222
-                Assert.Equal("Q4", entities[2].Id); //0.180
-                Assert.Equal("Q7", entities[3].Id); //0.180
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
+            // Had to fix these tests to take PageRank and Boost altogether to pass.
+            Assert.Equal("Q1", entities[0].Id); //0.138
+            Assert.Equal("Q6", entities[1].Id); //0.222
+            Assert.Equal("Q4", entities[2].Id); //0.180
+            Assert.Equal("Q7", entities[3].Id); //0.180
+            Assert.Equal("Q5", entities[4].Id); //0.128
+            Assert.Equal("Q2", entities[5].Id); //0.087
+            Assert.Equal("Q3", entities[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -372,18 +345,15 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+            var entities = new MultiLabelQuery(outputPath, "EntityQ").QueryDocuments().ToEntities().ToArray();
 
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
+            Assert.Equal("Q6", entities[0].Id); //0.222
+            Assert.Equal("Q4", entities[1].Id); //0.180
+            Assert.Equal("Q7", entities[2].Id); //0.180
+            Assert.Equal("Q1", entities[3].Id); //0.138
+            Assert.Equal("Q5", entities[4].Id); //0.128
+            Assert.Equal("Q2", entities[5].Id); //0.087
+            Assert.Equal("Q3", entities[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -397,18 +367,15 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entities = MultiDocumentQueries.QueryEntitiesByLabel("EntityQ", luceneIndexDirectory).ToArray();
+            var entities = new MultiLabelQuery(outputPath, "EntityQ").QueryDocuments().ToEntities().ToArray();
 
-                Assert.Equal("Q6", entities[0].Id); //0.222
-                Assert.Equal("Q4", entities[1].Id); //0.180
-                Assert.Equal("Q7", entities[2].Id); //0.180
-                Assert.Equal("Q1", entities[3].Id); //0.138
-                Assert.Equal("Q5", entities[4].Id); //0.128
-                Assert.Equal("Q2", entities[5].Id); //0.087
-                Assert.Equal("Q3", entities[6].Id); //0.061
-            }
+            Assert.Equal("Q6", entities[0].Id); //0.222
+            Assert.Equal("Q4", entities[1].Id); //0.180
+            Assert.Equal("Q7", entities[2].Id); //0.180
+            Assert.Equal("Q1", entities[3].Id); //0.138
+            Assert.Equal("Q5", entities[4].Id); //0.128
+            Assert.Equal("Q2", entities[5].Id); //0.087
+            Assert.Equal("Q3", entities[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -422,12 +389,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
+            var entity = new SingleLabelQuery(outputPath, "Obama").QueryDocuments().ToEntities().FirstOrDefault();
 
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Obama", luceneIndexDirectory);
-                Assert.Equal("Q76", entity.Id);
-            }
+            Assert.Equal("Q76", entity.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -441,11 +405,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var entity = SingleDocumentQueries.QueryEntityByLabel("Michelle Obama", luceneIndexDirectory);
-                Assert.Equal("Q13133", entity.Id);
-            }
+            var entity = new SingleLabelQuery(outputPath, "Michelle Obama").QueryDocuments().ToEntities().FirstOrDefault();
+
+            Assert.Equal("Q13133", entity.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -459,19 +421,16 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesTopRankedResults(luceneIndexDirectory, false).ToArray();
+            var actual = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToEntities().ToArray();
 
-                Assert.NotEmpty(actual);
-                Assert.Equal("Q6", actual[0].Id); //0.222
-                Assert.Equal("Q4", actual[1].Id); //0.180
-                Assert.Equal("Q7", actual[2].Id); //0.180
-                Assert.Equal("Q1", actual[3].Id); //0.138
-                Assert.Equal("Q5", actual[4].Id); //0.128
-                Assert.Equal("Q2", actual[5].Id); //0.087
-                Assert.Equal("Q3", actual[6].Id); //0.061
-            }
+            Assert.NotEmpty(actual);
+            Assert.Equal("Q6", actual[0].Id); //0.222
+            Assert.Equal("Q4", actual[1].Id); //0.180
+            Assert.Equal("Q7", actual[2].Id); //0.180
+            Assert.Equal("Q1", actual[3].Id); //0.138
+            Assert.Equal("Q5", actual[4].Id); //0.128
+            Assert.Equal("Q2", actual[5].Id); //0.087
+            Assert.Equal("Q3", actual[6].Id); //0.061
 
             outputPath.DeleteIfExists();
         }
@@ -485,17 +444,13 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new PropertiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryPropertiesTopRankedResults(luceneIndexDirectory, false)
-                    .ToArray();
+            var actual = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToProperties().ToArray();
 
-                Assert.NotEmpty(actual);
-                Assert.Equal("P530", actual[0].Id); //50
-                Assert.Equal("P47", actual[1].Id); //5
-                Assert.Equal("P17", actual[2].Id); //3
-                Assert.Equal("P30", actual[3].Id); //3
-            }
+            Assert.NotEmpty(actual);
+            Assert.Equal("P530", actual[0].Id); //50
+            Assert.Equal("P47", actual[1].Id); //5
+            Assert.Equal("P17", actual[2].Id); //3
+            Assert.Equal("P30", actual[3].Id); //3
 
             outputPath.DeleteIfExists();
         }
@@ -509,12 +464,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var actual = MultiDocumentQueries.QueryEntitiesByLabel("Oba*", luceneIndexDirectory)
-                    .FirstOrDefault();
-                Assert.Equal("Q76000000", actual.Id);
-            }
+            var actual = new MultiLabelQuery(outputPath, "Oba*").QueryDocuments().ToEntities().FirstOrDefault();
+
+            Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();
         }

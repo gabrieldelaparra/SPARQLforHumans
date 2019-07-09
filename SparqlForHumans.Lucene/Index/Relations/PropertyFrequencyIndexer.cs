@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -53,11 +53,17 @@ namespace SparqlForHumans.Lucene.Index.Relations
             foreach (var triple in subjectGroup)
             {
                 // Filter Properties Only
-                if (!triple.Predicate.IsProperty()) continue;
+                if (!triple.Predicate.IsProperty())
+                {
+                    continue;
+                }
 
                 var predicateIntId = triple.Predicate.GetIntId();
 
-                if (!dictionary.ContainsKey(predicateIntId)) dictionary.Add(predicateIntId, 0);
+                if (!dictionary.ContainsKey(predicateIntId))
+                {
+                    dictionary.Add(predicateIntId, 0);
+                }
 
                 dictionary[predicateIntId]++;
             }

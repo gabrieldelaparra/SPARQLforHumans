@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Logger;
+﻿using SparqlForHumans.Logger;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Index.Base
 {

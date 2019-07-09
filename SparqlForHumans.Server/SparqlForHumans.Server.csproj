@@ -17,4 +17,9 @@
     <ProjectReference Include="..\SparqlForHumans.RDF\SparqlForHumans.RDF.csproj" />
     <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\LuceneBinaries\Lucene.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

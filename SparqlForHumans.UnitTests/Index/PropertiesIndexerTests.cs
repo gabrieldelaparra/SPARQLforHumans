@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
+using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -133,11 +133,13 @@ namespace SparqlForHumans.UnitTests.Index
 
             new PropertiesIndexer(filename, outputPath).Index();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 Assert.True(Directory.Exists(outputPath));
 
-                var queryCity = MultiDocumentQueries.QueryPropertiesByLabel("located", luceneDirectory).ToArray();
+                //var queryCity = MultiDocumentQueries.QueryPropertiesByLabel("located", luceneDirectory).ToArray();
+                var queryCity = new MultiLabelQuery(outputPath, "located").QueryDocuments().ToProperties().ToArray();
+
                 Assert.NotEmpty(queryCity);
                 var result = queryCity[0];
                 Assert.Equal("P131", result.Id);

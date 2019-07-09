@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -65,26 +65,38 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             foreach (var subjectGroup in subjectGroups)
             {
-                if (!subjectGroup.IsEntityQ()) continue;
+                if (!subjectGroup.IsEntityQ())
+                {
+                    continue;
+                }
 
                 var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
                 var (instanceOfSlice, otherPropertiesSlice) =
                     propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 
                 foreach (var triple in otherPropertiesSlice)
+                {
                     propertyObjectIdsDictionary.AddSafe(triple.Predicate.GetIntId(), triple.Object.GetIntId());
+                }
 
                 foreach (var triple in instanceOfSlice)
+                {
                     subjectIdTypeIdsDictionary.AddSafe(subjectGroup.IntId, triple.Object.GetIntId());
+                }
             }
 
             foreach (var pair in propertyObjectIdsDictionary)
-            foreach (var objectId in pair.Value)
             {
-                if (!subjectIdTypeIdsDictionary.ContainsKey(objectId)) continue;
+                foreach (var objectId in pair.Value)
+                {
+                    if (!subjectIdTypeIdsDictionary.ContainsKey(objectId))
+                    {
+                        continue;
+                    }
 
-                var objectTypes = subjectIdTypeIdsDictionary[objectId];
-                propertyRangeDictionary.AddSafe(pair.Key, objectTypes);
+                    var objectTypes = subjectIdTypeIdsDictionary[objectId];
+                    propertyRangeDictionary.AddSafe(pair.Key, objectTypes);
+                }
             }
 
             return propertyRangeDictionary.ToArrayDictionary();

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Models.Wikidata;
+﻿using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
+using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.RDF.Extensions

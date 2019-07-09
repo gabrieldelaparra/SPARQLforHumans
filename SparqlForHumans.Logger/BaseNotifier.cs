@@ -8,7 +8,10 @@
 
         public virtual void LogProgress(long Ticks, bool overrideCheck = false)
         {
-            if (Ticks % NotifyTicks == 0 || overrideCheck) Logger.Info($"{NotifyMessage}, Count: {Ticks:N0}");
+            if (Ticks % NotifyTicks == 0 || overrideCheck)
+            {
+                Logger.Info($"{NotifyMessage}, Count: {Ticks:N0}");
+            }
         }
     }
 }

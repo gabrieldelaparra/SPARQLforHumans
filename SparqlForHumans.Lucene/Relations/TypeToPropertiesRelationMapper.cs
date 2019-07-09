@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene.Index.Base;
+﻿using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Relations
 {
@@ -50,8 +50,10 @@ namespace SparqlForHumans.Lucene.Relations
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var instanceOfId in instanceOfIds) 
+            foreach (var instanceOfId in instanceOfIds)
+            {
                 dictionary.AddSafe(instanceOfId, propertyIds);
+            }
         }
     }
 }

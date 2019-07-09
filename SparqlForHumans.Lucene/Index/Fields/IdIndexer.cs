@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Index.Fields
 {
@@ -16,7 +16,7 @@ namespace SparqlForHumans.Lucene.Index.Fields
         {
             var value = tripleGroup.Id;
             return !string.IsNullOrWhiteSpace(value)
-                ? new List<StringField> {new StringField(FieldName, value, Field.Store.YES)}
+                ? new List<StringField> { new StringField(FieldName, value, Field.Store.YES) }
                 : new List<StringField>();
         }
     }

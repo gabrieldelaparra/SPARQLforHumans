@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Linq;
-using SparqlForHumans.Models.Wikidata;
+﻿using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
+using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
@@ -49,7 +49,10 @@ namespace SparqlForHumans.UnitTests
             var gZipLines = SharpZipHandler.ReadGZip(outputFilename).ToArray();
             var plainLines = FileHelper.ReadLines(filename).ToArray();
 
-            for (var i = 0; i < plainLines.Count(); i++) Assert.Equal(gZipLines[i], plainLines[i]);
+            for (var i = 0; i < plainLines.Count(); i++)
+            {
+                Assert.Equal(gZipLines[i], plainLines[i]);
+            }
 
             outputFilename.DeleteIfExists();
         }

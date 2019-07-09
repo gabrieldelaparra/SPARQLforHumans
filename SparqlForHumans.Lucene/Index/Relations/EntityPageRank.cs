@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.RDF.Extensions;
+﻿using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Relations
@@ -74,9 +74,15 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             foreach (var group in groups)
             {
-                if (!group.IsEntityQ()) continue;
+                if (!group.IsEntityQ())
+                {
+                    continue;
+                }
 
-                if (nodeIndex % NotifyTicks == 0) Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
+                if (nodeIndex % NotifyTicks == 0)
+                {
+                    Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
+                }
 
                 dictionary.Add(group.IntId, nodeIndex);
                 nodeIndex++;
@@ -124,7 +130,10 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             foreach (var group in groups)
             {
-                if (nodeCount % NotifyTicks == 0) Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+                if (nodeCount % NotifyTicks == 0)
+                {
+                    Logger.Info($"Building Graph, Group: {nodeCount:N0}");
+                }
 
                 nodesDictionary.TryGetValue(group.IntId, out var subjectIndex);
 
@@ -136,12 +145,18 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
                     //This takes, not only the properties, but direct/properties or other things that are not properties
 
-                    if (!ntObject.IsEntityQ()) continue;
+                    if (!ntObject.IsEntityQ())
+                    {
+                        continue;
+                    }
 
                     var objectId = ntObject.GetIntId();
                     nodesDictionary.TryGetValue(objectId, out var objectIndex);
 
-                    if (!entityNodeConnections.Contains(objectIndex)) entityNodeConnections.Add(objectIndex);
+                    if (!entityNodeConnections.Contains(objectIndex))
+                    {
+                        entityNodeConnections.Add(objectIndex);
+                    }
                 }
 
                 nodeArray[subjectIndex] = entityNodeConnections.ToArray();
@@ -175,7 +190,10 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             var initial = 1d / nodesCount;
 
-            for (var i = 0; i < nodesCount; i++) oldRanks[i] = initial;
+            for (var i = 0; i < nodesCount; i++)
+            {
+                oldRanks[i] = initial;
+            }
 
             return oldRanks;
         }
@@ -187,24 +205,34 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var ranks = new double[nodesCount];
 
             for (var i = 0; i < nodesCount; i++)
+            {
                 if (graph[i].Count > 0)
                 {
                     var share = oldRanks[i] * PageRankAlpha / graph[i].Count;
-                    foreach (var j in graph[i]) ranks[j] += share;
+                    foreach (var j in graph[i])
+                    {
+                        ranks[j] += share;
+                    }
                 }
                 else
                 {
                     noLinkRank += oldRanks[i];
                 }
+            }
 
             var shareNoLink = noLinkRank * PageRankAlpha / nodesCount;
             var shareMinusD = (1d - PageRankAlpha) / nodesCount;
             var weakRank = shareNoLink + shareMinusD;
 
-            for (var i = 0; i < nodesCount; i++) ranks[i] += weakRank;
+            for (var i = 0; i < nodesCount; i++)
+            {
+                ranks[i] += weakRank;
+            }
 
             if (Math.Abs(ranks.Sum() - 1) > 0.001)
+            {
                 Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
+            }
 
             return ranks;
         }

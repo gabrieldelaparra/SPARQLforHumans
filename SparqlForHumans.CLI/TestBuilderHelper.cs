@@ -1,8 +1,8 @@
 ﻿using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using System;
 using System.Linq;
-using SparqlForHumans.RDF.Models;
 
 namespace SparqlForHumans.CLI
 {

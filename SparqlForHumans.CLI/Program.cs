@@ -1,12 +1,12 @@
 ﻿using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
 using System;
-using SparqlForHumans.Lucene.Index;
-using VDS.RDF;
 using System.Linq;
-using SparqlForHumans.Lucene.Extensions;
+using VDS.RDF;
 
 namespace SparqlForHumans.CLI
 {
@@ -109,23 +109,25 @@ namespace SparqlForHumans.CLI
         private static void QueryEntities(string query)
         {
             Console.WriteLine($"Query Entity: {query}\n");
-            var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
+            //var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
+            var results = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, query).QueryDocuments().ToEntities();
             MappingExtensions.AddProperties(results);
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());
-                Console.WriteLine($"     Props: {string.Join(",", result.Properties.OrderBy(x=>x.Rank).Select(x=>$"{x.Id}:{x.Label}").Distinct())}");
+                Console.WriteLine($"     Props: {string.Join(",", result.Properties.OrderBy(x => x.Rank).Select(x => $"{x.Id}:{x.Label}").Distinct())}");
             }
         }
 
         private static void QueryProperties(string query)
         {
             Console.WriteLine($"Query Property: {query}\n");
-            var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
+            var results = new MultiLabelQuery(LuceneDirectoryDefaults.PropertyIndexPath, query).QueryDocuments().ToProperties();
+            //var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());
-                Console.WriteLine($"     Domains: {string.Join(",", result.DomainTypes.Select(x=>$"{x}").Distinct())}");
+                Console.WriteLine($"     Domains: {string.Join(",", result.DomainTypes.Select(x => $"{x}").Distinct())}");
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Lucene.Net.Index;
+﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
@@ -7,6 +6,7 @@ using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -26,11 +26,12 @@ namespace SparqlForHumans.UnitTests.Index
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 Assert.True(Directory.Exists(outputPath));
 
-                var queryBerlin = MultiDocumentQueries.QueryEntitiesByLabel("Berli", luceneDirectory).ToArray();
+                //var queryBerlin = MultiDocumentQueries.QueryEntitiesByLabel("Berli", luceneDirectory).ToArray();
+                var queryBerlin = new MultiLabelQuery(outputPath, "Berli").QueryDocuments().ToEntities().ToArray();
                 Assert.NotEmpty(queryBerlin);
                 var result = queryBerlin[0];
                 Assert.Equal("Q64", result.Id);
@@ -462,9 +463,10 @@ namespace SparqlForHumans.UnitTests.Index
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            var typesQuery = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToEntities().ToArray();
+            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
-                var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
+                //var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
                 Assert.NotEmpty(typesQuery);
                 Assert.Contains(typesQuery, x => x.Id.Equals("Q5"));
             }

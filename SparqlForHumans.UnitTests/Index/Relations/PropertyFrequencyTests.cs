@@ -1,7 +1,6 @@
-﻿using System.IO;
+﻿using SparqlForHumans.Lucene.Index.Relations;
+using System.IO;
 using System.Linq;
-using SparqlForHumans.Lucene.Index.Relations;
-using SparqlForHumans.Lucene.Relations;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations

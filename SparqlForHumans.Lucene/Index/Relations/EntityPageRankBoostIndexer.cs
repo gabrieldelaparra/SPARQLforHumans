@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -32,7 +32,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
         {
             var subjectId = subjectGroup.Id.ToNumbers();
             return RelationIndex.ContainsKey(subjectId)
-                ? new List<DoubleField> {new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES)}
+                ? new List<DoubleField> { new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES) }
                 : new List<DoubleField>();
         }
     }

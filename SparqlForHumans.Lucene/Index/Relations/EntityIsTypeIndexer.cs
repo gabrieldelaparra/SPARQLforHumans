@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Lucene.Net.Documents;
+﻿using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
@@ -31,13 +31,16 @@ namespace SparqlForHumans.Lucene.Index.Relations
                 .Where(x => x.Predicate.IsInstanceOf())
                 .Select(x => x.Object.GetIntId()).ToArray();
 
-            foreach (var entityType in entityTypes) hashSet.Add(entityType);
+            foreach (var entityType in entityTypes)
+            {
+                hashSet.Add(entityType);
+            }
         }
 
         public IReadOnlyList<StringField> GetField(SubjectGroup subjectGroup)
         {
             return RelationIndex.Contains(subjectGroup.Id.ToNumbers())
-                ? new List<StringField> {new StringField(FieldName, true.ToString(), Field.Store.YES)}
+                ? new List<StringField> { new StringField(FieldName, true.ToString(), Field.Store.YES) }
                 : new List<StringField>();
         }
     }
