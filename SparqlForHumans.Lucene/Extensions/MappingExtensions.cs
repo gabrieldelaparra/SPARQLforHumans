@@ -30,9 +30,26 @@ namespace SparqlForHumans.Lucene.Extensions
             }
         }
 
+        public static void AddProperties(this Entity entity, string indexPath)
+        {
+            var propertiesIds = entity.Properties.Select(x => x.Id);
+            var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
+            //var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
+
+            for (var i = 0; i < entity.Properties.Count(); i++)
+            {
+                var property = entity.Properties.ElementAt(i);
+                var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                property.Label = prop.Label;
+            }
+
+            //return entity;
+        }
+
         public static void AddProperties(this Entity entity, Directory luceneDirectory)
         {
             var propertiesIds = entity.Properties.Select(x => x.Id);
+            //var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
             var properties = MultiDocumentQueries.QueryPropertiesByIds(propertiesIds, luceneDirectory);
 
             for (var i = 0; i < entity.Properties.Count(); i++)
