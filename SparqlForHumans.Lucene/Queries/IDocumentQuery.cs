@@ -19,43 +19,43 @@ namespace SparqlForHumans.Lucene.Queries
     {
         public SingleIdQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 1) { }
 
-        public override IQueryParser QueryParser => new IdQueryParser();
+        internal override IQueryParser QueryParser => new IdQueryParser();
 
-        public override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
     }
 
     public class MultiIdQuery : BaseQuery
     {
         public MultiIdQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 20) { }
 
-        public override IQueryParser QueryParser => new IdQueryParser();
-        public override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+        internal override IQueryParser QueryParser => new IdQueryParser();
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
     }
     public class MultiLabelQuery : BaseQuery
     {
         public MultiLabelQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 20) { }
 
-        public override IQueryParser QueryParser => new LabelsQueryParser();
-        public override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[^a-zA-Z0-9-*]", string.Empty));
-        public override string PrepareSearchTerm(string inputString) => BaseParser.PrepareSearchTerm(inputString);
+        internal override IQueryParser QueryParser => new LabelsQueryParser();
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[^a-zA-Z0-9-*]", string.Empty));
+        internal override string PrepareSearchTerm(string inputString) => BaseParser.PrepareSearchTerm(inputString);
     }
     public class SingleLabelQuery : BaseQuery
     {
         public SingleLabelQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 1) { }
 
-        public override IQueryParser QueryParser => new LabelsQueryParser();
+        internal override IQueryParser QueryParser => new LabelsQueryParser();
 
-        public override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[^a-zA-Z0-9-*]", string.Empty));
-        public override string PrepareSearchTerm(string inputString) => BaseParser.PrepareSearchTerm(inputString);
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[^a-zA-Z0-9-*]", string.Empty));
+        internal override string PrepareSearchTerm(string inputString) => BaseParser.PrepareSearchTerm(inputString);
     }
 
     public class BatchIdQuery : BaseQuery
     {
         public BatchIdQuery(string luceneIndexPath, IEnumerable<string> searchStrings) : base(luceneIndexPath, searchStrings) { }
 
-        public override IQueryParser QueryParser => new IdQueryParser();
+        internal override IQueryParser QueryParser => new IdQueryParser();
 
-        public override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
     }
 
     public abstract class BaseQuery : IQuery
@@ -76,18 +76,18 @@ namespace SparqlForHumans.Lucene.Queries
             queryParser = QueryParser.GetQueryParser();
         }
 
-        public IEnumerable<string> SearchStrings { get; set; }
+        internal IEnumerable<string> SearchStrings { get; set; }
         public string LuceneIndexPath { get; set; }
-        public abstract IQueryParser QueryParser { get; }
+        internal abstract IQueryParser QueryParser { get; }
         internal QueryParser queryParser { get; }
-        public int ResultsLimit { get; set; }
-        public virtual Filter Filter { get; set; } = null;
+        internal int ResultsLimit { get; set; }
+        internal virtual Filter Filter { get; set; } = null;
 
-        public virtual bool IsInvalidSearchString(string inputString) => false;
+        internal virtual bool IsInvalidSearchString(string inputString) => false;
 
-        public virtual string PrepareSearchTerm(string inputString) => inputString;
+        internal virtual string PrepareSearchTerm(string inputString) => inputString;
 
-        public virtual IReadOnlyList<Document> QueryDocuments()
+        public virtual IReadOnlyList<Document> GetDocuments()
         {
             var list = new List<Document>();
 

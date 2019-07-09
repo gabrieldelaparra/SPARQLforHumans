@@ -110,7 +110,7 @@ namespace SparqlForHumans.CLI
         {
             Console.WriteLine($"Query Entity: {query}\n");
             //var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
-            var results = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, query).QueryDocuments().ToEntities();
+            var results = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, query).GetDocuments().ToEntities();
             MappingExtensions.AddProperties(results, LuceneDirectoryDefaults.EntityIndexPath);
             foreach (var result in results)
             {
@@ -122,7 +122,7 @@ namespace SparqlForHumans.CLI
         private static void QueryProperties(string query)
         {
             Console.WriteLine($"Query Property: {query}\n");
-            var results = new MultiLabelQuery(LuceneDirectoryDefaults.PropertyIndexPath, query).QueryDocuments().ToProperties();
+            var results = new MultiLabelQuery(LuceneDirectoryDefaults.PropertyIndexPath, query).GetDocuments().ToProperties();
             //var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
             foreach (var result in results)
             {

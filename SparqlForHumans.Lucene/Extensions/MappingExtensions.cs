@@ -14,7 +14,7 @@ namespace SparqlForHumans.Lucene.Extensions
         public static void AddProperties(this List<Entity> entities, string indexPath)
         {
             var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
-            var properties = new BatchIdQuery(indexPath, propertiesIds).QueryDocuments().ToProperties();
+            var properties = new BatchIdQuery(indexPath, propertiesIds).GetDocuments().ToProperties();
 
             foreach (var entity in entities)
             {

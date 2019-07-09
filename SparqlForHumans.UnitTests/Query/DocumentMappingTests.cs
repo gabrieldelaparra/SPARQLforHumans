@@ -61,7 +61,7 @@ namespace SparqlForHumans.UnitTests.Query
                 }
             };
 
-            var actual = new SingleLabelQuery(outputPath, expected.Label).QueryDocuments().ToEntities().FirstOrDefault();
+            var actual = new SingleLabelQuery(outputPath, expected.Label).GetDocuments().ToEntities().FirstOrDefault();
             //var actual = SingleDocumentQueries.QueryEntityByLabel(expected.Label, luceneDirectory);
 
             Assert.NotNull(actual);
@@ -167,7 +167,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            var actual = new SingleLabelQuery(outputPath, expected1.Label).QueryDocuments().ToEntities().FirstOrDefault();
+            var actual = new SingleLabelQuery(outputPath, expected1.Label).GetDocuments().ToEntities().FirstOrDefault();
             {
                 //Expected 1: Id, Label, InstanceOf, SubClass, Rank, IsType, Alt-Label, Description, Properties
 
@@ -192,7 +192,7 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected1.Properties.ElementAt(2).Id, actual.Properties.ElementAt(2).Id);
 
                 //Expected 2: Id, Label
-                actual = new SingleLabelQuery(outputPath, expected2.Label).QueryDocuments().ToEntities().FirstOrDefault();
+                actual = new SingleLabelQuery(outputPath, expected2.Label).GetDocuments().ToEntities().FirstOrDefault();
                 Assert.NotNull(actual);
                 Assert.Equal(expected2.Id, actual.Id);
                 Assert.True(actual.IsType);
@@ -200,7 +200,7 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected2.Label, actual.Label);
 
                 //Expected 3: Id, Label
-                actual = new SingleLabelQuery(outputPath, expected3.Label).QueryDocuments().ToEntities().FirstOrDefault();
+                actual = new SingleLabelQuery(outputPath, expected3.Label).GetDocuments().ToEntities().FirstOrDefault();
                 Assert.NotNull(actual);
                 Assert.Equal(expected3.Id, actual.Id);
                 Assert.True(actual.IsType);

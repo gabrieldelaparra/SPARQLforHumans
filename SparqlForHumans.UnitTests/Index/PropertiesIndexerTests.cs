@@ -49,8 +49,8 @@ namespace SparqlForHumans.UnitTests.Index
             //Act:
             new PropertiesIndexer(filename, propertyOutputPath).Index();
 
-            var properties = new BatchIdQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).QueryDocuments().ToProperties().ToArray();
-            
+            var properties = new BatchIdQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).GetDocuments().ToProperties().ToArray();
+
             //Assert:
             Assert.NotEmpty(properties);
             Assert.Equal(3, properties.Length);
@@ -94,8 +94,6 @@ namespace SparqlForHumans.UnitTests.Index
             using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
                 //Assert
-                Assert.True(Directory.Exists(outputPath));
-
                 using (var reader = DirectoryReader.Open(propertiesDirectory))
                 {
                     var docCount = reader.MaxDoc;
@@ -140,24 +138,19 @@ namespace SparqlForHumans.UnitTests.Index
 
             new PropertiesIndexer(filename, outputPath).Index();
 
-            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                Assert.True(Directory.Exists(outputPath));
+            Assert.True(Directory.Exists(outputPath));
 
-                //var queryCity = MultiDocumentQueries.QueryPropertiesByLabel("located", luceneDirectory).ToArray();
-                var queryCity = new MultiLabelQuery(outputPath, "located").QueryDocuments().ToProperties().ToArray();
+            var queryCity = new SingleLabelQuery(outputPath, "located").GetDocuments().ToProperties().ToArray();
 
-                Assert.NotEmpty(queryCity);
-                var result = queryCity[0];
-                Assert.Equal("P131", result.Id);
-                Assert.Equal("located in the administrative territorial entity", result.Label);
-                Assert.Equal("the item is located on the territory of the following administrative entity...",
-                    result.Description);
-                Assert.Contains("is located in", result.AltLabels);
-                Assert.Contains("is in the county of", result.AltLabels);
-                Assert.Contains("is in the city of", result.AltLabels);
-                Assert.NotEqual(0, result.Rank);
-            }
+            Assert.NotEmpty(queryCity);
+            var result = queryCity[0];
+            Assert.Equal("P131", result.Id);
+            Assert.Equal("located in the administrative territorial entity", result.Label);
+            Assert.Equal("the item is located on the territory of the following administrative entity...", result.Description);
+            Assert.Contains("is located in", result.AltLabels);
+            Assert.Contains("is in the county of", result.AltLabels);
+            Assert.Contains("is in the city of", result.AltLabels);
+            Assert.NotEqual(0, result.Rank);
 
             outputPath.DeleteIfExists();
         }

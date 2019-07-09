@@ -26,26 +26,22 @@ namespace SparqlForHumans.UnitTests.Index
 
             new EntitiesIndexer(filename, outputPath).Index();
 
-            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                Assert.True(Directory.Exists(outputPath));
+            Assert.True(Directory.Exists(outputPath));
 
-                //var queryBerlin = MultiDocumentQueries.QueryEntitiesByLabel("Berli", luceneDirectory).ToArray();
-                var queryBerlin = new MultiLabelQuery(outputPath, "Berli").QueryDocuments().ToEntities().ToArray();
-                Assert.NotEmpty(queryBerlin);
-                var result = queryBerlin[0];
-                Assert.Equal("Q64", result.Id);
-                Assert.Equal("Berlin", result.Label);
-                Assert.Equal("capital city of Germany", result.Description);
-                Assert.Contains("Berlin, Germany", result.AltLabels);
-                var properties = result.Properties.Select(x => x.Id).ToArray();
-                Assert.Contains("P17", properties);
-                Assert.Contains("P1376", properties);
-                Assert.False(result.IsType);
-                Assert.Contains("Q515", result.InstanceOf);
-                Assert.Contains("Q5119", result.InstanceOf);
-                Assert.Contains("Q999", result.SubClass);
-            }
+            var queryBerlin = new SingleLabelQuery(outputPath, "Berli").GetDocuments().ToEntities().ToArray();
+            Assert.NotEmpty(queryBerlin);
+            var result = queryBerlin[0];
+            Assert.Equal("Q64", result.Id);
+            Assert.Equal("Berlin", result.Label);
+            Assert.Equal("capital city of Germany", result.Description);
+            Assert.Contains("Berlin, Germany", result.AltLabels);
+            var properties = result.Properties.Select(x => x.Id).ToArray();
+            Assert.Contains("P17", properties);
+            Assert.Contains("P1376", properties);
+            Assert.False(result.IsType);
+            Assert.Contains("Q515", result.InstanceOf);
+            Assert.Contains("Q5119", result.InstanceOf);
+            Assert.Contains("Q999", result.SubClass);
 
             outputPath.DeleteIfExists();
         }
@@ -60,7 +56,6 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            ;
 
             Assert.True(Directory.Exists(outputPath));
 
@@ -77,7 +72,6 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            ;
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
@@ -116,7 +110,6 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            ;
 
             using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
@@ -140,23 +133,20 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var obamaDocument = new SingleIdQuery(outputPath, "Q76").QueryDocuments().FirstOrDefault();
-                var personDocument = new SingleIdQuery(outputPath, "Q5").QueryDocuments().FirstOrDefault();
-                var countryDocument = new SingleIdQuery(outputPath, "Q17").QueryDocuments().FirstOrDefault();
-                var chileDocument = new SingleIdQuery(outputPath, "Q298").QueryDocuments().FirstOrDefault();
+            var obamaDocument = new SingleIdQuery(outputPath, "Q76").GetDocuments().FirstOrDefault();
+            var personDocument = new SingleIdQuery(outputPath, "Q5").GetDocuments().FirstOrDefault();
+            var countryDocument = new SingleIdQuery(outputPath, "Q17").GetDocuments().FirstOrDefault();
+            var chileDocument = new SingleIdQuery(outputPath, "Q298").GetDocuments().FirstOrDefault();
 
-                Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
-                Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
-                Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
-                Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
+            Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
+            Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
+            Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
+            Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
 
-                Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
-                Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
-                Assert.True(bool.Parse(personDocument.GetValue(Labels.IsTypeEntity)));
-                Assert.True(bool.Parse(countryDocument.GetValue(Labels.IsTypeEntity)));
-            }
+            Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
+            Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
+            Assert.True(bool.Parse(personDocument.GetValue(Labels.IsTypeEntity)));
+            Assert.True(bool.Parse(countryDocument.GetValue(Labels.IsTypeEntity)));
 
             outputPath.DeleteIfExists();
         }
@@ -454,24 +444,25 @@ namespace SparqlForHumans.UnitTests.Index
         [Fact]
         public void TestIndexHasTypes()
         {
-            const string filename = "Resources/EntityTypes.nt";
-            const string outputPath = "IndexTypes";
+            Assert.False(true);
 
-            outputPath.DeleteIfExists();
+            //const string filename = "Resources/EntityTypes.nt";
+            //const string outputPath = "IndexTypes";
 
-            Assert.False(Directory.Exists(outputPath));
+            //outputPath.DeleteIfExists();
 
-            new EntitiesIndexer(filename, outputPath).Index();
+            //Assert.False(Directory.Exists(outputPath));
 
-            var typesQuery = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToEntities().ToArray();
-            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                //var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
-                Assert.NotEmpty(typesQuery);
-                Assert.Contains(typesQuery, x => x.Id.Equals("Q5"));
-            }
+            //new EntitiesIndexer(filename, outputPath).Index();
 
-            outputPath.DeleteIfExists();
+            ////TODO: MISSING TYPES
+            ////var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
+            //var typesQuery = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToEntities().ToArray();
+
+            //Assert.NotEmpty(typesQuery);
+            //Assert.Contains(typesQuery, x => x.Id.Equals("Q5"));
+
+            //outputPath.DeleteIfExists();
         }
     }
 }
