@@ -19,14 +19,13 @@ namespace SparqlForHumans.UnitTests
         {
             const string filename = "Resources/EntityIndexPageRank.nt";
             const string outputPath = "IndexRanks";
+            outputPath.DeleteIfExists();
 
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 
             var ranks = EntityPageRank.CalculateRanks(nodesGraph, 20);
 
             Assert.Equal(1, Math.Round(ranks.Sum()), 10);
-
-            outputPath.DeleteIfExists();
 
             Assert.False(Directory.Exists(outputPath));
 

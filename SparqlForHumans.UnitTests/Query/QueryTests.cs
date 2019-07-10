@@ -415,7 +415,7 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new PropertiesIndexer(filename, outputPath).Index();
-            var actual = new MultiLabelEntityQuery(outputPath, "*").Query().ToArray();
+            var actual = new MultiLabelPropertyQuery(outputPath, "*").Query().ToArray();
 
             Assert.NotEmpty(actual);
             Assert.Equal("P530", actual[0].Id); //50
@@ -441,5 +441,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             outputPath.DeleteIfExists();
         }
+
+        
     }
 }

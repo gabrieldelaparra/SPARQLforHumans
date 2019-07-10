@@ -107,9 +107,14 @@ namespace SparqlForHumans.Lucene.Extensions
             element.AltLabels = document.GetValues(Labels.AltLabel);
         }
 
-        public static void MapDomainTypes(this Property property, Document document)
+        public static void MapDomain(this IHasDomain element, Document document)
         {
-            property.DomainTypes = document.GetValues(Labels.DomainType);
+            element.Domain = document.GetValues(Labels.DomainType).Select(x=>x.ToInt()).ToList();
+        }
+
+        public static void MapRange(this IHasRange element, Document document)
+        {
+            element.Range = document.GetValues(Labels.Range).Select(x=>x.ToInt()).ToList();
         }
 
         public static Property MapProperty(this Document document)
@@ -121,7 +126,8 @@ namespace SparqlForHumans.Lucene.Extensions
             property.MapAltLabels(document);
             property.MapDescription(document);
             property.MapRank(document);
-            property.MapDomainTypes(document);
+            property.MapDomain(document);
+            property.MapRange(document);
 
             return property;
         }

@@ -2,8 +2,8 @@
 
 namespace SparqlForHumans.Models
 {
-    public interface IHasAltLabel
+    public interface IHasDomain
     {
-        IList<string> AltLabels { get; set; }
+        IList<int> Domain { get; set; }
     }
 }

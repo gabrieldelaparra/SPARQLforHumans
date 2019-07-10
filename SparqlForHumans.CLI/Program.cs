@@ -127,7 +127,7 @@ namespace SparqlForHumans.CLI
             foreach (var result in results)
             {
                 Console.WriteLine(result.ToRankedString());
-                Console.WriteLine($"     Domains: {string.Join(",", result.DomainTypes.Select(x => $"{x}").Distinct())}");
+                Console.WriteLine($"     Domains: {string.Join(",", result.Domain.Select(x => $"{x}").Distinct())}");
             }
         }
     }
