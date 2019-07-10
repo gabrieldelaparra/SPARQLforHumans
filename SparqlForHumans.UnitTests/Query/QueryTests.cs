@@ -146,7 +146,6 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public static void TestQueryIsTypeFields()
         {
-            Assert.False(true);
             const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "CreateIndexIsTypeFields";
 
@@ -154,24 +153,20 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            //using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                var query = "chile";
-                //var types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                var all = new MultiLabelEntityQuery(outputPath, query).Query();
-                //var all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
 
-                //Assert.Empty(types);
-                Assert.Single(all);
+            var query = "chile";
+            var types = new MultiLabelTypeQuery(outputPath, query).Query();
+            var all = new MultiLabelEntityQuery(outputPath, query).Query();
 
-                query = "country";
-                //types = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, true);
-                all = new MultiLabelEntityQuery(outputPath, query).Query();
-                //all = MultiDocumentQueries.QueryEntitiesByLabel(query, luceneIndexDirectory, false);
+            Assert.Empty(types);
+            Assert.Single(all);
 
-                //Assert.Single(types);
-                Assert.Single(all);
-            }
+            query = "country";
+            types = new MultiLabelTypeQuery(outputPath, query).Query();
+            all = new MultiLabelEntityQuery(outputPath, query).Query();
+
+            Assert.Single(types);
+            Assert.Single(all);
 
             outputPath.DeleteIfExists();
         }
