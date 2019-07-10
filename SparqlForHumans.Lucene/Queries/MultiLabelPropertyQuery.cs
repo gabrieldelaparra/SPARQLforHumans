@@ -12,13 +12,4 @@ namespace SparqlForHumans.Lucene.Queries
         internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[^a-zA-Z0-9-*]", string.Empty));
         internal override string PrepareSearchTerm(string inputString) => ParserUtilities.PrepareSearchTerm(inputString);
     }
-
-        public class MultiDomainPropertyQuery : BasePropertyQuery
-    {
-        public MultiDomainPropertyQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 20) { }
-
-        internal override IQueryParser QueryParser => new DomainQueryParser();
-        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[\D]", string.Empty));
-        internal override string PrepareSearchTerm(string inputString) => inputString;
-    }
 }

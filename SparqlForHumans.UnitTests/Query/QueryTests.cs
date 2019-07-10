@@ -462,14 +462,48 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act:
             new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "5").Query(); //For Q5
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
 
             Assert.NotEmpty(domainProperties);
             Assert.Equal(2, domainProperties.Count()); //P27, P555
             Assert.Equal("P27", domainProperties[0].Id);
             Assert.Equal("P555", domainProperties[1].Id);
+
+            propertyOutputPath.DeleteIfExists();
         }
 
+        [Fact]
+        public void TestScenario3GetRangesForUnknownSubjectType()
+        {
+            /*In this test, I will have two "nodes" connected.
+             * "node1" is unkown type and has a property to "node2"
+             * "node2" is InstanceOf (Human).
+             * I want to display all the properties that have Range Human.
+             * 
+             * As sample database I have the following:
+             * Qxx (Mother) -> P25 (MotherOf) -> Qyy
+             * Qxx (Mother) -> P25 (MotherOf) -> Qzz
+             * ...
+             * Qyy -> P31 (Type) -> Q5 (Human)
+             * ```
+             * El Range que debe mostrar que:
+             * ```
+             * Q5: Range P25
+             */
 
+            const string filename = @"Resources/QueryByRange.nt";
+            const string propertyOutputPath = "QueryByRange";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
+
+            Assert.NotEmpty(rangeEntities);
+            Assert.Single(rangeEntities); // P25
+            Assert.Equal("P25", rangeEntities[0].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
     }
 }
