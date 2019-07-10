@@ -3,12 +3,12 @@ using Lucene.Net.Index;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Queries.Base;
+using SparqlForHumans.Lucene.Queries.Parsers;
 using SparqlForHumans.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SparqlForHumans.Lucene.Queries
+namespace SparqlForHumans.Lucene.Queries.Base
 {
     public abstract class BaseQuery<T> : IQuery
         where T : Subject
@@ -36,7 +36,7 @@ namespace SparqlForHumans.Lucene.Queries
         internal int ResultsLimit { get; set; }
         internal virtual Filter Filter { get; set; } = null;
         public abstract List<T> Query();
-        
+
         internal virtual bool IsInvalidSearchString(string inputString) => false;
 
         internal virtual string PrepareSearchTerm(string inputString) => inputString;
@@ -45,7 +45,7 @@ namespace SparqlForHumans.Lucene.Queries
         {
             var list = new List<Document>();
 
-            if(SearchStrings.All(IsInvalidSearchString)) 
+            if (SearchStrings.All(IsInvalidSearchString))
                 return list;
 
             using (var luceneDirectory = FSDirectory.Open(LuceneIndexPath))
@@ -55,10 +55,10 @@ namespace SparqlForHumans.Lucene.Queries
 
                 foreach (var searchString in SearchStrings)
                 {
-                    if(IsInvalidSearchString(searchString)) continue;
+                    if (IsInvalidSearchString(searchString)) continue;
                     var preparedSearchTerm = PrepareSearchTerm(searchString);
 
-                    var query = BaseParser.ParseQuery(preparedSearchTerm, queryParser);
+                    var query = ParserUtilities.ParseQuery(preparedSearchTerm, queryParser);
                     var hits = searcher.Search(query, Filter, ResultsLimit).ScoreDocs;
                     list.AddRange(hits.Select(hit => searcher.Doc(hit.Doc)));
                 }

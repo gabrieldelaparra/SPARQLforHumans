@@ -1,9 +1,10 @@
 ﻿using Lucene.Net.Analysis.Standard;
 using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
+using SparqlForHumans.Lucene.Queries.Base;
 using SparqlForHumans.Models.LuceneIndex;
 
-namespace SparqlForHumans.Lucene.Queries.Base
+namespace SparqlForHumans.Lucene.Queries.Parsers
 {
     public class LabelsQueryParser : IQueryParser<StandardAnalyzer>
     {

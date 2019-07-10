@@ -1,4 +1,5 @@
 ﻿using SparqlForHumans.Lucene.Queries.Base;
+using SparqlForHumans.Lucene.Queries.Parsers;
 using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Queries

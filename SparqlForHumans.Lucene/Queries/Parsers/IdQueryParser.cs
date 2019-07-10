@@ -1,7 +1,8 @@
 ﻿using Lucene.Net.Analysis.Core;
+using SparqlForHumans.Lucene.Queries.Base;
 using SparqlForHumans.Models.LuceneIndex;
 
-namespace SparqlForHumans.Lucene.Queries.Base
+namespace SparqlForHumans.Lucene.Queries.Parsers
 {
     public class IdQueryParser : BaseSingleFieldQueryParser<KeywordAnalyzer>
     {

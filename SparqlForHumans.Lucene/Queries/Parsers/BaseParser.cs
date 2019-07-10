@@ -3,9 +3,9 @@ using Lucene.Net.Search;
 using SparqlForHumans.Models.Wikidata;
 using System.Linq;
 
-namespace SparqlForHumans.Lucene.Queries
+namespace SparqlForHumans.Lucene.Queries.Parsers
 {
-    public class BaseParser
+    public class ParserUtilities
     {
         public static Query ParseQuery(string searchQuery, QueryParser parser)
         {

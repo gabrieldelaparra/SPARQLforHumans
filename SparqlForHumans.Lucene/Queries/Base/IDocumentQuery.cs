@@ -1,4 +1,4 @@
-﻿namespace SparqlForHumans.Lucene.Queries
+﻿namespace SparqlForHumans.Lucene.Queries.Base
 {
     public interface IQuery
     {
