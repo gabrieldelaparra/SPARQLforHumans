@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace SparqlForHumans.Lucene.Queries
 {
-    public class BatchIdEntityQuery : BaseEntityQuery
+    public class BatchIdPropertyQuery : BasePropertyQuery
     {
-        public BatchIdEntityQuery(string luceneIndexPath, IEnumerable<string> searchStrings) : base(luceneIndexPath, searchStrings) { }
+        public BatchIdPropertyQuery(string luceneIndexPath, IEnumerable<string> searchStrings) : base(luceneIndexPath, searchStrings) { }
 
         internal override IQueryParser QueryParser => new IdQueryParser();
 
