@@ -442,6 +442,34 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
         }
 
-        
+        [Fact]
+        public void TestScenario2GetDomainsForUnknownObjectType()
+        {
+            /*In this test, I will have two "nodes" connected.
+             * "node1" is InstanceOf Human and has a second property to "node2"
+             * "node2" is unkown type.
+             * I want to display all the properties that have Domain Human.
+             * 
+             * As sample I have the following:
+             * Q76(Obama) -> P31(Type) -> Q5(Human)
+             * Q76(Obama) -> P27 -> Qxx
+             * Q76(Obama) -> P555 -> Qxx
+             */
+
+            const string filename = @"Resources/QueryByDomain.nt";
+            const string propertyOutputPath = "QueryByDomain";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "5").Query(); //For Q5
+
+            Assert.NotEmpty(domainProperties);
+            Assert.Equal(2, domainProperties.Count()); //P27, P555
+            Assert.Equal("P27", domainProperties[0].Id);
+            Assert.Equal("P555", domainProperties[1].Id);
+        }
+
+
     }
 }
