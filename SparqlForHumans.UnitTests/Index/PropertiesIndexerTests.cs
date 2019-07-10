@@ -49,7 +49,7 @@ namespace SparqlForHumans.UnitTests.Index
             //Act:
             new PropertiesIndexer(filename, propertyOutputPath).Index();
 
-            var properties = new BatchIdQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).GetDocuments().ToProperties().ToArray();
+            var properties = new BatchIdPropertyQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).Query().ToArray();
 
             //Assert:
             Assert.NotEmpty(properties);
@@ -140,7 +140,7 @@ namespace SparqlForHumans.UnitTests.Index
 
             Assert.True(Directory.Exists(outputPath));
 
-            var queryCity = new SingleLabelQuery(outputPath, "located").GetDocuments().ToProperties().ToArray();
+            var queryCity = new SingleLabelPropertyQuery(outputPath, "located").Query().ToArray();
 
             Assert.NotEmpty(queryCity);
             var result = queryCity[0];

@@ -2,7 +2,6 @@
 using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Queries;
-using System.Linq;
 
 namespace SparqlForHumans.Server.Controllers
 {
@@ -17,7 +16,7 @@ namespace SparqlForHumans.Server.Controllers
         public IActionResult Run(string term)
         {
             //var filteredItems = MultiDocumentQueries.QueryEntitiesByLabel(term).ToList();
-            var filteredItems = new MultiLabelQuery(LuceneDirectoryDefaults.EntityIndexPath, term).GetDocuments().ToEntities().ToList();
+            var filteredItems = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, term).Query();
             filteredItems.AddProperties(LuceneDirectoryDefaults.EntityIndexPath);
             //filteredItems = filteredItems.AddProperties();
             //filteredItems = filteredItems.Select(x=>x.AddProperties());

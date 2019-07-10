@@ -28,7 +28,7 @@ namespace SparqlForHumans.UnitTests.Index
 
             Assert.True(Directory.Exists(outputPath));
 
-            var queryBerlin = new SingleLabelQuery(outputPath, "Berli").GetDocuments().ToEntities().ToArray();
+            var queryBerlin = new SingleLabelEntityQuery(outputPath, "Berli").Query().ToArray();
             Assert.NotEmpty(queryBerlin);
             var result = queryBerlin[0];
             Assert.Equal("Q64", result.Id);
@@ -133,20 +133,20 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            var obamaDocument = new SingleIdQuery(outputPath, "Q76").GetDocuments().FirstOrDefault();
-            var personDocument = new SingleIdQuery(outputPath, "Q5").GetDocuments().FirstOrDefault();
-            var countryDocument = new SingleIdQuery(outputPath, "Q17").GetDocuments().FirstOrDefault();
-            var chileDocument = new SingleIdQuery(outputPath, "Q298").GetDocuments().FirstOrDefault();
+            var obama = new SingleIdEntityQuery(outputPath, "Q76").Query().FirstOrDefault();
+            var person = new SingleIdEntityQuery(outputPath, "Q5").Query().FirstOrDefault();
+            var country = new SingleIdEntityQuery(outputPath, "Q17").Query().FirstOrDefault();
+            var chile = new SingleIdEntityQuery(outputPath, "Q298").Query().FirstOrDefault();
 
-            Assert.Equal("Q76", obamaDocument.GetValue(Labels.Id));
-            Assert.Equal("Q5", personDocument.GetValue(Labels.Id));
-            Assert.Equal("Q17", countryDocument.GetValue(Labels.Id));
-            Assert.Equal("Q298", chileDocument.GetValue(Labels.Id));
+            Assert.Equal("Q76", obama.Id);
+            Assert.Equal("Q5", person.Id);
+            Assert.Equal("Q17", country.Id);
+            Assert.Equal("Q298", chile.Id);
 
-            Assert.Empty(obamaDocument.GetValue(Labels.IsTypeEntity));
-            Assert.Empty(chileDocument.GetValue(Labels.IsTypeEntity));
-            Assert.True(bool.Parse(personDocument.GetValue(Labels.IsTypeEntity)));
-            Assert.True(bool.Parse(countryDocument.GetValue(Labels.IsTypeEntity)));
+            Assert.False(obama.IsType);
+            Assert.False(chile.IsType);
+            Assert.True(person.IsType);
+            Assert.True(country.IsType);
 
             outputPath.DeleteIfExists();
         }
