@@ -2,6 +2,7 @@
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -445,7 +446,7 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestScenario2GetDomainsForUnknownObjectType()
         {
-            /*In this test, I will have two "nodes" connected.
+            /* In this test, I will have two "nodes" connected.
              * "node1" is InstanceOf Human and has a second property to "node2"
              * "node2" is unkown type.
              * I want to display all the properties that have Domain Human.
@@ -475,7 +476,7 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestScenario3GetRangesForUnknownSubjectType()
         {
-            /*In this test, I will have two "nodes" connected.
+            /* In this test, I will have two "nodes" connected.
              * "node1" is unkown type and has a property to "node2"
              * "node2" is InstanceOf (Human).
              * I want to display all the properties that have Range Human.
@@ -502,6 +503,45 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(rangeEntities);
             Assert.Single(rangeEntities); // P25
             Assert.Equal("P25", rangeEntities[0].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestScenario4GetPropertiesForKnownSubjectObjectType()
+        {
+            /* In this test, I will have two "nodes" connected.
+             * "node1" is unkown type and has a property to "node2"
+             * "node2" is InstanceOf (Human).
+             * I want to display all the properties that have Range Human.
+             * 
+             * As sample database I have the following:
+             * Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
+             * Q76 (Obama) -> P27 (CountryOfCitizenship) -> Q30 (USA)
+             * Q76 (Obama) -> Pxx (Others) -> Qxx
+             * 
+             * Q30 (USA) -> P31 (InstanceOf) -> Q6256 (Country)
+             * Q30 (USA) -> Pyy (Others) -> Qyy
+             * ...
+             * Las propiedades que se deben mostrar que:
+             * ```
+             * Q30: Domain P27
+             * Q5: Range P27
+             */
+
+            const string filename = @"Resources/QueryByRangeAndProperty.nt";
+            const string propertyOutputPath = "QueryByRangeAndProperty";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            var properties = rangeProperties.Intersect(domainProperties, new SubjectComparer()).ToArray();
+
+            Assert.NotEmpty(properties);
+            Assert.Single(properties); // P27
+            Assert.Equal("P27", properties[0].Id);
 
             propertyOutputPath.DeleteIfExists();
         }

@@ -1,10 +1,6 @@
 ﻿namespace SparqlForHumans.Models
 {
-    public interface IHasRank
-    {
-    }
-
-    public interface IHasRank<T> : IHasRank
+    public interface IHasRank<T>
     {
         T Rank { get; set; }
     }

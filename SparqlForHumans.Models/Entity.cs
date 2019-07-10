@@ -2,7 +2,7 @@
 
 namespace SparqlForHumans.Models
 {
-    public class Entity : Subject, IEntity, IHasProperties<Property>
+    public class Entity : Subject, IEntity
     {
         public IList<string> SubClass { get; set; } = new List<string>();
         public string Description { get; set; } = string.Empty;

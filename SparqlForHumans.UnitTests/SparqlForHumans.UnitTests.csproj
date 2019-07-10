@@ -51,6 +51,7 @@
     <None Remove="Resources\PropertyRange.nt" />
     <None Remove="Resources\QueryByDomain.nt" />
     <None Remove="Resources\QueryByRange.nt" />
+    <None Remove="Resources\QueryByRangeAndProperty.nt" />
     <None Remove="Resources\QueryEntityWildcardAllResults.nt" />
     <None Remove="Resources\QueryMulti.nt" />
     <None Remove="Resources\QueryPropertyWildcardAllResults.nt" />
@@ -72,6 +73,9 @@
 
   <ItemGroup>
     <Content Include="Resources\EntityIndexPageRank.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryByRangeAndProperty.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QueryByRange.nt">

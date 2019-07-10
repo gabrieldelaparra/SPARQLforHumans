@@ -1,0 +1,9 @@
+﻿<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
+<http://www.wikidata.org/entity/Q30> <http://www.w3.org/2000/01/rdf-schema#label> "United States"@en .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
+<http://www.wikidata.org/entity/Q6256> <http://www.w3.org/2000/01/rdf-schema#label> "country"@en .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
+<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "country of citinzenship"@en .
