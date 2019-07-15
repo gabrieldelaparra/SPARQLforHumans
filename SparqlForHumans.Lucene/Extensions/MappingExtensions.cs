@@ -13,7 +13,7 @@ namespace SparqlForHumans.Lucene.Extensions
     {
         public static void AddProperties(this List<Entity> entities)
         {
-            entities.AddProperties(LuceneDirectoryDefaults.PropertyIndexPath);
+             entities.AddProperties(LuceneDirectoryDefaults.PropertyIndexPath);
         }
         public static void AddProperties(this List<Entity> entities, string indexPath)
         {
