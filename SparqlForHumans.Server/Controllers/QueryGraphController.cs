@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using SparqlForHumans.Models.Query;
 
 namespace SparqlForHumans.Server.Controllers
 {
-    
     [Produces("application/json")]
-    [Route("api/GraphQuery")]
-    public class GraphQueryController : Controller
+    [Route("api/QueryGraph")]
+    public class QueryGraphController : Controller
     {
         [HttpPost]
-        public IActionResult Run([FromBody]QueryGraph graphQuery)
+        public IActionResult Run([FromBody]QueryGraph queryGraph)
         {
             string results = "";
-            if (graphQuery != null)
+            if (queryGraph != null)
             {
-                System.Console.WriteLine(graphQuery);
+                System.Console.WriteLine(queryGraph);
             }
             return Json(results);
         }
