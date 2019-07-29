@@ -37,7 +37,7 @@ namespace SparqlForHumans.Models.Query
         }
 
         //TODO: Change name:
-        internal static void FillNodeResults(this QueryNode node, QueryGraph graph)
+        internal static void ParseQueryType(this QueryNode node, QueryGraph graph)
         {
             if(node.uris.Any())
                 node.QueryType = QueryType.ConstantTypeDoNotQuery;
@@ -51,7 +51,7 @@ namespace SparqlForHumans.Models.Query
                 node.QueryType = QueryType.QueryTopEntities;
         }
 
-        internal static void FillEdgeResults(this QueryEdge edge, QueryGraph graph)
+        internal static void ParseQueryType(this QueryEdge edge, QueryGraph graph)
         {
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
@@ -100,7 +100,7 @@ namespace SparqlForHumans.Models.Query
             if (node.Traversed) return;
 
             // Check rules for this Node:
-            node.FillNodeResults(graph);
+            node.ParseQueryType(graph);
 
             // Mark as Checked
             node.Traversed = true;
@@ -119,7 +119,7 @@ namespace SparqlForHumans.Models.Query
             if (edge.Traversed) return;
 
             // Check rules for this Edge:
-            edge.FillEdgeResults(graph);
+            edge.ParseQueryType(graph);
 
             // Mark as Checked
             edge.Traversed = true;

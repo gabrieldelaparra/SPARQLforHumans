@@ -144,9 +144,8 @@ namespace SparqlForHumans.UnitTests.Query
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
             Assert.Equal(QueryType.KnownSubjectTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
 
-            // Q1 should be something like: I don't know anything about this type.
-            // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            // Not implemented yet.
+            // Q1 should be something like: I don't know anything about this type. 
+            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
@@ -211,9 +210,8 @@ namespace SparqlForHumans.UnitTests.Query
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
             Assert.Equal(QueryType.KnownSubjectTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
 
-            // Q1 should be something like: I don't know anything about this type.
-            // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            // Not implemented yet.
+            // Q1 should be something like: I don't know anything about this type. 
+            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             Assert.Equal(QueryType.KnownObjectTypeNotUsed, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
@@ -291,11 +289,9 @@ namespace SparqlForHumans.UnitTests.Query
             // Node 0 is type Q5. 
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
             Assert.Equal(QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
-            //TODO: Take out this case;
 
-            // Q1 should be something like: I don't know anything about this type.
-            // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            // Not implemented yet.
+            // Q1 should be something like: I don't know anything about this type. 
+            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             Assert.Equal(QueryType.KnownSubjectTypeQueryInstanceEntities, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
