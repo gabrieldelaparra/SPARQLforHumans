@@ -25,19 +25,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     /// ?var0 -> ?prop -> ?var1
     public static class GraphQueryResults
     {
-        public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertiesIndexPath)
+        public static void RunGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertiesIndexPath)
         {
             graph.RunNodeQueries(entitiesIndexPath);
             graph.RunEdgeQueries(propertiesIndexPath);
         }
-        public static void RunNodeQueries(this QueryGraph graph, string indexPath)
+        private static void RunNodeQueries(this QueryGraph graph, string indexPath)
         {
             foreach (var node in graph.Nodes)
             {
                 switch (node.QueryType)
                 {
-                    case QueryType.KnownNodeTypeQueryInstanceEntities:
-                        node.Results = new MultiLabelTypeQuery(indexPath, node.Types.FirstOrDefault().GetUriIdentifier()).Query();
+                    case QueryType.KnownSubjectTypeQueryInstanceEntities:
+                    case QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities:
+                        node.Results = new MultiIdInstanceOfEntityQuery(indexPath, node.Types.FirstOrDefault().GetUriIdentifier()).Query();
                         break;
                     case QueryType.QueryTopEntities:
                         node.Results = new MultiLabelEntityQuery(indexPath, "*").Query();
@@ -48,15 +49,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     case QueryType.Unkwown:
                     case QueryType.QueryTopProperties:
                     case QueryType.ConstantTypeDoNotQuery:
-                    case QueryType.KnownDomainTypeNotUsed:
-                    case QueryType.KnownNodeAndDomainTypesNotUsed:
+                    case QueryType.KnownObjectTypeNotUsed:
                     default:
                         break;
                 }
             }
         }
 
-        public static void RunEdgeQueries(this QueryGraph graph, string indexPath)
+        private static void RunEdgeQueries(this QueryGraph graph, string indexPath)
         {
             foreach (var edge in graph.Edges)
             {
@@ -88,11 +88,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         edge.Results = properties.ToList();
                         break;
                     case QueryType.Unkwown:
-                    case QueryType.KnownNodeTypeQueryInstanceEntities:
+                    case QueryType.KnownSubjectTypeQueryInstanceEntities:
                     case QueryType.QueryTopEntities:
                     case QueryType.ConstantTypeDoNotQuery:
-                    case QueryType.KnownDomainTypeNotUsed:
-                    case QueryType.KnownNodeAndDomainTypesNotUsed:
+                    case QueryType.KnownObjectTypeNotUsed:
+                    case QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities:
                     default:
                         break;
                 }

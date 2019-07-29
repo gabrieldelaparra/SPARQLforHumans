@@ -36,16 +36,17 @@ namespace SparqlForHumans.Models.Query
             return edges.Select(x => x.GetTargetNode(graph));
         }
 
+        //TODO: Change name:
         internal static void FillNodeResults(this QueryNode node, QueryGraph graph)
         {
             if(node.uris.Any())
                 node.QueryType = QueryType.ConstantTypeDoNotQuery;
             else if (node.IsKnownType && node.IsConnectedToKnownType)
-                node.QueryType = QueryType.KnownNodeAndDomainTypesNotUsed;
+                node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
             else if (node.IsKnownType)
-                node.QueryType = QueryType.KnownNodeTypeQueryInstanceEntities;
+                node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
             else if (node.IsConnectedToKnownType)
-                node.QueryType = QueryType.KnownDomainTypeNotUsed;
+                node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
                 node.QueryType = QueryType.QueryTopEntities;
         }

@@ -9,9 +9,9 @@
         KnownSubjectTypeOnlyQueryDomainProperties,
         KnownObjectTypeOnlyQueryRangeProperties,
         KnownSubjectAndObjectTypesIntersectDomainRangeProperties,
-        KnownNodeTypeQueryInstanceEntities,
-        KnownDomainTypeNotUsed,
-        KnownNodeAndDomainTypesNotUsed,
+        KnownSubjectTypeQueryInstanceEntities,
+        KnownObjectTypeNotUsed,
+        KnownSubjectAndObjectTypesQueryInstanceEntities,
     }
 
 
