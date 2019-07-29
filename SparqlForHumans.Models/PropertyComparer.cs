@@ -2,15 +2,15 @@
 
 namespace SparqlForHumans.Models
 {
-    public class SubjectComparer : IEqualityComparer<Subject>
+    public class PropertyComparer : IEqualityComparer<Property>
     {
-        public bool Equals(Subject x, Subject y)
+        public bool Equals(Property x, Property y)
         {
             if (x == null || y == null) return false;
             return x.Id == y.Id;
         }
 
-        public int GetHashCode(Subject obj)
+        public int GetHashCode(Property obj)
         {
             return obj.Id.GetHashCode();
         }

@@ -537,7 +537,7 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertyOutputPath).Index();
             var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
-            var properties = rangeProperties.Intersect(domainProperties, new SubjectComparer()).ToArray();
+            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
             Assert.Single(properties); // P27
@@ -578,7 +578,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(2, rangeProperties.Count); //P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
             Assert.Equal(2, domainProperties.Count); // P27, P777
-            var properties = rangeProperties.Intersect(domainProperties, new SubjectComparer()).ToArray();
+            var properties = rangeProperties.Intersect(domainProperties,new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
             Assert.Single(properties); // P27
