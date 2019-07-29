@@ -52,8 +52,4 @@
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\Schema\" />
-  </ItemGroup>
-
 </Project>

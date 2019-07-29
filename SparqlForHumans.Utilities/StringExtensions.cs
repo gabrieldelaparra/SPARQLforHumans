@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace SparqlForHumans.Utilities
 {
@@ -25,6 +26,11 @@ namespace SparqlForHumans.Utilities
         public static bool ToBool(this string input)
         {
             return !string.IsNullOrWhiteSpace(input) && bool.Parse(input);
+        }
+        public static string GetUriIdentifier(this string input)
+        {
+            var split = input.Split('/');
+            return split.Any() ? split.Last() : input;
         }
     }
 }

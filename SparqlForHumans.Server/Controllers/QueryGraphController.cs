@@ -8,7 +8,7 @@ namespace SparqlForHumans.Server.Controllers
     public class QueryGraphController : Controller
     {
         [HttpPost]
-        public IActionResult Run([FromBody]QueryGraph queryGraph)
+        public IActionResult Run([FromBody]RDFExplorerGraph queryGraph)
         {
             string results = "";
             if (queryGraph != null)
