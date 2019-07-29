@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SparqlForHumans.Utilities;
 namespace SparqlForHumans.Models.Query
 {
@@ -12,13 +13,13 @@ namespace SparqlForHumans.Models.Query
             this.uris = node.uris;
         }
         public QueryType QueryType {get;set; } = QueryType.Unkwown;
-        public List<string> Results { get; set; } = new List<string>();
+        public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
         public bool IsKnownType { get; set; } = false;
         public bool IsConnectedToKnownType { get; set; } = false;
         public override string ToString()
         {
-            return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x=>x.GetUriIdentifier())) : string.Empty)}: [HasP31:{IsKnownType}][edgeToP31:{IsConnectedToKnownType}] : {string.Join(",", Results)}";
+            return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x=>x.GetUriIdentifier())) : string.Empty)}";
         }
     }
 

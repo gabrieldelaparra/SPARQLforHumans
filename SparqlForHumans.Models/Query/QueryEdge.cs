@@ -13,11 +13,11 @@ namespace SparqlForHumans.Models.Query
             this.targetId = edge.targetId;
         }
         public QueryType QueryType {get;set; } = QueryType.Unkwown;
-        public List<string> Results { get; set; } = new List<string>();
+        public List<Property> Results { get; set; } = new List<Property>();
         public bool IsInstanceOf { get; set; } = false;
         public override string ToString()
         {
-            return $"{id}:{name} : ({sourceId})->({targetId}) : [IsP31: {IsInstanceOf}] : {string.Join(",", Results)}";
+            return $"{id}:{name} : ({sourceId})->({targetId})";
         }
     }
 

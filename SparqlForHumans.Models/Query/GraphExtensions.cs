@@ -20,7 +20,7 @@ namespace SparqlForHumans.Models.Query
         {
             return graph.Nodes.Find(x => x.id.Equals(edge.sourceId));
         }
-        internal static QueryNode GetTargetNode(this QueryEdge edge, QueryGraph graph)
+        public static QueryNode GetTargetNode(this QueryEdge edge, QueryGraph graph)
         {
             return graph.Nodes.Find(x => x.id.Equals(edge.targetId));
         }
@@ -38,10 +38,6 @@ namespace SparqlForHumans.Models.Query
 
         internal static void FillNodeResults(this QueryNode node, QueryGraph graph)
         {
-            // IsKnownType? -> Flag -> DomainTypes 
-            // ConnectsToKnownTypes? -> Flag -> RangeTypes (Este caso no se como funciona?) 
-            // Check Case (OnlyDomain, OnlyRange, Both)
-            // Fill results
             if(node.uris.Any())
                 node.QueryType = QueryType.ConstantTypeDoNotQuery;
             else if (node.IsKnownType && node.IsConnectedToKnownType)
@@ -56,10 +52,6 @@ namespace SparqlForHumans.Models.Query
 
         internal static void FillEdgeResults(this QueryEdge edge, QueryGraph graph)
         {
-            // IsKnownType? -> Flag -> DomainTypes 
-            // ConnectsToKnownTypes? -> Flag -> RangeTypes (Este caso no se como funciona?) 
-            // Check Case (OnlyDomain, OnlyRange, Both)
-            // Fill results
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
 
@@ -82,6 +74,7 @@ namespace SparqlForHumans.Models.Query
                 if (edge.uris.HasInstanceOf())
                     edge.IsInstanceOf = true;
             }
+
             foreach (var node in graph.Nodes)
             {
                 if (node.GetInstanceOfValues(graph).Any())
