@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
         }
 
         [Fact]
@@ -47,8 +47,8 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
         }
 
         [Fact]
@@ -84,9 +84,9 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(GraphQueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
         }
 
         [Fact]
@@ -139,21 +139,21 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Node 0 is type Q5. 
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(GraphQueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
 
             // Q1 should be something like: I don't know anything about this type.
             // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             // Not implemented yet.
-            Assert.Equal(GraphQueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
 
             // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(GraphQueryType.KnownSubjectTypeOnlyQueryDomainProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownSubjectTypeOnlyQueryDomainProperties, queryGraph.Edges[0].QueryType);
 
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
         }
 
         [Fact]
@@ -206,21 +206,21 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Node 0 is type Q5. 
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(GraphQueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
 
             // Q1 should be something like: I don't know anything about this type.
             // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             // Not implemented yet.
-            Assert.Equal(GraphQueryType.KnownDomainTypeNotUsed, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.KnownDomainTypeNotUsed, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
 
             // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(GraphQueryType.KnownObjectTypeOnlyQueryRangeProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownObjectTypeOnlyQueryRangeProperties, queryGraph.Edges[0].QueryType);
             
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
         }
 
         [Fact]
@@ -287,23 +287,23 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Node 0 is type Q5. 
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(GraphQueryType.KnownNodeAndDomainTypesNotUsed, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.KnownNodeAndDomainTypesNotUsed, queryGraph.Nodes[0].QueryType);
 
             // Q1 should be something like: I don't know anything about this type.
             // TODO: But actually, I do know somwthing about this node: I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
             // Not implemented yet.
-            Assert.Equal(GraphQueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.KnownNodeTypeQueryInstanceEntities, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[3].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[3].QueryType);
 
             // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(GraphQueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
             
             // Constant, should not have results.
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
-            Assert.Equal(GraphQueryType.ConstantTypeDoNotQuery, queryGraph.Edges[2].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[2].QueryType);
         }
     }
 }

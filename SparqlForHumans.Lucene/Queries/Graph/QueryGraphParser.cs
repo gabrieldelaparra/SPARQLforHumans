@@ -25,7 +25,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     /// ?var0 -> ?prop -> ?var1
     public static class QueryGraphParser
     {
-        public static GraphQueryType GetQueryType(RDFExplorerGraph graph)
+        public static QueryType GetQueryType(RDFExplorerGraph graph)
         {
             //No edges, no nodes = Invalid graph
             //if(!graph.nodes.Any() && !graph.edges.Any()) 
@@ -94,7 +94,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //}
 
 
-            return GraphQueryType.Unkwown;
+            return QueryType.Unkwown;
         }
     }
 }
