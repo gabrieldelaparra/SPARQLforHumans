@@ -54,6 +54,7 @@
     <None Remove="Resources\QueryByRangeAndProperty-More.nt" />
     <None Remove="Resources\QueryByRangeAndProperty.nt" />
     <None Remove="Resources\QueryEntityWildcardAllResults.nt" />
+    <None Remove="Resources\QueryGraph.nt" />
     <None Remove="Resources\QueryMulti.nt" />
     <None Remove="Resources\QueryPropertyWildcardAllResults.nt" />
     <None Remove="Resources\QueryRanksAllWithAltLabels.nt" />
@@ -74,6 +75,9 @@
 
   <ItemGroup>
     <Content Include="Resources\EntityIndexPageRank.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryGraph.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QueryByRangeAndProperty-More.nt">

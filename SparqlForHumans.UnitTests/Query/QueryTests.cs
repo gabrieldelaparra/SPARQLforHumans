@@ -385,6 +385,22 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestInstanceOfQuery_InstancesOfHumans()
+        {
+            const string filename = "Resources/QuerySingle.nt";
+            const string outputPath = "QueryInstanceOf";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var Q5entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
+
+            Assert.True(Q5entities.All(x=>x.InstanceOf.Contains("Q5")));
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
         public void TestTopQueryEntitiesResults()
         {
             const string filename = "Resources/QueryEntityWildcardAllResults.nt";

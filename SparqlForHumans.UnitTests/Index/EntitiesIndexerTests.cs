@@ -444,25 +444,21 @@ namespace SparqlForHumans.UnitTests.Index
         [Fact]
         public void TestIndexHasTypes()
         {
-            Assert.False(true);
+            const string filename = "Resources/EntityTypes.nt";
+            const string outputPath = "IndexTypes";
 
-            //const string filename = "Resources/EntityTypes.nt";
-            //const string outputPath = "IndexTypes";
+            outputPath.DeleteIfExists();
 
-            //outputPath.DeleteIfExists();
+            Assert.False(Directory.Exists(outputPath));
 
-            //Assert.False(Directory.Exists(outputPath));
+            new EntitiesIndexer(filename, outputPath).Index();
 
-            //new EntitiesIndexer(filename, outputPath).Index();
+            var typesQuery = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
 
-            ////TODO: MISSING TYPES
-            ////var typesQuery = MultiDocumentQueries.QueryEntitiesByLabel("*", luceneDirectory, true).ToArray();
-            //var typesQuery = new MultiLabelQuery(outputPath, "*").QueryDocuments().ToEntities().ToArray();
+            Assert.NotEmpty(typesQuery);
+            Assert.All(typesQuery, x => x.InstanceOf.Equals("Q5"));
 
-            //Assert.NotEmpty(typesQuery);
-            //Assert.Contains(typesQuery, x => x.Id.Equals("Q5"));
-
-            //outputPath.DeleteIfExists();
+            outputPath.DeleteIfExists();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
             return GetDocuments().ToEntities();
         }
     }
-    
+
     public abstract class BaseTypeQuery : BaseQuery<Entity>
     {
         public BaseTypeQuery(string luceneIndexPath, IEnumerable<string> searchStrings, int resultsLimit = 1) : base(luceneIndexPath, searchStrings, resultsLimit) { }
