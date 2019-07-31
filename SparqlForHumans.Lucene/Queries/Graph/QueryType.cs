@@ -15,7 +15,9 @@
         InferredDomainAndRangeTypeProperties,
         InferredDomainTypeProperties,
         InferredRangeTypeProperties,
-        InferredSubjectTypeEntities,
+        InferredDomainTypeEntities,
+        InferredDomainAndRangeTypeEntities,
+        InferredRangeTypeEntities,
     }
 
 

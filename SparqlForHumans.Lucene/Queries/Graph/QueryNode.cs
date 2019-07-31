@@ -18,9 +18,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
         public bool IsKnownType { get; set; } = false;
+        public bool IsInferredType => IsInferredTypeDomain || IsInferredTypeRange;
         public bool IsDirectedToKnownType { get; set; } = false;
-        public bool IsInferredType { get; set; } = false;
+        public bool IsInferredTypeDomain { get; set; } = false;
         public List<string> InferredTypes { get; set; } = new List<string>();
+        public bool IsInferredTypeRange { get; internal set; }
 
         public override string ToString()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.Query;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -57,8 +58,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
             else if (node.IsKnownType)
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
-            else if (node.IsInferredType)
-                node.QueryType = QueryType.InferredSubjectTypeEntities;
+            else if (node.IsInferredTypeDomain && node.IsInferredTypeRange)
+                node.QueryType = QueryType.InferredDomainAndRangeTypeEntities;
+            else if (node.IsInferredTypeDomain)
+                node.QueryType = QueryType.InferredDomainTypeEntities;
+            else if (node.IsInferredTypeRange)
+                node.QueryType = QueryType.InferredRangeTypeEntities;
             else if (node.IsDirectedToKnownType)
                 node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
@@ -79,11 +84,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             else if (target.IsKnownType)
                 edge.QueryType = QueryType.KnownObjectTypeOnlyQueryRangeProperties;
             else if (source.IsInferredType && target.IsInferredType)
+            {
                 edge.QueryType = QueryType.InferredDomainAndRangeTypeProperties;
+                edge.Domain = source.InferredTypes;
+                edge.Range = target.InferredTypes;
+            }
             else if (source.IsInferredType)
+            {
                 edge.QueryType = QueryType.InferredDomainTypeProperties;
+                edge.Domain = source.InferredTypes;
+            }
             else if (target.IsInferredType)
+            {
                 edge.QueryType = QueryType.InferredRangeTypeProperties;
+                edge.Range = target.InferredTypes;
+            }
             else
                 edge.QueryType = QueryType.QueryTopProperties;
         }
@@ -96,10 +111,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     edge.IsInstanceOf = true;
                 else if (edge.uris.Any(x => !x.IsInstanceOf()))
                 {
-                    if(string.IsNullOrWhiteSpace(propertyIndexPath)) continue;
-                    var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Where(x => !x.IsInstanceOf())).Query();
-                    edge.Domain = properties.Select(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();
-                    edge.Range = properties.Select(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();
+                    if (string.IsNullOrWhiteSpace(propertyIndexPath)) continue;
+                    var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Where(x => !x.IsInstanceOf()).Select(x => x.GetUriIdentifier())).Query();
+                    edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
+                    edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
                 }
             }
 
@@ -114,13 +129,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     if (node.GetOutgoingEdges(graph).Any(x => x.Domain.Any()))
                     {
-                        node.IsInferredType = true;
-                        node.InferredTypes.AddRange(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain));
+                        node.IsInferredTypeDomain = true;
+                        node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
                     }
                     if (node.GetIncommingEdges(graph).Any(x => x.Range.Any()))
                     {
-                        node.IsInferredType = true;
-                        node.InferredTypes.AddRange(node.GetIncommingEdges(graph).SelectMany(x => x.Range));
+                        node.IsInferredTypeRange = true;
+                        node.InferredTypes = node.InferredTypes.Union(node.GetIncommingEdges(graph).SelectMany(x => x.Range)).ToList();
                     }
                 }
             }
