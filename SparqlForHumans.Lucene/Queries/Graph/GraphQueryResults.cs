@@ -1,5 +1,4 @@
 ﻿using SparqlForHumans.Models;
-using SparqlForHumans.Models.Query;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;

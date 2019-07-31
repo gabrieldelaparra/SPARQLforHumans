@@ -1,16 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models;
+using SparqlForHumans.Models.Query;
 using SparqlForHumans.Utilities;
-namespace SparqlForHumans.Models.Query
+namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryNode : Node
     {
         public bool Traversed { get; set; } = false;
         public QueryNode(Node node)
         {
-            this.id = node.id;
-            this.name = node.name;
-            this.uris = node.uris;
+            id = node.id;
+            name = node.name;
+            uris = node.uris;
         }
         public QueryType QueryType { get; set; } = QueryType.Unkwown;
         public List<Entity> Results { get; set; } = new List<Entity>();

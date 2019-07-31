@@ -58,7 +58,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             else if (node.IsKnownType)
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
             else if (node.IsInferredType)
-                node.QueryType = QueryType.InferredSubjectType;
+                node.QueryType = QueryType.InferredSubjectTypeEntities;
             else if (node.IsDirectedToKnownType)
                 node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
@@ -96,6 +96,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     edge.IsInstanceOf = true;
                 else if (edge.uris.Any(x => !x.IsInstanceOf()))
                 {
+                    if(string.IsNullOrWhiteSpace(propertyIndexPath)) continue;
                     var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Where(x => !x.IsInstanceOf())).Query();
                     edge.Domain = properties.Select(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();
                     edge.Range = properties.Select(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();

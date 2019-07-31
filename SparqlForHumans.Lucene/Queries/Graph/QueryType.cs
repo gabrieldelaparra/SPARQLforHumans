@@ -1,4 +1,4 @@
-﻿namespace SparqlForHumans.Models.Query
+﻿namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public enum QueryType
     {
@@ -15,9 +15,7 @@
         InferredDomainAndRangeTypeProperties,
         InferredDomainTypeProperties,
         InferredRangeTypeProperties,
-        InferredSubjectType,
-        //InferredSubjectType
-        //InferredPredicateType
+        InferredSubjectTypeEntities,
     }
 
 

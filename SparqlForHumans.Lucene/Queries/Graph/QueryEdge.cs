@@ -1,22 +1,24 @@
-﻿using System.Collections.Generic;
-namespace SparqlForHumans.Models.Query
+﻿using SparqlForHumans.Models;
+using SparqlForHumans.Models.Query;
+using System.Collections.Generic;
+namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryEdge : Edge
     {
         public bool Traversed { get; set; } = false;
         public QueryEdge(Edge edge)
         {
-            this.id = edge.id;
-            this.name = edge.name;
-            this.uris = edge.uris;
-            this.sourceId = edge.sourceId;
-            this.targetId = edge.targetId;
+            id = edge.id;
+            name = edge.name;
+            uris = edge.uris;
+            sourceId = edge.sourceId;
+            targetId = edge.targetId;
         }
-        public QueryType QueryType {get;set; } = QueryType.Unkwown;
+        public QueryType QueryType { get; set; } = QueryType.Unkwown;
         public List<Property> Results { get; set; } = new List<Property>();
         public bool IsInstanceOf { get; set; } = false;
-        public List<string> Domain { get; set; }
-        public List<string> Range { get; set; }
+        public List<string> Domain { get; set; } = new List<string>();
+        public List<string> Range { get; set; } = new List<string>();
 
         public override string ToString()
         {

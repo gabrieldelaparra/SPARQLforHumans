@@ -8,7 +8,7 @@ namespace SparqlForHumans.Models.Query
 
         public string name { get; set; }
 
-        public string[] uris { get; set; }
+        public string[] uris { get; set; } = new string[0];
 
         public int sourceId { get; set; }
 

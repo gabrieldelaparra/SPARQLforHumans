@@ -19,7 +19,6 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
 
                 },
@@ -39,13 +38,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                 },
             };
@@ -65,13 +62,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                 },
                 edges = new[]
@@ -103,13 +98,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -126,7 +119,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -169,13 +161,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -192,7 +182,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 1,
                         targetId = 0,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -235,13 +224,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?varHuman",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?varCity",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -264,7 +251,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -317,7 +303,6 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
 
                 },
@@ -354,13 +339,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                 },
             };
@@ -400,13 +383,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                 },
                 edges = new[]
@@ -417,7 +398,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     }
                 },
             };
@@ -462,13 +442,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -485,7 +463,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -541,13 +518,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?var0",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?var1",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -564,7 +539,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 1,
                         targetId = 0,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -618,13 +592,11 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?varHuman",
-                        uris = new string[0]
                     },
                     new Node()
                     {
                         id = 1,
                         name = "?varCity",
-                        uris = new string[0]
                     },
                     new Node()
                     {
@@ -647,7 +619,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     },
                     new Edge()
                     {
@@ -700,6 +671,71 @@ namespace SparqlForHumans.UnitTests.Query
             // Cleanup
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestInferScenario5_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node()
+                    {
+                        id = 0,
+                        name = "?varDomainP6",
+                    },
+                    new Node()
+                    {
+                        id = 1,
+                        name = "?varRangeP6",
+                    },
+                    new Node()
+                    {
+                        id = 2,
+                        name = "?var1",
+                    },
+                    
+                },
+                edges = new[]
+                {
+                    new Edge()
+                    {
+                        id = 0,
+                        name = "?headOfGovernment",
+                        sourceId = 0,
+                        targetId = 1,
+                        uris = new string[]{"https://www.rdfexplorer.org/"}
+                    },
+                    new Edge()
+                    {
+                        id = 1,
+                        name = "?prop1",
+                        sourceId = 0,
+                        targetId = 2,
+                    },
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+
+            // Node 0 is type Q5. 
+            // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
+            Assert.Equal(QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
+
+            // Q1 should be something like: I don't know anything about this type. 
+            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
+            Assert.Equal(QueryType.KnownSubjectTypeQueryInstanceEntities, queryGraph.Nodes[1].QueryType);
+
+            // Constant, should not have results.
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[3].QueryType);
+
+            // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
+            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
+
+            // Constant, should not have results.
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[2].QueryType);
         }
     }
 }
