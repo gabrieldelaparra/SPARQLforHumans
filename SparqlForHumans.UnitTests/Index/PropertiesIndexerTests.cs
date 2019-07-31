@@ -55,12 +55,12 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEmpty(properties);
             Assert.Equal(3, properties.Length);
 
-            Assert.Equal("P27", properties[0].Id);
-            Assert.Equal("P555", properties[1].Id);
+            Assert.Equal("P555", properties[0].Id);
+            Assert.Equal("P27", properties[1].Id);
             Assert.Equal("P777", properties[2].Id);
 
-            var property27 = properties[0];
-            var property555 = properties[1];
+            var property555 = properties[0];
+            var property27 = properties[1];
             var property777 = properties[2];
 
             Assert.Equal("country of citinzenship", property27.Label);
