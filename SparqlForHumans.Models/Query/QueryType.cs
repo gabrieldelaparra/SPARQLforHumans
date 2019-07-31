@@ -12,6 +12,8 @@
         KnownSubjectTypeQueryInstanceEntities,
         KnownObjectTypeNotUsed,
         KnownSubjectAndObjectTypesQueryInstanceEntities,
+        //InferredSubjectType
+        //InferredPredicateType
     }
 
 
