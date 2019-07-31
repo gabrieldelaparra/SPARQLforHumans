@@ -4,6 +4,7 @@ using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Queries.Base
 {
