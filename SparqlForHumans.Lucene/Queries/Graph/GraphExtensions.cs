@@ -45,13 +45,13 @@ namespace SparqlForHumans.Models.Query
         {
             if (node.uris.Any())
                 node.QueryType = QueryType.ConstantTypeDoNotQuery;
-            else if (node.IsKnownType && node.IsGoingToKnownType)
+            else if (node.IsKnownType && node.IsDirectedToKnownType)
                 node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
             else if (node.IsKnownType)
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
              //else if (node.IsInferredType)
              // node.QueryType = QueryType.InferredSubjectType;
-            else if (node.IsGoingToKnownType)
+            else if (node.IsDirectedToKnownType)
                 node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
                 node.QueryType = QueryType.QueryTopEntities;
@@ -117,7 +117,7 @@ namespace SparqlForHumans.Models.Query
             foreach (var node in graph.Nodes)
             {
                 if (node.GetOutgoingNodes(graph).Any(x => x.IsKnownType))
-                    node.IsGoingToKnownType = true;
+                    node.IsDirectedToKnownType = true;
             }
 
         }

@@ -16,7 +16,7 @@ namespace SparqlForHumans.Models.Query
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
         public bool IsKnownType { get; set; } = false;
-        public bool IsConnectedToKnownType { get; set; } = false;
+        public bool IsDirectedToKnownType { get; set; } = false;
         public override string ToString()
         {
             return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x=>x.GetUriIdentifier())) : string.Empty)}";
