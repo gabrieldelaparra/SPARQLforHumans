@@ -12,6 +12,10 @@
         KnownSubjectTypeQueryInstanceEntities,
         KnownObjectTypeNotUsed,
         KnownSubjectAndObjectTypesQueryInstanceEntities,
+        InferredDomainAndRangeTypeProperties,
+        InferredDomainTypeProperties,
+        InferredRangeTypeProperties,
+        InferredSubjectType,
         //InferredSubjectType
         //InferredPredicateType
     }

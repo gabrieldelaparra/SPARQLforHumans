@@ -12,14 +12,17 @@ namespace SparqlForHumans.Models.Query
             this.name = node.name;
             this.uris = node.uris;
         }
-        public QueryType QueryType {get;set; } = QueryType.Unkwown;
+        public QueryType QueryType { get; set; } = QueryType.Unkwown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
         public bool IsKnownType { get; set; } = false;
         public bool IsDirectedToKnownType { get; set; } = false;
+        public bool IsInferredType { get; set; } = false;
+        public List<string> InferredTypes { get; set; } = new List<string>();
+
         public override string ToString()
         {
-            return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x=>x.GetUriIdentifier())) : string.Empty)}";
+            return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x => x.GetUriIdentifier())) : string.Empty)}";
         }
     }
 
