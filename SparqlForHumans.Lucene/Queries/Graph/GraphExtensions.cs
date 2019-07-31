@@ -1,6 +1,9 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
-namespace SparqlForHumans.Models.Query
+using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Models.Query;
+
+namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class GraphExtensions
     {
@@ -33,6 +36,11 @@ namespace SparqlForHumans.Models.Query
             return graph.Edges.Where(x => x.sourceId.Equals(node.id));
         }
 
+        internal static IEnumerable<QueryEdge> GetIncommingEdges(this QueryNode node, QueryGraph graph)
+        {
+            return graph.Edges.Where(x => x.targetId.Equals(node.id));
+        }
+
         internal static IEnumerable<QueryNode> GetOutgoingNodes(this QueryNode node, QueryGraph graph)
         {
             var edges = node.GetOutgoingEdges(graph);
@@ -49,8 +57,8 @@ namespace SparqlForHumans.Models.Query
                 node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
             else if (node.IsKnownType)
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
-             //else if (node.IsInferredType)
-             // node.QueryType = QueryType.InferredSubjectType;
+            else if (node.IsInferredType)
+                node.QueryType = QueryType.InferredSubjectType;
             else if (node.IsDirectedToKnownType)
                 node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
@@ -70,17 +78,17 @@ namespace SparqlForHumans.Models.Query
                 edge.QueryType = QueryType.KnownSubjectTypeOnlyQueryDomainProperties;
             else if (target.IsKnownType)
                 edge.QueryType = QueryType.KnownObjectTypeOnlyQueryRangeProperties;
-            //else if (source.IsInferredType && target.IsInferredType)
-            //  edge.QueryType = QueryType.InferredSubjectAndObjectPredicateType
-            //else if (source.IsInferredType )
-            //  edge.QueryType = QueryType.InferredSubjectPredicateType
-            //else if (target.IsInferredType)
-            //  edge.QueryType = QueryType.InferredObjectPredicateType
+            else if (source.IsInferredType && target.IsInferredType)
+                edge.QueryType = QueryType.InferredDomainAndRangeTypeProperties;
+            else if (source.IsInferredType)
+                edge.QueryType = QueryType.InferredDomainTypeProperties;
+            else if (target.IsInferredType)
+                edge.QueryType = QueryType.InferredRangeTypeProperties;
             else
                 edge.QueryType = QueryType.QueryTopProperties;
         }
 
-        internal static void ExploreGraph(this QueryGraph graph)
+        internal static void ExploreGraph(this QueryGraph graph, string propertyIndexPath)
         {
             foreach (var edge in graph.Edges)
             {
@@ -88,9 +96,9 @@ namespace SparqlForHumans.Models.Query
                     edge.IsInstanceOf = true;
                 else if (edge.uris.Any(x => !x.IsInstanceOf()))
                 {
-                    //var properties = new BatchIdPropertyQuery(propertyOutputPath, edge.uris.Any(x => !x.IsInstanceOf()).ToList()).Query();
-                    //edge.Domain = properties.Select(x=>x.Domain).SelectMany(x=>$"{entityURI}{x}").ToList();
-                    //edge.Range = properties.Select(x=>x.Range)..SelectMany(x=>$"{entityURI}{x}").ToList();
+                    var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Where(x => !x.IsInstanceOf())).Query();
+                    edge.Domain = properties.Select(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();
+                    edge.Range = properties.Select(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityIRI}{x}").ToList();
                 }
             }
 
@@ -101,17 +109,19 @@ namespace SparqlForHumans.Models.Query
                     node.IsKnownType = true;
                     node.Types = node.GetOutgoingNodes(graph).SelectMany(x => x.uris).Distinct().ToList();
                 }
-                //else 
-                //{
-                //if (node.GetOutgoingEdges(graph)?.Domain.Any()){
-                //  node.IsInferredType = true;
-                //  node.InferredTypes.AddRange(node.GetOutgoingEdges(graph)?.Domain);
-                //}
-                //if (node.GetIncommingEdges(graph)?.Range.Any()){
-                //  node.IsInferredType = true;
-                //  node.InferredTypes.AddRange(node.GetIncommingEdges(graph)?.Range);
-                //  }
-                //}
+                else
+                {
+                    if (node.GetOutgoingEdges(graph).Any(x => x.Domain.Any()))
+                    {
+                        node.IsInferredType = true;
+                        node.InferredTypes.AddRange(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain));
+                    }
+                    if (node.GetIncommingEdges(graph).Any(x => x.Range.Any()))
+                    {
+                        node.IsInferredType = true;
+                        node.InferredTypes.AddRange(node.GetIncommingEdges(graph).SelectMany(x => x.Range));
+                    }
+                }
             }
 
             foreach (var node in graph.Nodes)
@@ -137,7 +147,7 @@ namespace SparqlForHumans.Models.Query
             // Recursion
             foreach (var edge in node.GetOutgoingEdges(graph).Where(x => !x.Traversed))
             {
-                TraverseDepthFirstEdge(graph, edge.id);
+                graph.TraverseDepthFirstEdge(edge.id);
             }
         }
 
@@ -156,7 +166,7 @@ namespace SparqlForHumans.Models.Query
             // Recursion
             var node = edge.GetTargetNode(graph);
             if (!node.Traversed)
-                TraverseDepthFirstNode(graph, node.id);
+                graph.TraverseDepthFirstNode(node.id);
         }
     }
 
