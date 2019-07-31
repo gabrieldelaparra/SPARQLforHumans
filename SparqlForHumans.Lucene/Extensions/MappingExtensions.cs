@@ -72,12 +72,12 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
         {
-            return documents?.Select(MapEntity).OrderByDescending(x=>x.Rank).ToList();
+            return documents?.Select(MapEntity).ToList();
         }
 
         public static List<Property> ToProperties(this IReadOnlyList<Document> documents)
         {
-            return documents?.Select(MapProperty).OrderByDescending(x=>x.Rank).ToList();
+            return documents?.Select(MapProperty).ToList();
         }
         public static Entity MapEntity(this Document document)
         {
