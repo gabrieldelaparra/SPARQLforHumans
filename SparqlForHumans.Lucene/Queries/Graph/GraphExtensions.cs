@@ -6,7 +6,11 @@ namespace SparqlForHumans.Models.Query
     {
         internal static bool HasInstanceOf(this string[] uris)
         {
-            return uris.Any(u => u.EndsWith("P31"));
+            return uris.Any(IsInstanceOf);
+        }
+        internal static bool IsInstanceOf(this string uri)
+        {
+            return uri.EndsWith("P31");
         }
         internal static IEnumerable<Edge> GetInstanceOfEdges(this QueryNode node, QueryGraph graph)
         {
@@ -29,7 +33,7 @@ namespace SparqlForHumans.Models.Query
             return graph.Edges.Where(x => x.sourceId.Equals(node.id));
         }
 
-        internal static IEnumerable<QueryNode> GetConnectedNodes(this QueryNode node, QueryGraph graph)
+        internal static IEnumerable<QueryNode> GetOutgoingNodes(this QueryNode node, QueryGraph graph)
         {
             var edges = node.GetOutgoingEdges(graph);
             if (edges == null) return null;
@@ -39,13 +43,15 @@ namespace SparqlForHumans.Models.Query
         //TODO: Change name:
         internal static void ParseQueryType(this QueryNode node, QueryGraph graph)
         {
-            if(node.uris.Any())
+            if (node.uris.Any())
                 node.QueryType = QueryType.ConstantTypeDoNotQuery;
-            else if (node.IsKnownType && node.IsConnectedToKnownType)
+            else if (node.IsKnownType && node.IsGoingToKnownType)
                 node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
             else if (node.IsKnownType)
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
-            else if (node.IsConnectedToKnownType)
+             //else if (node.IsInferredType)
+             // node.QueryType = QueryType.InferredSubjectType;
+            else if (node.IsGoingToKnownType)
                 node.QueryType = QueryType.KnownObjectTypeNotUsed;
             else
                 node.QueryType = QueryType.QueryTopEntities;
@@ -56,7 +62,7 @@ namespace SparqlForHumans.Models.Query
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
 
-            if(edge.uris.Any())
+            if (edge.uris.Any())
                 edge.QueryType = QueryType.ConstantTypeDoNotQuery;
             else if (source.IsKnownType && target.IsKnownType)
                 edge.QueryType = QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties;
@@ -64,6 +70,12 @@ namespace SparqlForHumans.Models.Query
                 edge.QueryType = QueryType.KnownSubjectTypeOnlyQueryDomainProperties;
             else if (target.IsKnownType)
                 edge.QueryType = QueryType.KnownObjectTypeOnlyQueryRangeProperties;
+            //else if (source.IsInferredType && target.IsInferredType)
+            //  edge.QueryType = QueryType.InferredSubjectAndObjectPredicateType
+            //else if (source.IsInferredType )
+            //  edge.QueryType = QueryType.InferredSubjectPredicateType
+            //else if (target.IsInferredType)
+            //  edge.QueryType = QueryType.InferredObjectPredicateType
             else
                 edge.QueryType = QueryType.QueryTopProperties;
         }
@@ -74,6 +86,12 @@ namespace SparqlForHumans.Models.Query
             {
                 if (edge.uris.HasInstanceOf())
                     edge.IsInstanceOf = true;
+                else if (edge.uris.Any(x => !x.IsInstanceOf()))
+                {
+                    //var properties = new BatchIdPropertyQuery(propertyOutputPath, edge.uris.Any(x => !x.IsInstanceOf()).ToList()).Query();
+                    //edge.Domain = properties.Select(x=>x.Domain).SelectMany(x=>$"{entityURI}{x}").ToList();
+                    //edge.Range = properties.Select(x=>x.Range)..SelectMany(x=>$"{entityURI}{x}").ToList();
+                }
             }
 
             foreach (var node in graph.Nodes)
@@ -81,14 +99,25 @@ namespace SparqlForHumans.Models.Query
                 if (node.GetInstanceOfValues(graph).Any())
                 {
                     node.IsKnownType = true;
-                    node.Types = node.GetConnectedNodes(graph).SelectMany(x=>x.uris).Distinct().ToList();
+                    node.Types = node.GetOutgoingNodes(graph).SelectMany(x => x.uris).Distinct().ToList();
                 }
+                //else 
+                //{
+                //if (node.GetOutgoingEdges(graph)?.Domain.Any()){
+                //  node.IsInferredType = true;
+                //  node.InferredTypes.AddRange(node.GetOutgoingEdges(graph)?.Domain);
+                //}
+                //if (node.GetIncommingEdges(graph)?.Range.Any()){
+                //  node.IsInferredType = true;
+                //  node.InferredTypes.AddRange(node.GetIncommingEdges(graph)?.Range);
+                //  }
+                //}
             }
 
             foreach (var node in graph.Nodes)
             {
-                if (node.GetConnectedNodes(graph).Any(x => x.IsKnownType))
-                    node.IsConnectedToKnownType = true;
+                if (node.GetOutgoingNodes(graph).Any(x => x.IsKnownType))
+                    node.IsGoingToKnownType = true;
             }
 
         }
