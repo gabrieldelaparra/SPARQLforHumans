@@ -753,6 +753,22 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.Contains("Q5", queryGraph.Edges[1].Domain);
 
+            // Assert RunQuery
+            queryGraph.RunGraphQueryResults();
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //queryGraph.Nodes[2].Results = TOP;
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+
             // Cleanup
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
@@ -839,6 +855,26 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[2].QueryType);
             Assert.Contains("Q5", queryGraph.Edges[2].Domain);
 
+            // Assert RunQuery
+            queryGraph.RunGraphQueryResults();
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //queryGraph.Nodes[2].Results = TOP;
+            //queryGraph.Nodes[3].Results = TOP;
+
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.NotEmpty(queryGraph.Edges[2].Results);
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P25"));
+
             // Cleanup
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
@@ -909,6 +945,23 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[0].QueryType);
             Assert.Contains("Q5", queryGraph.Edges[0].Range);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
+
+            // Assert RunQuery
+            queryGraph.RunGraphQueryResults();
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+           
+            //queryGraph.Nodes[1].Results = TOP;
+
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
+
+            Assert.NotEmpty(queryGraph.Edges[0].Results);
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
+            
+            Assert.Empty(queryGraph.Edges[1].Results);
 
             // Cleanup
             entitiesIndexPath.DeleteIfExists();

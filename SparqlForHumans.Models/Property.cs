@@ -22,4 +22,18 @@ namespace SparqlForHumans.Models
             return string.IsNullOrWhiteSpace(Value) ? basic : $"{basic} -> {Value}";
         }
     }
+    public class PropertyIdEqualityComparer : IEqualityComparer<Property>
+    {
+        public bool Equals(Property x, Property y)
+        {
+            if (null == x || null == y) return false;
+            return x.Id.Equals(y.Id);
+        }
+
+        public int GetHashCode(Property obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
+
 }
