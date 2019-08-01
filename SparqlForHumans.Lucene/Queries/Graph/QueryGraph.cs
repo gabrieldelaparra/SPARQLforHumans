@@ -25,5 +25,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public List<QueryNode> Nodes { get; set; }
         public List<QueryEdge> Edges { get; set; }
         public Selected Selected { get; set; }
+        public List<string> Results
+        {
+            get
+            {
+                if(Selected.isNode)
+                    return Nodes.Find(x=>x.id.Equals(Selected.id)).Results.Select(x=>$"{x.Id}#{x.Label}").ToList();
+                else
+                    return Edges.Find(x=>x.id.Equals(Selected.id)).Results.Select(x=>$"{x.Id}#{x.Label}").ToList();
+            }
+        }
     }
 }

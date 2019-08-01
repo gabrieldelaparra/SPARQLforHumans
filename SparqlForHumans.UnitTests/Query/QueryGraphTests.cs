@@ -1168,21 +1168,9 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            queryGraph.RunGraphQueryResults();
 
             // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            //Assert.Contains("Q298", queryGraph.Nodes[1].InferredTypes);
-
-            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[1].Domain);
-            //Assert.Contains("Q298", queryGraph.Edges[1].Range);
-
-
-            queryGraph.RunGraphQueryResults();
-            // Assert RunQuery
             //Assert.NotEmpty(queryGraph.Nodes[0].Results);
             //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
