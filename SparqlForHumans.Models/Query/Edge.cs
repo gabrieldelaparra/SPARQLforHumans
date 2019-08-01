@@ -1,8 +1,8 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 
 namespace SparqlForHumans.Models.Query
 {
-    public class Edge
+    public class Edge : IEqualityComparer<Edge>
     {
         public int id { get; set; }
 
@@ -13,5 +13,17 @@ namespace SparqlForHumans.Models.Query
         public int sourceId { get; set; }
 
         public int targetId { get; set; }
+
+        public bool Equals(Edge x, Edge y)
+        {
+            if (ReferenceEquals(x, y)) return true; 
+            if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false; 
+            return x.id == y.id;
+        }
+
+        public int GetHashCode(Edge obj)
+        {
+            return id.GetHashCode();
+        }
     }
 }

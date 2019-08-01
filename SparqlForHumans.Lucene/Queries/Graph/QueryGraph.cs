@@ -4,7 +4,6 @@ using SparqlForHumans.Models.Query;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-    //TODO: Implement IsEqualityComparer<QueryGraph>, para saber si el graph cambió
     public class QueryGraph
     {
         public QueryGraph(RDFExplorerGraph rdfGraph, string entitiesIndexPath = "", string propertyIndexPath = "")
