@@ -26,7 +26,7 @@ namespace SparqlForHumans.CLI
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
-            //CreateIndex("filtered-All-2MM.nt", true);
+            CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             // CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
             //QueryEntities("obam");
@@ -34,7 +34,7 @@ namespace SparqlForHumans.CLI
             //QueryEntities("person");
             //QueryEntities("city");
             //QueryEntities("michelle obama");
-            QueryProperties("educated");
+            //QueryProperties("educated");
 
             Console.Read();
             //Console.WriteLine(dictionary.Count);
@@ -59,16 +59,6 @@ namespace SparqlForHumans.CLI
 
             new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
             new PropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
-
-            //EntitiesIndex.CreateEntitiesIndex(filename, true);
-
-            //var typesAndPropertiesDictionary = IndexBuilder.CreateTypesAndPropertiesDictionary();
-            ////EntitiesIndex.AddIsTypeEntityToEntitiesIndex(typesAndPropertiesDictionary);
-
-            //PropertiesIndex.CreatePropertiesIndex(filename, true);
-
-            //var invertedPropertiesDictionary = typesAndPropertiesDictionary.InvertDictionary();
-            //PropertiesIndex.AddDomainTypesToPropertiesIndex(invertedPropertiesDictionary);
         }
 
         private static void Filter2MM()

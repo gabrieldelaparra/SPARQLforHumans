@@ -18,6 +18,7 @@ namespace SparqlForHumans.Lucene.Queries
         public override List<Property> Query()
         {
             return GetDocuments().ToProperties().Distinct(new PropertyIdEqualityComparer()).OrderByDescending(x=>x.Rank).ToList();
+            //return GetDocuments().ToProperties().Distinct(new PropertyIdEqualityComparer()).OrderByDescending(x=>x.Rank).Take(ResultsLimit).ToList();
         }
     }
 }

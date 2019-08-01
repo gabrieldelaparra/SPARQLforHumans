@@ -115,6 +115,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Where(x => !x.IsInstanceOf()).Select(x => x.GetUriIdentifier())).Query();
                     edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
                     edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
+                    //edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").Take(20).ToList();
+                    //edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").Take(20).ToList();
                 }
             }
 

@@ -26,7 +26,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         public static void RunGraphQueryResults(this QueryGraph graph)
         {
-            graph.RunNodeQueries(graph.EntitiesIndexPath);
+            //graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
         private static void RunNodeQueries(this QueryGraph graph, string indexPath)
