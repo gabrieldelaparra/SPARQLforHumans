@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace SparqlForHumans.Models.Query
 {
-    public class Edge : IEqualityComparer<Edge>
+    public class Edge
     {
         public int id { get; set; }
 
@@ -14,16 +14,18 @@ namespace SparqlForHumans.Models.Query
 
         public int targetId { get; set; }
 
-        public bool Equals(Edge x, Edge y)
+        public override bool Equals(object obj)
         {
-            if (ReferenceEquals(x, y)) return true; 
-            if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false; 
-            return x.id == y.id;
+            var y = obj as Edge;
+            if (y == null) return false;
+            if (ReferenceEquals(this, y)) return true;
+            if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
+            return this.id.Equals(y.id) && this.sourceId.Equals(y.sourceId) && this.targetId.Equals(y.targetId) && this.uris.SequenceEqual(y.uris);
         }
 
-        public int GetHashCode(Edge obj)
+        public override int GetHashCode()
         {
-            return id.GetHashCode();
+            return this.id.GetHashCode() ^ this.sourceId.GetHashCode() ^ this.targetId.GetHashCode() ^ this.uris.GetHashCode();
         }
     }
 }

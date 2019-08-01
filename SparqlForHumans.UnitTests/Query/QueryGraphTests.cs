@@ -3,6 +3,7 @@ using SparqlForHumans.Models.Query;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Utilities;
 using Xunit;
+using System.Linq;
 
 namespace SparqlForHumans.UnitTests.Query
 {
@@ -315,7 +316,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
-            
+
             // Act
             var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
@@ -489,7 +490,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
-            
+
             // Act
             var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
@@ -961,7 +962,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-           
+
             //queryGraph.Nodes[1].Results = TOP;
 
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
@@ -970,7 +971,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-            
+
             Assert.Empty(queryGraph.Edges[1].Results);
 
             // Cleanup
@@ -1013,7 +1014,7 @@ namespace SparqlForHumans.UnitTests.Query
                         sourceId = 0,
                         targetId = 1,
                     },
-                    
+
                 },
             };
             // Arrange
@@ -1092,7 +1093,7 @@ namespace SparqlForHumans.UnitTests.Query
                         sourceId = 0,
                         targetId = 2,
                     },
-                    
+
                 },
             };
             // Arrange
@@ -1162,7 +1163,7 @@ namespace SparqlForHumans.UnitTests.Query
                         sourceId = 0,
                         targetId = 1,
                     },
-                    
+
                 },
             };
 
@@ -1174,14 +1175,134 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.NotEmpty(queryGraph.Nodes[0].Results);
             //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-           
+
             //Assert.NotEmpty(queryGraph.Nodes[1].Results);
             //queryGraph.Nodes[1].Results = TOP;
 
             Assert.Empty(queryGraph.Edges[0].Results);
             //Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-            
+
             Assert.NotEmpty(queryGraph.Edges[1].Results);
         }
+
+        [Fact]
+        public void TestEqualGraphs()
+        {
+            // Arrange
+            var graph1 = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(){id = 0,name = "?varDomain0",},
+                    new Node(){id = 1,name = "?varRange1",},
+                },
+                edges = new[]
+                {
+                    new Edge(){id = 0,name = "?CountryOfCitizenship",sourceId = 0,targetId = 1,uris = new string[]{"http://www.wikidata.org/prop/direct/P27"}},
+                    new Edge(){id = 1,name = "?propDomainRange1",sourceId = 0,targetId = 1,},
+
+                },
+            };
+
+            var graph2 = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(){id = 0,name = "?varDomain0",},
+                    new Node(){id = 1,name = "?varRange1",},
+                },
+                edges = new[]
+                {
+                    new Edge(){id = 0,name = "?CountryOfCitizenship",sourceId = 0,targetId = 1,uris = new string[]{"http://www.wikidata.org/prop/direct/P27"}},
+                    new Edge(){id = 1,name = "?propDomainRange1",sourceId = 0,targetId = 1,},
+
+                },
+            };
+
+            //Are equal:
+            Assert.Equal(graph1, graph2);
+
+            //Node: Change name
+            graph1.nodes[0].name = "cambio";
+            Assert.Equal(graph1, graph2);
+
+
+            //Node: Change Id
+            graph1.nodes[0].id = 2;
+            Assert.NotEqual(graph1, graph2);
+            graph1.nodes[0].id = 0;
+            Assert.Equal(graph1, graph2);
+
+            //Node: Change uris
+            graph1.nodes[0].uris = new[] { "uri1" };
+            Assert.NotEqual(graph1, graph2);
+            graph1.nodes[0].uris = new string[] { };
+            Assert.Equal(graph1, graph2);
+
+            //Node: Add node
+            graph1.nodes = graph1.nodes.ToList().Append(new Node() { id = 2, name = "new" }).ToArray();
+            Assert.NotEqual(graph1, graph2);
+            graph1.nodes = graph1.nodes.ToList().Take(2).ToArray();
+            Assert.Equal(graph1, graph2);
+
+            //Node: Remove Node
+            graph1.nodes = graph1.nodes.ToList().Take(1).ToArray();
+            Assert.NotEqual(graph1, graph2);
+            graph1.nodes = graph1.nodes.ToList().Append(new Node() { id = 1, name = "?varRange1" }).ToArray();
+            Assert.Equal(graph1, graph2);
+
+            //Edge: Change name
+            graph1.edges[0].name = "cambio";
+            Assert.Equal(graph1, graph2);
+
+            //Edge: change Id
+            graph1.edges[0].id = 2;
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges[0].id = 0;
+            Assert.Equal(graph1, graph2);
+
+            //Edge: change source Id
+            graph1.edges[0].sourceId = 2;
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges[0].sourceId = 0;
+            Assert.Equal(graph1, graph2);
+
+            //Edge: change target Id
+            graph1.edges[0].targetId = 2;
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges[0].targetId = 1;
+            Assert.Equal(graph1, graph2);
+
+            //Edge: Change uris
+            graph1.edges[0].uris = new string[] { };
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges[0].uris = new string[] { "http://www.wikidata.org/prop/direct/P27", "http://www.wikidata.org/prop/direct/P27" };
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges[0].uris = new[] { "http://www.wikidata.org/prop/direct/P27" };
+            Assert.Equal(graph1, graph2);
+
+            //Edge: Add node
+            graph1.edges = graph1.edges.ToList().Append(new Edge() { id = 2, name = "new" }).ToArray();
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges = graph1.edges.ToList().Take(2).ToArray();
+            Assert.Equal(graph1, graph2);
+
+            //Edge: Remove Node
+            graph1.edges = graph1.edges.ToList().Take(1).ToArray();
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges = graph1.edges.ToList().Append(new Edge() { id = 1, name = "?warever", sourceId = 0, targetId = 0 }).ToArray();
+            Assert.NotEqual(graph1, graph2);
+            graph1.edges = graph1.edges.ToList().Take(1).ToArray();
+            graph1.edges = graph1.edges.ToList().Append(new Edge() { id = 1, name = "?warever", sourceId = 0, targetId = 1 }).ToArray();
+            Assert.Equal(graph1, graph2);
+
+            //Selected
+            graph1.selected = new Selected(){id = 0, isNode=true};
+            Assert.Equal(graph1, graph2);
+            graph1.selected = new Selected(){id = 1, isNode=false};
+            Assert.Equal(graph1, graph2);
+        }
+
+
     }
 }

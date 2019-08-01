@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace SparqlForHumans.Models.Query
 {
-    public class RDFExplorerGraph : IEqualityComparer<RDFExplorerGraph>
+    public class RDFExplorerGraph
     {
         public Node[] nodes { get; set; } = new Node[0];
 
@@ -11,23 +12,24 @@ namespace SparqlForHumans.Models.Query
 
         public Selected selected { get; set; } = new Selected();
 
+        public override bool Equals(object obj)
+        {
+            var y = obj as RDFExplorerGraph;
+            if (y == null) return false;
+            if (ReferenceEquals(this, y)) return true;
+            if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
+            return this.nodes.SequenceEqual(y.nodes) && this.edges.SequenceEqual(y.edges);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.nodes.GetHashCode() ^ this.edges.GetHashCode();
+        }
+
         public override string ToString()
         {
             return $"{string.Join<Node>(";", nodes)}";
         }
 
-        public bool Equals(RDFExplorerGraph x, RDFExplorerGraph y)
-        {
-            if (ReferenceEquals(x, y)) return true; 
-            if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false;
-            return x.nodes.SequenceEqual(y.nodes) && x.edges.SequenceEqual(y.edges);
-        }
-
-        public int GetHashCode(RDFExplorerGraph obj)
-        {
-            return nodes.GetHashCode() ^ edges.GetHashCode();
-        }
     }
-
-
 }

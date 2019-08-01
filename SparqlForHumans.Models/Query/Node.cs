@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Models.Query
 {
-    public class Node : IEqualityComparer<Node>
+    public class Node
     {
         public int id { get; set; }
 
@@ -10,16 +11,18 @@ namespace SparqlForHumans.Models.Query
 
         public string[] uris { get; set; } = new string[0];
 
-        public bool Equals(Node x, Node y)
+        public override bool Equals(object obj)
         {
-            if (ReferenceEquals(x, y)) return true; 
-            if (ReferenceEquals(x, null) || ReferenceEquals(y, null)) return false; 
-            return x.id == y.id;
+            var y = obj as Node;
+            if (y == null) return false;
+            if (ReferenceEquals(this, y)) return true;
+            if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
+            return this.id.Equals(y.id) && this.uris.SequenceEqual(y.uris);
         }
 
-        public int GetHashCode(Node obj)
+        public override int GetHashCode()
         {
-            return id.GetHashCode();
+            return this.id.GetHashCode() ^ this.uris.GetHashCode();
         }
     }
 }
