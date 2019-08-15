@@ -1,4 +1,6 @@
-﻿using SparqlForHumans.Lucene;
+﻿using Lucene.Net.Index;
+using Lucene.Net.Store;
+using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
@@ -17,6 +19,7 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
+            //CreateDemographics();
             //FilterAll();
             //Filter5k();
             //Filter500k();
@@ -26,9 +29,9 @@ namespace SparqlForHumans.CLI
             ////Filter500k();
             //Filter2MM();
             //CreateIndex("filtered-All-5k.nt", true);
-            CreateIndex("filtered-All-2MM.nt", true);
+            //CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
-            // CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
+            CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
             //QueryEntities("obam");
             //QueryEntities("hum");
             //QueryEntities("person");
@@ -36,7 +39,7 @@ namespace SparqlForHumans.CLI
             //QueryEntities("michelle obama");
             //QueryProperties("educated");
 
-            Console.Read();
+            //Console.Read();
             //Console.WriteLine(dictionary.Count);
 
             //TestBuilderHelper.GetFirst20ObamaTriplesGroups();
@@ -47,6 +50,22 @@ namespace SparqlForHumans.CLI
             //CreateIndex2MM(true);
             //CreatePropertyIndex(true);
             //IndexBuilder.CreateTypesIndex();
+        }
+
+        public static void CreateDemographics()
+        {
+            var logger = Logger.Logger.Init();
+            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath))
+            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
+            {
+                var docCount = luceneDirectoryReader.MaxDoc;
+                for (int i = 0; i < docCount; i++)
+                {
+                    var doc = luceneDirectoryReader.Document(i);
+                    var prop = doc.MapProperty();
+                    logger.Info($"{prop.Id},{prop.Label.Replace(",","-")},{prop.Range.Count()},{prop.Domain.Count()}");
+                }
+            }
         }
 
         public static void CreateIndex(string filename, bool overwrite = false)
