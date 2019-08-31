@@ -50,20 +50,20 @@ namespace SparqlForHumans.Utilities
             return invertedDictionary;
         }
 
-        //public static Dictionary<T2, T1[]> InvertDictionary<T1, T2>(this Dictionary<T1, T2[]> dictionary)
-        //{
-        //    var invertedDictionary = new Dictionary<T2, List<T1>>();
+        public static Dictionary<T2, T1[]> InvertDictionary<T1, T2>(this Dictionary<T1, T2[]> dictionary)
+        {
+            var invertedDictionary = new Dictionary<T2, List<T1>>();
 
-        //    foreach (var type in dictionary)
-        //    {
-        //        foreach (var property in type.Value)
-        //        {
-        //            invertedDictionary.AddSafe(property, type.Key);
-        //        }
-        //    }
+            foreach (var type in dictionary)
+            {
+                foreach (var property in type.Value)
+                {
+                    invertedDictionary.AddSafe(property, type.Key);
+                }
+            }
 
-        //    return invertedDictionary.ToArrayDictionary();
-        //}
+            return invertedDictionary.ToArrayDictionary();
+        }
 
         public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
