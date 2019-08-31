@@ -26,6 +26,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         public static void RunGraphQueryResults(this QueryGraph graph)
         {
+            InMemoryQueryEngine.Init(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
             graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
@@ -74,32 +75,55 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 string sourceUri = string.Empty;
                 List<Property> domainProperties = new List<Property>(0);
                 List<Property> rangeProperties = new List<Property>(0);
+                List<int> domainPropertiesIds = new List<int>(0);
+                List<int> rangePropertiesIds = new List<int>(0);
+                List<string> propertiesIds = new List<string>(0);
                 switch (edge.QueryType)
                 {
                     case QueryType.QueryTopProperties:
                         edge.Results = new MultiLabelPropertyQuery(indexPath, "*").Query();
                         break;
                     case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
-                        domainProperties = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
-                        rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
-                        edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
+                        domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier()));
+                        rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = domainPropertiesIds.Intersect(rangePropertiesIds).Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //domainProperties = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
                         break;
                     case QueryType.KnownSubjectTypeOnlyQueryDomainProperties:
-                        edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = domainPropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.KnownObjectTypeOnlyQueryRangeProperties:
-                        edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = rangePropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.InferredDomainAndRangeTypeProperties:
-                        domainProperties = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
-                        rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
-                        edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
+                        domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).InferredTypes.Select(y => y.GetUriIdentifier()));
+                        rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).InferredTypes.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = domainPropertiesIds.Intersect(rangePropertiesIds).Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //domainProperties = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
+                        //rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
+                        //edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
                         break;
                     case QueryType.InferredDomainTypeProperties:
-                        edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
+                        domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).InferredTypes.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = domainPropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.InferredRangeTypeProperties:
-                        edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
+                        rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).InferredTypes.Select(y => y.GetUriIdentifier()));
+                        propertiesIds = rangePropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.InferredDomainTypeEntities:
                     case QueryType.InferredDomainAndRangeTypeEntities:
