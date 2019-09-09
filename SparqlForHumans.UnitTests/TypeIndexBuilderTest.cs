@@ -24,36 +24,4 @@ namespace SparqlForHumans.UnitTests
     ///     (Human) Q5 (Obama + OtherHuman): P31, P27, P555, P33, P44
     ///     (Country) Q17 (Chile): P31, P555, P777
     /// </summary>
-    public class TypeIndexBuilderTest
-    {
-        [Fact]
-        public static void TestCreateEntitiesTypesPropertiesDictionary()
-        {
-            Assert.False(true);
-            //const string filename = "Resources/TypeProperties.nt";
-            //const string outputPath = "TypeAddFolderProperties";
-
-            //outputPath.DeleteIfExists();
-            //Assert.False(Directory.Exists(outputPath));
-
-            //new EntitiesIndexer(filename, outputPath).Index();
-            //using (var luceneIndexDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            //{
-            //    //var dictionary = IndexBuilder.CreateTypesAndPropertiesDictionary(luceneIndexDirectory);
-
-            //    //Assert.Equal(2, dictionary.Count);
-
-            //    //Assert.Equal(5, dictionary.Keys.ElementAt(0));
-            //    //Assert.Equal(17, dictionary.Keys.ElementAt(1));
-
-            //    ////P27, P555, P33, P44
-            //    //Assert.Equal(4, dictionary.ElementAt(0).Value.Length);
-
-            //    ////P555, P777
-            //    //Assert.Equal(2, dictionary.ElementAt(1).Value.Length);
-            //}
-
-            //outputPath.DeleteIfExists();
-        }
-    }
 }

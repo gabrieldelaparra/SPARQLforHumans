@@ -73,11 +73,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 string targetUri = string.Empty;
                 string sourceUri = string.Empty;
-                List<Property> domainProperties = new List<Property>(0);
-                List<Property> rangeProperties = new List<Property>(0);
-                List<int> domainPropertiesIds = new List<int>(0);
-                List<int> rangePropertiesIds = new List<int>(0);
-                List<string> propertiesIds = new List<string>(0);
+                //var domainProperties = new List<Property>(0);
+                //var rangeProperties = new List<Property>(0);
+                var domainPropertiesIds = new List<int>(0);
+                var rangePropertiesIds = new List<int>(0);
+                var propertiesIds = new List<string>(0);
                 switch (edge.QueryType)
                 {
                     case QueryType.QueryTopProperties:

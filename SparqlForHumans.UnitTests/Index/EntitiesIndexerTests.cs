@@ -388,36 +388,6 @@ namespace SparqlForHumans.UnitTests.Index
         }
 
         [Fact]
-        public void TestCreateSingleInstanceIndexPropertiesAndValues()
-        {
-            Assert.False(true);
-            //const string filename = "Resources/SingleInstanceDump.nt";
-            //const string outputPath = "IndexSinglePropAndValues";
-
-            //outputPath.DeleteIfExists();
-
-            //using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            //{
-            //    IndexBuilder.CreateEntitiesIndex(filename, luceneDirectory, false);
-            //    using (var reader = DirectoryReader.Open(luceneDirectory))
-            //    {
-            //        var doc = reader.Document(0);
-
-            //        Assert.Equal(4, doc.GetValues(Labels.PropertyAndValue).Length);
-
-            //        Assert.Equal("P17##Q145", doc.GetValue(Labels.PropertyAndValue));
-
-            //        Assert.Equal("P17##Q145", doc.GetValues(Labels.PropertyAndValue)[0]);
-            //        Assert.Equal("P47##Q27", doc.GetValues(Labels.PropertyAndValue)[1]);
-            //        Assert.Equal("P30##Q46", doc.GetValues(Labels.PropertyAndValue)[2]);
-            //        Assert.Equal("P131##Q145", doc.GetValues(Labels.PropertyAndValue)[3]);
-            //    }
-            //}
-
-            //outputPath.DeleteIfExists();
-        }
-
-        [Fact]
         public void TestCreateSingleInstanceIndexSubClass()
         {
             const string filename = "Resources/EntityIndexSingleInstance.nt";
