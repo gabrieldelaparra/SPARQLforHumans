@@ -11,6 +11,7 @@
         KnownSubjectAndObjectTypesIntersectDomainRangeProperties,
         KnownSubjectTypeQueryInstanceEntities,
         KnownObjectTypeNotUsed,
+        KnownPredicateAndObject,
         KnownSubjectAndObjectTypesQueryInstanceEntities,
         InferredDomainAndRangeTypeProperties,
         InferredDomainTypeProperties,

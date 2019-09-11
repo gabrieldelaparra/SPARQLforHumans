@@ -12,7 +12,7 @@ namespace SparqlForHumans.Server.Controllers
         public IActionResult Run(string term)
         {
             var filteredItems = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, term).Query();
-            filteredItems.AddProperties();
+            //filteredItems.AddProperties();
 
             return Json(filteredItems);
         }

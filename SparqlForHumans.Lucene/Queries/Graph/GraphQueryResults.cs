@@ -27,12 +27,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static void RunGraphQueryResults(this QueryGraph graph)
         {
             InMemoryQueryEngine.Init(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-            graph.RunNodeQueries(graph.EntitiesIndexPath);
+            //graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
         private static void RunNodeQueries(this QueryGraph graph, string indexPath)
         {
-            foreach (var node in graph.Nodes)
+            foreach (var node in graph.Nodes.Select(x=>x.Value))
             {
                 switch (node.QueryType)
                 {
@@ -43,7 +43,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         break;
                     case QueryType.QueryTopEntities:
                         //This should be done with the Wikipedia Endpoint
-                        node.Results = new MultiLabelEntityQuery(indexPath, "*").Query();
+                        //node.Results = new MultiLabelEntityQuery(indexPath, "*").Query();
+                        node.Results = new List<Entity>();
                         break;
                     case QueryType.InferredDomainAndRangeTypeEntities:
                     case QueryType.InferredDomainTypeEntities:
@@ -51,16 +52,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //This should be done with the Wikipedia Endpoint
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
-                    case QueryType.InferredDomainAndRangeTypeProperties:
-                    case QueryType.InferredDomainTypeProperties:
-                    case QueryType.InferredRangeTypeProperties:
-                    case QueryType.KnownSubjectTypeOnlyQueryDomainProperties:
-                    case QueryType.KnownObjectTypeOnlyQueryRangeProperties:
-                    case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
-                    case QueryType.Unkwown:
-                    case QueryType.QueryTopProperties:
-                    case QueryType.ConstantTypeDoNotQuery:
+                    case QueryType.KnownPredicateAndObject:
                     case QueryType.KnownObjectTypeNotUsed:
+                    case QueryType.ConstantTypeDoNotQuery:
+                    case QueryType.Unkwown:
                     default:
                         break;
                 }
@@ -69,7 +64,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static void RunEdgeQueries(this QueryGraph graph, string indexPath)
         {
-            foreach (var edge in graph.Edges)
+            foreach (var edge in graph.Edges.Select(x=>x.Value))
             {
                 string targetUri = string.Empty;
                 string sourceUri = string.Empty;
@@ -87,7 +82,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         propertiesIds = domainPropertiesIds.Intersect(rangePropertiesIds).Distinct().Select(x => $"P{x}").ToList();
-                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
                         //domainProperties = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         //rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         //edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
@@ -95,13 +90,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     case QueryType.KnownSubjectTypeOnlyQueryDomainProperties:
                         domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         propertiesIds = domainPropertiesIds.Distinct().Select(x => $"P{x}").ToList();
-                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
                         //edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.KnownObjectTypeOnlyQueryRangeProperties:
                         rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         propertiesIds = rangePropertiesIds.Distinct().Select(x => $"P{x}").ToList();
-                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
+                        edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.InferredDomainAndRangeTypeProperties:
@@ -125,15 +120,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
-                    case QueryType.InferredDomainTypeEntities:
-                    case QueryType.InferredDomainAndRangeTypeEntities:
-                    case QueryType.InferredRangeTypeEntities:
-                    case QueryType.Unkwown:
-                    case QueryType.KnownSubjectTypeQueryInstanceEntities:
-                    case QueryType.QueryTopEntities:
                     case QueryType.ConstantTypeDoNotQuery:
-                    case QueryType.KnownObjectTypeNotUsed:
-                    case QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities:
+                    case QueryType.Unkwown:
                     default:
                         break;
                 }

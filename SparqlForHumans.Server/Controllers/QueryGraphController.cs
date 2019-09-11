@@ -16,22 +16,22 @@ namespace SparqlForHumans.Server.Controllers
         {
             var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
             queryGraph.RunGraphQueryResults();
-            var selectedId = queryGraph.Selected.id;
-            var results = queryGraph.Selected.isNode ? ToDictionary(queryGraph.Nodes[queryGraph.Selected.id].Results) : ToDictionary(queryGraph.Edges[queryGraph.Selected.id].Results);
+            var id = queryGraph.Selected.id;
+            var results = queryGraph.Selected.isNode ? ToDictionary(queryGraph.Nodes[id].Results) : ToDictionary(queryGraph.Edges[id].Results);
             return Json(results);
         }
         public class Result
         {
             public string Id { get; set; }
-            public string Label { get; set; }
+            public string Value { get; set; }
         }
         public Dictionary<string, Result> ToDictionary(IEnumerable<Property> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/prop/direct/{y.Id}", Label = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/prop/direct/{y.Id}", Value = y.Label });
         }
         public Dictionary<string, Result> ToDictionary(IEnumerable<Entity> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/entity/{y.Id}", Label = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/entity/{y.Id}", Value = y.Label });
         }
     }
 

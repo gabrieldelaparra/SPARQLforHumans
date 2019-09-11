@@ -1303,42 +1303,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(graph1, graph2);
         }
 
-        /**
-        -  graph {SparqlForHumans.Models.Query.Node;SparqlForHumans.Models.Query.Node;SparqlForHumans.Models.Query.Node} SparqlForHumans.Models.Query.RDFExplorerGraph
-        -  edges {SparqlForHumans.Models.Query.Edge[2]} SparqlForHumans.Models.Query.Edge[]
-        -  [0] {SparqlForHumans.Models.Query.Edge} SparqlForHumans.Models.Query.Edge
-                id 0 int
-                name "prop0" string
-                sourceId 1 int
-                targetId 0 int
-        -  uris {string[1]} string[]
-                [0] "instance of" string
-        -  [1] {SparqlForHumans.Models.Query.Edge} SparqlForHumans.Models.Query.Edge
-                id 1 int
-                name "prop1" string
-                sourceId 1 int
-                targetId 2 int
-                uris {string[0]} string[]
-        -  nodes {SparqlForHumans.Models.Query.Node[3]} SparqlForHumans.Models.Query.Node[]
-        -  [0] {SparqlForHumans.Models.Query.Node} SparqlForHumans.Models.Query.Node
-                id 0 int
-                name "var0" string
-        -  uris {string[1]} string[]
-                [0] "http://www.wikidata.org/entity/Q39715" string
-        -  [1] {SparqlForHumans.Models.Query.Node} SparqlForHumans.Models.Query.Node
-                id 1 int
-                name "var1" string
-                uris {string[0]} string[]
-        -  [2] {SparqlForHumans.Models.Query.Node} SparqlForHumans.Models.Query.Node
-                id 2 int
-                name "var2" string
-                uris {string[0]} string[]
-        -  selected {SparqlForHumans.Models.Query.Selected} SparqlForHumans.Models.Query.Selected
-                id 1 int
-                isNode false bool
-        **/
         [Fact]
-        public void LightHouseSampleWasNotWorking()
+        public void TestPropertiesGoingToObamaShouldBeHumanProperties()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -1353,12 +1319,7 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 1,
                         name = "?var1",
-                    },
-                    new Node()
-                    {
-                        id = 2,
-                        name = "?var2",
-                        uris = new string[]{"http://www.wikidata.org/entity/Q5"}
+                        uris = new string[]{"http://www.wikidata.org/entity/Q76"},
                     },
                 },
                 edges = new[]
@@ -1367,39 +1328,54 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         id = 0,
                         name = "?prop0",
-                        sourceId = 1,
-                        targetId = 0,
-                    },
-                    new Edge()
-                    {
-                        id = 1,
-                        name = "?prop1",
                         sourceId = 0,
-                        targetId = 2,
-                        uris = new string[]{"http://www.wikidata.org/prop/direct/P31"}
+                        targetId = 1,
+                        uris = new string[0]
                     }
                 },
             };
-            var queryGraph = new QueryGraph(graph);
-
-            // Node 0 is type Q5. 
-            // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(QueryType.KnownSubjectTypeQueryInstanceEntities, queryGraph.Nodes[0].QueryType);
-
-            // Q1 should be something like: I don't know anything about this type. 
-            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            Assert.Equal(QueryType.KnownObjectTypeNotUsed, queryGraph.Nodes[1].QueryType);
-
-            // Constant, should not have results.
-            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
-
-            // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
+            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            Assert.Equal(QueryType.KnownObjectTypeNotUsed, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.KnownObjectTypeOnlyQueryRangeProperties, queryGraph.Edges[0].QueryType);
-
-            // Constant, should not have results.
-            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
         }
 
+        [Fact]
+        public void TestUnkownSubjectKnownPredicateKnownObjectShouldThenNotBeInferred()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node()
+                    {
+                        id = 0,
+                        name = "?varSiblingsOfObama",
+                    },
+                    new Node()
+                    {
+                        id = 1,
+                        name = "obama",
+                        uris = new string[]{"http://www.wikidata.org/entity/Q76"},
+                    },
+                },
+                edges = new[]
+                {
+                    new Edge()
+                    {
+                        id = 0,
+                        name = "sibling",
+                        sourceId = 0,
+                        targetId = 1,
+                        uris = new string[]{"http://www.wikidata.org/prop/direct/P3373"},
+                    }
+                },
+            };
+            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            Assert.Equal(QueryType.KnownPredicateAndObject, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[0].QueryType);
+        }
 
     }
 }

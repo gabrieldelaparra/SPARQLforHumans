@@ -10,28 +10,30 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             EntitiesIndexPath = entitiesIndexPath;
             PropertiesIndexPath = propertyIndexPath;
-            Edges = rdfGraph.edges.Select(x => new QueryEdge(x)).ToList();
-            Nodes = rdfGraph.nodes.Select(x => new QueryNode(x)).ToList();
+            Edges = rdfGraph.edges.ToDictionary(  x => x.id, x=> new QueryEdge(x));
+            Nodes = rdfGraph.nodes.ToDictionary(  x => x.id, x=> new QueryNode(x));
             Selected = rdfGraph.selected;
-            this.ExploreGraph(PropertiesIndexPath);
-            this.Nodes.ForEach(x => this.TraverseDepthFirstNode(x.id));
-            this.Edges.ForEach(x => this.TraverseDepthFirstEdge(x.id));
+            this.ExploreGraph(EntitiesIndexPath, PropertiesIndexPath);
+            foreach (var item in this.Nodes)
+                this.TraverseDepthFirstNode(item.Key);
+            foreach (var item in this.Edges)
+                this.TraverseDepthFirstEdge(item.Key);
         }
 
         public string EntitiesIndexPath { get; set; }
         public string PropertiesIndexPath { get; set; }
 
-        public List<QueryNode> Nodes { get; set; }
-        public List<QueryEdge> Edges { get; set; }
+        public Dictionary<int, QueryNode> Nodes { get; set; }
+        public Dictionary<int, QueryEdge> Edges { get; set; }
         public Selected Selected { get; set; }
         public List<string> Results
         {
             get
             {
-                if(Selected.isNode)
-                    return Nodes.Find(x=>x.id.Equals(Selected.id)).Results.Select(x=>$"{x.Id}#{x.Label}").ToList();
+                if (Selected.isNode)
+                    return Nodes.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
                 else
-                    return Edges.Find(x=>x.id.Equals(Selected.id)).Results.Select(x=>$"{x.Id}#{x.Label}").ToList();
+                    return Edges.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
             }
         }
     }

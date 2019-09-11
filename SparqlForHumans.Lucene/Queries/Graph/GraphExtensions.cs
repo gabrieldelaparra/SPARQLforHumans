@@ -26,20 +26,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
         public static QueryNode GetSourceNode(this QueryEdge edge, QueryGraph graph)
         {
-            return graph.Nodes.Find(x => x.id.Equals(edge.sourceId));
+            return graph.Nodes.FirstOrDefault(x => x.Key.Equals(edge.sourceId)).Value;
         }
         public static QueryNode GetTargetNode(this QueryEdge edge, QueryGraph graph)
         {
-            return graph.Nodes.Find(x => x.id.Equals(edge.targetId));
+            return graph.Nodes.FirstOrDefault(x => x.Key.Equals(edge.targetId)).Value;
         }
         internal static IEnumerable<QueryEdge> GetOutgoingEdges(this QueryNode node, QueryGraph graph)
         {
-            return graph.Edges.Where(x => x.sourceId.Equals(node.id));
+            return graph.Edges.Select(x=>x.Value).Where(x => x.sourceId.Equals(node.id));
         }
 
         internal static IEnumerable<QueryEdge> GetIncommingEdges(this QueryNode node, QueryGraph graph)
         {
-            return graph.Edges.Where(x => x.targetId.Equals(node.id));
+            return graph.Edges.Select(x=>x.Value).Where(x => x.targetId.Equals(node.id));
         }
 
         internal static IEnumerable<QueryNode> GetOutgoingNodes(this QueryNode node, QueryGraph graph)
@@ -60,6 +60,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
             else if (node.IsInferredTypeDomain && node.IsInferredTypeRange)
                 node.QueryType = QueryType.InferredDomainAndRangeTypeEntities;
+            else if (node.IsInferredTypeDomain && node.IsDirectedToKnownType)
+                node.QueryType = QueryType.KnownPredicateAndObject;
             else if (node.IsInferredTypeDomain)
                 node.QueryType = QueryType.InferredDomainTypeEntities;
             else if (node.IsInferredTypeRange)
@@ -103,9 +105,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 edge.QueryType = QueryType.QueryTopProperties;
         }
 
-        internal static void ExploreGraph(this QueryGraph graph, string propertyIndexPath)
+        internal static void ExploreGraph(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
-            foreach (var edge in graph.Edges)
+            foreach (var edge in graph.Edges.Select(x=>x.Value))
             {
                 if (edge.uris.HasInstanceOf())
                     edge.IsInstanceOf = true;
@@ -115,17 +117,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Select(x => x.GetUriIdentifier())).Query();
                     edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
                     edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
-                    //edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").Take(20).ToList();
-                    //edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").Take(20).ToList();
                 }
             }
 
-            foreach (var node in graph.Nodes)
+            foreach (var node in graph.Nodes.Select(x=>x.Value))
             {
                 if (node.GetInstanceOfValues(graph).Any())
                 {
                     node.IsKnownType = true;
                     node.Types = node.GetOutgoingNodes(graph).SelectMany(x => x.uris).Distinct().ToList();
+                }
+                else if (node.uris.Any())
+                {
+                    node.IsKnownType = true;
+                    node.Types = new BatchIdEntityQuery(entitiesIndexPath, node.uris.Distinct()).Query().SelectMany(x => x.InstanceOf).ToList();
                 }
                 else
                 {
@@ -142,7 +147,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
             }
 
-            foreach (var node in graph.Nodes)
+            foreach (var node in graph.Nodes.Select(x=>x.Value))
             {
                 if (node.GetOutgoingNodes(graph).Any(x => x.IsKnownType))
                     node.IsDirectedToKnownType = true;
@@ -153,7 +158,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         internal static void TraverseDepthFirstNode(this QueryGraph graph, int nodeId)
         {
             // Get the Node
-            var node = graph.Nodes.Find(x => x.id.Equals(nodeId));
+            var node = graph.Nodes.FirstOrDefault(x => x.Key.Equals(nodeId)).Value;
             if (node.Traversed) return;
 
             // Check rules for this Node:
@@ -172,7 +177,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         internal static void TraverseDepthFirstEdge(this QueryGraph graph, int edgeId)
         {
             // Get the Edge
-            var edge = graph.Edges.Find(x => x.id.Equals(edgeId));
+            var edge = graph.Edges.FirstOrDefault(x => x.Key.Equals(edgeId)).Value;
             if (edge.Traversed) return;
 
             // Check rules for this Edge:
