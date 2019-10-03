@@ -8,7 +8,7 @@ using System.Linq;
 namespace SparqlForHumans.Server.Controllers
 {
     [Produces("application/json")]
-    [Route("api/QueryGraph")]
+    [Route("api/[controller]")]
     public class QueryGraphController : Controller
     {
         [HttpPost]

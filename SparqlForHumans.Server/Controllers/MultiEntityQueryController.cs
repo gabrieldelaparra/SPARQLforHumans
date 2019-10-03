@@ -6,7 +6,7 @@ using SparqlForHumans.Lucene.Queries;
 namespace SparqlForHumans.Server.Controllers
 {
     [Produces("application/json")]
-    [Route("api/MultiEntityQuery")]
+    [Route("api/[controller]")]
     public class MultiEntityQueryController : Controller
     {
         public IActionResult Run(string term)
