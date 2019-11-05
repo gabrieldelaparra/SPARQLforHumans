@@ -3,73 +3,43 @@ using System;
 
 namespace SparqlForHumans.Wikidata.Models
 {
+    public class WikidataResult
+    {
+        public WikidataResult(Result result)
+        {
+            this.Id = result.Id;
+            this.Description = result.Description;
+            this.Label = result.Label;
+            this.Title = result.Title;
+            this.Url = result.Url;
+        }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
+        public string Label { get; set; }
+        public string Description { get; set; }
+    }
     public class WikidataSearchEntitiesResult
     {
-        [JsonProperty("searchinfo")]
-        public Searchinfo Searchinfo { get; set; }
-
         [JsonProperty("search")]
-        public Search[] Search { get; set; }
-
-        [JsonProperty("search-continue", NullValueHandling = NullValueHandling.Ignore)]
-        public long SearchContinue { get; set; }
-
-        [JsonProperty("success")]
-        public long Success { get; set; }
+        public Result[] Search { get; set; }
     }
 
-    public class Search
+    public class Result
     {
-        [JsonProperty("repository")]
-        public string Repository { get; set; }
-
-        [JsonProperty("id")]
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
-        [JsonProperty("concepturi")]
-        public Uri Concepturi { get; set; }
-
-        [JsonProperty("title")]
+        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
 
-        [JsonProperty("pageid")]
-        public long Pageid { get; set; }
-
-        [JsonProperty("url")]
+        [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
         public string Url { get; set; }
 
-        [JsonProperty("label")]
+        [JsonProperty("label", NullValueHandling = NullValueHandling.Ignore)]
         public string Label { get; set; }
 
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
-
-        [JsonProperty("match")]
-        public Match Match { get; set; }
-
-        [JsonProperty("aliases", NullValueHandling = NullValueHandling.Ignore)]
-        public string[] Aliases { get; set; }
     }
-
-    public class Match
-    {
-        [JsonProperty("type")]
-        public TypeEnum Type { get; set; }
-
-        [JsonProperty("language")]
-        public Language Language { get; set; }
-
-        [JsonProperty("text")]
-        public string Text { get; set; }
-    }
-
-    public class Searchinfo
-    {
-        [JsonProperty("search")]
-        public string Search { get; set; }
-    }
-
-    public enum Language { En };
-
-    public enum TypeEnum { Alias, Label };
 }
