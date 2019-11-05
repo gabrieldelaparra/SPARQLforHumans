@@ -78,7 +78,6 @@ namespace SparqlForHumans.UnitTests.Query
                         name = "?prop0",
                         sourceId = 0,
                         targetId = 1,
-                        uris = new string[0]
                     }
                 },
             };
@@ -145,7 +144,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
 
             // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(QueryType.KnownSubjectTypeOnlyQueryDomainProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownSubjectTypeQueryDomainProperties, queryGraph.Edges[0].QueryType);
 
             // Constant, should not have results.
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
@@ -208,7 +207,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[2].QueryType);
 
             // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(QueryType.KnownObjectTypeOnlyQueryRangeProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[0].QueryType);
 
             // Constant, should not have results.
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[1].QueryType);
@@ -1337,7 +1336,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
             Assert.Equal(QueryType.KnownObjectTypeNotUsed, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.KnownObjectTypeOnlyQueryRangeProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[0].QueryType);
         }
 
         [Fact]
@@ -1372,7 +1371,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
-            Assert.Equal(QueryType.KnownPredicateAndObject, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.KnownPredicateAndObjectNotUsed, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[0].QueryType);
         }
