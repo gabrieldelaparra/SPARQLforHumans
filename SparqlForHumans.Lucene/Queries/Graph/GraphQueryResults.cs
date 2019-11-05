@@ -52,10 +52,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //This should be done with the Wikipedia Endpoint
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
-                    case QueryType.KnownPredicateAndObject:
+                    case QueryType.KnownPredicateAndObjectNotUsed:
                     case QueryType.KnownObjectTypeNotUsed:
                     case QueryType.ConstantTypeDoNotQuery:
-                    case QueryType.Unkwown:
+                    case QueryType.Unknown:
                     default:
                         break;
                 }
@@ -87,13 +87,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //rangeProperties = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         //edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
                         break;
-                    case QueryType.KnownSubjectTypeOnlyQueryDomainProperties:
+                    case QueryType.KnownSubjectTypeQueryDomainProperties:
                         domainPropertiesIds = InMemoryQueryEngine.BatchIdPropertyDomainQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         propertiesIds = domainPropertiesIds.Distinct().Select(x => $"P{x}").ToList();
                         edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
                         //edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
-                    case QueryType.KnownObjectTypeOnlyQueryRangeProperties:
+                    case QueryType.KnownObjectTypeQueryRangeProperties:
                         rangePropertiesIds = InMemoryQueryEngine.BatchIdPropertyRangeQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier()));
                         propertiesIds = rangePropertiesIds.Distinct().Select(x => $"P{x}").ToList();
                         edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
@@ -121,7 +121,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.ConstantTypeDoNotQuery:
-                    case QueryType.Unkwown:
+                    case QueryType.Unknown:
                     default:
                         break;
                 }
