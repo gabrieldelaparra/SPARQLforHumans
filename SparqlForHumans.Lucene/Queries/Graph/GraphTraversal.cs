@@ -16,17 +16,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                if (node.GetInstanceOfValues(graph).Any())
+                if(node.IsGivenType)
+                    node.Types = node.uris.ToList();
+                else if (node.GetInstanceOfValues(graph).Any())
                 {
                     node.IsKnownType = true;
                     node.Types = node.GetOutgoingNodes(graph).SelectMany(x => x.uris).Distinct().ToList();
-                }
-                else if (node.IsGivenType)
-                {
-                    node.IsKnownType = true;
-                    node.Types = node.uris.ToList();
-                    //if (!string.IsNullOrWhiteSpace(entitiesIndexPath))
-                    //    node.Types = new BatchIdEntityQuery(entitiesIndexPath, node.uris.Distinct()).Query().SelectMany(x => x.InstanceOf).ToList();
                 }
                 else
                 {

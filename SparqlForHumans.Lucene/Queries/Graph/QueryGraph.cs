@@ -6,19 +6,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryGraph
     {
-        public QueryGraph(RDFExplorerGraph rdfGraph, string entitiesIndexPath = "", string propertyIndexPath = "")
+        public void FindResults(string entitiesIndexPath, string propertyIndexPath)
         {
             EntitiesIndexPath = entitiesIndexPath;
             PropertiesIndexPath = propertyIndexPath;
-            Selected = rdfGraph.selected;
             this.ExploreGraph(EntitiesIndexPath, PropertiesIndexPath);
-
+        }
+        public QueryGraph(RDFExplorerGraph rdfGraph)
+        {
             Nodes = rdfGraph.nodes.ToDictionary(  x => x.id, x=> new QueryNode(x));
             Edges = rdfGraph.edges.ToDictionary(  x => x.id, x=> new QueryEdge(x));
             foreach (var node in Nodes)
                 this.TraverseDepthFirstNode(node.Key);
             foreach (var edge in Edges)
                 this.TraverseDepthFirstEdge(edge.Key);
+            Selected = rdfGraph.selected;
+
+            this.TraverseGraph();
         }
 
         public string EntitiesIndexPath { get; set; }
@@ -31,10 +35,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             get
             {
-                if (Selected.isNode)
-                    return Nodes.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
-                else
-                    return Edges.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
+                return Selected.isNode
+                    ? Nodes.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList()
+                    : Edges.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
             }
         }
     }

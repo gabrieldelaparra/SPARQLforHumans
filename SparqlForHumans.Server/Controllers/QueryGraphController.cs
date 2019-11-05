@@ -14,7 +14,8 @@ namespace SparqlForHumans.Server.Controllers
         [HttpPost]
         public IActionResult Run([FromBody]RDFExplorerGraph graph)
         {
-            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
             queryGraph.RunGraphQueryResults();
             var id = queryGraph.Selected.id;
             var results = queryGraph.Selected.isNode ? ToDictionary(queryGraph.Nodes[id].Results) : ToDictionary(queryGraph.Edges[id].Results);

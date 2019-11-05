@@ -317,7 +317,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -360,7 +361,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -417,7 +419,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -491,7 +494,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -569,7 +573,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -660,7 +665,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -740,7 +746,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -845,7 +852,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -941,7 +949,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1026,7 +1035,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1105,7 +1115,8 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
-            var queryGraph = new QueryGraph(graph, entitiesIndexPath, propertiesIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1167,7 +1178,8 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Act
-            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.FindResults(Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
             queryGraph.RunGraphQueryResults();
 
             // Assert
@@ -1333,14 +1345,14 @@ namespace SparqlForHumans.UnitTests.Query
                     }
                 },
             };
-            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.KnownObjectTypeNotUsed, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[0].QueryType);
         }
 
         [Fact]
-        public void TestUnkownSubjectKnownPredicateKnownObjectShouldThenNotBeInferred()
+        public void TestUnknownSubjectKnownPredicateKnownObjectShouldThenNotBeInferred()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -1370,7 +1382,7 @@ namespace SparqlForHumans.UnitTests.Query
                     }
                 },
             };
-            var queryGraph = new QueryGraph(graph, Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.KnownPredicateAndObjectNotUsed, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.ConstantTypeDoNotQuery, queryGraph.Edges[0].QueryType);
