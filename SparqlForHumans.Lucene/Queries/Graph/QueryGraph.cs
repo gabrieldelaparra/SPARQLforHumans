@@ -10,14 +10,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             EntitiesIndexPath = entitiesIndexPath;
             PropertiesIndexPath = propertyIndexPath;
-            Edges = rdfGraph.edges.ToDictionary(  x => x.id, x=> new QueryEdge(x));
-            Nodes = rdfGraph.nodes.ToDictionary(  x => x.id, x=> new QueryNode(x));
             Selected = rdfGraph.selected;
             this.ExploreGraph(EntitiesIndexPath, PropertiesIndexPath);
-            foreach (var item in this.Nodes)
-                this.TraverseDepthFirstNode(item.Key);
-            foreach (var item in this.Edges)
-                this.TraverseDepthFirstEdge(item.Key);
+
+            Nodes = rdfGraph.nodes.ToDictionary(  x => x.id, x=> new QueryNode(x));
+            Edges = rdfGraph.edges.ToDictionary(  x => x.id, x=> new QueryEdge(x));
+            foreach (var node in Nodes)
+                this.TraverseDepthFirstNode(node.Key);
+            foreach (var edge in Edges)
+                this.TraverseDepthFirstEdge(edge.Key);
         }
 
         public string EntitiesIndexPath { get; set; }
