@@ -14,10 +14,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             name = node.name;
             uris = node.uris;
         }
-        public QueryType QueryType { get; set; } = QueryType.Unkwown;
+        public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
         public bool IsKnownType { get; set; } = false;
+        public bool IsGivenType => uris.Any();
         public bool IsInferredType => IsInferredTypeDomain || IsInferredTypeRange;
         public bool IsDirectedToKnownType { get; set; } = false;
         public bool IsInferredTypeDomain { get; set; } = false;
