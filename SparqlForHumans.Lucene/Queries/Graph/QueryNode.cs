@@ -17,13 +17,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
-        public bool IsKnownType { get; set; } = false;
+
         public bool IsGivenType => uris.Any();
-        public bool IsInferredType => IsInferredTypeDomain || IsInferredTypeRange;
-        public bool IsDirectedToKnownType { get; set; } = false;
-        public bool IsInferredTypeDomain { get; set; } = false;
+        public bool IsGoingToGivenType { get; set; } = false;
+        public bool IsComingFromGivenType { get; set; } = false;
+        //public bool IsDirectedToKnownType { get; set; } = false;
+        
+        public bool IsInstanceOfType { get; set; } = false;
+        public bool IsGoingToInstanceOfType { get; set; } = false;
+        public bool IsComingFromInstanceOfType { get; set; } = false;
+
+        public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;
+        public bool IsInferredDomainType { get; set; } = false;
+        public bool IsInferredRangeType { get; internal set; }
         public List<string> InferredTypes { get; set; } = new List<string>();
-        public bool IsInferredTypeRange { get; internal set; }
 
         public override string ToString()
         {

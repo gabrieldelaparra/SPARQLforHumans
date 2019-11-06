@@ -27,24 +27,24 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static void RunGraphQueryResults(this QueryGraph graph)
         {
             InMemoryQueryEngine.Init(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-            //graph.RunNodeQueries(graph.EntitiesIndexPath);
+            graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
         private static void RunNodeQueries(this QueryGraph graph, string indexPath)
         {
-            foreach (var node in graph.Nodes.Select(x=>x.Value))
+            foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 switch (node.QueryType)
                 {
-                    case QueryType.KnownSubjectTypeQueryInstanceEntities:
+                    case QueryType.KnownSubjectInstanceOfTypeQueryEntities:
                     case QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities:
                         //This should be done with the Wikipedia Endpoint
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.QueryTopEntities:
                         //This should be done with the Wikipedia Endpoint
-                        //node.Results = new MultiLabelEntityQuery(indexPath, "*").Query();
-                        node.Results = new List<Entity>();
+                        node.Results = new MultiLabelEntityQuery(indexPath, "*").Query();
+                        //node.Results = new List<Entity>();
                         break;
                     case QueryType.InferredDomainAndRangeTypeEntities:
                     case QueryType.InferredDomainTypeEntities:
@@ -52,9 +52,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //This should be done with the Wikipedia Endpoint
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
+                    case QueryType.GivenEntityTypeNoQuery:
+                        node.Results = new BatchIdEntityQuery(indexPath, node.Types.Select(x=>x.GetUriIdentifier())).Query();
+                        break;
                     case QueryType.KnownPredicateAndObjectNotUsed:
-                    case QueryType.KnownObjectTypeNotUsed:
-                    case QueryType.ConstantTypeDoNotQuery:
                     case QueryType.Unknown:
                     default:
                         break;
@@ -64,7 +65,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static void RunEdgeQueries(this QueryGraph graph, string indexPath)
         {
-            foreach (var edge in graph.Edges.Select(x=>x.Value))
+            foreach (var edge in graph.Edges.Select(x => x.Value))
             {
                 string targetUri = string.Empty;
                 string sourceUri = string.Empty;
@@ -120,7 +121,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
-                    case QueryType.ConstantTypeDoNotQuery:
                     case QueryType.Unknown:
                     default:
                         break;
