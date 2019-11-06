@@ -37,6 +37,30 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestEdgeIsInferibleFalse()
+        {
+            var edge = new Edge(0, "?prop0", 0, 1);
+            var queryEdge = new QueryEdge(edge);
+            Assert.False(queryEdge.IsInferible());
+        }
+
+        [Fact]
+        public void TestEdgeIsInferibleFalseInstanceOf()
+        {
+            var edge = new Edge(0, "?prop0", 0, 1, new[] { "http://www.wikidata.org/prop/direct/P31" });
+            var queryEdge = new QueryEdge(edge);
+            Assert.False(queryEdge.IsInferible());
+        }
+
+        [Fact]
+        public void TestEdgeIsInferibleTrue()
+        {
+            var edge = new Edge(0, "?prop0", 0, 1, new[] { "http://www.wikidata.org/prop/direct/P25" });
+            var queryEdge = new QueryEdge(edge);
+            Assert.True(queryEdge.IsInferible());
+        }
+
+        [Fact]
         public void TestGetInstanceOfEdges()
         {
             var graph = new RDFExplorerGraph()

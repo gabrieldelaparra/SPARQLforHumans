@@ -24,6 +24,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return uri.EndsWith("P31");
         }
 
+        public static bool IsInferible(this QueryEdge edge)
+        {
+            return edge.uris.Any() && !edge.HasInstanceOf();
+        }
+
         /// <summary>
         /// Given a Node, get all the outgoing edges (GetOutgoingEdges) that are InstanceOf.
         /// </summary>
@@ -119,23 +124,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else
                 {
-                    if (node.IsInferredTypeDomain)
+                    if (node.IsInferredDomainType)
                     {
                         node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
                     }
-                    if (node.IsInferredTypeRange)
+                    if (node.IsInferredRangeType)
                     {
                         node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
                     }
                 }
             }
 
-            //TODO: Need some comments here. Which cases are this. Or some tests.
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
-                if (node.GetOutgoingNodes(graph).Any(x => x.IsKnownType))
-                    node.IsDirectedToKnownType = true;
-            }
+            ////TODO: Need some comments here. Which cases are this. Or some tests.
+            //foreach (var node in graph.Nodes.Select(x => x.Value))
+            //{
+            //    if (node.GetOutgoingNodes(graph).Any(x => x.IsInstanceOfType))
+            //        node.IsDirectedToKnownType = true;
+            //}
         }
     }
 
