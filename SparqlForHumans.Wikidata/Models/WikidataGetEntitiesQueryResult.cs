@@ -70,6 +70,6 @@ namespace SparqlForHumans.Wikidata.Models
     public class WikidataGetEntitiesQueryResult
     {
         [JsonProperty("entities")]
-        public Dictionary<string, Entity> Entities { get; set; }
+        public Dictionary<string, Entity> Results { get; set; }
     }
 }

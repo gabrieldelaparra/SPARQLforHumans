@@ -22,7 +22,7 @@ namespace SparqlForHumans.Wikidata.Models
     public class WikidataSearchEntitiesResult
     {
         [JsonProperty("search")]
-        public Result[] Search { get; set; }
+        public Result[] Results { get; set; }
     }
 
     public class Result
@@ -41,5 +41,10 @@ namespace SparqlForHumans.Wikidata.Models
 
         [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id} - {Title} - {Description}";
+        }
     }
 }

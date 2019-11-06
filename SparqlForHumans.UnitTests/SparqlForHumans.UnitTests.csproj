@@ -275,6 +275,7 @@
     <ProjectReference Include="..\SparqlForHumans.Models\SparqlForHumans.Models.csproj" />
     <ProjectReference Include="..\SparqlForHumans.RDF\SparqlForHumans.RDF.csproj" />
     <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
+    <ProjectReference Include="..\SparqlForHumans.Wikidata\SparqlForHumans.Wikidata.csproj" />
   </ItemGroup>
 
   <ItemGroup>

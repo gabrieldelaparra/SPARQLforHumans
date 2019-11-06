@@ -77,7 +77,7 @@ namespace SparqlForHumans.Wikidata.Services
             webClient.QueryString.Add("origin", "*");
             var data = await webClient.DownloadStringTaskAsync("https://www.wikidata.org/w/api.php");
             var rawResults = JsonConvert.DeserializeObject<WikidataSearchEntitiesResult>(data);
-            return rawResults.Search.Select(x => new WikidataResult(x));
+            return rawResults.Results.Select(x => new WikidataResult(x));
         }
     }
 }
