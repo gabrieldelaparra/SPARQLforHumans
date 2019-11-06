@@ -4,6 +4,25 @@ namespace SparqlForHumans.Models.Query
 {
     public class Edge
     {
+        public Edge() { }
+
+        public Edge(int id, string name, int sourceId, int targetId)
+        {
+            this.id = id;
+            this.name = name;
+            this.sourceId = sourceId;
+            this.targetId = targetId;
+        }
+
+        public Edge(int id, string name, int sourceId, int targetId, string[] uris)
+        {
+            this.id = id;
+            this.name = name;
+            this.sourceId = sourceId;
+            this.targetId = targetId;
+            this.uris = uris;
+        }
+
         public int id { get; set; }
 
         public string name { get; set; }

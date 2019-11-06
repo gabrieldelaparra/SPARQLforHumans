@@ -5,6 +5,21 @@ namespace SparqlForHumans.Models.Query
 {
     public class Node
     {
+        public Node() { }
+
+        public Node(int id, string name)
+        {
+            this.id = id;
+            this.name = name;
+        }
+
+        public Node(int id, string name, string[] uris)
+        {
+            this.id = id;
+            this.name = name;
+            this.uris = uris;
+        }
+
         public int id { get; set; }
 
         public string name { get; set; }
