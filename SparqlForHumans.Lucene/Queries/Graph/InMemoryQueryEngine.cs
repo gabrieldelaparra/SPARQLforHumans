@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SparqlForHumans.Models.Wikidata;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -28,17 +29,30 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             IsInit = true;
         }
 
-        public static List<int> BatchIdPropertyDomainQuery(IEnumerable<string> searchStrings)
+        public static IEnumerable<string> BatchIdPropertyDomainQuery(IEnumerable<string> queryUris)
         {
-            var searchInts = searchStrings.Select(x => x.ToInt());
-            var results = EntityIdDomainPropertiesDictionary.Where(x => searchInts.Contains(x.Key));
+            var queryTypes = queryUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchIdPropertyDomainQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+        }
+
+        public static IEnumerable<string> BatchIdPropertyRangeQuery(IEnumerable<string> queryUris)
+        {
+            var queryTypes = queryUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchIdPropertyRangeQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+        }
+
+        public static IEnumerable<int> BatchIdPropertyDomainQuery(IEnumerable<int> queryTypes)
+        {
+            var results = EntityIdDomainPropertiesDictionary.Where(x => queryTypes.Contains(x.Key));
             return results.SelectMany(x => x.Value).Distinct().ToList();
         }
 
-        public static List<int> BatchIdPropertyRangeQuery(IEnumerable<string> searchStrings)
+        public static IEnumerable<int> BatchIdPropertyRangeQuery(IEnumerable<int> queryTypes)
         {
-            var searchInts = searchStrings.Select(x => x.ToInt());
-            var results = EntityIdRangePropertiesDictionary.Where(x => searchInts.Contains(x.Key));
+            //var searchInts = searchStrings.Select(x => x.ToInt());
+            var results = EntityIdRangePropertiesDictionary.Where(x => queryTypes.Contains(x.Key));
             return results.SelectMany(x => x.Value).Distinct().ToList();
         }
 
