@@ -59,6 +59,11 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
 
+            foreach (var instanceOfId in instanceOfIds)
+            {
+                dictionary.AddSafe(31, instanceOfId);
+            }
+
             foreach (var propertyId in propertyIds)
             {
                 dictionary.AddSafe(propertyId, instanceOfIds);
