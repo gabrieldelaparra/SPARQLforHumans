@@ -10,86 +10,6 @@ namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryGraphTests
     {
-
-        [Fact]
-        public void TestInferScenario4_4Nodes3Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varHuman"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varCity"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "human",
-                        uris = new[]{"http://www.wikidata.org/entity/Q5"}
-                    },
-                    new Node
-                    {
-                        id = 3,
-                        name = "city",
-                        uris = new[]{"http://www.wikidata.org/entity/Q515"}
-                    }
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 0,
-                        targetId = 1
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?type1",
-                        sourceId = 0,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    },
-                    new Edge
-                    {
-                        id = 2,
-                        name = "?type2",
-                        sourceId = 1,
-                        targetId = 3,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    }
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
-
-            // Node 0 is type Q5. 
-            // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-
-            // Q1 should be something like: I don't know anything about this type. 
-            // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
-
-            // Constant, should not have results.
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[3].QueryType);
-
-            // Edge source is Known. Results should be Domain of the node type (Use Endpoint)
-            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
-
-            // Constant, should not have results.
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
-        }
-
         [Fact]
         public void TestRunQueryScenario1_2Nodes0Edge()
         {
@@ -207,42 +127,17 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?var0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?var2",
-                        uris = new[]{"http://www.wikidata.org/entity/Q5"}
-                    }
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1"),
+                    new Node(2, "?var2", new[]{"http://www.wikidata.org/entity/Q5"}),
                 },
                 edges = new[]
                 {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 0,
-                        targetId = 1
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?prop1",
-                        sourceId = 0,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    }
+                    new Edge(0, "?prop0", 0, 1),
+                    new Edge(1, "?prop1", 0, 2,  new[]{"http://www.wikidata.org/prop/direct/P31"})
                 }
             };
+
             // Arrange
             const string filename = @"Resources/QueryGraph.nt";
             const string entitiesIndexPath = "QueryGraphEntities";
@@ -285,40 +180,14 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?var0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?var2",
-                        uris = new[]{"http://www.wikidata.org/entity/Q5"}
-                    }
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1"),
+                    new Node(2, "?var2", new[]{"http://www.wikidata.org/entity/Q5"})
                 },
                 edges = new[]
                 {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 1,
-                        targetId = 0
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?prop1",
-                        sourceId = 0,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    }
+                    new Edge(0, "?prop0", 1, 0),
+                    new Edge(1, "?prop1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"})
                 }
             };
 
@@ -362,54 +231,16 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varHuman"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varCity"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "human",
-                        uris = new[]{"http://www.wikidata.org/entity/Q5"}
-                    },
-                    new Node
-                    {
-                        id = 3,
-                        name = "city",
-                        uris = new[]{"http://www.wikidata.org/entity/Q6256"}
-                    }
+                new Node(0, "?human"),
+                new Node(1, "?city"),
+                new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
+                new Node(3, "city", new[]{"http://www.wikidata.org/entity/Q515"}),
                 },
                 edges = new[]
                 {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 0,
-                        targetId = 1
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?type1",
-                        sourceId = 0,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    },
-                    new Edge
-                    {
-                        id = 2,
-                        name = "?type2",
-                        sourceId = 1,
-                        targetId = 3,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P31"}
-                    }
+                new Edge(0, "?prop0", 0,1),
+                new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+                new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
                 }
             };
 
@@ -451,450 +282,6 @@ namespace SparqlForHumans.UnitTests.Query
             propertiesIndexPath.DeleteIfExists();
         }
 
-        [Fact]
-        public void TestInferScenario5_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varRange"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?var2"
-                    }
-
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?MotherOf",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P25"}
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?propDomain1",
-                        sourceId = 0,
-                        targetId = 2
-                    }
-                }
-            };
-
-            //// Arrange
-            //const string filename = @"Resources/QueryGraph.nt";
-            //const string entitiesIndexPath = "QueryGraphEntities";
-            //const string propertiesIndexPath = "QueryGraphProperties";
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            //// Act
-            var queryGraph = new QueryGraph(graph);
-            //queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-
-            //// Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
-
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[1].Domain);
-
-            //// Act RunQuery
-            //queryGraph.RunGraphQueryResults();
-
-            //// Assert RunQuery
-            //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            //Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            //Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
-
-            ////queryGraph.Nodes[2].Results = TOP;
-            //Assert.NotEmpty(queryGraph.Nodes[2].Results);
-            //Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
-
-            //Assert.Empty(queryGraph.Edges[0].Results);
-
-            //Assert.NotEmpty(queryGraph.Edges[1].Results);
-            //Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-
-            //// Cleanup
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestInferScenario5_4Nodes3Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varRange1"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?var2"
-                    },
-                    new Node
-                    {
-                        id = 3,
-                        name = "?var3"
-                    }
-
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?MotherOf",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P25"}
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?propDomain1",
-                        sourceId = 0,
-                        targetId = 2
-                    },
-                    new Edge
-                    {
-                        id = 2,
-                        name = "?propDomain1",
-                        sourceId = 0,
-                        targetId = 3
-                    }
-                }
-            };
-            //// Arrange
-            //const string filename = @"Resources/QueryGraph.nt";
-            //const string entitiesIndexPath = "QueryGraphEntities";
-            //const string propertiesIndexPath = "QueryGraphProperties";
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            //// Act
-            var queryGraph = new QueryGraph(graph);
-            //queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-
-            //// Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[3].QueryType);
-
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[1].Domain);
-            Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[2].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[2].Domain);
-
-            //// Act RunQuery
-            //queryGraph.RunGraphQueryResults();
-
-            //// Assert RunQuery
-            //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            //Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            //Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
-
-            ////queryGraph.Nodes[2].Results = TOP;
-            ////queryGraph.Nodes[3].Results = TOP;
-
-            //Assert.Empty(queryGraph.Edges[0].Results);
-
-            //Assert.NotEmpty(queryGraph.Edges[1].Results);
-            //Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            //Assert.NotEmpty(queryGraph.Edges[2].Results);
-            //Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P25"));
-
-            //// Cleanup
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestInferScenario6_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?varRange2"
-                    }
-
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?propRange0",
-                        sourceId = 1,
-                        targetId = 0
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?MotherOf",
-                        sourceId = 0,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P25"}
-                    }
-                }
-            };
-            //// Arrange
-            //const string filename = @"Resources/QueryGraph.nt";
-            //const string entitiesIndexPath = "QueryGraphEntities";
-            //const string propertiesIndexPath = "QueryGraphProperties";
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            //// Act
-            var queryGraph = new QueryGraph(graph);
-            //queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-
-            //// Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            //Assert.Contains("Q5", queryGraph.Nodes[2].InferredTypes);
-
-            Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[0].Range);
-
-            //// Act RunQuery
-            //queryGraph.RunGraphQueryResults();
-
-            //// Assert RunQuery
-            //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            ////queryGraph.Nodes[1].Results = TOP;
-
-            //Assert.NotEmpty(queryGraph.Nodes[2].Results);
-            //Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
-
-            //Assert.NotEmpty(queryGraph.Edges[0].Results);
-            //Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-            //Assert.Empty(queryGraph.Edges[1].Results);
-
-            //// Cleanup
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestInferScenario7_2Nodes2Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varRange1"
-                    }
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?MotherOf",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P25"}
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?propDomainRange1",
-                        sourceId = 0,
-                        targetId = 1
-                    }
-
-                }
-            };
-            //// Arrange
-            //const string filename = @"Resources/QueryGraph.nt";
-            //const string entitiesIndexPath = "QueryGraphEntities";
-            //const string propertiesIndexPath = "QueryGraphProperties";
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            //// Act
-            var queryGraph = new QueryGraph(graph);
-            //queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-
-            //// Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            //Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
-
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[1].Domain);
-            //Assert.Contains("Q5", queryGraph.Edges[1].Range);
-
-            //// Cleanup
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestInferScenario7_3Nodes3Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varDomainRange1"
-                    },
-                    new Node
-                    {
-                        id = 2,
-                        name = "?varRange2"
-                    }
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?MotherOf",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P25"}
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?FromCountry",
-                        sourceId = 1,
-                        targetId = 2,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P27"}
-                    },
-                    new Edge
-                    {
-                        id = 2,
-                        name = "?propDomainRange1",
-                        sourceId = 0,
-                        targetId = 2
-                    }
-
-                }
-            };
-            //// Arrange
-            //const string filename = @"Resources/QueryGraph.nt";
-            //const string entitiesIndexPath = "QueryGraphEntities";
-            //const string propertiesIndexPath = "QueryGraphProperties";
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            //// Act
-            var queryGraph = new QueryGraph(graph);
-            //queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-
-            //// Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
-            //Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-            //Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
-            //Assert.Contains("Q6256", queryGraph.Nodes[2].InferredTypes);
-
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
-            //Assert.Contains("Q5", queryGraph.Edges[2].Domain);
-            //Assert.Contains("Q6256", queryGraph.Edges[2].Range);
-
-            //// Cleanup
-            //entitiesIndexPath.DeleteIfExists();
-            //propertiesIndexPath.DeleteIfExists();
-        }
 
         [Fact]
         public void TestInferScenario7_2Nodes2Edges_FullIndex()
@@ -1080,28 +467,12 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?var0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1",
-                        uris = new[]{"http://www.wikidata.org/entity/Q76"}
-                    }
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1",new[]{"http://www.wikidata.org/entity/Q76"} )
                 },
                 edges = new[]
                 {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new string[0]
-                    }
+                    new Edge (0, "?prop0", 0, 1)
                 }
             };
             var queryGraph = new QueryGraph(graph);
@@ -1117,28 +488,12 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varSiblingsOfObama"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "obama",
-                        uris = new[]{"http://www.wikidata.org/entity/Q76"}
-                    }
+                    new Node(0, "?siblingOfObama"),
+                    new Node(1, "OBAMA", new[]{"http://www.wikidata.org/entity/Q76"})
                 },
                 edges = new[]
                 {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "sibling",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P3373"}
-                    }
+                    new Edge(0, "sibling", 0, 1,  new[]{"http://www.wikidata.org/prop/direct/P3373"})
                 }
             };
             var queryGraph = new QueryGraph(graph);

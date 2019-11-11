@@ -300,5 +300,46 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[1].QueryType);
         }
+
+        /// <summary>
+        /// ?human ?prop0 ?city
+        /// ?human P31 HUMAN
+        /// ?city P31 CITY
+        ///
+        /// Expected:
+        /// ?human IsInstanceOf HUMAN
+        /// ?city IsInstanceOf CITY
+        /// ?prop0 Intersect Domain HUMAN Range CITY
+        /// </summary>
+        [Fact]
+        public void TestTraversal4ConnectedNodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?human"),
+                    new Node(1, "?city"),
+                    new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
+                    new Node(3, "city", new[]{"http://www.wikidata.org/entity/Q515"}),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0,1),
+                    new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+                    new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+                }
+            };
+            var queryGraph = new QueryGraph(graph);
+            
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[3].QueryType);
+
+            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
+            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
+        }
     }
 }

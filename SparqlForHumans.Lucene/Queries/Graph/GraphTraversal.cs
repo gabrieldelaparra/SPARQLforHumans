@@ -83,15 +83,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             //Give Type
             if (node.IsGivenType) return QueryType.GivenEntityTypeNoQuery;
-            //All combinations with Given type are not valid:
-            //if (node.IsGivenType && node.IsInstanceOfType) return QueryType.Unknown;
-            //if (node.IsGivenType && node.IsGoingToGivenType) return QueryType.Unknown;
-            //if (node.IsGivenType && node.IsComingFromGivenType) return QueryType.Unknown;
-            //if (node.IsGivenType && node.IsGoingToInstanceOfType) return QueryType.Unknown;
-            //if (node.IsGivenType && node.IsComingFromInstanceOfType) return QueryType.Unknown;
-
-            //if (node.IsInstanceOfType && node.IsGoingToInstanceOfType) return QueryType.Unknown;
-            //if (node.IsInstanceOfType && node.IsComingFromInstanceOfType) return QueryType.Unknown;
+            
             if (node.IsInstanceOfType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
 
             if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectly;
@@ -126,81 +118,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             if (target.IsInferredType) return QueryType.InferredRangeTypeProperties;
 
             return QueryType.QueryTopProperties;
-        }
-
-        //TODO: Change name (?)
-        //internal static void ParseQueryType(this QueryNode node, QueryGraph graph)
-        //{
-        //    node.QueryType = node.GetQueryType(graph);
-        //    //Given Type:
-        //    if (node.IsGivenType) node.QueryType = QueryType.GivenEntityTypeNoQuery;
-        //    //if(node.IsGivenType && node.IsInstanceOfType) //Should not be valid
-
-        //    //Known Types, based on the outgoing P31 edges:
-        //    else if (node.IsInstanceOfType && node.IsGoingToInstanceOfType) node.QueryType = QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities;
-        //    else if (node.IsInstanceOfType) node.QueryType = QueryType.KnownSubjectTypeQueryInstanceEntities;
-
-        //    //Inferred Types, based on destination P31:
-        //    else if (node.IsInferredDomainType && node.IsInferredRangeType)
-        //        node.QueryType = QueryType.InferredDomainAndRangeTypeEntities;
-        //    else if (node.IsInferredDomainType && node.IsGoingToInstanceOfType)
-        //        node.QueryType = QueryType.KnownPredicateAndObjectNotUsed;
-        //    else if (node.IsInferredDomainType)
-        //        node.QueryType = QueryType.InferredDomainTypeEntities;
-        //    else if (node.IsInferredRangeType)
-        //        node.QueryType = QueryType.InferredRangeTypeEntities;
-
-        //    // TODO: Document what is this
-        //    else if (node.IsGoingToInstanceOfType)
-        //        node.QueryType = QueryType.KnownObjectTypeNotUsed;
-
-        //    //No known case. No given, known or inferred types;
-        //    else
-        //        node.QueryType = QueryType.QueryTopEntities;
-        //}
-
-        internal static void ParseQueryType(this QueryEdge edge, QueryGraph graph)
-        {
-            var source = edge.GetSourceNode(graph);
-            var target = edge.GetTargetNode(graph);
-
-            //Given type for the edge. Like P31 or others:
-            if (edge.IsGivenType) edge.QueryType = QueryType.GivenPredicateTypeNoQuery;
-
-            // When the parent node is known, then only the properties available for that node should be displayed (?)
-            // TODO: Add cases for All 3 cases: Source&Destination; Source; Destination
-            else if (source.IsGivenType && target.IsGivenType)
-                edge.QueryType = QueryType.GivenSubjectTypeQueryOutgoingProperties;
-
-            // TODO: I need some visual aid to describe these cases:
-            else if (source.IsInstanceOfType && target.IsInstanceOfType)
-                edge.QueryType = QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties;
-            else if (source.IsInstanceOfType)
-                edge.QueryType = QueryType.KnownSubjectTypeQueryDomainProperties;
-            else if (target.IsInstanceOfType)
-                edge.QueryType = QueryType.KnownObjectTypeQueryRangeProperties;
-
-            // Inferred Types:
-            else if (source.IsInferredType && target.IsInferredType)
-            {
-                edge.QueryType = QueryType.InferredDomainAndRangeTypeProperties;
-                edge.Domain = source.InferredTypes;
-                edge.Range = target.InferredTypes;
-            }
-            else if (source.IsInferredType)
-            {
-                edge.QueryType = QueryType.InferredDomainTypeProperties;
-                edge.Domain = source.InferredTypes;
-            }
-            else if (target.IsInferredType)
-            {
-                edge.QueryType = QueryType.InferredRangeTypeProperties;
-                edge.Range = target.InferredTypes;
-            }
-
-            // Nothing found from our search cases:
-            else
-                edge.QueryType = QueryType.QueryTopProperties;
         }
     }
 }
