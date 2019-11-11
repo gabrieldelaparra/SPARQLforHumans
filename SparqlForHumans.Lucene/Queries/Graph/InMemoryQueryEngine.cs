@@ -17,8 +17,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         private static string EntitiesIndexPath;
         private static string PropertiesIndexPath;
 
-        private static Dictionary<int, int[]> EntityIdDomainPropertiesDictionary;
-        private static Dictionary<int, int[]> EntityIdRangePropertiesDictionary;
+        private static Dictionary<int, int[]> _entityIdDomainPropertiesDictionary;
+        private static Dictionary<int, int[]> _entityIdRangePropertiesDictionary;
+
+        private static Dictionary<int, int[]> _propertyIdDomainPropertiesDictionary;
+        private static Dictionary<int, int[]> _propertyIdRangePropertiesDictionary;
+
 
         public static void Init(string entitiesIndexPath, string propertiesIndexPath)
         {
@@ -29,30 +33,55 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             IsInit = true;
         }
 
-        public static IEnumerable<string> BatchIdPropertyDomainQuery(IEnumerable<string> queryUris)
+        public static IEnumerable<string> BatchPropertyIdDomainTypesQuery(IEnumerable<string> propertyUris)
         {
-            var queryTypes = queryUris.Select(x => x.GetUriIdentifier().ToInt());
-            var results = BatchIdPropertyDomainQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+            var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchPropertyIdDomainTypesQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}");
         }
 
-        public static IEnumerable<string> BatchIdPropertyRangeQuery(IEnumerable<string> queryUris)
+        public static IEnumerable<string> BatchPropertyIdRangeTypesQuery(IEnumerable<string> propertyUris)
         {
-            var queryTypes = queryUris.Select(x => x.GetUriIdentifier().ToInt());
-            var results = BatchIdPropertyRangeQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+            var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchPropertyIdRangeTypesQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}");
         }
 
-        public static IEnumerable<int> BatchIdPropertyDomainQuery(IEnumerable<int> queryTypes)
+        public static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)
         {
-            var results = EntityIdDomainPropertiesDictionary.Where(x => queryTypes.Contains(x.Key));
+            var results = _propertyIdDomainPropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
             return results.SelectMany(x => x.Value).Distinct().ToList();
         }
 
-        public static IEnumerable<int> BatchIdPropertyRangeQuery(IEnumerable<int> queryTypes)
+        public static IEnumerable<int> BatchPropertyIdRangeTypesQuery(IEnumerable<int> propertyIds)
         {
-            //var searchInts = searchStrings.Select(x => x.ToInt());
-            var results = EntityIdRangePropertiesDictionary.Where(x => queryTypes.Contains(x.Key));
+            var results = _propertyIdRangePropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
+            return results.SelectMany(x => x.Value).Distinct().ToList();
+        }
+
+        public static IEnumerable<string> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<string> entityUris)
+        {
+            var queryTypes = entityUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchEntityIdOutgoingPropertiesQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+        }
+
+        public static IEnumerable<string> BatchEntityIdIncomingPropertiesQuery(IEnumerable<string> entityUris)
+        {
+            var queryTypes = entityUris.Select(x => x.GetUriIdentifier().ToInt());
+            var results = BatchEntityIdIncomingPropertiesQuery(queryTypes);
+            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+        }
+
+        public static IEnumerable<int> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<int> entityIds)
+        {
+            var results = _entityIdDomainPropertiesDictionary.Where(x => entityIds.Contains(x.Key));
+            return results.SelectMany(x => x.Value).Distinct().ToList();
+        }
+
+        public static IEnumerable<int> BatchEntityIdIncomingPropertiesQuery(IEnumerable<int> entityIds)
+        {
+            var results = _entityIdRangePropertiesDictionary.Where(x => entityIds.Contains(x.Key));
             return results.SelectMany(x => x.Value).Distinct().ToList();
         }
 
@@ -67,7 +96,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {
                 var docCount = luceneDirectoryReader.MaxDoc;
-                for (int i = 0; i < docCount; i++)
+                for (var i = 0; i < docCount; i++)
                 {
                     var doc = luceneDirectoryReader.Document(i);
                     var property = doc.MapProperty();
@@ -75,10 +104,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     propertyIdRangesDictList.AddSafe(property.Id.ToInt(), property.Range);
                 }
             }
-            var propertyIdDomainsDictionary = propertyIdDomainsDictList.ToArrayDictionary();
-            var propertyIdRangesDictionary = propertyIdRangesDictList.ToArrayDictionary();
-            EntityIdDomainPropertiesDictionary = propertyIdDomainsDictionary.InvertDictionary();
-            EntityIdRangePropertiesDictionary = propertyIdRangesDictionary.InvertDictionary();
+            _propertyIdDomainPropertiesDictionary = propertyIdDomainsDictList.ToArrayDictionary();
+            _propertyIdRangePropertiesDictionary = propertyIdRangesDictList.ToArrayDictionary();
+            _entityIdDomainPropertiesDictionary = _propertyIdDomainPropertiesDictionary.InvertDictionary();
+            _entityIdRangePropertiesDictionary = _propertyIdRangePropertiesDictionary.InvertDictionary();
         }
     }
 }
