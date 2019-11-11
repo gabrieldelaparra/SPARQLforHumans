@@ -6,13 +6,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryGraph
     {
-        public void FindResults(string entitiesIndexPath, string propertyIndexPath)
-        {
-            EntitiesIndexPath = entitiesIndexPath;
-            PropertiesIndexPath = propertyIndexPath;
-            this.ExploreGraph(EntitiesIndexPath, PropertiesIndexPath);
-        }
-
         public QueryGraph(RDFExplorerGraph rdfGraph)
         {
             Nodes = rdfGraph.nodes.ToDictionary(x => x.id, x => new QueryNode(x));
