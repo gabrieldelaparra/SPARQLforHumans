@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Queries.Graph;
+﻿using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.Query;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    public class QueryGraphInferrenceTests
+    //TODO: Comment cases
+    public class QueryGraphInferenceTests
     {
         [Fact]
         public void TestInferScenario5_3Nodes2Edge()
