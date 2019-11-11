@@ -92,57 +92,5 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             return node.GetIncomingEdges(graph)?.Select(x => x.GetSourceNode(graph));
         }
-
-        //TODO: Move out of here.
-        internal static void ExploreGraph(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
-        {
-            //For all properties
-            //TODO: (?) Should it be only for properties with a given type?
-            //If the property, !InstanceOf, get the Domain and Range from the DB;
-            //TODO: Why only !InstanceOf (?)
-            foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
-                if (!edge.uris.Any()) continue;
-
-                var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Select(x => x.GetUriIdentifier())).Query();
-                edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
-                edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{Models.Wikidata.WikidataDump.EntityPrefix}{x}").ToList();
-            }
-
-            //TODO: Need some comments here. Which cases are this. Or some tests.
-            //TODO: Maybe more Unions are required.
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
-                if (node.IsGivenType)
-                {
-                    node.Types = node.uris.ToList();
-                }
-                else if (node.GetInstanceOfValues(graph).Any())
-                {
-                    node.Types = node.GetOutgoingNodes(graph).SelectMany(x => x.uris).Distinct().ToList();
-                    node.Types = new BatchIdEntityQuery(entitiesIndexPath, node.uris.Distinct()).Query().SelectMany(x => x.InstanceOf).ToList();
-                }
-                else
-                {
-                    if (node.IsInferredDomainType)
-                    {
-                        node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
-                    }
-                    if (node.IsInferredRangeType)
-                    {
-                        node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
-                    }
-                }
-            }
-
-            ////TODO: Need some comments here. Which cases are this. Or some tests.
-            //foreach (var node in graph.Nodes.Select(x => x.Value))
-            //{
-            //    if (node.GetOutgoingNodes(graph).Any(x => x.IsInstanceOfType))
-            //        node.IsDirectedToKnownType = true;
-            //}
-        }
     }
-
-
 }
