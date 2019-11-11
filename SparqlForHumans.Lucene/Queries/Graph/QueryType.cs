@@ -37,7 +37,7 @@
 
         // ?var0 P31 Country
         // --> ?var0 are entities of type Countries
-        KnownSubjectInstanceOfTypeQueryEntities,
+        SubjectIsInstanceOfTypeQueryEntities,
 
         // For properties that point to known types (P31)
 

@@ -128,7 +128,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             var node0 = queryGraph.Nodes[0];
 
-            Assert.Equal(new[] { "http://www.wikidata.org/entity/Q5" }, node0.GetInstanceOfValues(queryGraph));
+            Assert.Equal(new[] { "http://www.wikidata.org/entity/Q5" }, node0.GetInstanceOfValues(queryGraph).ToArray());
         }
 
         [Fact]

@@ -58,7 +58,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         /// </summary>
         public static IEnumerable<string> GetInstanceOfValues(this QueryNode node, QueryGraph graph)
         {
-            return node.GetInstanceOfEdges(graph)?.Select(x => x.GetTargetNode(graph)).SelectMany(x => x.Types);
+            return node.GetInstanceOfEdges(graph)?.Select(x => x.GetTargetNode(graph)).SelectMany(x => x.uris);
         }
 
         /// <summary>

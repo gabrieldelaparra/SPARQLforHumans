@@ -72,11 +72,11 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Node 0 is type Q5. 
             // Results should be something like: I know the type of this guy, should return items of type Q5 (Use Wikidata)
-            Assert.Equal(QueryType.KnownSubjectInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
 
             // Q1 should be something like: I don't know anything about this type. 
             // I know that I have properties in the graph that come from Q5. This node is in the range of Q5.
-            Assert.Equal(QueryType.KnownSubjectInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
 
             // Constant, should not have results.
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);

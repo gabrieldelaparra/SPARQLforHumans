@@ -36,7 +36,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 switch (node.QueryType)
                 {
-                    case QueryType.KnownSubjectInstanceOfTypeQueryEntities:
+                    case QueryType.SubjectIsInstanceOfTypeQueryEntities:
                     case QueryType.KnownSubjectAndObjectTypesQueryInstanceEntities:
                         //This should be done with the Wikipedia Endpoint
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();

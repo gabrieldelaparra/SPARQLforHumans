@@ -216,7 +216,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.KnownSubjectInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
         }
@@ -250,7 +250,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
             var queryGraph = new QueryGraph(graph);
 
-            Assert.Equal(QueryType.KnownSubjectInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             //TODO: Not implemented, Currently returns top. Should return entities that have target on humans.
             //TODO: I think that this case should not be covered for now, just top entities, until the edge is defined.
@@ -290,7 +290,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
             var queryGraph = new QueryGraph(graph);
 
-            Assert.Equal(QueryType.KnownSubjectInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             //TODO: Not implemented, Currently returns top. Should return entities that have target on humans.
             //TODO: I think that this case should not be covered for now, just top entities, until the edge is defined.

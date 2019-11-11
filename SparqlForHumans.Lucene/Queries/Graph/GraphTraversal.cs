@@ -92,7 +92,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             //if (node.IsInstanceOfType && node.IsGoingToInstanceOfType) return QueryType.Unknown;
             //if (node.IsInstanceOfType && node.IsComingFromInstanceOfType) return QueryType.Unknown;
-            if (node.IsInstanceOfType) return QueryType.KnownSubjectInstanceOfTypeQueryEntities;
+            if (node.IsInstanceOfType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
 
             if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectly;
             if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectly;
