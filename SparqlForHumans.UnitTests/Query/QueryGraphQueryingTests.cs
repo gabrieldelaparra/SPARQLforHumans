@@ -35,8 +35,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -71,8 +70,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -110,8 +108,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -153,8 +150,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -202,8 +198,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -258,8 +253,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
