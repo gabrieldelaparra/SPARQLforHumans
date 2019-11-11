@@ -8,7 +8,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    public class QueryGraphTests
+    public class QueryGraphBaseTests
     {
         [Fact]
         public void TestRunQueryScenario1_2Nodes0Edge()
@@ -41,8 +41,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -99,8 +98,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -149,8 +147,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -202,8 +199,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -256,8 +252,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(entitiesIndexPath, propertiesIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
 
             // Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
@@ -325,8 +320,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.FindResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
-            queryGraph.RunGraphQueryResults();
+            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
 
             // Assert
             //Assert.NotEmpty(queryGraph.Nodes[0].Results);
