@@ -43,26 +43,30 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
 
             // Assert
-            Assert.Equal(5, index.RelationIndex.Count);
+            Assert.Equal(6, index.RelationIndex.Count);
 
-            Assert.Equal(27, index.RelationIndex.Keys.ElementAt(0));
-            Assert.Equal(555, index.RelationIndex.Keys.ElementAt(1));
-            Assert.Equal(33, index.RelationIndex.Keys.ElementAt(2));
-            Assert.Equal(44, index.RelationIndex.Keys.ElementAt(3));
-            Assert.Equal(777, index.RelationIndex.Keys.ElementAt(4));
+            Assert.Equal(31, index.RelationIndex.Keys.ElementAt(0));
+            Assert.Equal(27, index.RelationIndex.Keys.ElementAt(1));
+            Assert.Equal(555, index.RelationIndex.Keys.ElementAt(2));
+            Assert.Equal(33, index.RelationIndex.Keys.ElementAt(3));
+            Assert.Equal(44, index.RelationIndex.Keys.ElementAt(4));
+            Assert.Equal(777, index.RelationIndex.Keys.ElementAt(5));
+
+            //P31
+            Assert.Equal(2, index.RelationIndex.ElementAt(0).Value.Length);
 
             //P27>Q30 (Q5)
-            Assert.Single(index.RelationIndex.ElementAt(0).Value);
-            Assert.Equal(5, index.RelationIndex.ElementAt(0).Value.ElementAt(0));
+            Assert.Single(index.RelationIndex.ElementAt(1).Value);
+            Assert.Equal(5, index.RelationIndex.ElementAt(1).Value.ElementAt(0));
 
             //P555>Q555 (Q17)
-            Assert.Equal(2, index.RelationIndex.ElementAt(1).Value.Length);
-            Assert.Equal(5, index.RelationIndex.ElementAt(1).Value.ElementAt(0));
-            Assert.Equal(17, index.RelationIndex.ElementAt(1).Value.ElementAt(1));
+            Assert.Equal(2, index.RelationIndex.ElementAt(2).Value.Length);
+            Assert.Equal(5, index.RelationIndex.ElementAt(2).Value.ElementAt(0));
+            Assert.Equal(17, index.RelationIndex.ElementAt(2).Value.ElementAt(1));
 
             //P777>Q777 (Q17)
-            Assert.Single(index.RelationIndex.ElementAt(4).Value);
-            Assert.Equal(17, index.RelationIndex.ElementAt(4).Value.ElementAt(0));
+            Assert.Single(index.RelationIndex.ElementAt(5).Value);
+            Assert.Equal(17, index.RelationIndex.ElementAt(5).Value.ElementAt(0));
         }
 
         [Fact]
@@ -82,24 +86,24 @@ namespace SparqlForHumans.UnitTests.Index.Relations
 
             var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
-            // P27, P555, P777
-            Assert.Equal(3, propertyDomainTypes.Length);
+            // P31, P27, P555, P777
+            Assert.Equal(4, propertyDomainTypes.Length);
 
             // P27 -> 5
-            Assert.Equal(27, propertyDomainTypes[0].Key);
-            Assert.Single(propertyDomainTypes[0].Value);
-            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
+            Assert.Equal(27, propertyDomainTypes[1].Key);
+            Assert.Single(propertyDomainTypes[1].Value);
+            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
 
             // P555 -> 5, 17
-            Assert.Equal(555, propertyDomainTypes[1].Key);
-            Assert.Equal(2, propertyDomainTypes[1].Value.Length);
-            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
-            Assert.Equal(17, propertyDomainTypes[1].Value[1]);
+            Assert.Equal(555, propertyDomainTypes[2].Key);
+            Assert.Equal(2, propertyDomainTypes[2].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[2].Value[0]);
+            Assert.Equal(17, propertyDomainTypes[2].Value[1]);
 
             // P777 -> 17
-            Assert.Equal(777, propertyDomainTypes[2].Key);
-            Assert.Single(propertyDomainTypes[2].Value);
-            Assert.Equal(17, propertyDomainTypes[2].Value[0]);
+            Assert.Equal(777, propertyDomainTypes[3].Key);
+            Assert.Single(propertyDomainTypes[3].Value);
+            Assert.Equal(17, propertyDomainTypes[3].Value[0]);
         }
 
         [Fact]
@@ -123,26 +127,26 @@ namespace SparqlForHumans.UnitTests.Index.Relations
 
             var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
-            // P27, P555, P777
-            Assert.Equal(3, propertyDomainTypes.Length);
+            // P31, P27, P555, P777
+            Assert.Equal(4, propertyDomainTypes.Length);
 
             // P27 -> 5, 6
-            Assert.Equal(27, propertyDomainTypes[0].Key);
-            Assert.Equal(2, propertyDomainTypes[0].Value.Length);
-            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
-            Assert.Equal(6, propertyDomainTypes[0].Value[1]);
+            Assert.Equal(27, propertyDomainTypes[1].Key);
+            Assert.Equal(2, propertyDomainTypes[1].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
+            Assert.Equal(6, propertyDomainTypes[1].Value[1]);
 
             // P555 -> 5, 17, 6
-            Assert.Equal(555, propertyDomainTypes[1].Key);
-            Assert.Equal(3, propertyDomainTypes[1].Value.Length);
-            Assert.Equal(5, propertyDomainTypes[1].Value[0]);
-            Assert.Equal(17, propertyDomainTypes[1].Value[1]);
-            Assert.Equal(6, propertyDomainTypes[1].Value[2]);
+            Assert.Equal(555, propertyDomainTypes[2].Key);
+            Assert.Equal(3, propertyDomainTypes[2].Value.Length);
+            Assert.Equal(5, propertyDomainTypes[2].Value[0]);
+            Assert.Equal(17, propertyDomainTypes[2].Value[1]);
+            Assert.Equal(6, propertyDomainTypes[2].Value[2]);
 
             // P777 -> 17
-            Assert.Equal(777, propertyDomainTypes[2].Key);
-            Assert.Single(propertyDomainTypes[2].Value);
-            Assert.Equal(17, propertyDomainTypes[2].Value[0]);
+            Assert.Equal(777, propertyDomainTypes[3].Key);
+            Assert.Single(propertyDomainTypes[3].Value);
+            Assert.Equal(17, propertyDomainTypes[3].Value[0]);
         }
 
         [Fact]
@@ -159,18 +163,18 @@ namespace SparqlForHumans.UnitTests.Index.Relations
 
             var propertyDomainTypes = new PropertyDomainIndexer(entityGroups).RelationIndex.ToArray();
 
-            // P27, P555
-            Assert.Equal(2, propertyDomainTypes.Length);
+            // P31, P27, P555
+            Assert.Equal(3, propertyDomainTypes.Length);
 
             // P27 -> P5
-            Assert.Equal(27, propertyDomainTypes[0].Key);
-            Assert.Single(propertyDomainTypes[0].Value);
-            Assert.Equal(5, propertyDomainTypes[0].Value[0]);
-
-            // P555 -> P5
-            Assert.Equal(555, propertyDomainTypes[1].Key);
+            Assert.Equal(27, propertyDomainTypes[1].Key);
             Assert.Single(propertyDomainTypes[1].Value);
             Assert.Equal(5, propertyDomainTypes[1].Value[0]);
+
+            // P555 -> P5
+            Assert.Equal(555, propertyDomainTypes[2].Key);
+            Assert.Single(propertyDomainTypes[2].Value);
+            Assert.Equal(5, propertyDomainTypes[2].Value[0]);
         }
     }
 }
