@@ -40,17 +40,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static void SetTypesDomainsAndRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
-            //For all properties, get the Domain and Range Types from the DB;
-            foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
-                if (!edge.uris.Any()) continue;
-
-                //var properties = new BatchIdPropertyQuery(propertyIndexPath, edge.uris.Select(x => x.GetUriIdentifier())).Query();
-                //edge.Domain = properties.SelectMany(x => x.Domain).Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}").ToList();
-                //edge.Range = properties.SelectMany(x => x.Range).Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}").ToList();
-                edge.Domain = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-                edge.Range = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-            }
 
             //For all nodes:
             //If IsGivenType, get those types
@@ -76,6 +65,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
                     }
+                }
+            }
+
+            //For all properties, get the Domain and Range Types from the DB;
+            foreach (var edge in graph.Edges.Select(x => x.Value))
+            {
+                if (edge.uris.Any())
+                {
+                    edge.Domain = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
+                    edge.Range = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
+                }
+                else
+                {
+                    edge.Domain = edge.GetSourceNode(graph).Types;
+                    edge.Range = edge.GetTargetNode(graph).Types;
                 }
             }
         }

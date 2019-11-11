@@ -593,7 +593,7 @@ namespace SparqlForHumans.UnitTests.Query
             var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
             Assert.Equal(2, rangeProperties.Count); //P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
-            Assert.Equal(2, domainProperties.Count); // P27, P777
+            Assert.Equal(3, domainProperties.Count); // P31, P27, P777
             var properties = rangeProperties.Intersect(domainProperties,new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
