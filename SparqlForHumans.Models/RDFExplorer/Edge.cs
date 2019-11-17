@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace SparqlForHumans.Models.Query
+namespace SparqlForHumans.Models.RDFExplorer
 {
     public class Edge
     {

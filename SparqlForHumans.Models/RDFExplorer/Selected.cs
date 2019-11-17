@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace SparqlForHumans.Models.Query
+﻿namespace SparqlForHumans.Models.RDFExplorer
 {
     public class Selected
     {

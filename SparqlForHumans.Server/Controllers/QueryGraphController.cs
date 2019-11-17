@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models;
-using SparqlForHumans.Models.Query;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models.RDFExplorer;
 
 namespace SparqlForHumans.Server.Controllers
 {

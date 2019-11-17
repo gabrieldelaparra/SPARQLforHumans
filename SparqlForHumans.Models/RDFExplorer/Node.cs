@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
-namespace SparqlForHumans.Models.Query
+namespace SparqlForHumans.Models.RDFExplorer
 {
     public class Node
     {

@@ -19,4 +19,8 @@
     <ProjectReference Include="..\SparqlForHumans.Utilities\SparqlForHumans.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="QueryGraph\" />
+  </ItemGroup>
+
 </Project>

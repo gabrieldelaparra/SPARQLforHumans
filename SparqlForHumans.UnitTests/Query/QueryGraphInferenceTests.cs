@@ -1,5 +1,5 @@
 ﻿using SparqlForHumans.Lucene.Queries.Graph;
-using SparqlForHumans.Models.Query;
+using SparqlForHumans.Models.RDFExplorer;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
