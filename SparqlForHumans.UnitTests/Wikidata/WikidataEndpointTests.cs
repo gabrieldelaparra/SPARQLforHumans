@@ -7,7 +7,7 @@ namespace SparqlForHumans.UnitTests.Wikidata
         [Fact]
         public void TestWikidataSearchByLabel()
         {
-            var query = SparqlForHumans.Wikidata.Services.Queries.QueryWikidataSearchByLabel("Obama");
+            var query = SparqlForHumans.Wikidata.Services.EndpointApiQueries.QueryWikidataSearchByLabel("Obama");
             Assert.NotNull(query);
             Assert.NotEmpty(query.Results);
             Assert.Equal("Q76", query.Results[0].Id);
@@ -16,7 +16,7 @@ namespace SparqlForHumans.UnitTests.Wikidata
         [Fact]
         public void TestWikidataQueryEntityById()
         {
-            var query = SparqlForHumans.Wikidata.Services.Queries.QueryWikidataEntitiesById("Q76");
+            var query = SparqlForHumans.Wikidata.Services.EndpointApiQueries.QueryWikidataEntitiesById("Q76");
             Assert.NotNull(query);
             Assert.NotEmpty(query.Results);
             Assert.Equal("Q76", query.Results["Q76"].Id);
@@ -26,7 +26,7 @@ namespace SparqlForHumans.UnitTests.Wikidata
         [Fact]
         public void TestWikidataQueryPropertyById()
         {
-            var query = SparqlForHumans.Wikidata.Services.Queries.QueryWikidataPropertiesById("P25");
+            var query = SparqlForHumans.Wikidata.Services.EndpointApiQueries.QueryWikidataPropertiesById("P25");
             Assert.NotNull(query);
             Assert.NotEmpty(query.Results);
             Assert.Equal("P25", query.Results["P25"].Id);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SparqlForHumans.Wikidata.Services
 {
-    public static class Queries
+    public static class EndpointApiQueries
     {
         public static WikidataSearchEntitiesResult QueryWikidataSearchByLabel(string[] input)
         {
