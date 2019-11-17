@@ -16,7 +16,7 @@ namespace SparqlForHumans.RDF.Extensions
 
             foreach (var line in lines)
             {
-                var entity = line.Split(WikidataDump.BlankSpaceChar).FirstOrDefault();
+                var entity = line.Split(Constants.BlankSpaceChar).FirstOrDefault();
 
                 //Base case: first value:
                 if (last == string.Empty)
@@ -48,13 +48,13 @@ namespace SparqlForHumans.RDF.Extensions
         // TODO: Test
         public static bool IsEntityQ(this SubjectGroup subjectGroup)
         {
-            return subjectGroup.Id.StartsWith(WikidataDump.EntityPrefix);
+            return subjectGroup.Id.StartsWith(Constants.EntityPrefix);
         }
 
         // TODO: Test
         public static bool IsEntityP(this SubjectGroup subjectGroup)
         {
-            return subjectGroup.Id.StartsWith(WikidataDump.PropertyPrefix);
+            return subjectGroup.Id.StartsWith(Constants.PropertyPrefix);
         }
 
         /// <summary>

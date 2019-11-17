@@ -25,12 +25,12 @@ namespace SparqlForHumans.Lucene.Queries.Parsers
         public static string PrepareSearchTerm(string input)
         {
             var terms = input.Trim()
-                .Replace(WikidataDump.HyphenChar, WikidataDump.BlankSpaceChar)
-                .Split(WikidataDump.BlankSpaceChar)
+                .Replace(Constants.HyphenChar, Constants.BlankSpaceChar)
+                .Split(Constants.BlankSpaceChar)
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => $"{x.Trim()}*");
 
-            return string.Join(WikidataDump.QueryConcatenator, terms);
+            return string.Join(Constants.QueryConcatenator, terms);
         }
     }
 }

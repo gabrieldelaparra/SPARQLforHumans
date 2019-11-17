@@ -1,6 +1,6 @@
 ﻿namespace SparqlForHumans.Models.Wikidata
 {
-    public static class WikidataDump
+    public static class Constants
     {
         public const string EntityIRI = "http://www.wikidata.org/entity/";
         public const string EntityPrefix = "Q";

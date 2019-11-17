@@ -81,22 +81,22 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static bool IsEntity(this INode node)
         {
-            return node.IsUriNode() && node.GetUri().StartsWith(WikidataDump.EntityIRI);
+            return node.IsUriNode() && node.GetUri().StartsWith(Constants.EntityIRI);
         }
 
         public static bool IsEntityQ(this INode node)
         {
-            return node.IsEntity() && node.GetId().StartsWith(WikidataDump.EntityPrefix);
+            return node.IsEntity() && node.GetId().StartsWith(Constants.EntityPrefix);
         }
 
         public static bool IsEntityP(this INode node)
         {
-            return node.IsEntity() && node.GetId().StartsWith(WikidataDump.PropertyPrefix);
+            return node.IsEntity() && node.GetId().StartsWith(Constants.PropertyPrefix);
         }
 
         public static bool IsProperty(this INode node)
         {
-            return node.IsUriNode() && node.GetUri().StartsWith(WikidataDump.PropertyIRI);
+            return node.IsUriNode() && node.GetUri().StartsWith(Constants.PropertyIRI);
         }
 
         public static PredicateType GetPredicateType(this INode node)
@@ -126,27 +126,27 @@ namespace SparqlForHumans.RDF.Extensions
 
         private static bool IsLabel(this INode node)
         {
-            return node.GetUri().Equals(WikidataDump.LabelIRI);
+            return node.GetUri().Equals(Constants.LabelIRI);
         }
 
         public static bool IsInstanceOf(this INode node)
         {
-            return node.GetId().Equals(WikidataDump.InstanceOf);
+            return node.GetId().Equals(Constants.InstanceOf);
         }
 
         public static bool IsSubClass(this INode node)
         {
-            return node.GetId().Equals(WikidataDump.SubClass);
+            return node.GetId().Equals(Constants.SubClass);
         }
 
         private static bool IsDescription(this INode node)
         {
-            return node.GetUri().Equals(WikidataDump.DescriptionIRI);
+            return node.GetUri().Equals(Constants.DescriptionIRI);
         }
 
         private static bool IsAltLabel(this INode node)
         {
-            return node.GetUri().Equals(WikidataDump.Alt_labelIRI);
+            return node.GetUri().Equals(Constants.Alt_labelIRI);
         }
 
         public static int GetIntId(this INode node)

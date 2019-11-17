@@ -19,7 +19,7 @@ namespace SparqlForHumans.RDF.Models
 
         public SubjectGroup(string key, IEnumerable<Triple> elements) : base(key, elements)
         {
-            Id = key.Replace($"<{WikidataDump.EntityIRI}", string.Empty).Replace(">", string.Empty);
+            Id = key.Replace($"<{Constants.EntityIRI}", string.Empty).Replace(">", string.Empty);
             IntId = Id.ToNumbers();
         }
 

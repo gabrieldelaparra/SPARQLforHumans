@@ -100,7 +100,7 @@ namespace SparqlForHumans.UnitTests
             Assert.NotEqual(0, FileHelper.GetLineCount(outputFilename, 50));
 
             var lines = FileHelper.GetInputLines(outputFilename);
-            var firstItemList = lines.Select(x => x.Split(WikidataDump.BlankSpaceChar).FirstOrDefault());
+            var firstItemList = lines.Select(x => x.Split(Constants.BlankSpaceChar).FirstOrDefault());
 
             Assert.NotNull(firstItemList);
             Assert.NotEmpty(firstItemList);

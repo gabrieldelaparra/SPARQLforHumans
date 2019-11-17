@@ -24,7 +24,7 @@ namespace SparqlForHumans.Lucene.Extensions
             if (toSplit.Length.Equals(1))
             {
                 var singleJoin = string.Join("", toSplit);
-                var split = singleJoin.Split(new[] { WikidataDump.PropertyValueSeparator },
+                var split = singleJoin.Split(new[] { Constants.PropertyValueSeparator },
                     StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length > 1)
                 {

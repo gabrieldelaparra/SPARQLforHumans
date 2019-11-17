@@ -37,14 +37,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchPropertyIdDomainTypesQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}");
+            return results.Select(x => $"{Constants.EntityIRI}{Constants.EntityPrefix}{x}");
         }
 
         public static IEnumerable<string> BatchPropertyIdRangeTypesQuery(IEnumerable<string> propertyUris)
         {
             var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchPropertyIdRangeTypesQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.EntityIRI}{WikidataDump.EntityPrefix}{x}");
+            return results.Select(x => $"{Constants.EntityIRI}{Constants.EntityPrefix}{x}");
         }
 
         public static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)
@@ -63,14 +63,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             var queryTypes = entityUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchEntityIdOutgoingPropertiesQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+            return results.Select(x => $"{Constants.PropertyIRI}{Constants.PropertyPrefix}{x}");
         }
 
         public static IEnumerable<string> BatchEntityIdIncomingPropertiesQuery(IEnumerable<string> entityUris)
         {
             var queryTypes = entityUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchEntityIdIncomingPropertiesQuery(queryTypes);
-            return results.Select(x => $"{WikidataDump.PropertyIRI}{WikidataDump.PropertyPrefix}{x}");
+            return results.Select(x => $"{Constants.PropertyIRI}{Constants.PropertyPrefix}{x}");
         }
 
         public static IEnumerable<int> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<int> entityIds)

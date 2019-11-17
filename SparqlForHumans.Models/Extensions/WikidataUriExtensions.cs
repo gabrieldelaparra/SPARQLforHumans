@@ -11,12 +11,12 @@ namespace SparqlForHumans.Models.Extensions
 
         public static string WikidataUri(this IEntity entity)
         {
-            return entity.Id.FormatWithUri(WikidataDump.EntityIRI);
+            return entity.Id.FormatWithUri(Constants.EntityIRI);
         }
 
         public static string WikidataUri(this IProperty property)
         {
-            return property.Id.FormatWithUri(WikidataDump.PropertyIRI);
+            return property.Id.FormatWithUri(Constants.PropertyIRI);
         }
     }
 }

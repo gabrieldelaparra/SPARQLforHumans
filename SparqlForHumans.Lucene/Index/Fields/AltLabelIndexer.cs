@@ -30,7 +30,7 @@ namespace SparqlForHumans.Lucene.Index.Fields
             return values.Any()
                 ? new List<TextField>
                 {
-                    new TextField(FieldName, string.Join(WikidataDump.PropertyValueSeparator, values), Field.Store.YES)
+                    new TextField(FieldName, string.Join(Constants.PropertyValueSeparator, values), Field.Store.YES)
                         {Boost = (float) Boost}
                 }
                 : new List<TextField>();
