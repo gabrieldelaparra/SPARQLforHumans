@@ -60,24 +60,12 @@
         // ?prop0 are properties from Humans, targeting Countries (Domain: Human Intersect Range: Country)
         KnownSubjectAndObjectTypesIntersectDomainRangeProperties,
 
-        // For Entities that point to known types (P31)
-
-
-
-        // ?var0 ?prop0 ?var1
-        // ?var0 P31 Country
-        // ?var0 are entities of type Countries
-        KnownSubjectAndObjectTypesQueryInstanceEntities,
-
-        
-        KnownPredicateAndObjectNotUsed,
-
-
+        //Inferred Predicates
         InferredDomainAndRangeTypeProperties,
         InferredDomainTypeProperties,
         InferredRangeTypeProperties,
 
-
+        //Inferred Entities
         InferredDomainTypeEntities,
         InferredDomainAndRangeTypeEntities,
         InferredRangeTypeEntities,
