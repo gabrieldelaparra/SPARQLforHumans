@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using SparqlForHumans.Lucene.Queries.Graph;
-using SparqlForHumans.Models.Query;
+using SparqlForHumans.Models.RDFExplorer;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
@@ -136,6 +136,62 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         /// <summary>
+        /// ?var0 P31 ?var1
+        /// ?var0 is Obama
+        /// 
+        /// Expected Results:
+        /// ?var1 is HUMAN (or others)
+        /// </summary>
+        [Fact]
+        public void TestTraversal2ConnectedNodesSubjectIsGivenType_EdgeP31_2Nodes1Edge()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+                    new Node(1, "?var1"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectly, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+        }
+
+        /// <summary>
+        /// ?var0 P27 ?var1
+        /// ?var0 is Obama
+        /// 
+        /// Expected Results:
+        /// ?var1 is USA (or where Obama is CitizenOf)
+        /// </summary>
+        [Fact]
+        public void TestTraversal2ConnectedNodesSubjectIsGivenType_EdgeP27_2Nodes1Edge()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+                    new Node(1, "?var1"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P27"})
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectly, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+        }
+
+        /// <summary>
         /// ?var0 ?prop0 ?var1
         /// ?var1 is Obama
         /// 
@@ -194,6 +250,35 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         /// <summary>
+        /// ?var0 P27 ?var1
+        /// ?var0 is Obama
+        /// ?var1 is USA
+        /// 
+        /// Expected Results:
+        /// All is given, should behave like that.
+        /// </summary>
+        [Fact]
+        public void TestTraversal2ConnectedNodesSourceAndTargetIsGivenType_E0N0P27E1_2Nodes1Edge()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"}),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P27"})
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+        }
+
+        /// <summary>
         /// ?var0 P31 ?var1
         /// ?var1 is Human
         /// 
@@ -220,6 +305,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
         }
+
+        
 
         /// <summary>
         /// ?var0 P31 ?var1
@@ -319,9 +406,9 @@ namespace SparqlForHumans.UnitTests.Query
                 nodes = new[]
                 {
                     new Node(0, "?human"),
-                    new Node(1, "?city"),
-                    new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(3, "city", new[]{"http://www.wikidata.org/entity/Q515"}),
+                    new Node(1, "?country"),
+                    new Node(2, "HUMAN", new[]{"http://www.wikidata.org/entity/Q5"}),
+                    new Node(3, "COUNTRY", new[]{"http://www.wikidata.org/entity/Q6256"}),
                 },
                 edges = new[]
                 {
