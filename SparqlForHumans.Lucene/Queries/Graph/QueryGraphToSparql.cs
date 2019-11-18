@@ -74,6 +74,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         .Subject(new Uri("http://www.bigdata.com/rdf#serviceParam"))
                         .PredicateUri(new Uri("http://wikiba.se/ontology#language"))
                         .ObjectLiteral("[AUTO_LANGUAGE],en")));
+            
+            queryBuilder.Limit(100);
 
             return queryBuilder.BuildQuery();
         }
