@@ -1,6 +1,6 @@
-﻿using SparqlForHumans.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
 
 namespace SparqlForHumans.Lucene.Queries.Graph

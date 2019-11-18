@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.Utilities;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {

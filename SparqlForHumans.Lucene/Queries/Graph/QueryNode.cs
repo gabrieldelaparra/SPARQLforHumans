@@ -3,6 +3,7 @@ using System.Linq;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Utilities;
+
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryNode : Node
