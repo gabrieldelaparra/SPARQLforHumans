@@ -2,7 +2,7 @@
 using System.Net;
 using VDS.RDF.Query;
 
-namespace SparqlForHumans.Wikidata.Services
+namespace SparqlForHumans.Wikidata.Models
 {
     public class CustomSparqlEndPoint : SparqlRemoteEndpoint
     {
