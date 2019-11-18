@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-    public static class GraphExtensions
+    public static class QueryGraphExtensions
     {
         /// <summary>
         /// Given an Edge, checks if the Edge.uris has any value ending with "P31" (InstanceOf)

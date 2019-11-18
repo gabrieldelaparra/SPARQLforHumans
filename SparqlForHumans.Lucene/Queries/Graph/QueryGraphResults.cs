@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     /// ?var0 -> P31 -> Qxx
     ///                   ?var1 -> P31 -> Qyy
     /// ?var0 -> ?prop -> ?var1
-    public static class GraphQueryResults
+    public static class QueryGraphResults
     {
         public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {

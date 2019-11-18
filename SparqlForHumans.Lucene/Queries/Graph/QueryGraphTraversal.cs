@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-    public static class GraphTraversal
+    public static class QueryGraphTraversal
     {
         /// <summary>
         /// Given a graph, iterate on it:
