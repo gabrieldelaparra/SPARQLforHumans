@@ -40,6 +40,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
 
+        //TODO: TEST
         public static void SetBaseNodeTypes(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             //For all nodes:
@@ -54,6 +55,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
+        //TODO: TEST
         public static void SetBaseEdgeDomainRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
@@ -71,6 +73,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
+        //TODO: TEST
         public static void SetTypesDomainsAndRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
@@ -81,25 +84,18 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //For InferredTypes, Get those Types
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                if (node.IsGivenType)
+                if (node.IsInferredType)
                 {
-                    node.Types = node.uris.ToList();
+                    if (node.IsInferredDomainType)
+                    {
+                        node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
+                    }
+                    if (node.IsInferredRangeType)
+                    {
+                        node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
+                    }
                 }
-                else if (node.IsInstanceOfType)
-                {
-                    node.Types = node.GetInstanceOfValues(graph).ToList();
-                }
-                else
-                {
-                    //if (node.IsInferredDomainType)
-                    //{
-                    //    node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
-                    //}
-                    //if (node.IsInferredRangeType)
-                    //{
-                    //    node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
-                    //}
-                }
+
             }
 
             ////For all properties, get the Domain and Range Types from the DB;

@@ -28,7 +28,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            var sparql = queryGraph.ToSparql();
+            var sparql = queryGraph.Nodes[1].ToSparql(queryGraph);
             var expectedStatements = new []
             {
                 @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> ?var1 .",
@@ -59,7 +59,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            var sparql = queryGraph.ToSparql();
+            var sparql = queryGraph.Nodes[0].ToSparql(queryGraph);
             var expectedStatements = new []
             {
                 @"?var0 <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q76> .",
@@ -90,7 +90,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            var sparql = queryGraph.ToSparql();
+            var sparql = queryGraph.Nodes[1].ToSparql(queryGraph);
             var expectedStatements = new []
             {
                 @"<http://www.wikidata.org/entity/Q76> ?prop0 ?var1 .",
@@ -121,7 +121,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             var queryGraph = new QueryGraph(graph);
-            var sparql = queryGraph.ToSparql();
+            var sparql = queryGraph.Nodes[0].ToSparql(queryGraph);
             var expectedStatements = new []
             {
                 @"?var0 ?prop0 <http://www.wikidata.org/entity/Q76> .",

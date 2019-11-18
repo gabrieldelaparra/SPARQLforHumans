@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
 
@@ -24,21 +23,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return node.IsGivenType ? predicate.Object(new Uri(node.uris.First())) : predicate.Object(node.name);
         }
 
-        public static SparqlQuery ToSparql(this QueryGraph graph)
+        public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph)
         {
-            var variables = new List<string>();
-            var directNodes = graph.Nodes.Select(x => x.Value)
-                .Where(x => x.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectly)
-                            || x.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectly))
-                .ToList();
-
-            foreach (var node in directNodes)
-            {
-                variables.Add(node.name);
-            }
+            var variables = new List<string> {
+                node.name,
+                $"{node.name}Label",
+            };
 
             var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
-            foreach (var node in directNodes.Where(n => n.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectly)))
+            
+            if(node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectly))
             {
                 var incomingEdges = node.GetIncomingEdges(graph);
 
@@ -53,8 +47,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     });
                 }
             }
-
-            foreach (var node in directNodes.Where(n => n.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectly)))
+            else if (node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectly))
             {
                 var outgoingEdges = node.GetOutgoingEdges(graph);
                 foreach (var incomingEdge in outgoingEdges)
