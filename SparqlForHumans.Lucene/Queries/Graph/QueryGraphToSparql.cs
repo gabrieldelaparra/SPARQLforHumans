@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
 
@@ -23,6 +26,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return node.IsGivenType ? predicate.Object(new Uri(node.uris.First())) : predicate.Object(node.name);
         }
 
+        public static Entity ToEntity(this SparqlResult result)
+        {
+            return new Entity()
+            {
+                Id = result[0].GetUri().GetUriIdentifier(),
+                Label = result[1].GetLiteralValue(),
+            };
+        }
+
         public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph)
         {
             var variables = new List<string> {
@@ -43,7 +55,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         x.ToSubject(sourceNode)
                             .ToPredicate(incomingEdge)
-                            .ToObject(node);
+                            .ToObject(node)
+                            .Subject(node.name)
+                            .PredicateUri(new Uri("http://www.w3.org/2000/01/rdf-schema#label"))
+                            .Object("?discardNonEntities");
                     });
                 }
             }

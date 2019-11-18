@@ -8,13 +8,13 @@ namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryGraphTypesTests
     {
-        const string EntitiesIndexPath = "QueryGraphEntities";
-        const string PropertiesIndexPath = "QueryGraphProperties";
+        const string EntitiesIndexPath = "QueryGraphTypesEntities";
+        const string PropertiesIndexPath = "QueryGraphTypesProperties";
 
         public static void CreateIndex()
         {
             // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
+            const string filename = @"Resources/QueryGraphTypes.nt";
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, EntitiesIndexPath).Index();

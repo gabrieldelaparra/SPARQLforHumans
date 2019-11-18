@@ -3,26 +3,11 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Models.Wikidata;
+using SparqlForHumans.Wikidata.Services;
+using VDS.RDF.Query;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-
-    /// Case 1:
-    /// ?var0
-    /// ?var1
-    /// ?var0 -> ?prop -> ?var1
-    /// 
-    /// Case 2: P31 and prop going from the same node
-    /// ?var0 -> P31 -> Qxx
-    /// ?var0 -> ?prop -> ?var1
-    ///
-    /// Case 3: P31 going from a different node.
-    /// ?var1 -> ?prop -> ?var0
-    ///                   ?var0 -> P31 -> Qxx
-    /// Case 4: P31 going ot from both nodes
-    /// ?var0 -> P31 -> Qxx
-    ///                   ?var1 -> P31 -> Qyy
-    /// ?var0 -> ?prop -> ?var1
     public static class QueryGraphResults
     {
         public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
@@ -77,6 +62,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static void SetTypesDomainsAndRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
+            graph.SetBaseNodeTypes(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
+            graph.SetBaseEdgeDomainRanges(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
 
             //For all nodes:
             //If IsGivenType, get those types
@@ -121,12 +108,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 switch (node.QueryType)
                 {
                     case QueryType.GivenSubjectTypeQueryDirectly:
-                        //TODO: This should be done with the Wikipedia Endpoint
-                        node.Results = new List<Entity>();
+                        node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
                         break;
                     case QueryType.GivenObjectTypeQueryDirectly:
-                        //TODO: This should be done with the Wikipedia Endpoint
-                        node.Results = new List<Entity>();
+                        node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
                         break;
                     case QueryType.SubjectIsInstanceOfTypeQueryEntities:
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
@@ -140,7 +125,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.GivenEntityTypeNoQuery:
-                        node.Results = new List<Entity>();
+                        node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     default:
                         break;

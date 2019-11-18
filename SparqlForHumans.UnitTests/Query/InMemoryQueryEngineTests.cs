@@ -11,9 +11,9 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestOutgoingProperties()
         {
             // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
+            const string filename = @"Resources/QueryGraphInMemoryEngine.nt";
+            const string entitiesIndexPath = "QueryGraphInMemoryEngineEntities";
+            const string propertiesIndexPath = "QueryGraphInMemoryEngineProperties";
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
@@ -36,9 +36,9 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestIncomingProperties()
         {
             // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
+            const string filename = @"Resources/QueryGraphInMemoryEngine.nt";
+            const string entitiesIndexPath = "QueryGraphInMemoryEngineEntities";
+            const string propertiesIndexPath = "QueryGraphInMemoryEngineProperties";
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
@@ -59,9 +59,9 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestDomainEntities()
         {
             // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
+            const string filename = @"Resources/QueryGraphInMemoryEngine.nt";
+            const string entitiesIndexPath = "QueryGraphInMemoryEngineEntities";
+            const string propertiesIndexPath = "QueryGraphInMemoryEngineProperties";
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
@@ -83,9 +83,9 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestRangeEntities()
         {
             // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
+            const string filename = @"Resources/QueryGraphInMemoryEngine.nt";
+            const string entitiesIndexPath = "QueryGraphInMemoryEngineEntities";
+            const string propertiesIndexPath = "QueryGraphInMemoryEngineProperties";
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();

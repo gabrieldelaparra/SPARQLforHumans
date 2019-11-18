@@ -22,7 +22,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public bool IsGivenType => uris.Any();
         public bool IsGoingToGivenType { get; set; } = false;
         public bool IsComingFromGivenType { get; set; } = false;
-        //public bool IsDirectedToKnownType { get; set; } = false;
         
         public bool IsInstanceOfType { get; set; } = false;
         public bool IsGoingToInstanceOfType { get; set; } = false;

@@ -1,8 +1,6 @@
 ﻿using System;
 using SparqlForHumans.Wikidata.Models;
-using VDS.RDF;
 using VDS.RDF.Query;
-using VDS.RDF.Query.Builder;
 
 namespace SparqlForHumans.Wikidata.Services
 {
