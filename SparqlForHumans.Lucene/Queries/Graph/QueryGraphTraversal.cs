@@ -86,8 +86,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             
             if (node.IsInstanceOfType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
 
-            if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectly;
-            if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectly;
+            if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectlyEntities;
+            if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectlyEntities;
 
             if (node.IsInferredDomainType && node.IsInferredRangeType) return QueryType.InferredDomainAndRangeTypeEntities;
             if (node.IsInferredDomainType) return QueryType.InferredDomainTypeEntities;

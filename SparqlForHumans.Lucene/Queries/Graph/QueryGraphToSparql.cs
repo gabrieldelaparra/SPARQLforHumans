@@ -44,7 +44,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
             
-            if(node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectly))
+            if(node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities))
             {
                 var incomingEdges = node.GetIncomingEdges(graph);
 
@@ -62,7 +62,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     });
                 }
             }
-            else if (node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectly))
+            else if (node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectlyEntities))
             {
                 var outgoingEdges = node.GetOutgoingEdges(graph);
                 foreach (var incomingEdge in outgoingEdges)

@@ -21,6 +21,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         }
 
+        public void SetIndexPaths(string entitiesIndexPath, string propertiesIndexPath)
+        {
+            EntitiesIndexPath = entitiesIndexPath;
+            PropertiesIndexPath = propertiesIndexPath;
+        }
+
         public string EntitiesIndexPath { get; set; }
         public string PropertiesIndexPath { get; set; }
 

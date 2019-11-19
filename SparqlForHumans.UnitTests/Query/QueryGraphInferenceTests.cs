@@ -37,6 +37,30 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestTypesScenario5_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                    new Node(2, "?var2"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomain", 0, 2),
+                }
+            };
+
+            var queryGraph = new QueryGraph(graph);
+
+            // Assert
+            
+        }
+
+        [Fact]
         public void TestInferScenario5_4Nodes3Edges()
         {
             var graph = new RDFExplorerGraph

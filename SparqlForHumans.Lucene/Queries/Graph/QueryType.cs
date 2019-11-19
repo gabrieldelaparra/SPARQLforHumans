@@ -18,14 +18,14 @@
         // ?var0 ?prop0 ?var1
         // ?var0 is Obama
         // --> ?var1 are entities that go from Obama
-        GivenSubjectTypeQueryDirectly,
+        GivenSubjectTypeQueryDirectlyEntities,
         // --> ?prop0 are properties of Obama
         GivenSubjectTypeDirectQueryOutgoingProperties,
 
         // ?var0 ?prop0 ?var1
         // ?var1 is USA
         // --> ?var0 are entities that get to USA
-        GivenObjectTypeQueryDirectly,
+        GivenObjectTypeQueryDirectlyEntities,
         // --> ?prop0 are properties that get to USA
         GivenObjectTypeDirectQueryIncomingProperties,
 

@@ -56,20 +56,21 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Single(queryGraph.Nodes[0].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
 
-            //Assert.Single(queryGraph.Edges[0].Domain);
-            //Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Single(queryGraph.Edges[0].Domain);
+            Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Cleanup
             DeleteIndex();
@@ -104,20 +105,21 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Single(queryGraph.Nodes[1].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Nodes[1].Types);
 
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Single(queryGraph.Edges[0].Range);
-            //Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Single(queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Range);
 
             //Cleanup
             DeleteIndex();
@@ -152,18 +154,19 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Nodes[0].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Nodes[1].Types);
 
-            //Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
-            //Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
+            Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Edges[0].Range);
 
             //Cleanup
             DeleteIndex();
@@ -198,18 +201,19 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Nodes[0].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Nodes[1].Types);
 
-            //Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
-            //Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q76", queryGraph.Edges[0].Domain);
+            Assert.Contains("http://www.wikidata.org/entity/Q30", queryGraph.Edges[0].Range);
 
             //Cleanup
             DeleteIndex();
@@ -243,23 +247,23 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Single(queryGraph.Nodes[0].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[0].Types);
             Assert.Single(queryGraph.Nodes[1].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[1].Types);
-            
-            //Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
-            ////TODO/FIX: Check if this is right. This is P31. Range should be available
-            ////TODO/FIX: InstanceOf Edge. Domain contains Obama. Range contains HUMAN.
-            //Assert.Empty(queryGraph.Edges[0].Range);
+
+            Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Single(queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
 
             //Cleanup
             DeleteIndex();
@@ -300,13 +304,14 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
             Assert.Empty(queryGraph.Nodes[2].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
-            //Assert.Empty(queryGraph.Edges[1].Domain);
-            //Assert.Empty(queryGraph.Edges[1].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Single(queryGraph.Nodes[0].Types);
@@ -317,16 +322,15 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Empty(queryGraph.Nodes[2].Types);
 
-            //Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
-            ////TODO/FIX: Check if this is right. This is P31. Range should be available
-            ////TODO/FIX: InstanceOf Edge. Domain contains Obama. Range contains HUMAN.
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Single(queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
 
-            ////Since E1 source is HUMAN, the properties available, should be HUMAN properties only.
-            //Assert.Single(queryGraph.Edges[1].Domain);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
-            //Assert.Empty(queryGraph.Edges[1].Range);
+            //Since E1 source is HUMAN, Domain HUMAN
+            Assert.Single( queryGraph.Edges[1].Domain);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Cleanup
             DeleteIndex();
@@ -368,13 +372,14 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
             Assert.Empty(queryGraph.Nodes[2].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
-            //Assert.Empty(queryGraph.Edges[1].Domain);
-            //Assert.Empty(queryGraph.Edges[1].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Single(queryGraph.Nodes[0].Types);
@@ -385,15 +390,15 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Empty(queryGraph.Nodes[2].Types);
 
-            //Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
-            ////TODO/FIX: Check if this is right. This is P31. Range should be available
-            ////TODO/FIX: InstanceOf Edge. Domain contains Obama. Range contains HUMAN.
-            //Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Equal(8, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Single(queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
 
-            //Assert.Empty(queryGraph.Edges[1].Domain);
-            //Assert.Single(queryGraph.Edges[1].Range);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Range);
+            //Since E1 source is HUMAN, the properties available, should be properties arriving at HUMAN (P25,..)
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Single(queryGraph.Edges[1].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Range);
 
             //Cleanup
             DeleteIndex();
@@ -437,13 +442,14 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[0].Types);
             Assert.Empty(queryGraph.Nodes[1].Types);
             Assert.Empty(queryGraph.Nodes[2].Types);
-            //Assert.Empty(queryGraph.Edges[0].Domain);
-            //Assert.Empty(queryGraph.Edges[0].Range);
-            //Assert.Empty(queryGraph.Edges[1].Domain);
-            //Assert.Empty(queryGraph.Edges[1].Range);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
-            queryGraph.SetTypesDomainsAndRanges(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
 
             //Assert
             Assert.Single(queryGraph.Nodes[0].Types);
@@ -458,25 +464,24 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Single(queryGraph.Nodes[3].Types);
             Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Nodes[3].Types);
 
-            ////From InstanceOf HUMAN to InstanceOf COUNTRY
-            //Assert.Single(queryGraph.Edges[0].Domain);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
-            //Assert.Single(queryGraph.Edges[0].Range);
-            //Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Edges[0].Range);
+            //From InstanceOf HUMAN
+            Assert.Single(queryGraph.Edges[0].Domain);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            //To InstanceOf COUNTRY
+            Assert.Single(queryGraph.Edges[0].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Edges[0].Range);
 
-            ////InstanceOf Edge. Domain contains ?human (Obama). Range contains HUMAN.
-            //Assert.Equal(8, queryGraph.Edges[1].Domain.Count);
-            //Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
-            ////TODO/FIX: Check if this is right. This is P31. Range should be available.
-            ////TODO/FIX: InstanceOf Edge. Domain contains ?human (Obama). Range contains HUMAN.
-            //Assert.Empty(queryGraph.Edges[1].Range);
+            //InstanceOf Edge. Domain contains ?human (Obama). Range contains HUMAN.
+            Assert.Equal(8, queryGraph.Edges[1].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
+            Assert.Single(queryGraph.Edges[1].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Range);
 
-            ////InstanceOf Edge. Domain contains ?city. Range contains COUNTRY.
-            //Assert.Equal(8, queryGraph.Edges[2].Domain.Count);
-            //Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Edges[2].Domain);
-            ////TODO/FIX: Check if this is right. This is P31. Range should be available.
-            ////TODO/FIX: InstanceOf Edge. Domain contains ?country (USA). Range contains COUNTRY.
-            //Assert.Empty(queryGraph.Edges[2].Range);
+            //InstanceOf Edge. Domain contains ?city. Range contains COUNTRY.
+            Assert.Equal(8, queryGraph.Edges[2].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Edges[2].Domain);
+            Assert.Single(queryGraph.Edges[2].Range);
+            Assert.Contains("http://www.wikidata.org/entity/Q6256", queryGraph.Edges[2].Range);
 
             //Cleanup
             DeleteIndex();

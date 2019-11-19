@@ -1,10 +1,7 @@
-﻿using SparqlForHumans.Models;
-using SparqlForHumans.Utilities;
+﻿using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.Wikidata.Services;
-using VDS.RDF.Query;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -12,93 +9,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
-            graph.EntitiesIndexPath = entitiesIndexPath;
-            graph.PropertiesIndexPath = propertyIndexPath;
+            graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
 
-            graph.SetBaseNodeTypes(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-            graph.SetBaseEdgeDomainRanges(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-
-            graph.SetTypesDomainsAndRanges(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
+            graph.SetTypesDomainsAndRanges();
 
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
             graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
-        }
-
-        //TODO: TEST
-        public static void SetBaseNodeTypes(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
-        {
-            //For all nodes:
-            //If IsGivenType, get those types
-            //If IsInstanceOfType (P31 to Type), Get those Types
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
-                if (node.IsGivenType)
-                    node.Types = node.uris.ToList();
-                else if (node.IsInstanceOfType)
-                    node.Types = node.GetInstanceOfValues(graph).ToList();
-            }
-        }
-
-        //TODO: TEST
-        public static void SetBaseEdgeDomainRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
-        {
-            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
-
-            //For all properties, get the Domain and Range Types from the DB;
-            foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
-                edge.Domain = edge.GetSourceNode(graph).Types;
-                edge.Range = edge.GetTargetNode(graph).Types;
-
-                if (!edge.Domain.Any() && edge.uris.Any())
-                    edge.Domain = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-                if (!edge.Range.Any() && edge.uris.Any())
-                    edge.Range = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-            }
-        }
-
-        //TODO: TEST
-        public static void SetTypesDomainsAndRanges(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
-        {
-            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
-            graph.SetBaseNodeTypes(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-            graph.SetBaseEdgeDomainRanges(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
-
-            //For all nodes:
-            //If IsGivenType, get those types
-            //If IsInstanceOfType (P31 to Type), Get those Types
-            //For InferredTypes, Get those Types
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
-                if (node.IsInferredType)
-                {
-                    if (node.IsInferredDomainType)
-                    {
-                        node.InferredTypes = node.InferredTypes.Union(node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)).ToList();
-                    }
-                    if (node.IsInferredRangeType)
-                    {
-                        node.InferredTypes = node.InferredTypes.Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
-                    }
-                }
-
-            }
-
-            ////For all properties, get the Domain and Range Types from the DB;
-            //foreach (var edge in graph.Edges.Select(x => x.Value))
-            //{
-            //    if (edge.uris.Any())
-            //    {
-            //        edge.Domain = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-            //        edge.Range = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-            //    }
-            //    else
-            //    {
-            //        edge.Domain = edge.GetSourceNode(graph).Types;
-            //        edge.Range = edge.GetTargetNode(graph).Types;
-            //    }
-            //}
         }
 
         private static void RunNodeQueries(this QueryGraph graph, string indexPath)
@@ -107,10 +24,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 switch (node.QueryType)
                 {
-                    case QueryType.GivenSubjectTypeQueryDirectly:
+                    case QueryType.GivenSubjectTypeQueryDirectlyEntities:
                         node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
                         break;
-                    case QueryType.GivenObjectTypeQueryDirectly:
+                    case QueryType.GivenObjectTypeQueryDirectlyEntities:
                         node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
                         break;
                     case QueryType.SubjectIsInstanceOfTypeQueryEntities:
