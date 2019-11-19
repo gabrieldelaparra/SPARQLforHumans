@@ -2,7 +2,6 @@
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Wikidata.Services;
-using VDS.RDF.Query;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query

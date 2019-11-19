@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SparqlForHumans.Lucene.Queries.Graph;
+﻿using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using Xunit;
 
@@ -315,7 +312,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are ? //TODO: TBD. For the moment, TopEntities; Github #121
         /// ?prop1 are properties with domain in Human 
         /// </summary>
         [Fact]
@@ -339,9 +336,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans.
-            //TODO: I think that this case should not be covered for now, just top entities, until the edge is defined.
-            //TODO: On the other hand, the edge will have some 
+            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
             Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
             Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
@@ -355,7 +350,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are //TODO: TBD. For the moment, TopEntities; Github #121
         /// ?prop1 are properties with range in Human 
         /// </summary>
         [Fact]
@@ -379,9 +374,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans.
-            //TODO: I think that this case should not be covered for now, just top entities, until the edge is defined.
-            //TODO: On the other hand, the edge will have some 
+            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
             Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
             Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);

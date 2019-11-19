@@ -1,6 +1,4 @@
-﻿using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Lucene.Index;
+﻿using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;

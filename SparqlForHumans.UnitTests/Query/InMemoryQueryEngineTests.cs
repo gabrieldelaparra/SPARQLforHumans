@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Lucene.Index;
+﻿using System.Linq;
+using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -21,7 +22,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
-            var actual = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(new[] {"http://www.wikidata.org/entity/Q5"});
+            var actual = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(new[] {"http://www.wikidata.org/entity/Q5"}).ToArray();
 
             Assert.Contains("http://www.wikidata.org/prop/direct/P25", actual);
             Assert.Contains("http://www.wikidata.org/prop/direct/P27", actual);
@@ -69,7 +70,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
-            var actual = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(new[] {"http://www.wikidata.org/prop/direct/P25"});
+            var actual = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(new[] {"http://www.wikidata.org/prop/direct/P25"}).ToArray();
 
             Assert.Contains("http://www.wikidata.org/entity/Q5", actual);
             Assert.Contains("http://www.wikidata.org/entity/Q49088", actual);

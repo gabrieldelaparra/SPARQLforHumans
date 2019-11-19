@@ -1,9 +1,6 @@
 ﻿using System.Linq;
-using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
-using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query

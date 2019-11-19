@@ -1,10 +1,10 @@
-﻿using Lucene.Net.Store;
-using SparqlForHumans.Lucene.Extensions;
+﻿using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -23,6 +23,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             new EntitiesIndexer(filename, outputPath).Index();
             var actual = new MultiLabelEntityQuery(outputPath, "Obama").Query().FirstOrDefault();
+            Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();
@@ -38,6 +39,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             new EntitiesIndexer(filename, outputPath).Index();
             var actual = new MultiLabelEntityQuery(outputPath, "Obama").Query().FirstOrDefault();
+            Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76", actual.Id);
 
             outputPath.DeleteIfExists();
@@ -54,6 +56,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var entity = new MultiLabelEntityQuery(outputPath, "Michelle Obama").Query().FirstOrDefault();
 
+            Debug.Assert(entity != null, nameof(entity) + " != null");
             Assert.Equal("Q13133", entity.Id);
 
             outputPath.DeleteIfExists();
@@ -70,6 +73,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var actual = new MultiLabelEntityQuery(outputPath, "Oba").Query().FirstOrDefault();
 
+            Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();
@@ -363,6 +367,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var entity = new SingleLabelEntityQuery(outputPath, "Obama").Query().FirstOrDefault();
 
+            Debug.Assert(entity != null, nameof(entity) + " != null");
             Assert.Equal("Q76", entity.Id);
 
             outputPath.DeleteIfExists();
@@ -379,6 +384,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var entity = new SingleLabelEntityQuery(outputPath, "Michelle Obama").Query().FirstOrDefault();
 
+            Debug.Assert(entity != null, nameof(entity) + " != null");
             Assert.Equal("Q13133", entity.Id);
 
             outputPath.DeleteIfExists();
@@ -393,9 +399,9 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            var Q5entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
+            var q5Entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
 
-            Assert.True(Q5entities.All(x=>x.InstanceOf.Contains("Q5")));
+            Assert.True(q5Entities.All(x=>x.InstanceOf.Contains("Q5")));
 
             outputPath.DeleteIfExists();
         }
@@ -454,6 +460,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var actual = new MultiLabelEntityQuery(outputPath, "Oba*").Query().FirstOrDefault();
 
+            Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76000000", actual.Id);
 
             outputPath.DeleteIfExists();

@@ -1,5 +1,4 @@
-﻿using System;
-using SparqlForHumans.Utilities;
+﻿using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -128,9 +127,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
                         edge.Domain = edge.GetSourceNode(graph).Types;
                         edge.Range = edge.GetTargetNode(graph).Types;
-                        break;
-                    case QueryType.Unknown:
-                    default:
                         break;
                 }
             }

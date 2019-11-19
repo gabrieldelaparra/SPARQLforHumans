@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SparqlForHumans.Lucene;
+﻿using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
@@ -421,7 +418,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are //TODO: TBD. For the moment, TopEntities; Github #121;
         /// ?prop1 are properties with domain in Human 
         /// </summary>
         [Fact]
@@ -469,7 +466,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are //TODO: TBD. For the moment, TopEntities; Github #121;
         /// ?prop1 are properties with range in Human 
         /// </summary>
         [Fact]

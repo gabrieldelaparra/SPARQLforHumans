@@ -7,19 +7,6 @@ namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryGraphExtensionTests
     {
-        //var graph = new RDFExplorerGraph()
-        //{
-        //    nodes = new[]
-        //    {
-        //        new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-        //        new Node(1, "?var1"),
-        //    },
-        //    edges = new[]
-        //    {
-        //        new Edge(0, "?prop0", 0, 1)
-        //    },
-        //};
-        //var queryGraph = new QueryGraph(graph);
         [Fact]
         public void TestEdgeHasInstanceOfFalse()
         {
