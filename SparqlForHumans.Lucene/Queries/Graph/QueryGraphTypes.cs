@@ -7,7 +7,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class QueryGraphTypes
     {
-        //TODO: TEST
         internal static void SetBaseNodeTypes(this QueryGraph graph)
         {
             //If IsGivenType, get those types
@@ -46,7 +45,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         break;
                     case QueryType.InferredDomainAndRangeTypeEntities:
                         node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)
-                            .Union(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
+                            .Intersect(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
                         break;
                     case QueryType.InferredRangeTypeEntities:
                         node.Types = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
@@ -81,10 +80,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         break;
                 }
             }
-
         }
 
-        //TODO: TEST
         internal static void SetEdgeDomainRanges(this QueryGraph graph)
         {
             foreach (var edge in graph.Edges.Select(x => x.Value))
@@ -139,7 +136,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        //TODO: TEST
         public static void SetTypesDomainsAndRanges(this QueryGraph graph)
         {
             InMemoryQueryEngine.Init(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
