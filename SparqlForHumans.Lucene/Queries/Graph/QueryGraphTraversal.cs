@@ -104,9 +104,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
 
-            if (source.IsGivenType && target.IsGivenType) return QueryType.GivenSubjectAndObjectTypeQueryIntersectOutInProperties;
-            if (source.IsGivenType) return QueryType.GivenSubjectTypeQueryOutgoingProperties;
-            if (target.IsGivenType) return QueryType.GivenObjectTypeQueryIncomingProperties;
+            if (source.IsGivenType && target.IsGivenType) return QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties;
+            if (source.IsGivenType) return QueryType.GivenSubjectTypeDirectQueryOutgoingProperties;
+            if (target.IsGivenType) return QueryType.GivenObjectTypeDirectQueryIncomingProperties;
 
             if (source.IsInstanceOfType && target.IsInstanceOfType) return QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties;
             if (source.IsInstanceOfType) return QueryType.KnownSubjectTypeQueryDomainProperties;

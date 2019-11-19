@@ -132,7 +132,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenSubjectTypeQueryDirectly, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenSubjectTypeQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
         }
 
         /// <summary>
@@ -217,7 +217,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.GivenObjectTypeQueryDirectly, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenObjectTypeQueryIncomingProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenSubjectAndObjectTypeQueryIntersectOutInProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties, queryGraph.Edges[0].QueryType);
         }
 
         /// <summary>

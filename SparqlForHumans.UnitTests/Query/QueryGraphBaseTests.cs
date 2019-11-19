@@ -148,7 +148,7 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             Assert.Equal(QueryType.GivenObjectTypeQueryDirectly, queryGraph.Nodes[0].QueryType);
             Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenObjectTypeQueryIncomingProperties, queryGraph.Edges[0].QueryType);
+            Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
         }
 
         [Fact]

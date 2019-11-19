@@ -20,20 +20,20 @@
         // --> ?var1 are entities that go from Obama
         GivenSubjectTypeQueryDirectly,
         // --> ?prop0 are properties of Obama
-        GivenSubjectTypeQueryOutgoingProperties,
+        GivenSubjectTypeDirectQueryOutgoingProperties,
 
         // ?var0 ?prop0 ?var1
         // ?var1 is USA
         // --> ?var0 are entities that get to USA
         GivenObjectTypeQueryDirectly,
         // --> ?prop0 are properties that get to USA
-        GivenObjectTypeQueryIncomingProperties,
+        GivenObjectTypeDirectQueryIncomingProperties,
 
         // ?var0 ?prop0 ?var1
         // ?var0 is Obama
         // ?var1 is USA
         // --> ?prop0 are properties between Obama and USA
-        GivenSubjectAndObjectTypeQueryIntersectOutInProperties,
+        GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties,
 
         // ?var0 P31 Country
         // --> ?var0 are entities of type Countries
