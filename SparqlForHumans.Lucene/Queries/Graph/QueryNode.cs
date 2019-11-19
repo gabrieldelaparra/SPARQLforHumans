@@ -30,7 +30,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;
         public bool IsInferredDomainType { get; set; } = false;
         public bool IsInferredRangeType { get; internal set; }
-        public List<string> InferredTypes { get; set; } = new List<string>();
+        //public List<string> InferredTypes { get; set; } = new List<string>();
 
         public override string ToString()
         {

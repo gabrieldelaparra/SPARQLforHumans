@@ -486,5 +486,235 @@ namespace SparqlForHumans.UnitTests.Query
             //Cleanup
             DeleteIndex();
         }
+
+        [Fact]
+        public void TestTypes_Inferred_2ConnectedNodes_N0P25N1_E1RangeP25_2Nodes2Edges()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRange", 0, 1),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            var queryGraph = new QueryGraph(graph);
+            Assert.Empty(queryGraph.Nodes[0].Types);
+            Assert.Empty(queryGraph.Nodes[1].Types);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+
+            //Act
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
+
+            //Assert
+            Assert.Equal(2, queryGraph.Nodes[0].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[0].Types);
+
+            Assert.Equal(6, queryGraph.Nodes[1].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[1].Types);
+
+            Assert.Equal(2, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Equal(6, queryGraph.Edges[0].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
+
+            Assert.Equal(2, queryGraph.Edges[1].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
+            Assert.Equal(6, queryGraph.Edges[1].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Range);
+
+            //Cleanup
+            DeleteIndex();
+        }
+
+        [Fact]
+        public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domainP25"),
+                    new Node(1, "?rangeP25"),
+                    new Node(2, "?var2"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomain", 0, 2),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            var queryGraph = new QueryGraph(graph);
+            Assert.Empty(queryGraph.Nodes[0].Types);
+            Assert.Empty(queryGraph.Nodes[1].Types);
+            Assert.Empty(queryGraph.Nodes[2].Types);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+
+            //Act
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
+
+            //Assert
+            Assert.Equal(2, queryGraph.Nodes[0].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[0].Types);
+
+            Assert.Equal(6, queryGraph.Nodes[1].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[1].Types);
+
+            Assert.Empty(queryGraph.Nodes[2].Types);
+
+            Assert.Equal(2, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Equal(6, queryGraph.Edges[0].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
+
+            //Since E1 source is HUMAN, Domain HUMAN
+            Assert.Equal(2, queryGraph.Edges[1].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+
+            //Cleanup
+            DeleteIndex();
+        }
+
+        [Fact]
+        public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domainP25"),
+                    new Node(1, "?rangeP25"),
+                    new Node(2, "?var1"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRange", 2, 0),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            var queryGraph = new QueryGraph(graph);
+            Assert.Empty(queryGraph.Nodes[0].Types);
+            Assert.Empty(queryGraph.Nodes[1].Types);
+            Assert.Empty(queryGraph.Nodes[2].Types);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+
+            //Act
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
+
+            //Assert
+            Assert.Equal(2, queryGraph.Nodes[0].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[0].Types);
+
+            Assert.Equal(6, queryGraph.Nodes[1].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[1].Types);
+
+            Assert.Empty(queryGraph.Nodes[2].Types);
+
+            Assert.Equal(2, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Equal(6, queryGraph.Edges[0].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
+
+            //Since E1 source is HUMAN, Domain HUMAN
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Equal(2, queryGraph.Edges[1].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Range);
+
+            //Cleanup
+            DeleteIndex();
+        }
+
+        [Fact]
+        public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_E2DomainP25_3Nodes3Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domainP25"),
+                    new Node(1, "?rangeP25"),
+                    new Node(2, "?var1"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRange1", 0, 2),
+                    new Edge(2, "?propRange2", 1, 2),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            var queryGraph = new QueryGraph(graph);
+            Assert.Empty(queryGraph.Nodes[0].Types);
+            Assert.Empty(queryGraph.Nodes[1].Types);
+            Assert.Empty(queryGraph.Nodes[2].Types);
+            Assert.Empty(queryGraph.Edges[0].Domain);
+            Assert.Empty(queryGraph.Edges[0].Range);
+            Assert.Empty(queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+            Assert.Empty(queryGraph.Edges[2].Domain);
+            Assert.Empty(queryGraph.Edges[2].Range);
+
+            //Act
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
+
+            //Assert
+            Assert.Equal(2, queryGraph.Nodes[0].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[0].Types);
+
+            Assert.Equal(6, queryGraph.Nodes[1].Types.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Nodes[1].Types);
+
+            Assert.Empty(queryGraph.Nodes[2].Types);
+
+            Assert.Equal(2, queryGraph.Edges[0].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Domain);
+            Assert.Equal(6, queryGraph.Edges[0].Range.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[0].Range);
+
+            Assert.Equal(2, queryGraph.Edges[1].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[1].Domain);
+            Assert.Empty(queryGraph.Edges[1].Range);
+
+            Assert.Equal(6, queryGraph.Edges[2].Domain.Count);
+            Assert.Contains("http://www.wikidata.org/entity/Q5", queryGraph.Edges[2].Domain);
+            Assert.Empty(queryGraph.Edges[2].Range);
+
+            //Cleanup
+            DeleteIndex();
+        }
     }
 }
