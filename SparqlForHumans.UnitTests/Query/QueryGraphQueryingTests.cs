@@ -1,5 +1,4 @@
-﻿using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Index;
+﻿using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Utilities;
@@ -9,10 +8,10 @@ namespace SparqlForHumans.UnitTests.Query
 {
     public class QueryGraphQueryingTests
     {
-        const string EntitiesIndexPath = "QueryGraphQueryingEntities";
-        const string PropertiesIndexPath = "QueryGraphQueryingProperties";
+        private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
+        private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
 
-        public static void CreateIndex()
+        private static void CreateIndex()
         {
             // Arrange
             const string filename = @"Resources/QueryGraphQuerying.nt";
@@ -22,7 +21,7 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, PropertiesIndexPath).Index();
         }
 
-        public static void DeleteIndex()
+        private static void DeleteIndex()
         {
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
@@ -34,7 +33,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// In the given example QueryGraph.nt, Obama should be in the top values.
         /// </summary>
         [Fact]
-        public void TestResults1Node_1Node0Edge()
+        public void TestResults_1IsolatedNode_1Node0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -58,11 +57,10 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         /// <summary>
-        /// A single node. Given Type.
-        /// Should return given entity types.
+        /// A single node. Given Type. No results.
         /// </summary>
         [Fact]
-        public void TestResults1NodeGivenType_1Node0Edge()
+        public void TestResults_1IsolatedNode_GivenType_1Node0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -77,9 +75,7 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Empty(queryGraph.Nodes[0].Results);
 
             // Cleanup
             DeleteIndex();
@@ -90,7 +86,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// Both should be Top Entities.
         /// </summary>
         [Fact]
-        public void TestResults2IsolatedNodes_2Nodes0Edge()
+        public void TestResults_2IsolatedNodes_2Nodes0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -121,11 +117,10 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         /// <summary>
-        /// Two isolated nodes, no properties between them.
-        /// Both should be given entity types.
+        /// Two isolated nodes, no properties between them. Empty Results.
         /// </summary>
         [Fact]
-        public void TestResults2IsolatedNodesGivenTypes_2Nodes0Edge()
+        public void TestResults_2IsolatedNodes_GivenTypes_2Nodes0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -143,13 +138,8 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Human 1"));
+            Assert.Empty(queryGraph.Nodes[0].Results);
+            Assert.Empty(queryGraph.Nodes[1].Results);
 
             // Cleanup
             DeleteIndex();
@@ -161,7 +151,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// All should return Top Entities and Properties;
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesNoGivenTypes_2Nodes1Edge()
+        public void TestResults_2Nodes_NoGivenTypes_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -210,7 +200,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// This looks like it should be a query.
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesSourceIsGivenType_2Nodes1Edge()
+        public void TestResults_2Nodes_SourceIsGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -233,17 +223,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Empty(queryGraph.Nodes[0].Results);
 
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Human 1"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("human"));
 
             Assert.NotEmpty(queryGraph.Edges[0].Results);
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("Mother Of"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P734"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("family name"));
 
             // Cleanup
             DeleteIndex();
@@ -258,7 +246,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties going to Obama
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesTargetIsGivenType_2Nodes1Edge()
+        public void TestResults_2Nodes_TargetIsGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -281,13 +269,18 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            //Assert.Equal(QueryType.GivenObjectTypeQueryDirectly, queryGraph.Nodes[0].QueryType);
-            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //Assert.Equal(QueryType.GivenObjectTypeQueryIncomingProperties, queryGraph.Edges[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q766106"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Ann Dunham"));
+
+            Assert.Empty(queryGraph.Nodes[1].Results);
+
+            Assert.NotEmpty(queryGraph.Edges[0].Results);
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("father"));
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
@@ -299,7 +292,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties from Obama going to USA
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesSourceAndTargetIsGivenType_2Nodes1Edge()
+        public void TestResults_2Nodes_SourceTargetAreGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -313,6 +306,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
+
             // Arrange
             CreateIndex();
 
@@ -321,13 +315,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Empty(queryGraph.Nodes[0].Results);
+            Assert.Empty(queryGraph.Nodes[1].Results);
+
+            Assert.NotEmpty(queryGraph.Edges[0].Results);
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("country of citizenship"));
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
@@ -339,7 +335,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// All is given, should behave like that.
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesSourceAndTargetIsGivenType_E0N0P27E1_2Nodes1Edge()
+        public void TestResults_2Nodes_SourceTargetPredicateAreGivenTypes_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -362,13 +358,12 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Nodes[0].Results);
+            Assert.Empty(queryGraph.Nodes[1].Results);
+            Assert.Empty(queryGraph.Edges[0].Results);
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
@@ -379,7 +374,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?var0 are instances of Human
         /// </summary>
         [Fact]
-        public void TestResults2ConnectedNodesSubjectIsInstanceOfType_2Nodes1Edge()
+        public void TestResults_2Nodes_SourceIsInstanceOfType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -402,13 +397,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
-            //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            Assert.Empty(queryGraph.Nodes[1].Results);
+            Assert.Empty(queryGraph.Edges[0].Results);
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
@@ -422,7 +419,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop1 are properties with domain in Human 
         /// </summary>
         [Fact]
-        public void TestResults3ConnectedNodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
+        public void TestResults_3Nodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
         {
             var graph = new RDFExplorerGraph
             {
@@ -470,7 +467,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop1 are properties with range in Human 
         /// </summary>
         [Fact]
-        public void TestResults3ConnectedNodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
+        public void TestResults_3Nodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
         {
             var graph = new RDFExplorerGraph
             {
@@ -518,7 +515,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 Intersect Domain HUMAN Range CITY
         /// </summary>
         [Fact]
-        public void TestResults4ConnectedNodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
+        public void TestResults_3Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
             var graph = new RDFExplorerGraph
             {
@@ -828,62 +825,62 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
 
-        [Fact]
-        public void TestInferScenario7_2Nodes2Edges_FullIndex()
-        {
-            // Arrange
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?varDomain0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?varRange1"
-                    }
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?CountryOfCitizenship",
-                        sourceId = 0,
-                        targetId = 1,
-                        uris = new[]{"http://www.wikidata.org/prop/direct/P27"}
-                    },
-                    new Edge
-                    {
-                        id = 1,
-                        name = "?propDomainRange1",
-                        sourceId = 0,
-                        targetId = 1
-                    }
+        //[Fact]
+        //public void TestInferScenario7_2Nodes2Edges_FullIndex()
+        //{
+        //    // Arrange
+        //    var graph = new RDFExplorerGraph
+        //    {
+        //        nodes = new[]
+        //        {
+        //            new Node
+        //            {
+        //                id = 0,
+        //                name = "?varDomain0"
+        //            },
+        //            new Node
+        //            {
+        //                id = 1,
+        //                name = "?varRange1"
+        //            }
+        //        },
+        //        edges = new[]
+        //        {
+        //            new Edge
+        //            {
+        //                id = 0,
+        //                name = "?CountryOfCitizenship",
+        //                sourceId = 0,
+        //                targetId = 1,
+        //                uris = new[]{"http://www.wikidata.org/prop/direct/P27"}
+        //            },
+        //            new Edge
+        //            {
+        //                id = 1,
+        //                name = "?propDomainRange1",
+        //                sourceId = 0,
+        //                targetId = 1
+        //            }
 
-                }
-            };
+        //        }
+        //    };
 
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+        //    // Act
+        //    var queryGraph = new QueryGraph(graph);
+        //    queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
 
-            // Assert
-            //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+        //    // Assert
+        //    //Assert.NotEmpty(queryGraph.Nodes[0].Results);
+        //    //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+        //    //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
 
-            //Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            //queryGraph.Nodes[1].Results = TOP;
+        //    //Assert.NotEmpty(queryGraph.Nodes[1].Results);
+        //    //queryGraph.Nodes[1].Results = TOP;
 
-            Assert.Empty(queryGraph.Edges[0].Results);
-            //Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
+        //    Assert.Empty(queryGraph.Edges[0].Results);
+        //    //Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
 
-            Assert.NotEmpty(queryGraph.Edges[1].Results);
-        }
+        //    Assert.NotEmpty(queryGraph.Edges[1].Results);
+        //}
     }
 }

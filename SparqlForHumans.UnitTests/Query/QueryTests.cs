@@ -471,7 +471,7 @@ namespace SparqlForHumans.UnitTests.Query
         {
             /* In this test, I will have two "nodes" connected.
              * "node1" is InstanceOf Human and has a second property to "node2"
-             * "node2" is unkown type.
+             * "node2" is unknown type.
              * I want to display all the properties that have Domain Human.
              * 
              * As sample I have the following:
@@ -500,7 +500,7 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestScenario3GetRangesForUnknownSubjectType()
         {
             /* In this test, I will have two "nodes" connected.
-             * "node1" is unkown type and has a property to "node2"
+             * "node1" is unknown type and has a property to "node2"
              * "node2" is InstanceOf (Human).
              * I want to display all the properties that have Range Human.
              * 
@@ -534,7 +534,7 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestScenario4GetPropertiesForKnownSubjectObjectType()
         {
             /* In this test, I will have two "nodes" connected.
-             * "node1" is unkown type and has a property to "node2"
+             * "node1" is unknown type and has a property to "node2"
              * "node2" is InstanceOf (Human).
              * I want to display all the properties that have Range Human.
              * 
@@ -573,7 +573,7 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestScenario4GetPropertiesForKnownSubjectObjectTypeWithGarbage()
         {
             /* In this test, I will have two "nodes" connected.
-             * "node1" is unkown type and has a property to "node2"
+             * "node1" is unknown type and has a property to "node2"
              * "node2" is InstanceOf (Human).
              * I want to display all the properties that have Range Human.
              * 

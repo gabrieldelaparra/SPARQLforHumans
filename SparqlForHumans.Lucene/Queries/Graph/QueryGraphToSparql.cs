@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Primitives;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.RDFExplorer;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
+using VDS.RDF;
+using VDS.RDF.Nodes;
+using VDS.RDF.Parsing;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
+using VDS.RDF.Query.Builder.Expressions;
+using VDS.RDF.Query.Expressions;
+using VDS.RDF.Query.Expressions.Functions.Sparql.String;
+using VDS.RDF.Query.Expressions.Primary;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -28,7 +38,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static Entity ToEntity(this SparqlResult result)
         {
-            return new Entity()
+            return new Entity
+            {
+                Id = result[0].GetUri().GetUriIdentifier(),
+                Label = result[1].GetLiteralValue(),
+            };
+        }
+
+        public static Property ToProperty(this SparqlResult result)
+        {
+            return new Property
             {
                 Id = result[0].GetUri().GetUriIdentifier(),
                 Label = result[1].GetLiteralValue(),
@@ -82,10 +101,54 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         .Subject(new Uri("http://www.bigdata.com/rdf#serviceParam"))
                         .PredicateUri(new Uri("http://wikiba.se/ontology#language"))
                         .ObjectLiteral("[AUTO_LANGUAGE],en")));
+
+            var literal = new NodeFactory().CreateLiteralNode("entity/Q");
+            var expr = new ContainsFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
+            queryBuilder.Filter(expr);
             
             queryBuilder.Limit(100);
 
             return queryBuilder.BuildQuery();
         }
+        public static SparqlQuery ToSparql(this QueryEdge edge, QueryGraph graph)
+        {
+            var variables = new List<string> {
+                "?propertyEntity",
+                "?propertyEntityLabel",
+            };
+
+            var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
+            
+            if(edge.QueryType.Equals(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties)
+            || edge.QueryType.Equals(QueryType.GivenObjectTypeDirectQueryIncomingProperties)
+            || edge.QueryType.Equals(QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties))
+            {
+                var source = edge.GetSourceNode(graph);
+                var target = edge.GetTargetNode(graph);
+                var nodeUris = edge.uris.Select(x => x.GetUriIdentifier()).Select(x => $"{Constants.EntityIRI}x");
+                var entityEdge = new QueryNode(new Node(0, edge.name, nodeUris.ToArray()));
+                queryBuilder.Where(x =>
+                    {
+                        x.ToSubject(source)
+                            .ToPredicate(edge)
+                            .ToObject(target)
+                            .Subject("?propertyEntity")
+                            .PredicateUri(new Uri("http://wikiba.se/ontology#directClaim"))
+                            .Object(edge.name)
+                            ;
+                    });
+            }
+
+            queryBuilder.Service(new Uri("http://wikiba.se/ontology#label"),
+                y => y.Where(x => x
+                        .Subject(new Uri("http://www.bigdata.com/rdf#serviceParam"))
+                        .PredicateUri(new Uri("http://wikiba.se/ontology#language"))
+                        .ObjectLiteral("[AUTO_LANGUAGE],en")));
+
+            queryBuilder.Limit(100);
+
+            return queryBuilder.BuildQuery();
+        }
+
     }
 }

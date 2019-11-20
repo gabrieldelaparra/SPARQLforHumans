@@ -1,6 +1,7 @@
 ﻿using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models;
 using SparqlForHumans.Wikidata.Services;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
@@ -11,9 +12,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
 
+            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
             graph.SetTypesDomainsAndRanges();
 
-            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
             graph.RunNodeQueries(graph.EntitiesIndexPath);
             graph.RunEdgeQueries(graph.PropertiesIndexPath);
         }
@@ -25,8 +26,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 switch (node.QueryType)
                 {
                     case QueryType.GivenSubjectTypeQueryDirectlyEntities:
-                        node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
-                        break;
                     case QueryType.GivenObjectTypeQueryDirectlyEntities:
                         node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x=>x.ToEntity()).ToList();
                         break;
@@ -42,8 +41,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.GivenEntityTypeNoQuery:
-                        node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
+                        //node.Results = new BatchIdEntityInstanceQuery(indexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
+                        node.Results = new List<Entity>();
                         break;
+                    case QueryType.Unknown:
+                    case QueryType.GivenPredicateTypeNoQuery:
+                    case QueryType.QueryTopProperties:
+                    case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
+                    case QueryType.GivenObjectTypeDirectQueryIncomingProperties:
+                    case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
+                    case QueryType.KnownSubjectTypeQueryDomainProperties:
+                    case QueryType.KnownObjectTypeQueryRangeProperties:
+                    case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
+                    case QueryType.InferredDomainAndRangeTypeProperties:
+                    case QueryType.InferredDomainTypeProperties:
+                    case QueryType.InferredRangeTypeProperties:
                     default:
                         break;
                 }
@@ -105,6 +117,22 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         edge.Results = new BatchIdPropertyQuery(indexPath, propertiesIds).Query();
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).InferredTypes.Select(x => x.GetUriIdentifier())).Query();
                         break;
+                    case QueryType.GivenEntityTypeNoQuery:
+                        edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.uris.Select(x => x.GetUriIdentifier())).Query();
+                        break;
+                    case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
+                    case QueryType.GivenObjectTypeDirectQueryIncomingProperties:
+                    case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
+                        edge.Results = GraphApiQueries.RunQuery(edge.ToSparql(graph).ToString()).Select(x=>x.ToProperty()).ToList();
+                        break;
+                    case QueryType.Unknown:
+                    case QueryType.QueryTopEntities:
+                    case QueryType.GivenSubjectTypeQueryDirectlyEntities:
+                    case QueryType.GivenObjectTypeQueryDirectlyEntities:
+                    case QueryType.SubjectIsInstanceOfTypeQueryEntities:
+                    case QueryType.InferredDomainTypeEntities:
+                    case QueryType.InferredDomainAndRangeTypeEntities:
+                    case QueryType.InferredRangeTypeEntities:
                     default:
                         break;
                 }
