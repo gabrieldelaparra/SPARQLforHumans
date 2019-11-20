@@ -44,6 +44,11 @@ namespace SparqlForHumans.RDF.Extensions
             return g.Triples?.Last();
         }
 
+        public static Triple ReorderTriple(this Triple triple)
+        {
+            return new Triple(triple.Object, triple.Predicate, triple.Subject);
+        }
+
         public static bool IsUriNode(this INode node)
         {
             return node.NodeType.Equals(NodeType.Uri);

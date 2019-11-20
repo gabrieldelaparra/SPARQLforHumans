@@ -25,6 +25,13 @@ namespace SparqlForHumans.Utilities
             return $"{filename}.filter{GetReducedLimitName(limit)}.gz";
         }
 
+        public static string GetReorderedOutputFilename(string inputFilename)
+        {
+            var filename = GetOutputFileName(inputFilename);
+
+            return $"{filename}.reordered.nt";
+        }
+
         private static string GetOutputFileName(string inputFilename)
         {
             var filename = Path.GetFileNameWithoutExtension(inputFilename);

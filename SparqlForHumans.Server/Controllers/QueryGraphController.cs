@@ -3,6 +3,7 @@ using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene;
 using SparqlForHumans.Models.RDFExplorer;
 
 namespace SparqlForHumans.Server.Controllers
@@ -15,7 +16,7 @@ namespace SparqlForHumans.Server.Controllers
         public IActionResult Run([FromBody]RDFExplorerGraph graph)
         {
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(Lucene.LuceneDirectoryDefaults.EntityIndexPath, Lucene.LuceneDirectoryDefaults.PropertyIndexPath);
+            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             var id = queryGraph.Selected.id;
             var results = queryGraph.Selected.isNode ? ToDictionary(queryGraph.Nodes[id].Results) : ToDictionary(queryGraph.Edges[id].Results);
             return Json(results);
