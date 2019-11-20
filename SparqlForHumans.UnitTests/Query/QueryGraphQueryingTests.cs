@@ -48,6 +48,7 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
@@ -75,6 +76,7 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
 
             // Cleanup
@@ -104,10 +106,12 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
 
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
@@ -138,7 +142,10 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
+
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
 
             // Cleanup
@@ -174,14 +181,17 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
 
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Human 1"));
 
+            //Assert.Equal(QueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("Mother Of"));
@@ -223,12 +233,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
 
+            //Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("human"));
 
+            //Assert.Equal(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P734"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("family name"));
@@ -269,12 +282,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q766106"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Ann Dunham"));
 
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
 
+            //Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("father"));
@@ -315,9 +331,13 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
+
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
 
+            //Assert.Equal(QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("country of citizenship"));
@@ -358,8 +378,13 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
+
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
+            
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
 
             // Cleanup
@@ -397,11 +422,15 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
             // Assert
+            //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
 
+            //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
 
             // Cleanup
@@ -445,15 +474,28 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+            Assert.Empty(queryGraph.Nodes[1].Results);
+
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
             //Assert.Equal(QueryType.KnownSubjectTypeQueryDomainProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Instance Of"));
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
@@ -493,38 +535,51 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+            Assert.Empty(queryGraph.Nodes[1].Results);
+
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
             //Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
 
             // Cleanup
             DeleteIndex();
-            Assert.False(true);
         }
 
         /// <summary>
-        /// ?human ?prop0 ?city
+        /// ?human ?prop0 ?country
         /// ?human P31 HUMAN
-        /// ?city P31 CITY
+        /// ?country P31 COUNTRY
         ///
         /// Expected:
         /// ?human IsInstanceOf HUMAN
-        /// ?city IsInstanceOf CITY
-        /// ?prop0 Intersect Domain HUMAN Range CITY
+        /// ?country IsInstanceOf COUNTRY
+        /// ?prop0 Intersect Domain InstanceOf HUMAN Range InstanceOf COUNTRY
         /// </summary>
         [Fact]
-        public void TestResults_3Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
+        public void TestResults_4Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
                 {
                     new Node(0, "?human"),
-                    new Node(1, "?city"),
-                    new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(3, "city", new[]{"http://www.wikidata.org/entity/Q515"}),
+                    new Node(1, "?country"),
+                    new Node(2, "HUMAN", new[]{"http://www.wikidata.org/entity/Q5"}),
+                    new Node(3, "COUNTRY", new[]{"http://www.wikidata.org/entity/Q6256"}),
                 },
                 edges = new[]
                 {
@@ -540,347 +595,346 @@ namespace SparqlForHumans.UnitTests.Query
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
-            
+
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("United States"));
+
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);
+            Assert.Empty(queryGraph.Nodes[2].Results);
+
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[3].QueryType);
-
-            //Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
-            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
-
-            // Cleanup
-            DeleteIndex();
-            Assert.False(true);
-        }
-
-        
-        [Fact]
-        public void TestRunQueryScenario1_2Nodes0Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?var0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1"
-                    }
-                }
-            };
-
-            // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
-
-            // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
-
-            // Cleanup
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRunQueryScenario1_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node
-                    {
-                        id = 0,
-                        name = "?var0"
-                    },
-                    new Node
-                    {
-                        id = 1,
-                        name = "?var1"
-                    }
-                },
-                edges = new[]
-                {
-                    new Edge
-                    {
-                        id = 0,
-                        name = "?prop0",
-                        sourceId = 0,
-                        targetId = 1
-                    }
-                }
-            };
-
-            // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
-
-            // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Edges[0].Results);
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P31"));
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("Instance Of"));
-
-            // Cleanup
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRunQueryScenario2_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1"),
-                    new Node(2, "?var2", new[]{"http://www.wikidata.org/entity/Q5"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1),
-                    new Edge(1, "?prop1", 0, 2,  new[]{"http://www.wikidata.org/prop/direct/P31"})
-                }
-            };
-
-            // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
-
-            // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.Empty(queryGraph.Nodes[2].Results);
-
-            Assert.NotEmpty(queryGraph.Edges[0].Results);
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
-
-            Assert.Empty(queryGraph.Edges[1].Results);
-
-            // Cleanup
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRunQueryScenario3_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1"),
-                    new Node(2, "?var2", new[]{"http://www.wikidata.org/entity/Q5"})
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 1, 0),
-                    new Edge(1, "?prop1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"})
-                }
-            };
-
-            // Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
-
-            // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.Empty(queryGraph.Nodes[1].Results);
-
-            Assert.Empty(queryGraph.Nodes[2].Results);
-
-            Assert.NotEmpty(queryGraph.Edges[0].Results);
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-            Assert.Empty(queryGraph.Edges[1].Results);
-
-            // Cleanup
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestRunQueryScenario4_4Nodes3Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                new Node(0, "?human"),
-                new Node(1, "?city"),
-                new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
-                new Node(3, "city", new[]{"http://www.wikidata.org/entity/Q515"}),
-                },
-                edges = new[]
-                {
-                new Edge(0, "?prop0", 0,1),
-                new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                }
-            };
-
-            //Arrange
-            const string filename = @"Resources/QueryGraph.nt";
-            const string entitiesIndexPath = "QueryGraphEntities";
-            const string propertiesIndexPath = "QueryGraphProperties";
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new PropertiesIndexer(filename, propertiesIndexPath).Index();
-
-            // Act
-            var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath);
-
-            // Assert
-            Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
-
-            Assert.NotEmpty(queryGraph.Nodes[1].Results);
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q298"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Chile"));
-
-            Assert.Empty(queryGraph.Nodes[2].Results);
             Assert.Empty(queryGraph.Nodes[3].Results);
 
+            //Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("country of citizenship"));
 
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
             Assert.Empty(queryGraph.Edges[1].Results);
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
             Assert.Empty(queryGraph.Edges[2].Results);
 
             // Cleanup
-            entitiesIndexPath.DeleteIfExists();
-            propertiesIndexPath.DeleteIfExists();
+            DeleteIndex();
         }
 
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?mother ?prop ?son
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?prop Inferred Domain And Range (from Human, to Human)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_2ConnectedNodes_N0P25N1_E1DomainP25_2Nodes2Edges()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomain", 0, 1),
+                }
+            };
 
-        //[Fact]
-        //public void TestInferScenario7_2Nodes2Edges_FullIndex()
-        //{
-        //    // Arrange
-        //    var graph = new RDFExplorerGraph
-        //    {
-        //        nodes = new[]
-        //        {
-        //            new Node
-        //            {
-        //                id = 0,
-        //                name = "?varDomain0"
-        //            },
-        //            new Node
-        //            {
-        //                id = 1,
-        //                name = "?varRange1"
-        //            }
-        //        },
-        //        edges = new[]
-        //        {
-        //            new Edge
-        //            {
-        //                id = 0,
-        //                name = "?CountryOfCitizenship",
-        //                sourceId = 0,
-        //                targetId = 1,
-        //                uris = new[]{"http://www.wikidata.org/prop/direct/P27"}
-        //            },
-        //            new Edge
-        //            {
-        //                id = 1,
-        //                name = "?propDomainRange1",
-        //                sourceId = 0,
-        //                targetId = 1
-        //            }
+            // Arrange
+            CreateIndex();
 
-        //        }
-        //    };
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
 
-        //    // Act
-        //    var queryGraph = new QueryGraph(graph);
-        //    queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
 
-        //    // Assert
-        //    //Assert.NotEmpty(queryGraph.Nodes[0].Results);
-        //    //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-        //    //Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
 
-        //    //Assert.NotEmpty(queryGraph.Nodes[1].Results);
-        //    //queryGraph.Nodes[1].Results = TOP;
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
 
-        //    Assert.Empty(queryGraph.Edges[0].Results);
-        //    //Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
 
-        //    Assert.NotEmpty(queryGraph.Edges[1].Results);
-        //}
+
+            // Cleanup
+            DeleteIndex();
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?son ?prop ?mother
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?prop Inferred Domain And Range (from Human, to Human)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_2ConnectedNodes_N0P25N1_E1RangeP25_2Nodes2Edges()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRange", 1, 0),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
+
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+
+            // Cleanup
+            DeleteIndex();
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?mother ?prop ?var2
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?var2 is top entity
+        /// ?prop Inferred Domain of P25 (from Human)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                    new Node(2, "?var2"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomain", 0, 2),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
+
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            //Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+
+            // Cleanup
+            DeleteIndex();
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?var2 ?prop ?mother
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?var2 is top entity
+        /// ?prop Inferred Range of P25 (to Human)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domainP25"),
+                    new Node(1, "?rangeP25"),
+                    new Node(2, "?var1"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRange", 2, 0),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
+
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            //Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[1].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+
+            // Cleanup
+            DeleteIndex();
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?son P27 ?country
+        /// ?mother ?prop ?country
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?son Inferred Domain P27 (Include Human)
+        /// ?country Inferred Range P27 (Include Chile)
+        /// ?prop Inferred Domain of P25 (from Human)
+        /// ?prop Inferred Range of P27 (to Country)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_3ConnectedNodes_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?domain"),
+                    new Node(1, "?range"),
+                    new Node(2, "?domainRange"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?fromCountry", 1, 2, new[]{"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(2, "?propDomainRange", 0, 2),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath);
+
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("United States"));
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
+            Assert.Empty(queryGraph.Edges[1].Results);
+
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[2].Results);
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Label.Equals("country of citizenship"));
+
+            // Cleanup
+            DeleteIndex();
+        }
     }
 }

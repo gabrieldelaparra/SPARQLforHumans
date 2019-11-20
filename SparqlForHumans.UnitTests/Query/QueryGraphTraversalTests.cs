@@ -11,7 +11,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// Should query for the top Entities
         /// </summary>
         [Fact]
-        public void TestTraversal1Node_1Node0Edge()
+        public void TestTraversal_1IsolatedNode_1Node0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -26,7 +26,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// Should return given entity types.
         /// </summary>
         [Fact]
-        public void TestTraversal1NodeGivenType_1Node0Edge()
+        public void TestTraversal_1IsolatedNode_GivenType_1Node0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -41,7 +41,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// Both should be Top Entities.
         /// </summary>
         [Fact]
-        public void TestTraversal2IsolatedNodes_2Nodes0Edge()
+        public void TestTraversal_2IsolatedNodes_2Nodes0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -61,7 +61,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// Both should be given entity types.
         /// </summary>
         [Fact]
-        public void TestTraversal2IsolatedNodesGivenTypes_2Nodes0Edge()
+        public void TestTraversal_2IsolatedNodes_GivenTypes_2Nodes0Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -83,7 +83,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// All should return Top Entities and Properties;
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesNoGivenTypes_2Nodes1Edge()
+        public void TestTraversal_2Nodes_NoGivenTypes_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -112,7 +112,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties coming from Obama
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSourceIsGivenType_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SourceIsGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -140,7 +140,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?var1 is HUMAN (or others)
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSubjectIsGivenType_EdgeP31_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP31_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -168,7 +168,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?var1 is USA (or where Obama is CitizenOf)
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSubjectIsGivenType_EdgeP27_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP27_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -197,7 +197,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties going to Obama
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesTargetIsGivenType_2Nodes1Edge()
+        public void TestTraversal_2Nodes_TargetIsGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -226,7 +226,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties from Obama going to USA
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSourceAndTargetIsGivenType_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SourceAndTargetIsGivenType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -255,7 +255,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// All is given, should behave like that.
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSourceAndTargetIsGivenType_E0N0P27E1_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SourceTargetPredicateAreGivenTypes_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -283,7 +283,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?var0 are instances of Human
         /// </summary>
         [Fact]
-        public void TestTraversal2ConnectedNodesSubjectIsInstanceOfType_2Nodes1Edge()
+        public void TestTraversal_2Nodes_SubjectIsInstanceOfType_2Nodes1Edge()
         {
             var graph = new RDFExplorerGraph()
             {
@@ -316,7 +316,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop1 are properties with domain in Human 
         /// </summary>
         [Fact]
-        public void TestTraversal3ConnectedNodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
+        public void TestTraversal_3Nodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
         {
             var graph = new RDFExplorerGraph
             {
@@ -354,7 +354,7 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop1 are properties with range in Human 
         /// </summary>
         [Fact]
-        public void TestTraversal3ConnectedNodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
+        public void TestTraversal_3Nodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
         {
             var graph = new RDFExplorerGraph
             {
@@ -382,17 +382,17 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         /// <summary>
-        /// ?human ?prop0 ?city
+        /// ?human ?prop0 ?country
         /// ?human P31 HUMAN
-        /// ?city P31 CITY
+        /// ?country P31 COUNTRY
         ///
         /// Expected:
         /// ?human IsInstanceOf HUMAN
-        /// ?city IsInstanceOf CITY
-        /// ?prop0 Intersect Domain InstanceOf HUMAN Range InstanceOf CITY
+        /// ?country IsInstanceOf COUNTRY
+        /// ?prop0 Intersect Domain InstanceOf HUMAN Range InstanceOf COUNTRY
         /// </summary>
         [Fact]
-        public void TestTraversal4ConnectedNodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
+        public void TestTraversal_4Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
             var graph = new RDFExplorerGraph
             {

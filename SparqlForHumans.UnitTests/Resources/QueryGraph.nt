@@ -37,6 +37,6 @@
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q555> .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q777> .
-<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "country of citinzenship"@en .
+<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "country of citizenship"@en .
 <http://www.wikidata.org/entity/P555> <http://www.w3.org/2000/01/rdf-schema#label> "random property 555"@en .
 <http://www.wikidata.org/entity/P777> <http://www.w3.org/2000/01/rdf-schema#label> "random property 777"@en .
