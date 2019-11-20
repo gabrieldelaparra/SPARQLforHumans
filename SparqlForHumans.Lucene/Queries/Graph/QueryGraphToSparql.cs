@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Primitives;
 using SparqlForHumans.Models;
-using SparqlForHumans.Models.RDFExplorer;
-using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
-using VDS.RDF.Nodes;
-using VDS.RDF.Parsing;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
-using VDS.RDF.Query.Builder.Expressions;
-using VDS.RDF.Query.Expressions;
 using VDS.RDF.Query.Expressions.Functions.Sparql.String;
 using VDS.RDF.Query.Expressions.Primary;
 
@@ -66,7 +59,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             if(node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities))
             {
                 var incomingEdges = node.GetIncomingEdges(graph);
-
                 foreach (var incomingEdge in incomingEdges)
                 {
                     var sourceNode = incomingEdge.GetSourceNode(graph);
@@ -125,8 +117,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
-                var nodeUris = edge.uris.Select(x => x.GetUriIdentifier()).Select(x => $"{Constants.EntityIRI}x");
-                var entityEdge = new QueryNode(new Node(0, edge.name, nodeUris.ToArray()));
                 queryBuilder.Where(x =>
                     {
                         x.ToSubject(source)
