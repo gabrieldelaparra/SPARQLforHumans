@@ -23,10 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Benchmark",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SparqlForHumans.Wikidata", "SparqlForHumans.Wikidata\SparqlForHumans.Wikidata.csproj", "{D1D780B8-F05C-4792-B5F2-FC12B6A29071}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphToSparql.Core", "..\GraphToSparql\GraphToSparql.Core\GraphToSparql.Core.csproj", "{C0794180-F126-4195-AF30-4CFA57ED1E39}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphToSparql.Tests.Core", "..\GraphToSparql\GraphToSparql.Tests.Core\GraphToSparql.Tests.Core.csproj", "{5CFB695F-EA56-49F8-ADB0-DC0E75215451}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,22 +111,6 @@ Global
 		{D1D780B8-F05C-4792-B5F2-FC12B6A29071}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D1D780B8-F05C-4792-B5F2-FC12B6A29071}.Release|x64.ActiveCfg = Release|Any CPU
 		{D1D780B8-F05C-4792-B5F2-FC12B6A29071}.Release|x64.Build.0 = Release|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Debug|x64.Build.0 = Debug|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Release|x64.ActiveCfg = Release|Any CPU
-		{C0794180-F126-4195-AF30-4CFA57ED1E39}.Release|x64.Build.0 = Release|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Debug|x64.Build.0 = Debug|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Release|x64.ActiveCfg = Release|Any CPU
-		{5CFB695F-EA56-49F8-ADB0-DC0E75215451}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
