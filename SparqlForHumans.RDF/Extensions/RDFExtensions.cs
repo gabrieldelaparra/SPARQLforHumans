@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Models.Wikidata;
+﻿using System;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace SparqlForHumans.RDF.Extensions
     {
         public static string[] ValidLanguages { get; } = { "en" };
 
-        public static PropertyType GetPropertyType(INode ntPredicate)
+        public static PropertyType GetPropertyType(this INode ntPredicate)
         {
             if (ntPredicate.IsInstanceOf())
             {
@@ -44,9 +45,23 @@ namespace SparqlForHumans.RDF.Extensions
             return g.Triples?.Last();
         }
 
+        public static INode ToReverseProperty(this INode predicate)
+        {
+            if (!predicate.IsUriNode()) return predicate;
+            if (!predicate.IsProperty()) return predicate;
+            var reversePredicate = new NodeFactory().CreateUriNode(new Uri(
+                ((UriNode)predicate).Uri.AbsoluteUri.Replace(Constants.PropertyIRI, Constants.ReversePropertyIRI)));
+            return reversePredicate;
+            //((UriNode) predicate).Uri.Segments[0] = "A";
+            //return predicate;
+        }
+
         public static Triple ReorderTriple(this Triple triple)
         {
-            return new Triple(triple.Object, triple.Predicate, triple.Subject);
+            var newSubject = Tools.CopyNode(triple.Object, new NodeFactory());
+            var newPredicate = Tools.CopyNode(triple.Predicate.ToReverseProperty(), new NodeFactory());
+            var newObject = Tools.CopyNode(triple.Subject, new NodeFactory());
+            return new Triple(newSubject, newPredicate, newObject);
         }
 
         public static bool IsUriNode(this INode node)
@@ -104,27 +119,27 @@ namespace SparqlForHumans.RDF.Extensions
             return node.IsUriNode() && node.GetUri().StartsWith(Constants.PropertyIRI);
         }
 
+        public static bool IsReverseProperty(this INode node)
+        {
+            return node.IsUriNode() && node.GetUri().StartsWith(Constants.ReversePropertyIRI);
+        }
+
         public static PredicateType GetPredicateType(this INode node)
         {
             if (node.IsLabel())
-            {
                 return PredicateType.Label;
-            }
 
             if (node.IsDescription())
-            {
                 return PredicateType.Description;
-            }
 
             if (node.IsAltLabel())
-            {
                 return PredicateType.AltLabel;
-            }
 
             if (node.IsProperty())
-            {
                 return PredicateType.Property;
-            }
+
+            if (node.IsReverseProperty())
+                return PredicateType.ReverseProperty;
 
             return PredicateType.Other;
         }
@@ -136,7 +151,12 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static bool IsInstanceOf(this INode node)
         {
-            return node.GetId().Equals(Constants.InstanceOf);
+            return node.IsProperty() && node.GetId().Equals(Constants.InstanceOf);
+        }
+
+        public static bool IsReverseInstanceOf(this INode node)
+        {
+            return node.IsReverseProperty() && node.GetId().Equals(Constants.InstanceOf);
         }
 
         public static bool IsSubClass(this INode node)

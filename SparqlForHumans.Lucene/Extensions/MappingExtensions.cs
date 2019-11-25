@@ -60,6 +60,11 @@ namespace SparqlForHumans.Lucene.Extensions
             entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
         }
 
+        public static void MapReverseInstanceOf(this Entity entity, Document doc)
+        {
+            entity.ReverseInstanceOf = doc.GetValues(Labels.ReverseInstanceOf);
+        }
+
         public static void MapSubClass(this Entity entity, Document doc)
         {
             entity.SubClass = doc.GetValues(Labels.SubClass);
@@ -69,6 +74,11 @@ namespace SparqlForHumans.Lucene.Extensions
         {
             entity.Properties = document.ParseProperties().ToList();
         }
+        public static void MapBaseReverseProperties(this Entity entity, Document document)
+        {
+            entity.ReverseProperties = document.ParseReverseProperties().ToList();
+        }
+
 
         public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
         {
@@ -92,6 +102,8 @@ namespace SparqlForHumans.Lucene.Extensions
             entity.MapRank(document);
             entity.MapIsType(document);
             entity.MapBaseProperties(document);
+            entity.MapBaseReverseProperties(document);
+            entity.MapReverseInstanceOf(document);
 
             return entity;
         }
@@ -150,6 +162,14 @@ namespace SparqlForHumans.Lucene.Extensions
         private static IEnumerable<Property> ParseProperties(this Document doc)
         {
             foreach (var item in doc.GetValues(Labels.Property))
+            {
+                yield return ParseProperty(item);
+            }
+        }
+
+        private static IEnumerable<Property> ParseReverseProperties(this Document doc)
+        {
+            foreach (var item in doc.GetValues(Labels.ReverseProperty))
             {
                 yield return ParseProperty(item);
             }

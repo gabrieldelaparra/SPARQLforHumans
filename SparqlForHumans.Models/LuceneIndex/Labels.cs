@@ -4,8 +4,10 @@
     {
         Label,
         Property,
+        ReverseProperty,
         Id,
         InstanceOf,
+        ReverseInstanceOf,
         AltLabel,
         Description,
         Rank,

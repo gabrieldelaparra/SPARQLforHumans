@@ -240,6 +240,16 @@ namespace SparqlForHumans.UnitTests
         }
 
         [Fact]
+        public void TestReorderProperty()
+        {
+            var line =
+                "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q26> .";
+            var triple = line.ToTriple();
+            var reordered = triple.ReorderTriple();
+
+        }
+
+        [Fact]
         public void TestIsSubClass()
         {
             var line =

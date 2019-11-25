@@ -430,5 +430,30 @@ namespace SparqlForHumans.UnitTests.Index
 
             outputPath.DeleteIfExists();
         }
+
+        [Fact]
+        public void TestCreateSingleInstanceIndexReverseProperties()
+        {
+            const string filename = "Resources/EntityIndexMultipleInstanceReverse.nt";
+            const string outputPath = "IndexSingleProperties";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+            {
+                using (var reader = DirectoryReader.Open(luceneDirectory))
+                {
+                    var doc = reader.Document(0);
+
+                    Assert.Equal(2, doc.GetValues(Labels.ReverseProperty).Length);
+
+                    Assert.Equal("P47", doc.GetValues(Labels.ReverseProperty)[0]);
+                    Assert.Equal("P48", doc.GetValues(Labels.ReverseProperty)[1]);
+                }
+            }
+
+            outputPath.DeleteIfExists();
+        }
     }
 }

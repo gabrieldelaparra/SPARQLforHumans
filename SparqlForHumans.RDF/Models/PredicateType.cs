@@ -2,10 +2,11 @@
 {
     public enum PredicateType
     {
-        Property,
         Label,
         Description,
         AltLabel,
+        Property,
+        ReverseProperty,
         Other
     }
 }

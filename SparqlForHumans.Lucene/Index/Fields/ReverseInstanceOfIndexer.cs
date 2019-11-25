@@ -1,28 +1,26 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
-using System.Linq;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Fields
 {
-    public class EntityPropertiesIndexer : BaseFieldIndexer<StringField>
+    public class ReverseInstanceOfIndexer : BaseFieldIndexer<StringField>
     {
-        public override string FieldName => Labels.Property.ToString();
+        public override string FieldName => Labels.ReverseInstanceOf.ToString();
 
-        //TODO: Check what could be the "Other"
         public override bool FilterValidTriples(Triple triple)
         {
-            return triple.Predicate.GetPredicateType().Equals(PredicateType.Property)
-                   && triple.Predicate.GetPropertyType().Equals(PropertyType.Other);
+            return triple.Predicate.IsReverseInstanceOf();
         }
 
         public override string SelectTripleValue(Triple triple)
         {
-            return triple.Predicate.GetId();
+            return triple.Object.GetId();
         }
 
         public override IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)

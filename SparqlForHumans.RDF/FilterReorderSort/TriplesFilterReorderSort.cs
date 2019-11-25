@@ -1,41 +1,22 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Text;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
 using VDS.RDF;
-using static SparqlForHumans.Utilities.FileHelper;
+using SparqlForHumans.Utilities;
+using VDS.RDF.Writing.Formatting;
 
-namespace SparqlForHumans.RDF.Filtering
+namespace SparqlForHumans.RDF.FilterReorderSort
 {
-    public class TriplesFilter
+    public static class TriplesFilterReorderSort
     {
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
-
-        //public static void Filter(string inputTriplesFilename, int triplesLimit)
-        //{
-        //    var outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
-        //    Filter(inputTriplesFilename, outputTriplesFilename, triplesLimit);
-        //}
-
-        /// <summary>
-        ///     Reads an Wikidata GZipped N-triples dump.
-        ///     Foreach line in the Triples file:
-        ///     - Parse the RDF triple
-        ///     - For the following cases, skip:
-        ///     - If (triplesLimit > 0) && (Subject Q-Code > triplesLimit)
-        ///     - If (triplesLimit > 0) && (Object Q-Code > triplesLimit)
-        ///     - If Language != EN
-        ///     Else, Add the triple to a new NT File
-        /// </summary>
-        /// <param name="inputTriplesFilename">Wikidata GZipped N-triples dump</param>
-        /// <param name="outputTriplesFilename">Filtered Wikidata (Non-GZipped) N-triples dump</param>
-        /// <param name="triplesLimit">Limit of Q-Id to filter. Value of -1 means no filtering for Q-Id</param>
-        public static void Filter(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
+        public static void FilterReorderSort(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
             if (string.IsNullOrWhiteSpace(outputTriplesFilename))
-                outputTriplesFilename = GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
+                outputTriplesFilename = FileHelper.GetFilterReorderOutputFilename(inputTriplesFilename);
 
             Options.InternUris = false;
 
@@ -50,10 +31,9 @@ namespace SparqlForHumans.RDF.Filtering
             long readCount = 0;
             long writeCount = 0;
 
-            var wikidataDumpLines = GetInputLines(inputTriplesFilename);
+            var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
             using (var outputFileStream = File.Create(outputTriplesFilename))
-            using (var gZipStream = new GZipStream(outputFileStream, CompressionMode.Compress, true))
             {
                 Logger.Info("Read,Write");
                 foreach (var line in wikidataDumpLines)
@@ -67,11 +47,21 @@ namespace SparqlForHumans.RDF.Filtering
                     {
                         var triple = line.ToTriple();
 
-                        if (!IsValidTriple(triple, triplesLimit))
+                        if (!IsValidFilterTriple(triple, triplesLimit))
                             continue;
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
-                        gZipStream.Write(data, 0, data.Length);
+                        outputFileStream.Write(data, 0, data.Length);
+                        writeCount++;
+
+                        if(!IsValidReorderTriple(triple))
+                            continue;
+
+                        var newTriple = triple.ReorderTriple();
+                        var newLine = newTriple.ToString(new NTriplesFormatter());
+
+                        data = Encoding.UTF8.GetBytes($"{newLine}{Environment.NewLine}");
+                        outputFileStream.Write(data, 0, data.Length);
                         writeCount++;
                     }
                     catch (Exception e)
@@ -83,9 +73,22 @@ namespace SparqlForHumans.RDF.Filtering
 
                 Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
+            Logger.Info("Finished Filtering and reordering. Sorting via external sort. No debugging messages available.");
+
+            var process = new System.Diagnostics.Process();
+            var startInfo = new System.Diagnostics.ProcessStartInfo
+            {
+                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+                FileName = @"C:\Program Files\Git\usr\bin\sort.exe",
+                Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename.GetSortOutputFilename()}"
+            };
+            process.StartInfo = startInfo;
+            process.Start();
+
+            Logger.Info("Finished sorting.");
         }
 
-        public static bool IsValidTriple(Triple triple, int entityLimit)
+        public static bool IsValidFilterTriple(Triple triple, int entityLimit)
         {
             var ntSubject = triple.Subject;
             var ntPredicate = triple.Predicate;
@@ -115,9 +118,9 @@ namespace SparqlForHumans.RDF.Filtering
                 case PredicateType.Other:
                     return false;
 
-                case PredicateType.Label:
-                case PredicateType.Description:
                 case PredicateType.AltLabel:
+                case PredicateType.Description:
+                case PredicateType.Label:
                     if (!ntObject.IsLiteral())
                         return false;
                     //Condition: Object is Literal: Filter [@en, ...] only
@@ -129,11 +132,17 @@ namespace SparqlForHumans.RDF.Filtering
             //Condition: Predicate is Property (e.g. Population or Date)
             //And Object is literal (not an URI node) (e.g. 100 or 1998)
             //This rule filters out Population, birthdate, and stuff
-            //TODO: This will be removed in the future to add search values.
             if (ntPredicate.IsProperty() && !ntObject.IsEntity())
                 return false;
 
             return true;
         }
+
+        public static bool IsValidReorderTriple(Triple triple)
+        {
+            //Object must be URI
+            return triple.Object.IsUriNode() && triple.Object.IsEntityQ();
+        }
+
     }
 }

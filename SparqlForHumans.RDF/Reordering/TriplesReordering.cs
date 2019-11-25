@@ -51,7 +51,7 @@ namespace SparqlForHumans.RDF.Reordering
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            using (var fileToCompress = File.Create(outputTriplesFilename))
+            using (var outputFileStream = File.Create(outputTriplesFilename))
             {
                 Logger.Info("Read,Write");
                 foreach (var line in wikidataDumpLines)
@@ -72,7 +72,7 @@ namespace SparqlForHumans.RDF.Reordering
                         var newLine = newTriple.ToString(new NTriplesFormatter());
 
                         var data = Encoding.UTF8.GetBytes($"{newLine}{Environment.NewLine}");
-                        fileToCompress.Write(data, 0, data.Length);
+                        outputFileStream.Write(data, 0, data.Length);
                         writeCount++;
                     }
                     catch (Exception e)

@@ -9,6 +9,8 @@ using SparqlForHumans.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.RDF.FilterReorderSort;
+using SparqlForHumans.RDF.Reordering;
 using VDS.RDF;
 
 namespace SparqlForHumans.CLI
@@ -20,6 +22,10 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
+            //FilterReorderSortAll();
+            FilterReorderSort500();
+            //CreateIndex("Filter5k.Sorted.nt", true);
+            //ReorderAll();
             //FilterAll();
             //Filter5k();
             //Filter500k();
@@ -97,6 +103,24 @@ namespace SparqlForHumans.CLI
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All.nt";
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
+        }
+
+        private static void ReorderAll()
+        {
+            var inputFilename = "filtered-All.nt";
+            TriplesReordering.Reorder(inputFilename);
+        }
+        private static void FilterReorderSort500()
+        {
+            var inputFilename = @"EntityIndexMultipleInstanceReverse.nt";
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename);
+        }
+
+
+        private static void FilterReorderSortAll()
+        {
+            var inputFilename = @"filtered-All.nt";
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename);
         }
 
         private static void QueryEntities(string query)

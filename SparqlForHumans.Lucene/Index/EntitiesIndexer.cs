@@ -27,8 +27,10 @@ namespace SparqlForHumans.Lucene.Index
                 new AltLabelIndexer(),
                 new DescriptionIndexer(),
                 new InstanceOfIndexer(),
+                new ReverseInstanceOfIndexer(),
                 new SubClassIndexer(),
-                new EntityPropertiesIndexer()
+                new EntityPropertiesIndexer(),
+                new ReverseEntityPropertiesIndexer()
             };
         }
 
