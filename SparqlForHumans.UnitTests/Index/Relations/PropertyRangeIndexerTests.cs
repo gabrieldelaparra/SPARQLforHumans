@@ -58,7 +58,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
 
             //Act
             var index = new PropertyRangeIndexer(subjectGroups);
-            var actual = index.GetField(subjectGroup);
+            var actual = index.GetField(subjectGroup).ToArray();
 
             //Assert
             Assert.NotNull(actual);

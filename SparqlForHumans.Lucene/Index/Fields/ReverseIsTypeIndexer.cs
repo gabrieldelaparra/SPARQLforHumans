@@ -9,26 +9,26 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Fields
 {
-    public class DescriptionIndexer : BaseFieldIndexer<TextField>
+    public class ReverseIsTypeIndexer : BaseFieldIndexer<StringField>
     {
-        public override string FieldName => Labels.Description.ToString();
+        public override string FieldName => Labels.IsTypeEntity.ToString();
 
         public override bool FilterValidTriples(Triple triple)
         {
-            return triple.Predicate.GetPredicateType().Equals(PredicateType.Description);
+            return triple.Predicate.IsReverseInstanceOf();
         }
 
-        public override IEnumerable<TextField> GetField(SubjectGroup tripleGroup)
+        public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
         {
             var values = SelectTripleValue(tripleGroup.FirstOrDefault(FilterValidTriples));
             return !string.IsNullOrWhiteSpace(values)
-                ? new[] {new TextField(FieldName, values, Field.Store.YES)}
-                : new TextField[] { };
+                ? new[] {new StringField(FieldName, true.ToString(), Field.Store.YES)}
+                : new StringField[] { };
         }
 
         public override string SelectTripleValue(Triple triple)
         {
-            return triple?.Object.GetLiteralValue();
+            return triple?.Subject.GetId();
         }
     }
 }

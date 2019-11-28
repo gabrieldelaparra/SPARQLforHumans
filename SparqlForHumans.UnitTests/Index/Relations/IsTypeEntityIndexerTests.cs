@@ -102,7 +102,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             var expected = new StringField(Labels.IsTypeEntity.ToString(), true.ToString(), Field.Store.YES);
 
             //Act
-            var actual = new EntityIsTypeIndexer(subjectGroups).GetField(subjectGroup);
+            var actual = new EntityIsTypeIndexer(subjectGroups).GetField(subjectGroup).ToArray();
 
             //Assert
             Assert.NotNull(actual);

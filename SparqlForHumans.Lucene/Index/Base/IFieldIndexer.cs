@@ -13,6 +13,6 @@ namespace SparqlForHumans.Lucene.Index.Base
         where TField : IIndexableField
     {
         double Boost { get; set; }
-        IReadOnlyList<TField> GetField(SubjectGroup tripleGroup);
+        IEnumerable<TField> GetField(SubjectGroup tripleGroup);
     }
 }

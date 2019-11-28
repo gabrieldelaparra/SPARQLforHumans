@@ -23,8 +23,8 @@ namespace SparqlForHumans.CLI
         {
             Options.InternUris = false;
             //FilterReorderSortAll();
-            FilterReorderSort500();
-            //CreateIndex("Filter5k.Sorted.nt", true);
+            //FilterReorderSort500();
+            CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();

@@ -13,24 +13,23 @@ namespace SparqlForHumans.Lucene.Index.Fields
     {
         public override string FieldName => Labels.ReverseProperty.ToString();
 
-        //TODO: Check what could be the "Other"
         public override bool FilterValidTriples(Triple triple)
         {
             return triple.Predicate.GetPredicateType().Equals(PredicateType.ReverseProperty)
                    && triple.Predicate.GetPropertyType().Equals(PropertyType.Other);
         }
 
-        public override string SelectTripleValue(Triple triple)
-        {
-            return triple.Predicate.GetId();
-        }
-
-        public override IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
+        public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
         {
             var values = TriplesToValue(tripleGroup);
             return values.Any()
-                ? values.Select(x => new StringField(FieldName, x, Field.Store.YES)).ToList()
+                ? values.Select(x => new StringField(FieldName, x, Field.Store.YES))
                 : new List<StringField>();
+        }
+
+        public override string SelectTripleValue(Triple triple)
+        {
+            return triple.Predicate.GetId();
         }
     }
 }

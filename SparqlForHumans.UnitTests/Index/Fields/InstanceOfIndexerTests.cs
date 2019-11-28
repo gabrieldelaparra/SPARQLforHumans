@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             var expected = new StringField(Labels.InstanceOf.ToString(), "Q145", Field.Store.YES);
 
             //Act
-            var actual = new InstanceOfIndexer().GetField(subjectGroup);
+            var actual = new InstanceOfIndexer().GetField(subjectGroup).ToArray();
 
             //Assert
             Assert.NotNull(actual);
@@ -45,7 +45,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             var expected1 = new StringField(Labels.InstanceOf.ToString(), "Q146", Field.Store.YES);
 
             //Act
-            var actual = new InstanceOfIndexer().GetField(subjectGroup);
+            var actual = new InstanceOfIndexer().GetField(subjectGroup).ToArray();
 
             //Assert
             Assert.NotNull(actual);

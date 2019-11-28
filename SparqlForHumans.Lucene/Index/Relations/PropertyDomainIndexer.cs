@@ -70,11 +70,11 @@ namespace SparqlForHumans.Lucene.Index.Relations
             }
         }
 
-        public IReadOnlyList<StringField> GetField(SubjectGroup tripleGroup)
+        public IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
         {
             return RelationIndex.ContainsKey(tripleGroup.Id.ToNumbers())
                 ? RelationIndex[tripleGroup.Id.ToNumbers()]
-                    .Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES)).ToList()
+                    .Select(x => new StringField(FieldName, x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
     }

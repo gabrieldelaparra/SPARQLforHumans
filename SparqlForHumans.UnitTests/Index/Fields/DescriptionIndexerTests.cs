@@ -22,7 +22,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
             var expected = new TextField(Labels.Description.ToString(), "Ireland Description", Field.Store.YES);
 
             //Act
-            var actual = new DescriptionIndexer().GetField(subjectGroup);
+            var actual = new DescriptionIndexer().GetField(subjectGroup).ToArray();
 
             //Assert
             Assert.NotNull(actual);

@@ -44,10 +44,10 @@ namespace SparqlForHumans.Lucene.Index.Base
                 {
                     var document = new Document();
 
-                    foreach (var mapper in RelationMappers.SelectMany(x => x.GetField(subjectGroup)))
-                    {
-                        document.Add(mapper);
-                    }
+                    //foreach (var mapper in RelationMappers.SelectMany(x => x.GetField(subjectGroup)))
+                    //{
+                    //    document.Add(mapper);
+                    //}
 
                     var boostField = document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()));
                     var boost = 0.0;
@@ -61,9 +61,12 @@ namespace SparqlForHumans.Lucene.Index.Base
                         fieldIndexer.Boost = boost;
                     }
 
-                    foreach (var fields in FieldIndexers.SelectMany(x => x.GetField(subjectGroup)))
+                    foreach (var fieldIndexer in FieldIndexers)
                     {
-                        document.Add(fields);
+                        foreach (var field in fieldIndexer.GetField(subjectGroup))
+                        {
+                            document.Add(field);
+                        }
                     }
 
                     LogProgress(readCount++);

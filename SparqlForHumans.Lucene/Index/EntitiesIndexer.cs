@@ -12,11 +12,11 @@ namespace SparqlForHumans.Lucene.Index
     {
         public EntitiesIndexer(string inputFilename, string outputDirectory) : base(inputFilename, outputDirectory)
         {
-            RelationMappers = new List<IFieldIndexer<IIndexableField>>
-            {
-                new EntityIsTypeIndexer(inputFilename),
-                new EntityPageRankBoostIndexer(inputFilename)
-            };
+            //RelationMappers = new List<IFieldIndexer<IIndexableField>>
+            //{
+            //    //new EntityIsTypeIndexer(inputFilename),
+            //    //new EntityPageRankBoostIndexer(inputFilename)
+            //};
 
             //TODO: No 'prefLabel' in the current index:
             //TODO: No 'name' in the current index:
@@ -27,10 +27,11 @@ namespace SparqlForHumans.Lucene.Index
                 new AltLabelIndexer(),
                 new DescriptionIndexer(),
                 new InstanceOfIndexer(),
-                new ReverseInstanceOfIndexer(),
-                new SubClassIndexer(),
                 new EntityPropertiesIndexer(),
-                new ReverseEntityPropertiesIndexer()
+                new SubClassIndexer(),
+                new ReverseEntityPropertiesIndexer(),
+                new ReverseInstanceOfIndexer(),
+                new ReverseIsTypeIndexer(),
             };
         }
 

@@ -11,7 +11,7 @@ namespace SparqlForHumans.Lucene.Index.Base
     {
         public abstract string FieldName { get; }
         public double Boost { get; set; }
-        public abstract IReadOnlyList<TField> GetField(SubjectGroup tripleGroup);
+        public abstract IEnumerable<TField> GetField(SubjectGroup tripleGroup);
 
         public abstract bool FilterValidTriples(Triple triple);
         public abstract string SelectTripleValue(Triple triple);

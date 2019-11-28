@@ -28,7 +28,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
         public string FieldName => Labels.Rank.ToString();
 
-        public IReadOnlyList<DoubleField> GetField(SubjectGroup subjectGroup)
+        public IEnumerable<DoubleField> GetField(SubjectGroup subjectGroup)
         {
             var subjectId = subjectGroup.Id.ToNumbers();
             return RelationIndex.ContainsKey(subjectId)
