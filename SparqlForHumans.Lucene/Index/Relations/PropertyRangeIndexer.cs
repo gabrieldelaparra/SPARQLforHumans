@@ -57,54 +57,26 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
         public override string NotifyMessage => "Building <Property, RangeIds[]> Dictionary";
 
-        public override Dictionary<int, int[]> BuildIndex(IEnumerable<SubjectGroup> subjectGroups)
-        {
-            var propertyObjectIdsDictionary = new Dictionary<int, List<int>>();
-            var subjectIdTypeIdsDictionary = new Dictionary<int, List<int>>();
-            var propertyRangeDictionary = new Dictionary<int, List<int>>();
-
-            foreach (var subjectGroup in subjectGroups)
-            {
-                if (!subjectGroup.IsEntityQ())
-                {
-                    continue;
-                }
-
-                var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
-                var (instanceOfSlice, otherPropertiesSlice) =
-                    propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
-
-                foreach (var triple in otherPropertiesSlice)
-                {
-                    propertyObjectIdsDictionary.AddSafe(triple.Predicate.GetIntId(), triple.Object.GetIntId());
-                }
-
-                foreach (var triple in instanceOfSlice)
-                {
-                    subjectIdTypeIdsDictionary.AddSafe(subjectGroup.IntId, triple.Object.GetIntId());
-                }
-            }
-
-            foreach (var pair in propertyObjectIdsDictionary)
-            {
-                foreach (var objectId in pair.Value)
-                {
-                    if (!subjectIdTypeIdsDictionary.ContainsKey(objectId))
-                    {
-                        continue;
-                    }
-
-                    var objectTypes = subjectIdTypeIdsDictionary[objectId];
-                    propertyRangeDictionary.AddSafe(pair.Key, objectTypes);
-                }
-            }
-
-            return propertyRangeDictionary.ToArrayDictionary();
-        }
-
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
-            throw new NotImplementedException();
+            // Filter those the triples that are properties only (Exclude description, label, etc.)
+            var propertiesTriples = subjectGroup.Where(x => x.Predicate.IsReverseProperty() || x.Predicate.IsInstanceOf());
+
+            var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
+
+            // InstanceOf Ids (Domain Types) and Properties
+            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
+            var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
+
+            foreach (var instanceOfId in instanceOfIds)
+            {
+                dictionary.AddSafe(31, instanceOfId);
+            }
+
+            foreach (var propertyId in propertyIds)
+            {
+                dictionary.AddSafe(propertyId, instanceOfIds);
+            }
         }
 
         public string FieldName => Labels.Range.ToString();

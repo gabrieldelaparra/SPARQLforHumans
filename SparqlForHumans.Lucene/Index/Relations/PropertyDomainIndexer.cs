@@ -51,7 +51,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
         internal override void ParseTripleGroup(Dictionary<int, List<int>> dictionary, SubjectGroup subjectGroup)
         {
             // Filter those the triples that are properties only (Exclude description, label, etc.)
-            var propertiesTriples = subjectGroup.FilterPropertyPredicatesOnly();
+            var propertiesTriples = subjectGroup.Where(x => x.Predicate.IsProperty());
 
             var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
 

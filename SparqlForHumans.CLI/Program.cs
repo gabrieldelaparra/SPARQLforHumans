@@ -120,8 +120,8 @@ namespace SparqlForHumans.CLI
         private static void FilterReorderSortAll()
         {
             //var inputFilename = @"filtered-All.nt";
-            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphQuerying-old.nt";
-            var output =  @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphQuerying.nt";
+            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryByRangeAndProperty-More-old.nt";
+            var output =  @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryByRangeAndProperty-More.nt";
             TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         }
 

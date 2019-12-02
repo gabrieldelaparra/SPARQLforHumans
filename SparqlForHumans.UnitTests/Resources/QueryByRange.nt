@@ -1,13 +1,21 @@
-﻿<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Mother Of Humans"@en .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/P25> <http://www.w3.org/2000/01/rdf-schema#label> "Mother Of"@en .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
+<http://www.wikidata.org/entity/Q100> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q200> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q300> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q400> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49122> .
 <http://www.wikidata.org/entity/Q49088> <http://www.w3.org/2000/01/rdf-schema#label> "Human 1"@en .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
 <http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q100> .
 <http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q200> .
 <http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q300> .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q76> .
 <http://www.wikidata.org/entity/Q49122> <http://www.w3.org/2000/01/rdf-schema#label> "Human 2"@en .
 <http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q400> .
 <http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q500> .
-<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
-<http://www.wikidata.org/entity/P25> <http://www.w3.org/2000/01/rdf-schema#label> "Mother Of"@en .
+<http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q500> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Mother Of Humans"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49088> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49122> .

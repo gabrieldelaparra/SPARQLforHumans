@@ -98,14 +98,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //edge.Results = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToList();
                         break;
                     case QueryType.KnownSubjectTypeQueryDomainProperties:
-                        domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier().ToInt())).ToList();
-                        propertiesIds = domainPropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        var domains = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.GetSourceNode(graph).Types).ToList();
+                        propertiesIds = domains.Select(x => $"{x.GetUriIdentifier()}").ToList();
                         edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
-                        //edge.Results = new BatchIdPropertyDomainQuery(indexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //var res2 = new BatchIdPropertyDomainQuery(graph.PropertiesIndexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;
                     case QueryType.KnownObjectTypeQueryRangeProperties:
-                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.GetTargetNode(graph).Types.Select(y => y.GetUriIdentifier().ToInt())).ToList();
-                        propertiesIds = rangePropertiesIds.Distinct().Select(x => $"P{x}").ToList();
+                        var ranges = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.GetTargetNode(graph).Types).ToList();
+                        propertiesIds = ranges.Select(x =>$"{x.GetUriIdentifier()}").ToList();
                         edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query().OrderByDescending(x => x.Rank).ToList();
                         //edge.Results = new BatchIdPropertyRangeQuery(indexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
                         break;

@@ -1,21 +1,18 @@
 ﻿using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
-using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SparqlForHumans.Models.Wikidata;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class InMemoryQueryEngine
     {
-        private static bool IsInit = false;
-        private static string EntitiesIndexPath;
-        private static string PropertiesIndexPath;
+        private static bool _isInit = false;
+        private static string _entitiesIndexPath;
+        private static string _propertiesIndexPath;
 
         private static Dictionary<int, int[]> _entityIdDomainPropertiesDictionary;
         private static Dictionary<int, int[]> _entityIdRangePropertiesDictionary;
@@ -26,11 +23,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static void Init(string entitiesIndexPath, string propertiesIndexPath)
         {
-            if (IsInit) return;
-            EntitiesIndexPath = entitiesIndexPath;
-            PropertiesIndexPath = propertiesIndexPath;
+            if (_isInit) return;
+            _entitiesIndexPath = entitiesIndexPath;
+            _propertiesIndexPath = propertiesIndexPath;
             BuildDictionaries();
-            IsInit = true;
+            _isInit = true;
         }
 
         public static IEnumerable<string> BatchPropertyIdDomainTypesQuery(IEnumerable<string> propertyUris)
@@ -92,7 +89,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var logger = Logger.Logger.Init();
             logger.Info($"Building Inverted Properties Domain and Range Dictionary");
 
-            using (var luceneDirectory = FSDirectory.Open(PropertiesIndexPath))
+            using (var luceneDirectory = FSDirectory.Open(_propertiesIndexPath))
             using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {
                 var docCount = luceneDirectoryReader.MaxDoc;

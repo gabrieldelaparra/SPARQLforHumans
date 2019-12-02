@@ -67,7 +67,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.Equal(expected.GetStringValue(), actual[0].GetStringValue());
 
             // Assert
-            Assert.Equal(2, index.RelationIndex.Count);
+            Assert.Equal(3, index.RelationIndex.Count);
             var property69WithRange = index.RelationIndex[69];
             var property38WithRange = index.RelationIndex[38];
 

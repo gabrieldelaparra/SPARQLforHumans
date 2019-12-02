@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Queries.Graph;
 
 namespace SparqlForHumans.Server
 {
@@ -10,6 +12,7 @@ namespace SparqlForHumans.Server
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
         }
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
