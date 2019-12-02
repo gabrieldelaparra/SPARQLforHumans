@@ -53,17 +53,12 @@ namespace SparqlForHumans.Lucene.Index.Relations
             foreach (var triple in subjectGroup)
             {
                 // Filter Properties Only
-                if (!triple.Predicate.IsProperty())
-                {
-                    continue;
-                }
+                if (!triple.Predicate.IsProperty()) continue;
 
                 var predicateIntId = triple.Predicate.GetIntId();
 
                 if (!dictionary.ContainsKey(predicateIntId))
-                {
                     dictionary.Add(predicateIntId, 0);
-                }
 
                 dictionary[predicateIntId]++;
             }

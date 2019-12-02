@@ -20,15 +20,15 @@ namespace SparqlForHumans.Lucene.Index.Fields
 
         public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
         {
-            var values = SelectTripleValue(tripleGroup.FirstOrDefault(FilterValidTriples));
-            return !string.IsNullOrWhiteSpace(values)
+            var any = tripleGroup.Any(FilterValidTriples);
+            return any
                 ? new[] {new StringField(FieldName, true.ToString(), Field.Store.YES)}
                 : new StringField[] { };
         }
 
         public override string SelectTripleValue(Triple triple)
         {
-            return triple?.Subject.GetId();
+            return string.Empty;
         }
     }
 }
