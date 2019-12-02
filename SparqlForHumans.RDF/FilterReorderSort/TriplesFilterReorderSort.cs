@@ -80,7 +80,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
             {
                 WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
                 FileName = @"C:\Program Files\Git\usr\bin\sort.exe",
-                Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename.GetSortOutputFilename()}"
+                Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename}"
             };
             process.StartInfo = startInfo;
             process.Start();

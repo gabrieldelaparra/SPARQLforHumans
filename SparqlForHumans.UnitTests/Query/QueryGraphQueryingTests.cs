@@ -243,8 +243,8 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P734"));
-            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("family name"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("country of citizenship"));
 
             // Cleanup
             DeleteIndex();

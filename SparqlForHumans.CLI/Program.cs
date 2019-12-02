@@ -22,9 +22,9 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
-            //FilterReorderSortAll();
+            FilterReorderSortAll();
             //FilterReorderSort500();
-            CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
@@ -60,13 +60,13 @@ namespace SparqlForHumans.CLI
 
         public static void CreateIndex(string filename, bool overwrite = false)
         {
-            var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
+            //var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
             var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
 
-            entitiesOutputPath.DeleteIfExists(overwrite);
+            //entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
+            //new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
             new PropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
         }
 
@@ -119,8 +119,10 @@ namespace SparqlForHumans.CLI
 
         private static void FilterReorderSortAll()
         {
-            var inputFilename = @"filtered-All.nt";
-            TriplesFilterReorderSort.FilterReorderSort(inputFilename);
+            //var inputFilename = @"filtered-All.nt";
+            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphQuerying-old.nt";
+            var output =  @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphQuerying.nt";
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         }
 
         private static void QueryEntities(string query)

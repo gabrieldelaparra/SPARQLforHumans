@@ -141,7 +141,9 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
                 foreach (var line in group)
                 {
-                    var (_, _, ntObject) = line.AsTuple();
+                    
+                    var (_, ntPredicate, ntObject) = line.AsTuple();
+                    if(!ntPredicate.IsProperty()) continue;
 
                     //This takes, not only the properties, but direct/properties or other things that are not properties
 

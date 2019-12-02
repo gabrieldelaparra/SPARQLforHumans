@@ -1,23 +1,21 @@
-<http://www.wikidata.org/entity/Q26> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://wikiba.se/ontology-beta#Item> .
-<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2000/01/rdf-schema#label> "Northern Ireland"@en .
-<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#prefLabel> "Northern Ireland"@en .
-<http://www.wikidata.org/entity/Q26> <http://schema.org/name> "Northern Ireland"@en .
 <http://www.wikidata.org/entity/Q26> <http://schema.org/description> "region in north-west Europe, part of the United Kingdom"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.w3.org/2000/01/rdf-schema#label> "Northern Ireland"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "NIR"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "UKN"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "North Ireland"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q27> .
+<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q46> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q47> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q27> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P349> <http://id.ndl.go.jp/auth/ndlna/00566023> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P227> <http://d-nb.info/gnd/4075462-5> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P214> <https://viaf.org/viaf/260550545> .
-<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct-normalized/P214> <https://viaf.org/viaf/146210387> .
-<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2000/01/rdf-schema#label> "Base1"@en .
 <http://www.wikidata.org/entity/Q145> <http://schema.org/description> "Base Type1"@en .
-<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> "Base2"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.w3.org/2000/01/rdf-schema#label> "Base1"@en .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/reverse/P131> <http://www.wikidata.org/entity/Q26> .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/reverse/P17> <http://www.wikidata.org/entity/Q26> .
+<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q26> .
 <http://www.wikidata.org/entity/Q27> <http://schema.org/description> "Base Type2"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.w3.org/2000/01/rdf-schema#label> "Base2"@en .
+<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q26> .
+<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/prop/reverse/P47> <http://www.wikidata.org/entity/Q26> .
