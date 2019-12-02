@@ -13,6 +13,7 @@ namespace SparqlForHumans.Wikidata.Models
             httpRequest.Method = "GET";
             httpRequest.Accept = "application/sparql-results+json";
             httpRequest.UserAgent = ".Net Client";
+            httpRequest.ReadWriteTimeout = 40000; // 40 seconds
             base.ApplyCustomRequestOptions(httpRequest);
         }
     }

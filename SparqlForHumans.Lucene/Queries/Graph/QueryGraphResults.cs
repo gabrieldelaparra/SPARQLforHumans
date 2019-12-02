@@ -1,6 +1,7 @@
 ﻿using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using SparqlForHumans.Models;
 using SparqlForHumans.Wikidata.Services;
 
@@ -26,11 +27,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 switch (node.QueryType)
                 {
                     case QueryType.GivenSubjectTypeQueryDirectlyEntities:
-                        node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x => x.ToEntity()).ToList();
-                        break;
                     case QueryType.GivenObjectTypeQueryDirectlyEntities:
-                        //TODO: Fix
-                        node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString()).Select(x => x.ToEntity()).ToList();
+                        try {
+                            node.Results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString())
+                                .Select(x => x.ToEntity()).ToList();
+                        }
+                        catch (WebException e) {
+                            if(e.Status == WebExceptionStatus.Timeout)
+                                node.Results = new List<Entity>();
+                        }
                         break;
                     case QueryType.SubjectIsInstanceOfTypeQueryEntities:
                         node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
