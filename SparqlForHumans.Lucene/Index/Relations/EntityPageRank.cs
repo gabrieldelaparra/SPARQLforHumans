@@ -143,14 +143,9 @@ namespace SparqlForHumans.Lucene.Index.Relations
                 {
                     
                     var (_, ntPredicate, ntObject) = line.AsTuple();
+                    
                     if(!ntPredicate.IsProperty()) continue;
-
-                    //This takes, not only the properties, but direct/properties or other things that are not properties
-
-                    if (!ntObject.IsEntityQ())
-                    {
-                        continue;
-                    }
+                    if (!ntObject.IsEntityQ()) continue;
 
                     var objectId = ntObject.GetIntId();
                     nodesDictionary.TryGetValue(objectId, out var objectIndex);

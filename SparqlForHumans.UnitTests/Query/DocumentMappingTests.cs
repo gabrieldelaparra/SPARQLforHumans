@@ -35,10 +35,10 @@ namespace SparqlForHumans.UnitTests.Query
                 {
                     "Q100"
                 },
-                SubClass = new List<string>
-                {
-                    "Q46"
-                },
+                //SubClass = new List<string>
+                //{
+                //    "Q46"
+                //},
                 Properties = new List<Property>
                 {
                     new Property
@@ -75,8 +75,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(expected.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
 
             //SubClass
-            Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
-            Assert.Equal(expected.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
+            //Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
+            //Assert.Equal(expected.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
 
             //IsType
             Assert.False(actual.IsType);
@@ -124,11 +124,11 @@ namespace SparqlForHumans.UnitTests.Query
                     "Q27",
                     "Q145"
                 },
-                SubClass = new List<string>
-                {
-                    "Q46",
-                    "Q47"
-                },
+                //SubClass = new List<string>
+                //{
+                //    "Q46",
+                //    "Q47"
+                //},
                 Properties = new List<Property>
                 {
                     new Property
@@ -176,8 +176,8 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected1.Description, actual.Description);
                 Assert.Equal(expected1.InstanceOf.Count, actual.InstanceOf.Count);
                 Assert.Equal(expected1.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
-                Assert.Equal(expected1.SubClass.Count, actual.SubClass.Count);
-                Assert.Equal(expected1.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
+                //Assert.Equal(expected1.SubClass.Count, actual.SubClass.Count);
+                //Assert.Equal(expected1.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
                 Assert.False(actual.IsType);
                 Assert.Equal(0.333, actual.Rank.ToThreeDecimals());
                 Assert.Equal(expected1.AltLabels.Count(), actual.AltLabels.Count());

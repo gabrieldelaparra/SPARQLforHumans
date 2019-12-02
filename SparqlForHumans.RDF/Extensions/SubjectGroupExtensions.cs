@@ -2,7 +2,6 @@
 using SparqlForHumans.RDF.Models;
 using System.Collections.Generic;
 using System.Linq;
-using VDS.RDF;
 
 namespace SparqlForHumans.RDF.Extensions
 {
@@ -57,14 +56,5 @@ namespace SparqlForHumans.RDF.Extensions
             return subjectGroup.Id.StartsWith(Constants.PropertyPrefix);
         }
 
-        /// <summary>
-        ///     Allow only triples that have property predicates.
-        /// </summary>
-        /// <param name="entityGroupTriples"></param>
-        /// <returns></returns>
-        public static IEnumerable<Triple> FilterPropertyPredicatesOnly(this SubjectGroup entityGroupTriples)
-        {
-            return entityGroupTriples.Where(x => x.Predicate.IsProperty());
-        }
     }
 }
