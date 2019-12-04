@@ -2,6 +2,7 @@
 using System.Linq;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
+using SparqlForHumans.Models.Wikidata;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -18,6 +19,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
         public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Property> Results { get; set; } = new List<Property>();
+        public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
         public bool IsInstanceOf => this.HasInstanceOf();
         public bool IsGivenType => uris.Any();
         public List<string> Domain { get; set; } = new List<string>();

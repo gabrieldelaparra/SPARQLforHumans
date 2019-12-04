@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Models;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -24,6 +25,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static bool IsInferible(this QueryEdge edge)
         {
             return edge.uris.Any() && !edge.HasInstanceOf();
+        }
+
+        public class Result
+        {
+            public string Id { get; set; }
+            public string Value { get; set; }
+        }
+        public static Dictionary<string, Result> ToDictionary(this IEnumerable<Property> subjects)
+        {
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/prop/direct/{y.Id}", Value = y.Label });
+        }
+        public static Dictionary<string, Result> ToDictionary(this IEnumerable<Entity> subjects)
+        {
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/entity/{y.Id}", Value = y.Label });
         }
 
         /// <summary>

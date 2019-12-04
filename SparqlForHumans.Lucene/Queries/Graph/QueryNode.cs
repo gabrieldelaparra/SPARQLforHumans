@@ -2,6 +2,7 @@
 using System.Linq;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
@@ -18,6 +19,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
+
+        public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
 
         public bool IsGivenType => uris.Any();
         public bool IsGoingToGivenType { get; set; } = false;
