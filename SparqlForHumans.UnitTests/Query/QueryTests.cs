@@ -437,7 +437,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             outputPath.DeleteIfExists();
 
-            new PropertiesIndexer(filename, outputPath).Index();
+            new SimplePropertiesIndexer(filename, outputPath).Index();
             var actual = new MultiLabelPropertyQuery(outputPath, "*").Query().ToArray();
 
             Assert.NotEmpty(actual);
@@ -485,7 +485,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertyOutputPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
 
             Assert.NotEmpty(domainProperties);
@@ -520,7 +520,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertyOutputPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
             var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
 
             Assert.NotEmpty(rangeEntities);
@@ -557,7 +557,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertyOutputPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
             var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
@@ -596,7 +596,7 @@ namespace SparqlForHumans.UnitTests.Query
             propertyOutputPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
             var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
             Assert.Equal(3, rangeProperties.Count); //P31, P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();

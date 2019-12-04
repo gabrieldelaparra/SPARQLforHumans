@@ -387,29 +387,29 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
         }
 
-        [Fact]
-        public void TestCreateSingleInstanceIndexSubClass()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleSubClass";
+        //[Fact]
+        //public void TestCreateSingleInstanceIndexSubClass()
+        //{
+        //    const string filename = "Resources/EntityIndexSingleInstance.nt";
+        //    const string outputPath = "IndexSingleSubClass";
 
-            outputPath.DeleteIfExists();
+        //    outputPath.DeleteIfExists();
 
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
+        //    new EntitiesIndexer(filename, outputPath).Index();
+        //    using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
+        //    {
+        //        using (var reader = DirectoryReader.Open(luceneDirectory))
+        //        {
+        //            var doc = reader.Document(0);
 
-                    Assert.Single(doc.GetValues(Labels.SubClass));
+        //            Assert.Single(doc.GetValues(Labels.SubClass));
 
-                    Assert.Equal("Q46", doc.GetValues(Labels.SubClass)[0]);
-                }
-            }
+        //            Assert.Equal("Q46", doc.GetValues(Labels.SubClass)[0]);
+        //        }
+        //    }
 
-            outputPath.DeleteIfExists();
-        }
+        //    outputPath.DeleteIfExists();
+        //}
 
         [Fact]
         public void TestIndexHasTypes()

@@ -5,6 +5,7 @@ using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Index;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations

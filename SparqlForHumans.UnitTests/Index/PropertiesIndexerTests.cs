@@ -47,7 +47,7 @@ namespace SparqlForHumans.UnitTests.Index
             propertyOutputPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
 
             var properties = new BatchIdPropertyQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).Query().ToArray();
 
@@ -124,7 +124,7 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
 
             //Act
-            new PropertiesIndexer(filename, outputPath).Index();
+            new SimplePropertiesIndexer(filename, outputPath).Index();
             var properties = new MultiLabelPropertyQuery(outputPath, "*").Query();
 
             //Assert
@@ -159,7 +159,7 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
 
             //Act
-            new PropertiesIndexer(filename, outputPath).Index();
+            new SimplePropertiesIndexer(filename, outputPath).Index();
 
             using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
             {
@@ -206,7 +206,7 @@ namespace SparqlForHumans.UnitTests.Index
 
             outputPath.DeleteIfExists();
 
-            new PropertiesIndexer(filename, outputPath).Index();
+            new SimplePropertiesIndexer(filename, outputPath).Index();
 
             Assert.True(Directory.Exists(outputPath));
 
