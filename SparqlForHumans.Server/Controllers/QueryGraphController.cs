@@ -17,9 +17,7 @@ namespace SparqlForHumans.Server.Controllers
         {
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
-            var id = queryGraph.Selected.id;
-            var results = queryGraph.Selected.isNode ? ToDictionary(queryGraph.Nodes[id].Results) : ToDictionary(queryGraph.Edges[id].Results);
-            return Json(results);
+            return Json(queryGraph);
         }
         public class Result
         {
