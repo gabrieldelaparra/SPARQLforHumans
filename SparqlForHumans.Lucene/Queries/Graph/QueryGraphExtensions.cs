@@ -29,16 +29,17 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public class Result
         {
-            public string Id { get; set; }
+            public string Type => "uri";
+            public string Text { get; set; }
             public string Value { get; set; }
         }
         public static Dictionary<string, Result> ToDictionary(this IEnumerable<Property> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/prop/direct/{y.Id}", Value = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"http://www.wikidata.org/prop/direct/{y.Id}", Text = y.Label });
         }
         public static Dictionary<string, Result> ToDictionary(this IEnumerable<Entity> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Id = $"http://www.wikidata.org/entity/{y.Id}", Value = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"http://www.wikidata.org/entity/{y.Id}", Text = y.Label });
         }
 
         /// <summary>

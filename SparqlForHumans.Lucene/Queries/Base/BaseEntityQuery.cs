@@ -14,7 +14,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
 
         public BaseEntityQuery(string luceneIndexPath, string searchString, int resultsLimit = 1) : base(luceneIndexPath, searchString, resultsLimit) { }
 
-        public override List<Entity> Query()
+        public override List<Entity> Query(int resultsLimit = 100)
         {
             return GetDocuments().ToEntities();
         }
@@ -26,7 +26,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
 
         public BaseTypeQuery(string luceneIndexPath, string searchString, int resultsLimit = 1) : base(luceneIndexPath, searchString, resultsLimit) { }
 
-        public override List<Entity> Query()
+        public override List<Entity> Query(int resultsLimit = 100)
         {
             return GetDocuments().ToEntities();
         }

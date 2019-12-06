@@ -9,6 +9,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class QueryGraphResults
     {
+        //private static Logger.Logger logger = Logger.Logger.Init();
         public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath)
         {
             graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
@@ -28,32 +29,35 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     case QueryType.GivenSubjectTypeQueryDirectlyEntities:
                     case QueryType.GivenObjectTypeQueryDirectlyEntities:
+                    case QueryType.DirectQuery:
                         var results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString())?.Select(x => x.ToEntity()).ToList();
                         node.Results = results ?? new List<Entity>();
+                        //logger.
                         break;
                     case QueryType.SubjectIsInstanceOfTypeQueryEntities:
-                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.Types.Select(x => x.GetUriIdentifier())).Query();
+                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.Types.Select(x => x.GetUriIdentifier())).Query(100);
                         break;
                     case QueryType.QueryTopEntities:
-                        node.Results = new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query();
+                        node.Results = new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query(100);
                         break;
                     case QueryType.InferredDomainTypeEntities:
                         var domainProperties = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain);
-                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, domainProperties).Query();
+                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, domainProperties).Query(100);
                         break;
                     case QueryType.InferredRangeTypeEntities:
                         var rangeProperties = node.GetIncomingEdges(graph).SelectMany(x => x.Range);
-                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, rangeProperties).Query();
+                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, rangeProperties).Query(100);
                         break;
                     case QueryType.InferredDomainAndRangeTypeEntities:
                         var domainProps = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain);
                         var rangeProps = node.GetIncomingEdges(graph).SelectMany(x => x.Range);
                         var properties = domainProps.Intersect(rangeProps);
-                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, properties).Query();
+                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, properties).Query(100);
                         break;
                     case QueryType.GivenEntityTypeNoQuery:
                         node.Results = new List<Entity>();
                         break;
+                    
                     case QueryType.Unknown:
                     case QueryType.GivenPredicateTypeNoQuery:
                     case QueryType.QueryTopProperties:
@@ -86,6 +90,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     case QueryType.QueryTopProperties:
                         edge.Results = new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query();
+                        break;
+                    case QueryType.DirectQuery:
+                    case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
+                    case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
+                        var results = GraphApiQueries.RunQuery(edge.ToSparql(graph).ToString())?.Select(x => x.ToProperty()).ToList();
+                        edge.Results = results ?? new List<Property>();
                         break;
                     case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
                         domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.GetSourceNode(graph).Types.Select(y => y.GetUriIdentifier().ToInt())).ToList();
@@ -127,22 +137,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         propertiesIds = objectNodes.SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
                         edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query();
                         break;
-                    case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
-                        subjectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
-                        propertiesIds = subjectNodes.SelectMany(x => x.Properties).Select(x => x.Id).ToList();
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query();
-                        break;
-                    case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
-                        subjectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
-                        var subjectProperties = subjectNodes.SelectMany(x => x.Properties).Select(x => x.Id).ToList();
-                        objectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
-                        var objectProperties = objectNodes.SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
-                        propertiesIds = subjectProperties.Intersect(objectProperties).ToList();
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query();
-                        break;
+                    //case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
+                        //subjectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //propertiesIds = subjectNodes.SelectMany(x => x.Properties).Select(x => x.Id).ToList();
+                        //edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query();
+                        //break;
+                    //case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
+                        //subjectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetSourceNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //var subjectProperties = subjectNodes.SelectMany(x => x.Properties).Select(x => x.Id).ToList();
+                        //objectNodes = new BatchIdEntityQuery(graph.EntitiesIndexPath, edge.GetTargetNode(graph).Types.Select(x => x.GetUriIdentifier())).Query();
+                        //var objectProperties = objectNodes.SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
+                        //propertiesIds = subjectProperties.Intersect(objectProperties).ToList();
+                        //edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, propertiesIds).Query();
+                        //break;
                     case QueryType.GivenPredicateTypeNoQuery:
                         edge.Results = new List<Property>();
                         break;
+                    
                     case QueryType.Unknown:
                     case QueryType.QueryTopEntities:
                     case QueryType.GivenSubjectTypeQueryDirectlyEntities:

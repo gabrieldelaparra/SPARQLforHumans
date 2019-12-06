@@ -22,6 +22,8 @@
         // --> ?prop0 are properties of Obama
         GivenSubjectTypeDirectQueryOutgoingProperties,
 
+        DirectQuery,
+
         // ?var0 ?prop0 ?var1
         // ?var1 is USA
         // --> ?var0 are entities that get to USA

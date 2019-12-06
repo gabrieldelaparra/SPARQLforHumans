@@ -84,16 +84,36 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //Give Type
             if (node.IsGivenType) return QueryType.GivenEntityTypeNoQuery;
             
-            if (node.IsInstanceOfType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
+            if (node.IsInstanceOfType 
+                && !node.IsGoingToGivenType
+                && !node.IsComingFromGivenType
+                && !node.IsInferredDomainType
+                && !node.IsInferredRangeType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
 
-            if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectlyEntities;
-            if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectlyEntities;
+            if (node.IsGoingToGivenType || node.IsComingFromGivenType) return QueryType.DirectQuery;
+            //if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectlyEntities;
+            //if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectlyEntities;
 
             if (node.IsInferredDomainType && node.IsInferredRangeType) return QueryType.InferredDomainAndRangeTypeEntities;
             if (node.IsInferredDomainType) return QueryType.InferredDomainTypeEntities;
             if (node.IsInferredRangeType) return QueryType.InferredRangeTypeEntities;
 
-            return QueryType.QueryTopEntities;
+            if (!node.IsGivenType
+                && !node.IsInstanceOfType 
+                && !node.IsGoingToGivenType
+                && !node.IsComingFromGivenType
+                && !node.IsInferredDomainType
+                && !node.IsInferredRangeType) return QueryType.QueryTopEntities;
+
+            return QueryType.DirectQuery;
+        }
+
+
+        private static bool IsDirectQuery(this QueryNode node)
+        {
+            return node.QueryType.Equals(QueryType.DirectQuery)
+                   || node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectlyEntities)
+                   || node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities);
         }
 
         private static QueryType GetQueryType(this QueryEdge edge, QueryGraph graph)
@@ -103,6 +123,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
+
+            if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
 
             if (source.IsGivenType && target.IsGivenType) return QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties;
             if (source.IsGivenType) return QueryType.GivenSubjectTypeDirectQueryOutgoingProperties;

@@ -35,7 +35,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
         internal QueryParser queryParser { get; }
         internal int ResultsLimit { get; set; }
         internal virtual Filter Filter { get; set; } = null;
-        public abstract List<T> Query();
+        public abstract List<T> Query(int resultsLimit = 100);
 
         internal virtual bool IsInvalidSearchString(string inputString) => false;
 

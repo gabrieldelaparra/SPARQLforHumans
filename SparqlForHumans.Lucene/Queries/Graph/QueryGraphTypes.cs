@@ -49,6 +49,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     case QueryType.InferredRangeTypeEntities:
                         node.Types = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
                         break;
+                    case QueryType.DirectQuery:
+                        node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)
+                            .Intersect(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
+                        break;
                 }
             }
         }
