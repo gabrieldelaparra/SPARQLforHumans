@@ -42,7 +42,7 @@ namespace SparqlForHumans.Models.RDFExplorer
 
         public override string ToString()
         {
-            return $"{id}:{name} {(uris.Any() ? string.Join(";", uris.Select(x => x.GetUriIdentifier())) : string.Empty)}";
+            return $"{id}:{name} ({string.Join(";", uris.Select(x => x.GetUriIdentifier()))})";
         }
     }
 }

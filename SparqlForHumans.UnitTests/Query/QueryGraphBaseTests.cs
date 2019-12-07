@@ -127,47 +127,47 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(graph1, graph2);
         }
 
-        [Fact]
-        public void TestPropertiesGoingToObamaShouldBeHumanProperties()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1",new[]{"http://www.wikidata.org/entity/Q76"} )
-                },
-                edges = new[]
-                {
-                    new Edge (0, "?prop0", 0, 1)
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
-        }
+        //[Fact]
+        //public void TestPropertiesGoingToObamaShouldBeHumanProperties()
+        //{
+        //    var graph = new RDFExplorerGraph
+        //    {
+        //        nodes = new[]
+        //        {
+        //            new Node(0, "?var0"),
+        //            new Node(1, "?var1",new[]{"http://www.wikidata.org/entity/Q76"} )
+        //        },
+        //        edges = new[]
+        //        {
+        //            new Edge (0, "?prop0", 0, 1)
+        //        }
+        //    };
+        //    var queryGraph = new QueryGraph(graph);
+        //    //Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
+        //    //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+        //    //Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
+        //}
 
-        [Fact]
-        public void TestUnknownSubjectKnownPredicateKnownObjectShouldThenNotBeInferred()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?siblingOfObama"),
-                    new Node(1, "OBAMA", new[]{"http://www.wikidata.org/entity/Q76"})
-                },
-                edges = new[]
-                {
-                    new Edge(0, "sibling", 0, 1,  new[]{"http://www.wikidata.org/prop/direct/P3373"})
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-        }
+        //[Fact]
+        //public void TestUnknownSubjectKnownPredicateKnownObjectShouldThenNotBeInferred()
+        //{
+        //    var graph = new RDFExplorerGraph
+        //    {
+        //        nodes = new[]
+        //        {
+        //            new Node(0, "?siblingOfObama"),
+        //            new Node(1, "OBAMA", new[]{"http://www.wikidata.org/entity/Q76"})
+        //        },
+        //        edges = new[]
+        //        {
+        //            new Edge(0, "sibling", 0, 1,  new[]{"http://www.wikidata.org/prop/direct/P3373"})
+        //        }
+        //    };
+        //    var queryGraph = new QueryGraph(graph);
+        //    Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
+        //    Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+        //    Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+        //}
 
     }
 }

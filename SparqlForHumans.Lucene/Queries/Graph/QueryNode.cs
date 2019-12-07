@@ -14,9 +14,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             id = node.id;
             name = node.name;
-            uris = node.uris;
+            uris = node.uris.Select(x=>x.GetUriIdentifier()).ToArray();
         }
-        public QueryType QueryType { get; set; } = QueryType.Unknown;
+        //public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
 
@@ -35,7 +35,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public override string ToString()
         {
-            return $"{id}:{name} {(Types.Any() ? string.Join(";", Types.Select(x => x.GetUriIdentifier())) : string.Empty)}";
+            return $"{id}:{name} ({string.Join(";", Types.Select(x => x.GetUriIdentifier()))})";
         }
     }
 

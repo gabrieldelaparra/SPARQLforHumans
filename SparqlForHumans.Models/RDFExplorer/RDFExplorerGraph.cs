@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Models.RDFExplorer
 {
@@ -26,7 +28,9 @@ namespace SparqlForHumans.Models.RDFExplorer
 
         public override string ToString()
         {
-            return $"{string.Join<Node>(";", nodes)}";
+            var nodesString = $"{{ Nodes: {{{string.Join("; ", nodes.Select(x=>x.ToString()))}}} }}";
+            var edgesString = $"{{ Edges: {{{string.Join("; ", edges.Select(x=>x.ToString()))}}} }}";
+            return $"{nodesString} {edgesString}";
         }
 
     }

@@ -1,622 +1,622 @@
-﻿using SparqlForHumans.Lucene.Queries.Graph;
-using SparqlForHumans.Models.RDFExplorer;
-using Xunit;
+﻿//using SparqlForHumans.Lucene.Queries.Graph;
+//using SparqlForHumans.Models.RDFExplorer;
+//using Xunit;
 
-namespace SparqlForHumans.UnitTests.Query
-{
-    public class QueryGraphTraversalTests
-    {
-        /// <summary>
-        /// A single node.
-        /// Should query for the top Entities
-        /// </summary>
-        [Fact]
-        public void TestTraversal_1IsolatedNode_1Node0Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[] { new Node(0, "?var0") },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
-        }
+//namespace SparqlForHumans.UnitTests.Query
+//{
+//    public class QueryGraphTraversalTests
+//    {
+//        /// <summary>
+//        /// A single node.
+//        /// Should query for the top Entities
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_1IsolatedNode_1Node0Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[] { new Node(0, "?var0") },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+//        }
 
-        /// <summary>
-        /// A single node. Given Type.
-        /// Should return given entity types.
-        /// </summary>
-        [Fact]
-        public void TestTraversal_1IsolatedNode_GivenType_1Node0Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[] { new Node(0, "?varObama", new[] { "http://www.wikidata.org/entity/Q76" }) },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-        }
+//        /// <summary>
+//        /// A single node. Given Type.
+//        /// Should return given entity types.
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_1IsolatedNode_GivenType_1Node0Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[] { new Node(0, "?varObama", new[] { "http://www.wikidata.org/entity/Q76" }) },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//        }
 
-        /// <summary>
-        /// Two isolated nodes, no properties between them.
-        /// Both should be Top Entities.
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2IsolatedNodes_2Nodes0Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1"),
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
-        }
+//        /// <summary>
+//        /// Two isolated nodes, no properties between them.
+//        /// Both should be Top Entities.
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2IsolatedNodes_2Nodes0Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0"),
+//                    new Node(1, "?var1"),
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
+//        }
 
-        /// <summary>
-        /// Two isolated nodes, no properties between them.
-        /// Both should be given entity types.
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2IsolatedNodes_GivenTypes_2Nodes0Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"}),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q49089"}),
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-        }
+//        /// <summary>
+//        /// Two isolated nodes, no properties between them.
+//        /// Both should be given entity types.
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2IsolatedNodes_GivenTypes_2Nodes0Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"}),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q49089"}),
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 ?prop0 ?var1
-        /// 
-        /// Expected Results:
-        /// All should return Top Entities and Properties;
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_NoGivenTypes_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1)
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 ?prop0 ?var1
+//        /// 
+//        /// Expected Results:
+//        /// All should return Top Entities and Properties;
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_NoGivenTypes_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0"),
+//                    new Node(1, "?var1"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1)
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 ?prop0 ?var1
-        /// ?var0 is Obama
-        /// 
-        /// Expected Results:
-        /// ?var1 are entities coming from Obama
-        /// ?prop0 are properties coming from Obama
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SourceIsGivenType_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1)
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 ?prop0 ?var1
+//        /// ?var0 is Obama
+//        /// 
+//        /// Expected Results:
+//        /// ?var1 are entities coming from Obama
+//        /// ?prop0 are properties coming from Obama
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SourceIsGivenType_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+//                    new Node(1, "?var1"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1)
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenSubjectTypeDirectQueryOutgoingProperties, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 P31 ?var1
-        /// ?var0 is Obama
-        /// 
-        /// Expected Results:
-        /// ?var1 is HUMAN (or others)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP31_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 P31 ?var1
+//        /// ?var0 is Obama
+//        /// 
+//        /// Expected Results:
+//        /// ?var1 is HUMAN (or others)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP31_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+//                    new Node(1, "?var1"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 P27 ?var1
-        /// ?var0 is Obama
-        /// 
-        /// Expected Results:
-        /// ?var1 is USA (or where Obama is CitizenOf)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP27_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P27"})
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 P27 ?var1
+//        /// ?var0 is Obama
+//        /// 
+//        /// Expected Results:
+//        /// ?var1 is USA (or where Obama is CitizenOf)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SubjectIsGivenType_EdgeP27_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+//                    new Node(1, "?var1"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P27"})
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenSubjectTypeQueryDirectlyEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 ?prop0 ?var1
-        /// ?var1 is Obama
-        /// 
-        /// Expected Results:
-        /// ?var0 are types going to Obama
-        /// ?prop0 are properties going to Obama
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_TargetIsGivenType_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0" ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q76"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1)
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 ?prop0 ?var1
+//        /// ?var1 is Obama
+//        /// 
+//        /// Expected Results:
+//        /// ?var0 are types going to Obama
+//        /// ?prop0 are properties going to Obama
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_TargetIsGivenType_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0" ),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q76"}),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1)
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenObjectTypeDirectQueryIncomingProperties, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 ?prop0 ?var1
-        /// ?var0 is Obama
-        /// ?var1 is USA
-        /// 
-        /// Expected Results:
-        /// ?prop0 are properties from Obama going to USA
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SourceAndTargetIsGivenType_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q30"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1)
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 ?prop0 ?var1
+//        /// ?var0 is Obama
+//        /// ?var1 is USA
+//        /// 
+//        /// Expected Results:
+//        /// ?prop0 are properties from Obama going to USA
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SourceAndTargetIsGivenType_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q30"}),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1)
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 P27 ?var1
-        /// ?var0 is Obama
-        /// ?var1 is USA
-        /// 
-        /// Expected Results:
-        /// All is given, should behave like that.
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SourceTargetPredicateAreGivenTypes_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
-                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P27"})
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 P27 ?var1
+//        /// ?var0 is Obama
+//        /// ?var1 is USA
+//        /// 
+//        /// Expected Results:
+//        /// All is given, should behave like that.
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SourceTargetPredicateAreGivenTypes_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
+//                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"}),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P27"})
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 P31 ?var1
-        /// ?var1 is Human
-        /// 
-        /// Expected Results:
-        /// ?var0 are instances of Human
-        /// </summary>
-        [Fact]
-        public void TestTraversal_2Nodes_SubjectIsInstanceOfType_2Nodes1Edge()
-        {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0" ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
-                },
-            };
-            var queryGraph = new QueryGraph(graph);
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-        }
+//        /// <summary>
+//        /// ?var0 P31 ?var1
+//        /// ?var1 is Human
+//        /// 
+//        /// Expected Results:
+//        /// ?var0 are instances of Human
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_2Nodes_SubjectIsInstanceOfType_2Nodes1Edge()
+//        {
+//            var graph = new RDFExplorerGraph()
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0" ),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
+//                },
+//            };
+//            var queryGraph = new QueryGraph(graph);
+//            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//        }
 
         
 
-        /// <summary>
-        /// ?var0 P31 ?var1
-        /// ?var1 is Human
-        /// ?var0 ?prop0 ?var2
-        /// 
-        /// Expected Results:
-        /// ?var0 are instances of Human
-        /// ?var2 are ? //TODO: TBD. For the moment, TopEntities; Github #121
-        /// ?prop1 are properties with domain in Human 
-        /// </summary>
-        [Fact]
-        public void TestTraversal_3Nodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(2, "?var2"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(1, "?prop1", 0, 2),
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
+//        /// <summary>
+//        /// ?var0 P31 ?var1
+//        /// ?var1 is Human
+//        /// ?var0 ?prop0 ?var2
+//        /// 
+//        /// Expected Results:
+//        /// ?var0 are instances of Human
+//        /// ?var2 are ? //TODO: TBD. For the moment, TopEntities; Github #121
+//        /// ?prop1 are properties with domain in Human 
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_3Nodes_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0"),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
+//                    new Node(2, "?var2"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+//                    new Edge(1, "?prop1", 0, 2),
+//                }
+//            };
+//            var queryGraph = new QueryGraph(graph);
 
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+//            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.KnownSubjectTypeQueryDomainProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.KnownSubjectTypeQueryDomainProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?var0 P31 ?var1
-        /// ?var1 is Human
-        /// ?var2 ?prop0 ?var0
-        /// 
-        /// Expected Results:
-        /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities; Github #121
-        /// ?prop1 are properties with range in Human 
-        /// </summary>
-        [Fact]
-        public void TestTraversal_3Nodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0"),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(2, "?var2"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(1, "?prop1", 2, 0),
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
+//        /// <summary>
+//        /// ?var0 P31 ?var1
+//        /// ?var1 is Human
+//        /// ?var2 ?prop0 ?var0
+//        /// 
+//        /// Expected Results:
+//        /// ?var0 are instances of Human
+//        /// ?var2 are //TODO: TBD. For the moment, TopEntities; Github #121
+//        /// ?prop1 are properties with range in Human 
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_3Nodes_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?var0"),
+//                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
+//                    new Node(2, "?var2"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+//                    new Edge(1, "?prop1", 2, 0),
+//                }
+//            };
+//            var queryGraph = new QueryGraph(graph);
 
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
-            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+//            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
+//            //TODO: Not implemented, Currently returns top. Should return entities that have target on humans. Github #121
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.KnownObjectTypeQueryRangeProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?human ?prop0 ?country
-        /// ?human P31 HUMAN
-        /// ?country P31 COUNTRY
-        ///
-        /// Expected:
-        /// ?human IsInstanceOf HUMAN
-        /// ?country IsInstanceOf COUNTRY
-        /// ?prop0 Intersect Domain InstanceOf HUMAN Range InstanceOf COUNTRY
-        /// </summary>
-        [Fact]
-        public void TestTraversal_4Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?human"),
-                    new Node(1, "?country"),
-                    new Node(2, "HUMAN", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(3, "COUNTRY", new[]{"http://www.wikidata.org/entity/Q6256"}),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0,1),
-                    new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                }
-            };
-            var queryGraph = new QueryGraph(graph);
+//        /// <summary>
+//        /// ?human ?prop0 ?country
+//        /// ?human P31 HUMAN
+//        /// ?country P31 COUNTRY
+//        ///
+//        /// Expected:
+//        /// ?human IsInstanceOf HUMAN
+//        /// ?country IsInstanceOf COUNTRY
+//        /// ?prop0 Intersect Domain InstanceOf HUMAN Range InstanceOf COUNTRY
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_4Nodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?human"),
+//                    new Node(1, "?country"),
+//                    new Node(2, "HUMAN", new[]{"http://www.wikidata.org/entity/Q5"}),
+//                    new Node(3, "COUNTRY", new[]{"http://www.wikidata.org/entity/Q6256"}),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?prop0", 0,1),
+//                    new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+//                    new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+//                }
+//            };
+//            var queryGraph = new QueryGraph(graph);
             
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);
-            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[3].QueryType);
+//            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[2].QueryType);
+//            Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[3].QueryType);
 
-            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
-        }
+//            Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
+//        }
 
-        /// <summary>
-        /// ?mother P25 ?son
-        /// ?mother ?prop ?son
-        ///
-        /// Expected:
-        /// ?mother Inferred Domain P25 (Include Human)
-        /// ?son Inferred Range P25 (Include Human)
-        /// ?prop Inferred Domain And Range (from Human, to Human)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_Inferred_2ConnectedNodes_N0P25N1_E1DomainP25_2Nodes2Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?domain"),
-                    new Node(1, "?range"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propDomain", 0, 1),
-                }
-            };
+//        /// <summary>
+//        /// ?mother P25 ?son
+//        /// ?mother ?prop ?son
+//        ///
+//        /// Expected:
+//        /// ?mother Inferred Domain P25 (Include Human)
+//        /// ?son Inferred Range P25 (Include Human)
+//        /// ?prop Inferred Domain And Range (from Human, to Human)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_Inferred_2ConnectedNodes_N0P25N1_E1DomainP25_2Nodes2Edges()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?domain"),
+//                    new Node(1, "?range"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+//                    new Edge(1, "?propDomain", 0, 1),
+//                }
+//            };
 
-            // Act
-            var queryGraph = new QueryGraph(graph);
+//            // Act
+//            var queryGraph = new QueryGraph(graph);
 
-            // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+//            // Assert
+//            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?mother P25 ?son
-        /// ?son ?prop ?mother
-        ///
-        /// Expected:
-        /// ?mother Inferred Domain P25 (Include Human)
-        /// ?son Inferred Range P25 (Include Human)
-        /// ?prop Inferred Domain And Range (from Human, to Human)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_Inferred_2ConnectedNodes_N0P25N1_E1RangeP25_2Nodes2Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?domain"),
-                    new Node(1, "?range"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propRange", 1, 0),
-                }
-            };
+//        /// <summary>
+//        /// ?mother P25 ?son
+//        /// ?son ?prop ?mother
+//        ///
+//        /// Expected:
+//        /// ?mother Inferred Domain P25 (Include Human)
+//        /// ?son Inferred Range P25 (Include Human)
+//        /// ?prop Inferred Domain And Range (from Human, to Human)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_Inferred_2ConnectedNodes_N0P25N1_E1RangeP25_2Nodes2Edges()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?domain"),
+//                    new Node(1, "?range"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+//                    new Edge(1, "?propRange", 1, 0),
+//                }
+//            };
 
-            // Act
-            var queryGraph = new QueryGraph(graph);
+//            // Act
+//            var queryGraph = new QueryGraph(graph);
 
-            // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+//            // Assert
+//            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?mother P25 ?son
-        /// ?mother ?prop ?var2
-        ///
-        /// Expected:
-        /// ?mother Inferred Domain P25 (Include Human)
-        /// ?son Inferred Range P25 (Include Human)
-        /// ?var2 is top entity
-        /// ?prop Inferred Domain of P25 (from Human)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?domain"),
-                    new Node(1, "?range"),
-                    new Node(2, "?var2"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propDomain", 0, 2),
-                }
-            };
+//        /// <summary>
+//        /// ?mother P25 ?son
+//        /// ?mother ?prop ?var2
+//        ///
+//        /// Expected:
+//        /// ?mother Inferred Domain P25 (Include Human)
+//        /// ?son Inferred Range P25 (Include Human)
+//        /// ?var2 is top entity
+//        /// ?prop Inferred Domain of P25 (from Human)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?domain"),
+//                    new Node(1, "?range"),
+//                    new Node(2, "?var2"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+//                    new Edge(1, "?propDomain", 0, 2),
+//                }
+//            };
 
-            var queryGraph = new QueryGraph(graph);
+//            var queryGraph = new QueryGraph(graph);
 
-            // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+//            // Assert
+//            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.InferredDomainTypeProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?mother P25 ?son
-        /// ?var2 ?prop ?mother
-        ///
-        /// Expected:
-        /// ?mother Inferred Domain P25 (Include Human)
-        /// ?son Inferred Range P25 (Include Human)
-        /// ?var2 is top entity
-        /// ?prop Inferred Range of P25 (to Human)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?domainP25"),
-                    new Node(1, "?rangeP25"),
-                    new Node(2, "?var1"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propRange", 2, 0),
-                }
-            };
+//        /// <summary>
+//        /// ?mother P25 ?son
+//        /// ?var2 ?prop ?mother
+//        ///
+//        /// Expected:
+//        /// ?mother Inferred Domain P25 (Include Human)
+//        /// ?son Inferred Range P25 (Include Human)
+//        /// ?var2 is top entity
+//        /// ?prop Inferred Range of P25 (to Human)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?domainP25"),
+//                    new Node(1, "?rangeP25"),
+//                    new Node(2, "?var1"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+//                    new Edge(1, "?propRange", 2, 0),
+//                }
+//            };
 
-            var queryGraph = new QueryGraph(graph);
+//            var queryGraph = new QueryGraph(graph);
 
-            // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
+//            // Assert
+//            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[1].QueryType);
-        }
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[1].QueryType);
+//        }
 
-        /// <summary>
-        /// ?mother P25 ?son
-        /// ?son P27 ?country
-        /// ?mother ?prop ?country
-        ///
-        /// Expected:
-        /// ?mother Inferred Domain P25 (Include Human)
-        /// ?son Inferred Range P25 (Include Human)
-        /// ?son Inferred Domain P27 (Include Human)
-        /// ?country Inferred Range P27 (Include Chile)
-        /// ?prop Inferred Domain of P25 (from Human)
-        /// ?prop Inferred Range of P27 (to Country)
-        /// </summary>
-        [Fact]
-        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?domain"),
-                    new Node(1, "?range"),
-                    new Node(2, "?domainRange"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?fromCountry", 1, 2, new[]{"http://www.wikidata.org/prop/direct/P27"}),
-                    new Edge(2, "?propDomainRange", 0, 2),
-                }
-            };
+//        /// <summary>
+//        /// ?mother P25 ?son
+//        /// ?son P27 ?country
+//        /// ?mother ?prop ?country
+//        ///
+//        /// Expected:
+//        /// ?mother Inferred Domain P25 (Include Human)
+//        /// ?son Inferred Range P25 (Include Human)
+//        /// ?son Inferred Domain P27 (Include Human)
+//        /// ?country Inferred Range P27 (Include Chile)
+//        /// ?prop Inferred Domain of P25 (from Human)
+//        /// ?prop Inferred Range of P27 (to Country)
+//        /// </summary>
+//        [Fact]
+//        public void TestTraversal_Inferred_3ConnectedNodes_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
+//        {
+//            var graph = new RDFExplorerGraph
+//            {
+//                nodes = new[]
+//                {
+//                    new Node(0, "?domain"),
+//                    new Node(1, "?range"),
+//                    new Node(2, "?domainRange"),
+//                },
+//                edges = new[]
+//                {
+//                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+//                    new Edge(1, "?fromCountry", 1, 2, new[]{"http://www.wikidata.org/prop/direct/P27"}),
+//                    new Edge(2, "?propDomainRange", 0, 2),
+//                }
+//            };
 
-            // Act
-            var queryGraph = new QueryGraph(graph);
+//            // Act
+//            var queryGraph = new QueryGraph(graph);
 
-            // Assert
-            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
-            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
+//            // Assert
+//            Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+//            Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+//            Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
 
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
-            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
-            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
-        }
-    }
-}
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+//            Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
+//            Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
+//        }
+//    }
+//}

@@ -13,7 +13,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestFilterCompareWithPlainCount()
         {
-            const string filename = "Resources/Filter5k.nt";
+            const string filename = "Resources/Filter5k-PlainCount.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetFilteredOutputFilename(filename);
 

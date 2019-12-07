@@ -14,10 +14,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             this.CheckNodeTypes();
 
-            foreach (var node in Nodes)
-                this.TraverseDepthFirstNode(node.Key);
-            foreach (var edge in Edges)
-                this.TraverseDepthFirstEdge(edge.Key);
+            //foreach (var node in Nodes)
+            //    this.TraverseDepthFirstNode(node.Key);
+            //foreach (var edge in Edges)
+            //    this.TraverseDepthFirstEdge(edge.Key);
             Selected = rdfGraph.selected;
 
         }
@@ -43,6 +43,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     ? Nodes.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList()
                     : Edges.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
             }
+        }
+
+        public override string ToString()
+        {
+            var nodesString = $"{{ Nodes: {{{string.Join("; ", Nodes.Select(x=>x.ToString()))}}} }}";
+            var edgesString = $"{{ Edges: {{{string.Join("; ", Edges.Select(x=>x.ToString()))}}} }}";
+            return $"{nodesString} {edgesString}";
         }
     }
 }

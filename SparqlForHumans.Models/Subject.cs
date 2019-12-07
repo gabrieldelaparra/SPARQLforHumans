@@ -9,5 +9,19 @@
         {
             return $"{Label} ({Id})";
         }
+
+        public override bool Equals(object obj)
+        {
+            var y = obj as Subject;
+            if (y == null) return false;
+            if (ReferenceEquals(this, y)) return true;
+            if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
+            return this.Id.Equals(y.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Id.GetHashCode();
+        }
     }
 }

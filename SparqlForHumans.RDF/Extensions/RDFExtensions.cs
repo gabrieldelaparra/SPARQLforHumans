@@ -181,7 +181,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static string GetId(this INode node)
         {
-            return ((UriNode)node).Uri.Segments.Last();
+            return node.ToString().GetUriIdentifier();
         }
     }
 }

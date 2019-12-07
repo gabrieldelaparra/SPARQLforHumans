@@ -24,17 +24,17 @@ namespace SparqlForHumans.Models
             return $"[{Rank}] {ToString()}";
         }
     }
-    public class EntityIdEqualityComparer : IEqualityComparer<Entity>
-    {
-        public bool Equals(Entity x, Entity y)
-        {
-            if(null==x || null==y) return false;
-            return x.Id.Equals(y.Id);
-        }
+    //public class EntityIdEqualityComparer : IEqualityComparer<Entity>
+    //{
+    //    public bool Equals(Entity x, Entity y)
+    //    {
+    //        if(null==x || null==y) return false;
+    //        return x.Id.Equals(y.Id);
+    //    }
 
-        public int GetHashCode(Entity obj)
-        {
-            return obj.Id.GetHashCode();
-        }
-    }
+    //    public int GetHashCode(Entity obj)
+    //    {
+    //        return obj.Id.GetHashCode();
+    //    }
+    //}
 }

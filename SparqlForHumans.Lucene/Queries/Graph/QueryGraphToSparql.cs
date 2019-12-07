@@ -16,17 +16,17 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         private static TriplePatternPredicatePart ToSubject(this ITriplePatternBuilder builder, QueryNode node)
         {
-            return node.IsGivenType ? builder.Subject(new Uri(node.uris.First())) : builder.Subject(node.name);
+            return node.IsGivenType ? builder.Subject(new Uri(node.uris.First().ToEntityIri())) : builder.Subject(node.name);
         }
 
         private static TriplePatternObjectPart ToPredicate(this TriplePatternPredicatePart subject, QueryEdge edge)
         {
-            return edge.IsGivenType ? subject.PredicateUri(new Uri(edge.uris.First())) : subject.Predicate(edge.name);
+            return edge.IsGivenType ? subject.PredicateUri(new Uri(edge.uris.First().ToPropertyIri())) : subject.Predicate(edge.name);
         }
 
         private static ITriplePatternBuilder ToObject(this TriplePatternObjectPart predicate, QueryNode node)
         {
-            return node.IsGivenType ? predicate.Object(new Uri(node.uris.First())) : predicate.Object(node.name);
+            return node.IsGivenType ? predicate.Object(new Uri(node.uris.First().ToEntityIri())) : predicate.Object(node.name);
         }
 
         public static Entity ToEntity(this SparqlResult result)

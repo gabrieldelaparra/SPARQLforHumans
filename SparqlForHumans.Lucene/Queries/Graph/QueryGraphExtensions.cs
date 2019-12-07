@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.Wikidata;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -27,17 +29,38 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return edge.uris.Any() && !edge.HasInstanceOf();
         }
 
-        public static bool IsDirectQuery(this QueryNode node)
+        public static string ToPropertyIri(this string id)
         {
-            return node.QueryType.Equals(QueryType.DirectQuery)
-                   || node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectlyEntities)
-                   || node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities);
+            return $"{Constants.PropertyIRI}{id.GetUriIdentifier()}";
         }
 
-        public static bool IsNotConnected(this QueryNode node, QueryGraph graph) =>
-            !node.HasOutgoingEdges(graph) && !node.HasIncomingEdges(graph);
-        public static bool HasOutgoingEdges(this QueryNode node, QueryGraph graph) => node.GetOutgoingEdges(graph).Any();
+        public static IEnumerable<string> ToPropertyIri(this IEnumerable<string> ids)
+        {
+            return ids.Select(x => x.ToPropertyIri());
+        }
+
+        public static string ToEntityIri(this string id)
+        {
+            return $"{Constants.EntityIRI}{id.GetUriIdentifier()}";
+        }
+
+        public static IEnumerable<string> ToEntityIri(this IEnumerable<string> ids)
+        {
+            return ids.Select(x => x.ToEntityIri());
+        }
+
+        //public static bool IsNotConnected(this QueryNode node, QueryGraph graph) =>
+        //    !node.HasOutgoingEdges(graph) && !node.HasIncomingEdges(graph);
+        //public static bool HasOutgoingEdges(this QueryNode node, QueryGraph graph) => node.GetOutgoingEdges(graph).Any();
         public static bool HasIncomingEdges(this QueryNode node, QueryGraph graph) => node.GetIncomingEdges(graph).Any();
+
+        public static bool IsSomehowDefined(this QueryNode node, QueryGraph graph)
+        {
+            if (node.uris.Any()) return true;
+            if (node.GetIncomingEdges(graph).Any(x => x.IsGivenType || x.Domain.Any() || x.Range.Any())) return true;
+            if (node.GetOutgoingEdges(graph).Any(x => x.IsGivenType || x.Domain.Any() || x.Range.Any())) return true;
+            return false;
+        }
 
         public class Result
         {
@@ -47,11 +70,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
         public static Dictionary<string, Result> ToDictionary(this IEnumerable<Property> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"http://www.wikidata.org/prop/direct/{y.Id}", Text = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"{Constants.PropertyIRI}{y.Id}", Text = y.Label });
         }
         public static Dictionary<string, Result> ToDictionary(this IEnumerable<Entity> subjects)
         {
-            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"http://www.wikidata.org/entity/{y.Id}", Text = y.Label });
+            return subjects.ToDictionary(x => x.Id, y => new Result(){Value = $"{Constants.EntityIRI}{y.Id}", Text = y.Label });
         }
 
         /// <summary>

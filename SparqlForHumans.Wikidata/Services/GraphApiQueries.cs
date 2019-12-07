@@ -8,8 +8,10 @@ namespace SparqlForHumans.Wikidata.Services
     public static class GraphApiQueries
     {
         public const int QueryTimeoutMs = 10000;
-        public static SparqlResultSet RunQuery(string sparqlQuery)
+        public static SparqlResultSet RunQuery(string sparqlQuery, bool runOnEndpoint = true)
         {
+            if (!runOnEndpoint)
+                return null;
             try
             {
                 var endpoint = new CustomSparqlEndPoint(new Uri("https://query.wikidata.org/sparql"));
@@ -19,7 +21,7 @@ namespace SparqlForHumans.Wikidata.Services
             {
                 var logger = Logger.Logger.Init();
                 if (e.InnerException is WebException webException && webException.Status == WebExceptionStatus.Timeout)
-                    logger.Warn($"Timeout ({QueryTimeoutMs/1000})s on executing query:{Environment.NewLine}{sparqlQuery}");
+                    logger.Warn($"Timeout ({QueryTimeoutMs / 1000}s) on executing query:{Environment.NewLine}{sparqlQuery}");
                 return null;
             }
         }

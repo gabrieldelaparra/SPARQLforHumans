@@ -34,14 +34,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchPropertyIdDomainTypesQuery(queryTypes);
-            return results.Select(x => $"{Constants.EntityIRI}{Constants.EntityPrefix}{x}");
+            return results.Select(x => $"{Constants.EntityPrefix}{x}");
         }
 
         public static IEnumerable<string> BatchPropertyIdRangeTypesQuery(IEnumerable<string> propertyUris)
         {
             var queryTypes = propertyUris.Select(x => x.GetUriIdentifier().ToInt());
             var results = BatchPropertyIdRangeTypesQuery(queryTypes);
-            return results.Select(x => $"{Constants.EntityIRI}{Constants.EntityPrefix}{x}");
+            return results.Select(x => $"{Constants.EntityPrefix}{x}");
         }
 
         public static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)

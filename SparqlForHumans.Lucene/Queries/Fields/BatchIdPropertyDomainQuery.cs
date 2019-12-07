@@ -18,7 +18,7 @@ namespace SparqlForHumans.Lucene.Queries
         internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString.GetUriIdentifier(), @"[\D]", string.Empty);
         public override List<Property> Query(int resultsLimit = 100)
         {
-            return GetDocuments().ToProperties().Distinct(new PropertyIdEqualityComparer()).OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
+            return GetDocuments().ToProperties().Distinct().OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
         }
     }
 }
