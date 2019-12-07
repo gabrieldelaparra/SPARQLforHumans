@@ -6,6 +6,7 @@ namespace SparqlForHumans.Wikidata.Models
 {
     public class CustomSparqlEndPoint : SparqlRemoteEndpoint
     {
+        
         public CustomSparqlEndPoint(Uri endpointUri) : base(endpointUri) { }
 
         protected override void ApplyCustomRequestOptions(HttpWebRequest httpRequest)
@@ -13,7 +14,7 @@ namespace SparqlForHumans.Wikidata.Models
             httpRequest.Method = "GET";
             httpRequest.Accept = "application/sparql-results+json";
             httpRequest.UserAgent = ".Net Client";
-            httpRequest.Timeout = 5000;
+            httpRequest.Timeout = 10000;
             base.ApplyCustomRequestOptions(httpRequest);
         }
     }
