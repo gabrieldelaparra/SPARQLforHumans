@@ -5,6 +5,7 @@ using SparqlForHumans.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries
 {
@@ -14,7 +15,7 @@ namespace SparqlForHumans.Lucene.Queries
 
         internal override IQueryParser QueryParser => new DomainQueryParser();
         internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[\D]", string.Empty));
-        internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString, @"[\D]", string.Empty);
+        internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString.GetUriIdentifier(), @"[\D]", string.Empty);
         public override List<Property> Query(int resultsLimit = 100)
         {
             return GetDocuments().ToProperties().Distinct(new PropertyIdEqualityComparer()).OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();

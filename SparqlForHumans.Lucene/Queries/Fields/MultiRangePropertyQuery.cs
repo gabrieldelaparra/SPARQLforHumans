@@ -1,6 +1,7 @@
 ﻿using SparqlForHumans.Lucene.Queries.Base;
 using SparqlForHumans.Lucene.Queries.Parsers;
 using System.Text.RegularExpressions;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries
 {
@@ -10,6 +11,6 @@ namespace SparqlForHumans.Lucene.Queries
 
         internal override IQueryParser QueryParser => new RangeQueryParser();
         internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[\D]", string.Empty));
-        internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString, @"[\D]", string.Empty);
+        internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString.GetUriIdentifier(), @"[\D]", string.Empty);
     }
 }

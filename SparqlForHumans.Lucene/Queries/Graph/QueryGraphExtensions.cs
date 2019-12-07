@@ -27,6 +27,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return edge.uris.Any() && !edge.HasInstanceOf();
         }
 
+        public static bool IsDirectQuery(this QueryNode node)
+        {
+            return node.QueryType.Equals(QueryType.DirectQuery)
+                   || node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectlyEntities)
+                   || node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities);
+        }
+
         public static bool IsNotConnected(this QueryNode node, QueryGraph graph) =>
             !node.HasOutgoingEdges(graph) && !node.HasIncomingEdges(graph);
         public static bool HasOutgoingEdges(this QueryNode node, QueryGraph graph) => node.GetOutgoingEdges(graph).Any();

@@ -111,13 +111,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
 
 
-        private static bool IsDirectQuery(this QueryNode node)
-        {
-            return node.QueryType.Equals(QueryType.DirectQuery)
-                   || node.QueryType.Equals(QueryType.GivenObjectTypeQueryDirectlyEntities)
-                   || node.QueryType.Equals(QueryType.GivenSubjectTypeQueryDirectlyEntities);
-        }
-
         private static QueryType GetQueryType(this QueryEdge edge, QueryGraph graph)
         {
             //Given type for the edge. Like P31 or others:
@@ -134,13 +127,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             if (source.IsInstanceOfType) return QueryType.KnownSubjectTypeQueryDomainProperties;
             if (target.IsInstanceOfType) return QueryType.KnownObjectTypeQueryRangeProperties;
 
-            if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
-
             // Inferred Types:
             if (source.IsInferredType && target.IsInferredType) return QueryType.InferredDomainAndRangeTypeProperties;
             if (source.IsInferredType) return QueryType.InferredDomainTypeProperties;
             if (target.IsInferredType) return QueryType.InferredRangeTypeProperties;
 
+            if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
+            
             return QueryType.QueryTopProperties;
         }
     }

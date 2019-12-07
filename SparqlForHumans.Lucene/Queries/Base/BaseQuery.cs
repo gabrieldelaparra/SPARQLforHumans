@@ -7,6 +7,7 @@ using SparqlForHumans.Lucene.Queries.Parsers;
 using SparqlForHumans.Models;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Base
 {
@@ -38,8 +39,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
         public abstract List<T> Query(int resultsLimit = 100);
 
         internal virtual bool IsInvalidSearchString(string inputString) => false;
-
-        internal virtual string PrepareSearchTerm(string inputString) => inputString;
+        internal virtual string PrepareSearchTerm(string inputString) => inputString.GetUriIdentifier();
 
         internal virtual IReadOnlyList<Document> GetDocuments()
         {
