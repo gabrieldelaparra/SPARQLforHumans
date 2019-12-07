@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SparqlForHumans.Utilities
 {
@@ -32,6 +33,21 @@ namespace SparqlForHumans.Utilities
             {
                 list.Add(value);
             }
+        }
+
+        public static IEnumerable<T> IntersectIfAny<T>(this IEnumerable<T> source, IEnumerable<T> target)
+        {
+            if (source.Any() && target.Any())
+                return source.Intersect(target);
+            if (source.Any())
+                return source;
+            return target;
+        }
+
+        public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> source, int takeCount)
+        {
+            var r = new Random();
+            return source.OrderBy(x => r.NextDouble()).Take(takeCount);
         }
 
         //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)

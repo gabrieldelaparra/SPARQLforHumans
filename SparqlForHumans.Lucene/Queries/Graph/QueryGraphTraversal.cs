@@ -23,21 +23,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         internal static void CheckNodeTypes(this QueryGraph graph)
         {
             //First iteration, check self
+            foreach (var edge in graph.Edges.Select(x => x.Value))
+            {
+                if (edge.uris.Any()) edge.IsGivenType = true;
+            }
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                //if (node.uris.Any()) node.IsGivenType = true;
+                if (node.uris.Any()) node.IsGivenType = true;
                 if (node.GetOutgoingEdges(graph).Any(x => x.IsInstanceOf)) node.IsInstanceOfType = true;
             }
 
             //Second iteration, check direct neighbors
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
+                //Connected to Given Types.
                 if (node.GetOutgoingNodes(graph).Any(x => x.IsGivenType)) node.IsGoingToGivenType = true;
                 if (node.GetIncomingNodes(graph).Any(x => x.IsGivenType)) node.IsComingFromGivenType = true;
-                //Connects to a node that is InstanceOf.
-                //TODO: I think that I do not need this:
-                if (node.GetOutgoingNodes(graph).Any(x => x.IsInstanceOfType)) node.IsGoingToInstanceOfType = true;
-                if (node.GetIncomingNodes(graph).Any(x => x.IsInstanceOfType)) node.IsComingFromInstanceOfType = true;
+
                 //Has edges to other nodes, such as MotherOf, BornIn, etc. The type can be Inferred.
                 if (node.GetOutgoingEdges(graph).Any(x => x.IsInferible())) node.IsInferredDomainType = true;
                 if (node.GetIncomingEdges(graph).Any(x => x.IsInferible())) node.IsInferredRangeType = true;
@@ -83,23 +85,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             //Give Type
             if (node.IsGivenType) return QueryType.GivenEntityTypeNoQuery;
-            
-            if (node.IsInstanceOfType 
+
+            if (node.IsInstanceOfType
                 && !node.IsGoingToGivenType
                 && !node.IsComingFromGivenType
                 && !node.IsInferredDomainType
                 && !node.IsInferredRangeType) return QueryType.SubjectIsInstanceOfTypeQueryEntities;
 
-            if (node.IsGoingToGivenType || node.IsComingFromGivenType) return QueryType.DirectQuery;
-            //if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectlyEntities;
-            //if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectlyEntities;
+            //if (node.IsGoingToGivenType || node.IsComingFromGivenType) return QueryType.DirectQuery;
+            if (node.IsGoingToGivenType) return QueryType.GivenObjectTypeQueryDirectlyEntities;
+            if (node.IsComingFromGivenType) return QueryType.GivenSubjectTypeQueryDirectlyEntities;
 
             if (node.IsInferredDomainType && node.IsInferredRangeType) return QueryType.InferredDomainAndRangeTypeEntities;
             if (node.IsInferredDomainType) return QueryType.InferredDomainTypeEntities;
             if (node.IsInferredRangeType) return QueryType.InferredRangeTypeEntities;
 
             if (!node.IsGivenType
-                && !node.IsInstanceOfType 
+                && !node.IsInstanceOfType
                 && !node.IsGoingToGivenType
                 && !node.IsComingFromGivenType
                 && !node.IsInferredDomainType
@@ -124,8 +126,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
 
-            if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
-
             if (source.IsGivenType && target.IsGivenType) return QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties;
             if (source.IsGivenType) return QueryType.GivenSubjectTypeDirectQueryOutgoingProperties;
             if (target.IsGivenType) return QueryType.GivenObjectTypeDirectQueryIncomingProperties;
@@ -133,6 +133,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             if (source.IsInstanceOfType && target.IsInstanceOfType) return QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties;
             if (source.IsInstanceOfType) return QueryType.KnownSubjectTypeQueryDomainProperties;
             if (target.IsInstanceOfType) return QueryType.KnownObjectTypeQueryRangeProperties;
+
+            if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
 
             // Inferred Types:
             if (source.IsInferredType && target.IsInferredType) return QueryType.InferredDomainAndRangeTypeProperties;

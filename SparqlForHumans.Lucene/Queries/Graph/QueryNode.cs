@@ -22,13 +22,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
 
-        public bool IsGivenType => uris.Any();
+        public bool IsGivenType { get; set; }
         public bool IsGoingToGivenType { get; set; } = false;
         public bool IsComingFromGivenType { get; set; } = false;
         
         public bool IsInstanceOfType { get; set; } = false;
-        public bool IsGoingToInstanceOfType { get; set; } = false;
-        public bool IsComingFromInstanceOfType { get; set; } = false;
 
         public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;
         public bool IsInferredDomainType { get; set; } = false;

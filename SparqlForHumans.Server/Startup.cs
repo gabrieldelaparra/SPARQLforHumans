@@ -27,7 +27,7 @@ namespace SparqlForHumans.Server
             options.AddPolicy(MyAllowSpecificOrigins,
             builder =>
             {
-                builder.WithOrigins("http://localhost:8080")
+                builder.WithOrigins("http://localhost:4200")
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
             });

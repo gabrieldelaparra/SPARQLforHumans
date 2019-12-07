@@ -13,7 +13,7 @@ namespace SparqlForHumans.Wikidata.Services
                 var endpoint = new CustomSparqlEndPoint(new Uri("https://query.wikidata.org/sparql"));
                 return endpoint.QueryWithResultSet(sparqlQuery);
             }
-            catch (RdfQueryException) {
+            catch (Exception) {
                 return null;
             }
         }

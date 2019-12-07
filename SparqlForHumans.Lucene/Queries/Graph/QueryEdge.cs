@@ -21,7 +21,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public List<Property> Results { get; set; } = new List<Property>();
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
         public bool IsInstanceOf => this.HasInstanceOf();
-        public bool IsGivenType => uris.Any();
+        public bool IsGivenType { get; set; }//=> uris.Any();
         public List<string> Domain { get; set; } = new List<string>();
         public List<string> Range { get; set; } = new List<string>();
 

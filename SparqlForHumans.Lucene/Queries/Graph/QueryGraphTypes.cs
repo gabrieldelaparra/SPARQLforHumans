@@ -12,24 +12,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //If IsInstanceOfType (P31 to Type), Get those Types
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                switch (node.QueryType)
-                {
-                    case QueryType.GivenEntityTypeNoQuery:
-                        node.Types = node.uris.ToList();
-                        break;
-                    case QueryType.QueryTopEntities:
-                        node.Types = new List<string>();
-                        break;
-                    case QueryType.GivenSubjectTypeQueryDirectlyEntities:
-                        node.Types = new List<string>();
-                        break;
-                    case QueryType.GivenObjectTypeQueryDirectlyEntities:
-                        node.Types = new List<string>();
-                        break;
-                    case QueryType.SubjectIsInstanceOfTypeQueryEntities:
-                        node.Types = node.GetInstanceOfValues(graph).ToList();
-                        break;
-                }
+                if(node.IsGivenType)
+                    node.Types = node.uris.ToList();
+                else if(node.IsInstanceOfType)
+                    node.Types = node.GetInstanceOfValues(graph).ToList();
             }
         }
 
@@ -50,8 +36,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         node.Types = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
                         break;
                     case QueryType.DirectQuery:
-                        node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)
-                            .Intersect(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
+                        var outgoingTypes = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
+                        var incomingTypes = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
+                        if (outgoingTypes.Any() && incomingTypes.Any())
+                            node.Types = outgoingTypes.Intersect(incomingTypes).ToList();
+                        else if (outgoingTypes.Any())
+                            node.Types = outgoingTypes.ToList();
+                        else if (incomingTypes.Any())
+                            node.Types = incomingTypes.ToList();
                         break;
                 }
             }
