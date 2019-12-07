@@ -13,7 +13,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             id = edge.id;
             name = edge.name;
-            uris = edge.uris.Select(x=>x.GetUriIdentifier()).ToArray();
+            uris = edge.uris.Select(x => x.GetUriIdentifier()).ToArray();
             sourceId = edge.sourceId;
             targetId = edge.targetId;
         }
@@ -23,7 +23,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public bool IsInstanceOf => this.HasInstanceOf();
         public bool IsGivenType { get; set; }//=> uris.Any();
         public List<string> Domain { get; set; } = new List<string>();
+        public List<string> DomainBaseTypes { get; set; } = new List<string>();
+        public List<string> DomainDerivedTypes { get; set; } = new List<string>();
         public List<string> Range { get; set; } = new List<string>();
+        public List<string> RangeBaseTypes { get; set; } = new List<string>();
+        public List<string> RangeDerivedTypes { get; set; } = new List<string>();
 
         public override string ToString()
         {

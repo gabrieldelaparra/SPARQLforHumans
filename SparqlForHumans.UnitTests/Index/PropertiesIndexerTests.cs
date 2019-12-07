@@ -150,6 +150,49 @@ namespace SparqlForHumans.UnitTests.Index
             outputPath.DeleteIfExists();
         }
 
+        /// <summary>
+        ///     Este test crea un indice y agrega el Range (Destino) de las propiedades.
+        ///     Se dan los siguientes ejemplos:
+        ///     ```
+        ///     Q76 (Obama) -> P31 (Type) -> Q5 (Human)
+        ///     ...
+        ///     Q5 (Human) -> P31 (Type) -> Q100 (Living Being)
+        ///     ...
+        ///     Q298 (Chile) -> P31 (Type) -> Q17 (Country)
+        ///     ...
+        ///     Q17 (Country) -> P31 (Type) -> Q200 (TerritoryDivision)
+        ///     ...
+        ///     ```
+        ///     El Range que se calcula, debe mostrar que:
+        ///     ```
+        ///     P31: Range (2) Q100, Q200
+        ///     ```
+        /// </summary>
+        [Fact]
+        public void TestAddRangeToIndex_InstanceOf()
+        {
+            //Arrange
+            const string filename = "Resources/PropertyRange-P31.nt";
+            const string outputPath = "PropertyRangeIndex_P31";
+            outputPath.DeleteIfExists();
+
+            //Act
+            new SimplePropertiesIndexer(filename, outputPath).Index();
+            var properties = new MultiLabelPropertyQuery(outputPath, "*").Query();
+
+            //Assert
+            Assert.NotEmpty(properties);
+            Assert.Equal(1, properties.Count); //P31
+
+            var property31WithRange = properties.FirstOrDefault(x => x.Id.Equals("P31")).Range;
+
+            Assert.NotEmpty(property31WithRange);
+            Assert.Equal(100, property31WithRange[0]);
+            Assert.Equal(200, property31WithRange[1]);
+
+            outputPath.DeleteIfExists();
+        }
+
         [Fact]
         public void TestCreatePropertyIndex()
         {

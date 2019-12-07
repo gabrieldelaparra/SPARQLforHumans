@@ -42,6 +42,7 @@ namespace SparqlForHumans.Lucene.Index
         private Dictionary<int, int> FrequencyDictionary { get; set; } = new Dictionary<int, int>();
         private Dictionary<int, List<int>> DomainDictionary { get; set; } = new Dictionary<int, List<int>>();
         private Dictionary<int, List<int>> RangeDictionary { get; set; } = new Dictionary<int, List<int>>();
+        private Dictionary<int, List<int>> rangeAuxiliaryDictionary { get; set; } = new Dictionary<int, List<int>>();
         private string FrequencyFieldName => Labels.Rank.ToString();
         private string DomainFieldName => Labels.DomainType.ToString();
         private string RangeFieldName => Labels.Range.ToString();
@@ -71,10 +72,11 @@ namespace SparqlForHumans.Lucene.Index
             // InstanceOf Ids (Domain Types) and Properties
             var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
             var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
+            var instanceOfPropertyIds = instanceOfSlice.Select(x => x.Predicate.GetIntId());
 
-            foreach (var instanceOfId in instanceOfIds)
+            foreach (var instanceOfId in instanceOfPropertyIds)
             {
-                dictionary.AddSafe(31, instanceOfId);
+                dictionary.AddSafe(instanceOfId, instanceOfIds);
             }
 
             foreach (var propertyId in propertyIds)
@@ -86,22 +88,24 @@ namespace SparqlForHumans.Lucene.Index
         internal void RangeParseTripleGroup(Dictionary<int, List<int>> dictionary, IEnumerable<Triple> triples)
         {
             // Filter those the triples that are properties only (Exclude description, label, etc.)
-            var propertiesTriples = triples.Where(x => x.Predicate.IsReverseProperty() || x.Predicate.IsInstanceOf());
+            var propertiesTriples = triples.Where(x => x.Predicate.IsReverseProperty() 
+                                                       || x.Predicate.IsInstanceOf() 
+                                                       || x.Predicate.IsReverseInstanceOf()).ToArray();
 
-            var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
+            var instanceOf = propertiesTriples.Where(x => x.Predicate.IsInstanceOf());
+            var reverseInstanceOf = propertiesTriples.Where(x => x.Predicate.IsReverseInstanceOf());
+            var reverseProperties = propertiesTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
 
-            // InstanceOf Ids (Domain Types) and Properties
-            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
-            var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
+            var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId());
+            var reverseInstanceOfIds = reverseInstanceOf.Select(x => x.Predicate.GetIntId());
+            var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId());
 
-            foreach (var instanceOfId in instanceOfIds)
-            {
-                dictionary.AddSafe(31, instanceOfId);
+            foreach (var reversePropertyId in reversePropertyIds) {
+                dictionary.AddSafe(reversePropertyId, instanceOfIds);
             }
 
-            foreach (var propertyId in propertyIds)
-            {
-                dictionary.AddSafe(propertyId, instanceOfIds);
+            foreach (var reverseInstanceOfId in reverseInstanceOfIds) {
+                dictionary.AddSafe(reverseInstanceOfId, instanceOfIds);
             }
         }
         
@@ -138,7 +142,7 @@ namespace SparqlForHumans.Lucene.Index
             var subjectGroups = FileHelper.GetInputLines(InputFilename)
                 .GroupBySubject();
 
-            foreach (var subjectGroup in subjectGroups.AsParallel().Where(x => x.IsEntityQ())) {
+            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
                 FrequencyParseTripleGroup(FrequencyDictionary, subjectGroup);
                 DomainParseTripleGroup(DomainDictionary, subjectGroup);
                 RangeParseTripleGroup(RangeDictionary, subjectGroup);

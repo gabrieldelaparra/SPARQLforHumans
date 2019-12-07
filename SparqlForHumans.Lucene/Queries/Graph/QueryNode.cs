@@ -14,18 +14,23 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             id = node.id;
             name = node.name;
-            uris = node.uris.Select(x=>x.GetUriIdentifier()).ToArray();
+            uris = node.uris.Select(x => x.GetUriIdentifier()).ToArray();
         }
         //public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Entity> Results { get; set; } = new List<Entity>();
         public List<string> Types { get; set; } = new List<string>();
+        public List<string> GivenTypes { get; set; } = new List<string>();
+        public List<string> InstanceOfBaseTypes { get; set; } = new List<string>();
+        public List<string> InstanceOfDerivedTypes { get; set; } = new List<string>();
+        public List<string> InferredBasedTypes { get; set; } = new List<string>();
+        public List<string> InferredDerivedTypes { get; set; } = new List<string>();
 
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
 
         public bool IsGivenType { get; set; }
         public bool IsGoingToGivenType { get; set; } = false;
         public bool IsComingFromGivenType { get; set; } = false;
-        
+
         public bool IsInstanceOfType { get; set; } = false;
 
         public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;

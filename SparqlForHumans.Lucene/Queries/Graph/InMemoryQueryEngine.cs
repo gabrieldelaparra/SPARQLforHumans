@@ -105,6 +105,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             _propertyIdRangePropertiesDictionary = propertyIdRangesDictList.ToArrayDictionary();
             _entityIdDomainPropertiesDictionary = _propertyIdDomainPropertiesDictionary.InvertDictionary();
             _entityIdRangePropertiesDictionary = _propertyIdRangePropertiesDictionary.InvertDictionary();
+            
+            logger.Info($"InMemory Domain Range Query Engine Complete");
         }
     }
 }

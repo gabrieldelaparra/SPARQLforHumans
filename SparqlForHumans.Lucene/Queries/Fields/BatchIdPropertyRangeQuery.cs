@@ -10,6 +10,11 @@ namespace SparqlForHumans.Lucene.Queries
 {
     public class BatchIdPropertyRangeQuery : BasePropertyQuery
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="luceneIndexPath">Properties Index Path</param>
+        /// <param name="searchStrings">Entities Index "Qxx" array of Types only</param>
         public BatchIdPropertyRangeQuery(string luceneIndexPath, IEnumerable<string> searchStrings) : base(luceneIndexPath, searchStrings, 20) { }
 
         internal override IQueryParser QueryParser => new RangeQueryParser();

@@ -11,6 +11,11 @@ namespace SparqlForHumans.Lucene.Queries
 {
     public class BatchIdPropertyDomainQuery : BasePropertyQuery
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="luceneIndexPath">Properties Index Path</param>
+        /// <param name="searchStrings">Entities Index "Qxx" array of Types only</param>
         public BatchIdPropertyDomainQuery(string luceneIndexPath, IEnumerable<string> searchStrings) : base(luceneIndexPath, searchStrings, 20) { }
 
         internal override IQueryParser QueryParser => new DomainQueryParser();
