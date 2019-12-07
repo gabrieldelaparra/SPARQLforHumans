@@ -12,11 +12,16 @@ namespace SparqlForHumans.Server.Controllers
     [Route("api/[controller]")]
     public class QueryGraphController : Controller
     {
+        private NLog.Logger logger = Logger.Logger.Init();
         [HttpPost]
         public IActionResult Run([FromBody]RDFExplorerGraph graph)
         {
+            logger.Info("Query Start:");
+            logger.Info($"Incoming Graph: {graph}");
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+            logger.Info("Query End:");
+            logger.Info($"Outgoing Graph: {queryGraph}");
             return Json(queryGraph);
         }
         public class Result

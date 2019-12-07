@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Models.RDFExplorer
 {
@@ -46,5 +47,10 @@ namespace SparqlForHumans.Models.RDFExplorer
         {
             return this.id.GetHashCode() ^ this.sourceId.GetHashCode() ^ this.targetId.GetHashCode() ^ this.uris.GetHashCode();
         }
+        public override string ToString()
+        {
+            return $"{id}:{name} - [{sourceId}->{targetId}] {(uris.Any() ? string.Join(";", uris.Select(x => x.GetUriIdentifier())) : string.Empty)}";
+        }
+
     }
 }

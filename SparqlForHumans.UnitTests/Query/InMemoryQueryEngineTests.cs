@@ -24,9 +24,9 @@ namespace SparqlForHumans.UnitTests.Query
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
             var actual = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(new[] {"http://www.wikidata.org/entity/Q5"}).ToArray();
 
-            Assert.Contains("http://www.wikidata.org/prop/direct/P25", actual);
-            Assert.Contains("http://www.wikidata.org/prop/direct/P27", actual);
-            Assert.Contains("http://www.wikidata.org/prop/direct/P777", actual);
+            Assert.Contains("P25", actual);
+            Assert.Contains("P27", actual);
+            Assert.Contains("P777", actual);
 
             // Cleanup
             entitiesIndexPath.DeleteIfExists();
@@ -49,7 +49,7 @@ namespace SparqlForHumans.UnitTests.Query
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
             var actual = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(new[] {"http://www.wikidata.org/entity/Q5"});
 
-            Assert.Contains("http://www.wikidata.org/prop/direct/P25", actual);
+            Assert.Contains("P25", actual);
 
             // Cleanup
             entitiesIndexPath.DeleteIfExists();

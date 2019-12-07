@@ -7,6 +7,7 @@ namespace SparqlForHumans.Wikidata.Services
 {
     public static class GraphApiQueries
     {
+        public const int QueryTimeoutMs = 10000;
         public static SparqlResultSet RunQuery(string sparqlQuery)
         {
             try
@@ -18,7 +19,7 @@ namespace SparqlForHumans.Wikidata.Services
             {
                 var logger = Logger.Logger.Init();
                 if (e.InnerException is WebException webException && webException.Status == WebExceptionStatus.Timeout)
-                    logger.Warn($"Timeout on executing query:{Environment.NewLine}{sparqlQuery}");
+                    logger.Warn($"Timeout ({QueryTimeoutMs/1000})s on executing query:{Environment.NewLine}{sparqlQuery}");
                 return null;
             }
         }

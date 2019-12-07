@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using SparqlForHumans.Wikidata.Services;
 using VDS.RDF.Query;
 
 namespace SparqlForHumans.Wikidata.Models
@@ -14,7 +15,7 @@ namespace SparqlForHumans.Wikidata.Models
             httpRequest.Method = "GET";
             httpRequest.Accept = "application/sparql-results+json";
             httpRequest.UserAgent = ".Net Client";
-            httpRequest.Timeout = 10000;
+            httpRequest.Timeout = GraphApiQueries.QueryTimeoutMs;
             base.ApplyCustomRequestOptions(httpRequest);
         }
     }

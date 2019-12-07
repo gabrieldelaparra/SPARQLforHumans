@@ -23,27 +23,28 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                switch (node.QueryType)
-                {
+                //Inferred Domain Types
+                var outgoingTypes = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
+                //Inferred Range Types
+                var incomingTypes = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
+                //Intersect
+                node.Types = node.Types.IntersectIfAny(outgoingTypes).IntersectIfAny(incomingTypes).ToList();
+
+                switch (node.QueryType) {
+                        
                     case QueryType.InferredDomainTypeEntities:
                         node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
                         break;
                     case QueryType.InferredDomainAndRangeTypeEntities:
                         node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)
-                            .Intersect(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
+                            .IntersectIfAny(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
                         break;
                     case QueryType.InferredRangeTypeEntities:
                         node.Types = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
                         break;
                     case QueryType.DirectQuery:
-                        var outgoingTypes = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
-                        var incomingTypes = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
-                        if (outgoingTypes.Any() && incomingTypes.Any())
-                            node.Types = outgoingTypes.Intersect(incomingTypes).ToList();
-                        else if (outgoingTypes.Any())
-                            node.Types = outgoingTypes.ToList();
-                        else if (incomingTypes.Any())
-                            node.Types = incomingTypes.ToList();
+                         outgoingTypes = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
+                        node.Types = outgoingTypes.IntersectIfAny(incomingTypes).ToList();
                         break;
                 }
             }
