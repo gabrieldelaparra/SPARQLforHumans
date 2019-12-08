@@ -1,0 +1,605 @@
+<http://www.wikidata.org/entity/P101> <http://www.w3.org/2000/01/rdf-schema#label> "field of work"@en .
+<http://www.wikidata.org/entity/P180> <http://www.w3.org/2000/01/rdf-schema#label> "depicts"@en .
+<http://www.wikidata.org/entity/P21> <http://www.w3.org/2000/01/rdf-schema#label> "sex or gender"@en .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
+<http://www.wikidata.org/entity/P360> <http://www.w3.org/2000/01/rdf-schema#label> "is a list of"@en .
+<http://www.wikidata.org/entity/P39> <http://www.w3.org/2000/01/rdf-schema#label> "position held"@en .
+<http://www.wikidata.org/entity/P461> <http://www.w3.org/2000/01/rdf-schema#label> "opposite of"@en .
+<http://www.wikidata.org/entity/P527> <http://www.w3.org/2000/01/rdf-schema#label> "has part"@en .
+<http://www.wikidata.org/entity/Q10316055> <http://www.w3.org/2000/01/rdf-schema#label> "Laim Nunes de Bivar"@en .
+<http://www.wikidata.org/entity/Q10316055> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q10316055> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q21070568> .
+<http://www.wikidata.org/entity/Q10316055> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q16533> .
+<http://www.wikidata.org/entity/Q11060274> <http://www.w3.org/2000/01/rdf-schema#label> "print"@en .
+<http://www.wikidata.org/entity/Q11060274> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q24565960> .
+<http://www.wikidata.org/entity/Q1114461> <http://www.w3.org/2000/01/rdf-schema#label> "comics character"@en .
+<http://www.wikidata.org/entity/Q1114461> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q7242478> .
+<http://www.wikidata.org/entity/Q11144> <http://www.w3.org/2000/01/rdf-schema#label> "Associate Justice of the Supreme Court of the United States"@en .
+<http://www.wikidata.org/entity/Q11144> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q1521765> .
+<http://www.wikidata.org/entity/Q11144> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q1587475> .
+<http://www.wikidata.org/entity/Q11144> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q1627872> .
+<http://www.wikidata.org/entity/Q11144> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q2063381> .
+<http://www.wikidata.org/entity/Q11144> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q729054> .
+<http://www.wikidata.org/entity/Q11147> <http://www.w3.org/2000/01/rdf-schema#label> "Chief Justice of the United States"@en .
+<http://www.wikidata.org/entity/Q11147> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q311562> .
+<http://www.wikidata.org/entity/Q11424> <http://www.w3.org/2000/01/rdf-schema#label> "film"@en .
+<http://www.wikidata.org/entity/Q11424> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q17001792> .
+<http://www.wikidata.org/entity/Q1148820> <http://www.w3.org/2000/01/rdf-schema#label> "Suibhne mac Colmain"@en .
+<http://www.wikidata.org/entity/Q1148820> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q1148820> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q21070568> .
+<http://www.wikidata.org/entity/Q1148820> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q12097> .
+<http://www.wikidata.org/entity/Q11631> <http://www.w3.org/2000/01/rdf-schema#label> "astronaut"@en .
+<http://www.wikidata.org/entity/Q11631> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q49264> .
+<http://www.wikidata.org/entity/Q11696> <http://www.w3.org/2000/01/rdf-schema#label> "President of the United States"@en .
+<http://www.wikidata.org/entity/Q11696> <http://www.w3.org/2000/01/rdf-schema#label> "President of the United States"@en .
+<http://www.wikidata.org/entity/Q11696> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q23> .
+<http://www.wikidata.org/entity/Q11696> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q7242478> .
+<http://www.wikidata.org/entity/Q11696> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q9916> .
+<http://www.wikidata.org/entity/Q116> <http://www.w3.org/2000/01/rdf-schema#label> "monarch"@en .
+<http://www.wikidata.org/entity/Q116> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q27210049> .
+<http://www.wikidata.org/entity/Q116> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q27237571> .
+<http://www.wikidata.org/entity/Q1189816> <http://www.w3.org/2000/01/rdf-schema#label> "ethnic religion"@en .
+<http://www.wikidata.org/entity/Q1189816> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q9268> .
+<http://www.wikidata.org/entity/Q12035688> <http://www.w3.org/2000/01/rdf-schema#label> "Martin C. Putna"@en .
+<http://www.wikidata.org/entity/Q12035688> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q161414> .
+<http://www.wikidata.org/entity/Q12035688> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q40477> .
+<http://www.wikidata.org/entity/Q12035688> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q12097> <http://www.w3.org/2000/01/rdf-schema#label> "king"@en .
+<http://www.wikidata.org/entity/Q12097> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q1148820> .
+<http://www.wikidata.org/entity/Q12097> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q1319513> .
+<http://www.wikidata.org/entity/Q12097> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q427171> .
+<http://www.wikidata.org/entity/Q12554> <http://www.w3.org/2000/01/rdf-schema#label> "Middle Ages"@en .
+<http://www.wikidata.org/entity/Q12554> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17522177> .
+<http://www.wikidata.org/entity/Q12554> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q2209674> .
+<http://www.wikidata.org/entity/Q1261026> <http://www.w3.org/2000/01/rdf-schema#label> "printed matter"@en .
+<http://www.wikidata.org/entity/Q1261026> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18691580> .
+<http://www.wikidata.org/entity/Q12909644> <http://www.w3.org/2000/01/rdf-schema#label> "political ideology"@en .
+<http://www.wikidata.org/entity/Q12909644> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q210189> .
+<http://www.wikidata.org/entity/Q1319513> <http://www.w3.org/2000/01/rdf-schema#label> "Odin"@en .
+<http://www.wikidata.org/entity/Q1319513> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q1319513> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18913069> .
+<http://www.wikidata.org/entity/Q1319513> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q12097> .
+<http://www.wikidata.org/entity/Q13426866> <http://www.w3.org/2000/01/rdf-schema#label> "Q13426866"@en .
+<http://www.wikidata.org/entity/Q13426866> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q13426866> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q95074> .
+<http://www.wikidata.org/entity/Q13426866> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q14212> <http://www.w3.org/2000/01/rdf-schema#label> "prime minister"@en .
+<http://www.wikidata.org/entity/Q14212> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q63486096> .
+<http://www.wikidata.org/entity/Q146> <http://www.w3.org/2000/01/rdf-schema#label> "house cat"@en .
+<http://www.wikidata.org/entity/Q146> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q7627362> .
+<http://www.wikidata.org/entity/Q15123870> <http://www.w3.org/2000/01/rdf-schema#label> "lithograph"@en .
+<http://www.wikidata.org/entity/Q15123870> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18822959> .
+<http://www.wikidata.org/entity/Q1521765> <http://www.w3.org/2000/01/rdf-schema#label> "Noah Haynes Swayne"@en .
+<http://www.wikidata.org/entity/Q1521765> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q1521765> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q1521765> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11144> .
+<http://www.wikidata.org/entity/Q15632617> <http://www.w3.org/2000/01/rdf-schema#label> "fictional human"@en .
+<http://www.wikidata.org/entity/Q15632617> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27210049> .
+<http://www.wikidata.org/entity/Q15632617> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q63486096> .
+<http://www.wikidata.org/entity/Q15710909> <http://www.w3.org/2000/01/rdf-schema#label> "Mayor Mare"@en .
+<http://www.wikidata.org/entity/Q15710909> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q15710909> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q16632615> .
+<http://www.wikidata.org/entity/Q15710909> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q15711870> <http://www.w3.org/2000/01/rdf-schema#label> "animated character"@en .
+<http://www.wikidata.org/entity/Q15711870> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27237571> .
+<http://www.wikidata.org/entity/Q1587475> <http://www.w3.org/2000/01/rdf-schema#label> "Joseph P. Bradley"@en .
+<http://www.wikidata.org/entity/Q1587475> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q1587475> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q1587475> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11144> .
+<http://www.wikidata.org/entity/Q159979> <http://www.w3.org/2000/01/rdf-schema#label> "twin"@en .
+<http://www.wikidata.org/entity/Q159979> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q303> .
+<http://www.wikidata.org/entity/Q161414> <http://www.w3.org/2000/01/rdf-schema#label> "history of Russia"@en .
+<http://www.wikidata.org/entity/Q161414> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17544377> .
+<http://www.wikidata.org/entity/Q161414> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q12035688> .
+<http://www.wikidata.org/entity/Q1627872> <http://www.w3.org/2000/01/rdf-schema#label> "Horace Harmon Lurton"@en .
+<http://www.wikidata.org/entity/Q1627872> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q1627872> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q1627872> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11144> .
+<http://www.wikidata.org/entity/Q16533> <http://www.w3.org/2000/01/rdf-schema#label> "judge"@en .
+<http://www.wikidata.org/entity/Q16533> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q10316055> .
+<http://www.wikidata.org/entity/Q16632615> <http://www.w3.org/2000/01/rdf-schema#label> "fictional pony"@en .
+<http://www.wikidata.org/entity/Q16632615> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q15710909> .
+<http://www.wikidata.org/entity/Q17001792> <http://www.w3.org/2000/01/rdf-schema#label> "Em Busca de Iara"@en .
+<http://www.wikidata.org/entity/Q17001792> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q11424> .
+<http://www.wikidata.org/entity/Q17001792> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q8049205> .
+<http://www.wikidata.org/entity/Q17379525> <http://www.w3.org/2000/01/rdf-schema#label> "pottery ware"@en .
+<http://www.wikidata.org/entity/Q17379525> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18691580> .
+<http://www.wikidata.org/entity/Q17522177> <http://www.w3.org/2000/01/rdf-schema#label> "age"@en .
+<http://www.wikidata.org/entity/Q17522177> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q12554> .
+<http://www.wikidata.org/entity/Q17544377> <http://www.w3.org/2000/01/rdf-schema#label> "history of a country or state"@en .
+<http://www.wikidata.org/entity/Q17544377> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q161414> .
+<http://www.wikidata.org/entity/Q179700> <http://www.w3.org/2000/01/rdf-schema#label> "statue"@en .
+<http://www.wikidata.org/entity/Q179700> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19317886> .
+<http://www.wikidata.org/entity/Q179700> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19828912> .
+<http://www.wikidata.org/entity/Q18342630> <http://www.w3.org/2000/01/rdf-schema#label> "A Fair on the Outskirts of Dublin"@en .
+<http://www.wikidata.org/entity/Q18342630> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18342630> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18761202> .
+<http://www.wikidata.org/entity/Q18343261> <http://www.w3.org/2000/01/rdf-schema#label> "Homme en Grande Bottes"@en .
+<http://www.wikidata.org/entity/Q18343261> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18343261> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18761202> .
+<http://www.wikidata.org/entity/Q18430868> <http://www.w3.org/2000/01/rdf-schema#label> "Q18430868"@en .
+<http://www.wikidata.org/entity/Q18430868> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18430868> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18449375> <http://www.w3.org/2000/01/rdf-schema#label> "Autumn"@en .
+<http://www.wikidata.org/entity/Q18449375> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18449375> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18761202> .
+<http://www.wikidata.org/entity/Q18449375> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18569003> <http://www.w3.org/2000/01/rdf-schema#label> "Mpanqui, Jimagua"@en .
+<http://www.wikidata.org/entity/Q18569003> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18569003> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q836862> .
+<http://www.wikidata.org/entity/Q18574007> <http://www.w3.org/2000/01/rdf-schema#label> "Nocturne"@en .
+<http://www.wikidata.org/entity/Q18574007> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18574007> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18599094> <http://www.w3.org/2000/01/rdf-schema#label> "The Hunter"@en .
+<http://www.wikidata.org/entity/Q18599094> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18599094> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18669871> <http://www.w3.org/2000/01/rdf-schema#label> "Q18669871"@en .
+<http://www.wikidata.org/entity/Q18669871> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18669871> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q93184> .
+<http://www.wikidata.org/entity/Q18683155> <http://www.w3.org/2000/01/rdf-schema#label> "An Elephant Combat"@en .
+<http://www.wikidata.org/entity/Q18683155> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18683155> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18761202> .
+<http://www.wikidata.org/entity/Q18683155> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q93184> .
+<http://www.wikidata.org/entity/Q18685961> <http://www.w3.org/2000/01/rdf-schema#label> "The Toilette"@en .
+<http://www.wikidata.org/entity/Q18685961> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q18685961> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18691580> <http://www.w3.org/2000/01/rdf-schema#label> "Python (Potter)"@en .
+<http://www.wikidata.org/entity/Q18691580> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18691580> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1261026> .
+<http://www.wikidata.org/entity/Q18691580> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q17379525> .
+<http://www.wikidata.org/entity/Q18713954> <http://www.w3.org/2000/01/rdf-schema#label> "Twelve folios with paintings"@en .
+<http://www.wikidata.org/entity/Q18713954> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18713954> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q18761202> .
+<http://www.wikidata.org/entity/Q18761202> <http://www.w3.org/2000/01/rdf-schema#label> "watercolor painting"@en .
+<http://www.wikidata.org/entity/Q18761202> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18342630> .
+<http://www.wikidata.org/entity/Q18761202> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18343261> .
+<http://www.wikidata.org/entity/Q18761202> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18449375> .
+<http://www.wikidata.org/entity/Q18761202> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18683155> .
+<http://www.wikidata.org/entity/Q18761202> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18713954> .
+<http://www.wikidata.org/entity/Q18822959> <http://www.w3.org/2000/01/rdf-schema#label> "From Boulevard de Clichy"@en .
+<http://www.wikidata.org/entity/Q18822959> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18822959> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q15123870> .
+<http://www.wikidata.org/entity/Q18889723> <http://www.w3.org/2000/01/rdf-schema#label> "Despair"@en .
+<http://www.wikidata.org/entity/Q18889723> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18889723> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18913069> <http://www.w3.org/2000/01/rdf-schema#label> "Asgardian"@en .
+<http://www.wikidata.org/entity/Q18913069> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1319513> .
+<http://www.wikidata.org/entity/Q18918060> <http://www.w3.org/2000/01/rdf-schema#label> "Q18918060"@en .
+<http://www.wikidata.org/entity/Q18918060> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18918060> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18918100> <http://www.w3.org/2000/01/rdf-schema#label> "Q18918100"@en .
+<http://www.wikidata.org/entity/Q18918100> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18918100> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q18937975> <http://www.w3.org/2000/01/rdf-schema#label> "Q18937975"@en .
+<http://www.wikidata.org/entity/Q18937975> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q18937975> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q1897057> <http://www.w3.org/2000/01/rdf-schema#label> "Marica Bodrožić"@en .
+<http://www.wikidata.org/entity/Q1897057> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q242352> .
+<http://www.wikidata.org/entity/Q1897057> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19015063> <http://www.w3.org/2000/01/rdf-schema#label> "Q19015063"@en .
+<http://www.wikidata.org/entity/Q19015063> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19015063> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q19061338> <http://www.w3.org/2000/01/rdf-schema#label> "Q19061338"@en .
+<http://www.wikidata.org/entity/Q19061338> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19061338> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q19100> <http://www.w3.org/2000/01/rdf-schema#label> "captain"@en .
+<http://www.wikidata.org/entity/Q19100> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q27272386> .
+<http://www.wikidata.org/entity/Q19317886> <http://www.w3.org/2000/01/rdf-schema#label> "Q19317886"@en .
+<http://www.wikidata.org/entity/Q19317886> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19317886> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q179700> .
+<http://www.wikidata.org/entity/Q19317886> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q19631222> <http://www.w3.org/2000/01/rdf-schema#label> "Robert Skemp"@en .
+<http://www.wikidata.org/entity/Q19631222> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q318591> .
+<http://www.wikidata.org/entity/Q19631222> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19828912> <http://www.w3.org/2000/01/rdf-schema#label> "Head of woman-Ma 2709"@en .
+<http://www.wikidata.org/entity/Q19828912> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19828912> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q179700> .
+<http://www.wikidata.org/entity/Q19835975> <http://www.w3.org/2000/01/rdf-schema#label> "Torso of Venus"@en .
+<http://www.wikidata.org/entity/Q19835975> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q19835975> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q19897679> <http://www.w3.org/2000/01/rdf-schema#label> "Ruins of an Aqueduct in Rome"@en .
+<http://www.wikidata.org/entity/Q19897679> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q19897679> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q93184> .
+<http://www.wikidata.org/entity/Q20469152> <http://www.w3.org/2000/01/rdf-schema#label> "Laura at Fifteen"@en .
+<http://www.wikidata.org/entity/Q20469152> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q20469152> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q20469268> <http://www.w3.org/2000/01/rdf-schema#label> "Natalie at Seven"@en .
+<http://www.wikidata.org/entity/Q20469268> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q20469268> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q20475859> <http://www.w3.org/2000/01/rdf-schema#label> "At Nature's Mirror"@en .
+<http://www.wikidata.org/entity/Q20475859> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q20475859> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q2063381> <http://www.w3.org/2000/01/rdf-schema#label> "William Cushing"@en .
+<http://www.wikidata.org/entity/Q2063381> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q2063381> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q2063381> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11144> .
+<http://www.wikidata.org/entity/Q2072238> <http://www.w3.org/2000/01/rdf-schema#label> "archdiocese"@en .
+<http://www.wikidata.org/entity/Q2072238> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q540330> .
+<http://www.wikidata.org/entity/Q210189> <http://www.w3.org/2000/01/rdf-schema#label> "anti-fascism"@en .
+<http://www.wikidata.org/entity/Q210189> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q12909644> .
+<http://www.wikidata.org/entity/Q210189> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q77024> .
+<http://www.wikidata.org/entity/Q21070568> <http://www.w3.org/2000/01/rdf-schema#label> "human who may be fictional"@en .
+<http://www.wikidata.org/entity/Q21070568> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q10316055> .
+<http://www.wikidata.org/entity/Q21070568> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1148820> .
+<http://www.wikidata.org/entity/Q2209674> <http://www.w3.org/2000/01/rdf-schema#label> "Sabine Ebert"@en .
+<http://www.wikidata.org/entity/Q2209674> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q12554> .
+<http://www.wikidata.org/entity/Q2209674> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q2221906> <http://www.w3.org/2000/01/rdf-schema#label> "geographic location"@en .
+<http://www.wikidata.org/entity/Q2221906> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q62009005> .
+<http://www.wikidata.org/entity/Q22988604> <http://www.w3.org/2000/01/rdf-schema#label> "mythological Greek character"@en .
+<http://www.wikidata.org/entity/Q22988604> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q427171> .
+<http://www.wikidata.org/entity/Q23> <http://www.w3.org/2000/01/rdf-schema#label> "George Washington"@en .
+<http://www.wikidata.org/entity/Q23> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q23> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q23> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11696> .
+<http://www.wikidata.org/entity/Q24057681> <http://www.w3.org/2000/01/rdf-schema#label> "Woman reading newspaper"@en .
+<http://www.wikidata.org/entity/Q24057681> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q24057681> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q24137708> <http://www.w3.org/2000/01/rdf-schema#label> "Leodore Lionheart"@en .
+<http://www.wikidata.org/entity/Q24137708> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q24137708> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q27267085> .
+<http://www.wikidata.org/entity/Q24137708> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q24139790> <http://www.w3.org/2000/01/rdf-schema#label> "Dawn Bellwether"@en .
+<http://www.wikidata.org/entity/Q24139790> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q24139790> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q24653904> .
+<http://www.wikidata.org/entity/Q24139790> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q242352> <http://www.w3.org/2000/01/rdf-schema#label> "Yugoslav Wars"@en .
+<http://www.wikidata.org/entity/Q242352> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q766875> .
+<http://www.wikidata.org/entity/Q242352> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q1897057> .
+<http://www.wikidata.org/entity/Q24565960> <http://www.w3.org/2000/01/rdf-schema#label> "Plas Newydd, near Llangollen: the seatof the late Lady Eleanor Butler and Miss Ponsonby, respectfully inscribed by the permission to the present ladies"@en .
+<http://www.wikidata.org/entity/Q24565960> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q24565960> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q11060274> .
+<http://www.wikidata.org/entity/Q2459463> <http://www.w3.org/2000/01/rdf-schema#label> "Tulio Luis Ramírez Padilla"@en .
+<http://www.wikidata.org/entity/Q2459463> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q540330> .
+<http://www.wikidata.org/entity/Q2459463> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q24653904> <http://www.w3.org/2000/01/rdf-schema#label> "fictional sheep"@en .
+<http://www.wikidata.org/entity/Q24653904> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q24139790> .
+<http://www.wikidata.org/entity/Q263398> <http://www.w3.org/2000/01/rdf-schema#label> "Sarah Kirsch"@en .
+<http://www.wikidata.org/entity/Q263398> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q7860> .
+<http://www.wikidata.org/entity/Q263398> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q27044155> <http://www.w3.org/2000/01/rdf-schema#label> "Portrait of a Female Donor"@en .
+<http://www.wikidata.org/entity/Q27044155> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27044155> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q27210049> <http://www.w3.org/2000/01/rdf-schema#label> "Queen Weilew"@en .
+<http://www.wikidata.org/entity/Q27210049> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27210049> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q15632617> .
+<http://www.wikidata.org/entity/Q27210049> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q116> .
+<http://www.wikidata.org/entity/Q27237571> <http://www.w3.org/2000/01/rdf-schema#label> "Queen Delightful"@en .
+<http://www.wikidata.org/entity/Q27237571> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27237571> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q15711870> .
+<http://www.wikidata.org/entity/Q27237571> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q116> .
+<http://www.wikidata.org/entity/Q27267085> <http://www.w3.org/2000/01/rdf-schema#label> "fictional lion"@en .
+<http://www.wikidata.org/entity/Q27267085> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q24137708> .
+<http://www.wikidata.org/entity/Q27272386> <http://www.w3.org/2000/01/rdf-schema#label> "Captain Crocodile"@en .
+<http://www.wikidata.org/entity/Q27272386> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q27272386> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q27272451> .
+<http://www.wikidata.org/entity/Q27272386> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q19100> .
+<http://www.wikidata.org/entity/Q27272451> <http://www.w3.org/2000/01/rdf-schema#label> "fictional crocodile/alligator"@en .
+<http://www.wikidata.org/entity/Q27272451> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27272386> .
+<http://www.wikidata.org/entity/Q27315051> <http://www.w3.org/2000/01/rdf-schema#label> "The Dream Window in the Old Liselund Castle"@en .
+<http://www.wikidata.org/entity/Q27315051> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27315051> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q273339> <http://www.w3.org/2000/01/rdf-schema#label> "Bulgaria in the Eurovision Song Contest"@en .
+<http://www.wikidata.org/entity/Q273339> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q48835370> .
+<http://www.wikidata.org/entity/Q27954349> <http://www.w3.org/2000/01/rdf-schema#label> "Q27954349"@en .
+<http://www.wikidata.org/entity/Q27954349> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27954349> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q27998966> <http://www.w3.org/2000/01/rdf-schema#label> "Q27998966"@en .
+<http://www.wikidata.org/entity/Q27998966> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q27998966> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q28034422> <http://www.w3.org/2000/01/rdf-schema#label> "Elvis da Paulista"@en .
+<http://www.wikidata.org/entity/Q28034422> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q303> .
+<http://www.wikidata.org/entity/Q28034422> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q28044094> <http://www.w3.org/2000/01/rdf-schema#label> "Lady Margaret Beaufort, Countess of Richmond and Derby"@en .
+<http://www.wikidata.org/entity/Q28044094> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q28044094> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q28640> <http://www.w3.org/2000/01/rdf-schema#label> "profession"@en .
+<http://www.wikidata.org/entity/Q28840313> <http://www.w3.org/2000/01/rdf-schema#label> "Portrait of a Lady"@en .
+<http://www.wikidata.org/entity/Q28840313> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q28840313> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q30185> <http://www.w3.org/2000/01/rdf-schema#label> "mayor"@en .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q13426866> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q15710909> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q24137708> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q24139790> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q42911220> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q47164716> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q7627362> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q81> .
+<http://www.wikidata.org/entity/Q30185> <http://www.wikidata.org/prop/reverse/P39> <http://www.wikidata.org/entity/Q82> .
+<http://www.wikidata.org/entity/Q303> <http://www.w3.org/2000/01/rdf-schema#label> "Elvis Presley"@en .
+<http://www.wikidata.org/entity/Q303> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q159979> .
+<http://www.wikidata.org/entity/Q303> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q303> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q28034422> .
+<http://www.wikidata.org/entity/Q311562> <http://www.w3.org/2000/01/rdf-schema#label> "William Rehnquist"@en .
+<http://www.wikidata.org/entity/Q311562> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q311562> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q311562> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11147> .
+<http://www.wikidata.org/entity/Q318591> <http://www.w3.org/2000/01/rdf-schema#label> "Jean Paul Getty"@en .
+<http://www.wikidata.org/entity/Q318591> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q318591> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19631222> .
+<http://www.wikidata.org/entity/Q33027691> <http://www.w3.org/2000/01/rdf-schema#label> "fictional analog of a type of organism"@en .
+<http://www.wikidata.org/entity/Q3305213> <http://www.w3.org/2000/01/rdf-schema#label> "painting"@en .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18430868> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18449375> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18574007> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18599094> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18685961> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18889723> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18918060> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18918100> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18937975> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19015063> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19061338> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19317886> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19835975> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q20469152> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q20469268> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q20475859> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q24057681> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27044155> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27315051> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27954349> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q27998966> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q28044094> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q28840313> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q41135428> .
+<http://www.wikidata.org/entity/Q3305213> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q7797494> .
+<http://www.wikidata.org/entity/Q3524871> <http://www.w3.org/2000/01/rdf-schema#label> "Thomas Azuélos"@en .
+<http://www.wikidata.org/entity/Q3524871> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q80034> .
+<http://www.wikidata.org/entity/Q3524871> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q40477> <http://www.w3.org/2000/01/rdf-schema#label> "Slavs"@en .
+<http://www.wikidata.org/entity/Q40477> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q41710> .
+<http://www.wikidata.org/entity/Q40477> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q12035688> .
+<http://www.wikidata.org/entity/Q41135428> <http://www.w3.org/2000/01/rdf-schema#label> "Q41135428"@en .
+<http://www.wikidata.org/entity/Q41135428> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q41135428> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q41198059> <http://www.w3.org/2000/01/rdf-schema#label> "Emergence"@en .
+<http://www.wikidata.org/entity/Q41198059> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q41198059> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q4817> .
+<http://www.wikidata.org/entity/Q41397> <http://www.w3.org/2000/01/rdf-schema#label> "genocide"@en .
+<http://www.wikidata.org/entity/Q41397> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q80034> .
+<http://www.wikidata.org/entity/Q41710> <http://www.w3.org/2000/01/rdf-schema#label> "ethnic group"@en .
+<http://www.wikidata.org/entity/Q41710> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q40477> .
+<http://www.wikidata.org/entity/Q427171> <http://www.w3.org/2000/01/rdf-schema#label> "Antiphates"@en .
+<http://www.wikidata.org/entity/Q427171> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q427171> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q22988604> .
+<http://www.wikidata.org/entity/Q427171> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q12097> .
+<http://www.wikidata.org/entity/Q42911220> <http://www.w3.org/2000/01/rdf-schema#label> "Marián Ferreiro Díaz"@en .
+<http://www.wikidata.org/entity/Q42911220> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q42911220> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q82955> .
+<http://www.wikidata.org/entity/Q42911220> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q44148> <http://www.w3.org/2000/01/rdf-schema#label> "male organism"@en .
+<http://www.wikidata.org/entity/Q44148> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q7627362> .
+<http://www.wikidata.org/entity/Q47164716> <http://www.w3.org/2000/01/rdf-schema#label> "Amparo Orts Albiach"@en .
+<http://www.wikidata.org/entity/Q47164716> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q47164716> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q82955> .
+<http://www.wikidata.org/entity/Q47164716> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q47280> <http://www.w3.org/2000/01/rdf-schema#label> "Abrahamic religion"@en .
+<http://www.wikidata.org/entity/Q47280> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q9268> .
+<http://www.wikidata.org/entity/Q4817> <http://www.w3.org/2000/01/rdf-schema#label> "column"@en .
+<http://www.wikidata.org/entity/Q4817> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q41198059> .
+<http://www.wikidata.org/entity/Q48277> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q48277> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q483247> <http://www.w3.org/2000/01/rdf-schema#label> "phenomenon"@en .
+<http://www.wikidata.org/entity/Q483247> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q7860> .
+<http://www.wikidata.org/entity/Q48835370> <http://www.w3.org/2000/01/rdf-schema#label> "Bulgaria in the Eurovision Song Contest 2018"@en .
+<http://www.wikidata.org/entity/Q48835370> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q273339> .
+<http://www.wikidata.org/entity/Q48835370> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q51131875> .
+<http://www.wikidata.org/entity/Q49264> <http://www.w3.org/2000/01/rdf-schema#label> "Lisa Nowak"@en .
+<http://www.wikidata.org/entity/Q49264> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q49264> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q49264> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11631> .
+<http://www.wikidata.org/entity/Q51131875> <http://www.w3.org/2000/01/rdf-schema#label> "Vladimir Mahailov (singer)"@en .
+<http://www.wikidata.org/entity/Q51131875> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q48835370> .
+<http://www.wikidata.org/entity/Q51131875> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q540330> <http://www.w3.org/2000/01/rdf-schema#label> "Roman Catholic Archdiocese of Caracas"@en .
+<http://www.wikidata.org/entity/Q540330> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q2072238> .
+<http://www.wikidata.org/entity/Q540330> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q2459463> .
+<http://www.wikidata.org/entity/Q55983715> <http://www.w3.org/2000/01/rdf-schema#label> "polyphyletic group of organisms known by one particular common name"@en .
+<http://www.wikidata.org/entity/Q55983715> <http://www.w3.org/2000/01/rdf-schema#label> "polyphyletic group of organisms known by one particular common name"@en .
+<http://www.wikidata.org/entity/Q55983715> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q55983715> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18342630> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18343261> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18430868> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18449375> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18569003> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18574007> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18599094> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18669871> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18683155> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18691580> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18713954> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18822959> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18889723> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18918060> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18918100> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18937975> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19015063> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19061338> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19317886> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19828912> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19897679> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q12035688> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1521765> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1587475> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1627872> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q1897057> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19631222> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q2063381> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q2209674> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q23> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q2459463> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q263398> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q28034422> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q303> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q311562> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q318591> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q3524871> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49264> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q51131875> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q729054> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q77024> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q8049205> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q80> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q81> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q9916> .
+<http://www.wikidata.org/entity/Q62009005> <http://www.w3.org/2000/01/rdf-schema#label> "World War I Monument"@en .
+<http://www.wikidata.org/entity/Q62009005> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q62009005> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q2221906> .
+<http://www.wikidata.org/entity/Q63486096> <http://www.w3.org/2000/01/rdf-schema#label> "Le Premier Ministre"@en .
+<http://www.wikidata.org/entity/Q63486096> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q63486096> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q15632617> .
+<http://www.wikidata.org/entity/Q63486096> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q14212> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.w3.org/2000/01/rdf-schema#label> "female"@en .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q48277> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/direct/P461> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P101> <http://www.wikidata.org/entity/Q92> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q18685961> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q19835975> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q20469152> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q20469268> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q20475859> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q24057681> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q24565960> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q27044155> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q27315051> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q27954349> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q27998966> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q28044094> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q28840313> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q41135428> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q41198059> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q62009005> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q7797494> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q15710909> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q24139790> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q27210049> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q27237571> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q42911220> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q47164716> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q49264> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q80> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q81> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q82> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P360> <http://www.wikidata.org/entity/Q91> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P461> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P527> <http://www.wikidata.org/entity/Q90> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.w3.org/2000/01/rdf-schema#label> "male"@en .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q48277> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/direct/P461> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q10316055> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q1148820> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q1319513> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q13426866> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q1521765> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q1587475> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q1627872> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q2063381> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q23> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q24137708> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q27272386> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q311562> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q427171> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q63486096> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q7242478> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q729054> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q9916> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P461> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q6647660> <http://www.w3.org/2000/01/rdf-schema#label> "literary element"@en .
+<http://www.wikidata.org/entity/Q6> <http://www.w3.org/2000/01/rdf-schema#label> "fictional human"@en .
+<http://www.wikidata.org/entity/Q6> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q6> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q82> .
+<http://www.wikidata.org/entity/Q70> <http://www.w3.org/2000/01/rdf-schema#label> "Human Male 1"@en .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2000/01/rdf-schema#label> "Human Male 2 Held Position"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q7242478> <http://www.w3.org/2000/01/rdf-schema#label> "Prez"@en .
+<http://www.wikidata.org/entity/Q7242478> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q7242478> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1114461> .
+<http://www.wikidata.org/entity/Q7242478> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q95074> .
+<http://www.wikidata.org/entity/Q7242478> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11696> .
+<http://www.wikidata.org/entity/Q729054> <http://www.w3.org/2000/01/rdf-schema#label> "William Paterson"@en .
+<http://www.wikidata.org/entity/Q729054> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q729054> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q729054> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11144> .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2000/01/rdf-schema#label> "Fictional Male 3 Held Position"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6> .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q7627362> <http://www.w3.org/2000/01/rdf-schema#label> "Stubbs"@en .
+<http://www.wikidata.org/entity/Q7627362> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q44148> .
+<http://www.wikidata.org/entity/Q7627362> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q146> .
+<http://www.wikidata.org/entity/Q7627362> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q766875> <http://www.w3.org/2000/01/rdf-schema#label> "ethnic conflict"@en .
+<http://www.wikidata.org/entity/Q766875> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q242352> .
+<http://www.wikidata.org/entity/Q77024> <http://www.w3.org/2000/01/rdf-schema#label> "Lion Feuchtwanger"@en .
+<http://www.wikidata.org/entity/Q77024> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q210189> .
+<http://www.wikidata.org/entity/Q77024> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q9268> .
+<http://www.wikidata.org/entity/Q77024> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q7797494> <http://www.w3.org/2000/01/rdf-schema#label> "Three Girls"@en .
+<http://www.wikidata.org/entity/Q7797494> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q7797494> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q3305213> .
+<http://www.wikidata.org/entity/Q7860> <http://www.w3.org/2000/01/rdf-schema#label> "nature"@en .
+<http://www.wikidata.org/entity/Q7860> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q483247> .
+<http://www.wikidata.org/entity/Q7860> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q263398> .
+<http://www.wikidata.org/entity/Q80034> <http://www.w3.org/2000/01/rdf-schema#label> "Armenian Genocide"@en .
+<http://www.wikidata.org/entity/Q80034> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q41397> .
+<http://www.wikidata.org/entity/Q80034> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q3524871> .
+<http://www.wikidata.org/entity/Q8049205> <http://www.w3.org/2000/01/rdf-schema#label> "Yara Yavelberg"@en .
+<http://www.wikidata.org/entity/Q8049205> <http://www.wikidata.org/prop/direct/P180> <http://www.wikidata.org/entity/Q17001792> .
+<http://www.wikidata.org/entity/Q8049205> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q80> <http://www.w3.org/2000/01/rdf-schema#label> "Human Female 1"@en .
+<http://www.wikidata.org/entity/Q80> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q80> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q81> <http://www.w3.org/2000/01/rdf-schema#label> "Human Female 2 Held Position"@en .
+<http://www.wikidata.org/entity/Q81> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q81> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q81> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q82955> <http://www.w3.org/2000/01/rdf-schema#label> "politician"@en .
+<http://www.wikidata.org/entity/Q82955> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q42911220> .
+<http://www.wikidata.org/entity/Q82955> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q47164716> .
+<http://www.wikidata.org/entity/Q82> <http://www.w3.org/2000/01/rdf-schema#label> "Fictional Female 3 Held Position"@en .
+<http://www.wikidata.org/entity/Q82> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q82> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6> .
+<http://www.wikidata.org/entity/Q82> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q30185> .
+<http://www.wikidata.org/entity/Q836862> <http://www.w3.org/2000/01/rdf-schema#label> "installation"@en .
+<http://www.wikidata.org/entity/Q836862> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18569003> .
+<http://www.wikidata.org/entity/Q901> <http://www.w3.org/2000/01/rdf-schema#label> "scientist"@en .
+<http://www.wikidata.org/entity/Q90> <http://www.w3.org/2000/01/rdf-schema#label> "Woman organisation - Has Part Of"@en .
+<http://www.wikidata.org/entity/Q90> <http://www.wikidata.org/prop/direct/P527> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q9174> <http://www.w3.org/2000/01/rdf-schema#label> "religion"@en .
+<http://www.wikidata.org/entity/Q9174> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q9268> .
+<http://www.wikidata.org/entity/Q91> <http://www.w3.org/2000/01/rdf-schema#label> "List of woman - Is a list of"@en .
+<http://www.wikidata.org/entity/Q91> <http://www.wikidata.org/prop/direct/P360> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q9268> <http://www.w3.org/2000/01/rdf-schema#label> "Judaism"@en .
+<http://www.wikidata.org/entity/Q9268> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q1189816> .
+<http://www.wikidata.org/entity/Q9268> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q47280> .
+<http://www.wikidata.org/entity/Q9268> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q9174> .
+<http://www.wikidata.org/entity/Q9268> <http://www.wikidata.org/prop/reverse/P180> <http://www.wikidata.org/entity/Q77024> .
+<http://www.wikidata.org/entity/Q92> <http://www.w3.org/2000/01/rdf-schema#label> "Woman work group - Field of work"@en .
+<http://www.wikidata.org/entity/Q92> <http://www.wikidata.org/prop/direct/P101> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q93184> <http://www.w3.org/2000/01/rdf-schema#label> "drawing"@en .
+<http://www.wikidata.org/entity/Q93184> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18669871> .
+<http://www.wikidata.org/entity/Q93184> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q18683155> .
+<http://www.wikidata.org/entity/Q93184> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q19897679> .
+<http://www.wikidata.org/entity/Q95074> <http://www.w3.org/2000/01/rdf-schema#label> "fictional character"@en .
+<http://www.wikidata.org/entity/Q95074> <http://www.w3.org/2000/01/rdf-schema#label> "fictional character"@en .
+<http://www.wikidata.org/entity/Q95074> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q13426866> .
+<http://www.wikidata.org/entity/Q95074> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q7242478> .
+<http://www.wikidata.org/entity/Q9916> <http://www.w3.org/2000/01/rdf-schema#label> "Dwight D. Eisenhower"@en .
+<http://www.wikidata.org/entity/Q9916> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q9916> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q9916> <http://www.wikidata.org/prop/direct/P39> <http://www.wikidata.org/entity/Q11696> .
