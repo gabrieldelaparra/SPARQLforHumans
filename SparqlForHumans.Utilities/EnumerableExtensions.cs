@@ -38,10 +38,10 @@ namespace SparqlForHumans.Utilities
         public static IEnumerable<T> IntersectIfAny<T>(this IEnumerable<T> source, IEnumerable<T> target)
         {
             if (source.Any() && target.Any())
-                return source.Intersect(target);
+                return source.Intersect(target).Distinct();
             if (source.Any())
-                return source;
-            return target;
+                return source.Distinct();
+            return target.Distinct();
         }
 
         public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> source, int takeCount)
