@@ -53,9 +53,17 @@ namespace SparqlForHumans.UnitTests.Query
                     },
                     new Property
                     {
+                        Id = "P279",
+                    },
+                    new Property
+                    {
                         Id = "P131",
                         Value = "Q145"
-                    }
+                    },
+                    new Property
+                    {
+                        Id = "P31",
+                    },
                 }
             };
 
@@ -145,7 +153,15 @@ namespace SparqlForHumans.UnitTests.Query
                     {
                         Id = "P131",
                         Value = "Q145"
-                    }
+                    },
+                    new Property
+                    {
+                        Id = "P279",
+                    },
+                    new Property
+                    {
+                        Id = "P31",
+                    },
                 }
             };
 
