@@ -109,13 +109,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     node.InferredBaseTypes = node.InferredBaseTypes.IntersectIfAny(outgoingEdge.DomainBaseTypes).ToList();
                 }
-
-                ////Inferred Domain Types
-                //var outgoingBaseTypes = outgoingEdges.SelectMany(x => x.DomainBaseTypes).ToList();
-                ////Inferred Range Types
-                //var incomingBaseTypes = incomingEdges.SelectMany(x => x.RangeBaseTypes).ToList();
-                ////Intersect
-                //node.InferredBaseTypes = node.InferredBaseTypes.IntersectIfAny(outgoingBaseTypes).IntersectIfAny(incomingBaseTypes).ToList();
             }
         }
 
@@ -132,8 +125,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     edge.RangeBaseTypes = edge.RangeBaseTypes.IntersectIfAny(target.InferredBaseTypes).ToList();
             }
         }
-
-
 
         public static void SetTypesDomainsAndRanges(this QueryGraph graph)
         {
