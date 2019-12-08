@@ -21,9 +21,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         //public List<string> Types { get; set; } = new List<string>();
         public List<string> GivenTypes { get; set; } = new List<string>();
         public List<string> InstanceOfBaseTypes { get; set; } = new List<string>();
-        public List<string> InstanceOfDerivedTypes { get; set; } = new List<string>();
         public List<string> InferredBaseTypes { get; set; } = new List<string>();
-        public List<string> InferredDerivedTypes { get; set; } = new List<string>();
 
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
 
