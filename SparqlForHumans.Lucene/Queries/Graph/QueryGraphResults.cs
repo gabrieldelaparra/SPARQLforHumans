@@ -50,7 +50,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (!node.HasIncomingEdges(graph) && node.GetOutgoingEdges(graph).Count().Equals(1) &&
                     node.IsInstanceOfType)
                 {
-                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.Types, 20).Query();
+                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfBaseTypes, 20).Query();
                     continue;
                 }
 
@@ -64,11 +64,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var intersectTypes = new List<string>();
 
                     //Outgoing edges candidates, take their domain
-                    var domainTypes = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf).SelectMany(x => x.Domain).ToList();
+                    var domainTypes = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf).SelectMany(x => x.DomainBaseTypes).ToList();
                     intersectTypes = intersectTypes.IntersectIfAny(domainTypes).ToList();
 
                     //Incoming edges candidates, take their range.
-                    var rangeTypes = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).SelectMany(x => x.Range).ToList();
+                    var rangeTypes = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).SelectMany(x => x.RangeBaseTypes).ToList();
                     intersectTypes = intersectTypes.IntersectIfAny(rangeTypes).ToList();
 
                     //Combine domain & range, take a random sample and get those results:
@@ -79,7 +79,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     if (node.IsInstanceOfType)
                     {
                         //Intersect (Not if any, we want only the results of that instance, even if there are none):
-                        var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.Types, 200).Query(20);
+                        var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfBaseTypes, 200).Query(20);
                         node.Results = node.Results.Intersect(instanceOfResults).ToList();
                     }
 
@@ -124,10 +124,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                     //They cannot be at the same time (given type and instance of type)
                     if (source.IsGivenType)
-                        givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.Types)
+                        givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
                             .Query().SelectMany(x => x.Properties).Select(x => x.Id).ToList();
                     if (source.IsInstanceOfType)
-                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(source.Types).ToList();
+                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(source.InstanceOfBaseTypes).ToList();
 
                     //TODO: Check if this is valid:
                     //if(source.IsGoingToGivenType)
@@ -137,7 +137,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                     
                     if (source.IsInferredDomainType)
-                        domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.Domain).ToList();
+                        domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.DomainBaseTypes).ToList();
                     //TODO: Check if this is valid:
                     //if (source.IsInferredRangeType)
                     //    rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Range).ToList();
@@ -149,16 +149,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         .ToList();
 
                     if (target.IsGivenType)
-                        givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.Types)
+                        givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
                             .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
                     if (target.IsInstanceOfType)
-                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.Types).ToList();
+                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.InstanceOfBaseTypes).ToList();
 
                     //TODO: Check if this is valid:
                     //if (target.IsInferredDomainType)
                     //    domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Domain).ToList();
                     if (target.IsInferredRangeType)
-                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Range).ToList();
+                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
 
                     var incomingPropertyIds = givenPropertiesIds
                         .IntersectIfAny(instanceOfPropertiesIds)

@@ -14,10 +14,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             this.CheckNodeTypes();
 
-            //foreach (var node in Nodes)
-            //    this.TraverseDepthFirstNode(node.Key);
-            //foreach (var edge in Edges)
-            //    this.TraverseDepthFirstEdge(edge.Key);
             Selected = rdfGraph.selected;
 
         }

@@ -57,8 +57,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static bool IsSomehowDefined(this QueryNode node, QueryGraph graph)
         {
             if (node.uris.Any()) return true;
-            if (node.GetIncomingEdges(graph).Any(x => x.IsGivenType || x.Domain.Any() || x.Range.Any())) return true;
-            if (node.GetOutgoingEdges(graph).Any(x => x.IsGivenType || x.Domain.Any() || x.Range.Any())) return true;
+            if (node.GetIncomingEdges(graph).Any(x => x.IsGivenType || x.DomainBaseTypes.Any() || x.RangeBaseTypes.Any())) return true;
+            if (node.GetOutgoingEdges(graph).Any(x => x.IsGivenType || x.DomainBaseTypes.Any() || x.RangeBaseTypes.Any())) return true;
             return false;
         }
 

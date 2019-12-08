@@ -14,12 +14,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 if (node.IsGivenType)
                 {
-                    node.Types = node.uris.ToList();
+                    //node.Types = node.uris.ToList();
                     node.GivenTypes = node.uris.ToList();
                 }
                 else if (node.IsInstanceOfType)
                 {
-                    node.Types = node.GetInstanceOfValues(graph).ToList();
+                    //node.Types = node.GetInstanceOfValues(graph).ToList();
                     node.InstanceOfBaseTypes = node.GetInstanceOfValues(graph).ToList();
                     //TODO: Get the derived types here?
                 }
@@ -74,94 +74,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     //TODO: Maybe they should be retrieved in the end, before getting the results (and after filtering if required)
                     //edge.RangeDerivedTypes = edge.RangeDerivedTypes.IntersectIfAny(new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, edge.RangeBaseTypes, 20).Query(100).Select(x => x.Id)).ToList();
                 }
-
-                ////////if (edge.IsGivenType) return QueryType.GivenPredicateTypeNoQuery;
-
-                ////////case QueryType.GivenPredicateTypeNoQuery:
-                ////////    edge.Domain = sourceNode.IsGivenType
-                ////////        ? sourceNode.Types
-                ////////        : InMemoryQueryEngine
-                ////////            .BatchPropertyIdDomainTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-                ////////    edge.Range = targetNode.IsGivenType
-                ////////        ? targetNode.Types
-                ////////        : InMemoryQueryEngine
-                ////////            .BatchPropertyIdRangeTypesQuery(edge.uris.Select(x => x.GetUriIdentifier())).ToList();
-                ////////    break;
-
-                //if (edge.IsGivenType && !edge.IsInstanceOf)
-                //{
-                //    edge.Domain = source.IsGivenType
-                //        ? source.Types
-                //        : InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
-                //    edge.Range = target.IsGivenType
-                //        ? target.Types
-                //        : InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
-                //}
-
-                //else
-                //{
-                //    if (source.IsGivenType)
-                //        edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
-                //    if (target.IsGivenType)
-                //        edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
-                //    if (source.IsInstanceOfType)
-                //        edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
-                //    if (target.IsInstanceOfType)
-                //        edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
-                //}
-
-                ////////if (source.IsGivenType && target.IsGivenType) return QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties;
-                ////////if (source.IsGivenType) return QueryType.GivenSubjectTypeDirectQueryOutgoingProperties;
-                ////////if (target.IsGivenType) return QueryType.GivenObjectTypeDirectQueryIncomingProperties;
-
-                ////////case QueryType.GivenSubjectTypeDirectQueryOutgoingProperties:
-                ////////    edge.Domain = edge.GetSourceNode(graph).Types;
-                ////////    edge.Range = new List<string>();
-                ////////    break;
-                ////////case QueryType.GivenObjectTypeDirectQueryIncomingProperties:
-                ////////    edge.Domain = new List<string>();
-                ////////    edge.Range = edge.GetTargetNode(graph).Types;
-                ////////    break;
-                ////////case QueryType.GivenSubjectAndObjectTypeDirectQueryIntersectOutInProperties:
-                ////////    edge.Domain = edge.GetSourceNode(graph).Types;
-                ////////    edge.Range = edge.GetTargetNode(graph).Types;
-                ////////    break;
-
-                //if (source.IsGivenType)
-                //    edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
-                //if (target.IsGivenType)
-                //    edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
-
-                ////////if (source.IsInstanceOfType && target.IsInstanceOfType) return QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties;
-                ////////if (source.IsInstanceOfType) return QueryType.KnownSubjectTypeQueryDomainProperties;
-                ////////if (target.IsInstanceOfType) return QueryType.KnownObjectTypeQueryRangeProperties;
-
-                ////////case QueryType.KnownSubjectTypeQueryDomainProperties:
-                ////////    edge.Domain = edge.GetSourceNode(graph).Types;
-                ////////    edge.Range = new List<string>();
-                ////////    break;
-                ////////case QueryType.KnownObjectTypeQueryRangeProperties:
-                ////////    edge.Domain = new List<string>();
-                ////////    edge.Range = edge.GetTargetNode(graph).Types;
-                ////////    break;
-                ////////case QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties:
-                ////////    edge.Domain = edge.GetSourceNode(graph).Types;
-                ////////    edge.Range = edge.GetTargetNode(graph).Types;
-                ////////    break;
-
-                //if (source.IsInstanceOfType)
-                //    edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
-                //if (target.IsInstanceOfType)
-                //    edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
-
-                ////////switch (edge.QueryType)
-                ////////{
-                ////////    case QueryType.QueryTopProperties:
-                ////////        edge.Domain = new MultiLabelTypeQuery(graph.EntitiesIndexPath, "*").Query().Select(x => x.Id)
-                ////////            .ToList();
-                ////////        edge.Range = edge.Domain.ToList();
-                ////////        break;
-                ////////}
             }
         }
 
@@ -178,31 +90,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var incomingBaseTypes = incomingEdges.SelectMany(x => x.RangeBaseTypes).ToList();
                 //Intersect
                 node.InferredBaseTypes = outgoingBaseTypes.IntersectIfAny(incomingBaseTypes).ToList();
-
-
-
-
-                var outgoingTypes = outgoingEdges.SelectMany(x => x.Domain).ToList();
-                var incomingTypes = incomingEdges.SelectMany(x => x.Range).ToList();
-                node.Types = node.Types.IntersectIfAny(outgoingTypes).IntersectIfAny(incomingTypes).ToList();
-
-                //switch (node.QueryType) {
-
-                //    case QueryType.InferredDomainTypeEntities:
-                //        node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
-                //        break;
-                //    case QueryType.InferredDomainAndRangeTypeEntities:
-                //        node.Types = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain)
-                //            .IntersectIfAny(node.GetIncomingEdges(graph).SelectMany(x => x.Range)).ToList();
-                //        break;
-                //    case QueryType.InferredRangeTypeEntities:
-                //        node.Types = node.GetIncomingEdges(graph).SelectMany(x => x.Range).ToList();
-                //        break;
-                //    case QueryType.DirectQuery:
-                //         outgoingTypes = node.GetOutgoingEdges(graph).SelectMany(x => x.Domain).ToList();
-                //        node.Types = outgoingTypes.IntersectIfAny(incomingTypes).ToList();
-                //        break;
-                //}
             }
         }
 
@@ -218,34 +105,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (target.IsInferredType)
                     edge.RangeBaseTypes = edge.RangeBaseTypes.IntersectIfAny(target.InferredBaseTypes).ToList();
 
-                if (source.IsInferredType)
-                    edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
-                if (target.IsInferredType)
-                    edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
-
-                //if (source.IsInferredType && target.IsInferredType) return QueryType.InferredDomainAndRangeTypeProperties;
-                //if (source.IsInferredType) return QueryType.InferredDomainTypeProperties;
-                //if (target.IsInferredType) return QueryType.InferredRangeTypeProperties;
-
-                //switch (edge.QueryType)
-                //{
-                //    case QueryType.InferredDomainAndRangeTypeProperties:
-                //        sourceNode = edge.GetSourceNode(graph);
-                //        targetNode = edge.GetTargetNode(graph);
-                //        edge.Domain = sourceNode.Types;
-                //        edge.Range = targetNode.Types;
-                //        break;
-                //    case QueryType.InferredDomainTypeProperties:
-                //        sourceNode = edge.GetSourceNode(graph);
-                //        edge.Domain = sourceNode.Types;
-                //        edge.Range = new List<string>();
-                //        break;
-                //    case QueryType.InferredRangeTypeProperties:
-                //        targetNode = edge.GetTargetNode(graph);
-                //        edge.Domain = new List<string>();
-                //        edge.Range = targetNode.Types;
-                //        break;
-                //}
+                //if (source.IsInferredType)
+                //    edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();
+                //if (target.IsInferredType)
+                //    edge.Range = edge.Range.IntersectIfAny(target.Types).ToList();
             }
         }
 

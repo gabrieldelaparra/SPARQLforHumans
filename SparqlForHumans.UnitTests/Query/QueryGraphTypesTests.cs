@@ -174,10 +174,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -652,12 +648,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -709,12 +699,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -767,13 +751,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Nodes[2].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -796,7 +773,7 @@ namespace SparqlForHumans.UnitTests.Query
             //Since E1 source is HUMAN, Domain HUMAN
             Assert.Equal(2, queryGraph.Edges[1].DomainBaseTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[1].DomainBaseTypes);
-            Assert.Empty(queryGraph.Edges[1].Range);
+            Assert.Empty(queryGraph.Edges[1].RangeBaseTypes);
 
             //Cleanup
             DeleteIndex();
@@ -828,13 +805,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Nodes[2].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -891,15 +861,6 @@ namespace SparqlForHumans.UnitTests.Query
             CreateIndex();
 
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Nodes[2].Types);
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
-            Assert.Empty(queryGraph.Edges[2].Domain);
-            Assert.Empty(queryGraph.Edges[2].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
@@ -957,18 +918,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Arrange
             CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
-            Assert.Empty(queryGraph.Nodes[0].Types);
-            Assert.Empty(queryGraph.Nodes[1].Types);
-            Assert.Empty(queryGraph.Nodes[2].Types);
-
-            Assert.Empty(queryGraph.Edges[0].Domain);
-            Assert.Empty(queryGraph.Edges[0].Range);
-            Assert.Empty(queryGraph.Edges[1].Domain);
-            Assert.Empty(queryGraph.Edges[1].Range);
-            Assert.Empty(queryGraph.Edges[2].Domain);
-            Assert.Empty(queryGraph.Edges[2].Range);
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
