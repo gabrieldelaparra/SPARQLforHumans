@@ -21,9 +21,9 @@ namespace SparqlForHumans.Lucene.Queries
         internal override IQueryParser QueryParser => new DomainQueryParser();
         internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[\D]", string.Empty));
         internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString.GetUriIdentifier(), @"[\D]", string.Empty);
-        public override List<Property> Query(int resultsLimit = 100)
+        public override List<Property> Query(int totalResultsLimit = 100)
         {
-            return GetDocuments().ToProperties().Distinct().OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
+            return GetDocuments().ToProperties().Distinct().OrderByDescending(x => x.Rank).Take(totalResultsLimit).ToList();
         }
     }
 }

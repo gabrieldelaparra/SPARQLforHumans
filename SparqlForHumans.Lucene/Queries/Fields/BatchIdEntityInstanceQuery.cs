@@ -14,9 +14,9 @@ namespace SparqlForHumans.Lucene.Queries
         internal override IQueryParser QueryParser => new InstanceOfQueryParser();
 
         internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
-        public override List<Entity> Query(int resultsLimit = 100)
+        public override List<Entity> Query(int totalResultsLimit = 100)
         {
-            return GetDocuments().ToEntities().Distinct().OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
+            return GetDocuments().ToEntities().Distinct().OrderByDescending(x => x.Rank).Take(totalResultsLimit).ToList();
         }
     }
 }
