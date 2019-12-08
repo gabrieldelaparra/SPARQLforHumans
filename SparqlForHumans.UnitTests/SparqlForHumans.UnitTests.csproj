@@ -60,6 +60,8 @@
     <None Remove="Resources\QueryEntityWildcardAllResults.nt" />
     <None Remove="Resources\QueryGraph.nt" />
     <None Remove="Resources\QueryGraphInMemoryEngine.nt" />
+    <None Remove="Resources\QueryGraphPracticalResults1-Sorted.nt" />
+    <None Remove="Resources\QueryGraphPracticalResults1.nt" />
     <None Remove="Resources\QueryGraphQuerying.nt" />
     <None Remove="Resources\QueryGraphTypes.nt" />
     <None Remove="Resources\QueryMulti.nt" />
@@ -91,6 +93,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyRange-P31.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryGraphPracticalResults1-Sorted.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\QueryGraphPracticalResults1.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\QueryGraphTypes.nt">

@@ -22,7 +22,7 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
-            //FilterReorderSortAll();
+            FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
@@ -119,10 +119,9 @@ namespace SparqlForHumans.CLI
 
         private static void FilterReorderSortAll()
         {
-            //var inputFilename = @"filtered-All.nt";
-            //var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryByRangeAndProperty-More-old.nt";
-            //var output =  @"C:\Users\admin\Desktop\DCC\SparQLforHumans\SparqlForHumans.UnitTests\Resources\QueryByRangeAndProperty-More.nt";
-            //TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
+            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphPracticalResults1.nt";
+            var output = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphPracticalResults1-Sorted.nt";
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         }
 
         private static void QueryEntities(string query)
