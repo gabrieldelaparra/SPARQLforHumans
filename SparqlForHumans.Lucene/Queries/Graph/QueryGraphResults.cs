@@ -63,46 +63,51 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                 if (resultIds == null)
                 {
-                    var intersectTypes = new List<string>();
-
-                    //Outgoing edges candidates, take their domain
-                    var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf);
-                    var domainTypes = new List<string>();
-                    foreach (var outgoingEdge in outgoingEdges)
-                        domainTypes = domainTypes.IntersectIfAny(outgoingEdge.DomainBaseTypes).ToList();
-
-                    intersectTypes = intersectTypes.IntersectIfAny(domainTypes).ToList();
-
-                    //Incoming edges candidates, take their range.
-                    var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf);
-                    var rangeTypes = new List<string>();
-                    foreach (var incomingEdge in incomingEdges)
-                        rangeTypes = rangeTypes.IntersectIfAny(incomingEdge.RangeBaseTypes).ToList();
-
-                    //var rangeTypes = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).SelectMany(x => x.RangeBaseTypes).ToList();
-                    intersectTypes = intersectTypes.IntersectIfAny(rangeTypes).ToList();
-
-                    //Combine domain & range, take a random sample and get those results:
-                    intersectTypes = intersectTypes.TakeRandom(100000).ToList();
-                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectTypes, 200).Query(1000);
-
-                    //If the instance is of a specific type, intersect a random sample of the instances with the previous results filter out the valid results:
                     if (node.IsInstanceOfType)
                     {
                         //Intersect (Not if any, we want only the results of that instance, even if there are none):
                         var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfBaseTypes, 200).Query(20);
-                        node.Results = node.Results.Intersect(instanceOfResults).ToList();
+                        node.Results = instanceOfResults;
+                        //TODO: Not sure if the previous run should consider this:
+                        //node.Results = node.Results.Intersect(instanceOfResults).ToList();
                     }
-
-                    if (!intersectTypes.Any())
+                    else
                     {
-                        var rnd = new Random();
-                        var randomEntities = Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
-                        node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
-                        //TODO: Temporary, for not getting empty results if there were none.
-                        if (node.Results.Count < 20)
+                        var intersectBaseTypes = new List<string>();
+
+                        //Outgoing edges candidates, take their domain
+                        var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf);
+                        var baseDomainTypes = new List<string>();
+                        foreach (var outgoingEdge in outgoingEdges)
+                            baseDomainTypes = baseDomainTypes.IntersectIfAny(outgoingEdge.DomainBaseTypes).ToList();
+
+                        intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseDomainTypes).ToList();
+
+                        //Incoming edges candidates, take their range.
+                        var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf);
+                        var baseRangeTypes = new List<string>();
+                        foreach (var incomingEdge in incomingEdges)
+                            baseRangeTypes = baseRangeTypes.IntersectIfAny(incomingEdge.RangeBaseTypes).ToList();
+
+                        intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseRangeTypes).ToList();
+
+                        if (intersectBaseTypes.Any())
                         {
-                            node.Results = node.Results.IntersectIfAny(new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query()).ToList();
+                            //Combine domain & range, take a random sample and get those results:
+                            intersectBaseTypes = intersectBaseTypes.TakeRandom(100000).ToList();
+                            node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectBaseTypes, 200).Query(1000);
+                        }
+                        else
+                        {
+                            //If the instance is of a specific type, intersect a random sample of the instances with the previous results filter out the valid results:
+                            var rnd = new Random();
+                            var randomEntities = Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
+                            node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
+                            //TODO: Temporary, for not getting empty results if there were none.
+                            if (node.Results.Count < 20)
+                            {
+                                node.Results = node.Results.IntersectIfAny(new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query()).ToList();
+                            }
                         }
                     }
                 }
