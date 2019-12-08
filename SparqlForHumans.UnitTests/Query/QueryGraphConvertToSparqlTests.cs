@@ -4,7 +4,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    public class QueryGraphToSparqlTests
+    public class QueryGraphConvertToSparqlTests
     {
         /// <summary>
         /// Q76 P27 ?var1 .
