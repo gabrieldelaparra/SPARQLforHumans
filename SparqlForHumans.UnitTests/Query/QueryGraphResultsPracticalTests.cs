@@ -121,6 +121,32 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestResults_SampleFullIndex_1_GoingToHumanInstanceOfTypeShouldBeThere()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var1"),
+                    new Node(1, "?HUMAN", new[]{"http://www.wikidata.org/entity/Q5"}),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?instanceOf", 0, 1),
+                }
+            };
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath, false);
+
+            var edges = queryGraph.Edges.Select(x=>x.Value).ToArray();
+            var edge = edges[0];
+            var actualResults = edge.Results.Select(x => x.Label).ToList();
+            Assert.Contains("instance of", actualResults);
+        }
+
+        [Fact]
         public void TestResults_SampleFullIndex_OutgoingPropertiesOfKnownOutgoingTypeShouldBeReducedInPossibilities()
         {
             var graph = new RDFExplorerGraph

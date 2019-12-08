@@ -155,8 +155,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                             domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.DomainBaseTypes).ToList();
                         if (source.IsInferredRangeType)
                             rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
-                        if (source.IsGoingToGivenType)
-                            sourceResultsProperties = source.Results.SelectMany(x => x.Properties).Distinct().Select(x => x.Id).ToList();
+                        //if (source.IsGoingToGivenType)
+                        //    sourceResultsProperties = source.Results.SelectMany(x => x.Properties).Distinct().Select(x => x.Id).ToList();
                     }
                     //TODO: Check if this is valid:
                     //if (source.IsGoingToGivenType)

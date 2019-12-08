@@ -376,11 +376,12 @@ namespace SparqlForHumans.UnitTests.Index
                 {
                     var doc = reader.Document(0);
 
-                    Assert.Equal(3, doc.GetValues(Labels.Property).Length);
+                    Assert.Equal(4, doc.GetValues(Labels.Property).Length);
 
                     Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
                     Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
-                    Assert.Equal("P131", doc.GetValues(Labels.Property)[2]);
+                    Assert.Equal("P279", doc.GetValues(Labels.Property)[2]);
+                    Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
                 }
             }
 

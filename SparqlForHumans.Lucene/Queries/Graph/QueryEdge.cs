@@ -17,15 +17,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             sourceId = edge.sourceId;
             targetId = edge.targetId;
         }
-        //public QueryType QueryType { get; set; } = QueryType.Unknown;
         public List<Property> Results { get; set; } = new List<Property>();
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
         public bool IsInstanceOf => this.HasInstanceOf();
-        public bool IsGivenType { get; set; }//=> uris.Any();
-        //public List<string> Domain { get; set; } = new List<string>();
+        public bool IsGivenType { get; set; }
         public List<string> DomainBaseTypes { get; set; } = new List<string>();
         public List<string> DomainDerivedTypes { get; set; } = new List<string>();
-        //public List<string> Range { get; set; } = new List<string>();
         public List<string> RangeBaseTypes { get; set; } = new List<string>();
         public List<string> RangeDerivedTypes { get; set; } = new List<string>();
 

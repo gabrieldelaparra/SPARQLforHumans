@@ -22,9 +22,9 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
-            FilterReorderSortAll();
+            //FilterReorderSortAll();
             //FilterReorderSort500();
-            //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
@@ -60,13 +60,13 @@ namespace SparqlForHumans.CLI
 
         public static void CreateIndex(string filename, bool overwrite = false)
         {
-            //var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
+            var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
             var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
 
-            //entitiesOutputPath.DeleteIfExists(overwrite);
+            entitiesOutputPath.DeleteIfExists(overwrite);
             propertyOutputPath.DeleteIfExists(overwrite);
 
-            //new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
+            new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
             new SimplePropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
         }
 

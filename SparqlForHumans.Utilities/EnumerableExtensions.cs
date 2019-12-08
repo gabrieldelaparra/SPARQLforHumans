@@ -49,10 +49,5 @@ namespace SparqlForHumans.Utilities
             var r = new Random();
             return source.OrderBy(x => r.NextDouble()).Take(takeCount);
         }
-
-        //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
-        //{
-        //    return items.GroupBy(property).Select(x => x.First());
-        //}
     }
 }

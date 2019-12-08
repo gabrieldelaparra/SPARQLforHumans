@@ -49,9 +49,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return ids.Select(x => x.ToEntityIri());
         }
 
-        //public static bool IsNotConnected(this QueryNode node, QueryGraph graph) =>
-        //    !node.HasOutgoingEdges(graph) && !node.HasIncomingEdges(graph);
-        //public static bool HasOutgoingEdges(this QueryNode node, QueryGraph graph) => node.GetOutgoingEdges(graph).Any();
         public static bool HasIncomingEdges(this QueryNode node, QueryGraph graph) => node.GetIncomingEdges(graph).Any();
 
         public static bool IsSomehowDefined(this QueryNode node, QueryGraph graph)

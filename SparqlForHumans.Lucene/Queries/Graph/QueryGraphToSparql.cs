@@ -75,13 +75,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
-            queryBuilder.Where(x =>
-            {
-                x.ToSubject(source)
-                    .ToPredicate(edge)
-                    .ToObject(target)
-                    ;
-            });
+
             source.TraverseNodeToSparql(queryBuilder, graph);
             target.TraverseNodeToSparql(queryBuilder, graph);
 
