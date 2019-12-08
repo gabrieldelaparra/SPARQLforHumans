@@ -29,22 +29,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return node.IsGivenType ? predicate.Object(new Uri(node.uris.First().ToEntityIri())) : predicate.Object(node.name);
         }
 
-        public static Entity ToEntity(this SparqlResult result)
+        public static IEnumerable<string> GetIds(this SparqlResultSet results)
         {
-            return new Entity
-            {
-                Id = result[0].GetUri().GetUriIdentifier(),
-                Label = result[1].GetLiteralValue(),
-            };
-        }
-
-        public static Property ToProperty(this SparqlResult result)
-        {
-            return new Property
-            {
-                Id = result[0].GetUri().GetUriIdentifier(),
-                Label = result[1].GetLiteralValue(),
-            };
+            return results?.Select(x => x[0].GetUri().GetUriIdentifier());
         }
 
         public static void ResetTraverse(this QueryGraph graph)
@@ -61,18 +48,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var variables = new List<string> {
                 node.name,
-                $"{node.name}Label",
             };
 
             var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
 
             node.TraverseNodeToSparql(queryBuilder, graph);
-
-            queryBuilder.Service(new Uri("http://wikiba.se/ontology#label"),
-                y => y.Where(x => x
-                        .Subject(new Uri("http://www.bigdata.com/rdf#serviceParam"))
-                        .PredicateUri(new Uri("http://wikiba.se/ontology#language"))
-                        .ObjectLiteral("[AUTO_LANGUAGE],en")));
 
             var literal = new NodeFactory().CreateLiteralNode("entity/Q");
             var expr = new ContainsFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
@@ -88,8 +68,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.ResetTraverse();
 
             var variables = new List<string> {
-                "?propertyEntity",
-                "?propertyEntityLabel",
+                edge.name,
             };
 
             var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
@@ -101,19 +80,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 x.ToSubject(source)
                     .ToPredicate(edge)
                     .ToObject(target)
-                    .Subject("?propertyEntity")
-                    .PredicateUri(new Uri("http://wikiba.se/ontology#directClaim"))
-                    .Object(edge.name)
                     ;
             });
             source.TraverseNodeToSparql(queryBuilder, graph);
             target.TraverseNodeToSparql(queryBuilder, graph);
-
-            queryBuilder.Service(new Uri("http://wikiba.se/ontology#label"),
-                y => y.Where(x => x
-                    .Subject(new Uri("http://www.bigdata.com/rdf#serviceParam"))
-                    .PredicateUri(new Uri("http://wikiba.se/ontology#language"))
-                    .ObjectLiteral("[AUTO_LANGUAGE],en")));
 
             queryBuilder.Limit(100);
 

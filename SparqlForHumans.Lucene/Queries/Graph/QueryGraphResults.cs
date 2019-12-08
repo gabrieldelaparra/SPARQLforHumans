@@ -59,9 +59,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //The other complex queries. Try endpoint first, if timeout, try with the index.
                 //If the user has a timeout, is because his query is still too broad.
                 //Some suggestions will be proposed with the local index, until the query can be completed by the endpoint.
-                var results = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString(), runOnEndpoint)?.Select(x => x.ToEntity()).ToList();
+                var resultIds = GraphApiQueries.RunQuery(node.ToSparql(graph).ToString(), runOnEndpoint)?.GetIds();
 
-                if (results == null)
+                if (resultIds == null)
                 {
                     var intersectTypes = new List<string>();
 
@@ -108,7 +108,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else
                 {
-                    node.Results = results;
+                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, resultIds).Query();
                 }
             }
         }
@@ -123,9 +123,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     continue;
                 }
 
-                var results = GraphApiQueries.RunQuery(edge.ToSparql(graph).ToString(), runOnEndpoint)?.Select(x => x.ToProperty()).ToList();
+                var resultIds = GraphApiQueries.RunQuery(edge.ToSparql(graph).ToString(), runOnEndpoint)?.GetIds();
 
-                if (results == null)
+                if (resultIds == null)
                 {
                     var source = edge.GetSourceNode(graph);
                     var target = edge.GetTargetNode(graph);
@@ -214,13 +214,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     }
                     else
                     {
-                        results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
-                        edge.Results = results;
+                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
                     }
                 }
                 else
                 {
-                    edge.Results = results;
+                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, resultIds).Query();
                 }
             }
         }

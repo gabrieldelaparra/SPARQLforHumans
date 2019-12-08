@@ -12,20 +12,17 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestResultToEntity()
         {
             const string query = @"
-SELECT DISTINCT ?item ?itemLabel 
+SELECT DISTINCT ?item
 WHERE {
   ?item wdt:P31 wd:Q146.
-  SERVICE wikibase:label { bd:serviceParam wikibase:language ""[AUTO_LANGUAGE],en"". }
 }
 LIMIT 10";
 
-            var results = GraphApiQueries.RunQuery(query);
-            var entities = results.Select(x => x.ToEntity()).ToList();
+            var results = GraphApiQueries.RunQuery(query).GetIds();
 
-            foreach (var entity in entities)
+            foreach (var result in results)
             {
-                Assert.StartsWith("Q", entity.Id);
-                Assert.NotEmpty(entity.Label);
+                Assert.StartsWith("Q", result);
             }
         }
 
@@ -33,21 +30,18 @@ LIMIT 10";
         public void TestResultObamaToEntity()
         {
             const string query = @"
-SELECT DISTINCT ?item ?itemLabel 
+SELECT DISTINCT ?item
 WHERE {
   wd:Q76 ?prop0 ?item .
   ?item rdfs:label ?o .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language ""[AUTO_LANGUAGE],en"". }
 }
 LIMIT 10";
 
-            var results = GraphApiQueries.RunQuery(query);
-            var entities = results.Select(x => x.ToEntity()).ToList();
+            var results = GraphApiQueries.RunQuery(query).GetIds();
 
-            foreach (var entity in entities)
+            foreach (var result in results)
             {
-                Assert.StartsWith("Q", entity.Id);
-                Assert.NotEmpty(entity.Label);
+                Assert.StartsWith("Q", result);
             }
         }
 
@@ -69,13 +63,11 @@ LIMIT 10";
             var queryGraph = new QueryGraph(graph);
             var query = queryGraph.Nodes[1].ToSparql(queryGraph);
 
-            var results = GraphApiQueries.RunQuery(query.ToString());
-            var entities = results.Select(x => x.ToEntity()).ToList();
+            var results = GraphApiQueries.RunQuery(query.ToString()).GetIds();
 
-            foreach (var entity in entities)
+            foreach (var result in results)
             {
-                Assert.StartsWith("Q", entity.Id);
-                Assert.NotEmpty(entity.Label);
+                Assert.StartsWith("Q", result);
             }
         }
     }
