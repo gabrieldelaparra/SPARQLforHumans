@@ -6,6 +6,7 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using SparqlForHumans.Lucene.Queries.Fields;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -463,6 +464,42 @@ namespace SparqlForHumans.UnitTests.Query
 
             Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76000000", actual.Id);
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestEntityPropertiesQueryResults()
+        {
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string outputPath = "QueryEntityProperties";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var actualResults = new BatchIdEntityPropertiesQuery(outputPath, new[] {"P47"}).Query();
+            var actual = actualResults.FirstOrDefault();
+
+            Debug.Assert(actual != null, nameof(actual) + " != null");
+            Assert.Equal("Q26", actual.Id);
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestIntersectEntityPropertiesQueryResults()
+        {
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string outputPath = "QueryEntityProperties";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var actualResults = new IntersectEntityPropertiesQuery(outputPath, new[] {"P47", "P131"}).Query();
+            var actual = actualResults.FirstOrDefault();
+
+            Debug.Assert(actual != null, nameof(actual) + " != null");
+            Assert.Equal("Q26", actual.Id);
 
             outputPath.DeleteIfExists();
         }
