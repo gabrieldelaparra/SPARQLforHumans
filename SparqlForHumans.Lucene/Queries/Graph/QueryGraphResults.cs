@@ -83,8 +83,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     intersectTypes = intersectTypes.IntersectIfAny(rangeTypes).ToList();
 
                     //Combine domain & range, take a random sample and get those results:
-                    intersectTypes = intersectTypes.ToList();
-                    //intersectTypes = intersectTypes.TakeRandom(100).ToList();
+                    intersectTypes = intersectTypes.TakeRandom(100000).ToList();
                     node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectTypes, 200).Query(1000);
 
                     //If the instance is of a specific type, intersect a random sample of the instances with the previous results filter out the valid results:
