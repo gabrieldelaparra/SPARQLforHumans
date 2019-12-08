@@ -60,7 +60,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 else
                 {
                     //TODO: Maybe they should be retrieved in the end, before getting the results (and after filtering if required)
-                    edge.DomainDerivedTypes = edge.DomainDerivedTypes.IntersectIfAny(new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, edge.DomainBaseTypes, 20).Query(100).Select(x => x.Id)).ToList();
+                    //edge.DomainDerivedTypes = edge.DomainDerivedTypes.IntersectIfAny(new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, edge.DomainBaseTypes, 20).Query(100).Select(x => x.Id)).ToList();
                 }
 
                 if (target.IsGivenType && !edge.IsInstanceOf)
@@ -72,7 +72,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 else
                 {
                     //TODO: Maybe they should be retrieved in the end, before getting the results (and after filtering if required)
-                    edge.RangeDerivedTypes = edge.RangeDerivedTypes.IntersectIfAny(new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, edge.RangeBaseTypes, 20).Query(100).Select(x => x.Id)).ToList();
+                    //edge.RangeDerivedTypes = edge.RangeDerivedTypes.IntersectIfAny(new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, edge.RangeBaseTypes, 20).Query(100).Select(x => x.Id)).ToList();
                 }
 
                 ////////if (edge.IsGivenType) return QueryType.GivenPredicateTypeNoQuery;
@@ -177,7 +177,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //Inferred Range Types
                 var incomingBaseTypes = incomingEdges.SelectMany(x => x.RangeBaseTypes).ToList();
                 //Intersect
-                node.InferredBasedTypes = outgoingBaseTypes.IntersectIfAny(incomingBaseTypes).ToList();
+                node.InferredBaseTypes = outgoingBaseTypes.IntersectIfAny(incomingBaseTypes).ToList();
 
 
 
@@ -213,8 +213,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
 
-                //if (source.IsInferredType)
-                //    edge.DomainBaseTypes
+                if (source.IsInferredType)
+                    edge.DomainBaseTypes = edge.DomainBaseTypes.IntersectIfAny(source.InferredBaseTypes).ToList();
+                if (target.IsInferredType)
+                    edge.RangeBaseTypes = edge.RangeBaseTypes.IntersectIfAny(target.InferredBaseTypes).ToList();
 
                 if (source.IsInferredType)
                     edge.Domain = edge.Domain.IntersectIfAny(source.Types).ToList();

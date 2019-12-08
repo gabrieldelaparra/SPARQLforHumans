@@ -13,8 +13,10 @@
 <http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P44> <http://www.wikidata.org/entity/Q55> .
 <http://www.wikidata.org/entity/Q78> <http://www.w3.org/2000/01/rdf-schema#label> "Other Human 2"@en .
 <http://www.wikidata.org/entity/Q78> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q78> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q79> .
 <http://www.wikidata.org/entity/Q79> <http://www.w3.org/2000/01/rdf-schema#label> "Other Human 3"@en .
 <http://www.wikidata.org/entity/Q79> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q79> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q78> .
 <http://www.wikidata.org/entity/Q49088> <http://www.w3.org/2000/01/rdf-schema#label> "Something going to Q30"@en .
 <http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q30> .
 <http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q76> .
