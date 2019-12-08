@@ -18,4 +18,17 @@ namespace SparqlForHumans.Lucene.Queries {
             return GetDocuments().ToEntities().Distinct().OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
         }
     }
+
+    public class BatchIdEntityReversePropertiesQuery : BaseEntityQuery
+    {
+        public BatchIdEntityReversePropertiesQuery(string luceneIndexPath, IEnumerable<string> searchStrings, int resultsLimit = 20) : base(luceneIndexPath, searchStrings, resultsLimit) { }
+
+        internal override IQueryParser QueryParser => new EntityPropertiesQueryParser();
+
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+        public override List<Entity> Query(int resultsLimit = 100)
+        {
+            return GetDocuments().ToEntities().Distinct().OrderByDescending(x => x.Rank).Take(resultsLimit).ToList();
+        }
+    }
 }
