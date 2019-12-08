@@ -1,4 +1,6 @@
-﻿using SparqlForHumans.Lucene.Index;
+﻿using System.Linq;
+using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Utilities;
@@ -6,7 +8,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    public class QueryGraphQueryingTests
+    public class QueryGraphResultsTests
     {
         private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
         private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
