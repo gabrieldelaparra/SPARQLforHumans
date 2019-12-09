@@ -24,7 +24,8 @@ namespace SparqlForHumans.CLI
             Options.InternUris = false;
             //FilterReorderSortAll();
             //FilterReorderSort500();
-            CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
@@ -58,15 +59,16 @@ namespace SparqlForHumans.CLI
             //IndexBuilder.CreateTypesIndex();
         }
 
-        public static void CreateIndex(string filename, bool overwrite = false)
+        public static void CreateEntitiesIndex(string filename, bool overwrite = false)
         {
             var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
-            var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
-
             entitiesOutputPath.DeleteIfExists(overwrite);
-            propertyOutputPath.DeleteIfExists(overwrite);
-
             new EntitiesIndexer(filename, LuceneDirectoryDefaults.EntityIndexPath).Index();
+        }
+        public static void CreatePropertiesIndex(string filename, bool overwrite = false)
+        {
+            var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
+            propertyOutputPath.DeleteIfExists(overwrite);
             new SimplePropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
         }
 

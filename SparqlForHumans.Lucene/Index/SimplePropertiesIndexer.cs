@@ -42,10 +42,9 @@ namespace SparqlForHumans.Lucene.Index
         private Dictionary<int, int> FrequencyDictionary { get; set; } = new Dictionary<int, int>();
         private Dictionary<int, List<int>> DomainDictionary { get; set; } = new Dictionary<int, List<int>>();
         private Dictionary<int, List<int>> RangeDictionary { get; set; } = new Dictionary<int, List<int>>();
-        private Dictionary<int, List<int>> rangeAuxiliaryDictionary { get; set; } = new Dictionary<int, List<int>>();
-        private string FrequencyFieldName => Labels.Rank.ToString();
-        private string DomainFieldName => Labels.DomainType.ToString();
-        private string RangeFieldName => Labels.Range.ToString();
+        private static string FrequencyFieldName => Labels.Rank.ToString();
+        private static string DomainFieldName => Labels.DomainType.ToString();
+        private static string RangeFieldName => Labels.Range.ToString();
         internal  void FrequencyParseTripleGroup(Dictionary<int, int> dictionary, IEnumerable<Triple> triples)
         {
             foreach (var triple in triples)
@@ -117,18 +116,18 @@ namespace SparqlForHumans.Lucene.Index
                 : new List<DoubleField>();
         }
 
-        public IEnumerable<StringField> RangeGetField(SubjectGroup tripleGroup)
+        public IEnumerable<StringField> RangeGetField(SubjectGroup subjectGroup)
         {
-            return RangeDictionary.ContainsKey(tripleGroup.Id.ToNumbers())
-                ? RangeDictionary[tripleGroup.Id.ToNumbers()]
+            return RangeDictionary.ContainsKey(subjectGroup.Id.ToNumbers())
+                ? RangeDictionary[subjectGroup.Id.ToNumbers()]
                     .Select(x => new StringField(RangeFieldName, x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
 
-        public IEnumerable<StringField> DomainGetField(SubjectGroup tripleGroup)
+        public IEnumerable<StringField> DomainGetField(SubjectGroup subjectGroup)
         {
-            return DomainDictionary.ContainsKey(tripleGroup.Id.ToNumbers())
-                ? DomainDictionary[tripleGroup.Id.ToNumbers()]
+            return DomainDictionary.ContainsKey(subjectGroup.Id.ToNumbers())
+                ? DomainDictionary[subjectGroup.Id.ToNumbers()]
                     .Select(x => new StringField(DomainFieldName, x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
@@ -142,12 +141,17 @@ namespace SparqlForHumans.Lucene.Index
             var subjectGroups = FileHelper.GetInputLines(InputFilename)
                 .GroupBySubject();
 
+            NotifyTicks = 10000;
+
             foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-                FrequencyParseTripleGroup(FrequencyDictionary, subjectGroup);
-                DomainParseTripleGroup(DomainDictionary, subjectGroup);
-                RangeParseTripleGroup(RangeDictionary, subjectGroup);
+                var subjectGroupArray = subjectGroup.ToArray();
+                FrequencyParseTripleGroup(FrequencyDictionary, subjectGroupArray);
+                DomainParseTripleGroup(DomainDictionary, subjectGroupArray);
+                RangeParseTripleGroup(RangeDictionary, subjectGroupArray);
                 LogProgress(readCount++);
             }
+
+            NotifyTicks = 100000;
 
             readCount = 0;
 
@@ -156,8 +160,7 @@ namespace SparqlForHumans.Lucene.Index
             using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
             using (var writer = new IndexWriter(indexDirectory, indexConfig))
             {
-                foreach (var subjectGroup in subjectGroups.Where(FilterGroups).AsParallel())
-                {
+                foreach (var subjectGroup in subjectGroups.Where(FilterGroups)) {
                     var document = new Document();
 
                     FrequencyGetField(subjectGroup).ToList().ForEach(x => document.Add(x));
