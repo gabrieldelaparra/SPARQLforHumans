@@ -25,7 +25,7 @@ namespace SparqlForHumans.CLI
             //FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
-            CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
@@ -69,7 +69,7 @@ namespace SparqlForHumans.CLI
         {
             var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
             propertyOutputPath.DeleteIfExists(overwrite);
-            new SimplePropertiesIndexer(filename, LuceneDirectoryDefaults.PropertyIndexPath).Index();
+            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
         }
 
         private static void Filter2MM()

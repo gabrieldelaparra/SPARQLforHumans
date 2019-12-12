@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
@@ -15,7 +16,7 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index
 {
-    public class SimplePropertiesIndexer: BaseNotifier, IIndexer
+    public class SimplePropertiesIndexer : BaseNotifier, IIndexer
     {
         public SimplePropertiesIndexer(string inputFilename, string outputDirectory)
         {
@@ -39,80 +40,18 @@ namespace SparqlForHumans.Lucene.Index
         {
             return tripleGroup.IsEntityP();
         }
-        private Dictionary<int, int> FrequencyDictionary { get; set; } = new Dictionary<int, int>();
-        private Dictionary<int, List<int>> DomainDictionary { get; set; } = new Dictionary<int, List<int>>();
-        private Dictionary<int, List<int>> RangeDictionary { get; set; } = new Dictionary<int, List<int>>();
+        private Hashtable FrequencyHashTable { get; set; } = new Hashtable();
+        private Dictionary<int, HashSet<int>> DomainDictionary { get; set; } = new Dictionary<int, HashSet<int>>();
+        private Dictionary<int, HashSet<int>> RangeDictionary { get; set; } = new Dictionary<int, HashSet<int>>();
         private static string FrequencyFieldName => Labels.Rank.ToString();
         private static string DomainFieldName => Labels.DomainType.ToString();
         private static string RangeFieldName => Labels.Range.ToString();
-        internal  void FrequencyParseTripleGroup(Dictionary<int, int> dictionary, IEnumerable<Triple> triples)
-        {
-            foreach (var triple in triples)
-            {
-                // Filter Properties Only
-                if (!triple.Predicate.IsProperty()) continue;
 
-                var predicateIntId = triple.Predicate.GetIntId();
-
-                if (!dictionary.ContainsKey(predicateIntId))
-                    dictionary.Add(predicateIntId, 0);
-
-                dictionary[predicateIntId]++;
-            }
-        }
-        
-        internal void DomainParseTripleGroup(Dictionary<int, List<int>> dictionary, IEnumerable<Triple> triples)
-        {
-            // Filter those the triples that are properties only (Exclude description, label, etc.)
-            var propertiesTriples = triples.Where(x => x.Predicate.IsProperty());
-
-            var (instanceOfSlice, otherPropertiesSlice) = propertiesTriples.SliceBy(x => x.Predicate.IsInstanceOf());
-
-            // InstanceOf Ids (Domain Types) and Properties
-            var propertyIds = otherPropertiesSlice.Select(x => x.Predicate.GetIntId()).Distinct().ToArray();
-            var instanceOfIds = instanceOfSlice.Select(x => x.Object.GetIntId()).Distinct().ToArray();
-            var instanceOfPropertyIds = instanceOfSlice.Select(x => x.Predicate.GetIntId());
-
-            foreach (var instanceOfId in instanceOfPropertyIds)
-            {
-                dictionary.AddSafe(instanceOfId, instanceOfIds);
-            }
-
-            foreach (var propertyId in propertyIds)
-            {
-                dictionary.AddSafe(propertyId, instanceOfIds);
-            }
-        }
-
-        internal void RangeParseTripleGroup(Dictionary<int, List<int>> dictionary, IEnumerable<Triple> triples)
-        {
-            // Filter those the triples that are properties only (Exclude description, label, etc.)
-            var propertiesTriples = triples.Where(x => x.Predicate.IsReverseProperty() 
-                                                       || x.Predicate.IsInstanceOf() 
-                                                       || x.Predicate.IsReverseInstanceOf()).ToArray();
-
-            var instanceOf = propertiesTriples.Where(x => x.Predicate.IsInstanceOf());
-            var reverseInstanceOf = propertiesTriples.Where(x => x.Predicate.IsReverseInstanceOf());
-            var reverseProperties = propertiesTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
-
-            var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId());
-            var reverseInstanceOfIds = reverseInstanceOf.Select(x => x.Predicate.GetIntId());
-            var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId());
-
-            foreach (var reversePropertyId in reversePropertyIds) {
-                dictionary.AddSafe(reversePropertyId, instanceOfIds);
-            }
-
-            foreach (var reverseInstanceOfId in reverseInstanceOfIds) {
-                dictionary.AddSafe(reverseInstanceOfId, instanceOfIds);
-            }
-        }
-        
         public IEnumerable<DoubleField> FrequencyGetField(SubjectGroup subjectGroup)
         {
             var subjectId = subjectGroup.Id.ToNumbers();
-            return FrequencyDictionary.ContainsKey(subjectId)
-                ? new List<DoubleField> { new DoubleField(FrequencyFieldName, FrequencyDictionary[subjectId], Field.Store.YES) }
+            return FrequencyHashTable.ContainsKey(subjectId)
+                ? new List<DoubleField> { new DoubleField(FrequencyFieldName, (int)FrequencyHashTable[subjectId], Field.Store.YES) }
                 : new List<DoubleField>();
         }
 
@@ -134,6 +73,8 @@ namespace SparqlForHumans.Lucene.Index
 
         public void Index()
         {
+            var indexConfig = LuceneIndexDefaults.CreateStandardIndexWriterConfig();
+
             long readCount = 0;
 
             // Read All lines in the file (IEnumerable, yield)
@@ -141,58 +82,78 @@ namespace SparqlForHumans.Lucene.Index
             var subjectGroups = FileHelper.GetInputLines(InputFilename)
                 .GroupBySubject();
 
-            NotifyTicks = 10000;
-
+            //First Pass:
             foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-                var subjectGroupArray = subjectGroup.ToArray();
-                FrequencyParseTripleGroup(FrequencyDictionary, subjectGroupArray);
-                DomainParseTripleGroup(DomainDictionary, subjectGroupArray);
-                RangeParseTripleGroup(RangeDictionary, subjectGroupArray);
+                
+                var validTriples = subjectGroup.Where(x =>
+                    x.Predicate.IsProperty() ||
+                    (x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf())).ToArray();
+
+                var properties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
+
+                //FREQUENCY
+                foreach (var triple in properties)
+                {
+                    var propertyIntId = triple.Predicate.GetIntId();
+
+                    if (!FrequencyHashTable.ContainsKey(propertyIntId))
+                        FrequencyHashTable.Add(propertyIntId, 0);
+
+                    FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
+                }
+
+                //DOMAIN:
+                var (instanceOf, otherProperties) = properties.SliceBy(x => x.Predicate.IsInstanceOf());
+                var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
+                var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
+                DomainDictionary.AddSafe(31, instanceOfIds);
+                foreach (var propertyId in propertyIds)
+                    DomainDictionary.AddSafe(propertyId, instanceOfIds);
+
+                //RANGE:
+                var reverseProperties = validTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
+                var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId());
+                RangeDictionary.AddSafe(31, instanceOfIds);
+                foreach (var reversePropertyId in reversePropertyIds)
+                    RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+
                 LogProgress(readCount++);
             }
 
-            NotifyTicks = 100000;
-
             readCount = 0;
 
-            var indexConfig = LuceneIndexDefaults.CreateStandardIndexWriterConfig();
-
+            //Second Pass:
             using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
             using (var writer = new IndexWriter(indexDirectory, indexConfig))
             {
-                foreach (var subjectGroup in subjectGroups.Where(FilterGroups)) {
+                foreach (var subjectGroup in subjectGroups.Where(FilterGroups))
+                {
                     var document = new Document();
 
-                    FrequencyGetField(subjectGroup).ToList().ForEach(x => document.Add(x));
-                    DomainGetField(subjectGroup).ToList().ForEach(x => document.Add(x));
-                    RangeGetField(subjectGroup).ToList().ForEach(x => document.Add(x));
+                    foreach (var field in FrequencyGetField(subjectGroup))
+                        document.Add(field);
+
+                    foreach (var field in DomainGetField(subjectGroup))
+                        document.Add(field);
+
+                    foreach (var field in RangeGetField(subjectGroup))
+                        document.Add(field);
 
                     var boostField = document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()));
                     var boost = 0.0;
                     if (boostField != null)
-                    {
                         boost = (double)boostField.GetDoubleValue();
-                    }
 
                     foreach (var fieldIndexer in FieldIndexers)
-                    {
                         fieldIndexer.Boost = boost;
-                    }
 
                     foreach (var fieldIndexer in FieldIndexers)
-                    {
                         foreach (var field in fieldIndexer.GetField(subjectGroup))
-                        {
                             document.Add(field);
-                        }
-                    }
 
                     LogProgress(readCount++);
 
-                    //if (FilterGroups(subjectGroup))
-                    //{
-                        writer.AddDocument(document);
-                    //}
+                    writer.AddDocument(document);
                 }
             }
 

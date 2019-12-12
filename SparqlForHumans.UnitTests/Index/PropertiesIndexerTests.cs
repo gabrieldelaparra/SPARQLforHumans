@@ -187,8 +187,9 @@ namespace SparqlForHumans.UnitTests.Index
             var property31WithRange = properties.FirstOrDefault(x => x.Id.Equals("P31")).Range;
 
             Assert.NotEmpty(property31WithRange);
-            Assert.Equal(100, property31WithRange[0]);
-            Assert.Equal(200, property31WithRange[1]);
+            Assert.Contains(100, property31WithRange);
+            Assert.Contains(200, property31WithRange);
+            Assert.Contains(5, property31WithRange);
 
             outputPath.DeleteIfExists();
         }

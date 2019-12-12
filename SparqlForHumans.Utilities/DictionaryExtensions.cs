@@ -33,6 +33,18 @@ namespace SparqlForHumans.Utilities
                 dictionary.Add(key, values.Distinct().ToList());
             }
         }
+        public static void AddSafe<T1, T2>(this Dictionary<T1, HashSet<T2>> dictionary, T1 key, IEnumerable<T2> values)
+        {
+            if (!values.Any())
+                return;
+
+            if (!dictionary.ContainsKey(key))
+                dictionary.Add(key, new HashSet<T2>());
+
+            foreach (var value in values)
+                dictionary[key].Add(value);
+        }
+
 
         public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
