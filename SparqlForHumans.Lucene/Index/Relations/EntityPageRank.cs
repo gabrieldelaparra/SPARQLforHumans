@@ -72,13 +72,8 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var nodeIndex = 0;
             var dictionary = new Dictionary<int, int>();
 
-            foreach (var group in groups)
+            foreach (var group in groups.Where(x=>x.IsEntityQ()))
             {
-                if (!group.IsEntityQ())
-                {
-                    continue;
-                }
-
                 if (nodeIndex % NotifyTicks == 0)
                 {
                     Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
