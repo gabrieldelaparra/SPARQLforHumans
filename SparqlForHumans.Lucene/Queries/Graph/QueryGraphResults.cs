@@ -27,8 +27,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             if (runOnEndpoint)
                 tasks = graph.RunWikidataEndpointQueries();
 
-            graph.RunNodeQueries(runOnEndpoint);
-            graph.RunEdgeQueries(runOnEndpoint);
+            graph.RunNodeQueries();
+            graph.RunEdgeQueries();
 
             //TODO: Assign all results for those queries that ran.
             if (tasks.Any())
@@ -65,19 +65,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 if (node.Traversed) continue;
-                tasks.Add(GraphApiQueries.RunQueryAsync(node.ToSparql(graph).ToString()));
+                var query = node.ToSparql(graph).ToString();
+                var queryLines = query.Split(new []{Environment.NewLine} ,StringSplitOptions.None);
+                queryLines = queryLines.Distinct().ToArray();
+                query = string.Join(Environment.NewLine, queryLines);
+                tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }
-
-            //foreach (var edge in graph.Edges.Select(x => x.Value))
-            //{
-            //    if (edge.Traversed) continue;
-            //    tasks.Add(GraphApiQueries.RunQueryAsync(edge.ToSparql(graph).ToString()));
-            //}
-
             return tasks.Where(x => x != null).ToList();
         }
 
-        private static void RunNodeQueries(this QueryGraph graph, bool runOnEndpoint = true)
+        private static void RunNodeQueries(this QueryGraph graph)
         {
             foreach (var node in graph.Nodes.Select(x => x.Value).Where(x=>!x.AvoidQuery))
             {
@@ -134,7 +131,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        private static void RunEdgeQueries(this QueryGraph graph, bool runOnEndpoint = true)
+        private static void RunEdgeQueries(this QueryGraph graph)
         {
             foreach (var edge in graph.Edges.Select(x => x.Value).Where(x=>!x.AvoidQuery))
             {

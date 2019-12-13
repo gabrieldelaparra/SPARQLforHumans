@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using SparqlForHumans.Lucene.Queries.Graph;
+﻿using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Wikidata.Services;
 using Xunit;
@@ -67,7 +66,7 @@ LIMIT 10";
 
             foreach (var result in results)
             {
-                Assert.StartsWith("Q", result);
+                Assert.True(result.StartsWith("Q") || result.StartsWith("P"));
             }
         }
     }
