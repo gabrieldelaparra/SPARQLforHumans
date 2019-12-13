@@ -25,6 +25,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public List<string> DomainDerivedTypes { get; set; } = new List<string>();
         public List<string> RangeBaseTypes { get; set; } = new List<string>();
         public List<string> RangeDerivedTypes { get; set; } = new List<string>();
+        public bool AvoidQuery { get; set; }
 
         public override string ToString()
         {

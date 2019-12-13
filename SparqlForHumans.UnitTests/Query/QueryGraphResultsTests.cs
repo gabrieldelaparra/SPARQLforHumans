@@ -263,8 +263,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("country of citizenship"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("Instance Of")); //Instance
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("father")); //reverse
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Label.Equals("random property 555")); //Not there
-            Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Label.Equals("father")); //reverse
 
             // Cleanup
             DeleteIndex();

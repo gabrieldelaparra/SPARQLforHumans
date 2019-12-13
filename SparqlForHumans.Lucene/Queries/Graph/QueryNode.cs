@@ -29,6 +29,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public bool IsInferredDomainType { get; set; } = false;
         public bool IsInferredRangeType { get; internal set; }
 
+        public bool AvoidQuery { get; set; }
+
         public override string ToString()
         {
             return $"{id}:{name} ({string.Join(";", uris.Select(x => x.GetUriIdentifier()))})";

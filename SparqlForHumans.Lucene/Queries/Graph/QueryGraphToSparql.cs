@@ -9,7 +9,9 @@ using VDS.RDF;
 using VDS.RDF.Query;
 using VDS.RDF.Query.Builder;
 using VDS.RDF.Query.Expressions.Functions.Sparql.String;
+using VDS.RDF.Query.Expressions.Functions.XPath.String;
 using VDS.RDF.Query.Expressions.Primary;
+using ContainsFunction = VDS.RDF.Query.Expressions.Functions.Sparql.String.ContainsFunction;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -37,12 +39,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static IEnumerable<string> GetQIds(this SparqlResultSet results)
         {
-            return results.GetIds()?.Where(x=>x.StartsWith(Constants.EntityPrefix));
+            return results.GetIds()?.Where(x => x.StartsWith(Constants.EntityPrefix));
         }
 
         public static IEnumerable<string> GetPIds(this SparqlResultSet results)
         {
-            return results.GetIds()?.Where(x=>x.StartsWith(Constants.PropertyPrefix));
+            return results.GetIds()?.Where(x => x.StartsWith(Constants.PropertyPrefix));
         }
 
         public static void ResetTraverse(this QueryGraph graph)
@@ -55,19 +57,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph)
         {
-            graph.ResetTraverse();
-
-            var variables = new List<string> {
-                node.name,
-            };
-
-            var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
+            var queryBuilder = QueryBuilder.SelectAll().Distinct();
 
             node.TraverseNodeToSparql(queryBuilder, graph);
-
-            var literal = new NodeFactory().CreateLiteralNode("entity/Q");
-            var expr = new ContainsFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
-            queryBuilder.Filter(expr);
 
             queryBuilder.Limit(100);
 
@@ -76,13 +68,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static SparqlQuery ToSparql(this QueryEdge edge, QueryGraph graph)
         {
-            graph.ResetTraverse();
-
-            var variables = new List<string> {
-                edge.name,
-            };
-
-            var queryBuilder = QueryBuilder.Select(variables.ToArray()).Distinct();
+            var queryBuilder = QueryBuilder.SelectAll().Distinct();
 
             var source = edge.GetSourceNode(graph);
             var target = edge.GetTargetNode(graph);
@@ -110,28 +96,63 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     x.ToSubject(sourceNode)
                         .ToPredicate(incomingEdge)
-                        .ToObject(node)
-                        .Subject(node.name)
-                        .PredicateUri(new Uri("http://www.w3.org/2000/01/rdf-schema#label"))
-                        .Object($"?{node.name}_discardNonEntities");
+                        .ToObject(node);
                 });
+
+                if (!sourceNode.IsGivenType)
+                {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(sourceNode.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
+
+                if (!incomingEdge.IsGivenType) {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.PropertyIRI}{Constants.PropertyPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(incomingEdge.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
+
+                if (!node.IsGivenType) {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
+
                 sourceNode.TraverseNodeToSparql(queryBuilder, graph);
             }
 
             var outgoingEdges = node.GetOutgoingEdges(graph);
-            foreach (var incomingEdge in outgoingEdges)
+            foreach (var outgoingEdge in outgoingEdges)
             {
-                var targetNode = incomingEdge.GetTargetNode(graph);
+                var targetNode = outgoingEdge.GetTargetNode(graph);
                 if (targetNode.Traversed) continue;
                 queryBuilder.Where(x =>
                 {
                     x.ToSubject(node)
-                        .ToPredicate(incomingEdge)
+                        .ToPredicate(outgoingEdge)
                         .ToObject(targetNode);
                 });
+
+                if (!targetNode.IsGivenType)
+                {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(targetNode.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
+
+                if (!outgoingEdge.IsGivenType) {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.PropertyIRI}{Constants.PropertyPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(outgoingEdge.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
+
+                if (!node.IsGivenType) {
+                    var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
+                    var expr = new StartsWithFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
+                    queryBuilder.Filter(expr);
+                }
                 targetNode.TraverseNodeToSparql(queryBuilder, graph);
             }
-
 
             return queryBuilder;
         }

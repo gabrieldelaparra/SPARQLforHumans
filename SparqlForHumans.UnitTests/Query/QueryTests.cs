@@ -562,7 +562,7 @@ namespace SparqlForHumans.UnitTests.Query
             var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
 
             Assert.NotEmpty(rangeEntities);
-            Assert.Equal(1, rangeEntities.Count); // P25, P31
+            Assert.Equal(2, rangeEntities.Count); // P25, P31
             Assert.Equal("P25", rangeEntities[0].Id);
 
             propertyOutputPath.DeleteIfExists();
@@ -601,7 +601,7 @@ namespace SparqlForHumans.UnitTests.Query
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
-            Assert.Equal(1, properties.Length); // P27,P31
+            Assert.Equal(2, properties.Length); // P27,P31
             Assert.Equal("P27", properties[0].Id);
 
             propertyOutputPath.DeleteIfExists();
@@ -636,13 +636,13 @@ namespace SparqlForHumans.UnitTests.Query
             //Act:
             new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
             var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
-            Assert.Equal(2, rangeProperties.Count); //P31, P27, P555
+            Assert.Equal(3, rangeProperties.Count); //P31, P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
             Assert.Equal(3, domainProperties.Count); // P31, P27, P777
             var properties = rangeProperties.Intersect(domainProperties,new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
-            Assert.Equal(1, properties.Length); // P27, P31
+            Assert.Equal(2, properties.Length); // P27, P31
             Assert.Equal("P27", properties[0].Id);
 
             propertyOutputPath.DeleteIfExists();
