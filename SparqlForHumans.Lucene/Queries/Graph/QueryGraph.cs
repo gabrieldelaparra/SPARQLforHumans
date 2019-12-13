@@ -9,8 +9,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         public QueryGraph(RDFExplorerGraph rdfGraph)
         {
-            Nodes = rdfGraph.nodes.ToDictionary(x => x.id, x => new QueryNode(x));
-            Edges = rdfGraph.edges.ToDictionary(x => x.id, x => new QueryEdge(x));
+            Nodes = rdfGraph.nodes.Distinct().ToDictionary(x => x.id, x => new QueryNode(x));
+            Edges = rdfGraph.edges.Distinct().ToDictionary(x => x.id, x => new QueryEdge(x));
 
             this.CheckNodeTypes();
 
