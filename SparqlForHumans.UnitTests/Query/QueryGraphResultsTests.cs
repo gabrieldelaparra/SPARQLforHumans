@@ -20,7 +20,7 @@ namespace SparqlForHumans.UnitTests.Query
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-            new SimplePropertiesIndexer(filename, PropertiesIndexPath).Index();
+            new PropertiesIndexer(filename, PropertiesIndexPath).Index();
         }
 
         private static void DeleteIndex()

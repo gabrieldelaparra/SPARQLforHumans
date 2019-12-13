@@ -137,23 +137,21 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
                 nodesDictionary.TryGetValue(group.IntId, out var subjectIndex);
 
-                var entityNodeConnections = new List<int>();
+                var entityNodeConnections = new HashSet<int>();
 
                 foreach (var line in group)
                 {
-                    
+
                     var (_, ntPredicate, ntObject) = line.AsTuple();
-                    
-                    if(!ntPredicate.IsProperty()) continue;
+
+                    if (!ntPredicate.IsProperty()) continue;
                     if (!ntObject.IsEntityQ()) continue;
 
                     var objectId = ntObject.GetIntId();
                     nodesDictionary.TryGetValue(objectId, out var objectIndex);
 
                     if (!entityNodeConnections.Contains(objectIndex))
-                    {
                         entityNodeConnections.Add(objectIndex);
-                    }
                 }
 
                 nodeArray[subjectIndex] = entityNodeConnections.ToArray();

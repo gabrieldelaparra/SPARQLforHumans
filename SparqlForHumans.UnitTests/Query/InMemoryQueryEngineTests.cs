@@ -18,7 +18,7 @@ namespace SparqlForHumans.UnitTests.Query
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new SimplePropertiesIndexer(filename, propertiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
@@ -43,7 +43,7 @@ namespace SparqlForHumans.UnitTests.Query
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new SimplePropertiesIndexer(filename, propertiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
@@ -66,7 +66,7 @@ namespace SparqlForHumans.UnitTests.Query
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new SimplePropertiesIndexer(filename, propertiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);
@@ -90,7 +90,7 @@ namespace SparqlForHumans.UnitTests.Query
             entitiesIndexPath.DeleteIfExists();
             propertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
-            new SimplePropertiesIndexer(filename, propertiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath).Index();
 
             // Act
             InMemoryQueryEngine.Init(entitiesIndexPath, propertiesIndexPath);

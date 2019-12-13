@@ -64,7 +64,7 @@ namespace SparqlForHumans.CLI
         {
             var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
             propertyOutputPath.DeleteIfExists(overwrite);
-            new SimplePropertiesIndexer(filename, propertyOutputPath).Index();
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
         }
 
         private static void Filter2MM()
