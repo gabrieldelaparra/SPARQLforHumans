@@ -7,7 +7,6 @@ namespace SparqlForHumans.Wikidata.Models
 {
     public class CustomSparqlEndPoint : SparqlRemoteEndpoint
     {
-        
         public CustomSparqlEndPoint(Uri endpointUri) : base(endpointUri) { }
 
         protected override void ApplyCustomRequestOptions(HttpWebRequest httpRequest)

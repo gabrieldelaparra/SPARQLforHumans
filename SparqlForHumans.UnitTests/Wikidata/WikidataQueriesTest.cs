@@ -34,5 +34,21 @@ WHERE{
             var results = GraphApiQueries.RunQuery(query);
             Assert.NotEmpty(results);
         }
+
+        [Fact]
+        public void TestSparqlEndpointWorksAsync_Cats()
+        {
+            var query = @"
+SELECT ?item ?itemLabel 
+WHERE 
+{
+  ?item <http://www.wikidata.org/prop/direct/P31>  <http://www.wikidata.org/entity/Q146>.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language ""[AUTO_LANGUAGE],en"". }
+}";
+            var resultTask = GraphApiQueries.RunQueryAsync(query);
+            resultTask.Wait();
+            var results = resultTask.Result;
+            Assert.NotEmpty(results);
+        }
     }
 }

@@ -12,20 +12,23 @@ using System.Linq;
 using SparqlForHumans.RDF.FilterReorderSort;
 using SparqlForHumans.RDF.Reordering;
 using VDS.RDF;
+using System;
+using System.Collections.Concurrent;
+
+using VDS.RDF;
+using VDS.RDF.Query;
 
 namespace SparqlForHumans.CLI
 {
     internal class Program
     {
-        //private static bool keepRunning = true;
-
         private static void Main(string[] args)
         {
             Options.InternUris = false;
             //FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
-            //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Models;
+using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using VDS.RDF;
@@ -32,6 +33,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static IEnumerable<string> GetIds(this SparqlResultSet results)
         {
             return results?.Select(x => x[0].GetUri().GetUriIdentifier());
+        }
+
+        public static IEnumerable<string> GetQIds(this SparqlResultSet results)
+        {
+            return results.GetIds()?.Where(x=>x.StartsWith(Constants.EntityPrefix));
+        }
+
+        public static IEnumerable<string> GetPIds(this SparqlResultSet results)
+        {
+            return results.GetIds()?.Where(x=>x.StartsWith(Constants.PropertyPrefix));
         }
 
         public static void ResetTraverse(this QueryGraph graph)
