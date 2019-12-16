@@ -37,21 +37,37 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     task.Wait();
                     var resultsSet = task.Result;
-                    if (resultsSet != null && resultsSet.Any()) {
+                    if (resultsSet != null)
+                    {
+
                         var nodes = graph.Nodes.Select(x => x.Value);
                         var edges = graph.Edges.Select(x => x.Value);
 
-                        var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x=>x.Key);
+                        if (!resultsSet.Any())
+                        {
+                            foreach (var node in nodes.Where(x => x.Traversed))
+                            {
+                                node.Results = new List<Entity>();
+                            }
 
-                        foreach (var queryGroup in queryResultsGroup) {
-                            var itemKey = $"?{queryGroup.Key}";
+                            foreach (var edge in edges.Where(x => x.Traversed))
+                            {
+                                edge.Results = new List<Property>();
+                            }
+                        }
+
+                        var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x => x.Key);
+
+                        foreach (var queryGroup in queryResultsGroup)
+                        {
+                            var itemKey = $"{queryGroup.Key}";
                             var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId());
                             var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
-                            if(node != null)
-                                node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query();
+                            if (node != null)
+                                node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(100);
                             var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
-                            if(edge != null)
-                                edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query();
+                            if (edge != null)
+                                edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(100);
                         }
                     }
                 }
@@ -66,7 +82,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 if (node.Traversed) continue;
                 var query = node.ToSparql(graph).ToString();
-                var queryLines = query.Split(new []{Environment.NewLine} ,StringSplitOptions.None);
+                var queryLines = query.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
                 queryLines = queryLines.Distinct().ToArray();
                 query = string.Join(Environment.NewLine, queryLines);
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
@@ -76,7 +92,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static void RunNodeQueries(this QueryGraph graph)
         {
-            foreach (var node in graph.Nodes.Select(x => x.Value).Where(x=>!x.AvoidQuery))
+            foreach (var node in graph.Nodes.Select(x => x.Value).Where(x => !x.AvoidQuery))
             {
                 //The other complex queries. Try endpoint first, if timeout, try with the index.
                 //If the user has a timeout, is because his query is still too broad.
@@ -133,7 +149,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static void RunEdgeQueries(this QueryGraph graph)
         {
-            foreach (var edge in graph.Edges.Select(x => x.Value).Where(x=>!x.AvoidQuery))
+            foreach (var edge in graph.Edges.Select(x => x.Value).Where(x => !x.AvoidQuery))
             {
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
@@ -194,17 +210,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     .ToList();
 
                 if (target.IsGivenType)
+                {
                     givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
                         .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
-                if (target.IsInstanceOfType)
-                    instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.InstanceOfBaseTypes).ToList();
+                }
+                else
+                {
+                    if (target.IsInstanceOfType)
+                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.InstanceOfBaseTypes).ToList();
 
-                //TODO: Check if this is valid:
-                //if (target.IsInferredDomainType)
-                //    domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Domain).ToList();
-                if (target.IsInferredRangeType)
-                    rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
-
+                    //TODO: Check if this is valid:
+                    //if (target.IsInferredDomainType)
+                    //    domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Domain).ToList();
+                    if (target.IsInferredRangeType)
+                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
+                }
                 var incomingPropertyIds = givenPropertiesIds
                     .IntersectIfAny(instanceOfPropertiesIds)
                     .IntersectIfAny(domainPropertiesIds)

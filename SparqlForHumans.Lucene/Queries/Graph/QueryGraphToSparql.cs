@@ -83,14 +83,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static IQueryBuilder TraverseNodeToSparql(this QueryNode node, IQueryBuilder queryBuilder, QueryGraph graph)
         {
-            if (node.Traversed) return queryBuilder;
-            node.Traversed = true;
-
             var incomingEdges = node.GetIncomingEdges(graph);
             foreach (var incomingEdge in incomingEdges)
             {
+                if (incomingEdge.Traversed) continue;
                 var sourceNode = incomingEdge.GetSourceNode(graph);
-                if (sourceNode.Traversed) continue;
 
                 queryBuilder.Where(x =>
                 {
@@ -118,14 +115,16 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     queryBuilder.Filter(expr);
                 }
 
+                incomingEdge.Traversed = true;
                 sourceNode.TraverseNodeToSparql(queryBuilder, graph);
             }
 
             var outgoingEdges = node.GetOutgoingEdges(graph);
             foreach (var outgoingEdge in outgoingEdges)
             {
+                if(outgoingEdge.Traversed) continue;
                 var targetNode = outgoingEdge.GetTargetNode(graph);
-                if (targetNode.Traversed) continue;
+                
                 queryBuilder.Where(x =>
                 {
                     x.ToSubject(node)
@@ -151,6 +150,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
                     queryBuilder.Filter(expr);
                 }
+
+                outgoingEdge.Traversed = true;
                 targetNode.TraverseNodeToSparql(queryBuilder, graph);
             }
 
