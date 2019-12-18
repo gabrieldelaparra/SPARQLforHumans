@@ -8,7 +8,7 @@ namespace SparqlForHumans.Models.RDFExplorer
 
         public Edge[] edges { get; set; } = new Edge[0];
 
-        public Selected selected { get; set; } = new Selected();
+        //public Selected selected { get; set; } = new Selected();
 
         public override bool Equals(object obj)
         {

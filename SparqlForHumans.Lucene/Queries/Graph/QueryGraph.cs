@@ -13,9 +13,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             Edges = rdfGraph.edges.Distinct().ToDictionary(x => x.id, x => new QueryEdge(x));
 
             this.CheckNodeTypes();
-
-            Selected = rdfGraph.selected;
-
         }
 
         public void SetIndexPaths(string entitiesIndexPath, string propertiesIndexPath)
@@ -29,17 +26,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public Dictionary<int, QueryNode> Nodes { get; set; }
         public Dictionary<int, QueryEdge> Edges { get; set; }
-        public Selected Selected { get; set; }
-
-        public List<string> Results
-        {
-            get
-            {
-                return Selected.isNode
-                    ? Nodes.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList()
-                    : Edges.FirstOrDefault(x => x.Key.Equals(Selected.id)).Value.Results.Select(x => $"{x.Id}#{x.Label}").ToList();
-            }
-        }
 
         public override string ToString()
         {

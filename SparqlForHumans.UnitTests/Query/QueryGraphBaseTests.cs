@@ -120,11 +120,11 @@ namespace SparqlForHumans.UnitTests.Query
             graph1.edges = graph1.edges.ToList().Append(new Edge { id = 1, name = "?warever", sourceId = 0, targetId = 1 }).ToArray();
             Assert.Equal(graph1, graph2);
 
-            //Selected
-            graph1.selected = new Selected { id = 0, isNode = true };
-            Assert.Equal(graph1, graph2);
-            graph1.selected = new Selected { id = 1, isNode = false };
-            Assert.Equal(graph1, graph2);
+            ////Selected
+            //graph1.selected = new Selected { id = 0, isNode = true };
+            //Assert.Equal(graph1, graph2);
+            //graph1.selected = new Selected { id = 1, isNode = false };
+            //Assert.Equal(graph1, graph2);
         }
 
         //[Fact]
