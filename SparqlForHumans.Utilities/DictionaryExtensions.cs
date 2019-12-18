@@ -83,6 +83,11 @@ namespace SparqlForHumans.Utilities
             return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
 
+        public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, HashSet<T2>> dictionary)
+        {
+            return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
+        }
+
         public static void TrimExcessDeep<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
         {
             foreach (var pair in dictionary)

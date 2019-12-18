@@ -46,14 +46,26 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)
         {
+            var set = new HashSet<int>();
             var results = _propertyIdDomainPropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
-            return results.SelectMany(x => x.Value).Distinct().ToList();
+            foreach (var keyValuePair in results) {
+                foreach (var value in keyValuePair.Value) {
+                    set.Add(value);
+                }
+            }
+            return set;
         }
 
         public static IEnumerable<int> BatchPropertyIdRangeTypesQuery(IEnumerable<int> propertyIds)
         {
+            var set = new HashSet<int>();
             var results = _propertyIdRangePropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
-            return results.SelectMany(x => x.Value).Distinct().ToList();
+            foreach (var keyValuePair in results) {
+                foreach (var value in keyValuePair.Value) {
+                    set.Add(value);
+                }
+            }
+            return set;
         }
 
         public static IEnumerable<string> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<string> entityUris)
@@ -72,20 +84,32 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static IEnumerable<int> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<int> entityIds)
         {
+            var set = new HashSet<int>();
             var results = _entityIdDomainPropertiesDictionary.Where(x => entityIds.Contains(x.Key));
-            return results.SelectMany(x => x.Value).Distinct().ToList();
+            foreach (var keyValuePair in results) {
+                foreach (var value in keyValuePair.Value) {
+                    set.Add(value);
+                }
+            }
+            return set;
         }
 
         public static IEnumerable<int> BatchEntityIdIncomingPropertiesQuery(IEnumerable<int> entityIds)
         {
+            var set = new HashSet<int>();
             var results = _entityIdRangePropertiesDictionary.Where(x => entityIds.Contains(x.Key));
-            return results.SelectMany(x => x.Value).Distinct().ToList();
+            foreach (var keyValuePair in results) {
+                foreach (var value in keyValuePair.Value) {
+                    set.Add(value);
+                }
+            }
+            return set;
         }
 
         private static void BuildDictionaries()
         {
-            var propertyIdDomainsDictList = new Dictionary<int, List<int>>();
-            var propertyIdRangesDictList = new Dictionary<int, List<int>>();
+            var propertyIdDomainsDictList = new Dictionary<int, HashSet<int>>();
+            var propertyIdRangesDictList = new Dictionary<int, HashSet<int>>();
             var logger = Logger.Logger.Init();
             logger.Info($"Building Inverted Properties Domain and Range Dictionary");
 

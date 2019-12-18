@@ -58,7 +58,7 @@ namespace SparqlForHumans.Benchmark
 
         private Node ToNode(string item)
         {
-            var variableName = "?var" + _nodeIndex;
+            var variableName = "var" + _nodeIndex;
             var node = new Node(_nodeIndex++, variableName);
             if (item.StartsWith("<http"))
                 node.uris = new[] { item.TrimStart('<').TrimEnd('>') };
@@ -67,7 +67,7 @@ namespace SparqlForHumans.Benchmark
 
         private Edge ToEdge(string item, int from, int to)
         {
-            var propName = "?prop" + _edgeIndex;
+            var propName = "prop" + _edgeIndex;
             var edge = new Edge(_edgeIndex++, propName, @from, to);
             if (item.StartsWith("<http"))
                 edge.uris = new[] { item.TrimStart('<').TrimEnd('>') };

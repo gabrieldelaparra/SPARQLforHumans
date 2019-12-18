@@ -2,7 +2,6 @@
 using System.Linq;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
-using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Graph

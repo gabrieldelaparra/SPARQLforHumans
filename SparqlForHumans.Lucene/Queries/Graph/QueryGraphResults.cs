@@ -12,7 +12,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class QueryGraphResults
     {
-        public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath, bool runOnEndpoint = true)
+        public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath, bool runOnEndpoint = true, bool runNodeQueries = true)
         {
             graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
 
@@ -24,13 +24,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var tasks = runOnEndpoint ? graph.RunWikidataEndpointQueries() : new List<Task<SparqlResultSet>>();
 
-            graph.RunNodeQueries();
+            if (runNodeQueries)
+                graph.RunNodeQueries();
+
             graph.RunEdgeQueries();
 
             graph.AssignEndpointResults(tasks);
         }
 
-        private static void AssignEndpointResults(this QueryGraph graph, List<Task<SparqlResultSet>> tasks)
+        public static void AssignEndpointResults(this QueryGraph graph, List<Task<SparqlResultSet>> tasks)
         {
             if (!tasks.Any()) return;
 
@@ -40,45 +42,47 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var resultsSet = task.Result;
                 if (resultsSet == null) continue;
 
-                var nodes = graph.Nodes.Select(x => x.Value);
-                var edges = graph.Edges.Select(x => x.Value);
-
-                if (!resultsSet.IsEmpty)
-                {
-                    foreach (var node in nodes.Where(x => x.Traversed))
-                        node.Results = new List<Entity>();
-
-                    foreach (var edge in edges.Where(x => x.Traversed))
-                        edge.Results = new List<Property>();
-                }
-
-                var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x => x.Key);
-
-                foreach (var queryGroup in queryResultsGroup)
-                {
-                    var itemKey = $"{queryGroup.Key}";
-                    var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId());
-                    var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
-                    if (node != null)
-                        node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(100);
-                    var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
-                    if (edge != null)
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(100);
-                }
+                graph.AssignEndpointResults(resultsSet);
             }
         }
 
-        private static List<Task<SparqlResultSet>> RunWikidataEndpointQueries(this QueryGraph graph)
+        public static void AssignEndpointResults(this QueryGraph graph, SparqlResultSet resultsSet)
+        {
+            var nodes = graph.Nodes.Select(x => x.Value);
+            var edges = graph.Edges.Select(x => x.Value);
+
+            if (!resultsSet.IsEmpty)
+            {
+                foreach (var node in nodes.Where(x => x.Traversed))
+                    node.Results = new List<Entity>();
+
+                foreach (var edge in edges.Where(x => x.Traversed))
+                    edge.Results = new List<Property>();
+            }
+
+            var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x => x.Key);
+
+            foreach (var queryGroup in queryResultsGroup)
+            {
+                var itemKey = $"{queryGroup.Key}";
+                var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId());
+                var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
+                if (node != null)
+                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(100);
+                var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
+                if (edge != null)
+                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(100);
+            }
+        }
+
+        public static List<Task<SparqlResultSet>> RunWikidataEndpointQueries(this QueryGraph graph)
         {
             var tasks = new List<Task<SparqlResultSet>>();
 
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 if (node.Traversed) continue;
-                var query = node.ToSparql(graph).ToString();
-                var queryLines = query.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-                queryLines = queryLines.Distinct().ToArray();
-                query = string.Join(Environment.NewLine, queryLines);
+                var query = node.ToSparql(graph).ToString().FixQuery();
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }
             return tasks.Where(x => x != null).ToList();
@@ -148,22 +152,53 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
 
-                var givenPropertiesIds = new List<string>();
-                var instanceOfPropertiesIds = new List<string>();
-                var domainPropertiesIds = new List<string>();
-                var rangePropertiesIds = new List<string>();
-
-                //They cannot be at the same time (given type and instance of type)
-                if (source.IsGivenType)
+                if (source.IsGivenType || target.IsGivenType)
                 {
-                    givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
-                        .Query()
-                        .SelectMany(x => x.Properties)
-                        .Select(x => x.Id)
-                        .ToList();
+                    if (source.IsGivenType && target.IsGivenType)
+                    {
+                        var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
+                            .Query()
+                            .SelectMany(x => x.Properties)
+                            .Select(x => x.Id)
+                            .ToList();
+
+                        var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
+                            .Query()
+                            .SelectMany(x => x.ReverseProperties)
+                            .Select(x => x.Id)
+                            .ToList();
+
+                        var intersectPropertiesIds = sourceGivenPropertiesIds
+                            .IntersectIfAny(targetGivenPropertiesIds).ToList();
+
+                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
+                    }
+                    else if (source.IsGivenType)
+                    {
+                        var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
+                            .Query()
+                            .SelectMany(x => x.Properties)
+                            .Select(x => x.Id)
+                            .ToList();
+
+                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, sourceGivenPropertiesIds).Query();
+                    }
+                    else if (target.IsGivenType)
+                    {
+                        var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
+                            .Query()
+                            .SelectMany(x => x.ReverseProperties)
+                            .Select(x => x.Id)
+                            .ToList();
+                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, targetGivenPropertiesIds).Query();
+                    }
                 }
                 else
                 {
+                    var instanceOfPropertiesIds = new List<string>();
+                    var domainPropertiesIds = new List<string>();
+                    var rangePropertiesIds = new List<string>();
+
                     //EXAMPLE of why both are needed:
                     //- Could have two properties: InstanceOf (InstanceOf), PositionHeld (Domain).
                     //- InstanceOf could be HUMAN: All human properties will return.
@@ -175,29 +210,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.DomainBaseTypes).ToList();
                     if (source.IsInferredRangeType) //TODO: Not this edge.
                         rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
-                }
-
-                var outgoingPropertyIds = givenPropertiesIds
-                    .IntersectIfAny(instanceOfPropertiesIds)
-                    .IntersectIfAny(domainPropertiesIds)
-                    .IntersectIfAny(rangePropertiesIds)
-                    .ToList();
-
-                givenPropertiesIds = new List<string>();
-                instanceOfPropertiesIds = new List<string>();
-                domainPropertiesIds = new List<string>();
-                rangePropertiesIds = new List<string>();
-
-                if (target.IsGivenType)
-                {
-                    givenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
-                        .Query()
-                        .SelectMany(x => x.ReverseProperties)
-                        .Select(x => x.Id)
+                    var outgoingPropertyIds = instanceOfPropertiesIds
+                        .IntersectIfAny(domainPropertiesIds)
+                        .IntersectIfAny(rangePropertiesIds)
                         .ToList();
-                }
-                else
-                {
+
+                    instanceOfPropertiesIds = new List<string>();
+                    domainPropertiesIds = new List<string>();
+                    rangePropertiesIds = new List<string>();
+
                     if (target.IsInstanceOfType)
                         instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.InstanceOfBaseTypes).ToList();
 
@@ -206,20 +227,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     //    domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Domain).ToList();
                     if (target.IsInferredRangeType)
                         rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
+
+                    var incomingPropertyIds = instanceOfPropertiesIds
+                        .IntersectIfAny(domainPropertiesIds)
+                        .IntersectIfAny(rangePropertiesIds)
+                        .ToList();
+
+                    //Get outgoing/incoming properties; Intersect; Query for those types:
+                    var intersectPropertiesIds = outgoingPropertyIds
+                        .IntersectIfAny(incomingPropertyIds).ToList();
+
+                    edge.Results = !intersectPropertiesIds.Any()
+                        ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query()
+                        : new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
                 }
-                var incomingPropertyIds = givenPropertiesIds
-                    .IntersectIfAny(instanceOfPropertiesIds)
-                    .IntersectIfAny(domainPropertiesIds)
-                    .IntersectIfAny(rangePropertiesIds)
-                    .ToList();
 
-                //Get outgoing/incoming properties; Intersect; Query for those types:
-                var intersectPropertiesIds = outgoingPropertyIds
-                    .IntersectIfAny(incomingPropertyIds).ToList();
-
-                edge.Results = !intersectPropertiesIds.Any() 
-                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query() 
-                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
             }
         }
 
