@@ -5,7 +5,13 @@ using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Lucene.Net.Index;
+using Lucene.Net.Store;
+using NaturalSort.Extension;
+using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.RDF.FilterReorderSort;
 using SparqlForHumans.RDF.Reordering;
 using VDS.RDF;
@@ -17,6 +23,8 @@ namespace SparqlForHumans.CLI
         private static void Main(string[] args)
         {
             Options.InternUris = false;
+            //CreatePropertiesHistogram();
+            QueryForSomeZeroFrequencyProperties();
             //FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
@@ -52,6 +60,29 @@ namespace SparqlForHumans.CLI
             //CreateIndex2MM(true);
             //CreatePropertyIndex(true);
             //IndexBuilder.CreateTypesIndex();
+        }
+
+        public static void QueryForSomeZeroFrequencyProperties()
+        {
+            var query = new BatchIdEntityPropertiesQuery(LuceneDirectoryDefaults.EntityIndexPath, new []{"P10"}).Query();
+        }
+
+        public static void CreatePropertiesHistogram()
+        {
+            var list = new List<string>();
+            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath))
+            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
+            {
+                var docCount = luceneDirectoryReader.MaxDoc;
+                for (var i = 0; i < docCount; i++)
+                {
+                    var doc = luceneDirectoryReader.Document(i);
+                    var property = doc.MapProperty();
+                    list.Add($"{property.Id},{property.Label.Replace(',', ' ')},{property.Rank},{property.Domain.Count},{property.Range.Count}");
+                }
+            }
+
+            File.WriteAllLines("PropertyDomainRangeHistogram.csv", list.OrderBy(x=>x, StringComparer.OrdinalIgnoreCase.WithNaturalSort()));
         }
 
         public static void CreateEntitiesIndex(string filename, bool overwrite = false)
