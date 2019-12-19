@@ -40,34 +40,30 @@ namespace SparqlForHumans.Lucene.Index
         {
             return tripleGroup.IsEntityP();
         }
-        private Hashtable FrequencyHashTable { get; set; } = new Hashtable();
-        private Dictionary<int, HashSet<int>> DomainDictionary { get; set; } = new Dictionary<int, HashSet<int>>();
-        private Dictionary<int, HashSet<int>> RangeDictionary { get; set; } = new Dictionary<int, HashSet<int>>();
-        private static string FrequencyFieldName => Labels.Rank.ToString();
-        private static string DomainFieldName => Labels.DomainType.ToString();
-        private static string RangeFieldName => Labels.Range.ToString();
-
+        private Hashtable FrequencyHashTable { get; } = new Hashtable();
+        private Dictionary<int, HashSet<int>> DomainDictionary { get; } = new Dictionary<int, HashSet<int>>();
+        private Dictionary<int, HashSet<int>> RangeDictionary { get; } = new Dictionary<int, HashSet<int>>();
         public IEnumerable<DoubleField> FrequencyGetField(SubjectGroup subjectGroup)
         {
             var subjectId = subjectGroup.Id.ToNumbers();
             return FrequencyHashTable.ContainsKey(subjectId)
-                ? new List<DoubleField> { new DoubleField(FrequencyFieldName, (int)FrequencyHashTable[subjectId], Field.Store.YES) }
+                ? new List<DoubleField> { new DoubleField(Labels.Rank.ToString(), (int)FrequencyHashTable[subjectId], Field.Store.YES) }
                 : new List<DoubleField>();
         }
 
         public IEnumerable<StringField> RangeGetField(SubjectGroup subjectGroup)
         {
-            return RangeDictionary.ContainsKey(subjectGroup.Id.ToNumbers())
-                ? RangeDictionary[subjectGroup.Id.ToNumbers()]
-                    .Select(x => new StringField(RangeFieldName, x.ToString(), Field.Store.YES))
+            var id = subjectGroup.Id.ToNumbers();
+            return RangeDictionary.ContainsKey(id)
+                ? RangeDictionary[id].Select(x => new StringField(Labels.Range.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
 
         public IEnumerable<StringField> DomainGetField(SubjectGroup subjectGroup)
         {
-            return DomainDictionary.ContainsKey(subjectGroup.Id.ToNumbers())
-                ? DomainDictionary[subjectGroup.Id.ToNumbers()]
-                    .Select(x => new StringField(DomainFieldName, x.ToString(), Field.Store.YES))
+            var id = subjectGroup.Id.ToNumbers();
+            return DomainDictionary.ContainsKey(id)
+                ? DomainDictionary[id].Select(x => new StringField(Labels.DomainType.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
 
@@ -87,12 +83,12 @@ namespace SparqlForHumans.Lucene.Index
                 
                 var validTriples = subjectGroup.Where(x =>
                     x.Predicate.IsProperty() ||
-                    (x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf())).ToArray();
+                    (x.Predicate.IsReverseProperty() && !x.Predicate.IsInstanceOf())).ToArray();
 
-                var properties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
+                var directProperties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
 
                 //FREQUENCY
-                foreach (var triple in properties)
+                foreach (var triple in directProperties)
                 {
                     var propertyIntId = triple.Predicate.GetIntId();
 
@@ -103,7 +99,7 @@ namespace SparqlForHumans.Lucene.Index
                 }
 
                 //DOMAIN:
-                var (instanceOf, otherProperties) = properties.SliceBy(x => x.Predicate.IsInstanceOf());
+                var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
                 var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
                 var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
                 DomainDictionary.AddSafe(31, instanceOfIds);
