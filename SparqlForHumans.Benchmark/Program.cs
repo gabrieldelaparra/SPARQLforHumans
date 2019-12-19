@@ -12,10 +12,28 @@ namespace SparqlForHumans.Benchmark
     {
         static void Main(string[] args)
         {
+            RunQueries();
+            //AnalyzeQueries();
+            QueryPointByPoint();
+            //Console.WriteLine("Press Enter to exit");
+            //Console.ReadLine();
+        }
 
-            AnalyzeQueries();
-            Console.WriteLine("Press Enter to exit");
-            Console.ReadLine();
+        static void QueryPointByPoint()
+        {
+            var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";
+            var benchmarkResults = JsonSerialization.DeserializeJson<List<QueryBenchmark>>(filename);
+            var byHashcode = benchmarkResults.GroupBy(x => x.GraphHashCode);
+            var results = new List<string>();
+            results.Add($"QueryHashcode,Local,Remote");
+            foreach (var benchmark in byHashcode) {
+                if (benchmark.Count() != 2)
+                    continue;
+                var local = benchmark.First(x => x.BenchmarkType.Equals("Local"));
+                var remote = benchmark.First(x => x.BenchmarkType.Equals("Endpoint"));
+                results.Add($"{benchmark.Key},{local.ElapsedTime},{remote.ElapsedTime}");
+            }
+            File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\points.csv", results);
         }
 
         static void AnalyzeQueries()
@@ -51,7 +69,6 @@ namespace SparqlForHumans.Benchmark
             results.Add($"Remote Med: {medianRemote}");
 
             File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\results.txt", results);
-
         }
 
         public static T Median<T>(IEnumerable<T> items)
@@ -71,11 +88,9 @@ namespace SparqlForHumans.Benchmark
         {
             InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             var queryBenchmarks = new List<QueryBenchmark>();
-
             var path = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\";
             var files = Directory.EnumerateFiles(path);
-            foreach (var file in files)
-            {
+            foreach (var file in files) {
                 Console.WriteLine(); Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
                 Console.WriteLine($"File: {file}");
                 Console.WriteLine(); Console.WriteLine(); Console.WriteLine(); Console.WriteLine();

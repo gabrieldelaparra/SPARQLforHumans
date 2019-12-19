@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Lucene.Queries.Graph;
-using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.Utilities;
 using SparqlForHumans.Wikidata.Services;
 using VDS.RDF.Query;
 
