@@ -9,28 +9,26 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Fields
 {
-    //public class SubClassIndexer : BaseFieldIndexer<StringField>
-    //{
-    //    public override string FieldName => Labels.SubClass.ToString();
+    public class SubClassIndexer : BaseFieldIndexer<StringField>
+    {
+        public override string FieldName => Labels.SubClass.ToString();
 
-    //    public override bool FilterValidTriples(Triple triple)
-    //    {
-    //        return triple.Predicate.GetPredicateType().Equals(PredicateType.Property)
-    //               && triple.Predicate.GetPropertyType()
-    //                   .Equals(PropertyType.SubClass);
-    //    }
+        public override bool FilterValidTriples(Triple triple)
+        {
+            return triple.Predicate.IsProperty() && triple.Predicate.IsSubClass();
+        }
 
-    //    public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
-    //    {
-    //        var values = TriplesToValue(tripleGroup);
-    //        return values.Any()
-    //            ? values.Select(x => new StringField(FieldName, x, Field.Store.YES))
-    //            : new List<StringField>();
-    //    }
+        public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
+        {
+            var values = TriplesToValue(tripleGroup);
+            return values.Any()
+                ? values.Select(x => new StringField(FieldName, x, Field.Store.YES))
+                : new List<StringField>();
+        }
 
-    //    public override string SelectTripleValue(Triple triple)
-    //    {
-    //        return triple.Object.GetId();
-    //    }
-    //}
+        public override string SelectTripleValue(Triple triple)
+        {
+            return triple.Object.GetId();
+        }
+    }
 }

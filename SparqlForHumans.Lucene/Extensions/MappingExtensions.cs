@@ -65,10 +65,10 @@ namespace SparqlForHumans.Lucene.Extensions
         //    entity.ReverseInstanceOf = doc.GetValues(Labels.ReverseInstanceOf);
         //}
 
-        //public static void MapSubClass(this Entity entity, Document doc)
-        //{
-        //    entity.SubClass = doc.GetValues(Labels.SubClass);
-        //}
+        public static void MapSubClass(this Entity entity, Document doc)
+        {
+            entity.SubClass = doc.GetValues(Labels.SubClass);
+        }
 
         public static void MapBaseProperties(this Entity entity, Document document)
         {
@@ -98,7 +98,7 @@ namespace SparqlForHumans.Lucene.Extensions
             entity.MapAltLabels(document);
             entity.MapDescription(document);
             entity.MapInstanceOf(document);
-            //entity.MapSubClass(document);
+            entity.MapSubClass(document);
             entity.MapRank(document);
             entity.MapIsType(document);
             entity.MapBaseProperties(document);

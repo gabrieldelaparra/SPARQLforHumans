@@ -4,7 +4,7 @@ namespace SparqlForHumans.Models
 {
     public class Entity : Subject, IEntity
     {
-        //public IList<string> SubClass { get; set; } = new List<string>();
+        public IList<string> SubClass { get; set; } = new List<string>();
         public string Description { get; set; } = string.Empty;
         public IList<string> InstanceOf { get; set; } = new List<string>();
         //public IList<string> ReverseInstanceOf { get; set; } = new List<string>();
