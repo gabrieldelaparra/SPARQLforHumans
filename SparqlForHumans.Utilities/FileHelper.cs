@@ -57,6 +57,12 @@ namespace SparqlForHumans.Utilities
             return filename;
         }
 
+        public static void CreatePathIfNotExists(this string filepath)
+        {
+            var fileInfo = new FileInfo(filepath);
+            if (!fileInfo.Directory.Exists) fileInfo.Directory.Create();
+        }
+
         public static DirectoryInfo GetOrCreateDirectory(this string path)
         {
             var directoryInfo = new DirectoryInfo(path);

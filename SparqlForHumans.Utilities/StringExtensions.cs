@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace SparqlForHumans.Utilities
@@ -31,6 +32,11 @@ namespace SparqlForHumans.Utilities
         {
             var split = input.Split('/');
             return split.Any() ? split.Last() : input;
+        }
+
+        public static string ToSingleLine(this string text)
+        {
+            return text.Replace(Environment.NewLine, " ").Replace(@"\r", " ").Replace(@"\n", " ");
         }
     }
 }

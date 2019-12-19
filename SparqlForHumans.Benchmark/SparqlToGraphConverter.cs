@@ -15,6 +15,7 @@ namespace SparqlForHumans.Benchmark
             SparqlParameterizedString queryString = new SparqlParameterizedString();
             queryString.Namespaces.AddNamespace("wd", new Uri("http://www.wikidata.org/entity/"));
             queryString.Namespaces.AddNamespace("wdt", new Uri("http://www.wikidata.org/prop/direct/"));
+            queryString.Namespaces.AddNamespace("rdfs", new Uri("http://www.w3.org/2000/01/rdf-schema#"));
             queryString.CommandText = query;
 
             var parser = new SparqlQueryParser();
@@ -37,7 +38,7 @@ namespace SparqlForHumans.Benchmark
                 if (!nodesDict.ContainsKey(s))
                     nodesDict.Add(s, ToNode(s));
 
-                if (!nodesDict.ContainsKey(p))
+                if (!nodesDict.ContainsKey(o))
                     nodesDict.Add(o, ToNode(o));
 
                 var subjectNode = nodesDict[s];

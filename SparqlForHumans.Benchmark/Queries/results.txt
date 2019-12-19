@@ -1,0 +1,10 @@
+Local Count: 39
+Local Min: 00:00:00.1852988
+Local Max: 00:18:15.6992209
+Local Avg: 00:01:25.3256102
+Local Med: 00:00:02.3836057
+Remote Count: 39
+Remote Min: 00:00:00.1564455
+Remote Max: 00:00:50.1702793
+Remote Avg: 00:00:12.9408436
+Remote Med: 00:00:01.2661327

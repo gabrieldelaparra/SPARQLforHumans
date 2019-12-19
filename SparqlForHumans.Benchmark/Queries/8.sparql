@@ -1,0 +1,5 @@
+SELECT ?show ?episode 
+WHERE {
+?season wdt:P361 wd:Q886 .
+?episode wdt:P361 ?season .
+}

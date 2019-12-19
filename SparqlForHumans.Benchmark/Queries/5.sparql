@@ -1,0 +1,4 @@
+SELECT distinct ?a ?y
+WHERE {
+ wd:Q42 ?y ?a . 
+}

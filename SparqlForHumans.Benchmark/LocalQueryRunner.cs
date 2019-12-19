@@ -6,6 +6,7 @@ using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.Utilities;
 using SparqlForHumans.Wikidata.Services;
 using VDS.RDF.Query;
 
@@ -131,7 +132,8 @@ namespace SparqlForHumans.Benchmark
             benchmark.ElapsedTime = stopwatch.Elapsed;
 
             //Set Results
-            benchmark.ResultsDictionary = GetEndpointResults(results);
+            if (results != null)
+                benchmark.ResultsDictionary = GetEndpointResults(results);
 
             return benchmark;
         }
