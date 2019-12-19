@@ -33,7 +33,7 @@ namespace SparqlForHumans.Utilities
                 dictionary.Add(key, values.Distinct().ToList());
             }
         }
-        public static void AddSafe<T1, T2>(this Dictionary<T1, HashSet<T2>> dictionary, T1 key, IEnumerable<T2> values)
+        public static void AddSafe<T1, T2>(this IDictionary<T1, HashSet<T2>> dictionary, T1 key, IEnumerable<T2> values)
         {
             if (!values.Any())
                 return;
@@ -46,7 +46,7 @@ namespace SparqlForHumans.Utilities
         }
 
 
-        public static Dictionary<T2, List<T1>> InvertDictionary<T1, T2>(this Dictionary<T1, List<T2>> dictionary)
+        public static IDictionary<T2, List<T1>> InvertDictionary<T1, T2>(this IDictionary<T1, List<T2>> dictionary)
         {
             var invertedDictionary = new Dictionary<T2, List<T1>>();
 
@@ -62,7 +62,7 @@ namespace SparqlForHumans.Utilities
             return invertedDictionary;
         }
 
-        public static Dictionary<T2, T1[]> InvertDictionary<T1, T2>(this Dictionary<T1, T2[]> dictionary)
+        public static Dictionary<T2, T1[]> InvertDictionary<T1, T2>(this IDictionary<T1, T2[]> dictionary)
         {
             var invertedDictionary = new Dictionary<T2, List<T1>>();
 
@@ -83,7 +83,7 @@ namespace SparqlForHumans.Utilities
             return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
 
-        public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this Dictionary<T1, HashSet<T2>> dictionary)
+        public static Dictionary<T1, T2[]> ToArrayDictionary<T1, T2>(this IDictionary<T1, HashSet<T2>> dictionary)
         {
             return dictionary.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
