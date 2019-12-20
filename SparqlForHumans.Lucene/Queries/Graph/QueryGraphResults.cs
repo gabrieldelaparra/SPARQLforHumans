@@ -3,6 +3,7 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lucene.Net.Support;
 using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Wikidata.Services;
@@ -152,95 +153,74 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
 
+                var possibleProperties = new List<string>();
+
                 if (source.IsGivenType || target.IsGivenType)
                 {
-                    if (source.IsGivenType && target.IsGivenType)
-                    {
-                        var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
-                            .Query()
-                            .SelectMany(x => x.Properties)
-                            .Select(x => x.Id)
-                            .ToList();
 
-                        var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
-                            .Query()
-                            .SelectMany(x => x.ReverseProperties)
-                            .Select(x => x.Id)
-                            .ToList();
+                    var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
+                        .Query().SelectMany(x => x.Properties).Select(x => x.Id).ToList();
 
-                        var intersectPropertiesIds = sourceGivenPropertiesIds
-                            .IntersectIfAny(targetGivenPropertiesIds).ToList();
+                    var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
+                        .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
 
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
-                    }
-                    else if (source.IsGivenType)
-                    {
-                        var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
-                            .Query()
-                            .SelectMany(x => x.Properties)
-                            .Select(x => x.Id)
-                            .ToList();
-
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, sourceGivenPropertiesIds).Query();
-                    }
-                    else if (target.IsGivenType)
-                    {
-                        var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
-                            .Query()
-                            .SelectMany(x => x.ReverseProperties)
-                            .Select(x => x.Id)
-                            .ToList();
-                        edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, targetGivenPropertiesIds).Query();
-                    }
+                    possibleProperties = possibleProperties.IntersectIfAny(sourceGivenPropertiesIds)
+                        .IntersectIfAny(targetGivenPropertiesIds).ToList();
                 }
                 else
                 {
-                    var instanceOfPropertiesIds = new List<string>();
-                    var domainPropertiesIds = new List<string>();
-                    var rangePropertiesIds = new List<string>();
+                    if (source.IsInstanceOfType || target.IsInstanceOfType)
+                    {
+                        var instanceOfSourceProperties = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(source.GetInstanceOfValues(graph));
+                        var instanceOfTargetProperties = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.GetInstanceOfValues(graph));
+                        possibleProperties = possibleProperties.IntersectIfAny(instanceOfSourceProperties)
+                            .IntersectIfAny(instanceOfTargetProperties).ToList();
+                    }
 
-                    //EXAMPLE of why both are needed:
-                    //- Could have two properties: InstanceOf (InstanceOf), PositionHeld (Domain).
-                    //- InstanceOf could be HUMAN: All human properties will return.
-                    //- PositionHeld could be FICTIONAL CHARS. A different set of properties will return, than for HUMAN.
-                    //- An intersection needs to be done.
-                    if (source.IsInstanceOfType)
-                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(source.InstanceOfBaseTypes).ToList();
-                    if (source.IsInferredDomainType)
-                        domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(edge.DomainBaseTypes).ToList();
-                    if (source.IsInferredRangeType) //TODO: Not this edge.
-                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
-                    var outgoingPropertyIds = instanceOfPropertiesIds
-                        .IntersectIfAny(domainPropertiesIds)
-                        .IntersectIfAny(rangePropertiesIds)
-                        .ToList();
+                    var sourceGivenOutgoingEdges = source.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf);
+                    var sourceGivenIncomingEdges = source.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf);
+                    var targetGivenIncomingEdges = target.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf);
+                    var targetGivenOutgoingEdges = target.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf);
 
-                    instanceOfPropertiesIds = new List<string>();
-                    domainPropertiesIds = new List<string>();
-                    rangePropertiesIds = new List<string>();
+                    foreach (var givenOutgoingEdge in sourceGivenOutgoingEdges)
+                    {
+                        foreach (var uri in givenOutgoingEdge.uris)
+                        {
+                            var outgoing = InMemoryQueryEngine.PropertyIdOutgoingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(outgoing).ToList();
+                        }
+                    }
 
-                    if (target.IsInstanceOfType)
-                        instanceOfPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.InstanceOfBaseTypes).ToList();
+                    foreach (var givenIncomingEdge in sourceGivenIncomingEdges)
+                    {
+                        foreach (var uri in givenIncomingEdge.uris)
+                        {
+                            var outgoing = InMemoryQueryEngine.PropertyIdIncomingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(outgoing).ToList();
+                        }
+                    }
 
-                    //TODO: Check if this is valid:
-                    //if (target.IsInferredDomainType)
-                    //    domainPropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.Domain).ToList();
-                    if (target.IsInferredRangeType)
-                        rangePropertiesIds = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(edge.RangeBaseTypes).ToList();
+                    foreach (var givenIncomingEdge in targetGivenIncomingEdges)
+                    {
+                        foreach (var uri in givenIncomingEdge.uris)
+                        {
+                            var incoming = InMemoryQueryEngine.PropertyIdIncomingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(incoming).ToList();
+                        }
+                    }
 
-                    var incomingPropertyIds = instanceOfPropertiesIds
-                        .IntersectIfAny(domainPropertiesIds)
-                        .IntersectIfAny(rangePropertiesIds)
-                        .ToList();
-
-                    //Get outgoing/incoming properties; Intersect; Query for those types:
-                    var intersectPropertiesIds = outgoingPropertyIds
-                        .IntersectIfAny(incomingPropertyIds).ToList();
-
-                    edge.Results = !intersectPropertiesIds.Any()
-                        ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query()
-                        : new BatchIdPropertyQuery(graph.PropertiesIndexPath, intersectPropertiesIds).Query();
+                    foreach (var givenOutgoingEdge in targetGivenOutgoingEdges)
+                    {
+                        foreach (var uri in givenOutgoingEdge.uris)
+                        {
+                            var incoming = InMemoryQueryEngine.PropertyIdOutgoingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(incoming).ToList();
+                        }
+                    }
                 }
+                edge.Results = !possibleProperties.Any()
+                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query()
+                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query();
 
             }
         }
