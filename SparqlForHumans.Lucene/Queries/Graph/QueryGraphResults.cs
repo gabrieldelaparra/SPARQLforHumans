@@ -3,7 +3,6 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lucene.Net.Support;
 using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Wikidata.Services;
