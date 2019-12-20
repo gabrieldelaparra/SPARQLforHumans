@@ -1,5 +1,5 @@
 SELECT ?show ?episode 
 WHERE {
-?season wdt:P361 wd:Q886 .
-?episode wdt:P361 ?season .
+?season wdt:P361 ?v1 .
+?episode wdt:P361 ?v2 .
 }

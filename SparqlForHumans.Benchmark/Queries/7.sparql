@@ -1,4 +1,4 @@
 SELECT DISTINCT * WHERE { 
-  ?h wdt:P31 wd:Q5 .
-  ?h ?p wd:Q6581072 .
+  ?h wdt:P31 ?v1 .
+  ?h ?p ?v2 .
 }
