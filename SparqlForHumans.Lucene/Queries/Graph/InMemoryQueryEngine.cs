@@ -4,6 +4,7 @@ using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Support;
 using SparqlForHumans.Models.Wikidata;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
@@ -20,6 +21,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         private static Dictionary<int, int[]> _propertyIdDomainPropertiesDictionary;
         private static Dictionary<int, int[]> _propertyIdRangePropertiesDictionary;
 
+        private static Dictionary<int, int[]> _propertyIdOutgoingPropertiesId;
+        private static Dictionary<int, int[]> _propertyIdIncomingPropertiesId;
 
         public static void Init(string entitiesIndexPath, string propertiesIndexPath)
         {
@@ -44,30 +47,49 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return results.Select(x => $"{Constants.EntityPrefix}{x}");
         }
 
-        public static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)
+        public static IEnumerable<string> PropertyIdOutgoingPropertiesQuery(string propertyUri)
+        {
+            var propertyIntId = propertyUri.GetUriIdentifier().ToInt();
+            return _propertyIdOutgoingPropertiesId.ContainsKey(propertyIntId)
+                ? _propertyIdOutgoingPropertiesId[propertyIntId].Select(x => $"{Constants.PropertyPrefix}{x}")
+                : new string[0];
+        }
+
+        public static IEnumerable<string> PropertyIdIncomingPropertiesQuery(string propertyUri)
+        {
+            var propertyIntId = propertyUri.GetUriIdentifier().ToInt();
+            return _propertyIdIncomingPropertiesId.ContainsKey(propertyIntId)
+                ? _propertyIdIncomingPropertiesId[propertyIntId].Select(x => $"{Constants.PropertyPrefix}{x}")
+                : new string[0];
+        }
+
+        private static IEnumerable<int> BatchPropertyIdDomainTypesQuery(IEnumerable<int> propertyIds)
         {
             var set = new HashSet<int>();
             var results = _propertyIdDomainPropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
-            foreach (var keyValuePair in results) {
-                foreach (var value in keyValuePair.Value) {
+            foreach (var keyValuePair in results)
+            {
+                foreach (var value in keyValuePair.Value)
+                {
                     set.Add(value);
                 }
             }
             return set;
         }
 
-        public static IEnumerable<int> BatchPropertyIdRangeTypesQuery(IEnumerable<int> propertyIds)
+        private static IEnumerable<int> BatchPropertyIdRangeTypesQuery(IEnumerable<int> propertyIds)
         {
             var set = new HashSet<int>();
             var results = _propertyIdRangePropertiesDictionary.Where(x => propertyIds.Contains(x.Key));
-            foreach (var keyValuePair in results) {
-                foreach (var value in keyValuePair.Value) {
+            foreach (var keyValuePair in results)
+            {
+                foreach (var value in keyValuePair.Value)
+                {
                     set.Add(value);
                 }
             }
             return set;
         }
-
         public static IEnumerable<string> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<string> entityUris)
         {
             var queryTypes = entityUris.Select(x => x.GetUriIdentifier().ToInt());
@@ -81,31 +103,32 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var results = BatchEntityIdIncomingPropertiesQuery(queryTypes);
             return results.Select(x => $"{Constants.PropertyPrefix}{x}");
         }
-
-        public static IEnumerable<int> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<int> entityIds)
+        private static IEnumerable<int> BatchEntityIdOutgoingPropertiesQuery(IEnumerable<int> entityIds)
         {
             var set = new HashSet<int>();
             var results = _entityIdDomainPropertiesDictionary.Where(x => entityIds.Contains(x.Key));
-            foreach (var keyValuePair in results) {
-                foreach (var value in keyValuePair.Value) {
+            foreach (var keyValuePair in results)
+            {
+                foreach (var value in keyValuePair.Value)
+                {
                     set.Add(value);
                 }
             }
             return set;
         }
-
-        public static IEnumerable<int> BatchEntityIdIncomingPropertiesQuery(IEnumerable<int> entityIds)
+        private static IEnumerable<int> BatchEntityIdIncomingPropertiesQuery(IEnumerable<int> entityIds)
         {
             var set = new HashSet<int>();
             var results = _entityIdRangePropertiesDictionary.Where(x => entityIds.Contains(x.Key));
-            foreach (var keyValuePair in results) {
-                foreach (var value in keyValuePair.Value) {
+            foreach (var keyValuePair in results)
+            {
+                foreach (var value in keyValuePair.Value)
+                {
                     set.Add(value);
                 }
             }
             return set;
         }
-
         private static void BuildDictionaries()
         {
             var propertyIdDomainsDictList = new Dictionary<int, HashSet<int>>();
@@ -129,7 +152,38 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             _propertyIdRangePropertiesDictionary = propertyIdRangesDictList.ToArrayDictionary();
             _entityIdDomainPropertiesDictionary = _propertyIdDomainPropertiesDictionary.InvertDictionary();
             _entityIdRangePropertiesDictionary = _propertyIdRangePropertiesDictionary.InvertDictionary();
-            
+
+            var propertyIdOutgoingPropertiesId = new Dictionary<int, HashSet<int>>();
+            var propertyIdIncomingPropertiesId = new Dictionary<int, HashSet<int>>();
+
+            foreach (var propertyId in propertyIdDomainsDictList.Select(x => x.Key))
+            {
+                if (propertyIdDomainsDictList.ContainsKey(propertyId))
+                {
+                    propertyIdOutgoingPropertiesId[propertyId] = new HashSet<int>();
+                    var domain = propertyIdDomainsDictList[propertyId];
+                    foreach (var domainId in domain)
+                    {
+                        var properties = _entityIdDomainPropertiesDictionary[domainId];
+                        propertyIdOutgoingPropertiesId[propertyId].AddAll(properties);
+                    }
+                }
+
+                if (propertyIdRangesDictList.ContainsKey(propertyId))
+                {
+                    propertyIdIncomingPropertiesId[propertyId] = new HashSet<int>();
+                    var range = propertyIdRangesDictList[propertyId];
+                    foreach (var rangeId in range)
+                    {
+                        var properties = _entityIdRangePropertiesDictionary[rangeId];
+                        propertyIdIncomingPropertiesId[propertyId].AddAll(properties);
+                    }
+                }
+            }
+
+            _propertyIdOutgoingPropertiesId = propertyIdOutgoingPropertiesId.ToArrayDictionary();
+            _propertyIdIncomingPropertiesId = propertyIdIncomingPropertiesId.ToArrayDictionary();
+
             logger.Info($"InMemory Domain Range Query Engine Complete");
         }
     }
