@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
@@ -67,7 +66,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q99999"));
 
-            Assert.True(queryGraph.Nodes[0].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[0].Results.All(x => x.Id.StartsWith("Q")));
 
             // Cleanup
             DeleteIndex();
@@ -133,7 +132,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q100"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q298"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q99999"));
-            Assert.True(queryGraph.Nodes[0].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[0].Results.All(x => x.Id.StartsWith("Q")));
 
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
@@ -146,7 +145,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q100"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q298"));
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q99999"));
-            Assert.True(queryGraph.Nodes[1].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[1].Results.All(x => x.Id.StartsWith("Q")));
 
             // Cleanup
             DeleteIndex();
@@ -220,13 +219,13 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("United States"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("human"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("country"));
-            Assert.True(queryGraph.Nodes[0].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[0].Results.All(x => x.Id.StartsWith("Q")));
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Human 1"));
-            Assert.True(queryGraph.Nodes[1].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[1].Results.All(x => x.Id.StartsWith("Q")));
 
             //Assert.Equal(QueryType.QueryTopProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
@@ -237,7 +236,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P555"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P777"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Label.Equals("Mother Of"));
-            Assert.True(queryGraph.Edges[0].Results.All(x=>x.Id.StartsWith("P")));
+            Assert.True(queryGraph.Edges[0].Results.All(x => x.Id.StartsWith("P")));
 
             // Cleanup
             DeleteIndex();
@@ -325,7 +324,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
-            
+
             // Arrange
             CreateIndex();
 
@@ -336,7 +335,7 @@ namespace SparqlForHumans.UnitTests.Query
             // Assert
             //Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
-            Assert.True(queryGraph.Nodes[0].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[0].Results.All(x => x.Id.StartsWith("Q")));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
             //TODO: Not sure how to tests this without the endpoint or the values in the index.
             //TODO: Currently I am getting all the results.
@@ -449,7 +448,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
-            
+
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
 
@@ -457,7 +456,7 @@ namespace SparqlForHumans.UnitTests.Query
             DeleteIndex();
         }
 
-        
+
 
         /// <summary>
         /// ?var0 P31 ?var1
@@ -481,7 +480,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
                 },
             };
-            
+
             // Arrange
             CreateIndex();
 
@@ -535,7 +534,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
-            
+
             // Arrange
             CreateIndex();
 
@@ -599,7 +598,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?prop1", 0, 2),
                 }
             };
-            
+
             // Arrange
             CreateIndex();
 
@@ -623,7 +622,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
-            Assert.True(queryGraph.Nodes[2].Results.All(x=>x.Id.StartsWith("Q")));
+            Assert.True(queryGraph.Nodes[2].Results.All(x => x.Id.StartsWith("Q")));
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76")); //P22
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78")); //P22
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30")); //P27
@@ -677,7 +676,7 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?prop1", 2, 0),
                 }
             };
-            
+
             // Arrange
             CreateIndex();
 
@@ -695,13 +694,13 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
-            
+
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
-            Assert.True(queryGraph.Nodes[2].Results.All(x=>x.Id.StartsWith("Q"))); //All going to human
+            Assert.True(queryGraph.Nodes[2].Results.All(x => x.Id.StartsWith("Q"))); //All going to human
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76")); //P22
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78")); //P22
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77")); //P22
@@ -722,8 +721,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P777"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P555"));
-
-            //TODO: Not sure about this one. I have to check the data
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
 
             // Cleanup
@@ -798,7 +796,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P555"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P777"));
-
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P31"));
+            
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
             Assert.Empty(queryGraph.Edges[1].Results);
 
@@ -850,6 +850,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
@@ -858,6 +861,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
@@ -865,10 +871,11 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.NotEmpty(queryGraph.Edges[1].Results);
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P555"));
-
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
 
             // Cleanup
             DeleteIndex();
@@ -915,6 +922,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
@@ -923,16 +933,21 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
 
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.NotEmpty(queryGraph.Edges[1].Results);
-            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P555"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
 
             // Cleanup
             DeleteIndex();
@@ -978,16 +993,35 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49129"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q5"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q6256"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
@@ -996,6 +1030,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Edges[1].Results);
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
+            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P555"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
 
             // Cleanup
             DeleteIndex();
@@ -1041,24 +1078,47 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49129"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[2].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q6256"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q5"));
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
 
             //Assert.Equal(QueryType.InferredRangeTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.NotEmpty(queryGraph.Edges[1].Results);
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.Contains(queryGraph.Edges[1].Results, x => x.Label.Equals("Mother Of"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P777"));
 
             // Cleanup
             DeleteIndex();
@@ -1103,21 +1163,41 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
 
+            //TODO: Example is not good enough to show this example.
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[0].Results);
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49089"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q49129"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
-            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Label.Equals("Barack Obama"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
 
             //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
             Assert.NotEmpty(queryGraph.Nodes[2].Results);
             Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30"));
-            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Label.Equals("United States"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q5"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q298"));
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
@@ -1128,7 +1208,110 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
             Assert.NotEmpty(queryGraph.Edges[2].Results);
             Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P27"));
-            Assert.Contains(queryGraph.Edges[2].Results, x => x.Label.Equals("country of citizenship"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P31"));
+
+            // Cleanup
+            DeleteIndex();
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
+        /// ?son P27 ?country
+        /// ?mother ?prop ?country
+        ///
+        /// Expected:
+        /// ?mother Inferred Domain P25 (Include Human)
+        /// ?son Inferred Range P25 (Include Human)
+        /// ?son Inferred Domain P27 (Include Human)
+        /// ?country Inferred Range P27 (Include Chile)
+        /// ?prop Inferred Domain of P25 (from Human)
+        /// ?prop Inferred Range of P27 (to Country)
+        /// </summary>
+        [Fact]
+        public void TestResults_Inferred_4ConnectedNodes_1_N0P27N1_N0pN2_N2P25N3_4Nodes3Edges()
+        {
+            var graph = new RDFExplorerGraph
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?humanOfCitizenship"),
+                    new Node(1, "?country"),
+                    new Node(2, "?mother"),
+                    new Node(3, "?son"),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?fromCountry", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(1, "?motherOf", 2, 3, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(2, "?propDomainRange", 0, 2),
+                }
+            };
+
+            // Arrange
+            CreateIndex();
+
+            // Act
+            var queryGraph = new QueryGraph(graph);
+            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+
+            // Assert
+            //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[0].Results);
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q76"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q78"));
+
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeEntities, queryGraph.Nodes[1].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[1].Results);
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q76"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q77"));
+            Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q78"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q298"));
+
+            //Assert.Equal(QueryType.InferredRangeTypeEntities, queryGraph.Nodes[2].QueryType);
+            Assert.NotEmpty(queryGraph.Nodes[2].Results);
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q76"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[2].Results, x => x.Id.Equals("Q78"));
+
+            //Assert Nodes[3]
+            Assert.NotEmpty(queryGraph.Nodes[3].Results);
+            Assert.Contains(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q76"));
+            Assert.DoesNotContain(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q30"));
+            Assert.DoesNotContain(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q6256"));
+            Assert.DoesNotContain(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q5"));
+            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+            Assert.Contains(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q77"));
+            Assert.Contains(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q78"));
+            Assert.Contains(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q49088"));
+            Assert.Contains(queryGraph.Nodes[3].Results, x => x.Id.Equals("Q49089"));
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
+            Assert.Empty(queryGraph.Edges[0].Results);
+
+            //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[1].QueryType);
+            Assert.Empty(queryGraph.Edges[1].Results);
+
+            //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
+            Assert.NotEmpty(queryGraph.Edges[2].Results);
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P25"));
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P22"));
+            Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P31"));
+            Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P27"));
 
             // Cleanup
             DeleteIndex();
