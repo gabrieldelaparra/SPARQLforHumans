@@ -15,7 +15,7 @@ namespace SparqlForHumans.Lucene.Index.Fields
 
         public override bool FilterValidTriples(Triple triple)
         {
-            return triple.Predicate.IsInstanceOf();
+            return triple.Predicate.IsProperty() && triple.Predicate.IsInstanceOf();
         }
 
         public override IEnumerable<StringField> GetField(SubjectGroup tripleGroup)
