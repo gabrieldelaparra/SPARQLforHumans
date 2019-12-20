@@ -38,7 +38,7 @@ namespace SparqlForHumans.Utilities
         public static IEnumerable<T> IntersectIfAny<T>(this IEnumerable<T> source, IEnumerable<T> target)
         {
             if (source.Any() && target.Any())
-                return source.Intersect(target).Distinct();
+                return source.Intersect(target);
             if (source.Any())
                 return source.Distinct();
             return target.Distinct();
