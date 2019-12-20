@@ -24,8 +24,8 @@ namespace SparqlForHumans.CLI
         {
             Options.InternUris = false;
             //CreatePropertiesHistogram();
-            QueryForSomeZeroFrequencyProperties();
-            //FilterReorderSortAll();
+            //QueryForSomeZeroFrequencyProperties();
+            FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
             //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
@@ -147,8 +147,8 @@ namespace SparqlForHumans.CLI
 
         private static void FilterReorderSortAll()
         {
-            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphPracticalResults1.nt";
-            var output = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.UnitTests\Resources\QueryGraphPracticalResults1-Sorted.nt";
+            var inputFilename = @"C:\Users\admin\Desktop\Untitled-2.nt.txt";
+            var output = @"C:\Users\admin\Desktop\Untitled-2-Sorted.nt";
             TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         }
 

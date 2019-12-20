@@ -156,7 +156,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var propertyIdOutgoingPropertiesId = new Dictionary<int, HashSet<int>>();
             var propertyIdIncomingPropertiesId = new Dictionary<int, HashSet<int>>();
 
-            foreach (var propertyId in propertyIdDomainsDictList.Select(x => x.Key))
+            foreach (var propertyId in propertyIdDomainsDictList.Select(x => x.Key).Union(propertyIdRangesDictList.Select(x=>x.Key)))
             {
                 if (propertyIdDomainsDictList.ContainsKey(propertyId))
                 {

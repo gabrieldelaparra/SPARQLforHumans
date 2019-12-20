@@ -1,76 +1,80 @@
-<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49089> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q49129> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q78> .
-<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/reverse/P22> <http://www.wikidata.org/entity/Q77> .
-<http://www.wikidata.org/entity/Q77> <http://www.w3.org/2000/01/rdf-schema#label> "Father of Obama"@en .
-<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
-<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P33> <http://www.wikidata.org/entity/Q31> .
-<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P44> <http://www.wikidata.org/entity/Q55> .
-<http://www.wikidata.org/entity/Q78> <http://www.w3.org/2000/01/rdf-schema#label> "Son of Obama"@en .
-<http://www.wikidata.org/entity/Q78> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
-<http://www.wikidata.org/entity/Q78> <http://www.wikidata.org/prop/reverse/P22> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q49088> <http://www.w3.org/2000/01/rdf-schema#label> "Something going to Q30"@en .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q100> .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q30> .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q300> .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q49088> <http://www.wikidata.org/prop/reverse/P777> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q49089> <http://www.w3.org/2000/01/rdf-schema#label> "Human 1"@en .
-<http://www.wikidata.org/entity/Q49089> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
-<http://www.wikidata.org/entity/Q49089> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q100> .
-<http://www.wikidata.org/entity/Q49089> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q200> .
-<http://www.wikidata.org/entity/Q49089> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q300> .
-<http://www.wikidata.org/entity/Q49089> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q49129> <http://www.w3.org/2000/01/rdf-schema#label> "Human 2"@en .
-<http://www.wikidata.org/entity/Q49129> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q400> .
-<http://www.wikidata.org/entity/Q49129> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q500> .
-<http://www.wikidata.org/entity/Q49129> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q100> <http://www.w3.org/2000/01/rdf-schema#label> "Some Other Type Entity"@en .
-<http://www.wikidata.org/entity/Q100> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/Q100> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49089> .
-<http://www.wikidata.org/entity/Q49122> <http://www.w3.org/2000/01/rdf-schema#label> "Some Other Country"@en .
-<http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
-<http://www.wikidata.org/entity/Q49122> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q500> .
-<http://www.wikidata.org/entity/Q30> <http://www.w3.org/2000/01/rdf-schema#label> "United States"@en .
-<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
-<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q31> .
-<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q55> .
-<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P555> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "Instance Of"@en .
-<http://www.wikidata.org/entity/P25> <http://www.w3.org/2000/01/rdf-schema#label> "Mother Of"@en .
-<http://www.wikidata.org/entity/Q200> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49089> .
+<http://www.wikidata.org/entity/P6> <http://www.w3.org/2000/01/rdf-schema#label> "head of government"@en .
+<http://www.wikidata.org/entity/P21> <http://www.w3.org/2000/01/rdf-schema#label> "sex or gender"@en .
+<http://www.wikidata.org/entity/P22> <http://www.w3.org/2000/01/rdf-schema#label> "father"@en .
+<http://www.wikidata.org/entity/P25> <http://www.w3.org/2000/01/rdf-schema#label> "mother of"@en .
+<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "country of citizenship"@en .
+<http://www.wikidata.org/entity/P31> <http://www.w3.org/2000/01/rdf-schema#label> "instance of"@en .
+<http://www.wikidata.org/entity/P530> <http://www.w3.org/2000/01/rdf-schema#label> "diplomatic relation"@en .
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2000/01/rdf-schema#label> "human"@en .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49089> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q73> .
 <http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q76> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q77> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q78> .
-<http://www.wikidata.org/entity/Q6256> <http://www.w3.org/2000/01/rdf-schema#label> "country"@en .
-<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q298> .
-<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q30> .
-<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49122> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q80> .
+<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q81> .
+<http://www.wikidata.org/entity/Q30> <http://www.w3.org/2000/01/rdf-schema#label> "United States"@en .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P6> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q76> .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q80> .
+<http://www.wikidata.org/entity/Q30> <http://www.wikidata.org/prop/reverse/P530> <http://www.wikidata.org/entity/Q298> .
+<http://www.wikidata.org/entity/Q39> <http://www.w3.org/2000/01/rdf-schema#label> "Switzerland"@en .
+<http://www.wikidata.org/entity/Q39> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
+<http://www.wikidata.org/entity/Q70> <http://www.w3.org/2000/01/rdf-schema#label> "Female Human 1"@en .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q73> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q71> <http://www.w3.org/2000/01/rdf-schema#label> "Male Human 1"@en .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P22> <http://www.wikidata.org/entity/Q73> .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q298> .
+<http://www.wikidata.org/entity/Q71> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q72> <http://www.w3.org/2000/01/rdf-schema#label> "Son Female"@en .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/reverse/P22> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q72> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q73> <http://www.w3.org/2000/01/rdf-schema#label> "Son Male"@en .
+<http://www.wikidata.org/entity/Q73> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q73> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q73> <http://www.wikidata.org/prop/reverse/P22> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q73> <http://www.wikidata.org/prop/reverse/P25> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q76> <http://www.w3.org/2000/01/rdf-schema#label> "Barack Obama"@en .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/reverse/P6> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q80> <http://www.w3.org/2000/01/rdf-schema#label> "Another Human 1"@en .
+<http://www.wikidata.org/entity/Q80> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q80> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q81> <http://www.w3.org/2000/01/rdf-schema#label> "Another Human 2"@en .
+<http://www.wikidata.org/entity/Q81> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .
+<http://www.wikidata.org/entity/Q81> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q298> .
+<http://www.wikidata.org/entity/Q90> <http://www.w3.org/2000/01/rdf-schema#label> "Another Entity 1"@en .
+<http://www.wikidata.org/entity/Q91> <http://www.w3.org/2000/01/rdf-schema#label> "Another Entity 2"@en .
 <http://www.wikidata.org/entity/Q298> <http://www.w3.org/2000/01/rdf-schema#label> "Chile"@en .
 <http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
-<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P555> <http://www.wikidata.org/entity/Q555> .
-<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P777> <http://www.wikidata.org/entity/Q777> .
-<http://www.wikidata.org/entity/Q300> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49088> .
-<http://www.wikidata.org/entity/Q300> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49089> .
-<http://www.wikidata.org/entity/Q31> <http://www.wikidata.org/prop/reverse/P33> <http://www.wikidata.org/entity/Q77> .
-<http://www.wikidata.org/entity/Q31> <http://www.wikidata.org/prop/reverse/P777> <http://www.wikidata.org/entity/Q30> .
-<http://www.wikidata.org/entity/Q400> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49129> .
-<http://www.wikidata.org/entity/Q500> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49122> .
-<http://www.wikidata.org/entity/Q500> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q49129> .
-<http://www.wikidata.org/entity/Q555> <http://www.wikidata.org/prop/reverse/P555> <http://www.wikidata.org/entity/Q298> .
-<http://www.wikidata.org/entity/Q55> <http://www.wikidata.org/prop/reverse/P44> <http://www.wikidata.org/entity/Q77> .
-<http://www.wikidata.org/entity/Q55> <http://www.wikidata.org/prop/reverse/P555> <http://www.wikidata.org/entity/Q30> .
-<http://www.wikidata.org/entity/Q777> <http://www.wikidata.org/prop/reverse/P777> <http://www.wikidata.org/entity/Q298> .
-<http://www.wikidata.org/entity/P27> <http://www.w3.org/2000/01/rdf-schema#label> "country of citizenship"@en .
-<http://www.wikidata.org/entity/P22> <http://www.w3.org/2000/01/rdf-schema#label> "father"@en .
-<http://www.wikidata.org/entity/P555> <http://www.w3.org/2000/01/rdf-schema#label> "random property 555"@en .
-<http://www.wikidata.org/entity/P777> <http://www.w3.org/2000/01/rdf-schema#label> "random property 777"@en .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/direct/P530> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q71> .
+<http://www.wikidata.org/entity/Q298> <http://www.wikidata.org/prop/reverse/P27> <http://www.wikidata.org/entity/Q81> .
+<http://www.wikidata.org/entity/Q6256> <http://www.w3.org/2000/01/rdf-schema#label> "country"@en .
+<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q30> .
+<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q39> .
+<http://www.wikidata.org/entity/Q6256> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q298> .
+<http://www.wikidata.org/entity/Q48277> <http://www.w3.org/2000/01/rdf-schema#label> "gender"@en .
+<http://www.wikidata.org/entity/Q48277> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q6581072> .
+<http://www.wikidata.org/entity/Q48277> <http://www.wikidata.org/prop/reverse/P31> <http://www.wikidata.org/entity/Q6581097> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.w3.org/2000/01/rdf-schema#label> "female"@en .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q48277> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q72> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.w3.org/2000/01/rdf-schema#label> "male"@en .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q48277> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q70> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q73> .
+<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q76> .

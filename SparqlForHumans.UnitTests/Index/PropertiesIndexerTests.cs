@@ -184,8 +184,11 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEmpty(properties);
             Assert.Equal(1, properties.Count); //P31
 
-            var property31WithRange = properties.FirstOrDefault(x => x.Id.Equals("P31")).Range;
+            var property31 = properties.FirstOrDefault(x => x.Id.Equals("P31"));
+            var property31WithRange = property31.Range;
 
+            //TODO: Not sure what is the correct result, but in the query results tests, this makes no sense.
+            //Assert.Empty(property31WithRange);
             Assert.NotEmpty(property31WithRange);
             Assert.Contains(100, property31WithRange);
             Assert.Contains(200, property31WithRange);

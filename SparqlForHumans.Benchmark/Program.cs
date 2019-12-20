@@ -167,7 +167,7 @@ namespace SparqlForHumans.Benchmark
                 Console.WriteLine($"Property: {property}");
                 Console.WriteLine(); Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
 
-                var text1 = $"SELECT * WHERE {{?v1 {property} ?v2 . ?v1 ?p1 ?v3 . }} ";
+                var text1 = $"SELECT * WHERE {{?v1 wdt:{property} ?v2 . ?v1 ?p1 ?v3 . }} ";
 
 
                 var converter = new SparqlToGraphConverter();

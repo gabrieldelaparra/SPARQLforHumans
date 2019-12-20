@@ -151,7 +151,7 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static bool IsInstanceOf(this INode node)
         {
-            return node.GetId().Equals(Constants.InstanceOf);
+            return node.IsProperty() && node.GetId().Equals(Constants.InstanceOf);
         }
 
         public static bool IsReverseInstanceOf(this INode node)

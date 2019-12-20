@@ -79,8 +79,9 @@ namespace SparqlForHumans.Lucene.Index
                 .GroupBySubject();
 
             //First Pass:
-            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-                
+            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
+            {
+
                 var validTriples = subjectGroup.Where(x =>
                     x.Predicate.IsProperty() ||
                     (x.Predicate.IsReverseProperty() && !x.Predicate.IsInstanceOf())).ToArray();
@@ -108,10 +109,14 @@ namespace SparqlForHumans.Lucene.Index
 
                 //RANGE:
                 var reverseProperties = validTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
-                var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId());
-                RangeDictionary.AddSafe(31, instanceOfIds);
-                foreach (var reversePropertyId in reversePropertyIds)
-                    RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+                var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
+
+                //if (reversePropertyIds.Any())
+                {
+                    //RangeDictionary.AddSafe(31, instanceOfIds);
+                    foreach (var reversePropertyId in reversePropertyIds)
+                        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+                }
 
                 LogProgress(readCount++);
             }
