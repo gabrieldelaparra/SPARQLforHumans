@@ -1,0 +1,4 @@
+SELECT * WHERE {
+  ?item wdt:P31 ?v1;
+        wdt:P625 ?geo .
+}

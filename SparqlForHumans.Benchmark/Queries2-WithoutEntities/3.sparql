@@ -1,0 +1,6 @@
+SELECT ?person ?birthPlace ?coordinates
+WHERE { 
+    ?person wdt:P106 ?v1. 
+    ?person wdt:P19 ?birthPlace. 
+    ?birthPlace wdt:P625 ?coordinates .
+}
