@@ -172,8 +172,8 @@ namespace SparqlForHumans.UnitTests.Query
             types = new MultiLabelTypeQuery(outputPath, query).Query();
             all = new MultiLabelEntityQuery(outputPath, query).Query();
 
-            Assert.Single(types);
-            Assert.Single(all);
+            Assert.Equal(1, types.Count);
+            Assert.Equal(1, all.Count);
 
             outputPath.DeleteIfExists();
         }

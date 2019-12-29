@@ -185,8 +185,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         foreach (var uri in givenOutgoingEdge.uris)
                         {
-                            var outgoing = InMemoryQueryEngine.PropertyIdOutgoingPropertiesQuery(uri);
-                            possibleProperties = possibleProperties.IntersectIfAny(outgoing).ToList();
+                            var sourceOutgoing = InMemoryQueryEngine.PropertyDomainOutgoingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(sourceOutgoing).ToList();
                         }
                     }
 
@@ -194,8 +194,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         foreach (var uri in givenIncomingEdge.uris)
                         {
-                            var outgoing = InMemoryQueryEngine.PropertyIdIncomingPropertiesQuery(uri);
-                            possibleProperties = possibleProperties.IntersectIfAny(outgoing).ToList();
+                            var sourceIncoming = InMemoryQueryEngine.PropertyDomainIncomingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(sourceIncoming).ToList();
                         }
                     }
 
@@ -203,8 +203,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         foreach (var uri in givenIncomingEdge.uris)
                         {
-                            var incoming = InMemoryQueryEngine.PropertyIdIncomingPropertiesQuery(uri);
-                            possibleProperties = possibleProperties.IntersectIfAny(incoming).ToList();
+                            var targetIncoming = InMemoryQueryEngine.PropertyRangeIncomingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(targetIncoming).ToList();
                         }
                     }
 
@@ -212,8 +212,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         foreach (var uri in givenOutgoingEdge.uris)
                         {
-                            var incoming = InMemoryQueryEngine.PropertyIdOutgoingPropertiesQuery(uri);
-                            possibleProperties = possibleProperties.IntersectIfAny(incoming).ToList();
+                            var targetOutgoing = InMemoryQueryEngine.PropertyRangeOutgoingPropertiesQuery(uri);
+                            possibleProperties = possibleProperties.IntersectIfAny(targetOutgoing).ToList();
                         }
                     }
                 }

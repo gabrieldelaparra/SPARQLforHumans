@@ -1214,7 +1214,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
                 edges = new[]
                 {
-                    new Edge(0, "?country", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(0, "?COUNTRY", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
                     new Edge(1, "?propDomain", 0, 1),
                 }
             };
@@ -1280,17 +1280,17 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
+            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
 
             // Cleanup
             DeleteIndex();
         }
 
         /// <summary>
-        /// ?mother P25 ?son
-        /// ?son ?prop ?mother
+        /// ?human P27 ?country
+        /// ?country ?prop ?human
         ///
         /// Expected:
         /// ?mother Inferred Domain P25 (Include Human)
@@ -1304,13 +1304,13 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[]
                 {
-                    new Node(0, "?domain"),
-                    new Node(1, "?range"),
+                    new Node(0, "?human"),
+                    new Node(1, "?country"),
                 },
                 edges = new[]
                 {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
-                    new Edge(1, "?propRange", 1, 0),
+                    new Edge(0, "?COUNTRY", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(1, "?prop", 1, 0),
                 }
             };
 

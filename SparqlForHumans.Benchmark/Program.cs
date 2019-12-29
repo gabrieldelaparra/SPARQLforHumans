@@ -13,9 +13,9 @@ namespace SparqlForHumans.Benchmark
         static void Main(string[] args)
         {
             //RunQueries();
-            RunDomainRangeQueries();
+            //RunDomainRangeQueries();
             //AnalyzeQueries();
-            QueryPointByPoint();
+            //QueryPointByPoint();
             //Console.WriteLine("Press Enter to exit");
             //Console.ReadLine();
         }
