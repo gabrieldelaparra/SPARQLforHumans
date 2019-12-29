@@ -182,14 +182,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 propertyDomainIncomingPropertiesIds[propertyId] = new HashSet<int>();
 
                 if (!_propertyIdDomainTypesDictionary.ContainsKey(propertyId)) continue;
-
                 var domainIds = _propertyIdDomainTypesDictionary[propertyId];
+
                 foreach (var domainId in domainIds)
                 {
-                    var domainProperties = _typeIdDomainPropertiesDictionary[domainId];
-                    propertyDomainOutgoingPropertiesIds[propertyId].AddAll(domainProperties);
-                    var rangeProperties = _typeIdRangePropertiesDictionary[domainId];
-                    propertyDomainIncomingPropertiesIds[propertyId].AddAll(rangeProperties);
+                    if (_typeIdDomainPropertiesDictionary.ContainsKey(domainId))
+                    {
+                        var domainProperties = _typeIdDomainPropertiesDictionary[domainId];
+                        propertyDomainOutgoingPropertiesIds[propertyId].AddAll(domainProperties);
+                    }
+
+                    if (_typeIdRangePropertiesDictionary.ContainsKey(domainId))
+                    {
+                        var rangeProperties = _typeIdRangePropertiesDictionary[domainId];
+                        propertyDomainIncomingPropertiesIds[propertyId].AddAll(rangeProperties);
+                    }
                 }
             }
 
@@ -203,10 +210,17 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var rangeIds = _propertyIdRangeTypesDictionary[propertyId];
                 foreach (var rangeId in rangeIds)
                 {
-                    var domainProperties = _typeIdDomainPropertiesDictionary[rangeId];
-                    propertyRangeOutgoingPropertiesIds[propertyId].AddAll(domainProperties);
-                    var rangeProperties = _typeIdRangePropertiesDictionary[rangeId];
-                    propertyRangeIncomingPropertiesIds[propertyId].AddAll(rangeProperties);
+                    if (_typeIdDomainPropertiesDictionary.ContainsKey(rangeId))
+                    {
+                        var domainProperties = _typeIdDomainPropertiesDictionary[rangeId];
+                        propertyRangeOutgoingPropertiesIds[propertyId].AddAll(domainProperties);
+                    }
+
+                    if (_typeIdRangePropertiesDictionary.ContainsKey(rangeId))
+                    {
+                        var rangeProperties = _typeIdRangePropertiesDictionary[rangeId];
+                        propertyRangeIncomingPropertiesIds[propertyId].AddAll(rangeProperties);
+                    }
                 }
             }
 

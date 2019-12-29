@@ -192,7 +192,7 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEmpty(property31WithRange);
             Assert.Contains(100, property31WithRange);
             Assert.Contains(200, property31WithRange);
-            Assert.Contains(5, property31WithRange);
+            Assert.DoesNotContain(5, property31WithRange);
 
             outputPath.DeleteIfExists();
         }

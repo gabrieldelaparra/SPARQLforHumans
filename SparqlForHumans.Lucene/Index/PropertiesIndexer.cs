@@ -110,13 +110,15 @@ namespace SparqlForHumans.Lucene.Index
                 //RANGE:
                 var reverseProperties = validTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
                 var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-
+                
+                var reverseInstanceOf = validTriples.Where(x => x.Predicate.IsReverseInstanceOf());
+                if(reverseInstanceOf.Any())
+                    RangeDictionary.AddSafe(31, instanceOfIds);
                 //if (reversePropertyIds.Any())
-                {
                     //RangeDictionary.AddSafe(31, instanceOfIds);
-                    foreach (var reversePropertyId in reversePropertyIds)
-                        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
-                }
+
+                foreach (var reversePropertyId in reversePropertyIds)
+                    RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
 
                 LogProgress(readCount++);
             }

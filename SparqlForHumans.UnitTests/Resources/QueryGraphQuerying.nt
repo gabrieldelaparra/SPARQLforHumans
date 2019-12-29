@@ -24,7 +24,6 @@
 <http://www.wikidata.org/entity/Q39> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
 <http://www.wikidata.org/entity/Q70> <http://www.w3.org/2000/01/rdf-schema#label> "Female Human 1"@en .
 <http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581072> .
-<http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P21> <http://www.wikidata.org/entity/Q6581097> .
 <http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q72> .
 <http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P25> <http://www.wikidata.org/entity/Q73> .
 <http://www.wikidata.org/entity/Q70> <http://www.wikidata.org/prop/direct/P27> <http://www.wikidata.org/entity/Q30> .
@@ -75,6 +74,5 @@
 <http://www.wikidata.org/entity/Q6581072> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q72> .
 <http://www.wikidata.org/entity/Q6581097> <http://www.w3.org/2000/01/rdf-schema#label> "male"@en .
 <http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q48277> .
-<http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q70> .
 <http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q73> .
 <http://www.wikidata.org/entity/Q6581097> <http://www.wikidata.org/prop/reverse/P21> <http://www.wikidata.org/entity/Q76> .

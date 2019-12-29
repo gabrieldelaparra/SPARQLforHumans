@@ -78,8 +78,6 @@ namespace SparqlForHumans.Lucene.Extensions
         {
             entity.ReverseProperties = document.ParseReverseProperties().ToList();
         }
-
-
         public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
         {
             return documents?.Select(MapEntity).ToList();
