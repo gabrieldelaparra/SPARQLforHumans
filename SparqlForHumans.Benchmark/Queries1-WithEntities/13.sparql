@@ -1,0 +1,6 @@
+SELECT ?location ?item ?item
+WHERE
+{
+  ?item wdt:P2218 ?worth.
+  ?item wdt:P19 ?location .
+}
