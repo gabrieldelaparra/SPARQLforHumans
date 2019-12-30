@@ -1,7 +1,7 @@
 SELECT DISTINCT ?person
 WHERE {
-?person wdt:P166 ?v1 .
-?person wdt:P31 ?v1 .
-?person wdt:P166 ?v3 .
-?person wdt:P31 ?v3 .
+?person wdt:P166 wd:Q7191 .
+?person wdt:P31 wd:Q7191 .
+?person wdt:P166 wd:Q19020 .
+?person wdt:P31 wd:Q19020 .
 }

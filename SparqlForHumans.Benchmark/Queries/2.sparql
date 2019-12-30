@@ -1,4 +1,4 @@
 SELECT DISTINCT ?city WHERE {
-  ?city wdt:P279 ?v1 .
-  ?city wdt:P131 ?v2 .
+  ?city wdt:P279 wd:Q515 .
+  ?city wdt:P131 wd:Q1202 .
 }
