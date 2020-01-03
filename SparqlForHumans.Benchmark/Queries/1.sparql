@@ -1,5 +1,5 @@
 SELECT DISTINCT ?item 
 WHERE { 
-    ?item wdt:P31 wd:Q39715 ; 
-    wdt:P17 wd:Q20 ; 
+    ?item wdt:P31 ?v1 ; 
+    wdt:P17 ?v2 ; 
 }
