@@ -51,6 +51,7 @@ namespace SparqlForHumans.Benchmark
     {
         public LocalQueryRunner(QueryGraph graph)
         {
+            graph.ResetTraverse();
             QueryGraph = graph;
         }
 
@@ -88,6 +89,7 @@ namespace SparqlForHumans.Benchmark
     {
         public WikidataEndpointQueryRunner(QueryGraph graph)
         {
+            graph.ResetTraverse();
             QueryGraph = graph;
         }
 
