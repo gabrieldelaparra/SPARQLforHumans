@@ -168,8 +168,6 @@ namespace SparqlForHumans.Benchmark
                 Console.WriteLine(); Console.WriteLine(); Console.WriteLine(); Console.WriteLine();
 
                 var text1 = $"SELECT * WHERE {{?v1 wdt:{property} ?v2 . ?v1 ?p1 ?v3 . }} ";
-
-
                 var converter = new SparqlToGraphConverter();
                 var rdfGraph1 = converter.ConvertToGraph(text1);
 
@@ -191,11 +189,54 @@ namespace SparqlForHumans.Benchmark
                 queryBenchmarks.Add(endpoint);
                 queryBenchmarks.Add(local);
 
-                var text2 = $"SELECT * WHERE {{?v1 {property} ?v2 . ?v2 ?p1 ?v3 . }} ";
+                var text2 = $"SELECT * WHERE {{?v1 wdt:{property} ?v2 . ?v2 ?p1 ?v3 . }} ";
+                converter = new SparqlToGraphConverter();
                 var rdfGraph2 = converter.ConvertToGraph(text2);
 
                 Console.WriteLine("####################################################################################");
                 graph = new QueryGraph(rdfGraph2)
+                {
+                    EntitiesIndexPath = LuceneDirectoryDefaults.EntityIndexPath,
+                    PropertiesIndexPath = LuceneDirectoryDefaults.PropertyIndexPath
+                };
+
+                //Do not run if there are no variables to query.
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+
+                endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
+                endpoint.Print();
+                local = new LocalQueryRunner(graph).RunBenchmark();
+                local.Print();
+                queryBenchmarks.Add(endpoint);
+                queryBenchmarks.Add(local);
+
+                var text3 = $"SELECT * WHERE {{?v1 wdt:{property} ?v2 . ?v3 ?p1 ?v1 . }} ";
+                converter = new SparqlToGraphConverter();
+                var rdfGraph3 = converter.ConvertToGraph(text3);
+
+                Console.WriteLine("####################################################################################");
+                graph = new QueryGraph(rdfGraph3)
+                {
+                    EntitiesIndexPath = LuceneDirectoryDefaults.EntityIndexPath,
+                    PropertiesIndexPath = LuceneDirectoryDefaults.PropertyIndexPath
+                };
+
+                //Do not run if there are no variables to query.
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+
+                endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
+                endpoint.Print();
+                local = new LocalQueryRunner(graph).RunBenchmark();
+                local.Print();
+                queryBenchmarks.Add(endpoint);
+                queryBenchmarks.Add(local);
+
+                var text4 = $"SELECT * WHERE {{?v1 wdt:{property} ?v2 . ?v3 ?p1 ?v2 . }} ";
+                converter = new SparqlToGraphConverter();
+                var rdfGraph4 = converter.ConvertToGraph(text4);
+
+                Console.WriteLine("####################################################################################");
+                graph = new QueryGraph(rdfGraph4)
                 {
                     EntitiesIndexPath = LuceneDirectoryDefaults.EntityIndexPath,
                     PropertiesIndexPath = LuceneDirectoryDefaults.PropertyIndexPath
