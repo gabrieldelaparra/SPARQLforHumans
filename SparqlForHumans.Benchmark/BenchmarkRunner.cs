@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using SparqlForHumans.Benchmark.Models;
 using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Utilities;
