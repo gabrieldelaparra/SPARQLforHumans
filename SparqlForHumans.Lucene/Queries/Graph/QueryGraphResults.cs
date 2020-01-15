@@ -55,7 +55,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 foreach (var node in nodes.Where(x => x.Traversed))
                     node.Results = new List<Entity>();
-
                 foreach (var edge in edges.Where(x => x.Traversed))
                     edge.Results = new List<Property>();
             }
