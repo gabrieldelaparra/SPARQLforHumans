@@ -27,8 +27,8 @@ namespace SparqlForHumans.CLI
             //QueryForSomeZeroFrequencyProperties();
             FilterReorderSortAll();
             //FilterReorderSort500();
-            //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
-            //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All.Sorted.nt", true);
+            //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All-PostFilter-Sorted.nt", true);
+            //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All-PostFilter-Sorted.nt", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
@@ -42,7 +42,7 @@ namespace SparqlForHumans.CLI
             //CreateIndex("filtered-All-2MM.nt", true);
             //CreateIndex("filtered-All-500k.nt", true);
             //CreateIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\Debug\netcoreapp2.1\filtered-All.nt", true);
-            //QueryEntities("obam");
+            //QueryEntities("life");
             //QueryEntities("hum");
             //QueryEntities("person");
             //QueryEntities("city");
@@ -129,7 +129,7 @@ namespace SparqlForHumans.CLI
         private static void FilterAll()
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
-            var outputFilename = "filtered-All.nt";
+            var outputFilename = "filtered-All.nt.gz";
             TriplesFilter.Filter(inputFilename, outputFilename, -1);
         }
 
@@ -147,8 +147,8 @@ namespace SparqlForHumans.CLI
 
         private static void FilterReorderSortAll()
         {
-            var inputFilename = @"C:\Users\admin\Desktop\Untitled-2.nt.txt";
-            var output = @"C:\Users\admin\Desktop\Untitled-2-Sorted.nt";
+            var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
+            var output = @"filtered-All-FilterReorder.nt.gz";
             TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         }
 
