@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using SparqlForHumans.Benchmark.Models;
 using SparqlForHumans.Utilities;
 
@@ -10,6 +9,43 @@ namespace SparqlForHumans.Benchmark
 {
     public static class BenchmarkAnalysis
     {
+        public static void DoTheAverageRecallF1Thing()
+        {
+            var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";
+            var benchmarkResults = JsonSerialization.DeserializeJson<List<QueryBenchmark>>(filename);
+            var byHashcode = benchmarkResults.GroupBy(x => x.GraphHashCode);
+
+            var results = new List<string>();
+            results.Add($"QueryHashcode,localCount,remoteCount,tp,fp,fn,precision,recall,f1");
+
+            foreach (var benchmark in byHashcode)
+            {
+                if (benchmark.Count() != 2)
+                    continue;
+                var local = benchmark.FirstOrDefault(x => x.BenchmarkType.Equals("Local"))?.ResultsDictionary?.FirstOrDefault(x => x.Key.Equals("prop2"));
+                var remote = benchmark.FirstOrDefault(x => x.BenchmarkType.Equals("Endpoint"))?.ResultsDictionary?.FirstOrDefault(x => x.Key.Equals("prop2"));
+
+                if (local == null || remote == null || local.Value.Key == null || remote.Value.Key == null)
+                    continue;
+
+                var localResults = local.Value.Value;
+                var remoteResults = remote.Value.Value;
+
+                var remoteCount = remoteResults.Length;
+                var localCount = localResults.Length;
+
+                var TP = localResults.Intersect(remoteResults).Count();
+                var FP = localResults.Except(remoteResults).Count();
+                var FN = remoteResults.Except(localResults).Count();
+
+                double precision = 1.0 * TP / (TP + FP);
+                double recall = 1.0 * TP / (TP + FN);
+                double f1 = 2.0 * (precision * recall) / (precision + recall);
+
+                results.Add($"{benchmark.Key},{localCount},{remoteCount},{TP},{FP},{FN},{precision},{recall},{f1}");
+            }
+            File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\metrics.csv", results);
+        }
         public static void LogPointByPoint()
         {
             var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";

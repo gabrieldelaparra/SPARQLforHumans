@@ -25,6 +25,7 @@ namespace SparqlForHumans.Lucene.Extensions
                 foreach (var property in entity.Properties)
                 {
                     var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
+                    if(prop == null) continue;
                     property.Label = prop.Label;
                 }
             }

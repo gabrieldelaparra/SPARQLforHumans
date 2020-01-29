@@ -134,10 +134,11 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
                 var entityNodeConnections = new HashSet<int>();
 
-                foreach (var line in group)
+                foreach (var triple in group)
                 {
+                    if(triple == null) continue;
 
-                    var (_, ntPredicate, ntObject) = line.AsTuple();
+                    var (_, ntPredicate, ntObject) = triple.AsTuple();
 
                     if (!ntPredicate.IsProperty()) continue;
                     if (!ntObject.IsEntityQ()) continue;

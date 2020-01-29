@@ -54,7 +54,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             foreach (var queryEdge in graph.Edges.Select(x => x.Value))
                 queryEdge.Traversed = false;
         }
-        public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, string[] variables, int limit = 100)
+        public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, string[] variables, int limit = 0)
         {
             var sparqlVariables = variables.Select(x => new SparqlVariable(x)).ToArray();
             var queryBuilder = QueryBuilder.Select(sparqlVariables).Distinct();
@@ -68,7 +68,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
 
 
-        public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, int limit = 100)
+        public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, int limit = 0)
         {
             var queryBuilder = QueryBuilder.SelectAll().Distinct();
 

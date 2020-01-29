@@ -22,7 +22,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.ResetTraverse();
             graph.CheckAvoidQueries();
 
-            var tasks = runOnEndpoint ? graph.RunWikidataEndpointQueries() : new List<Task<SparqlResultSet>>();
+            var tasks = runOnEndpoint ? graph.RunWikidataEndpointQueries(10000) : new List<Task<SparqlResultSet>>();
 
             if (runNodeQueries)
                 graph.RunNodeQueries();
@@ -67,21 +67,21 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId());
                 var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
                 if (node != null)
-                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(100);
+                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(10000);
                 var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
                 if (edge != null)
-                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(100);
+                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(10000);
             }
         }
 
-        public static List<Task<SparqlResultSet>> RunWikidataEndpointQueries(this QueryGraph graph)
+        public static List<Task<SparqlResultSet>> RunWikidataEndpointQueries(this QueryGraph graph, int limit = 100)
         {
             var tasks = new List<Task<SparqlResultSet>>();
 
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 if (node.Traversed) continue;
-                var query = node.ToSparql(graph).ToString().FixQuery();
+                var query = node.ToSparql(graph, limit).ToString().FixQuery();
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }
             return tasks.Where(x => x != null).ToList();
@@ -191,7 +191,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                     foreach (var givenIncomingEdge in sourceGivenIncomingEdges)
                     {
-                        foreach (var uri in givenIncomingEdge.uris) {
+                        foreach (var uri in givenIncomingEdge.uris)
+                        {
                             var sourceIncoming = InMemoryQueryEngine.PropertyRangeOutgoingPropertiesQuery(uri);
                             possibleProperties = possibleProperties.IntersectIfAny(sourceIncoming).ToList();
                         }
@@ -217,7 +218,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 edge.Results = !possibleProperties.Any()
                     ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query()
-                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query();
+                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query(10000);
 
             }
         }

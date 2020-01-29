@@ -30,6 +30,7 @@ namespace SparqlForHumans.Lucene.Index
                 new AltLabelIndexer(),
                 new DescriptionIndexer()
             };
+            NotifyTicks = 10000;
         }
         public override string NotifyMessage => "Build Properties Index";
         public IEnumerable<IFieldIndexer<IIndexableField>> RelationMappers { get; set; }
@@ -81,44 +82,50 @@ namespace SparqlForHumans.Lucene.Index
             //First Pass:
             foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
             {
-
-                var validTriples = subjectGroup.Where(x =>
-                    x.Predicate.IsProperty() ||
-                    (x.Predicate.IsReverseProperty() && !x.Predicate.IsInstanceOf())).ToArray();
-
-                var directProperties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
-
-                //FREQUENCY
-                foreach (var triple in directProperties)
+                try
                 {
-                    var propertyIntId = triple.Predicate.GetIntId();
+                    var validTriples = subjectGroup.Where(x =>
+                        x.Predicate.IsProperty() ||
+                        (x.Predicate.IsReverseProperty() && !x.Predicate.IsInstanceOf())).ToArray();
 
-                    if (!FrequencyHashTable.ContainsKey(propertyIntId))
-                        FrequencyHashTable.Add(propertyIntId, 0);
+                    var directProperties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
 
-                    FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
-                }
+                    //FREQUENCY
+                    foreach (var triple in directProperties)
+                    {
+                        var propertyIntId = triple.Predicate.GetIntId();
 
-                //DOMAIN:
-                var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
-                var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
-                var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
-                DomainDictionary.AddSafe(31, instanceOfIds);
-                foreach (var propertyId in propertyIds)
-                    DomainDictionary.AddSafe(propertyId, instanceOfIds);
+                        if (!FrequencyHashTable.ContainsKey(propertyIntId))
+                            FrequencyHashTable.Add(propertyIntId, 0);
 
-                //RANGE:
-                var reverseProperties = validTriples.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
-                var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-                
-                var reverseInstanceOf = validTriples.Where(x => x.Predicate.IsReverseInstanceOf());
-                if(reverseInstanceOf.Any())
-                    RangeDictionary.AddSafe(31, instanceOfIds);
-                //if (reversePropertyIds.Any())
+                        FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
+                    }
+
+                    //DOMAIN:
+                    var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
+                    var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
+                    var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
+                    DomainDictionary.AddSafe(31, instanceOfIds);
+                    foreach (var propertyId in propertyIds)
+                        DomainDictionary.AddSafe(propertyId, instanceOfIds);
+
+                    //RANGE:
+                    var reverseProperties = validTriples.Where(x =>
+                        x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
+                    var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
+
+                    var reverseInstanceOf = validTriples.Where(x => x.Predicate.IsReverseInstanceOf());
+                    if (reverseInstanceOf.Any())
+                        RangeDictionary.AddSafe(31, instanceOfIds);
+                    //if (reversePropertyIds.Any())
                     //RangeDictionary.AddSafe(31, instanceOfIds);
 
-                foreach (var reversePropertyId in reversePropertyIds)
-                    RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+                    foreach (var reversePropertyId in reversePropertyIds)
+                        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+                }
+                catch (Exception exception) {
+                    LogException(readCount, $"Exception at {subjectGroup.Id} Lines: {string.Join(";", subjectGroup)}: {exception}");
+                }
 
                 LogProgress(readCount++);
             }
