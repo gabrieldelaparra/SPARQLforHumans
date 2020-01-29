@@ -40,9 +40,9 @@ namespace SparqlForHumans.RDF.Extensions
 
         public static Triple ToTriple(this string inputLine)
         {
-            var g = new NonIndexedGraph();
-            StringParser.Parse(g, inputLine);
-            return g.Triples?.Last();
+                var g = new NonIndexedGraph();
+                StringParser.Parse(g, inputLine);
+                return g.Triples?.Last();
         }
 
         public static INode ToReverseProperty(this INode predicate)

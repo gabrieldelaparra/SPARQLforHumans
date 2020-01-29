@@ -1053,7 +1053,6 @@
 <http://www.wikidata.org/entity/Q349> <http://www.w3.org/2000/01/rdf-schema#label> "sport"@en .
 <http://www.wikidata.org/entity/Q349> <http://schema.org/description> "forms of competitive activity, usually physical"@en .
 <http://www.wikidata.org/entity/Q349> <http://www.w3.org/2004/02/skos/core#altLabel> "sports"@en .
-<http://www.wikidata.org/entity/Q349> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P641> .
 <http://www.wikidata.org/entity/Q353> <http://www.w3.org/2000/01/rdf-schema#label> "Blanche of Castile"@en .
 <http://www.wikidata.org/entity/Q353> <http://schema.org/description> "Queen of France"@en .
 <http://www.wikidata.org/entity/Q353> <http://www.wikidata.org/prop/direct/P40> <http://www.wikidata.org/entity/Q346> .
@@ -4595,9 +4594,6 @@
 <http://www.wikidata.org/entity/Q355> <http://www.w3.org/2004/02/skos/core#altLabel> "facebook.com"@en .
 <http://www.wikidata.org/entity/Q355> <http://www.w3.org/2004/02/skos/core#altLabel> "FB"@en .
 <http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P127> <http://www.wikidata.org/entity/Q380> .
-<http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P2013> .
-<http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P1997> .
-<http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P4003> .
 <http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P277> <http://www.wikidata.org/entity/Q59> .
 <http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q30> .
 <http://www.wikidata.org/entity/Q355> <http://www.wikidata.org/prop/direct/P137> <http://www.wikidata.org/entity/Q380> .
@@ -8184,8 +8180,6 @@
 <http://www.wikidata.org/entity/Q358> <http://www.w3.org/2004/02/skos/core#altLabel> "Kulturdenkmal"@en .
 <http://www.wikidata.org/entity/Q358> <http://www.w3.org/2004/02/skos/core#altLabel> "historic monument"@en .
 <http://www.wikidata.org/entity/Q358> <http://www.w3.org/2004/02/skos/core#altLabel> "cultural monument"@en .
-<http://www.wikidata.org/entity/Q358> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2817> .
-<http://www.wikidata.org/entity/Q358> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1435> .
 <http://www.wikidata.org/entity/Q359> <http://www.w3.org/2000/01/rdf-schema#label> "WikiLeaks"@en .
 <http://www.wikidata.org/entity/Q359> <http://schema.org/description> "international organization which publishes secret information"@en .
 <http://www.wikidata.org/entity/Q359> <http://www.wikidata.org/prop/direct/P112> <http://www.wikidata.org/entity/Q360> .
@@ -11578,7 +11572,6 @@
 <http://www.wikidata.org/entity/Q318> <http://www.w3.org/2000/01/rdf-schema#label> "galaxy"@en .
 <http://www.wikidata.org/entity/Q318> <http://schema.org/description> "astronomical structure"@en .
 <http://www.wikidata.org/entity/Q318> <http://www.w3.org/2004/02/skos/core#altLabel> "extragalactic nebula"@en .
-<http://www.wikidata.org/entity/Q318> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P223> .
 <http://www.wikidata.org/entity/Q318> <http://www.wikidata.org/prop/direct/P2579> <http://www.wikidata.org/entity/Q333> .
 <http://www.wikidata.org/entity/Q324> <http://www.w3.org/2000/01/rdf-schema#label> "Uranus"@en .
 <http://www.wikidata.org/entity/Q324> <http://schema.org/description> "seventh planet from the Sun"@en .
@@ -11721,7 +11714,6 @@
 <http://www.wikidata.org/entity/Q461> <http://www.wikidata.org/prop/direct/P159> <http://www.wikidata.org/entity/Q62> .
 <http://www.wikidata.org/entity/Q461> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q30> .
 <http://www.wikidata.org/entity/Q461> <http://www.wikidata.org/prop/direct/P131> <http://www.wikidata.org/entity/Q99> .
-<http://www.wikidata.org/entity/Q461> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P724> .
 <http://www.wikidata.org/entity/Q471> <http://www.w3.org/2000/01/rdf-schema#label> "Memex"@en .
 <http://www.wikidata.org/entity/Q471> <http://schema.org/description> "hypothetical proto-hypertext system that Vannevar Bush described in 1945"@en .
 <http://www.wikidata.org/entity/Q474> <http://www.w3.org/2000/01/rdf-schema#label> "aqueduct"@en .
@@ -14455,7 +14447,6 @@
 <http://www.wikidata.org/entity/Q73> <http://schema.org/description> "protocol for real-time Internet chat and messaging"@en .
 <http://www.wikidata.org/entity/Q73> <http://www.w3.org/2004/02/skos/core#altLabel> "IRC"@en .
 <http://www.wikidata.org/entity/Q73> <http://www.w3.org/2004/02/skos/core#altLabel> "IRC channel"@en .
-<http://www.wikidata.org/entity/Q73> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P1613> .
 <http://www.wikidata.org/entity/Q95> <http://www.w3.org/2000/01/rdf-schema#label> "Google"@en .
 <http://www.wikidata.org/entity/Q95> <http://schema.org/description> "American multinational Internet and technology corporation"@en .
 <http://www.wikidata.org/entity/Q95> <http://www.w3.org/2004/02/skos/core#altLabel> "Google LLC"@en .
@@ -14762,7 +14753,6 @@
 <http://www.wikidata.org/entity/Q286> <http://schema.org/description> "durable and flexible material created by the tanning of animal rawhide and skin"@en .
 <http://www.wikidata.org/entity/Q290> <http://www.w3.org/2000/01/rdf-schema#label> "sex"@en .
 <http://www.wikidata.org/entity/Q290> <http://schema.org/description> "specialization of living organisms into a male or female variety"@en .
-<http://www.wikidata.org/entity/Q290> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P21> .
 <http://www.wikidata.org/entity/Q291> <http://www.w3.org/2000/01/rdf-schema#label> "pornography"@en .
 <http://www.wikidata.org/entity/Q291> <http://schema.org/description> "explicit portrayal of sexual acts and intercourse on media"@en .
 <http://www.wikidata.org/entity/Q291> <http://www.w3.org/2004/02/skos/core#altLabel> "porn"@en .
@@ -17497,49 +17487,6 @@
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2004/02/skos/core#altLabel> "person"@en .
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2004/02/skos/core#altLabel> "humankind"@en .
 <http://www.wikidata.org/entity/Q5> <http://www.w3.org/2004/02/skos/core#altLabel> "people"@en .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P21> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P569> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P570> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P735> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P734> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P27> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P106> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P18> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P19> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P20> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P26> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P119> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P746> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1317> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P214> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1038> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P140> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P102> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1442> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1636> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1532> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1477> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P25> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P22> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2889> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1412> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P108> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P497> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P496> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P586> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P640> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1254> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2456> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P937> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2021> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P103> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2048> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2067> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P40> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P2605> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P451> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P31> .
-<http://www.wikidata.org/entity/Q5> <http://www.wikidata.org/prop/direct/P1963> <http://www.wikidata.org/entity/P1559> .
 <http://www.wikidata.org/entity/Q13> <http://www.w3.org/2000/01/rdf-schema#label> "triskaidekaphobia"@en .
 <http://www.wikidata.org/entity/Q13> <http://schema.org/description> "fear of the number 13"@en .
 <http://www.wikidata.org/entity/Q13> <http://www.w3.org/2004/02/skos/core#altLabel> "fear of 13"@en .
@@ -18401,14 +18348,12 @@
 <http://www.wikidata.org/entity/Q356> <http://www.w3.org/2004/02/skos/core#altLabel> "Google Plus"@en .
 <http://www.wikidata.org/entity/Q356> <http://www.w3.org/2004/02/skos/core#altLabel> "G+"@en .
 <http://www.wikidata.org/entity/Q356> <http://www.wikidata.org/prop/direct/P127> <http://www.wikidata.org/entity/Q95> .
-<http://www.wikidata.org/entity/Q356> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P2847> .
 <http://www.wikidata.org/entity/Q364> <http://www.w3.org/2000/01/rdf-schema#label> "GitHub"@en .
 <http://www.wikidata.org/entity/Q364> <http://schema.org/description> "web-based hosting service for software development projects using Git"@en .
 <http://www.wikidata.org/entity/Q364> <http://www.w3.org/2004/02/skos/core#altLabel> "GitHub Inc."@en .
 <http://www.wikidata.org/entity/Q364> <http://www.w3.org/2004/02/skos/core#altLabel> "github.com"@en .
 <http://www.wikidata.org/entity/Q364> <http://www.w3.org/2004/02/skos/core#altLabel> "GitHub, Inc."@en .
 <http://www.wikidata.org/entity/Q364> <http://www.wikidata.org/prop/direct/P159> <http://www.wikidata.org/entity/Q62> .
-<http://www.wikidata.org/entity/Q364> <http://www.wikidata.org/prop/direct/P1687> <http://www.wikidata.org/entity/P2037> .
 <http://www.wikidata.org/entity/Q364> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q30> .
 <http://www.wikidata.org/entity/Q366> <http://www.w3.org/2000/01/rdf-schema#label> "corruption"@en .
 <http://www.wikidata.org/entity/Q366> <http://schema.org/description> "dishonest or fraudulent conduct by those in power"@en .

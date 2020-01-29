@@ -28,7 +28,7 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(outputFilename));
             var reorderedLines = FileHelper.ReadLines(outputFilename);
 
-            Assert.Equal(3508,reorderedLines.Count());
+            Assert.Equal(3453,reorderedLines.Count());
 
             //outputFilename.DeleteIfExists();
         }

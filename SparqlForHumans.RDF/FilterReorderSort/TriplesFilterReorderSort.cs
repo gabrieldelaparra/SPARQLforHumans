@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 using SparqlForHumans.Utilities;
@@ -33,7 +35,9 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
+            //using (var outputFileStream = File.Create(outputTriplesFilename))
             using (var outputFileStream = File.Create(outputTriplesFilename))
+            using (var gZipStream = new GZipStream(outputFileStream, CompressionMode.Compress, true))
             {
                 Logger.Info("Read,Write");
                 foreach (var line in wikidataDumpLines)
@@ -45,15 +49,14 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
                     try
                     {
-                        var triple = line.ToTriple();
-
-                        if (!IsValidFilterTriple(triple, triplesLimit))
+                        if(!TriplesFilter.IsValidLine(line, triplesLimit))
                             continue;
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
-                        outputFileStream.Write(data, 0, data.Length);
+                        gZipStream.Write(data, 0, data.Length);
                         writeCount++;
 
+                        var triple = line.ToTriple();
                         if(!IsValidReorderTriple(triple))
                             continue;
 
@@ -61,7 +64,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
                         var newLine = newTriple.ToString(new NTriplesFormatter());
 
                         data = Encoding.UTF8.GetBytes($"{newLine}{Environment.NewLine}");
-                        outputFileStream.Write(data, 0, data.Length);
+                        gZipStream.Write(data, 0, data.Length);
                         writeCount++;
                     }
                     catch (Exception e)
@@ -73,7 +76,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
                 Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
-            Logger.Info("Finished Filtering and reordering. Sorting via external sort. No debugging messages available.");
+            Logger.Info("Finished Filtering and reordering. Sorting via external sort. No debugging/progress messages available.");
 
             var process = new System.Diagnostics.Process();
             var startInfo = new System.Diagnostics.ProcessStartInfo
@@ -86,56 +89,6 @@ namespace SparqlForHumans.RDF.FilterReorderSort
             process.Start();
 
             Logger.Info("Finished sorting.");
-        }
-
-        public static bool IsValidFilterTriple(Triple triple, int entityLimit)
-        {
-            var ntSubject = triple.Subject;
-            var ntPredicate = triple.Predicate;
-            var ntObject = triple.Object;
-
-            //Subject is not URI
-            if (!ntSubject.IsUriNode())
-                return false;
-
-            //Condition: Subject is not (Entity || Property): Skip
-            if (!ntSubject.IsEntity())
-                return false;
-
-            //Condition: Subject is Q-Entity and Q > triplesLimit: Skip
-            //Condition: Object is Q-Entity and Q > triplesLimit: Skip
-            if (entityLimit > 0 && ntSubject.IsEntityQ() && ntSubject.GetIntId() > entityLimit)
-                return false;
-
-            if (entityLimit > 0 && ntObject.IsEntityQ() && ntObject.GetIntId() > entityLimit)
-                return false;
-
-            if (ntSubject.IsEntityP() && ntPredicate.IsProperty())
-                return false;
-
-            switch (ntPredicate.GetPredicateType())
-            {
-                case PredicateType.Other:
-                    return false;
-
-                case PredicateType.AltLabel:
-                case PredicateType.Description:
-                case PredicateType.Label:
-                    if (!ntObject.IsLiteral())
-                        return false;
-                    //Condition: Object is Literal: Filter [@en, ...] only
-                    else if (!ntObject.IsValidLanguageLiteral())
-                        return false;
-                    break;
-            }
-
-            //Condition: Predicate is Property (e.g. Population or Date)
-            //And Object is literal (not an URI node) (e.g. 100 or 1998)
-            //This rule filters out Population, birthdate, and stuff
-            if (ntPredicate.IsProperty() && !ntObject.IsEntity())
-                return false;
-
-            return true;
         }
 
         public static bool IsValidReorderTriple(Triple triple)
