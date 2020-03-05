@@ -85,6 +85,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
                 FileName = @"C:\Program Files\Git\usr\bin\sort.exe",
                 Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename}"
             };
+            //gzip -dc filtered-All-FilterReorder.nt.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > filtered-All-PostFilter-Sorted.nt.gz  
             process.StartInfo = startInfo;
             process.Start();
 
