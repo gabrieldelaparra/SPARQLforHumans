@@ -76,60 +76,73 @@ namespace SparqlForHumans.Lucene.Index
 
             // Read All lines in the file (IEnumerable, yield)
             // And group them by QCode.
-            var subjectGroups = FileHelper.GetInputLines(InputFilename)
-                .GroupBySubject();
+            var subjectGroups = FileHelper.GetInputLines(InputFilename).GroupBySubject();
 
             //First Pass:
+            //FREQUENCY
             foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
             {
-                try
+                var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty());
+
+                foreach (var triple in directProperties)
                 {
-                    var validTriples = subjectGroup.Where(x =>
-                        x.Predicate.IsProperty() ||
-                        (x.Predicate.IsReverseProperty() && !x.Predicate.IsInstanceOf())).ToArray();
+                    var propertyIntId = triple.Predicate.GetIntId();
 
-                    var directProperties = validTriples.Where(x => x.Predicate.IsProperty()).ToArray();
+                    if (!FrequencyHashTable.ContainsKey(propertyIntId))
+                        FrequencyHashTable.Add(propertyIntId, 0);
 
-                    //FREQUENCY
-                    foreach (var triple in directProperties)
-                    {
-                        var propertyIntId = triple.Predicate.GetIntId();
-
-                        if (!FrequencyHashTable.ContainsKey(propertyIntId))
-                            FrequencyHashTable.Add(propertyIntId, 0);
-
-                        FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
-                    }
-
-                    //DOMAIN:
-                    var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
-                    var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
-                    var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
-                    DomainDictionary.AddSafe(31, instanceOfIds);
-                    foreach (var propertyId in propertyIds)
-                        DomainDictionary.AddSafe(propertyId, instanceOfIds);
-
-                    //RANGE:
-                    var reverseProperties = validTriples.Where(x =>
-                        x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
-                    var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-
-                    var reverseInstanceOf = validTriples.Where(x => x.Predicate.IsReverseInstanceOf());
-                    if (reverseInstanceOf.Any())
-                        RangeDictionary.AddSafe(31, instanceOfIds);
-                    //if (reversePropertyIds.Any())
-                    //RangeDictionary.AddSafe(31, instanceOfIds);
-
-                    foreach (var reversePropertyId in reversePropertyIds)
-                        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+                    FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
                 }
-                catch (Exception exception) {
-                    LogException(readCount, $"Exception at {subjectGroup.Id} Lines: {string.Join(";", subjectGroup)}: {exception}");
-                }
-
-                LogProgress(readCount++);
+                LogMessage(readCount++, "Frequency", false);
             }
+            LogMessage(readCount, "Frequency");
+            readCount = 0;
 
+            //DOMAIN:
+            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
+            {
+                var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty());
+                var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
+                var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
+                var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
+                DomainDictionary.AddSafe(31, instanceOfIds);
+                foreach (var propertyId in propertyIds)
+                    DomainDictionary.AddSafe(propertyId, instanceOfIds);
+
+                LogMessage(readCount++, "Domain", false);
+            }
+            LogMessage(readCount, "Domain");
+            readCount = 0;
+
+            //RANGE:
+            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
+            {
+                var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId());
+                var reverseProperties = subjectGroup.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
+                var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
+                var reverseInstanceOf = subjectGroup.Where(x => x.Predicate.IsReverseInstanceOf());
+
+                if (reverseInstanceOf.Any())
+                    RangeDictionary.AddSafe(31, instanceOfIds);
+
+                foreach (var reversePropertyId in reversePropertyIds)
+                    RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
+
+
+                //if (readCount > 2535600)
+                //{
+                //    NotifyTicks = 1;
+                //    LogException(readCount, $"Entity: {subjectGroup.Id}");
+                //}
+
+                //if (readCount > 2535700)
+                //{
+                //    NotifyTicks = 100000;
+                //}
+
+                LogMessage(readCount++, "Range", false);
+            }
+            LogMessage(readCount, "Range");
             readCount = 0;
 
             //Second Pass:

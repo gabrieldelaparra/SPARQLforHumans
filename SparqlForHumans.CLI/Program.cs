@@ -25,10 +25,10 @@ namespace SparqlForHumans.CLI
             Options.InternUris = false;
             //CreatePropertiesHistogram();
             //QueryForSomeZeroFrequencyProperties();
-            FilterReorderSortAll();
+            //FilterReorderSortAll();
             //FilterReorderSort500();
             //CreateEntitiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All-PostFilter-Sorted.nt", true);
-            //CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All-PostFilter-Sorted.nt", true);
+            CreatePropertiesIndex(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.CLI\bin\x64\Debug\netcoreapp2.1\filtered-All-PostFilter-Sorted.nt.gz", true);
             //ReorderAll();
             //FilterAll();
             //Filter5k();
