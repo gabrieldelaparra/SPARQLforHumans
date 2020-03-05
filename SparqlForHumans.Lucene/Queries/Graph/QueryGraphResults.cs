@@ -17,6 +17,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
 
             InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
+            //TODO: I think that I can move this somewhere in the future. (Performance improvement)
             graph.SetTypesDomainsAndRanges();
 
             graph.ResetTraverse();
@@ -97,7 +98,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (node.IsInstanceOfType)
                 {
                     //Intersect (Not if any, we want only the results of that instance, even if there are none):
-                    var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfBaseTypes, 200).Query(20);
+                    var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfTypes, 200).Query(20);
                     node.Results = instanceOfResults;
                     //TODO: Not sure if the previous run should consider this:
                     //node.Results = node.Results.Intersect(instanceOfResults).ToList();
@@ -110,7 +111,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf);
                     var baseDomainTypes = new List<string>();
                     foreach (var outgoingEdge in outgoingEdges)
-                        baseDomainTypes = baseDomainTypes.IntersectIfAny(outgoingEdge.DomainBaseTypes).ToList();
+                        baseDomainTypes = baseDomainTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
 
                     intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseDomainTypes).ToList();
 
@@ -118,7 +119,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf);
                     var baseRangeTypes = new List<string>();
                     foreach (var incomingEdge in incomingEdges)
-                        baseRangeTypes = baseRangeTypes.IntersectIfAny(incomingEdge.RangeBaseTypes).ToList();
+                        baseRangeTypes = baseRangeTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
 
                     intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseRangeTypes).ToList();
 
@@ -257,7 +258,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     node.IsInstanceOfType)
                 {
                     node.AvoidQuery = true;
-                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfBaseTypes, 100).Query();
+                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfTypes, 100).Query();
                 }
             }
 

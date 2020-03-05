@@ -25,24 +25,31 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //First iteration, check self
             foreach (var edge in graph.Edges.Select(x => x.Value))
             {
-                if (edge.uris.Any()) edge.IsGivenType = true;
+                if (edge.uris.Any())
+                    edge.IsGivenType = true;
             }
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                if (node.uris.Any()) node.IsGivenType = true;
-                if (node.GetOutgoingEdges(graph).Any(x => x.IsInstanceOf)) node.IsInstanceOfType = true;
+                if (node.uris.Any())
+                    node.IsGivenType = true;
+                if (node.GetOutgoingEdges(graph).Any(x => x.IsInstanceOf))
+                    node.IsInstanceOfType = true;
             }
 
             //Second iteration, check direct neighbors
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 //Connected to Given Types.
-                if (node.GetOutgoingNodes(graph).Any(x => x.IsGivenType)) node.IsGoingToGivenType = true;
-                if (node.GetIncomingNodes(graph).Any(x => x.IsGivenType)) node.IsComingFromGivenType = true;
+                if (node.GetOutgoingNodes(graph).Any(x => x.IsGivenType)) 
+                    node.IsGoingToGivenType = true;
+                if (node.GetIncomingNodes(graph).Any(x => x.IsGivenType)) 
+                    node.IsComingFromGivenType = true;
 
                 //Has edges to other nodes, such as MotherOf, BornIn, etc. The type can be Inferred.
-                if (node.GetOutgoingEdges(graph).Any(x => x.IsInferible())) node.IsInferredDomainType = true;
-                if (node.GetIncomingEdges(graph).Any(x => x.IsInferible())) node.IsInferredRangeType = true;
+                if (node.GetOutgoingEdges(graph).Any(x => x.IsInferible())) 
+                    node.IsInferredDomainType = true;
+                if (node.GetIncomingEdges(graph).Any(x => x.IsInferible())) 
+                    node.IsInferredRangeType = true;
             }
         }
 
@@ -133,7 +140,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         //    //if (target.IsInferredType) return QueryType.InferredRangeTypeProperties;
 
         //    //if (source.IsDirectQuery() || target.IsDirectQuery()) return QueryType.DirectQuery;
-            
+
         //    return QueryType.QueryTopProperties;
         //}
     }

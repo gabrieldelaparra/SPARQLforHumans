@@ -15,11 +15,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (node.IsGivenType)
                 {
                     node.GivenTypes = node.uris.ToList();
-                    node.InstanceOfBaseTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.GivenTypes).Query().SelectMany(x => x.InstanceOf).ToList();
+                    node.InstanceOfTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.GivenTypes).Query().SelectMany(x => x.InstanceOf).ToList();
                 }
+                //TODO: Can I have this two conditions? IsInstanceOf and GivenType? Why not if..else ?
                 if (node.IsInstanceOfType)
                 {
-                    node.InstanceOfBaseTypes = node.InstanceOfBaseTypes.IntersectIfAny(node.GetInstanceOfValues(graph).ToList()).ToList();
+                    node.InstanceOfTypes = node.InstanceOfTypes.IntersectIfAny(node.GetInstanceOfValues(graph).ToList()).ToList();
                 }
             }
         }
@@ -28,28 +29,28 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             foreach (var edge in graph.Edges.Select(x => x.Value))
             {
-                var source = edge.GetSourceNode(graph);
-                var target = edge.GetTargetNode(graph);
+                var sourceNode = edge.GetSourceNode(graph);
+                var targetNode = edge.GetTargetNode(graph);
 
                 //If the source is given, limit the domain and range to the types of that entity.
-                if (source.IsGivenType)
+                if (sourceNode.IsGivenType)
                 {
-                    edge.DomainBaseTypes = source.InstanceOfBaseTypes;
-                    edge.DomainDerivedTypes = source.GivenTypes;
+                    edge.DomainTypes = sourceNode.InstanceOfTypes;
+                    //edge.DomainDerivedTypes = sourceNode.GivenTypes;
                 }
                 else // !source.IsGivenType
                 {
                     if (edge.IsGivenType)
                     {
                         //TODO: if edge.InstanceOf or Other
-                        edge.DomainBaseTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
+                        edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
                     }
                     else // !source.IsGivenType && !edge.IsGivenType
                     {
-                        if (source.IsInstanceOfType)
+                        if (sourceNode.IsInstanceOfType)
                         {
                             //TODO: This should be somewhere else:
-                            edge.DomainBaseTypes = source.InstanceOfBaseTypes;
+                            edge.DomainTypes = sourceNode.InstanceOfTypes;
                         }
                         else // !source.IsGivenType && !edge.IsGivenType && !source.IsInstanceOfType
                         {
@@ -59,29 +60,29 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
 
                 //If the target is given, limit the domain and range to the types of that entity.
-                if (target.IsGivenType)
+                if (targetNode.IsGivenType)
                 {
                     if (edge.IsInstanceOf)
                     {
-                        edge.RangeBaseTypes = target.GivenTypes;
+                        edge.RangeTypes = targetNode.GivenTypes;
                     }
                     else //!edge.IsInstanceOf
                     {
-                        edge.RangeBaseTypes = target.InstanceOfBaseTypes;
-                        edge.RangeDerivedTypes = target.GivenTypes;
+                        edge.RangeTypes = targetNode.InstanceOfTypes;
+                        //edge.RangeDerivedTypes = targetNode.GivenTypes;
                     }
                 }
                 else // !target.IsGivenType
                 {
                     if (edge.IsGivenType)
                     {
-                        edge.RangeBaseTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
+                        edge.RangeTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
                     }
                     else  // !target.IsGivenType && !edge.IsGivenType
                     {
-                        if (target.IsInstanceOfType)
+                        if (targetNode.IsInstanceOfType)
                         {
-                            edge.RangeBaseTypes = target.InstanceOfBaseTypes;
+                            edge.RangeTypes = targetNode.InstanceOfTypes;
                         }
                         else// !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
                         {
@@ -103,11 +104,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //TODO: Not sure if I should do this
                 foreach (var incomingEdge in incomingEdges)
                 {
-                    node.InferredBaseTypes = node.InferredBaseTypes.IntersectIfAny(incomingEdge.RangeBaseTypes).ToList();
+                    node.InferredTypes = node.InferredTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
                 }
                 foreach (var outgoingEdge in outgoingEdges)
                 {
-                    node.InferredBaseTypes = node.InferredBaseTypes.IntersectIfAny(outgoingEdge.DomainBaseTypes).ToList();
+                    node.InferredTypes = node.InferredTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
                 }
             }
         }
@@ -120,9 +121,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var target = edge.GetTargetNode(graph);
 
                 if (source.IsInferredType)
-                    edge.DomainBaseTypes = edge.DomainBaseTypes.IntersectIfAny(source.InferredBaseTypes).ToList();
+                    edge.DomainTypes = edge.DomainTypes.IntersectIfAny(source.InferredTypes).ToList();
                 if (target.IsInferredType)
-                    edge.RangeBaseTypes = edge.RangeBaseTypes.IntersectIfAny(target.InferredBaseTypes).ToList();
+                    edge.RangeTypes = edge.RangeTypes.IntersectIfAny(target.InferredTypes).ToList();
             }
         }
 

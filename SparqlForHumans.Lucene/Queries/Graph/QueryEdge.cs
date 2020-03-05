@@ -21,10 +21,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
         public bool IsInstanceOf => this.HasInstanceOf();
         public bool IsGivenType { get; set; }
-        public List<string> DomainBaseTypes { get; set; } = new List<string>();
-        public List<string> DomainDerivedTypes { get; set; } = new List<string>();
-        public List<string> RangeBaseTypes { get; set; } = new List<string>();
-        public List<string> RangeDerivedTypes { get; set; } = new List<string>();
+        public List<string> DomainTypes { get; set; } = new List<string>();
+        //public List<string> DomainDerivedTypes { get; set; } = new List<string>();
+        public List<string> RangeTypes { get; set; } = new List<string>();
+        //public List<string> RangeDerivedTypes { get; set; } = new List<string>();
         public bool AvoidQuery { get; set; }
 
         public override string ToString()
