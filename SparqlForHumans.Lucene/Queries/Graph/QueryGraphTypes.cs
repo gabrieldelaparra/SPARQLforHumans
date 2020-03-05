@@ -20,7 +20,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //TODO: Can I have this two conditions? IsInstanceOf and GivenType? Why not if..else ?
                 if (node.IsInstanceOfType)
                 {
-                    node.InstanceOfTypes = node.InstanceOfTypes.IntersectIfAny(node.GetInstanceOfValues(graph).ToList()).ToList();
+                    node.InstanceOfTypes = node.InstanceOfTypes.IntersectIfAny(node.GetInstanceOfValues(graph)).ToList();
                 }
             }
         }

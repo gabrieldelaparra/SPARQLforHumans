@@ -51,6 +51,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         public static bool HasIncomingEdges(this QueryNode node, QueryGraph graph) => node.GetIncomingEdges(graph).Any();
 
+        //TODO: Instead of checking it with Any(), use boolean conditions on the graph to check this.
         public static bool IsSomehowDefined(this QueryNode node, QueryGraph graph)
         {
             if (node.uris.Any()) return true;

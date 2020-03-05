@@ -105,29 +105,31 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else
                 {
-                    var intersectBaseTypes = new List<string>();
+                    //Take domainTypes and intersect with rangeTypes.
+                    var intersectTypes = new List<string>();
 
                     //Outgoing edges candidates, take their domain
                     var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf);
-                    var baseDomainTypes = new List<string>();
+                    var domainTypes = new List<string>();
                     foreach (var outgoingEdge in outgoingEdges)
-                        baseDomainTypes = baseDomainTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
+                        domainTypes = domainTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
 
-                    intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseDomainTypes).ToList();
+                    intersectTypes = intersectTypes.IntersectIfAny(domainTypes).ToList();
 
                     //Incoming edges candidates, take their range.
                     var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf);
-                    var baseRangeTypes = new List<string>();
+                    var rangeTypes = new List<string>();
                     foreach (var incomingEdge in incomingEdges)
-                        baseRangeTypes = baseRangeTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
+                        rangeTypes = rangeTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
 
-                    intersectBaseTypes = intersectBaseTypes.IntersectIfAny(baseRangeTypes).ToList();
+                    intersectTypes = intersectTypes.IntersectIfAny(rangeTypes).ToList();
 
-                    if (intersectBaseTypes.Any())
+                    if (intersectTypes.Any())
                     {
                         //Combine domain & range, take a random sample and get those results:
-                        intersectBaseTypes = intersectBaseTypes.TakeRandom(100000).ToList();
-                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectBaseTypes, 200).Query(1000);
+                        //TODO: Why sort them randomly? What is wrong with their current sorting?
+                        intersectTypes = intersectTypes.TakeRandom(100000).ToList();
+                        node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectTypes, 200).Query(1000);
                     }
                     else
                     {
@@ -149,37 +151,37 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             foreach (var edge in graph.Edges.Select(x => x.Value).Where(x => !x.AvoidQuery))
             {
-                var source = edge.GetSourceNode(graph);
-                var target = edge.GetTargetNode(graph);
+                var sourceNode = edge.GetSourceNode(graph);
+                var targetNode = edge.GetTargetNode(graph);
 
                 var possibleProperties = new List<string>();
 
-                if (source.IsGivenType || target.IsGivenType)
+                if (sourceNode.IsGivenType || targetNode.IsGivenType)
                 {
+                    var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, sourceNode.GivenTypes)
+                        .Query().SelectMany(x => x.Properties).Select(x => x.Id);
 
-                    var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, source.GivenTypes)
-                        .Query().SelectMany(x => x.Properties).Select(x => x.Id).ToList();
-
-                    var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, target.GivenTypes)
-                        .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id).ToList();
+                    var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, targetNode.GivenTypes)
+                        .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id);
 
                     possibleProperties = possibleProperties.IntersectIfAny(sourceGivenPropertiesIds)
                         .IntersectIfAny(targetGivenPropertiesIds).ToList();
                 }
                 else
                 {
-                    if (source.IsInstanceOfType || target.IsInstanceOfType)
+                    if (sourceNode.IsInstanceOfType || targetNode.IsInstanceOfType)
                     {
-                        var instanceOfSourceProperties = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(source.GetInstanceOfValues(graph));
-                        var instanceOfTargetProperties = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(target.GetInstanceOfValues(graph));
+                        //TODO: Why not use the source.InstanceOfTypes here:
+                        var instanceOfSourceProperties = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(sourceNode.InstanceOfTypes);
+                        var instanceOfTargetProperties = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(targetNode.InstanceOfTypes);
                         possibleProperties = possibleProperties.IntersectIfAny(instanceOfSourceProperties)
                             .IntersectIfAny(instanceOfTargetProperties).ToList();
                     }
 
-                    var sourceGivenOutgoingEdges = source.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var sourceGivenIncomingEdges = source.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var targetGivenOutgoingEdges = target.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var targetGivenIncomingEdges = target.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
+                    var sourceGivenOutgoingEdges = sourceNode.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
+                    var sourceGivenIncomingEdges = sourceNode.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
+                    var targetGivenOutgoingEdges = targetNode.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
+                    var targetGivenIncomingEdges = targetNode.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
 
                     foreach (var givenOutgoingEdge in sourceGivenOutgoingEdges)
                     {
@@ -228,7 +230,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-
                 //Given Type, Do not Query
                 if (node.IsGivenType)
                 {
@@ -254,8 +255,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                 //CASE: AVOID ENDPOINT QUERY, IS KNOWN TO TIMEOUT
                 //Just instance of, search only for that.
-                if (!node.HasIncomingEdges(graph) && node.GetOutgoingEdges(graph).Count().Equals(1) &&
-                    node.IsInstanceOfType)
+                if (!node.HasIncomingEdges(graph) 
+                    && node.GetOutgoingEdges(graph).Count().Equals(1) 
+                    && node.IsInstanceOfType)
                 {
                     node.AvoidQuery = true;
                     node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfTypes, 100).Query();
@@ -264,7 +266,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             foreach (var edge in graph.Edges.Select(x => x.Value))
             {
-
                 if (edge.IsGivenType)
                 {
                     edge.AvoidQuery = true;
