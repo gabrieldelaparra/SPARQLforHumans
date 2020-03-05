@@ -6,6 +6,7 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Queries.Fields;
 using Xunit;
 using Directory = System.IO.Directory;
@@ -403,7 +404,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var q5Entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
 
-            Assert.True(q5Entities.All(x=>x.InstanceOf.Contains("Q5")));
+            Assert.True(q5Entities.All(x => x.InstanceOf.Contains("Q5")));
 
             outputPath.DeleteIfExists();
         }
@@ -477,7 +478,7 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            var actualResults = new BatchIdEntityPropertiesQuery(outputPath, new[] {"P47"}).Query();
+            var actualResults = new BatchIdEntityPropertiesQuery(outputPath, new[] { "P47" }).Query();
             var actual = actualResults.FirstOrDefault();
 
             Debug.Assert(actual != null, nameof(actual) + " != null");
@@ -495,7 +496,7 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
-            var actualResults = new IntersectEntityPropertiesQuery(outputPath, new[] {"P47", "P131"}).Query();
+            var actualResults = new IntersectEntityPropertiesQuery(outputPath, new[] { "P47", "P131" }).Query();
             var actual = actualResults.FirstOrDefault();
 
             Debug.Assert(actual != null, nameof(actual) + " != null");
@@ -639,13 +640,19 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(2, rangeProperties.Count); //P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
             Assert.Equal(3, domainProperties.Count); // P31, P27, P777
-            var properties = rangeProperties.Intersect(domainProperties,new PropertyComparer()).ToArray();
+            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
             Assert.Equal(1, properties.Length); // P27
             Assert.Equal("P27", properties[0].Id);
 
             propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestMultiQueryCapitalIcelandShouldShowFirst()
+        {
+            var entities = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, "vulcano iceland").Query();
         }
     }
 }
