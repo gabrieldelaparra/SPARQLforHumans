@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Filtering;
+//using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 using SparqlForHumans.Utilities;
@@ -49,7 +49,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
                     try
                     {
-                        if(!TriplesFilter.IsValidLine(line, triplesLimit))
+                        if(!IsValidLine(line, triplesLimit))
                             continue;
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
@@ -96,6 +96,77 @@ namespace SparqlForHumans.RDF.FilterReorderSort
         {
             //Object must be URI
             return triple.Object.IsUriNode() && triple.Object.IsEntityQ();
+        }
+
+        public static bool IsValidLine(string line, int entityLimit = -1)
+        {
+            const char space = ' ';
+            var subjectIndex = line.IndexOf(space);
+            var subject = line.Substring(0, subjectIndex - 1);
+
+            var rest = line.Substring(subjectIndex + 1);
+            var predicateIndex = rest.IndexOf(space);
+            var predicate = rest.Substring(1, predicateIndex - 2);
+
+            var objct = rest.Substring(predicateIndex + 1, rest.Length - predicateIndex - 3);
+
+            //Subject Part:
+            const string subjectPrefix = "<http://www.wikidata.org/entity/";
+            if (!subject.StartsWith(subjectPrefix)) return false;
+            var subjectId = subject.Substring(subjectPrefix.Length, subject.Length - subjectPrefix.Length);
+            if (!subjectId.StartsWith("Q") && !subjectId.StartsWith("P")) return false;
+            if (entityLimit > 0)
+            {
+                var subjectIntId = subjectId.ToInt();
+                if (subjectId.StartsWith("Q") && subjectIntId > entityLimit) return false;
+            }
+
+            const string label = "http://www.w3.org/2000/01/rdf-schema#label";
+            const string description = "http://schema.org/description";
+            const string altLabel = "http://www.w3.org/2004/02/skos/core#altLabel";
+            const string propDirect = "http://www.wikidata.org/prop/direct/";
+
+            const string literalPrefix = "\"";
+            const string literalSufix = "\"@en";
+
+            //Predicate Part:
+            //if(!predicate.StartsWith(label))
+            if (predicate.StartsWith(propDirect))
+            {
+                if (!subjectId.StartsWith("Q"))
+                    return false;
+
+                if (!objct.StartsWith(subjectPrefix))
+                {
+                    return false;
+                }
+                else
+                {
+                    var objectId = objct.Substring(subjectPrefix.Length, objct.Length - subjectPrefix.Length - 1);
+                    if (!objectId.StartsWith("Q"))
+                        return false;
+                    else
+                    {
+                        if (entityLimit > 0)
+                        {
+                            var objectIntId = objectId.ToInt();
+                            if (objectIntId > entityLimit)
+                                return false;
+                        }
+                    }
+                }
+            }
+            else if (predicate.StartsWith(label) || predicate.StartsWith(description) || predicate.StartsWith(altLabel))
+            {
+                if (!objct.StartsWith(literalPrefix) || !objct.EndsWith(literalSufix))
+                    return false;
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
     }

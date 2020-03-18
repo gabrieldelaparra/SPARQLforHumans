@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
@@ -12,8 +14,16 @@ namespace SparqlForHumans.UnitTests.Query
         private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
         private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
 
-        private static void CreateIndex()
+        private static void CreateIndexIfOlderThanXMins()
         {
+            var entitiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
+            var propertiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
+            var now = DateTime.Now;
+            var entitiesDiff = entitiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
+            var propertiesDiff = propertiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
+
+            if (entitiesDirectoryInfo.Exists && entitiesDiff < 4 && propertiesDirectoryInfo.Exists && propertiesDiff < 4) return;
+            else DeleteIndex();
             // Arrange
             const string filename = @"Resources/QueryGraphQuerying.nt";
             EntitiesIndexPath.DeleteIfExists();
@@ -42,7 +52,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -74,9 +84,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q99999"));
 
             Assert.True(queryGraph.Nodes[0].Results.All(x => x.Id.StartsWith("Q")));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -91,7 +98,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -100,9 +107,6 @@ namespace SparqlForHumans.UnitTests.Query
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
             Assert.Empty(queryGraph.Nodes[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -121,7 +125,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -183,9 +187,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.DoesNotContain(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q99999"));
             Assert.True(queryGraph.Nodes[1].Results.All(x => x.Id.StartsWith("Q")));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -215,9 +216,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -242,7 +240,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -304,9 +302,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P530"));
             Assert.True(queryGraph.Edges[0].Results.All(x => x.Id.StartsWith("P")));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -335,7 +330,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -375,10 +370,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P6"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -406,7 +397,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -447,9 +438,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P530"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -477,7 +465,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -499,9 +487,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P530"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -529,7 +514,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -544,9 +529,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
 
@@ -575,7 +557,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -608,9 +590,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -637,7 +616,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -678,9 +657,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P530"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -707,7 +683,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -760,9 +736,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -788,7 +761,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -822,9 +795,6 @@ namespace SparqlForHumans.UnitTests.Query
             
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -850,7 +820,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -884,9 +854,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -918,7 +885,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -982,9 +949,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1016,7 +980,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1080,9 +1044,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1116,7 +1077,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1188,9 +1149,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
             Assert.Empty(queryGraph.Edges[2].Results);
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1220,7 +1178,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1283,9 +1241,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1315,7 +1270,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1378,9 +1333,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1412,7 +1364,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1496,9 +1448,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1530,7 +1479,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1614,9 +1563,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -1652,7 +1598,7 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
+            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1740,9 +1686,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P530"));
             //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P6"));
-
-            // Cleanup
-            DeleteIndex();
         }
 
         ///// <summary>

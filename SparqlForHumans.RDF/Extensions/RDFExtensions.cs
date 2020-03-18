@@ -109,11 +109,6 @@ namespace SparqlForHumans.RDF.Extensions
             return node.IsEntity() && node.GetId().StartsWith(Constants.EntityPrefix);
         }
 
-        public static bool IsEntityP(this INode node)
-        {
-            return node.IsEntity() && node.GetId().StartsWith(Constants.PropertyPrefix);
-        }
-
         public static bool IsProperty(this INode node)
         {
             return node.IsUriNode() && node.GetUri().StartsWith(Constants.PropertyIRI);

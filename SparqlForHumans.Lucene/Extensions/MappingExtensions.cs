@@ -11,10 +11,6 @@ namespace SparqlForHumans.Lucene.Extensions
 {
     public static class MappingExtensions
     {
-        public static void AddProperties(this List<Entity> entities)
-        {
-             entities.AddProperties(LuceneDirectoryDefaults.PropertyIndexPath);
-        }
         public static void AddProperties(this List<Entity> entities, string indexPath)
         {
             var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();

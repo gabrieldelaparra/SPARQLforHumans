@@ -11,10 +11,6 @@ namespace SparqlForHumans.Lucene.Index.Relations
 {
     public class EntityIsTypeIndexer : BaseHashSetMapper<int>, IFieldIndexer<StringField>
     {
-        public EntityIsTypeIndexer(string inputFilename) : base(inputFilename)
-        {
-        }
-
         public EntityIsTypeIndexer(IEnumerable<SubjectGroup> subjectGroup) : base(subjectGroup)
         {
         }

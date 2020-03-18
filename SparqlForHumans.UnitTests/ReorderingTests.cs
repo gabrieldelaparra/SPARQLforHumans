@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using SparqlForHumans.RDF.Filtering;
+
 using SparqlForHumans.RDF.Reordering;
 using SparqlForHumans.Utilities;
 using Xunit;
@@ -15,7 +15,7 @@ namespace SparqlForHumans.UnitTests
         [Fact]
         public void TestReorder()
         {
-            const string filename = "Resources/Filter5k.nt";
+            const string filename = "Resources/Filter5k-Index.nt";
             Assert.True(File.Exists(filename));
             var outputFilename = FileHelper.GetReorderedOutputFilename(filename);
 
@@ -28,9 +28,9 @@ namespace SparqlForHumans.UnitTests
             Assert.True(File.Exists(outputFilename));
             var reorderedLines = FileHelper.ReadLines(outputFilename);
 
-            Assert.Equal(3453,reorderedLines.Count());
+            Assert.Equal(3511,reorderedLines.Count());
 
-            //outputFilename.DeleteIfExists();
+            outputFilename.DeleteIfExists();
         }
     }
 }

@@ -16,11 +16,6 @@ namespace SparqlForHumans.Lucene
             return CreateIndexWriterConfig(new StandardAnalyzer(IndexVersion));
         }
 
-        public static IndexWriterConfig CreateKeywordIndexWriterConfig()
-        {
-            return CreateIndexWriterConfig(new KeywordAnalyzer());
-        }
-
         private static IndexWriterConfig CreateIndexWriterConfig(Analyzer analyzer)
         {
             Options.InternUris = false;

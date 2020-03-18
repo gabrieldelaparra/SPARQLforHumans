@@ -2,7 +2,6 @@
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
-using SparqlForHumans.RDF.Filtering;
 using SparqlForHumans.Utilities;
 using System;
 using System.Collections.Generic;
@@ -102,35 +101,35 @@ namespace SparqlForHumans.CLI
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All-2MM.nt";
-            TriplesFilter.Filter(inputFilename, outputFilename, 2000000);
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, outputFilename, 2000000);
         }
 
         private static void Filter500k()
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputFilename = "filtered-All-500k.nt";
-            TriplesFilter.Filter(inputFilename, outputFilename, 500000);
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, outputFilename, 500000);
         }
 
         private static void Filter5k()
         {
             var inputFilename = @"filtered-All-2MM.nt";
             var outputFilename = "filtered-All-5k.nt";
-            TriplesFilter.Filter(inputFilename, outputFilename, 5000);
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, outputFilename, 5000);
         }
 
         private static void Filter500()
         {
             var inputFilename = @"filtered-All-5k.nt";
             var outputFilename = "filtered-All-500.nt";
-            TriplesFilter.Filter(inputFilename, outputFilename, 500);
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, outputFilename, 500);
         }
 
         private static void FilterAll()
         {
             var inputFilename = @"C:\Users\admin\Desktop\DCC\SparQLforHumans.Dataset\latest-truthy.nt.gz";
             var outputFilename = "filtered-All.nt.gz";
-            TriplesFilter.Filter(inputFilename, outputFilename, -1);
+            TriplesFilterReorderSort.FilterReorderSort(inputFilename, outputFilename, -1);
         }
 
         private static void ReorderAll()
