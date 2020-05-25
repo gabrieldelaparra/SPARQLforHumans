@@ -14,8 +14,10 @@ using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests.Index
 {
+    [Collection("Sequential")]
     public class EntitiesIndexerTests
     {
+        [Collection("Sequential")]
         public class EntityIndexSingleInstanceTest : IDisposable
         {
             const string filename = "Resources/EntityIndexSingleInstance.nt";
@@ -110,6 +112,7 @@ namespace SparqlForHumans.UnitTests.Index
             }
         }
 
+        [Collection("Sequential")]
         public class EntityIndexMultipleInstanceTests : IDisposable
         {
             const string filename = "Resources/EntityIndexMultipleInstance.nt";

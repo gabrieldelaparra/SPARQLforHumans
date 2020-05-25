@@ -61,7 +61,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes); //InstanceOf Q76: Q5
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[0].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].GivenTypes);
             Assert.Contains("Q76", queryGraph.Nodes[0].GivenTypes);
 
             Assert.Empty(queryGraph.Nodes[1].GivenTypes);
@@ -113,7 +113,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[1].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q76", queryGraph.Nodes[1].GivenTypes);
 
             Assert.Empty(queryGraph.Edges[0].DomainTypes);
@@ -157,14 +157,14 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[0].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].GivenTypes);
             Assert.Contains("Q76", queryGraph.Nodes[0].GivenTypes);
 
             Assert.NotEmpty(queryGraph.Nodes[1].GivenTypes);
             Assert.NotEmpty(queryGraph.Nodes[1].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q30", queryGraph.Nodes[1].GivenTypes);
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes);
@@ -211,7 +211,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes); //Domain P27
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[0].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].GivenTypes);
             Assert.Contains("Q76", queryGraph.Nodes[0].GivenTypes);
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
 
@@ -219,9 +219,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[1].InferredTypes); //Range P27
             Assert.NotEmpty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q30", queryGraph.Nodes[1].GivenTypes);
-            Assert.Equal(1, queryGraph.Nodes[1].InferredTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].InferredTypes);
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes);
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes);
@@ -266,14 +266,14 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[0].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes); //InstanceOf Q5
 
-            Assert.Equal(1, queryGraph.Nodes[0].InstanceOfTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InstanceOfTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InstanceOfTypes);
 
             Assert.NotEmpty(queryGraph.Nodes[1].GivenTypes);
             Assert.Empty(queryGraph.Nodes[1].InferredTypes);
             Assert.Empty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q5", queryGraph.Nodes[1].GivenTypes);
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //Domain of P31
@@ -324,16 +324,16 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes); //InstanceOf Q5
 
-            Assert.Equal(1, queryGraph.Nodes[0].InstanceOfTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InstanceOfTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InstanceOfTypes);
-            Assert.Equal(1, queryGraph.Nodes[0].InferredTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InferredTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
 
             Assert.NotEmpty(queryGraph.Nodes[1].GivenTypes);
             Assert.Empty(queryGraph.Nodes[1].InferredTypes);
             Assert.Empty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q5", queryGraph.Nodes[1].GivenTypes);
 
             Assert.Empty(queryGraph.Nodes[2].GivenTypes);
@@ -556,17 +556,17 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
             Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].InferredTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].InferredTypes);
             Assert.Contains("Q6256", queryGraph.Nodes[1].InferredTypes);
 
             Assert.Equal(2, queryGraph.Edges[0].DomainTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);
-            Assert.Equal(1, queryGraph.Edges[0].RangeTypes.Count);
+            Assert.Single(queryGraph.Edges[0].RangeTypes);
             Assert.Contains("Q6256", queryGraph.Edges[0].RangeTypes);
 
             Assert.Equal(2, queryGraph.Edges[1].DomainTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);
-            Assert.Equal(1, queryGraph.Edges[1].RangeTypes.Count);
+            Assert.Single(queryGraph.Edges[1].RangeTypes);
             Assert.Contains("Q6256", queryGraph.Edges[1].RangeTypes);
         }
 
@@ -797,10 +797,10 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Equal(2, queryGraph.Edges[0].DomainTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);
-            Assert.Equal(1, queryGraph.Edges[0].RangeTypes.Count);
+            Assert.Single(queryGraph.Edges[0].RangeTypes);
             Assert.Contains("Q5", queryGraph.Edges[0].RangeTypes);
 
-            Assert.Equal(1, queryGraph.Edges[1].DomainTypes.Count);
+            Assert.Single(queryGraph.Edges[1].DomainTypes);
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);
             Assert.Single(queryGraph.Edges[1].RangeTypes);
             Assert.Contains("Q6256", queryGraph.Edges[1].RangeTypes);

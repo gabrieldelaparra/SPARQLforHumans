@@ -7,6 +7,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
+    [Collection("Sequential")]
     public class InMemoryQueryEngineTests : IDisposable
     {
         private const string Filename = @"Resources/QueryGraphInMemoryEngine.nt";

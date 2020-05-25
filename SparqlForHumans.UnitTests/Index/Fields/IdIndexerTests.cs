@@ -8,6 +8,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Fields
 {
+    [Collection("Sequential")]
     public class IdIndexerTests
     {
         [Fact]

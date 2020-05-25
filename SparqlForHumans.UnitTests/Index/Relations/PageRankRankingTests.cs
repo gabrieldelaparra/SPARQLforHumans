@@ -1,11 +1,11 @@
-﻿using SparqlForHumans.Lucene.Index.Relations;
+﻿using System;
+using System.Linq;
+using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
-using System;
-using System.Linq;
 using Xunit;
 
-namespace SparqlForHumans.UnitTests
+namespace SparqlForHumans.UnitTests.Index.Relations
 {
     public class PageRankRankingTests
     {

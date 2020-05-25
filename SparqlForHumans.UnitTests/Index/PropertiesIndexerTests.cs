@@ -1,18 +1,18 @@
-﻿using Lucene.Net.Index;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
-using SparqlForHumans.Lucene;
 using Xunit;
 using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests.Index
 {
+    [Collection("Sequential")]
     public class PropertiesIndexerTests
     {
         /// <summary>
@@ -50,7 +50,8 @@ namespace SparqlForHumans.UnitTests.Index
             //Act:
             new PropertiesIndexer(filename, propertyOutputPath).Index();
 
-            var properties = new BatchIdPropertyQuery(propertyOutputPath, new List<string> { "P27", "P555", "P777" }).Query().ToArray();
+            var properties = new BatchIdPropertyQuery(propertyOutputPath, new List<string> {"P27", "P555", "P777"})
+                .Query().ToArray();
 
             //Assert:
             Assert.NotEmpty(properties);
@@ -183,7 +184,7 @@ namespace SparqlForHumans.UnitTests.Index
 
             //Assert
             Assert.NotEmpty(properties);
-            Assert.Equal(1, properties.Count); //P31
+            Assert.Single(properties); //P31
 
             var property31 = properties.FirstOrDefault(x => x.Id.Equals("P31"));
             var property31WithRange = property31.Range;
@@ -209,38 +210,35 @@ namespace SparqlForHumans.UnitTests.Index
             //Act
             new PropertiesIndexer(filename, outputPath).Index();
 
-            using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
+            using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory())) {
                 //Assert
-                using (var reader = DirectoryReader.Open(propertiesDirectory))
-                {
-                    var docCount = reader.MaxDoc;
+                using var reader = DirectoryReader.Open(propertiesDirectory);
+                var docCount = reader.MaxDoc;
 
-                    Assert.Equal(7, docCount);
+                Assert.Equal(7, docCount);
 
-                    var doc = reader.Document(0);
-                    Assert.NotNull(doc);
+                var doc = reader.Document(0);
+                Assert.NotNull(doc);
 
-                    //Id
-                    Assert.Equal("P17", doc.GetValue(Labels.Id));
+                //Id
+                Assert.Equal("P17", doc.GetValue(Labels.Id));
 
-                    //Label
-                    Assert.Equal("country", doc.GetValue(Labels.Label));
+                //Label
+                Assert.Equal("country", doc.GetValue(Labels.Label));
 
-                    //Alt-Label:
-                    Assert.Equal(4, doc.GetValues(Labels.AltLabel).Length);
+                //Alt-Label:
+                Assert.Equal(4, doc.GetValues(Labels.AltLabel).Length);
 
-                    Assert.Equal("sovereign state", doc.GetValues(Labels.AltLabel)[0]);
-                    Assert.Equal("state", doc.GetValues(Labels.AltLabel)[1]);
-                    Assert.Equal("land", doc.GetValues(Labels.AltLabel)[2]);
+                Assert.Equal("sovereign state", doc.GetValues(Labels.AltLabel)[0]);
+                Assert.Equal("state", doc.GetValues(Labels.AltLabel)[1]);
+                Assert.Equal("land", doc.GetValues(Labels.AltLabel)[2]);
 
-                    //Description
-                    Assert.Equal("sovereign state of this item; don't use on humans",
-                        doc.GetValue(Labels.Description));
+                //Description
+                Assert.Equal("sovereign state of this item; don't use on humans",
+                    doc.GetValue(Labels.Description));
 
-                    //Frequency
-                    Assert.Equal("3", doc.GetValue(Labels.Rank));
-                }
+                //Frequency
+                Assert.Equal("3", doc.GetValue(Labels.Rank));
             }
 
             outputPath.DeleteIfExists();
@@ -250,8 +248,7 @@ namespace SparqlForHumans.UnitTests.Index
         public void TestCreatePropertyIndexAndMapResults()
         {
             const string filename = "Resources/PropertyIndex5k.nt";
-            //const string outputPath = "CreatePropertyIndexMapResults";
-            string outputPath = LuceneDirectoryDefaults.PropertyIndexPath;
+            const string outputPath = "CreatePropertyIndexMapResults";
 
             outputPath.DeleteIfExists();
 
@@ -265,14 +262,13 @@ namespace SparqlForHumans.UnitTests.Index
             var result = queryCity[0];
             Assert.Equal("P131", result.Id);
             Assert.Equal("located in the administrative territorial entity", result.Label);
-            Assert.Equal("the item is located on the territory of the following administrative entity...", result.Description);
+            Assert.Equal("the item is located on the territory of the following administrative entity...",
+                result.Description);
             Assert.Contains("is located in", result.AltLabels);
             Assert.Contains("is in the county of", result.AltLabels);
             Assert.Contains("is in the city of", result.AltLabels);
             Assert.NotEqual(0, result.Rank);
-
-
-            //outputPath.DeleteIfExists();
+            outputPath.DeleteIfExists();
         }
     }
 }
