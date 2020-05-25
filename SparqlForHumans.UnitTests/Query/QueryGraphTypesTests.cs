@@ -1,5 +1,4 @@
 ﻿using System;
-using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
@@ -8,7 +7,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Assertions", "xUnit2013:Do not use equality check to check for collection size.", Justification = "<Pending>")]
+    [Collection("Sequential")]
     public class QueryGraphTypesTests : IDisposable
     {
         public QueryGraphTypesTests()
@@ -19,6 +18,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, EntitiesIndexPath).Index();
             new PropertiesIndexer(filename, PropertiesIndexPath).Index();
         }
+
         public void Dispose()
         {
             EntitiesIndexPath.DeleteIfExists();
@@ -40,17 +40,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_1_SourceIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1"),
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
+                    new Node(1, "?var1")
                 },
-                edges = new[]
-                {
+                edges = new[] {
                     new Edge(0, "?prop0", 0, 1)
-                },
+                }
             };
             // Arrange
             var queryGraph = new QueryGraph(graph);
@@ -62,7 +59,7 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert
             Assert.NotEmpty(queryGraph.Nodes[0].GivenTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes); //InstanceOf Q76: Q5
-            Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes); 
+            Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes);
 
             Assert.Equal(1, queryGraph.Nodes[0].GivenTypes.Count);
             Assert.Contains("Q76", queryGraph.Nodes[0].GivenTypes);
@@ -89,20 +86,16 @@ namespace SparqlForHumans.UnitTests.Query
         /// ?prop0 are properties coming from Obama
         /// </summary>
         [Fact]
-
         public void TestTypes_2ConnectedNodes_1_TargetIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0" ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q76"}),
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q76"})
                 },
-                edges = new[]
-                {
+                edges = new[] {
                     new Edge(0, "?prop0", 0, 1)
-                },
+                }
             };
             // Arrange
             var queryGraph = new QueryGraph(graph);
@@ -143,17 +136,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_2_SourceIsGivenType_TargetIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q30"}),
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"})
                 },
-                edges = new[]
-                {
+                edges = new[] {
                     new Edge(0, "?prop0", 0, 1)
-                },
+                }
             };
             // Arrange
             var queryGraph = new QueryGraph(graph);
@@ -200,17 +190,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_3_SourceIsGivenType_TargetIsGivenType_E0N0P27E1_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0", new[]{"http://www.wikidata.org/entity/Q76"} ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q30"}),
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"})
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"})
-                },
+                edges = new[] {
+                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P27"})
+                }
             };
             // Arrange
             var queryGraph = new QueryGraph(graph);
@@ -258,17 +245,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_4_SubjectIsInstanceOfType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph()
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?var0" ),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"})
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
-                },
+                edges = new[] {
+                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P31"})
+                }
             };
             // Arrange
             var queryGraph = new QueryGraph(graph);
@@ -295,8 +279,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes); //Range of P31
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);//Domain of P31
+            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
 
             //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
@@ -309,24 +293,22 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are
+        /// TODO: TBD. For the moment, TopEntities;
         /// ?prop1 are properties with domain in Human 
         /// </summary>
         [Fact]
         public void TestTypes_3ConnectedNodes_1_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?var0"),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(2, "?var2"),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"}),
+                    new Node(2, "?var2")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(1, "?prop1", 0, 2),
+                edges = new[] {
+                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P31"}),
+                    new Edge(1, "?prop1", 0, 2)
                 }
             };
 
@@ -363,16 +345,16 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);//Domain of P31
+            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
 
             Assert.NotEmpty(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.Empty(queryGraph.Edges[1].RangeTypes);
             //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
-            Assert.Equal(1, queryGraph.Edges[1].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);//Domain of P31
+            Assert.Single(queryGraph.Edges[1].DomainTypes); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes); //Domain of P31
         }
 
         /// <summary>
@@ -382,24 +364,22 @@ namespace SparqlForHumans.UnitTests.Query
         /// 
         /// Expected Results:
         /// ?var0 are instances of Human
-        /// ?var2 are //TODO: TBD. For the moment, TopEntities;
+        /// ?var2 are
+        /// TODO: TBD. For the moment, TopEntities;
         /// ?prop1 are properties with range in Human 
         /// </summary>
         [Fact]
         public void TestTypes_3ConnectedNodes_2_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?var0"),
-                    new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(2, "?var2"),
+                    new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"}),
+                    new Node(2, "?var2")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?prop0", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(1, "?prop1", 2, 0),
+                edges = new[] {
+                    new Edge(0, "?prop0", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P31"}),
+                    new Edge(1, "?prop1", 2, 0)
                 }
             };
 
@@ -415,16 +395,16 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes); //InstanceOf Q5
 
-            Assert.Equal(1, queryGraph.Nodes[0].InstanceOfTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InstanceOfTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InstanceOfTypes);
-            Assert.Equal(1, queryGraph.Nodes[0].InferredTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InferredTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
 
             Assert.NotEmpty(queryGraph.Nodes[1].GivenTypes);
             Assert.Empty(queryGraph.Nodes[1].InferredTypes);
             Assert.Empty(queryGraph.Nodes[1].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[1].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[1].GivenTypes);
             Assert.Contains("Q5", queryGraph.Nodes[1].GivenTypes);
 
             Assert.Empty(queryGraph.Nodes[2].GivenTypes);
@@ -436,16 +416,16 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);//Domain of P31
+            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
 
             Assert.Empty(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[1].RangeTypes); //Range of P31
             //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
-            Assert.Equal(1, queryGraph.Edges[1].RangeTypes.Count);//Range of P31
-            Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);//Range of P31
+            Assert.Single(queryGraph.Edges[1].RangeTypes); //Range of P31
+            Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes); //Range of P31
         }
 
 
@@ -462,20 +442,17 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_4ConnectedNodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?human"),
                     new Node(1, "?country"),
-                    new Node(2, "human", new[]{"http://www.wikidata.org/entity/Q5"}),
-                    new Node(3, "country", new[]{"http://www.wikidata.org/entity/Q6256"}),
+                    new Node(2, "human", new[] {"http://www.wikidata.org/entity/Q5"}),
+                    new Node(3, "country", new[] {"http://www.wikidata.org/entity/Q6256"})
                 },
-                edges = new[]
-                {
+                edges = new[] {
                     new Edge(0, "?prop0", 0, 1),
-                    new Edge(1, "?type1", 0, 2, new[]{"http://www.wikidata.org/prop/direct/P31"}),
-                    new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
+                    new Edge(1, "?type1", 0, 2, new[] {"http://www.wikidata.org/prop/direct/P31"}),
+                    new Edge(2, "?type2", 1, 3, new[] {"http://www.wikidata.org/prop/direct/P31"})
                 }
             };
 
@@ -492,9 +469,9 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Nodes[0].InferredTypes);
             Assert.NotEmpty(queryGraph.Nodes[0].InstanceOfTypes); //InstanceOf Q5
 
-            Assert.Equal(1, queryGraph.Nodes[0].InstanceOfTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InstanceOfTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InstanceOfTypes);
-            Assert.Equal(1, queryGraph.Nodes[0].InferredTypes.Count);
+            Assert.Single(queryGraph.Nodes[0].InferredTypes);
             Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
 
             //?country
@@ -507,7 +484,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[2].InferredTypes);
             Assert.Empty(queryGraph.Nodes[2].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[2].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[2].GivenTypes);
             Assert.Contains("Q5", queryGraph.Nodes[2].GivenTypes);
 
             //COUNTRY
@@ -515,7 +492,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[3].InferredTypes);
             Assert.Empty(queryGraph.Nodes[3].InstanceOfTypes);
 
-            Assert.Equal(1, queryGraph.Nodes[3].GivenTypes.Count);
+            Assert.Single(queryGraph.Nodes[3].GivenTypes);
             Assert.Contains("Q6256", queryGraph.Nodes[3].GivenTypes);
 
             //?human -> ?country
@@ -524,10 +501,10 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
-            Assert.Equal(1, queryGraph.Edges[0].DomainTypes.Count);//From the Domain of Q5
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);//From the Domain of Q5
-            Assert.Equal(1, queryGraph.Edges[0].RangeTypes.Count);//From the Domain of Q6256
-            Assert.Contains("Q6256", queryGraph.Edges[0].RangeTypes);//From the Domain of Q6256
+            Assert.Single(queryGraph.Edges[0].DomainTypes); //From the Domain of Q5
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //From the Domain of Q5
+            Assert.Single(queryGraph.Edges[0].RangeTypes); //From the Domain of Q6256
+            Assert.Contains("Q6256", queryGraph.Edges[0].RangeTypes); //From the Domain of Q6256
 
             //?human P31 HUMAN
             Assert.NotEmpty(queryGraph.Edges[1].DomainTypes); //Domain of P31
@@ -535,9 +512,9 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[1].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);//Domain of P31
-            Assert.Contains("Q6256", queryGraph.Edges[1].DomainTypes);//Domain of P31
+            Assert.Equal(7, queryGraph.Edges[1].DomainTypes.Count); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes); //Domain of P31
+            Assert.Contains("Q6256", queryGraph.Edges[1].DomainTypes); //Domain of P31
 
             //?country P31 COUNTRY
             Assert.NotEmpty(queryGraph.Edges[2].DomainTypes); //Domain of P31
@@ -545,9 +522,9 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Empty(queryGraph.Edges[2].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[2].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[2].DomainTypes.Count);//Domain of P31
-            Assert.Contains("Q6256", queryGraph.Edges[2].DomainTypes);//Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes);//Domain of P31
+            Assert.Equal(7, queryGraph.Edges[2].DomainTypes.Count); //Domain of P31
+            Assert.Contains("Q6256", queryGraph.Edges[2].DomainTypes); //Domain of P31
+            Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes); //Domain of P31
         }
 
         /// <summary>
@@ -557,17 +534,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_2ConnectedNodes_N0P25N1_N0DRP25N1_2Nodes2Edges()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?human"),
-                    new Node(1, "?country"),
+                    new Node(1, "?country")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?countryOfCitizenship", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P27"}),
-                    new Edge(1, "?propDomainRangeP27", 0, 1),
+                edges = new[] {
+                    new Edge(0, "?countryOfCitizenship", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(1, "?propDomainRangeP27", 0, 1)
                 }
             };
 
@@ -603,17 +577,14 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_2ConnectedNodes_N0P25N1_N1DRP25N0_2Nodes2Edges()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?mother"),
-                    new Node(1, "?son"),
+                    new Node(1, "?son")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propDomainRangeP25", 1, 0),
+                edges = new[] {
+                    new Edge(0, "?motherOf", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomainRangeP25", 1, 0)
                 }
             };
 
@@ -649,18 +620,15 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
-                    new Node(2, "?var2"),
+                    new Node(2, "?var2")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propDomain", 0, 2),
+                edges = new[] {
+                    new Edge(0, "?motherOf", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propDomain", 0, 2)
                 }
             };
 
@@ -693,74 +661,22 @@ namespace SparqlForHumans.UnitTests.Query
 
         /// <summary>
         /// ?mother P25 ?son
-        /// ?var2 ?prop ?mother
-        /// </summary>
-        [Fact]
-        public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
-        {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
-                    new Node(0, "?mother"),
-                    new Node(1, "?son"),
-                    new Node(2, "?var2"),
-                },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?propRangeP25", 2, 0),
-                }
-            };
-
-            // Arrange
-            var queryGraph = new QueryGraph(graph);
-
-            //Act
-            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
-
-            //Assert
-            Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
-            Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
-
-            Assert.Equal(5, queryGraph.Nodes[1].InferredTypes.Count);
-            Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
-
-            Assert.Empty(queryGraph.Nodes[2].InferredTypes);
-
-            Assert.Equal(2, queryGraph.Edges[0].DomainTypes.Count);
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);
-            Assert.Equal(5, queryGraph.Edges[0].RangeTypes.Count);
-            Assert.Contains("Q5", queryGraph.Edges[0].RangeTypes);
-
-            //Since E1 source is HUMAN, Domain HUMAN
-            Assert.Empty(queryGraph.Edges[1].DomainTypes);
-            Assert.Equal(2, queryGraph.Edges[1].RangeTypes.Count);
-            Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);
-        }
-
-        /// <summary>
-        /// ?mother P25 ?son
         /// ?mother ?prop1 ?var1
         /// ?son ?prop2 ?var1
         /// </summary>
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_E2DomainP25_3Nodes3Edge()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
-                    new Node(2, "?var1"),
+                    new Node(2, "?var1")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
+                edges = new[] {
+                    new Edge(0, "?motherOf", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P25"}),
                     new Edge(1, "?prop1DomainP25", 0, 2),
-                    new Edge(2, "?prop2RangeP25", 1, 2),
+                    new Edge(2, "?prop2RangeP25", 1, 2)
                 }
             };
 
@@ -796,25 +712,68 @@ namespace SparqlForHumans.UnitTests.Query
 
         /// <summary>
         /// ?mother P25 ?son
+        /// ?var2 ?prop ?mother
+        /// </summary>
+        [Fact]
+        public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
+        {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
+                    new Node(0, "?mother"),
+                    new Node(1, "?son"),
+                    new Node(2, "?var2")
+                },
+                edges = new[] {
+                    new Edge(0, "?motherOf", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?propRangeP25", 2, 0)
+                }
+            };
+
+            // Arrange
+            var queryGraph = new QueryGraph(graph);
+
+            //Act
+            queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
+            queryGraph.SetTypesDomainsAndRanges();
+
+            //Assert
+            Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
+            Assert.Contains("Q5", queryGraph.Nodes[0].InferredTypes);
+
+            Assert.Equal(5, queryGraph.Nodes[1].InferredTypes.Count);
+            Assert.Contains("Q5", queryGraph.Nodes[1].InferredTypes);
+
+            Assert.Empty(queryGraph.Nodes[2].InferredTypes);
+
+            Assert.Equal(2, queryGraph.Edges[0].DomainTypes.Count);
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);
+            Assert.Equal(5, queryGraph.Edges[0].RangeTypes.Count);
+            Assert.Contains("Q5", queryGraph.Edges[0].RangeTypes);
+
+            //Since E1 source is HUMAN, Domain HUMAN
+            Assert.Empty(queryGraph.Edges[1].DomainTypes);
+            Assert.Equal(2, queryGraph.Edges[1].RangeTypes.Count);
+            Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);
+        }
+
+        /// <summary>
+        /// ?mother P25 ?son
         /// ?son P27 ?country
         /// ?mother ?prop ?country
         /// </summary>
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
         {
-            var graph = new RDFExplorerGraph
-            {
-                nodes = new[]
-                {
+            var graph = new RDFExplorerGraph {
+                nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
-                    new Node(2, "?country"),
+                    new Node(2, "?country")
                 },
-                edges = new[]
-                {
-                    new Edge(0, "?motherOf", 0, 1, new[]{"http://www.wikidata.org/prop/direct/P25"}),
-                    new Edge(1, "?fromCountry", 1, 2, new[]{"http://www.wikidata.org/prop/direct/P27"}),
-                    new Edge(2, "?propDomainRange", 0, 2),
+                edges = new[] {
+                    new Edge(0, "?motherOf", 0, 1, new[] {"http://www.wikidata.org/prop/direct/P25"}),
+                    new Edge(1, "?fromCountry", 1, 2, new[] {"http://www.wikidata.org/prop/direct/P27"}),
+                    new Edge(2, "?propDomainRange", 0, 2)
                 }
             };
 

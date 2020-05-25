@@ -80,6 +80,7 @@
     <None Remove="Resources\ReadFileTenLines.nt" />
     <None Remove="Resources\ReadFileTenLines.nt.gz" />
     <None Remove="Resources\TypeProperties.nt" />
+    <None Remove="xunit.runner.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -288,6 +289,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\FilterTrimmed.nt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

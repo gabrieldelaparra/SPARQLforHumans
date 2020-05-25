@@ -8,6 +8,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
+    [Collection("Sequential")]
     public class QueryGraphResultsPracticalTests
     {
         private static void CreateIndex(string filename, string entitiesIndexPath, string propertiesIndexPath)
@@ -43,7 +44,6 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
-            var nodes = queryGraph.Nodes.Select(x => x.Value).ToArray();
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var edge = edges[0];
             var actualResults = edge.Results.Select(x => x.Label).ToList();
@@ -77,7 +77,6 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
-            var nodes = queryGraph.Nodes.Select(x => x.Value).ToArray();
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];
             var actualResults = genderEdge.Results.Select(x => x.Label).ToList();
@@ -112,7 +111,6 @@ namespace SparqlForHumans.UnitTests.Query
             queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
-            var nodes = queryGraph.Nodes.Select(x => x.Value).ToArray();
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];
             var actualResults = genderEdge.Results.Select(x => x.Label).ToList();
@@ -164,7 +162,6 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath, false);
 
-            var nodes = queryGraph.Nodes.Select(x => x.Value).ToArray();
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];
             var actualResults = genderEdge.Results.Select(x => x.Label).ToList();
@@ -203,7 +200,6 @@ namespace SparqlForHumans.UnitTests.Query
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath, false);
 
-            var nodes = queryGraph.Nodes.Select(x => x.Value).ToArray();
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];
             var actualResults = genderEdge.Results.Select(x => x.Label).ToList();

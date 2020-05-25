@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
@@ -9,6 +8,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
+    [Collection("Sequential")]
     public class QueryGraphResultsTests : IDisposable
     {
         public QueryGraphResultsTests()
@@ -29,30 +29,6 @@ namespace SparqlForHumans.UnitTests.Query
         private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
         private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
 
-        private static void CreateIndexIfOlderThanXMins()
-        {
-            //var entitiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
-            //var propertiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
-            //var now = DateTime.Now;
-            //var entitiesDiff = entitiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
-            //var propertiesDiff = propertiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
-
-            //if (entitiesDirectoryInfo.Exists && entitiesDiff < 4 && propertiesDirectoryInfo.Exists && propertiesDiff < 4) return;
-            //else DeleteIndex();
-            //// Arrange
-            //const string filename = @"Resources/QueryGraphQuerying.nt";
-            //EntitiesIndexPath.DeleteIfExists();
-            //PropertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, PropertiesIndexPath).Index();
-        }
-
-        private static void DeleteIndex()
-        {
-            //EntitiesIndexPath.DeleteIfExists();
-            //PropertiesIndexPath.DeleteIfExists();
-        }
-
         /// <summary>
         /// A single node.
         /// Should query for the top Entities.
@@ -65,9 +41,6 @@ namespace SparqlForHumans.UnitTests.Query
             {
                 nodes = new[] { new Node(0, "?var0") },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -112,9 +85,6 @@ namespace SparqlForHumans.UnitTests.Query
                 nodes = new[] { new Node(0, "?varObama", new[] { "http://www.wikidata.org/entity/Q76" }) },
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -139,8 +109,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Node(1, "?var1"),
                 },
             };
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -218,8 +186,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Node(1, "?var1", new[]{"http://www.wikidata.org/entity/Q49089"}),
                 },
             };
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -253,9 +219,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -344,9 +307,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -411,9 +371,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -439,7 +396,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q48277"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q90"));
             Assert.Contains(queryGraph.Nodes[0].Results, x => x.Id.Equals("Q91"));
-
 
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
@@ -478,9 +434,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -528,9 +481,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -545,8 +495,6 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
         }
-
-
 
         /// <summary>
         /// ?var0 P31 ?var1
@@ -570,9 +518,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P31"})
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -629,9 +574,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1)
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -696,9 +638,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P27"})
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -775,9 +714,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -833,9 +769,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(0, "?prop0", 0, 1,new []{"http://www.wikidata.org/prop/direct/P27"})
                 },
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -898,9 +831,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?prop1", 0, 2),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -993,9 +923,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?prop1", 2, 0),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1090,9 +1017,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(2, "?type2", 1, 3, new[]{"http://www.wikidata.org/prop/direct/P31"}),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1192,9 +1116,6 @@ namespace SparqlForHumans.UnitTests.Query
                 }
             };
 
-            // Arrange
-            CreateIndexIfOlderThanXMins();
-
             // Act
             var queryGraph = new QueryGraph(graph);
             queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
@@ -1283,9 +1204,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?prop", 1, 0),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1377,9 +1295,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?propDomain", 0, 2),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1492,9 +1407,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(1, "?propRange", 2, 0),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);
@@ -1611,9 +1523,6 @@ namespace SparqlForHumans.UnitTests.Query
                     new Edge(2, "?propDomainRange", 1, 2),
                 }
             };
-
-            // Arrange
-            CreateIndexIfOlderThanXMins();
 
             // Act
             var queryGraph = new QueryGraph(graph);

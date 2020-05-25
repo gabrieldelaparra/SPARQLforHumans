@@ -1,21 +1,38 @@
-﻿using SparqlForHumans.Lucene.Extensions;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Queries.Fields;
 using Xunit;
-using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Assertions", "xUnit2013:Do not use equality check to check for collection size.", Justification = "<Pending>")]
+    [Collection("Sequential")]
     public class QueryTests
     {
+        [Fact]
+        public void TestEntityPropertiesQueryResults()
+        {
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string outputPath = "QueryEntityProperties";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var actualResults = new BatchIdEntityPropertiesQuery(outputPath, new[] {"P47"}).Query();
+            var actual = actualResults.FirstOrDefault();
+
+            Debug.Assert(actual != null, nameof(actual) + " != null");
+            Assert.Equal("Q26", actual.Id);
+
+            outputPath.DeleteIfExists();
+        }
+
         [Fact]
         public void TestFullQueryResults()
         {
@@ -28,6 +45,40 @@ namespace SparqlForHumans.UnitTests.Query
             var actual = new MultiLabelEntityQuery(outputPath, "Obama").Query().FirstOrDefault();
             Debug.Assert(actual != null, nameof(actual) + " != null");
             Assert.Equal("Q76000000", actual.Id);
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestInstanceOfQuery_InstancesOfHumans()
+        {
+            const string filename = "Resources/QuerySingle.nt";
+            const string outputPath = "QueryInstanceOf";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var q5Entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
+
+            Assert.True(q5Entities.All(x => x.InstanceOf.Contains("Q5")));
+
+            outputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestIntersectEntityPropertiesQueryResults()
+        {
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string outputPath = "QueryEntityProperties";
+
+            outputPath.DeleteIfExists();
+
+            new EntitiesIndexer(filename, outputPath).Index();
+            var actualResults = new IntersectEntityPropertiesQuery(outputPath, new[] {"P47", "P131"}).Query();
+            var actual = actualResults.FirstOrDefault();
+
+            Debug.Assert(actual != null, nameof(actual) + " != null");
+            Assert.Equal("Q26", actual.Id);
 
             outputPath.DeleteIfExists();
         }
@@ -94,7 +145,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal("Q26", entity.Id);
 
             //Properties
-            Assert.Equal(4, entity.Properties.Count());
+            Assert.Equal(4, entity.Properties.Count);
 
             Assert.Equal("P17", entity.Properties.ElementAt(0).Id);
             Assert.Equal(string.Empty, entity.Properties.ElementAt(0).Label);
@@ -126,13 +177,13 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestQueryByMultipleIds()
         {
-            var ids = new List<string> { "Q26", "Q27", "Q29" };
+            var ids = new List<string> {"Q26", "Q27", "Q29"};
             const string indexPath = "Resources/IndexMultiple";
             Assert.True(Directory.Exists(indexPath));
 
             var entities = new BatchIdEntityQuery(indexPath, ids).Query();
 
-            Assert.Equal(3, entities.Count());
+            Assert.Equal(3, entities.Count);
 
             //Q26, Q27, Q29
             var doc = entities.ElementAt(0);
@@ -173,8 +224,8 @@ namespace SparqlForHumans.UnitTests.Query
             types = new MultiLabelTypeQuery(outputPath, query).Query();
             all = new MultiLabelEntityQuery(outputPath, query).Query();
 
-            Assert.Equal(1, types.Count);
-            Assert.Equal(1, all.Count);
+            Assert.Single(types);
+            Assert.Single(all);
 
             outputPath.DeleteIfExists();
         }
@@ -360,6 +411,150 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestScenario2GetDomainsForUnknownObjectType()
+        {
+            /* In this test, I will have two "nodes" connected.
+             * "node1" is InstanceOf Human and has a second property to "node2"
+             * "node2" is unknown type.
+             * I want to display all the properties that have Domain Human.
+             * 
+             * As sample I have the following:
+             * Q76(Obama) -> P31(Type) -> Q5(Human)
+             * Q76(Obama) -> P27 -> Qxx
+             * Q76(Obama) -> P555 -> Qxx
+             */
+
+            const string filename = @"Resources/QueryByDomain.nt";
+            const string propertyOutputPath = "QueryByDomain";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+
+            Assert.NotEmpty(domainProperties);
+            Assert.Equal(2, domainProperties.Count); //P27, P555
+            Assert.Equal("P27", domainProperties[0].Id);
+            Assert.Equal("P555", domainProperties[1].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestScenario3GetRangesForUnknownSubjectType()
+        {
+            /* In this test, I will have two "nodes" connected.
+             * "node1" is unknown type and has a property to "node2"
+             * "node2" is InstanceOf (Human).
+             * I want to display all the properties that have Range Human.
+             * 
+             * As sample database I have the following:
+             * Qxx (Mother) -> P25 (MotherOf) -> Qyy
+             * Qxx (Mother) -> P25 (MotherOf) -> Qzz
+             * ...
+             * Qyy -> P31 (Type) -> Q5 (Human)
+             * ```
+             * El Range que debe mostrar que:
+             * ```
+             * Q5: Range P25
+             */
+
+            const string filename = @"Resources/QueryByRange.nt";
+            const string propertyOutputPath = "QueryByRange";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
+
+            Assert.NotEmpty(rangeEntities);
+            Assert.Single(rangeEntities); // P25
+            Assert.Equal("P25", rangeEntities[0].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestScenario4GetPropertiesForKnownSubjectObjectType()
+        {
+            /* In this test, I will have two "nodes" connected.
+             * "node1" is unknown type and has a property to "node2"
+             * "node2" is InstanceOf (Human).
+             * I want to display all the properties that have Range Human.
+             * 
+             * As sample database I have the following:
+             * Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
+             * Q76 (Obama) -> P27 (CountryOfCitizenship) -> Q30 (USA)
+             * Q76 (Obama) -> Pxx (Others) -> Qxx
+             * 
+             * Q30 (USA) -> P31 (InstanceOf) -> Q6256 (Country)
+             * Q30 (USA) -> Pyy (Others) -> Qyy
+             * ...
+             * Las propiedades que se deben mostrar que:
+             * ```
+             * Q30: Domain P27
+             * Q5: Range P27
+             */
+
+            const string filename = @"Resources/QueryByRangeAndProperty.nt";
+            const string propertyOutputPath = "QueryByRangeAndProperty";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
+
+            Assert.NotEmpty(properties);
+            Assert.Single(properties); // P27
+            Assert.Equal("P27", properties[0].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
+        public void TestScenario4GetPropertiesForKnownSubjectObjectTypeWithGarbage()
+        {
+            /* In this test, I will have two "nodes" connected.
+             * "node1" is unknown type and has a property to "node2"
+             * "node2" is InstanceOf (Human).
+             * I want to display all the properties that have Range Human.
+             * 
+             * As sample database I have the following:
+             * Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
+             * Q76 (Obama) -> P27 (CountryOfCitizenship) -> Q30 (USA)
+             * Q76 (Obama) -> Pxx (Others) -> Qxx
+             * 
+             * Q30 (USA) -> P31 (InstanceOf) -> Q6256 (Country)
+             * Q30 (USA) -> Pyy (Others) -> Qyy
+             * ...
+             * Las propiedades que se deben mostrar que:
+             * ```
+             * Q30: Domain P27
+             * Q5: Range P27
+             */
+
+            const string filename = @"Resources/QueryByRangeAndProperty-More.nt";
+            const string propertyOutputPath = "QueryByRangeAndPropertyMore";
+            propertyOutputPath.DeleteIfExists();
+
+            //Act:
+            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
+            Assert.Equal(2, rangeProperties.Count); //P27, P555
+            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            Assert.Equal(3, domainProperties.Count); // P31, P27, P777
+            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
+
+            Assert.NotEmpty(properties);
+            Assert.Single(properties); // P27
+            Assert.Equal("P27", properties[0].Id);
+
+            propertyOutputPath.DeleteIfExists();
+        }
+
+        [Fact]
         public void TestSingleQuery_BarackObama_ShouldShowFirst()
         {
             const string filename = "Resources/QuerySingle.nt";
@@ -389,22 +584,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             Debug.Assert(entity != null, nameof(entity) + " != null");
             Assert.Equal("Q13133", entity.Id);
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestInstanceOfQuery_InstancesOfHumans()
-        {
-            const string filename = "Resources/QuerySingle.nt";
-            const string outputPath = "QueryInstanceOf";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            var q5Entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
-
-            Assert.True(q5Entities.All(x => x.InstanceOf.Contains("Q5")));
 
             outputPath.DeleteIfExists();
         }
@@ -469,190 +648,10 @@ namespace SparqlForHumans.UnitTests.Query
             outputPath.DeleteIfExists();
         }
 
-        [Fact]
-        public void TestEntityPropertiesQueryResults()
-        {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
-            const string outputPath = "QueryEntityProperties";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            var actualResults = new BatchIdEntityPropertiesQuery(outputPath, new[] { "P47" }).Query();
-            var actual = actualResults.FirstOrDefault();
-
-            Debug.Assert(actual != null, nameof(actual) + " != null");
-            Assert.Equal("Q26", actual.Id);
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestIntersectEntityPropertiesQueryResults()
-        {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
-            const string outputPath = "QueryEntityProperties";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            var actualResults = new IntersectEntityPropertiesQuery(outputPath, new[] { "P47", "P131" }).Query();
-            var actual = actualResults.FirstOrDefault();
-
-            Debug.Assert(actual != null, nameof(actual) + " != null");
-            Assert.Equal("Q26", actual.Id);
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestScenario2GetDomainsForUnknownObjectType()
-        {
-            /* In this test, I will have two "nodes" connected.
-             * "node1" is InstanceOf Human and has a second property to "node2"
-             * "node2" is unknown type.
-             * I want to display all the properties that have Domain Human.
-             * 
-             * As sample I have the following:
-             * Q76(Obama) -> P31(Type) -> Q5(Human)
-             * Q76(Obama) -> P27 -> Qxx
-             * Q76(Obama) -> P555 -> Qxx
-             */
-
-            const string filename = @"Resources/QueryByDomain.nt";
-            const string propertyOutputPath = "QueryByDomain";
-            propertyOutputPath.DeleteIfExists();
-
-            //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
-
-            Assert.NotEmpty(domainProperties);
-            Assert.Equal(2, domainProperties.Count()); //P27, P555
-            Assert.Equal("P27", domainProperties[0].Id);
-            Assert.Equal("P555", domainProperties[1].Id);
-
-            propertyOutputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestScenario3GetRangesForUnknownSubjectType()
-        {
-            /* In this test, I will have two "nodes" connected.
-             * "node1" is unknown type and has a property to "node2"
-             * "node2" is InstanceOf (Human).
-             * I want to display all the properties that have Range Human.
-             * 
-             * As sample database I have the following:
-             * Qxx (Mother) -> P25 (MotherOf) -> Qyy
-             * Qxx (Mother) -> P25 (MotherOf) -> Qzz
-             * ...
-             * Qyy -> P31 (Type) -> Q5 (Human)
-             * ```
-             * El Range que debe mostrar que:
-             * ```
-             * Q5: Range P25
-             */
-
-            const string filename = @"Resources/QueryByRange.nt";
-            const string propertyOutputPath = "QueryByRange";
-            propertyOutputPath.DeleteIfExists();
-
-            //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
-
-            Assert.NotEmpty(rangeEntities);
-            Assert.Equal(1, rangeEntities.Count); // P25
-            Assert.Equal("P25", rangeEntities[0].Id);
-
-            propertyOutputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestScenario4GetPropertiesForKnownSubjectObjectType()
-        {
-            /* In this test, I will have two "nodes" connected.
-             * "node1" is unknown type and has a property to "node2"
-             * "node2" is InstanceOf (Human).
-             * I want to display all the properties that have Range Human.
-             * 
-             * As sample database I have the following:
-             * Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
-             * Q76 (Obama) -> P27 (CountryOfCitizenship) -> Q30 (USA)
-             * Q76 (Obama) -> Pxx (Others) -> Qxx
-             * 
-             * Q30 (USA) -> P31 (InstanceOf) -> Q6256 (Country)
-             * Q30 (USA) -> Pyy (Others) -> Qyy
-             * ...
-             * Las propiedades que se deben mostrar que:
-             * ```
-             * Q30: Domain P27
-             * Q5: Range P27
-             */
-
-            const string filename = @"Resources/QueryByRangeAndProperty.nt";
-            const string propertyOutputPath = "QueryByRangeAndProperty";
-            propertyOutputPath.DeleteIfExists();
-
-            //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
-            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
-
-            Assert.NotEmpty(properties);
-            Assert.Equal(1, properties.Length); // P27
-            Assert.Equal("P27", properties[0].Id);
-
-            propertyOutputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestScenario4GetPropertiesForKnownSubjectObjectTypeWithGarbage()
-        {
-            /* In this test, I will have two "nodes" connected.
-             * "node1" is unknown type and has a property to "node2"
-             * "node2" is InstanceOf (Human).
-             * I want to display all the properties that have Range Human.
-             * 
-             * As sample database I have the following:
-             * Q76 (Obama) -> P31 (InstanceOf) -> Q5 (Human)
-             * Q76 (Obama) -> P27 (CountryOfCitizenship) -> Q30 (USA)
-             * Q76 (Obama) -> Pxx (Others) -> Qxx
-             * 
-             * Q30 (USA) -> P31 (InstanceOf) -> Q6256 (Country)
-             * Q30 (USA) -> Pyy (Others) -> Qyy
-             * ...
-             * Las propiedades que se deben mostrar que:
-             * ```
-             * Q30: Domain P27
-             * Q5: Range P27
-             */
-
-            const string filename = @"Resources/QueryByRangeAndProperty-More.nt";
-            const string propertyOutputPath = "QueryByRangeAndPropertyMore";
-            propertyOutputPath.DeleteIfExists();
-
-            //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
-            Assert.Equal(2, rangeProperties.Count); //P27, P555
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
-            Assert.Equal(3, domainProperties.Count); // P31, P27, P777
-            var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
-
-            Assert.NotEmpty(properties);
-            Assert.Equal(1, properties.Length); // P27
-            Assert.Equal("P27", properties[0].Id);
-
-            propertyOutputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestMultiQueryCapitalIcelandShouldShowFirst()
-        {
-            var entities = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, "vulcano iceland").Query();
-        }
+        //[Fact]
+        //public void TestMultiQueryCapitalIcelandShouldShowFirst()
+        //{
+        //    var entities = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, "vulcano iceland").Query();
+        //}
     }
 }
