@@ -10,9 +10,9 @@ using VDS.RDF.Query;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-    public static class QueryGraphResults
+    public class QueryGraphResults
     {
-        public static void GetGraphQueryResults(this QueryGraph graph, string entitiesIndexPath, string propertyIndexPath, bool runOnEndpoint = true, bool runNodeQueries = true)
+        public void GetGraphQueryResults(QueryGraph graph, string entitiesIndexPath, string propertyIndexPath, bool runOnEndpoint = true, bool runNodeQueries = true)
         {
             graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
 
@@ -21,19 +21,19 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.SetTypesDomainsAndRanges();
 
             graph.ResetTraverse();
-            graph.CheckAvoidQueries();
+            CheckAvoidQueries(graph);
 
-            var tasks = runOnEndpoint ? graph.RunWikidataEndpointQueries(10000) : new List<Task<SparqlResultSet>>();
+            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
 
             if (runNodeQueries)
-                graph.RunNodeQueries();
+                RunNodeQueries(graph);
 
-            graph.RunEdgeQueries();
+            RunEdgeQueries(graph);
 
-            graph.AssignEndpointResults(tasks);
+            AssignEndpointResults(graph, tasks);
         }
 
-        public static void AssignEndpointResults(this QueryGraph graph, List<Task<SparqlResultSet>> tasks)
+        public void AssignEndpointResults(QueryGraph graph, List<Task<SparqlResultSet>> tasks)
         {
             if (!tasks.Any()) return;
 
@@ -43,11 +43,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var resultsSet = task.Result;
                 if (resultsSet == null) continue;
 
-                graph.AssignEndpointResults(resultsSet);
+                AssignEndpointResults(graph, resultsSet);
             }
         }
 
-        public static void AssignEndpointResults(this QueryGraph graph, SparqlResultSet resultsSet)
+        public void AssignEndpointResults(QueryGraph graph, SparqlResultSet resultsSet)
         {
             var nodes = graph.Nodes.Select(x => x.Value);
             var edges = graph.Edges.Select(x => x.Value);
@@ -75,7 +75,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        public static List<Task<SparqlResultSet>> RunWikidataEndpointQueries(this QueryGraph graph, int limit = 100)
+        public List<Task<SparqlResultSet>> RunWikidataEndpointQueries( QueryGraph graph, int limit = 100)
         {
             var tasks = new List<Task<SparqlResultSet>>();
 
@@ -88,7 +88,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return tasks.Where(x => x != null).ToList();
         }
 
-        private static void RunNodeQueries(this QueryGraph graph)
+        private void RunNodeQueries(QueryGraph graph)
         {
             foreach (var node in graph.Nodes.Select(x => x.Value).Where(x => !x.AvoidQuery))
             {
@@ -147,7 +147,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        private static void RunEdgeQueries(this QueryGraph graph)
+        private void RunEdgeQueries(QueryGraph graph)
         {
             foreach (var edge in graph.Edges.Select(x => x.Value).Where(x => !x.AvoidQuery))
             {
@@ -226,7 +226,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        private static void CheckAvoidQueries(this QueryGraph graph)
+        private void CheckAvoidQueries(QueryGraph graph)
         {
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {

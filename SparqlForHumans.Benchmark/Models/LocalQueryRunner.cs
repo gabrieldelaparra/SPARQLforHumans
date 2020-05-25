@@ -26,7 +26,7 @@ namespace SparqlForHumans.Benchmark.Models
             stopwatch.Start();
 
             //Query
-            QueryGraph.GetGraphQueryResults(QueryGraph.EntitiesIndexPath, QueryGraph.PropertiesIndexPath, false, false);
+            new QueryGraphResults().GetGraphQueryResults(QueryGraph, QueryGraph.EntitiesIndexPath, QueryGraph.PropertiesIndexPath, false, false);
 
             // Write result
             stopwatch.Stop();

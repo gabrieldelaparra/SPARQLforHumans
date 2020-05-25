@@ -29,7 +29,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_FullIndex_1_GoingToHumanInstanceOfTypeShouldBeThere()
         {
-            var graph = new RDFExplorerGraph {
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var1"),
                     new Node(1, "?HUMAN", new[] {"http://www.wikidata.org/entity/Q5"})
@@ -41,7 +42,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
@@ -60,7 +61,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_FullIndex_2_OutgoingPropertiesOfKnownInstanceOfTypeShouldBeReducedInPossibilities()
         {
-            var graph = new RDFExplorerGraph {
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var1"),
                     new Node(1, "?HUMAN", new[] {"http://www.wikidata.org/entity/Q5"}),
@@ -74,7 +76,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
@@ -93,7 +95,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_FullIndex_3_OutgoingPropertiesOfKnownOutgoingTypeShouldBeReducedInPossibilities()
         {
-            var graph = new RDFExplorerGraph {
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var1"),
                     new Node(1, "?MAYOR", new[] {"http://www.wikidata.org/entity/Q30185"}),
@@ -108,7 +111,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath,
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath,
                 LuceneDirectoryDefaults.PropertyIndexPath, false);
 
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
@@ -139,7 +142,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_ShowsError_1_OutgoingPropertiesOfKnownInstanceOfTypeShouldBeReducedInPossibilities()
         {
-            var graph = new RDFExplorerGraph {
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var1"),
                     new Node(1, "?HUMAN", new[] {"http://www.wikidata.org/entity/Q5"}),
@@ -160,7 +164,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, entitiesIndexPath, propertiesIndexPath, false);
 
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];
@@ -177,7 +181,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_ShowsError_2_OutgoingPropertiesOfKnownOutgoingTypeShouldBeReducedInPossibilities()
         {
-            var graph = new RDFExplorerGraph {
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var1"),
                     new Node(1, "?MAYOR", new[] {"http://www.wikidata.org/entity/Q30185"}),
@@ -198,7 +203,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(entitiesIndexPath, propertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, entitiesIndexPath, propertiesIndexPath, false);
 
             var edges = queryGraph.Edges.Select(x => x.Value).ToArray();
             var genderEdge = edges[1];

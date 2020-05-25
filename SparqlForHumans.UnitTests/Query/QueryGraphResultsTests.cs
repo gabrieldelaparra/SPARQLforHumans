@@ -26,8 +26,8 @@ namespace SparqlForHumans.UnitTests.Query
             PropertiesIndexPath.DeleteIfExists();
         }
 
-        private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
-        private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
+        private const string EntitiesIndexPath = "QueryGraphResultsTestsEntities";
+        private const string PropertiesIndexPath = "QueryGraphResultsTestsProperties";
 
         /// <summary>
         /// A single node.
@@ -44,7 +44,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
@@ -87,7 +87,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
@@ -112,7 +112,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
@@ -189,7 +189,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
@@ -222,7 +222,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[0].QueryType);
@@ -309,7 +309,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
@@ -373,7 +373,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenObjectTypeQueryDirectlyEntities, queryGraph.Nodes[0].QueryType);
@@ -437,7 +437,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
@@ -483,7 +483,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.GivenEntityTypeNoQuery, queryGraph.Nodes[0].QueryType);
@@ -521,7 +521,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
@@ -577,7 +577,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
@@ -641,7 +641,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomain, queryGraph.Nodes[0].QueryType);
@@ -716,7 +716,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomain, queryGraph.Nodes[0].QueryType);
@@ -772,7 +772,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomain, queryGraph.Nodes[0].QueryType);
@@ -834,7 +834,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
@@ -926,7 +926,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
@@ -1020,7 +1020,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.SubjectIsInstanceOfTypeQueryEntities, queryGraph.Nodes[0].QueryType);
@@ -1118,7 +1118,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1207,7 +1207,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1298,7 +1298,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1410,7 +1410,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1526,7 +1526,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             // Act
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
             // Assert
             //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);
@@ -1650,7 +1650,7 @@ namespace SparqlForHumans.UnitTests.Query
 
         //    // Act
         //    var queryGraph = new QueryGraph(graph);
-        //    queryGraph.GetGraphQueryResults(EntitiesIndexPath, PropertiesIndexPath, false);
+        //    new QueryGraphResults().GetGraphQueryResults(queryGraph, EntitiesIndexPath, PropertiesIndexPath, false);
 
         //    // Assert
         //    //Assert.Equal(QueryType.InferredDomainTypeEntities, queryGraph.Nodes[0].QueryType);

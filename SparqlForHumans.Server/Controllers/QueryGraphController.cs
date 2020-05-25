@@ -21,7 +21,7 @@ namespace SparqlForHumans.Server.Controllers
             _logger.Info("Query Start:");
             _logger.Info($"Incoming Graph: {graph}");
             var queryGraph = new QueryGraph(graph);
-            queryGraph.GetGraphQueryResults(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+            new QueryGraphResults().GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             _logger.Info("Query End");
             return Json(queryGraph);
         }
