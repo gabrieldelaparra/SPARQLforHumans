@@ -10,6 +10,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
+    [Collection("Sequential")]
     public class ReorderingTests
     {
         [Fact]

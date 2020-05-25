@@ -1,28 +1,32 @@
 ﻿using System;
-using SparqlForHumans.Models.Wikidata;
-using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.Utilities;
 using System.IO;
 using System.Linq;
+using SparqlForHumans.Models.Wikidata;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.FilterReorderSort;
+using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
+    [Collection("Sequential")]
     public class FilterHelperTests
     {
+        [Collection("Sequential")]
         public class FilterTrimmedTests : IDisposable
         {
-            const string filename = "Resources/FilterTrimmed.nt";
-            private const string outputFilename = "FilterTrimmedTests.gz";
             public FilterTrimmedTests()
             {
                 outputFilename.DeleteIfExists();
             }
+
             public void Dispose()
             {
                 outputFilename.DeleteIfExists();
             }
+
+            private const string filename = "Resources/FilterTrimmed.nt";
+            private const string outputFilename = "FilterTrimmedTests.gz";
 
             [Fact]
             public void TestFilteredOutputTypeIsCompressed()
@@ -130,15 +134,10 @@ namespace SparqlForHumans.UnitTests
             var gZipLines = SharpZipHandler.ReadGZip(outputFilename).ToArray();
             var plainLines = FileHelper.ReadLines(filename).ToArray();
 
-            for (var i = 0; i < plainLines.Count(); i++)
-            {
-                Assert.Equal(gZipLines[i], plainLines[i]);
-            }
+            for (var i = 0; i < plainLines.Count(); i++) Assert.Equal(gZipLines[i], plainLines[i]);
 
             outputFilename.DeleteIfExists();
         }
-
-
 
         //TODO: Split into individual Tests
         [Fact]
