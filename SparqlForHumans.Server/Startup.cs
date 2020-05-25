@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Queries.Graph;
 
@@ -32,11 +33,11 @@ namespace SparqlForHumans.Server
                                 .AllowAnyMethod();
             });
         });
-            services.AddMvc();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -51,8 +52,8 @@ namespace SparqlForHumans.Server
             app.UseStaticFiles();
             app.UseCors(MyAllowSpecificOrigins);
             //app.UseCors();
-
-            app.UseMvc();
+            //app.UseRouting();
+            //app.UseMvc();
         }
     }
 }
