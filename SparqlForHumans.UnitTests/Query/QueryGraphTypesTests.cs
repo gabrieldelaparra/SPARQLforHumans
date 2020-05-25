@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Lucene;
+﻿using System;
+using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Index;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
@@ -8,26 +9,25 @@ using Xunit;
 namespace SparqlForHumans.UnitTests.Query
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Assertions", "xUnit2013:Do not use equality check to check for collection size.", Justification = "<Pending>")]
-    public class QueryGraphTypesTests
+    public class QueryGraphTypesTests : IDisposable
     {
-        private const string EntitiesIndexPath = "QueryGraphTypesEntities";
-        private const string PropertiesIndexPath = "QueryGraphTypesProperties";
-
-        private static void CreateIndex()
+        public QueryGraphTypesTests()
         {
-            // Arrange
             const string filename = @"Resources/QueryGraphTypes.nt";
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
             new EntitiesIndexer(filename, EntitiesIndexPath).Index();
             new PropertiesIndexer(filename, PropertiesIndexPath).Index();
         }
-
-        private static void DeleteIndex()
+        public void Dispose()
         {
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
         }
+
+        private const string EntitiesIndexPath = "QueryGraphTypesEntities";
+        private const string PropertiesIndexPath = "QueryGraphTypesProperties";
+
 
         /// <summary>
         /// ?var0 ?prop0 ?var1
@@ -53,7 +53,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -79,9 +78,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(1, queryGraph.Edges[0].DomainDerivedTypes.Count);
             //Assert.Contains("Q76", queryGraph.Edges[0].DomainDerivedTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -109,7 +105,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -135,9 +130,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
             //Assert.Contains("Q76", queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -164,8 +156,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -197,9 +187,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
             //Assert.Contains("Q30", queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -226,7 +213,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -260,9 +246,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
             //Assert.Contains("Q30", queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -288,7 +271,6 @@ namespace SparqlForHumans.UnitTests.Query
                 },
             };
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -318,9 +300,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -352,7 +331,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -395,9 +373,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Equal(1, queryGraph.Edges[1].DomainTypes.Count);//Domain of P31
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);//Domain of P31
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -428,9 +403,7 @@ namespace SparqlForHumans.UnitTests.Query
                 }
             };
 
-
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -473,9 +446,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.Equal(1, queryGraph.Edges[1].RangeTypes.Count);//Range of P31
             Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);//Range of P31
-
-            //Cleanup
-            DeleteIndex();
         }
 
 
@@ -510,7 +480,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -579,9 +548,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(7, queryGraph.Edges[2].DomainTypes.Count);//Domain of P31
             Assert.Contains("Q6256", queryGraph.Edges[2].DomainTypes);//Domain of P31
             Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes);//Domain of P31
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -606,8 +572,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -630,9 +594,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);
             Assert.Equal(1, queryGraph.Edges[1].RangeTypes.Count);
             Assert.Contains("Q6256", queryGraph.Edges[1].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -657,8 +618,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -681,9 +640,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);
             Assert.Equal(2, queryGraph.Edges[1].RangeTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -709,8 +665,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -735,9 +689,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(2, queryGraph.Edges[1].DomainTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes);
             Assert.Empty(queryGraph.Edges[1].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -763,8 +714,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -789,9 +738,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Edges[1].DomainTypes);
             Assert.Equal(2, queryGraph.Edges[1].RangeTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -819,8 +765,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
-
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -848,9 +792,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(5, queryGraph.Edges[2].DomainTypes.Count);
             Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes);
             Assert.Empty(queryGraph.Edges[2].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
 
         /// <summary>
@@ -878,7 +819,6 @@ namespace SparqlForHumans.UnitTests.Query
             };
 
             // Arrange
-            CreateIndex();
             var queryGraph = new QueryGraph(graph);
 
             //Act
@@ -910,11 +850,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes);
             Assert.Single(queryGraph.Edges[2].RangeTypes);
             Assert.Contains("Q6256", queryGraph.Edges[2].RangeTypes);
-
-            //Cleanup
-            DeleteIndex();
         }
-
-        
     }
 }

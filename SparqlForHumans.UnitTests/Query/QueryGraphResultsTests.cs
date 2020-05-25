@@ -9,22 +9,10 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    public class QueryGraphResultsTests
+    public class QueryGraphResultsTests : IDisposable
     {
-        private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
-        private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
-
-        private static void CreateIndexIfOlderThanXMins()
+        public QueryGraphResultsTests()
         {
-            var entitiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
-            var propertiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
-            var now = DateTime.Now;
-            var entitiesDiff = entitiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
-            var propertiesDiff = propertiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
-
-            if (entitiesDirectoryInfo.Exists && entitiesDiff < 4 && propertiesDirectoryInfo.Exists && propertiesDiff < 4) return;
-            else DeleteIndex();
-            // Arrange
             const string filename = @"Resources/QueryGraphQuerying.nt";
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
@@ -32,10 +20,37 @@ namespace SparqlForHumans.UnitTests.Query
             new PropertiesIndexer(filename, PropertiesIndexPath).Index();
         }
 
-        private static void DeleteIndex()
+        public void Dispose()
         {
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
+        }
+
+        private const string EntitiesIndexPath = "QueryGraphQueryingEntities";
+        private const string PropertiesIndexPath = "QueryGraphQueryingProperties";
+
+        private static void CreateIndexIfOlderThanXMins()
+        {
+            //var entitiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
+            //var propertiesDirectoryInfo = new DirectoryInfo(EntitiesIndexPath);
+            //var now = DateTime.Now;
+            //var entitiesDiff = entitiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
+            //var propertiesDiff = propertiesDirectoryInfo.CreationTime.Subtract(now).TotalMinutes;
+
+            //if (entitiesDirectoryInfo.Exists && entitiesDiff < 4 && propertiesDirectoryInfo.Exists && propertiesDiff < 4) return;
+            //else DeleteIndex();
+            //// Arrange
+            //const string filename = @"Resources/QueryGraphQuerying.nt";
+            //EntitiesIndexPath.DeleteIfExists();
+            //PropertiesIndexPath.DeleteIfExists();
+            //new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+            //new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+        }
+
+        private static void DeleteIndex()
+        {
+            //EntitiesIndexPath.DeleteIfExists();
+            //PropertiesIndexPath.DeleteIfExists();
         }
 
         /// <summary>

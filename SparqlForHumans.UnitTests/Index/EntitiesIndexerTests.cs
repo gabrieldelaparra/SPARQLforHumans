@@ -1,4 +1,5 @@
-﻿using Lucene.Net.Index;
+﻿using System;
+using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
@@ -15,12 +16,172 @@ namespace SparqlForHumans.UnitTests.Index
 {
     public class EntitiesIndexerTests
     {
+        public class EntityIndexSingleInstanceTest : IDisposable
+        {
+            const string filename = "Resources/EntityIndexSingleInstance.nt";
+            const string outputPath = "EntityIndexSingleInstanceTest";
+            public EntityIndexSingleInstanceTest()
+            {
+                outputPath.DeleteIfExists();
+            }
+
+            public void Dispose()
+            {
+                outputPath.DeleteIfExists();
+            }
+
+            [Fact]
+            public void TestCreateEntityIndexAddsFolders()
+            {
+                Assert.False(Directory.Exists(outputPath));
+                new EntitiesIndexer(filename, outputPath).Index();
+                Assert.True(Directory.Exists(outputPath));
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexAltLabel()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc = reader.Document(0);
+                Assert.Equal(3, doc.GetValues(Labels.AltLabel).Length);
+
+                Assert.Equal("NIR", doc.GetValues(Labels.AltLabel)[0]);
+                Assert.Equal("UKN", doc.GetValues(Labels.AltLabel)[1]);
+                Assert.Equal("North Ireland", doc.GetValues(Labels.AltLabel)[2]);
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexDescription()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc = reader.Document(0);
+                Assert.Equal("region in north-west Europe, part of the United Kingdom",
+                    doc.GetValue(Labels.Description));
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexDocCount()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var docCount = reader.MaxDoc;
+                Assert.Equal(1, docCount);
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexId()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc = reader.Document(0);
+                Assert.Equal("Q26", doc.GetValue(Labels.Id));
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexLabel()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc = reader.Document(0);
+                Assert.Equal("Northern Ireland", doc.GetValue(Labels.Label));
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexProperties()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc = reader.Document(0);
+
+                Assert.Equal(4, doc.GetValues(Labels.Property).Length);
+
+                Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
+                Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
+                Assert.Equal("P279", doc.GetValues(Labels.Property)[2]);
+                Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
+            }
+        }
+
+        public class EntityIndexMultipleInstanceTests : IDisposable
+        {
+            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string outputPath = "EntityIndexMultipleInstanceTests";
+            public EntityIndexMultipleInstanceTests()
+            {
+                outputPath.DeleteIfExists();
+            }
+            public void Dispose()
+            {
+                outputPath.DeleteIfExists();
+            }
+
+            [Fact]
+            public void TestCreateEntityMultipleInstanceIndex()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var docCount = reader.MaxDoc;
+
+                Assert.Equal(3, docCount);
+
+                //Q26, Q27, Q29
+                var doc = reader.Document(0);
+                Assert.NotNull(doc);
+                Assert.Equal("Q26", doc.GetField(Labels.Id.ToString()).GetStringValue());
+                Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).GetStringValue());
+
+                doc = reader.Document(1);
+                Assert.NotNull(doc);
+                Assert.Equal("Q27", doc.GetField(Labels.Id.ToString()).GetStringValue());
+                Assert.Equal("Ireland", doc.GetField(Labels.Label.ToString()).GetStringValue());
+
+                doc = reader.Document(2);
+                Assert.NotNull(doc);
+                Assert.Equal("Q29", doc.GetField(Labels.Id.ToString()).GetStringValue());
+                Assert.Equal("Spain", doc.GetField(Labels.Label.ToString()).GetStringValue());
+            }
+
+            [Fact]
+            public void TestCreateEntityMultipleInstanceIndexDocCount()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var docCount = reader.MaxDoc;
+                Assert.Equal(3, docCount);
+            }
+
+            [Fact]
+            public void TestCreateSingleInstanceIndexDocNotNull()
+            {
+                new EntitiesIndexer(filename, outputPath).Index();
+                using var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory());
+                using var reader = DirectoryReader.Open(luceneDirectory);
+                var doc1 = reader.Document(0);
+                var doc2 = reader.Document(1);
+                var doc3 = reader.Document(2);
+
+                Assert.NotNull(doc1);
+                Assert.NotNull(doc2);
+                Assert.NotNull(doc3);
+            }
+        }
+
         [Fact]
         public void TestCreateEntityIndex5k()
         {
             const string filename = "Resources/EntityIndex5k.nt";
-            //const string outputPath = "IndexEntities5k";
-            string outputPath = LuceneDirectoryDefaults.EntityIndexPath;
+            const string outputPath = "IndexEntities5k";
 
             outputPath.DeleteIfExists();
 
@@ -44,83 +205,6 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Contains("Q515", result.InstanceOf);
             Assert.Contains("Q5119", result.InstanceOf);
             //Assert.Contains("Q999", result.SubClass);
-
-            //outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateEntityIndexAddsFolders()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexCreateFolder";
-
-            outputPath.DeleteIfExists();
-            Assert.False(Directory.Exists(outputPath));
-
-            new EntitiesIndexer(filename, outputPath).Index();
-
-            Assert.True(Directory.Exists(outputPath));
-
-            outputPath.DeleteIfExists();
-        }
-
-
-        [Fact]
-        public void TestCreateEntityMultipleInstanceIndex()
-        {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
-            const string outputPath = "IndexMultiple";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var docCount = reader.MaxDoc;
-
-                    Assert.Equal(3, docCount);
-
-                    //Q26, Q27, Q29
-                    var doc = reader.Document(0);
-                    Assert.NotNull(doc);
-                    Assert.Equal("Q26", doc.GetField(Labels.Id.ToString()).GetStringValue());
-                    Assert.Equal("Northern Ireland", doc.GetField(Labels.Label.ToString()).GetStringValue());
-
-                    doc = reader.Document(1);
-                    Assert.NotNull(doc);
-                    Assert.Equal("Q27", doc.GetField(Labels.Id.ToString()).GetStringValue());
-                    Assert.Equal("Ireland", doc.GetField(Labels.Label.ToString()).GetStringValue());
-
-                    doc = reader.Document(2);
-                    Assert.NotNull(doc);
-                    Assert.Equal("Q29", doc.GetField(Labels.Id.ToString()).GetStringValue());
-                    Assert.Equal("Spain", doc.GetField(Labels.Label.ToString()).GetStringValue());
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateEntityMultipleInstanceIndexDocCount()
-        {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
-            const string outputPath = "IndexDocCount";
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var docCount = reader.MaxDoc;
-                    Assert.Equal(3, docCount);
-                }
-            }
 
             outputPath.DeleteIfExists();
         }
@@ -178,120 +262,6 @@ namespace SparqlForHumans.UnitTests.Index
         }
 
         [Fact]
-        public void TestCreateSingleInstanceIndexAltLabel()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleAltLabel";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
-                    Assert.Equal(3, doc.GetValues(Labels.AltLabel).Length);
-
-                    Assert.Equal("NIR", doc.GetValues(Labels.AltLabel)[0]);
-                    Assert.Equal("UKN", doc.GetValues(Labels.AltLabel)[1]);
-                    Assert.Equal("North Ireland", doc.GetValues(Labels.AltLabel)[2]);
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexDescription()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleDescription";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
-                    Assert.Equal("region in north-west Europe, part of the United Kingdom",
-                        doc.GetValue(Labels.Description));
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexDocCount()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexDocCount";
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var docCount = reader.MaxDoc;
-                    Assert.Equal(1, docCount);
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexDocNotNull()
-        {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
-            const string outputPath = "IndexDocNotNull";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc1 = reader.Document(0);
-                    var doc2 = reader.Document(1);
-                    var doc3 = reader.Document(2);
-
-                    Assert.NotNull(doc1);
-                    Assert.NotNull(doc2);
-                    Assert.NotNull(doc3);
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexId()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleId";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
-                    Assert.Equal("Q26", doc.GetValue(Labels.Id));
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
         public void TestCreateSingleInstanceIndexInstanceOf()
         {
             const string filename = "Resources/EntityIndexTwoInstanceOf.nt";
@@ -341,78 +311,6 @@ namespace SparqlForHumans.UnitTests.Index
 
             outputPath.DeleteIfExists();
         }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexLabel()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleLabel";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
-                    Assert.Equal("Northern Ireland", doc.GetValue(Labels.Label));
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        [Fact]
-        public void TestCreateSingleInstanceIndexProperties()
-        {
-            const string filename = "Resources/EntityIndexSingleInstance.nt";
-            const string outputPath = "IndexSingleProperties";
-
-            outputPath.DeleteIfExists();
-
-            new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
-                    var doc = reader.Document(0);
-
-                    Assert.Equal(4, doc.GetValues(Labels.Property).Length);
-
-                    Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
-                    Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
-                    Assert.Equal("P279", doc.GetValues(Labels.Property)[2]);
-                    Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
-                }
-            }
-
-            outputPath.DeleteIfExists();
-        }
-
-        //[Fact]
-        //public void TestCreateSingleInstanceIndexSubClass()
-        //{
-        //    const string filename = "Resources/EntityIndexSingleInstance.nt";
-        //    const string outputPath = "IndexSingleSubClass";
-
-        //    outputPath.DeleteIfExists();
-
-        //    new EntitiesIndexer(filename, outputPath).Index();
-        //    using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-        //    {
-        //        using (var reader = DirectoryReader.Open(luceneDirectory))
-        //        {
-        //            var doc = reader.Document(0);
-
-        //            Assert.Single(doc.GetValues(Labels.SubClass));
-
-        //            Assert.Equal("Q46", doc.GetValues(Labels.SubClass)[0]);
-        //        }
-        //    }
-
-        //    outputPath.DeleteIfExists();
-        //}
 
         [Fact]
         public void TestIndexHasTypes()
