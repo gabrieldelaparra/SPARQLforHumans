@@ -41,7 +41,7 @@
     <None Remove="Resources\PageRankBuildGraphDifferentIds.nt" />
     <None Remove="Resources\PageRankBuildGraphMultipleProperties.nt" />
     <None Remove="Resources\PropertyDomain.nt" />
-    <None Remove="Resources\PropertyFrequencies.nt" />
+    <None Remove="Resources\PropertyFrequenciesFirst.nt" />
     <None Remove="Resources\PropertyFrequenciesWithGarbage.nt" />
     <None Remove="Resources\PropertyIndex.nt" />
     <None Remove="Resources\PropertyIndex5k.nt" />
@@ -245,7 +245,7 @@
     <Content Include="Resources\EntityIndexMultipleInstance.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\PropertyFrequencies.nt">
+    <Content Include="Resources\PropertyFrequenciesFirst.nt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\PropertyFrequenciesWithGarbage.nt">

@@ -10,7 +10,7 @@
 //        [Fact]
 //        public void TestGetFileFrequency()
 //        {
-//            const string filename = @"Resources/PropertyFrequencies.nt";
+//            const string filename = @"Resources/PropertyFrequenciesFirst.nt";
 //            Assert.True(File.Exists(filename));
 
 //            var dictionary = new PropertyFrequencyIndexer(filename).RelationIndex;
