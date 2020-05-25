@@ -7,6 +7,7 @@ using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using System.Linq;
+using SparqlForHumans.Lucene;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -18,7 +19,8 @@ namespace SparqlForHumans.UnitTests.Index
         public void TestCreateEntityIndex5k()
         {
             const string filename = "Resources/EntityIndex5k.nt";
-            const string outputPath = "IndexEntities5k";
+            //const string outputPath = "IndexEntities5k";
+            string outputPath = LuceneDirectoryDefaults.EntityIndexPath;
 
             outputPath.DeleteIfExists();
 
@@ -43,7 +45,7 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Contains("Q5119", result.InstanceOf);
             //Assert.Contains("Q999", result.SubClass);
 
-            outputPath.DeleteIfExists();
+            //outputPath.DeleteIfExists();
         }
 
         [Fact]

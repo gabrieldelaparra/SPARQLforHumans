@@ -7,6 +7,7 @@ using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene;
 using Xunit;
 using Directory = System.IO.Directory;
 
@@ -249,7 +250,8 @@ namespace SparqlForHumans.UnitTests.Index
         public void TestCreatePropertyIndexAndMapResults()
         {
             const string filename = "Resources/PropertyIndex5k.nt";
-            const string outputPath = "CreatePropertyIndexMapResults";
+            //const string outputPath = "CreatePropertyIndexMapResults";
+            string outputPath = LuceneDirectoryDefaults.PropertyIndexPath;
 
             outputPath.DeleteIfExists();
 
@@ -270,7 +272,7 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEqual(0, result.Rank);
 
 
-            outputPath.DeleteIfExists();
+            //outputPath.DeleteIfExists();
         }
     }
 }

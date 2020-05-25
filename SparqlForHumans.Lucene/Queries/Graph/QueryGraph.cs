@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SparqlForHumans.Models.RDFExplorer;
+using Newtonsoft.Json;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -21,7 +22,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             PropertiesIndexPath = propertiesIndexPath;
         }
 
+        [JsonIgnore]
         public string EntitiesIndexPath { get; set; }
+        [JsonIgnore]
         public string PropertiesIndexPath { get; set; }
 
         public SortedDictionary<int, QueryNode> Nodes { get; set; }
