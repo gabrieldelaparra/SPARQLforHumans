@@ -12,7 +12,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     public static class InMemoryQueryEngine
     {
         private static bool _isInit = false;
-        private static string _entitiesIndexPath;
         private static string _propertiesIndexPath;
 
         private static Dictionary<int, int[]> _typeIdDomainPropertiesDictionary;
@@ -29,7 +28,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         public static void Init(string entitiesIndexPath, string propertiesIndexPath)
         {
             if (_isInit) return;
-            _entitiesIndexPath = entitiesIndexPath;
             _propertiesIndexPath = propertiesIndexPath;
             BuildDictionaries();
             _isInit = true;
@@ -155,8 +153,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             logger.Info($"Building Inverted Properties Domain and Range Dictionary");
 
             using (var luceneDirectory = FSDirectory.Open(_propertiesIndexPath))
-            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
             {
+                using var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory);
                 var docCount = luceneDirectoryReader.MaxDoc;
                 for (var i = 0; i < docCount; i++)
                 {
@@ -166,6 +164,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     propertyIdRangesDictList.AddSafe(property.Id.ToInt(), property.Range);
                 }
             }
+
             _propertyIdDomainTypesDictionary = propertyIdDomainsDictList.ToArrayDictionary();
             _propertyIdRangeTypesDictionary = propertyIdRangesDictList.ToArrayDictionary();
             _typeIdDomainPropertiesDictionary = _propertyIdDomainTypesDictionary.InvertDictionary();
