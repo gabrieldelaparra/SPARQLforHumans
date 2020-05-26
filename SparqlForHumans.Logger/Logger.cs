@@ -15,7 +15,7 @@ namespace SparqlForHumans.Logger
             var fileTarget = new FileTarget
             {
                 Name = "logfile",
-                FileName = @"${basedir}/Logs/Log ${date:format=yyyy-MM-dd}.log",
+                FileName = Path.Combine("${specialfolder:UserProfile}", "SparqlForHumans","Logs", "Log ${date:format=yyyy-MM-dd}.log"),
                 ArchiveAboveSize = 5242880,
                 Layout = new CsvLayout
                 {

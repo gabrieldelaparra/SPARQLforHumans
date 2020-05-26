@@ -11,6 +11,8 @@ using CommandLine;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
 using NaturalSort.Extension;
+using NLog;
+using NLog.Targets;
 using SparqlForHumans.Logger;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.RDF.FilterReorderSort;
@@ -68,7 +70,10 @@ namespace SparqlForHumans.CLI
 
         public static void Main(string[] args)
         {
-            
+            Logger.Info("Buckle up...");
+            var fileTarget = (FileTarget)LogManager.Configuration.FindTargetByName("logfile");
+            var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
+            var logFilename = fileTarget.FileName.Render(logEventInfo);
 
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed<Options>(o =>
@@ -81,6 +86,7 @@ namespace SparqlForHumans.CLI
                     Logger.Info($"InputFilename: {o.InputFilename}");
                     Logger.Info($"Limit: {o.Limit}");
                     Logger.Info($"Overwrite: {o.Overwrite}");
+                    Logger.Info($"Logs output: {logFilename}");
 
                     var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
                     var propertiesOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
