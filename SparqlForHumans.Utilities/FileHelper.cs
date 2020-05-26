@@ -28,7 +28,6 @@ namespace SparqlForHumans.Utilities
         public static string GetReorderedOutputFilename(string inputFilename)
         {
             var filename = GetOutputFileName(inputFilename);
-
             return $"{filename}.reordered.nt";
         }
 

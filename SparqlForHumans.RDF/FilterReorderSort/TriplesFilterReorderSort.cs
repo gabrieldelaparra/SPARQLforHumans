@@ -77,20 +77,21 @@ namespace SparqlForHumans.RDF.FilterReorderSort
                 Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
 
-            Logger.Info("Finished Filtering and reordering. Sorting via external sort. No debugging/progress messages available.");
+            Logger.Info("Finished Filtering and reordering.");
+            Logger.Info("SORTING MUST BE DONE via external sort.");
+            Logger.Info($"gzip -dc {outputTriplesFilename} | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > {Path.GetFileNameWithoutExtension(outputTriplesFilename)}-Sorted.gz  ");
+            //var process = new System.Diagnostics.Process();
+            //var startInfo = new System.Diagnostics.ProcessStartInfo
+            //{
+            //    WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
+            //    FileName = @"\usr\bin\sort",
+            //    Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename}"
+            //};
+            ////gzip -dc filtered-All-FilterReorder.nt.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > filtered-All-PostFilter-Sorted.nt.gz  
+            //process.StartInfo = startInfo;
+            //process.Start();
 
-            var process = new System.Diagnostics.Process();
-            var startInfo = new System.Diagnostics.ProcessStartInfo
-            {
-                WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden,
-                FileName = @"C:\Program Files\Git\usr\bin\sort.exe",
-                Arguments = $"{outputTriplesFilename} -g -o {outputTriplesFilename}"
-            };
-            //gzip -dc filtered-All-FilterReorder.nt.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > filtered-All-PostFilter-Sorted.nt.gz  
-            process.StartInfo = startInfo;
-            process.Start();
-
-            Logger.Info("Finished sorting.");
+            //Logger.Info("Finished sorting.");
         }
 
         public static bool IsValidReorderTriple(Triple triple)
