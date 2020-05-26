@@ -35,7 +35,6 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
             var wikidataDumpLines = FileHelper.GetInputLines(inputTriplesFilename);
 
-            //using (var outputFileStream = File.Create(outputTriplesFilename))
             using (var outputFileStream = File.Create(outputTriplesFilename))
             {
                 using var gZipStream = new GZipStream(outputFileStream, CompressionMode.Compress, true);
@@ -77,8 +76,8 @@ namespace SparqlForHumans.RDF.FilterReorderSort
                 Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
 
-            Logger.Info("Finished Filtering and reordering.");
-            Logger.Info("SORTING MUST BE DONE via external sort.");
+            Logger.Info("Finished Filtering and adding inverse properties.");
+            Logger.Info("SORTING MUST BE DONE via external sort:");
             Logger.Info($"gzip -dc {outputTriplesFilename} | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > {Path.GetFileNameWithoutExtension(outputTriplesFilename)}-Sorted.gz  ");
             //var process = new System.Diagnostics.Process();
             //var startInfo = new System.Diagnostics.ProcessStartInfo
