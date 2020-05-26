@@ -18,7 +18,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
         public static void FilterReorderSort(string inputTriplesFilename, string outputTriplesFilename = "", int triplesLimit = -1)
         {
             if (string.IsNullOrWhiteSpace(outputTriplesFilename))
-                outputTriplesFilename = FileHelper.GetFilterReorderOutputFilename(inputTriplesFilename);
+                outputTriplesFilename = FileHelper.GetFilteredOutputFilename(inputTriplesFilename, triplesLimit);
 
             Options.InternUris = false;
 
@@ -37,8 +37,8 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
             //using (var outputFileStream = File.Create(outputTriplesFilename))
             using (var outputFileStream = File.Create(outputTriplesFilename))
-            using (var gZipStream = new GZipStream(outputFileStream, CompressionMode.Compress, true))
             {
+                using var gZipStream = new GZipStream(outputFileStream, CompressionMode.Compress, true);
                 Logger.Info("Read,Write");
                 foreach (var line in wikidataDumpLines)
                 {
@@ -49,7 +49,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
                     try
                     {
-                        if(!IsValidLine(line, triplesLimit))
+                        if (!IsValidLine(line, triplesLimit))
                             continue;
 
                         var data = Encoding.UTF8.GetBytes($"{line}{Environment.NewLine}");
@@ -57,7 +57,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
                         writeCount++;
 
                         var triple = line.ToTriple();
-                        if(!IsValidReorderTriple(triple))
+                        if (!IsValidReorderTriple(triple))
                             continue;
 
                         var newTriple = triple.ReorderTriple();
@@ -76,6 +76,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
                 Logger.Info($"{readCount:N0};{writeCount:N0}");
             }
+
             Logger.Info("Finished Filtering and reordering. Sorting via external sort. No debugging/progress messages available.");
 
             var process = new System.Diagnostics.Process();
