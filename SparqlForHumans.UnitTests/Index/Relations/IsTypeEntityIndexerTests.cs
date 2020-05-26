@@ -10,6 +10,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
 {
+    [Collection("Sequential")]
     public class IsTypeEntityIndexerTests
     {
         [Fact]

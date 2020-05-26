@@ -11,25 +11,27 @@ namespace SparqlForHumans.UnitTests.Query
     [Collection("Sequential")]
     public class QueryGraphResultsTests : IDisposable
     {
-        public QueryGraphResultsTests()
+        [Collection("Sequential")]
+        public class QueryGraphResultsIsolatedTests : IDisposable
         {
-            const string filename = @"Resources/QueryGraphQuerying.nt";
-            EntitiesIndexPath.DeleteIfExists();
-            PropertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-            new PropertiesIndexer(filename, PropertiesIndexPath).Index();
-        }
+            private const string EntitiesIndexPath = "QueryGraphResultsIsolatedTestsEntities";
+            private const string PropertiesIndexPath = "QueryGraphResultsIsolatedTestsProperties";
 
-        public void Dispose()
-        {
-            EntitiesIndexPath.DeleteIfExists();
-            PropertiesIndexPath.DeleteIfExists();
-        }
+            public QueryGraphResultsIsolatedTests()
+            {
+                const string filename = @"Resources/QueryGraphQuerying.nt";
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+                new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+            }
+            public void Dispose()
+            {
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+            }
 
-        private const string EntitiesIndexPath = "QueryGraphResultsTestsEntities";
-        private const string PropertiesIndexPath = "QueryGraphResultsTestsProperties";
-
-        /// <summary>
+            /// <summary>
         /// A single node.
         /// Should query for the top Entities.
         /// In the given example QueryGraph.nt, Obama should be in the top values.
@@ -198,8 +200,30 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
         }
+        }
 
-        /// <summary>
+        [Collection("Sequential")]
+        public class QueryGraphResults2NodesTests : IDisposable
+        {
+            private const string EntitiesIndexPath = "QueryGraphResults2NodesTestsEntities";
+            private const string PropertiesIndexPath = "QueryGraphResults2NodesTestsProperties";
+
+            public QueryGraphResults2NodesTests()
+            {
+                const string filename = @"Resources/QueryGraphQuerying.nt";
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+                new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+            }
+
+            public void Dispose()
+            {
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+            }
+
+            /// <summary>
         /// ?var0 ?prop0 ?var1
         /// No given Types for anyone.
         /// All should return Top Entities and Properties;
@@ -803,8 +827,29 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
         }
+        }
 
-        /// <summary>
+        [Collection("Sequential")]
+        public class QueryGraphResultsMoreNodesTests : IDisposable
+        {
+            private const string EntitiesIndexPath = "QueryGraphResultsMoreNodesTestsEntities";
+            private const string PropertiesIndexPath = "QueryGraphResultsMoreNodesTestsProperties";
+            public QueryGraphResultsMoreNodesTests()
+            {
+                const string filename = @"Resources/QueryGraphQuerying.nt";
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+                new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+            }
+
+            public void Dispose()
+            {
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+            }
+
+            /// <summary>
         /// ?var0 P31 ?var1
         /// ?var1 is Human
         /// ?var0 ?prop0 ?var2
@@ -1089,8 +1134,29 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
             Assert.Empty(queryGraph.Edges[2].Results);
         }
+        }
 
-        /// <summary>
+        [Collection("Sequential")]
+        public class QueryGraphResultsInferredTests : IDisposable
+        {
+            private const string EntitiesIndexPath = "QueryGraphResultsInferredTestsEntities";
+            private const string PropertiesIndexPath = "QueryGraphResultsInferredTestsProperties";
+            public QueryGraphResultsInferredTests()
+            {
+                const string filename = @"Resources/QueryGraphQuerying.nt";
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+                new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+            }
+
+            public void Dispose()
+            {
+                EntitiesIndexPath.DeleteIfExists();
+                PropertiesIndexPath.DeleteIfExists();
+            }
+
+            /// <summary>
         /// ?mother P25 ?son
         /// ?mother ?prop ?son
         ///
@@ -1611,6 +1677,33 @@ namespace SparqlForHumans.UnitTests.Query
             //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P6"));
         }
+        }
+
+        public QueryGraphResultsTests()
+        {
+            //const string filename = @"Resources/QueryGraphQuerying.nt";
+            //EntitiesIndexPath.DeleteIfExists();
+            //PropertiesIndexPath.DeleteIfExists();
+            //new EntitiesIndexer(filename, EntitiesIndexPath).Index();
+            //new PropertiesIndexer(filename, PropertiesIndexPath).Index();
+        }
+
+        public void Dispose()
+        {
+            //EntitiesIndexPath.DeleteIfExists();
+            //PropertiesIndexPath.DeleteIfExists();
+        }
+
+        //private const string EntitiesIndexPath = "QueryGraphResultsTestsEntities";
+        //private const string PropertiesIndexPath = "QueryGraphResultsTestsProperties";
+
+        
+
+        
+
+        
+
+        
 
         ///// <summary>
         ///// ?mother P25 ?son

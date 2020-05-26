@@ -6,6 +6,7 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Wikidata
 {
+    [Collection("Sequential")]
     public class WikidataQueriesTest
     {
         [Fact]

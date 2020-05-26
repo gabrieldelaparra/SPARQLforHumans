@@ -2,6 +2,7 @@
 
 namespace SparqlForHumans.UnitTests.Wikidata
 {
+    [Collection("Sequential")]
     public class WikidataEndpointTests
     {
         [Fact]
