@@ -113,12 +113,6 @@ namespace SparqlForHumans.CLI
                     }
                 });
 
-            //return CommandLine.Parser.Default.ParseArguments<PreProcessOptions, IndexOptions>(args)
-            //    .MapResult(
-            //        (PreProcessOptions opts) => RunPreprocessAndReturnExitCode(opts),
-            //        (IndexOptions opts) => RunIndexAndReturnExitCode(opts),
-            //        errs => 1);
-
             //Options.InternUris = false;
             //CreatePropertiesHistogram();
             //QueryForSomeZeroFrequencyProperties();

@@ -27,7 +27,7 @@ namespace SparqlForHumans.UnitTests
             TriplesReordering.Reorder(filename, outputFilename);
 
             Assert.True(File.Exists(outputFilename));
-            var reorderedLines = FileHelper.ReadLines(outputFilename);
+            var reorderedLines = FileHelper.GetInputLines(outputFilename);
 
             Assert.Equal(3511,reorderedLines.Count());
 

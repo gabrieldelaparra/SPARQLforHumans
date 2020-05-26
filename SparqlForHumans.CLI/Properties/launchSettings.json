@@ -1,7 +1,8 @@
 {
   "profiles": {
     "SparqlForHumans.CLI": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "-i EntityIndex5k.filterAll-Sorted.gz -e -p "
     }
   }
 }

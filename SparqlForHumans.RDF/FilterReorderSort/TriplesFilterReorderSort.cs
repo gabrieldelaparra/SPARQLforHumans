@@ -78,7 +78,7 @@ namespace SparqlForHumans.RDF.FilterReorderSort
 
             Logger.Info("Finished Filtering and adding inverse properties.");
             Logger.Info("SORTING MUST BE DONE via external sort:");
-            Logger.Info($"gzip -dc {outputTriplesFilename} | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > {Path.GetFileNameWithoutExtension(outputTriplesFilename)}-Sorted.gz  ");
+            Logger.Info($" > gzip -dc {outputTriplesFilename} | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > {Path.GetFileNameWithoutExtension(outputTriplesFilename)}-Sorted.gz  ");
             //var process = new System.Diagnostics.Process();
             //var startInfo = new System.Diagnostics.ProcessStartInfo
             //{

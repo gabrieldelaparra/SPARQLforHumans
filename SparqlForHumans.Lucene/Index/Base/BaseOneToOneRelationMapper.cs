@@ -12,7 +12,7 @@ namespace SparqlForHumans.Lucene.Index.Base
     {
         protected BaseOneToOneRelationMapper(string inputFilename)
         {
-            RelationIndex = BuildIndex(FileHelper.ReadLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
+            RelationIndex = BuildIndex(FileHelper.GetInputLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
         }
 
         public Dictionary<TKey, TValue> RelationIndex { get; internal set; }

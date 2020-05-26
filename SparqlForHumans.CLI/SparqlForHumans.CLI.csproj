@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -19,6 +19,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DefineConstants />
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="bin\x64\Debug\netcoreapp3.1\EntityIndex5k.filterAll-Sorted.gz" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.8.0" />

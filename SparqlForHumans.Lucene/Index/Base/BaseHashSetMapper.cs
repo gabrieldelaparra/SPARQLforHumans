@@ -11,7 +11,7 @@ namespace SparqlForHumans.Lucene.Index.Base
     {
         protected BaseHashSetMapper(string inputFilename)
         {
-            RelationIndex = BuildIndex(FileHelper.ReadLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
+            RelationIndex = BuildIndex(FileHelper.GetInputLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
         }
 
         protected BaseHashSetMapper(IEnumerable<SubjectGroup> subjectGroups)
