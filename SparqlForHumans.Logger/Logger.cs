@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System.IO;
+using NLog;
 using NLog.Config;
 using NLog.Layouts;
 using NLog.Targets;
@@ -14,7 +15,7 @@ namespace SparqlForHumans.Logger
             var fileTarget = new FileTarget
             {
                 Name = "logfile",
-                FileName = @"${basedir}\Logs\Log ${date:format=yyyy-MM-dd}.log",
+                FileName = @"${basedir}/Logs/Log ${date:format=yyyy-MM-dd}.log",
                 ArchiveAboveSize = 5242880,
                 Layout = new CsvLayout
                 {
