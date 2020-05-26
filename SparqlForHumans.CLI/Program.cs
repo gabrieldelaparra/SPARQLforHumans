@@ -108,7 +108,7 @@ namespace SparqlForHumans.CLI
                     if (o.IndexProperties)
                     {
                         if (o.Overwrite)
-                            entitiesOutputPath.DeleteIfExists();
+                            propertiesOutputPath.DeleteIfExists();
                         new PropertiesIndexer(inputFilename, propertiesOutputPath).Index();
                     }
                 });
