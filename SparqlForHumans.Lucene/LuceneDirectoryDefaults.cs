@@ -6,7 +6,7 @@ namespace SparqlForHumans.Lucene
     public static class LuceneDirectoryDefaults
     {
         private static string BaseFolder => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            "SparqlForHumans");
+            "SparqlForHumans").Replace('\\','/');
         public static string EntityIndexPath => $@"{BaseFolder}\LuceneEntitiesIndex";
         public static string PropertyIndexPath => $@"{BaseFolder}\LucenePropertiesIndex";
     }
