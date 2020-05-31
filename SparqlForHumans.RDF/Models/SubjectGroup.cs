@@ -13,7 +13,7 @@ namespace SparqlForHumans.RDF.Models
         {
         }
 
-        public SubjectGroup(string key, IEnumerable<string> elements) : this(key, elements.Select(x => x.ToTriple()))
+        public SubjectGroup(string key, IEnumerable<string> elements) : this(key, elements.Select(x => x.ToTriple()).Where(x=>x != null))
         {
         }
 

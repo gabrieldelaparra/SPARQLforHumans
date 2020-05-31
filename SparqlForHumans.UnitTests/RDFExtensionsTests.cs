@@ -1,4 +1,6 @@
-﻿using SparqlForHumans.RDF.Extensions;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 using VDS.RDF.Parsing;
@@ -340,6 +342,18 @@ namespace SparqlForHumans.UnitTests
                 "<http://www.wikidata.org/entity/Q27> <http://www.wikidata.org/Other/Q32> <http://www.wikidata.org/other/P26> .";
             (_, ntPredicate, ntObject) = line.GetTripleAsTuple();
             Assert.Equal(PropertyType.Other, RDFExtensions.GetPropertyType(ntPredicate));
+        }
+
+        [Fact]
+        public void TestEmptyLinesToSubjectGroup()
+        {
+            var empty = string.Empty;
+            var triple = empty.ToTriple();
+            Assert.Null(triple);
+
+            var elements = new List<string>() {empty};
+            var triples = elements.Select(x => x.ToTriple());
+
         }
     }
 }
