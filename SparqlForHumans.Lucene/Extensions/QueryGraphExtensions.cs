@@ -6,7 +6,7 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
-    public static class QueryGraphExtensions
+    public static partial class QueryGraphExtensions
     {
         /// <summary>
         /// Given an Edge, checks if the Edge.uris has any value ending with "P31" (InstanceOf)
@@ -60,13 +60,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //if (node.GetIncomingEdges(graph).Any(x => x.IsGivenType || x.DomainTypes.Any() || x.RangeTypes.Any() || x.DomainDerivedTypes.Any() || x.RangeDerivedTypes.Any())) return true;
             //if (node.GetOutgoingEdges(graph).Any(x => x.IsGivenType || x.DomainTypes.Any() || x.RangeTypes.Any() || x.DomainDerivedTypes.Any() || x.RangeDerivedTypes.Any() )) return true;
             return false;
-        }
-
-        public class Result
-        {
-            public string Type => "uri";
-            public string Text { get; set; }
-            public string Value { get; set; }
         }
         public static Dictionary<string, Result> ToDictionary(this IEnumerable<Property> subjects)
         {
