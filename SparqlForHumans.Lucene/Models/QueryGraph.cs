@@ -10,25 +10,21 @@ namespace SparqlForHumans.Lucene.Models
     {
         public QueryGraph(RDFExplorerGraph rdfGraph)
         {
-            Nodes = new SortedDictionary<int, QueryNode>(rdfGraph.nodes.Distinct().ToDictionary(x => x.id, x => new QueryNode(x)));
-            Edges = new SortedDictionary<int, QueryEdge>(rdfGraph.edges.Distinct().ToDictionary(x => x.id, x => new QueryEdge(x)));
+            Nodes = new SortedDictionary<int, QueryNode>(rdfGraph.nodes.Distinct()
+                .ToDictionary(x => x.id, x => new QueryNode(x)));
+            Edges = new SortedDictionary<int, QueryEdge>(rdfGraph.edges.Distinct()
+                .ToDictionary(x => x.id, x => new QueryEdge(x)));
 
             this.CheckNodeTypes();
         }
 
-        public void SetIndexPaths(string entitiesIndexPath, string propertiesIndexPath)
-        {
-            EntitiesIndexPath = entitiesIndexPath;
-            PropertiesIndexPath = propertiesIndexPath;
-        }
+        public SortedDictionary<int, QueryEdge> Edges { get; set; }
 
-        [JsonIgnore]
-        public string EntitiesIndexPath { get; set; }
-        [JsonIgnore]
-        public string PropertiesIndexPath { get; set; }
+        [JsonIgnore] public string EntitiesIndexPath { get; set; }
 
         public SortedDictionary<int, QueryNode> Nodes { get; set; }
-        public SortedDictionary<int, QueryEdge> Edges { get; set; }
+
+        [JsonIgnore] public string PropertiesIndexPath { get; set; }
 
         public override bool Equals(object obj)
         {
@@ -36,7 +32,7 @@ namespace SparqlForHumans.Lucene.Models
             if (y == null) return false;
             if (ReferenceEquals(this, y)) return true;
             if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
-            return this.Nodes.SequenceEqual(y.Nodes) && this.Edges.SequenceEqual(y.Edges);
+            return Nodes.SequenceEqual(y.Nodes) && Edges.SequenceEqual(y.Edges);
         }
 
         public override int GetHashCode()
@@ -45,10 +41,16 @@ namespace SparqlForHumans.Lucene.Models
             return ToString().GetHashCode();
         }
 
+        public void SetIndexPaths(string entitiesIndexPath, string propertiesIndexPath)
+        {
+            EntitiesIndexPath = entitiesIndexPath;
+            PropertiesIndexPath = propertiesIndexPath;
+        }
+
         public override string ToString()
         {
-            var nodesString = $"{{ Nodes: {{{string.Join("; ", Nodes.Select(x=>x.Value.ToString()))}}} }}";
-            var edgesString = $"{{ Edges: {{{string.Join("; ", Edges.Select(x=>x.Value.ToString()))}}} }}";
+            var nodesString = $"{{ Nodes: {{{string.Join("; ", Nodes.Select(x => x.Value.ToString()))}}} }}";
+            var edgesString = $"{{ Edges: {{{string.Join("; ", Edges.Select(x => x.Value.ToString()))}}} }}";
             return $"{nodesString} {edgesString}";
         }
     }

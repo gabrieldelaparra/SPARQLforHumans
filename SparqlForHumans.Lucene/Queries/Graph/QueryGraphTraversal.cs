@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Models;
 
@@ -26,12 +23,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             //First iteration, check self
             foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
                 if (edge.uris.Any())
                     edge.IsConstant = true;
-            }
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
+            foreach (var node in graph.Nodes.Select(x => x.Value)) {
                 if (node.uris.Any())
                     node.IsConstant = true;
                 if (node.GetOutgoingEdges(graph).Any(x => x.IsInstanceOf))
@@ -39,8 +33,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
 
             //Second iteration, check direct neighbors
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
+            foreach (var node in graph.Nodes.Select(x => x.Value)) {
                 //Connected to Given Types.
                 //if (node.GetOutgoingNodes(graph).Any(x => x.IsConstant)) 
                 //    node.IsGoingToGivenType = true;
@@ -48,9 +41,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //    node.IsComingFromGivenType = true;
 
                 //Has edges to other nodes, such as MotherOf, BornIn, etc. The type can be Inferred.
-                if (node.GetOutgoingEdges(graph).Any(x => x.IsInferible())) 
+                if (node.GetOutgoingEdges(graph).Any(x => x.IsInferible()))
                     node.IsInferredDomainType = true;
-                if (node.GetIncomingEdges(graph).Any(x => x.IsInferible())) 
+                if (node.GetIncomingEdges(graph).Any(x => x.IsInferible()))
                     node.IsInferredRangeType = true;
             }
         }

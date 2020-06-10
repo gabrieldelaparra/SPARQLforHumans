@@ -1,11 +1,10 @@
-﻿using Lucene.Net.Documents;
-using Lucene.Net.Store;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SparqlForHumans.Lucene.Extensions
 {
@@ -16,12 +15,10 @@ namespace SparqlForHumans.Lucene.Extensions
             var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
             var properties = new BatchIdPropertyQuery(indexPath, propertiesIds).GetDocuments().ToProperties();
 
-            foreach (var entity in entities)
-            {
-                foreach (var property in entity.Properties)
-                {
+            foreach (var entity in entities) {
+                foreach (var property in entity.Properties) {
                     var prop = properties.FirstOrDefault(x => x.Id.Equals(property.Id));
-                    if(prop == null) continue;
+                    if (prop == null) continue;
                     property.Label = prop.Label;
                 }
             }
@@ -29,61 +26,34 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static void AddProperties(this Entity entity, string indexPath)
         {
-            AddProperties(new List<Entity> { entity }, indexPath);
+            AddProperties(new List<Entity> {entity}, indexPath);
         }
 
-        public static void MapRank(this IHasRank<double> element, Document document)
+        public static void MapAltLabels(this IHasAltLabel element, Document document)
         {
-            element.Rank = document.GetValue(Labels.Rank).ToDouble();
-        }
-
-        public static void MapIsType(this IHasIsType element, Document document)
-        {
-            element.IsType = document.GetValue(Labels.IsTypeEntity).ToBool();
-        }
-
-        public static void MapId(this IHasId element, Document document)
-        {
-            element.Id = document.GetValue(Labels.Id);
-        }
-
-        public static void MapLabel(this IHasLabel element, Document document)
-        {
-            element.Label = document.GetValue(Labels.Label);
-        }
-
-        public static void MapInstanceOf(this Entity entity, Document doc)
-        {
-            entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
-        }
-
-        //public static void MapReverseInstanceOf(this Entity entity, Document doc)
-        //{
-        //    entity.ReverseInstanceOf = doc.GetValues(Labels.ReverseInstanceOf);
-        //}
-
-        public static void MapSubClass(this Entity entity, Document doc)
-        {
-            entity.SubClass = doc.GetValues(Labels.SubClass);
+            element.AltLabels = document.GetValues(Labels.AltLabel);
         }
 
         public static void MapBaseProperties(this Entity entity, Document document)
         {
             entity.Properties = document.ParseProperties().ToList();
         }
+
         public static void MapBaseReverseProperties(this Entity entity, Document document)
         {
             entity.ReverseProperties = document.ParseReverseProperties().ToList();
         }
-        public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
+
+        public static void MapDescription(this IHasDescription element, Document document)
         {
-            return documents?.Select(MapEntity).ToList();
+            element.Description = document.GetValue(Labels.Description);
         }
 
-        public static List<Property> ToProperties(this IReadOnlyList<Document> documents)
+        public static void MapDomain(this IHasDomain element, Document document)
         {
-            return documents?.Select(MapProperty).ToList();
+            element.Domain = document.GetValues(Labels.DomainType).Select(x => x.ToInt()).ToList();
         }
+
         public static Entity MapEntity(this Document document)
         {
             var entity = new Entity();
@@ -103,29 +73,24 @@ namespace SparqlForHumans.Lucene.Extensions
             return entity;
         }
 
-        public static void MapRank(this IHasRank<int> element, Document document)
+        public static void MapId(this IHasId element, Document document)
         {
-            element.Rank = document.GetValue(Labels.Rank).ToInt();
+            element.Id = document.GetValue(Labels.Id);
         }
 
-        public static void MapDescription(this IHasDescription element, Document document)
+        public static void MapInstanceOf(this Entity entity, Document doc)
         {
-            element.Description = document.GetValue(Labels.Description);
+            entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
         }
 
-        public static void MapAltLabels(this IHasAltLabel element, Document document)
+        public static void MapIsType(this IHasIsType element, Document document)
         {
-            element.AltLabels = document.GetValues(Labels.AltLabel);
+            element.IsType = document.GetValue(Labels.IsTypeEntity).ToBool();
         }
 
-        public static void MapDomain(this IHasDomain element, Document document)
+        public static void MapLabel(this IHasLabel element, Document document)
         {
-            element.Domain = document.GetValues(Labels.DomainType).Select(x=>x.ToInt()).ToList();
-        }
-
-        public static void MapRange(this IHasRange element, Document document)
-        {
-            element.Range = document.GetValues(Labels.Range).Select(x=>x.ToInt()).ToList();
+            element.Label = document.GetValue(Labels.Label);
         }
 
         public static Property MapProperty(this Document document)
@@ -143,10 +108,49 @@ namespace SparqlForHumans.Lucene.Extensions
             return property;
         }
 
+        public static void MapRange(this IHasRange element, Document document)
+        {
+            element.Range = document.GetValues(Labels.Range).Select(x => x.ToInt()).ToList();
+        }
+
+        public static void MapRank(this IHasRank<double> element, Document document)
+        {
+            element.Rank = document.GetValue(Labels.Rank).ToDouble();
+        }
+
+        public static void MapRank(this IHasRank<int> element, Document document)
+        {
+            element.Rank = document.GetValue(Labels.Rank).ToInt();
+        }
+
+        //public static void MapReverseInstanceOf(this Entity entity, Document doc)
+        //{
+        //    entity.ReverseInstanceOf = doc.GetValues(Labels.ReverseInstanceOf);
+        //}
+
+        public static void MapSubClass(this Entity entity, Document doc)
+        {
+            entity.SubClass = doc.GetValues(Labels.SubClass);
+        }
+
+        public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapEntity).ToList();
+        }
+
+        public static List<Property> ToProperties(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapProperty).ToList();
+        }
+
+        private static IEnumerable<Property> ParseProperties(this Document doc)
+        {
+            foreach (var item in doc.GetValues(Labels.Property)) yield return ParseProperty(item);
+        }
+
         private static Property ParseProperty(string propertyId)
         {
-            return new Property
-            {
+            return new Property {
                 Id = propertyId,
                 Value = string.Empty,
                 //TODO: Fix this somehow :D
@@ -154,20 +158,9 @@ namespace SparqlForHumans.Lucene.Extensions
             };
         }
 
-        private static IEnumerable<Property> ParseProperties(this Document doc)
-        {
-            foreach (var item in doc.GetValues(Labels.Property))
-            {
-                yield return ParseProperty(item);
-            }
-        }
-
         private static IEnumerable<Property> ParseReverseProperties(this Document doc)
         {
-            foreach (var item in doc.GetValues(Labels.ReverseProperty))
-            {
-                yield return ParseProperty(item);
-            }
+            foreach (var item in doc.GetValues(Labels.ReverseProperty)) yield return ParseProperty(item);
         }
     }
 }

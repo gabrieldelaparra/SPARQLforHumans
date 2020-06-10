@@ -2,8 +2,8 @@
 {
     public class Result
     {
-        public string Type => "uri";
         public string Text { get; set; }
+        public string Type => "uri";
         public string Value { get; set; }
     }
 }
