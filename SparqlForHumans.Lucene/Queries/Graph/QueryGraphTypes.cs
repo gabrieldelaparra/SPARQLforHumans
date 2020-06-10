@@ -25,20 +25,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var sourceNode = edge.GetSourceNode(graph);
                 var targetNode = edge.GetTargetNode(graph);
 
-                //If the source is given, limit the domain and range to the types of that entity.
-                if (sourceNode.IsConstant)
+                //If the source is constant/instanceOf, limit the domain and range to the types of that entity.
+                if (sourceNode.IsConstant || sourceNode.IsInstanceOf)
                     edge.DomainTypes = sourceNode.ParentTypes;
-                //edge.DomainDerivedTypes = sourceNode.GivenTypes;
                 // !source.IsGivenType
                 else if (edge.IsConstant)
-                    //TODO: if edge.InstanceOf or Other
                     edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
-                // !source.IsGivenType && !edge.IsGivenType
-                else if (sourceNode.IsInstanceOf)
-                    //TODO: This should be somewhere else:
-                    edge.DomainTypes = sourceNode.ParentTypes;
                 // !source.IsGivenType && !edge.IsGivenType && !source.IsInstanceOfType
-
+                // else { }
 
                 //If the target is given, limit the domain and range to the types of that entity.
                 if (targetNode.IsConstant) {
@@ -57,6 +51,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     edge.RangeTypes = targetNode.ParentTypes;
                 }
                 // !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
+                // else { }
             }
         }
 

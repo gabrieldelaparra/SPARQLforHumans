@@ -14,7 +14,29 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public class QueryGraphResults
     {
-        public void AssignEndpointResults(QueryGraph graph, List<Task<SparqlResultSet>> tasks)
+        public void GetGraphQueryResults(QueryGraph graph, string entitiesIndexPath, string propertyIndexPath,
+                                         bool runOnEndpoint = true, bool runNodeQueries = true)
+        {
+            graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
+
+            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
+            //TODO: I think that I can move this somewhere in the future. (Performance improvement)
+            graph.SetTypesDomainsAndRanges();
+
+            graph.ResetTraverse();
+            CheckAvoidQueries(graph);
+
+            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
+
+            if (runNodeQueries)
+                RunNodeQueries(graph);
+
+            RunEdgeQueries(graph);
+
+            AssignEndpointResults(graph, tasks);
+        }
+
+        private void AssignEndpointResults(QueryGraph graph, List<Task<SparqlResultSet>> tasks)
         {
             if (!tasks.Any()) return;
 
@@ -27,7 +49,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        public void AssignEndpointResults(QueryGraph graph, SparqlResultSet resultsSet)
+        private void AssignEndpointResults(QueryGraph graph, SparqlResultSet resultsSet)
         {
             var nodes = graph.Nodes.Select(x => x.Value);
             var edges = graph.Edges.Select(x => x.Value);
@@ -51,41 +73,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (edge != null)
                     edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(10000);
             }
-        }
-
-        public void GetGraphQueryResults(QueryGraph graph, string entitiesIndexPath, string propertyIndexPath,
-                                         bool runOnEndpoint = true, bool runNodeQueries = true)
-        {
-            graph.SetIndexPaths(entitiesIndexPath, propertyIndexPath);
-
-            InMemoryQueryEngine.Init(entitiesIndexPath, propertyIndexPath);
-            //TODO: I think that I can move this somewhere in the future. (Performance improvement)
-            graph.SetTypesDomainsAndRanges();
-
-            graph.ResetTraverse();
-            CheckAvoidQueries(graph);
-
-            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
-
-            if (runNodeQueries)
-                RunNodeQueries(graph);
-
-            RunEdgeQueries(graph);
-
-            AssignEndpointResults(graph, tasks);
-        }
-
-        public List<Task<SparqlResultSet>> RunWikidataEndpointQueries(QueryGraph graph, int limit = 100)
-        {
-            var tasks = new List<Task<SparqlResultSet>>();
-
-            foreach (var node in graph.Nodes.Select(x => x.Value)) {
-                if (node.Traversed) continue;
-                var query = node.ToSparql(graph, limit).ToString().FixQuery();
-                tasks.Add(GraphApiQueries.RunQueryAsync(query));
-            }
-
-            return tasks.Where(x => x != null).ToList();
         }
 
         private void CheckAvoidQueries(QueryGraph graph)
@@ -255,6 +242,19 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                                 .ToList();
                     }
                 }
+        }
+
+        private List<Task<SparqlResultSet>> RunWikidataEndpointQueries(QueryGraph graph, int limit = 100)
+        {
+            var tasks = new List<Task<SparqlResultSet>>();
+
+            foreach (var node in graph.Nodes.Select(x => x.Value)) {
+                if (node.Traversed) continue;
+                var query = node.ToSparql(graph, limit).ToString().FixQuery();
+                tasks.Add(GraphApiQueries.RunQueryAsync(query));
+            }
+
+            return tasks.Where(x => x != null).ToList();
         }
     }
 }

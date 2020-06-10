@@ -70,12 +70,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Empty(queryGraph.Nodes[1].ParentTypes);
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //InstanceOf Q76: Q5
-            //Assert.NotEmpty(queryGraph.Edges[0].DomainDerivedTypes);
             Assert.Empty(queryGraph.Edges[0].RangeTypes);
-            //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].DomainDerivedTypes.Count);
-            //Assert.Contains("Q76", queryGraph.Edges[0].DomainDerivedTypes);
         }
 
         /// <summary>
@@ -118,12 +113,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q76", queryGraph.Nodes[1].Types);
 
             Assert.Empty(queryGraph.Edges[0].DomainTypes);
-            //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes);
-            //Assert.NotEmpty(queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
-            //Assert.Contains("Q76", queryGraph.Edges[0].RangeDerivedTypes);
         }
 
         /// <summary>
@@ -169,15 +159,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q30", queryGraph.Nodes[1].Types);
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes);
-            //Assert.NotEmpty(queryGraph.Edges[0].DomainDerivedTypes);
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes);
-            //Assert.NotEmpty(queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].DomainDerivedTypes.Count);
-            //Assert.Contains("Q76", queryGraph.Edges[0].DomainDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
-            //Assert.Contains("Q30", queryGraph.Edges[0].RangeDerivedTypes);
         }
 
         /// <summary>
@@ -226,14 +208,6 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes);
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes);
-            //Assert.NotEmpty(queryGraph.Edges[0].DomainDerivedTypes);
-            //Assert.NotEmpty(queryGraph.Edges[0].RangeDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].DomainDerivedTypes.Count);
-            //Assert.Contains("Q76", queryGraph.Edges[0].DomainDerivedTypes);
-
-            //Assert.Equal(1, queryGraph.Edges[0].RangeDerivedTypes.Count);
-            //Assert.Contains("Q30", queryGraph.Edges[0].RangeDerivedTypes);
         }
 
         /// <summary>
@@ -280,11 +254,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes); //Range of P31
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
-
-            //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
+            Assert.Single(queryGraph.Edges[0].DomainTypes); //?human is type Q5. Domain should be Q5.
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes);
         }
 
         /// <summary>
@@ -343,16 +314,12 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes); //Range of P31
-            //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
+            Assert.Single(queryGraph.Edges[0].DomainTypes); //Domain of P31 or just Q5?
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31 or just Q5?
 
             Assert.NotEmpty(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.Empty(queryGraph.Edges[1].RangeTypes);
-            //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
             Assert.Single(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes); //Domain of P31
@@ -414,16 +381,12 @@ namespace SparqlForHumans.UnitTests.Query
 
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes); //Range of P31
-            //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[0].DomainTypes.Count); //Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31
+            Assert.Single(queryGraph.Edges[0].DomainTypes); //Domain of P31 or just Q5?
+            Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //Domain of P31 or just Q5?
 
             Assert.Empty(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[1].RangeTypes); //Range of P31
-            //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
             Assert.Single(queryGraph.Edges[1].RangeTypes); //Range of P31
             Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes); //Range of P31
@@ -499,8 +462,6 @@ namespace SparqlForHumans.UnitTests.Query
             //?human -> ?country
             Assert.NotEmpty(queryGraph.Edges[0].DomainTypes); //From the Domain of Q5
             Assert.NotEmpty(queryGraph.Edges[0].RangeTypes); //From the Domain of Q6256
-            //Assert.Empty(queryGraph.Edges[0].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[0].RangeDerivedTypes);
 
             Assert.Single(queryGraph.Edges[0].DomainTypes); //From the Domain of Q5
             Assert.Contains("Q5", queryGraph.Edges[0].DomainTypes); //From the Domain of Q5
@@ -510,22 +471,16 @@ namespace SparqlForHumans.UnitTests.Query
             //?human P31 HUMAN
             Assert.NotEmpty(queryGraph.Edges[1].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[1].RangeTypes); //Range: Q5
-            //Assert.Empty(queryGraph.Edges[1].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[1].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[1].DomainTypes.Count); //Domain of P31
+            Assert.Single(queryGraph.Edges[1].DomainTypes); //?human is type Q5. Domain should be Q5.
             Assert.Contains("Q5", queryGraph.Edges[1].DomainTypes); //Domain of P31
-            Assert.Contains("Q6256", queryGraph.Edges[1].DomainTypes); //Domain of P31
 
             //?country P31 COUNTRY
             Assert.NotEmpty(queryGraph.Edges[2].DomainTypes); //Domain of P31
             Assert.NotEmpty(queryGraph.Edges[2].RangeTypes); //Range: Q6256
-            //Assert.Empty(queryGraph.Edges[2].DomainDerivedTypes);
-            //Assert.Empty(queryGraph.Edges[2].RangeDerivedTypes);
 
-            Assert.Equal(7, queryGraph.Edges[2].DomainTypes.Count); //Domain of P31
-            Assert.Contains("Q6256", queryGraph.Edges[2].DomainTypes); //Domain of P31
-            Assert.Contains("Q5", queryGraph.Edges[2].DomainTypes); //Domain of P31
+            Assert.Single(queryGraph.Edges[2].DomainTypes); //?country is type Q6256. Domain should be Q6256.
+            Assert.Contains("Q6256", queryGraph.Edges[2].DomainTypes);
         }
 
         /// <summary>
