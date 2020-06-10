@@ -27,7 +27,7 @@ namespace SparqlForHumans.Lucene.Models
         [JsonIgnore]
         public bool IsInstanceOf => this.HasInstanceOf();
         [JsonIgnore]
-        public bool IsGivenType { get; set; }
+        public bool IsConstant { get; set; }
         [JsonIgnore]
         public List<string> DomainTypes { get; set; } = new List<string>();
         //public List<string> DomainDerivedTypes { get; set; } = new List<string>();

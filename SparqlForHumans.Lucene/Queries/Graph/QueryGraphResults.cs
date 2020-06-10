@@ -180,10 +180,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                             .IntersectIfAny(instanceOfTargetProperties).ToList();
                     }
 
-                    var sourceGivenOutgoingEdges = sourceNode.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var sourceGivenIncomingEdges = sourceNode.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var targetGivenOutgoingEdges = targetNode.GetOutgoingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
-                    var targetGivenIncomingEdges = targetNode.GetIncomingEdges(graph).Where(x => x.IsGivenType).Where(x => !x.IsInstanceOf).ToArray();
+                    var sourceGivenOutgoingEdges = sourceNode.GetOutgoingEdges(graph).Where(x => x.IsConstant).Where(x => !x.IsInstanceOf).ToArray();
+                    var sourceGivenIncomingEdges = sourceNode.GetIncomingEdges(graph).Where(x => x.IsConstant).Where(x => !x.IsInstanceOf).ToArray();
+                    var targetGivenOutgoingEdges = targetNode.GetOutgoingEdges(graph).Where(x => x.IsConstant).Where(x => !x.IsInstanceOf).ToArray();
+                    var targetGivenIncomingEdges = targetNode.GetIncomingEdges(graph).Where(x => x.IsConstant).Where(x => !x.IsInstanceOf).ToArray();
 
                     foreach (var givenOutgoingEdge in sourceGivenOutgoingEdges)
                     {
@@ -268,7 +268,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             foreach (var edge in graph.Edges.Select(x => x.Value))
             {
-                if (edge.IsGivenType)
+                if (edge.IsConstant)
                 {
                     edge.AvoidQuery = true;
                     edge.Results = new List<Property>();

@@ -26,7 +26,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static TriplePatternObjectPart ToPredicate(this TriplePatternPredicatePart subject, QueryEdge edge)
         {
-            return edge.IsGivenType ? subject.PredicateUri(new Uri(edge.uris.First().ToPropertyIri())) : subject.Predicate(edge.name);
+            return edge.IsConstant ? subject.PredicateUri(new Uri(edge.uris.First().ToPropertyIri())) : subject.Predicate(edge.name);
         }
 
         private static ITriplePatternBuilder ToObject(this TriplePatternObjectPart predicate, QueryNode node)
@@ -126,7 +126,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     queryBuilder.Filter(expr);
                 }
 
-                if (!incomingEdge.IsGivenType)
+                if (!incomingEdge.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.PropertyIRI}{Constants.PropertyPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(incomingEdge.name)), new ConstantTerm(literal));
@@ -164,7 +164,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     queryBuilder.Filter(expr);
                 }
 
-                if (!outgoingEdge.IsGivenType)
+                if (!outgoingEdge.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.PropertyIRI}{Constants.PropertyPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(outgoingEdge.name)), new ConstantTerm(literal));

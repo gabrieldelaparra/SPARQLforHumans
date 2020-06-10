@@ -28,7 +28,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             foreach (var edge in graph.Edges.Select(x => x.Value))
             {
                 if (edge.uris.Any())
-                    edge.IsGivenType = true;
+                    edge.IsConstant = true;
             }
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {

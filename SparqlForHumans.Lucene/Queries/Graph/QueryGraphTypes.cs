@@ -41,7 +41,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     //edge.DomainDerivedTypes = sourceNode.GivenTypes;
                 }
                 // !source.IsGivenType
-                else if (edge.IsGivenType)
+                else if (edge.IsConstant)
                 {
                     //TODO: if edge.InstanceOf or Other
                     edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
@@ -52,7 +52,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     //TODO: This should be somewhere else:
                     edge.DomainTypes = sourceNode.ParentTypes;
                 }
-
+                // !source.IsGivenType && !edge.IsGivenType && !source.IsInstanceOfType
+                else
+                {
+                    //No DomainTypes. We know nothing.
+                }
 
 
                 //If the target is given, limit the domain and range to the types of that entity.
@@ -62,30 +66,26 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     {
                         edge.RangeTypes = targetNode.Types;
                     }
-                    else //!edge.IsInstanceOf
+                    //!edge.IsInstanceOf
+                    else
                     {
                         edge.RangeTypes = targetNode.ParentTypes;
-                        //edge.RangeDerivedTypes = targetNode.GivenTypes;
                     }
                 }
-                else // !target.IsGivenType
+                // !target.IsGivenType
+                else if (edge.IsConstant)
                 {
-                    if (edge.IsGivenType)
-                    {
-                        edge.RangeTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
-                    }
-                    else  // !target.IsGivenType && !edge.IsGivenType
-                    {
-                        if (targetNode.IsInstanceOf)
-                        {
-                            edge.RangeTypes = targetNode.ParentTypes;
-                        }
-                        else// !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
-                        {
-                            //No RangeTypes. We know nothing.
-                        }
-                    }
-
+                    edge.RangeTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
+                }
+                // !target.IsGivenType && !edge.IsGivenType
+                else if (targetNode.IsInstanceOf)
+                {
+                    edge.RangeTypes = targetNode.ParentTypes;
+                }
+                // !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
+                else
+                {
+                    //No RangeTypes. We know nothing.
                 }
             }
         }

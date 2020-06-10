@@ -106,7 +106,7 @@ namespace SparqlForHumans.Benchmark
                 };
 
                 //Do not run if there are no variables to query.
-                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsConstant)) continue;
 
                 var endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
                 endpoint.Print();
@@ -127,7 +127,7 @@ namespace SparqlForHumans.Benchmark
                 };
 
                 //Do not run if there are no variables to query.
-                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsConstant)) continue;
 
                 endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
                 endpoint.Print();
@@ -148,7 +148,7 @@ namespace SparqlForHumans.Benchmark
                 };
 
                 //Do not run if there are no variables to query.
-                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsConstant)) continue;
 
                 endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
                 endpoint.Print();
@@ -169,7 +169,7 @@ namespace SparqlForHumans.Benchmark
                 };
 
                 //Do not run if there are no variables to query.
-                if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+                if (graph.Edges.Select(x => x.Value).All(x => x.IsConstant)) continue;
 
                 endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
                 endpoint.Print();
@@ -214,7 +214,7 @@ namespace SparqlForHumans.Benchmark
                     };
 
                     //Do not run if there are no variables to query.
-                    if (graph.Edges.Select(x => x.Value).All(x => x.IsGivenType)) continue;
+                    if (graph.Edges.Select(x => x.Value).All(x => x.IsConstant)) continue;
 
                     var endpoint = new WikidataEndpointQueryRunner(graph).RunBenchmark();
                     endpoint.Print();

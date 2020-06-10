@@ -35,7 +35,7 @@ namespace SparqlForHumans.Benchmark.Models {
         public override QueryBenchmark RunBenchmark()
         {
             var benchmark = new QueryBenchmark();
-            var variables = QueryGraph.Edges.Select(x => x.Value).Where(x => !x.IsGivenType).Select(x => x.name).ToArray();
+            var variables = QueryGraph.Edges.Select(x => x.Value).Where(x => !x.IsConstant).Select(x => x.name).ToArray();
             benchmark.GraphQuery = QueryGraph.Nodes.First().Value.ToSparql(QueryGraph, variables).ToString().FixQuery();
             benchmark.GraphString = QueryGraph.ToString();
             benchmark.GraphHashCode = QueryGraph.GetHashCode();
