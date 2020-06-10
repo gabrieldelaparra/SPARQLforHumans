@@ -205,8 +205,8 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Contains("P17", properties);
             Assert.Contains("P1376", properties);
             Assert.False(result.IsType);
-            Assert.Contains("Q515", result.InstanceOf);
-            Assert.Contains("Q5119", result.InstanceOf);
+            Assert.Contains("Q515", result.ParentTypes);
+            Assert.Contains("Q5119", result.ParentTypes);
             //Assert.Contains("Q999", result.SubClass);
 
             outputPath.DeleteIfExists();
@@ -330,7 +330,7 @@ namespace SparqlForHumans.UnitTests.Index
             var typesQuery = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
 
             Assert.NotEmpty(typesQuery);
-            Assert.All(typesQuery, x => x.InstanceOf.Equals("Q5"));
+            Assert.All(typesQuery, x => x.ParentTypes.Equals("Q5"));
 
             outputPath.DeleteIfExists();
         }

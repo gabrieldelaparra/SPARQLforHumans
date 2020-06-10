@@ -80,7 +80,7 @@ namespace SparqlForHumans.Lucene.Extensions
 
         public static void MapInstanceOf(this Entity entity, Document doc)
         {
-            entity.InstanceOf = doc.GetValues(Labels.InstanceOf);
+            entity.ParentTypes = doc.GetValues(Labels.InstanceOf);
         }
 
         public static void MapIsType(this IHasIsType element, Document document)

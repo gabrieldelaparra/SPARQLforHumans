@@ -60,7 +60,7 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, outputPath).Index();
             var q5Entities = new MultiIdInstanceOfEntityQuery(outputPath, "Q5").Query();
 
-            Assert.True(q5Entities.All(x => x.InstanceOf.Contains("Q5")));
+            Assert.True(q5Entities.All(x => x.ParentTypes.Contains("Q5")));
 
             outputPath.DeleteIfExists();
         }

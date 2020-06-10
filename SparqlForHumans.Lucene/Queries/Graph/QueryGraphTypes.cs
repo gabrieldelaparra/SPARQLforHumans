@@ -21,37 +21,24 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetBaseEdgeDomainRanges(this QueryGraph graph)
         {
-            foreach (var edge in graph.Edges.Select(x => x.Value)) {
+            foreach (var edge in graph.Edges.Select(x => x.Value))
+            {
                 var sourceNode = edge.GetSourceNode(graph);
                 var targetNode = edge.GetTargetNode(graph);
 
                 //If the source is constant/instanceOf, limit the domain and range to the types of that entity.
                 if (sourceNode.IsConstant || sourceNode.IsInstanceOf)
                     edge.DomainTypes = sourceNode.ParentTypes;
-                // !source.IsGivenType
                 else if (edge.IsConstant)
                     edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
-                // !source.IsGivenType && !edge.IsGivenType && !source.IsInstanceOfType
-                // else { }
 
-                //If the target is given, limit the domain and range to the types of that entity.
-                if (targetNode.IsConstant) {
-                    if (edge.IsInstanceOf)
-                        edge.RangeTypes = targetNode.Types;
-                    //!edge.IsInstanceOf
-                    else
-                        edge.RangeTypes = targetNode.ParentTypes;
-                }
-                // !target.IsGivenType
-                else if (edge.IsConstant) {
-                    edge.RangeTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
-                }
-                // !target.IsGivenType && !edge.IsGivenType
-                else if (targetNode.IsInstanceOf) {
+                //If the target is given with a instanceOfEdge, limit the domain and range to the types of that entity.
+                if (targetNode.IsConstant && edge.IsInstanceOf)
+                    edge.RangeTypes = targetNode.Types;
+                else if (targetNode.IsConstant || targetNode.IsInstanceOf)
                     edge.RangeTypes = targetNode.ParentTypes;
-                }
-                // !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
-                // else { }
+                else if (edge.IsConstant)
+                    edge.RangeTypes = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(edge.uris).ToList();
             }
         }
 
@@ -59,14 +46,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             //If IsGivenType, get those types
             //If IsInstanceOfType (P31 to Type), Get those Types
-            foreach (var node in graph.Nodes.Select(x => x.Value)) {
-                if (node.IsConstant) {
+            foreach (var node in graph.Nodes.Select(x => x.Value))
+            {
+                if (node.IsConstant)
+                {
                     node.Types = node.uris.ToList();
                     node.ParentTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.Types).Query()
-                        .SelectMany(x => x.InstanceOf).ToList();
+                        .SelectMany(x => x.ParentTypes).ToList();
                 }
 
-                //TODO: Can I have this two conditions? IsInstanceOf and GivenType? Why not if..else ?
                 if (node.IsInstanceOf)
                     node.ParentTypes = node.ParentTypes.IntersectIfAny(node.GetInstanceOfValues(graph)).ToList();
             }
@@ -74,7 +62,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetInferredEdgeTypes(this QueryGraph graph)
         {
-            foreach (var edge in graph.Edges.Select(x => x.Value)) {
+            foreach (var edge in graph.Edges.Select(x => x.Value))
+            {
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
 
@@ -87,7 +76,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetInferredNodeTypes(this QueryGraph graph)
         {
-            foreach (var node in graph.Nodes.Select(x => x.Value)) {
+            foreach (var node in graph.Nodes.Select(x => x.Value))
+            {
                 var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
                 var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
 

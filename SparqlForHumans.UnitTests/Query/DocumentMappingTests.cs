@@ -32,7 +32,7 @@ namespace SparqlForHumans.UnitTests.Query
                     "UKN",
                     "North Ireland"
                 },
-                InstanceOf = new List<string>
+                ParentTypes = new List<string>
                 {
                     "Q100"
                 },
@@ -80,8 +80,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal(expected.Label, actual.Label);
 
             //InstanceOf
-            Assert.Equal(expected.InstanceOf.Count, actual.InstanceOf.Count);
-            Assert.Equal(expected.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
+            Assert.Equal(expected.ParentTypes.Count, actual.ParentTypes.Count);
+            Assert.Equal(expected.ParentTypes.FirstOrDefault(), actual.ParentTypes.FirstOrDefault());
 
             //SubClass
             //Assert.Equal(expected.SubClass.Count, actual.SubClass.Count);
@@ -128,7 +128,7 @@ namespace SparqlForHumans.UnitTests.Query
                     "UKN",
                     "North Ireland"
                 },
-                InstanceOf = new List<string>
+                ParentTypes = new List<string>
                 {
                     "Q27",
                     "Q145"
@@ -191,8 +191,8 @@ namespace SparqlForHumans.UnitTests.Query
                 Assert.Equal(expected1.Id, actual.Id);
                 Assert.Equal(expected1.Label, actual.Label);
                 Assert.Equal(expected1.Description, actual.Description);
-                Assert.Equal(expected1.InstanceOf.Count, actual.InstanceOf.Count);
-                Assert.Equal(expected1.InstanceOf.FirstOrDefault(), actual.InstanceOf.FirstOrDefault());
+                Assert.Equal(expected1.ParentTypes.Count, actual.ParentTypes.Count);
+                Assert.Equal(expected1.ParentTypes.FirstOrDefault(), actual.ParentTypes.FirstOrDefault());
                 //Assert.Equal(expected1.SubClass.Count, actual.SubClass.Count);
                 //Assert.Equal(expected1.SubClass.FirstOrDefault(), actual.SubClass.FirstOrDefault());
                 Assert.False(actual.IsType);
