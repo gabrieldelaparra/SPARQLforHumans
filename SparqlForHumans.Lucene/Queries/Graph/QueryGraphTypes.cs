@@ -1,6 +1,8 @@
 ﻿using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Models;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
 {
@@ -12,15 +14,15 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //If IsInstanceOfType (P31 to Type), Get those Types
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
-                if (node.IsGivenType)
+                if (node.IsConstant)
                 {
-                    node.GivenTypes = node.uris.ToList();
-                    node.InstanceOfTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.GivenTypes).Query().SelectMany(x => x.InstanceOf).ToList();
+                    node.Types = node.uris.ToList();
+                    node.ParentTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.Types).Query().SelectMany(x => x.InstanceOf).ToList();
                 }
                 //TODO: Can I have this two conditions? IsInstanceOf and GivenType? Why not if..else ?
-                if (node.IsInstanceOfType)
+                if (node.IsInstanceOf)
                 {
-                    node.InstanceOfTypes = node.InstanceOfTypes.IntersectIfAny(node.GetInstanceOfValues(graph)).ToList();
+                    node.ParentTypes = node.ParentTypes.IntersectIfAny(node.GetInstanceOfValues(graph)).ToList();
                 }
             }
         }
@@ -33,42 +35,36 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var targetNode = edge.GetTargetNode(graph);
 
                 //If the source is given, limit the domain and range to the types of that entity.
-                if (sourceNode.IsGivenType)
+                if (sourceNode.IsConstant)
                 {
-                    edge.DomainTypes = sourceNode.InstanceOfTypes;
+                    edge.DomainTypes = sourceNode.ParentTypes;
                     //edge.DomainDerivedTypes = sourceNode.GivenTypes;
                 }
-                else // !source.IsGivenType
+                // !source.IsGivenType
+                else if (edge.IsGivenType)
                 {
-                    if (edge.IsGivenType)
-                    {
-                        //TODO: if edge.InstanceOf or Other
-                        edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
-                    }
-                    else // !source.IsGivenType && !edge.IsGivenType
-                    {
-                        if (sourceNode.IsInstanceOfType)
-                        {
-                            //TODO: This should be somewhere else:
-                            edge.DomainTypes = sourceNode.InstanceOfTypes;
-                        }
-                        else // !source.IsGivenType && !edge.IsGivenType && !source.IsInstanceOfType
-                        {
-                            //No DomainTypes. We know nothing.
-                        }
-                    }
+                    //TODO: if edge.InstanceOf or Other
+                    edge.DomainTypes = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(edge.uris).ToList();
+                }
+                // !source.IsGivenType && !edge.IsGivenType
+                else if (sourceNode.IsInstanceOf)
+                {
+                    //TODO: This should be somewhere else:
+                    edge.DomainTypes = sourceNode.ParentTypes;
                 }
 
+
+
                 //If the target is given, limit the domain and range to the types of that entity.
-                if (targetNode.IsGivenType)
+                if (targetNode.IsConstant)
                 {
                     if (edge.IsInstanceOf)
                     {
-                        edge.RangeTypes = targetNode.GivenTypes;
+                        edge.RangeTypes = targetNode.Types;
                     }
                     else //!edge.IsInstanceOf
                     {
-                        edge.RangeTypes = targetNode.InstanceOfTypes;
+                        edge.RangeTypes = targetNode.ParentTypes;
                         //edge.RangeDerivedTypes = targetNode.GivenTypes;
                     }
                 }
@@ -80,9 +76,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     }
                     else  // !target.IsGivenType && !edge.IsGivenType
                     {
-                        if (targetNode.IsInstanceOfType)
+                        if (targetNode.IsInstanceOf)
                         {
-                            edge.RangeTypes = targetNode.InstanceOfTypes;
+                            edge.RangeTypes = targetNode.ParentTypes;
                         }
                         else// !target.IsGivenType && !edge.IsGivenType && !target.IsInstanceOfTypes
                         {

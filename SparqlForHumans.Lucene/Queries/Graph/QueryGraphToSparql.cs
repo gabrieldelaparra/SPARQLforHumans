@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.RDF.Extensions;
@@ -19,7 +21,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         private static TriplePatternPredicatePart ToSubject(this ITriplePatternBuilder builder, QueryNode node)
         {
-            return node.IsGivenType ? builder.Subject(new Uri(node.uris.First().ToEntityIri())) : builder.Subject(node.name);
+            return node.IsConstant ? builder.Subject(new Uri(node.uris.First().ToEntityIri())) : builder.Subject(node.name);
         }
 
         private static TriplePatternObjectPart ToPredicate(this TriplePatternPredicatePart subject, QueryEdge edge)
@@ -29,7 +31,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         private static ITriplePatternBuilder ToObject(this TriplePatternObjectPart predicate, QueryNode node)
         {
-            return node.IsGivenType ? predicate.Object(new Uri(node.uris.First().ToEntityIri())) : predicate.Object(node.name);
+            return node.IsConstant ? predicate.Object(new Uri(node.uris.First().ToEntityIri())) : predicate.Object(node.name);
         }
 
         public static IEnumerable<string> GetIds(this SparqlResultSet results)
@@ -117,7 +119,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         .ToObject(node);
                 });
 
-                if (!sourceNode.IsGivenType)
+                if (!sourceNode.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(sourceNode.name)), new ConstantTerm(literal));
@@ -131,7 +133,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     queryBuilder.Filter(expr);
                 }
 
-                if (!node.IsGivenType)
+                if (!node.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));
@@ -155,7 +157,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         .ToObject(targetNode);
                 });
 
-                if (!targetNode.IsGivenType)
+                if (!targetNode.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(targetNode.name)), new ConstantTerm(literal));
@@ -169,7 +171,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     queryBuilder.Filter(expr);
                 }
 
-                if (!node.IsGivenType)
+                if (!node.IsConstant)
                 {
                     var literal = new NodeFactory().CreateLiteralNode($"{Constants.EntityIRI}{Constants.EntityPrefix}");
                     var expr = new StartsWithFunction(new StrFunction(new VariableTerm(node.name)), new ConstantTerm(literal));

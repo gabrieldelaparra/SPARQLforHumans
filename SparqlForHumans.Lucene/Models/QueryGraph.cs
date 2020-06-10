@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using SparqlForHumans.Models.RDFExplorer;
 using Newtonsoft.Json;
+using SparqlForHumans.Lucene.Queries.Graph;
+using SparqlForHumans.Models.RDFExplorer;
 
-namespace SparqlForHumans.Lucene.Queries.Graph
+namespace SparqlForHumans.Lucene.Models
 {
     public class QueryGraph
     {

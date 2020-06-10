@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Lucene.Queries.Graph;
+﻿using SparqlForHumans.Lucene.Models;
+using SparqlForHumans.Lucene.Queries.Graph;
 
 namespace SparqlForHumans.Benchmark.Models {
     public abstract class QueryRunner

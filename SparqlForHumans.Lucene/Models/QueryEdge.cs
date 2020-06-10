@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Queries.Graph
+namespace SparqlForHumans.Lucene.Models
 {
     public class QueryEdge : Edge
     {
@@ -21,7 +23,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         }
         [JsonIgnore]
         public List<Property> Results { get; set; } = new List<Property>();
-        public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
+        public Dictionary<string, Result> Values => Results.ToDictionary();
         [JsonIgnore]
         public bool IsInstanceOf => this.HasInstanceOf();
         [JsonIgnore]

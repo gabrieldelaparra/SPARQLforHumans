@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using SparqlForHumans.Benchmark.Models;
 using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Utilities;
 

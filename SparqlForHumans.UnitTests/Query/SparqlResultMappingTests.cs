@@ -1,4 +1,5 @@
-﻿using SparqlForHumans.Lucene.Queries.Graph;
+﻿using SparqlForHumans.Lucene.Models;
+using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Wikidata.Services;
 using Xunit;

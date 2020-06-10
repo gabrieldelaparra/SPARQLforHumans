@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
 using Xunit;

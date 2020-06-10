@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.RDFExplorer;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Queries.Graph
+namespace SparqlForHumans.Lucene.Models
 {
     public class QueryNode : Node
     {
@@ -20,20 +22,20 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         [JsonIgnore]
         public List<Entity> Results { get; set; } = new List<Entity>();
         [JsonIgnore]
-        public List<string> GivenTypes { get; set; } = new List<string>();
+        public List<string> Types { get; set; } = new List<string>();
         [JsonIgnore]
-        public List<string> InstanceOfTypes { get; set; } = new List<string>();
+        public List<string> ParentTypes { get; set; } = new List<string>();
         [JsonIgnore]
         public List<string> InferredTypes { get; set; } = new List<string>();
-        public Dictionary<string, QueryGraphExtensions.Result> Values => Results.ToDictionary();
+        public Dictionary<string, Result> Values => Results.ToDictionary();
         [JsonIgnore]
-        public bool IsGivenType { get; set; }
+        public bool IsConstant { get; set; }
+        //[JsonIgnore]
+        //public bool IsGoingToGivenType { get; set; } = false;
+        //[JsonIgnore]
+        //public bool IsComingFromGivenType { get; set; } = false;
         [JsonIgnore]
-        public bool IsGoingToGivenType { get; set; } = false;
-        [JsonIgnore]
-        public bool IsComingFromGivenType { get; set; } = false;
-        [JsonIgnore]
-        public bool IsInstanceOfType { get; set; } = false;
+        public bool IsInstanceOf { get; set; } = false;
         [JsonIgnore]
         public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;
         [JsonIgnore]

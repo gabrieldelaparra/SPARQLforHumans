@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Models.RDFExplorer;
 
 namespace SparqlForHumans.Server.Controllers

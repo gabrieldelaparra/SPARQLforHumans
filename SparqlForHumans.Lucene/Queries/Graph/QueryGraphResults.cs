@@ -3,6 +3,8 @@ using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SparqlForHumans.Lucene.Extensions;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Wikidata.Services;
@@ -95,10 +97,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //The other complex queries. Try endpoint first, if timeout, try with the index.
                 //If the user has a timeout, is because his query is still too broad.
                 //Some suggestions will be proposed with the local index, until the query can be completed by the endpoint.
-                if (node.IsInstanceOfType)
+                if (node.IsInstanceOf)
                 {
                     //Intersect (Not if any, we want only the results of that instance, even if there are none):
-                    var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfTypes, 200).Query(20);
+                    var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 200).Query(20);
                     node.Results = instanceOfResults;
                     //TODO: Not sure if the previous run should consider this:
                     //node.Results = node.Results.Intersect(instanceOfResults).ToList();
@@ -156,12 +158,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
                 var possibleProperties = new List<string>();
 
-                if (sourceNode.IsGivenType || targetNode.IsGivenType)
+                if (sourceNode.IsConstant || targetNode.IsConstant)
                 {
-                    var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, sourceNode.GivenTypes)
+                    var sourceGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, sourceNode.Types)
                         .Query().SelectMany(x => x.Properties).Select(x => x.Id);
 
-                    var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, targetNode.GivenTypes)
+                    var targetGivenPropertiesIds = new BatchIdEntityQuery(graph.EntitiesIndexPath, targetNode.Types)
                         .Query().SelectMany(x => x.ReverseProperties).Select(x => x.Id);
 
                     possibleProperties = possibleProperties.IntersectIfAny(sourceGivenPropertiesIds)
@@ -169,11 +171,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else
                 {
-                    if (sourceNode.IsInstanceOfType || targetNode.IsInstanceOfType)
+                    if (sourceNode.IsInstanceOf || targetNode.IsInstanceOf)
                     {
                         //TODO: Why not use the source.InstanceOfTypes here:
-                        var instanceOfSourceProperties = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(sourceNode.InstanceOfTypes);
-                        var instanceOfTargetProperties = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(targetNode.InstanceOfTypes);
+                        var instanceOfSourceProperties = InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(sourceNode.ParentTypes);
+                        var instanceOfTargetProperties = InMemoryQueryEngine.BatchEntityIdIncomingPropertiesQuery(targetNode.ParentTypes);
                         possibleProperties = possibleProperties.IntersectIfAny(instanceOfSourceProperties)
                             .IntersectIfAny(instanceOfTargetProperties).ToList();
                     }
@@ -231,7 +233,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             foreach (var node in graph.Nodes.Select(x => x.Value))
             {
                 //Given Type, Do not Query
-                if (node.IsGivenType)
+                if (node.IsConstant)
                 {
                     node.AvoidQuery = true;
                     node.Results = new List<Entity>();
@@ -257,10 +259,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //Just instance of, search only for that.
                 if (!node.HasIncomingEdges(graph) 
                     && node.GetOutgoingEdges(graph).Count().Equals(1) 
-                    && node.IsInstanceOfType)
+                    && node.IsInstanceOf)
                 {
                     node.AvoidQuery = true;
-                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.InstanceOfTypes, 100).Query();
+                    node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 100).Query();
                 }
             }
 

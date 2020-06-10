@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.Wikidata;
 using SparqlForHumans.Utilities;
 
-namespace SparqlForHumans.Lucene.Queries.Graph
+namespace SparqlForHumans.Lucene.Extensions
 {
-    public static partial class QueryGraphExtensions
+    public static class QueryGraphExtensions
     {
         /// <summary>
         /// Given an Edge, checks if the Edge.uris has any value ending with "P31" (InstanceOf)
