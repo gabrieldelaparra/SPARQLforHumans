@@ -172,9 +172,10 @@ namespace SparqlForHumans.Lucene.Index
                 {
                     DomainDictionary.AddSafe(propertyId, types);
                 }
-                LogMessage(readCount++, "Range", false);
+                LogMessage(readCount++, "Domain and Range", false);
             }
-
+            LogMessage(readCount, "Domain and Range");
+            readCount = 0;
             ////RANGE:
             //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
             //    var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId())
