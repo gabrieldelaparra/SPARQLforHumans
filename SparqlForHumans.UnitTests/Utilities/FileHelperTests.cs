@@ -19,7 +19,7 @@ namespace SparqlForHumans.UnitTests.Utilities
         [Fact]
         public void TestGetFilenameType()
         {
-            Assert.Equal(FileHelper.FileType.Unkwown, FileHelper.GetFilenameType("Resources/IndexSingle/segments.gen"));
+            Assert.Equal(FileHelper.FileType.Unknown, FileHelper.GetFilenameType("Resources/IndexSingle/segments.gen"));
             Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/ReadFileEmpty.nt"));
             Assert.Equal(FileHelper.FileType.nTriples, FileHelper.GetFilenameType("Resources/ReadFileEmpty.nt.gz"));
             Assert.Equal(FileHelper.FileType.gZip, FileHelper.GetFilenameType("Resources/ReadFileTenLines.nt.gz"));

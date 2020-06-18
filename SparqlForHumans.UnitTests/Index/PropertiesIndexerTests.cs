@@ -4,7 +4,7 @@ using Lucene.Net.Index;
 using Lucene.Net.Store;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
-using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
 using Xunit;

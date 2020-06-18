@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Models;
+using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;

@@ -5,15 +5,15 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Queries.Fields
 {
-    public class IntersectEntityPropertiesQuery
+    public class IntersectEntityReversePropertiesQuery
     {
-        private BatchIdEntityPropertiesQuery queryHandler;
+        private BatchIdEntityReversePropertiesQuery queryHandler;
         private string luceneIndexPath;
         private IEnumerable<string> searchStrings;
         private int lotResultsLimit;
 
-        public IntersectEntityPropertiesQuery(string luceneIndexPath, IEnumerable<string> searchStrings,
-                                              int lotResultsLimit = 100)
+        public IntersectEntityReversePropertiesQuery(string luceneIndexPath, IEnumerable<string> searchStrings,
+                                                     int lotResultsLimit = 100)
         {
             this.luceneIndexPath = luceneIndexPath;
             this.searchStrings = searchStrings;
@@ -24,7 +24,8 @@ namespace SparqlForHumans.Lucene.Queries.Fields
         {
             var results = new List<Entity>();
             foreach (var searchString in searchStrings) {
-                queryHandler = new BatchIdEntityPropertiesQuery(luceneIndexPath, new[] {searchString}, lotResultsLimit);
+                queryHandler =
+                    new BatchIdEntityReversePropertiesQuery(luceneIndexPath, new[] {searchString}, lotResultsLimit);
                 var queryResults = queryHandler.Query();
                 results = results.IntersectIfAny(queryResults).ToList();
             }

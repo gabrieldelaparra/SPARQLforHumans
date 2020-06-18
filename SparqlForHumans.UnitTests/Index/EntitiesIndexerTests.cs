@@ -9,6 +9,7 @@ using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using System.Linq;
 using SparqlForHumans.Lucene;
+using SparqlForHumans.Lucene.Queries.Fields;
 using Xunit;
 using Directory = System.IO.Directory;
 

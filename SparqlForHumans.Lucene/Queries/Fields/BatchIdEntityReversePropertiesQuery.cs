@@ -7,10 +7,10 @@ using SparqlForHumans.Models;
 
 namespace SparqlForHumans.Lucene.Queries.Fields
 {
-    public class BatchIdEntityPropertiesQuery : BaseEntityQuery
+    public class BatchIdEntityReversePropertiesQuery : BaseEntityQuery
     {
-        public BatchIdEntityPropertiesQuery(string luceneIndexPath, IEnumerable<string> searchStrings,
-                                            int resultsLimit = 20) : base(luceneIndexPath, searchStrings,
+        public BatchIdEntityReversePropertiesQuery(string luceneIndexPath, IEnumerable<string> searchStrings,
+                                                   int resultsLimit = 20) : base(luceneIndexPath, searchStrings,
             resultsLimit) { }
 
         internal override IQueryParser QueryParser => new EntityPropertiesQueryParser();

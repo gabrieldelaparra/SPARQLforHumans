@@ -6,15 +6,9 @@ namespace SparqlForHumans.Utilities
     {
         public static void DeleteIfExists(this string path, bool additionalCondition = true)
         {
-            if (Directory.Exists(path) && additionalCondition)
-            {
-                Directory.Delete(path, true);
-            }
+            if (Directory.Exists(path) && additionalCondition) Directory.Delete(path, true);
 
-            if (File.Exists(path) && additionalCondition)
-            {
-                File.Delete(path);
-            }
+            if (File.Exists(path) && additionalCondition) File.Delete(path);
         }
     }
 }

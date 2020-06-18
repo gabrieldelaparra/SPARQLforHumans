@@ -14,6 +14,7 @@ using NaturalSort.Extension;
 using NLog;
 using NLog.Targets;
 using SparqlForHumans.Logger;
+using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.RDF.FilterReorderSort;
 using SparqlForHumans.RDF.Reordering;

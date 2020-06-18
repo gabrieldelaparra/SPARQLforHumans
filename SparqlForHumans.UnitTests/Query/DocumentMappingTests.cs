@@ -4,6 +4,7 @@ using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.Lucene.Queries.Fields;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query

@@ -2,6 +2,7 @@
 using System.Linq;
 using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Queries;
+using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Models;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.Utilities;
