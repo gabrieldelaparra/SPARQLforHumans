@@ -46,7 +46,7 @@ namespace SparqlForHumans.Lucene.Index
         private Dictionary<int, HashSet<int>> RangeDictionary { get; } = new Dictionary<int, HashSet<int>>();
         public IEnumerable<DoubleField> FrequencyGetField(SubjectGroup subjectGroup)
         {
-            var subjectId = subjectGroup.Id.ToNumbers();
+            var subjectId = subjectGroup.Id.ToInt();
             return FrequencyHashTable.ContainsKey(subjectId)
                 ? new List<DoubleField> { new DoubleField(Labels.Rank.ToString(), (int)FrequencyHashTable[subjectId], Field.Store.YES) }
                 : new List<DoubleField>();
@@ -54,7 +54,7 @@ namespace SparqlForHumans.Lucene.Index
 
         public IEnumerable<StringField> RangeGetField(SubjectGroup subjectGroup)
         {
-            var id = subjectGroup.Id.ToNumbers();
+            var id = subjectGroup.Id.ToInt();
             return RangeDictionary.ContainsKey(id)
                 ? RangeDictionary[id].Select(x => new StringField(Labels.Range.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
@@ -62,7 +62,7 @@ namespace SparqlForHumans.Lucene.Index
 
         public IEnumerable<StringField> DomainGetField(SubjectGroup subjectGroup)
         {
-            var id = subjectGroup.Id.ToNumbers();
+            var id = subjectGroup.Id.ToInt();
             return DomainDictionary.ContainsKey(id)
                 ? DomainDictionary[id].Select(x => new StringField(Labels.DomainType.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
@@ -80,47 +80,47 @@ namespace SparqlForHumans.Lucene.Index
 
             //First Pass:
             //FREQUENCY
-            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
-            {
-                var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty());
+            //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
+            //{
+            //    var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty()).ToArray();
 
-                foreach (var triple in directProperties)
-                {
-                    var propertyIntId = triple.Predicate.GetIntId();
+            //    foreach (var triple in directProperties)
+            //    {
+            //        var propertyIntId = triple.Predicate.GetIntId();
 
-                    if (!FrequencyHashTable.ContainsKey(propertyIntId))
-                        FrequencyHashTable.Add(propertyIntId, 0);
+            //        if (!FrequencyHashTable.ContainsKey(propertyIntId))
+            //            FrequencyHashTable.Add(propertyIntId, 0);
 
-                    FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
-                }
-                LogMessage(readCount++, "Frequency", false);
-            }
-            LogMessage(readCount, "Frequency");
-            readCount = 0;
+            //        FrequencyHashTable[propertyIntId] = ((int)FrequencyHashTable[propertyIntId]) + 1;
+            //    }
+            //    LogMessage(readCount++, "Frequency", false);
+            //}
+            //LogMessage(readCount, "Frequency");
+            //readCount = 0;
 
             //DOMAIN:
-            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
-            {
-                var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty());
-                var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
-                var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId());
-                var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
-                DomainDictionary.AddSafe(31, instanceOfIds);
-                foreach (var propertyId in propertyIds)
-                    DomainDictionary.AddSafe(propertyId, instanceOfIds);
+            //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
+            //{
+            //    var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty()).ToArray();
+            //    var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
+            //    var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId()).ToArray();
+            //    var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
+            //    DomainDictionary.AddSafe(31, instanceOfIds);
+            //    foreach (var propertyId in propertyIds)
+            //        DomainDictionary.AddSafe(propertyId, instanceOfIds);
 
-                LogMessage(readCount++, "Domain", false);
-            }
-            LogMessage(readCount, "Domain");
-            readCount = 0;
+            //    LogMessage(readCount++, "Domain", false);
+            //}
+            //LogMessage(readCount, "Domain");
+            //readCount = 0;
 
             //RANGE:
             foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ()))
             {
-                var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId());
-                var reverseProperties = subjectGroup.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf());
+                var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId()).ToArray();
+                var reverseProperties = subjectGroup.Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf()).ToArray();
                 var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-                var reverseInstanceOf = subjectGroup.Where(x => x.Predicate.IsReverseInstanceOf());
+                var reverseInstanceOf = subjectGroup.Where(x => x.Predicate.IsReverseInstanceOf()).ToArray();
 
                 if (reverseInstanceOf.Any())
                     RangeDictionary.AddSafe(31, instanceOfIds);

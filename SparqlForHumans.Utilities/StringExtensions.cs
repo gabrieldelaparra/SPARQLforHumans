@@ -6,28 +6,28 @@ namespace SparqlForHumans.Utilities
 {
     public static class StringExtensions
     {
-        public static int ToNumbers(this string input)
-        {
-            var index = Regex.Replace(input, "\\D", string.Empty);
-            return string.IsNullOrWhiteSpace(index) ? 0 : int.Parse(index);
-        }
+        private static readonly Regex ToIntRegex = new Regex("[^0-9+-.,]", RegexOptions.Compiled);
+        private static readonly Regex ToDoubleRegex = new Regex("[^0-9+-.,eE]", RegexOptions.Compiled);
+        private static readonly Regex ToSingleLineRegex = new Regex(@"[\r\n]+", RegexOptions.Compiled);
+        private const string Space = " ";
 
         public static int ToInt(this string input)
         {
-            var index = Regex.Replace(input, "[^0-9+-.,]", string.Empty);
-            return string.IsNullOrWhiteSpace(index) ? 0 : int.Parse(index);
+            var value = ToIntRegex.Replace(input, string.Empty);
+            return string.IsNullOrWhiteSpace(value) ? 0 : int.Parse(value);
         }
 
         public static double ToDouble(this string input)
         {
-            var index = Regex.Replace(input, "[^0-9+-.,eE]", string.Empty);
-            return string.IsNullOrWhiteSpace(index) ? 0 : double.Parse(index);
+            var value = ToDoubleRegex.Replace(input, string.Empty);
+            return string.IsNullOrWhiteSpace(value) ? 0 : double.Parse(value);
         }
 
         public static bool ToBool(this string input)
         {
             return !string.IsNullOrWhiteSpace(input) && bool.Parse(input);
         }
+
         public static string GetUriIdentifier(this string input)
         {
             var split = input.Split('/');
@@ -36,7 +36,7 @@ namespace SparqlForHumans.Utilities
 
         public static string ToSingleLine(this string text)
         {
-            return text.Replace(Environment.NewLine, " ").Replace(@"\r", " ").Replace(@"\n", " ");
+            return ToSingleLineRegex.Replace(text, Space);
         }
     }
 }

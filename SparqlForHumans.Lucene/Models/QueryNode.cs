@@ -35,7 +35,7 @@ namespace SparqlForHumans.Lucene.Models
 
         [JsonIgnore] public List<Entity> Results { get; set; } = new List<Entity>();
 
-        [JsonIgnore] public bool Traversed { get; set; } = false;
+        //[JsonIgnore] public bool Traversed { get; set; } = false;
 
         [JsonIgnore] public List<string> Types { get; set; } = new List<string>();
 

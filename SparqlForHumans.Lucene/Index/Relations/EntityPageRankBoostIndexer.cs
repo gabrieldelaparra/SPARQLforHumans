@@ -30,7 +30,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
         public IEnumerable<DoubleField> GetField(SubjectGroup subjectGroup)
         {
-            var subjectId = subjectGroup.Id.ToNumbers();
+            var subjectId = subjectGroup.Id.ToInt();
             return RelationIndex.ContainsKey(subjectId)
                 ? new List<DoubleField> { new DoubleField(FieldName, RelationIndex[subjectId], Field.Store.YES) }
                 : new List<DoubleField>();

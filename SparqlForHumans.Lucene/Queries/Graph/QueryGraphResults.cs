@@ -23,7 +23,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //TODO: I think that I can move this somewhere in the future. (Performance improvement)
             graph.SetTypesDomainsAndRanges();
 
-            graph.ResetTraverse();
+            //graph.ResetTraverse();
             CheckAvoidQueries(graph);
 
             var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
@@ -55,8 +55,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var edges = graph.Edges.Select(x => x.Value);
 
             if (!resultsSet.IsEmpty) {
-                foreach (var node in nodes.Where(x => x.Traversed))
-                    node.Results = new List<Entity>();
+                //foreach (var node in nodes.Where(x => x.Traversed))
+                //    node.Results = new List<Entity>();
                 foreach (var edge in edges.Where(x => x.Traversed))
                     edge.Results = new List<Property>();
             }
@@ -135,7 +135,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else {
                     if (sourceNode.IsInstanceOf || targetNode.IsInstanceOf) {
-                        //TODO: Why not use the source.InstanceOfTypes here:
+
                         var instanceOfSourceProperties =
                             InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(sourceNode.ParentTypes);
                         var instanceOfTargetProperties =
@@ -249,7 +249,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var tasks = new List<Task<SparqlResultSet>>();
 
             foreach (var node in graph.Nodes.Select(x => x.Value)) {
-                if (node.Traversed) continue;
+                //if (node.Traversed) continue;
                 var query = node.ToSparql(graph, limit).ToString().FixQuery();
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }

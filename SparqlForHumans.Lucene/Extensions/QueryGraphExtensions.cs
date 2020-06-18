@@ -99,8 +99,6 @@ namespace SparqlForHumans.Lucene.Extensions
                 .Any(x => x.IsConstant || x.DomainTypes.Any() || x.RangeTypes.Any())) return true;
             if (node.GetOutgoingEdges(graph)
                 .Any(x => x.IsConstant || x.DomainTypes.Any() || x.RangeTypes.Any())) return true;
-            //if (node.GetIncomingEdges(graph).Any(x => x.IsGivenType || x.DomainTypes.Any() || x.RangeTypes.Any() || x.DomainDerivedTypes.Any() || x.RangeDerivedTypes.Any())) return true;
-            //if (node.GetOutgoingEdges(graph).Any(x => x.IsGivenType || x.DomainTypes.Any() || x.RangeTypes.Any() || x.DomainDerivedTypes.Any() || x.RangeDerivedTypes.Any() )) return true;
             return false;
         }
 

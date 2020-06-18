@@ -81,7 +81,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
                 var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
 
-                //TODO: Not sure if I should do this
                 foreach (var incomingEdge in incomingEdges)
                     node.InferredTypes = node.InferredTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
                 foreach (var outgoingEdge in outgoingEdges)

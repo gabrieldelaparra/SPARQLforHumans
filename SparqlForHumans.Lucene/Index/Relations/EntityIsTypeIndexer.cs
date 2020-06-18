@@ -35,7 +35,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
         public IEnumerable<StringField> GetField(SubjectGroup subjectGroup)
         {
-            return RelationIndex.Contains(subjectGroup.Id.ToNumbers())
+            return RelationIndex.Contains(subjectGroup.Id.ToInt())
                 ? new List<StringField> { new StringField(FieldName, true.ToString(), Field.Store.YES) }
                 : new List<StringField>();
         }
