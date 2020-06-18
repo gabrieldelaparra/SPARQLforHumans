@@ -10,7 +10,7 @@ namespace SparqlForHumans.Lucene.Queries
         public MultiDomainPropertyQuery(string luceneIndexPath, string searchString) : base(luceneIndexPath, searchString, 20) { }
 
         internal override IQueryParser QueryParser => new DomainQueryParser();
-        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(Regex.Replace(inputString, @"[\D]", string.Empty));
-        internal override string PrepareSearchTerm(string inputString) => Regex.Replace(inputString.GetUriIdentifier(), @"[\D]", string.Empty);
+        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString.ToDigitsOnly());
+        internal override string PrepareSearchTerm(string inputString) => inputString.GetUriIdentifier().ToDigitsOnly();
     }
 }
