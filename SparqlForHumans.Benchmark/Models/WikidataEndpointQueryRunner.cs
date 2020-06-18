@@ -12,7 +12,7 @@ namespace SparqlForHumans.Benchmark.Models {
     {
         public WikidataEndpointQueryRunner(QueryGraph graph)
         {
-            graph.ResetTraverse();
+            //graph.ResetTraverse();
             QueryGraph = graph;
         }
 

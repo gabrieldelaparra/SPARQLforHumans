@@ -9,7 +9,7 @@ namespace SparqlForHumans.Benchmark.Models
     {
         public LocalQueryRunner(QueryGraph graph)
         {
-            graph.ResetTraverse();
+            //graph.ResetTraverse();
             QueryGraph = graph;
         }
 
