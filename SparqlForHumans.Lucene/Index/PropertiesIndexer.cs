@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
-using Lucene.Net.Search;
 using Lucene.Net.Store;
 using SparqlForHumans.Logger;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index.Base;
 using SparqlForHumans.Lucene.Index.Fields;
-using SparqlForHumans.Lucene.Queries.Parsers;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
@@ -147,9 +145,9 @@ namespace SparqlForHumans.Lucene.Index
 
         public IEnumerable<StringField> DomainGetField(SubjectGroup subjectGroup)
         {
-            var id = subjectGroup.Id.ToInt();
-            return DomainDictionary.ContainsKey(id)
-                ? DomainDictionary[id].Select(x =>
+            var subjectId = subjectGroup.Id.ToInt();
+            return DomainDictionary.ContainsKey(subjectId)
+                ? DomainDictionary[subjectId].Select(x =>
                     new StringField(Labels.DomainType.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
@@ -165,9 +163,9 @@ namespace SparqlForHumans.Lucene.Index
 
         public IEnumerable<StringField> RangeGetField(SubjectGroup subjectGroup)
         {
-            var id = subjectGroup.Id.ToInt();
-            return RangeDictionary.ContainsKey(id)
-                ? RangeDictionary[id]
+            var subjectId = subjectGroup.Id.ToInt();
+            return RangeDictionary.ContainsKey(subjectId)
+                ? RangeDictionary[subjectId]
                     .Select(x => new StringField(Labels.Range.ToString(), x.ToString(), Field.Store.YES))
                 : new List<StringField>();
         }
