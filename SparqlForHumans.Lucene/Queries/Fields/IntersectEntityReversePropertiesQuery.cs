@@ -23,9 +23,10 @@
 //        public List<Entity> Query(int totalResultsLimit = 100)
 //        {
 //            var results = new List<Entity>();
-//            foreach (var searchString in searchStrings) {
+//            foreach (var searchString in searchStrings)
+//            {
 //                queryHandler =
-//                    new BatchIdEntityReversePropertiesQuery(luceneIndexPath, new[] {searchString}, lotResultsLimit);
+//                    new BatchIdEntityReversePropertiesQuery(luceneIndexPath, new[] { searchString }, lotResultsLimit);
 //                var queryResults = queryHandler.Query();
 //                results = results.IntersectIfAny(queryResults).ToList();
 //            }
