@@ -14,8 +14,7 @@ namespace SparqlForHumans.Lucene.Queries.Parsers
         {
             QueryParser parser = new MultiFieldQueryParser(
                 LuceneIndexDefaults.IndexVersion,
-                new[]
-                {
+                new[] {
                     Labels.Label.ToString(),
                     Labels.AltLabel.ToString()
                 },

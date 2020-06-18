@@ -4,9 +4,9 @@ using SparqlForHumans.Models.LuceneIndex;
 
 namespace SparqlForHumans.Lucene.Queries.Parsers
 {
-    public class EntityPropertiesQueryParser : BaseSingleFieldQueryParser<KeywordAnalyzer>
+    public class EntityReversePropertiesQueryParser : BaseSingleFieldQueryParser<KeywordAnalyzer>
     {
         public override KeywordAnalyzer Analyzer => new KeywordAnalyzer();
-        public override Labels FieldLabel => Labels.Property;
+        public override Labels FieldLabel => Labels.ReverseProperty;
     }
 }

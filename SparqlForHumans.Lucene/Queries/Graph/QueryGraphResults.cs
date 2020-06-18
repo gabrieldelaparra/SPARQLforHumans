@@ -24,13 +24,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             //TODO: I think that I can move this somewhere in the future. (Performance improvement)
             graph.SetTypesDomainsAndRanges();
 
-            //graph.ResetTraverse();
             CheckAvoidQueries(graph);
 
             var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
 
-            if (runNodeQueries)
-                RunNodeQueries(graph);
+            if (runNodeQueries) RunNodeQueries(graph);
 
             RunEdgeQueries(graph);
 
@@ -56,10 +54,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var edges = graph.Edges.Select(x => x.Value);
 
             if (!resultsSet.IsEmpty) {
-                //foreach (var node in nodes.Where(x => x.Traversed))
-                //    node.Results = new List<Entity>();
-                foreach (var edge in edges.Where(x => x.Traversed))
+                foreach (var edge in edges.Where(x => x.Traversed)) {
                     edge.Results = new List<Property>();
+                }
             }
 
             var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x => x.Key);
@@ -70,6 +67,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
                 if (node != null)
                     node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(10000);
+
                 var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
                 if (edge != null)
                     edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(10000);
@@ -93,9 +91,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     var randomEntities = Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
                     node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
                     //TODO: Temporary, for not getting empty results if there were none.
-                    if (node.Results.Count < 20)
+                    if (node.Results.Count < 20) {
                         node.Results = node.Results
                             .IntersectIfAny(new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query()).ToList();
+                    }
                 }
 
                 //CASE: AVOID ENDPOINT QUERY, IS KNOWN TO TIMEOUT
@@ -109,11 +108,12 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
             }
 
-            foreach (var edge in graph.Edges.Select(x => x.Value))
+            foreach (var edge in graph.Edges.Select(x => x.Value)) {
                 if (edge.IsConstant) {
                     edge.AvoidQuery = true;
                     edge.Results = new List<Property>();
                 }
+            }
         }
 
         private void RunEdgeQueries(QueryGraph graph)
@@ -136,7 +136,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
                 else {
                     if (sourceNode.IsInstanceOf || targetNode.IsInstanceOf) {
-
                         var instanceOfSourceProperties =
                             InMemoryQueryEngine.BatchEntityIdOutgoingPropertiesQuery(sourceNode.ParentTypes);
                         var instanceOfTargetProperties =
@@ -195,6 +194,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //The other complex queries. Try endpoint first, if timeout, try with the index.
                 //If the user has a timeout, is because his query is still too broad.
                 //Some suggestions will be proposed with the local index, until the query can be completed by the endpoint.
+            {
                 if (node.IsInstanceOf) {
                     //Intersect (Not if any, we want only the results of that instance, even if there are none):
                     var instanceOfResults =
@@ -210,16 +210,18 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     //Outgoing edges candidates, take their domain
                     var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf);
                     var domainTypes = new List<string>();
-                    foreach (var outgoingEdge in outgoingEdges)
+                    foreach (var outgoingEdge in outgoingEdges) {
                         domainTypes = domainTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
+                    }
 
                     intersectTypes = intersectTypes.IntersectIfAny(domainTypes).ToList();
 
                     //Incoming edges candidates, take their range.
                     var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf);
                     var rangeTypes = new List<string>();
-                    foreach (var incomingEdge in incomingEdges)
+                    foreach (var incomingEdge in incomingEdges) {
                         rangeTypes = rangeTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
+                    }
 
                     intersectTypes = intersectTypes.IntersectIfAny(rangeTypes).ToList();
 
@@ -237,12 +239,14 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                             Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
                         node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
                         //TODO: Temporary, for not getting empty results if there were none.
-                        if (node.Results.Count < 20)
+                        if (node.Results.Count < 20) {
                             node.Results = node.Results
                                 .IntersectIfAny(new MultiLabelEntityQuery(graph.EntitiesIndexPath, "*").Query())
                                 .ToList();
+                        }
                     }
                 }
+            }
         }
 
         private List<Task<SparqlResultSet>> RunWikidataEndpointQueries(QueryGraph graph, int limit = 100)

@@ -31,10 +31,10 @@ namespace SparqlForHumans.Utilities
             if (!dictionary.ContainsKey(key))
                 dictionary.Add(key, new HashSet<T2>());
 
-            foreach (var value in values)
+            foreach (var value in values) {
                 dictionary[key].Add(value);
+            }
         }
-
 
         public static IDictionary<T2, List<T1>> InvertDictionary<T1, T2>(this IDictionary<T1, List<T2>> dictionary)
         {

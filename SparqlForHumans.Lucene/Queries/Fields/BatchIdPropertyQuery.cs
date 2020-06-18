@@ -14,12 +14,15 @@ namespace SparqlForHumans.Lucene.Queries.Fields
 
         internal override IQueryParser QueryParser => new IdQueryParser();
 
-        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
-
         public override List<Property> Query(int totalResultsLimit = 100)
         {
             return GetDocuments().ToProperties().Distinct().OrderByDescending(x => x.Rank).Take(totalResultsLimit)
                 .ToList();
+        }
+
+        internal override bool IsInvalidSearchString(string inputString)
+        {
+            return string.IsNullOrEmpty(inputString);
         }
     }
 }

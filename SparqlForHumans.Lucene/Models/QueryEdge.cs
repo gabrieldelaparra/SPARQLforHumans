@@ -20,24 +20,12 @@ namespace SparqlForHumans.Lucene.Models
         }
 
         [JsonIgnore] public bool AvoidQuery { get; set; }
-
         [JsonIgnore] public List<string> DomainTypes { get; set; } = new List<string>();
-
         [JsonIgnore] public bool IsConstant { get; set; }
-
         [JsonIgnore] public bool IsInstanceOf => this.HasInstanceOf();
-
         [JsonIgnore] public List<string> RangeTypes { get; set; } = new List<string>();
-
         [JsonIgnore] public List<Property> Results { get; set; } = new List<Property>();
-
         [JsonIgnore] public bool Traversed { get; set; } = false;
-
         public Dictionary<string, Result> Values => Results.ToDictionary();
-
-        public override string ToString()
-        {
-            return base.ToString();
-        }
     }
 }

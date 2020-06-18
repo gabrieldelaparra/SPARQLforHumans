@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.RDF.Extensions;
-using SparqlForHumans.RDF.Models;
-using SparqlForHumans.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SparqlForHumans.RDF.Extensions;
+using SparqlForHumans.RDF.Models;
+using SparqlForHumans.Utilities;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Relations
@@ -13,6 +13,38 @@ namespace SparqlForHumans.Lucene.Index.Relations
         private const double PageRankAlpha = 0.85d;
         private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
         public static int NotifyTicks { get; } = 100000;
+
+        /// <summary>
+        ///     Reads the triples file (Order n)
+        ///     Creates a Dictionary(string Q-entity, entityIndexInFile)
+        ///     Foreach group in the file, adds the (Q-id and the position in the file).
+        /// </summary>
+        /// <param name="triplesFilename"></param>
+        /// <returns></returns>
+        public static Dictionary<int, int> BuildNodesDictionary(string triplesFilename)
+        {
+            var lines = FileHelper.GetInputLines(triplesFilename);
+            var groups = lines.GroupBySubject();
+
+            return BuildNodesDictionary(groups);
+        }
+
+        public static Dictionary<int, int> BuildNodesDictionary(IEnumerable<SubjectGroup> groups)
+        {
+            var nodeIndex = 0;
+            var dictionary = new Dictionary<int, int>();
+
+            foreach (var group in groups.Where(x => x.IsEntityQ())) {
+                if (nodeIndex % NotifyTicks == 0) Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
+
+                dictionary.Add(group.IntId, nodeIndex);
+                nodeIndex++;
+            }
+
+            Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
+
+            return dictionary;
+        }
 
         /// <summary>
         ///     Read file x2
@@ -42,48 +74,11 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             var nodesGraphRanks = CalculateRanks(nodesGraphArray, 20);
 
-            foreach (var node in nodesDictionary)
-            {
+            foreach (var node in nodesDictionary) {
                 nodesDictionary.TryGetValue(node.Key, out var subjectIndex);
                 var boost = nodesGraphRanks[subjectIndex];
                 dictionary.Add(node.Key, boost);
             }
-
-            return dictionary;
-        }
-
-        /// <summary>
-        ///     Reads the triples file (Order n)
-        ///     Creates a Dictionary(string Q-entity, entityIndexInFile)
-        ///     Foreach group in the file, adds the (Q-id and the position in the file).
-        /// </summary>
-        /// <param name="triplesFilename"></param>
-        /// <returns></returns>
-        public static Dictionary<int, int> BuildNodesDictionary(string triplesFilename)
-        {
-            var lines = FileHelper.GetInputLines(triplesFilename);
-            var groups = lines.GroupBySubject();
-
-            return BuildNodesDictionary(groups);
-        }
-
-        public static Dictionary<int, int> BuildNodesDictionary(IEnumerable<SubjectGroup> groups)
-        {
-            var nodeIndex = 0;
-            var dictionary = new Dictionary<int, int>();
-
-            foreach (var group in groups.Where(x=>x.IsEntityQ()))
-            {
-                if (nodeIndex % NotifyTicks == 0)
-                {
-                    Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
-                }
-
-                dictionary.Add(group.IntId, nodeIndex);
-                nodeIndex++;
-            }
-
-            Logger.Info($"Building Dictionary, Group: {nodeIndex:N0}");
 
             return dictionary;
         }
@@ -118,25 +113,20 @@ namespace SparqlForHumans.Lucene.Index.Relations
         }
 
         public static int[][] BuildSimpleNodesGraph(IEnumerable<SubjectGroup> groups,
-            Dictionary<int, int> nodesDictionary)
+                                                    Dictionary<int, int> nodesDictionary)
         {
             var nodeCount = 0;
             var nodeArray = new int[nodesDictionary.Count][];
 
-            foreach (var group in groups)
-            {
-                if (nodeCount % NotifyTicks == 0)
-                {
-                    Logger.Info($"Building Graph, Group: {nodeCount:N0}");
-                }
+            foreach (var group in groups) {
+                if (nodeCount % NotifyTicks == 0) Logger.Info($"Building Graph, Group: {nodeCount:N0}");
 
                 nodesDictionary.TryGetValue(group.IntId, out var subjectIndex);
 
                 var entityNodeConnections = new HashSet<int>();
 
-                foreach (var triple in group)
-                {
-                    if(triple == null) continue;
+                foreach (var triple in group) {
+                    if (triple == null) continue;
 
                     var (_, ntPredicate, ntObject) = triple.AsTuple();
 
@@ -165,8 +155,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             var oldRanks = CalculateInitialRanks(nodesCount);
 
-            for (var i = 0; i < iterations; i++)
-            {
+            for (var i = 0; i < iterations; i++) {
                 oldRanks = IterateGraph(graphNodes, oldRanks);
                 Logger.Info($"Iteration {i + 1} finished!");
             }
@@ -181,8 +170,7 @@ namespace SparqlForHumans.Lucene.Index.Relations
 
             var initial = 1d / nodesCount;
 
-            for (var i = 0; i < nodesCount; i++)
-            {
+            for (var i = 0; i < nodesCount; i++) {
                 oldRanks[i] = initial;
             }
 
@@ -195,35 +183,27 @@ namespace SparqlForHumans.Lucene.Index.Relations
             var nodesCount = graph.Count;
             var ranks = new double[nodesCount];
 
-            for (var i = 0; i < nodesCount; i++)
-            {
-                if (graph[i].Count > 0)
-                {
+            for (var i = 0; i < nodesCount; i++) {
+                if (graph[i].Count > 0) {
                     var share = oldRanks[i] * PageRankAlpha / graph[i].Count;
-                    foreach (var j in graph[i])
-                    {
+                    foreach (var j in graph[i]) {
                         ranks[j] += share;
                     }
                 }
                 else
-                {
                     noLinkRank += oldRanks[i];
-                }
             }
 
             var shareNoLink = noLinkRank * PageRankAlpha / nodesCount;
             var shareMinusD = (1d - PageRankAlpha) / nodesCount;
             var weakRank = shareNoLink + shareMinusD;
 
-            for (var i = 0; i < nodesCount; i++)
-            {
+            for (var i = 0; i < nodesCount; i++) {
                 ranks[i] += weakRank;
             }
 
             if (Math.Abs(ranks.Sum() - 1) > 0.001)
-            {
                 Logger.Info($"Sum Error: {ranks.Sum()} - 3decimals: {ranks.Sum().ToThreeDecimals()}");
-            }
 
             return ranks;
         }

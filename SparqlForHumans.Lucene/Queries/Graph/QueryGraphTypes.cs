@@ -22,8 +22,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetBaseEdgeDomainRanges(this QueryGraph graph)
         {
-            foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
+            foreach (var edge in graph.Edges.Select(x => x.Value)) {
                 var sourceNode = edge.GetSourceNode(graph);
                 var targetNode = edge.GetTargetNode(graph);
 
@@ -47,10 +46,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
         {
             //If IsGivenType, get those types
             //If IsInstanceOfType (P31 to Type), Get those Types
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
-                if (node.IsConstant)
-                {
+            foreach (var node in graph.Nodes.Select(x => x.Value)) {
+                if (node.IsConstant) {
                     node.Types = node.uris.ToList();
                     node.ParentTypes = new BatchIdEntityQuery(graph.EntitiesIndexPath, node.Types).Query()
                         .SelectMany(x => x.ParentTypes).ToList();
@@ -63,8 +60,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetInferredEdgeTypes(this QueryGraph graph)
         {
-            foreach (var edge in graph.Edges.Select(x => x.Value))
-            {
+            foreach (var edge in graph.Edges.Select(x => x.Value)) {
                 var source = edge.GetSourceNode(graph);
                 var target = edge.GetTargetNode(graph);
 
@@ -77,15 +73,17 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
         internal static void SetInferredNodeTypes(this QueryGraph graph)
         {
-            foreach (var node in graph.Nodes.Select(x => x.Value))
-            {
+            foreach (var node in graph.Nodes.Select(x => x.Value)) {
                 var outgoingEdges = node.GetOutgoingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
                 var incomingEdges = node.GetIncomingEdges(graph).Where(x => !x.IsInstanceOf).ToArray();
 
-                foreach (var incomingEdge in incomingEdges)
+                foreach (var incomingEdge in incomingEdges) {
                     node.InferredTypes = node.InferredTypes.IntersectIfAny(incomingEdge.RangeTypes).ToList();
-                foreach (var outgoingEdge in outgoingEdges)
+                }
+
+                foreach (var outgoingEdge in outgoingEdges) {
                     node.InferredTypes = node.InferredTypes.IntersectIfAny(outgoingEdge.DomainTypes).ToList();
+                }
             }
         }
     }

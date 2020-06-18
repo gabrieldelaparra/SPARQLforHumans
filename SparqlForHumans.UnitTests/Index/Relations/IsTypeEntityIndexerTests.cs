@@ -1,11 +1,11 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Lucene.Index.Relations;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
@@ -17,8 +17,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
         public static void TestGetEntityType()
         {
             //Arrange
-            var lines = new List<string>
-            {
+            var lines = new List<string> {
                 @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> .",
                 @"<http://www.wikidata.org/entity/Q76> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q30461> .",
                 @"<http://www.wikidata.org/entity/Q77> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q5> ."
@@ -57,8 +56,8 @@ namespace SparqlForHumans.UnitTests.Index.Relations
 
             // Act
             var entityTypesDictionary = entityGroups.ToDictionary(
-                key => key.IntId,
-                values => new InstanceOfIndexer().TriplesToValue(values).Select(id => id.ToInt()).ToArray())
+                    key => key.IntId,
+                    values => new InstanceOfIndexer().TriplesToValue(values).Select(id => id.ToInt()).ToArray())
                 .ToArray();
 
             // Assert
@@ -92,8 +91,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
         public void TestGetField()
         {
             //Arrange
-            var lines = new List<string>
-            {
+            var lines = new List<string> {
                 "<http://www.wikidata.org/entity/Q145> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q126> .",
                 "<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q145> ."
             };

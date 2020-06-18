@@ -11,10 +11,14 @@ namespace SparqlForHumans.Lucene.Queries.Fields
 
         internal override IQueryParser QueryParser => new LabelsQueryParser();
 
-        internal override bool IsInvalidSearchString(string inputString) =>
-            string.IsNullOrEmpty(inputString.ToSearchTerm());
+        internal override bool IsInvalidSearchString(string inputString)
+        {
+            return string.IsNullOrEmpty(inputString.ToSearchTerm());
+        }
 
-        internal override string PrepareSearchTerm(string inputString) =>
-            ParserUtilities.PrepareSearchTerm(inputString);
+        internal override string PrepareSearchTerm(string inputString)
+        {
+            return ParserUtilities.PrepareSearchTerm(inputString);
+        }
     }
 }

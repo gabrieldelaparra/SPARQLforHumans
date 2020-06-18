@@ -13,13 +13,10 @@ namespace SparqlForHumans.Lucene.Queries.Graph
     {
         private static bool _isInit;
         private static string _propertiesIndexPath;
-
         private static Dictionary<int, int[]> _typeIdDomainPropertiesDictionary;
         private static Dictionary<int, int[]> _typeIdRangePropertiesDictionary;
-
         private static Dictionary<int, int[]> _propertyIdDomainTypesDictionary;
         private static Dictionary<int, int[]> _propertyIdRangeTypesDictionary;
-
         private static Dictionary<int, int[]> _propertyDomainOutgoingPropertiesIds;
         private static Dictionary<int, int[]> _propertyDomainIncomingPropertiesIds;
         private static Dictionary<int, int[]> _propertyRangeOutgoingPropertiesIds;

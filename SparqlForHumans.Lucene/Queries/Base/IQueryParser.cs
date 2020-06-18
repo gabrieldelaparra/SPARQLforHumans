@@ -7,6 +7,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
     {
         QueryParser GetQueryParser();
     }
+
     public interface IQueryParser<TAnalyzer> : IQueryParser
         where TAnalyzer : Analyzer
     {

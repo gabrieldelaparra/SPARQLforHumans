@@ -7,7 +7,5 @@
         IHasInstanceOf,
         IHasIsType,
         IHasRank<double>,
-        IHasProperties<Property>
-    {
-    }
+        IHasProperties<Property> { }
 }

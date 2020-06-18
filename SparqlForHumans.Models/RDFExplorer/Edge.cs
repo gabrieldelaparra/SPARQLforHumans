@@ -25,14 +25,10 @@ namespace SparqlForHumans.Models.RDFExplorer
         }
 
         public int id { get; set; }
-
         public string name { get; set; }
-
-        public string[] uris { get; set; } = new string[0];
-
         public int sourceId { get; set; }
-
         public int targetId { get; set; }
+        public string[] uris { get; set; } = new string[0];
 
         public override bool Equals(object obj)
         {
@@ -40,17 +36,18 @@ namespace SparqlForHumans.Models.RDFExplorer
             if (y == null) return false;
             if (ReferenceEquals(this, y)) return true;
             if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
-            return this.id.Equals(y.id) && this.sourceId.Equals(y.sourceId) && this.targetId.Equals(y.targetId) && this.uris.SequenceEqual(y.uris);
+            return id.Equals(y.id) && sourceId.Equals(y.sourceId) && targetId.Equals(y.targetId) &&
+                   uris.SequenceEqual(y.uris);
         }
 
         public override int GetHashCode()
         {
-            return this.id.GetHashCode() ^ this.sourceId.GetHashCode() ^ this.targetId.GetHashCode() ^ this.uris.GetHashCode();
+            return id.GetHashCode() ^ sourceId.GetHashCode() ^ targetId.GetHashCode() ^ uris.GetHashCode();
         }
+
         public override string ToString()
         {
             return $"{id}:{name} [{sourceId}->{targetId}] ({string.Join(";", uris.Select(x => x.GetUriIdentifier()))})";
         }
-
     }
 }

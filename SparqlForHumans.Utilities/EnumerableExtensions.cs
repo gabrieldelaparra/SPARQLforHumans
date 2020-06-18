@@ -26,8 +26,7 @@ namespace SparqlForHumans.Utilities
             var trueSlice = new List<T>();
             var falseSlice = new List<T>();
 
-            foreach (var t in enumerable)
-            {
+            foreach (var t in enumerable) {
                 if (predicate(t))
                     trueSlice.Add(t);
                 else

@@ -31,18 +31,15 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory())) {
+                using (var reader = DirectoryReader.Open(luceneDirectory)) {
                     Assert.True(Directory.Exists(outputPath));
 
                     var docCount = reader.MaxDoc;
 
                     Assert.Equal(7, docCount);
 
-                    for (var i = 0; i < docCount; i++)
-                    {
+                    for (var i = 0; i < docCount; i++) {
                         var doc = reader.Document(i);
                         double.TryParse(doc.GetValue(Labels.Rank), out var rank);
                         Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());
@@ -70,18 +67,15 @@ namespace SparqlForHumans.UnitTests.Index.Relations
             Assert.False(Directory.Exists(outputPath));
 
             new EntitiesIndexer(filename, outputPath).Index();
-            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory()))
-            {
-                using (var reader = DirectoryReader.Open(luceneDirectory))
-                {
+            using (var luceneDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory())) {
+                using (var reader = DirectoryReader.Open(luceneDirectory)) {
                     Assert.True(Directory.Exists(outputPath));
 
                     var docCount = reader.MaxDoc;
 
                     Assert.Equal(7, docCount);
 
-                    for (var i = 0; i < docCount; i++)
-                    {
+                    for (var i = 0; i < docCount; i++) {
                         var doc = reader.Document(i);
                         double.TryParse(doc.GetValue(Labels.Rank), out var rank);
                         Assert.Equal(ranks[i].ToThreeDecimals(), rank.ToThreeDecimals());

@@ -1,9 +1,9 @@
-﻿using Lucene.Net.Documents;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Lucene.Net.Documents;
 using SparqlForHumans.Lucene.Index.Fields;
 using SparqlForHumans.Models.LuceneIndex;
 using SparqlForHumans.RDF.Extensions;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Index.Fields
@@ -15,8 +15,7 @@ namespace SparqlForHumans.UnitTests.Index.Fields
         public void TestGetField()
         {
             //Arrange
-            var lines = new List<string>
-            {
+            var lines = new List<string> {
                 "<http://www.wikidata.org/entity/Q27> <http://schema.org/description> \"Ireland Description\"@en ."
             };
             var subjectGroup = lines.GroupBySubject().FirstOrDefault();

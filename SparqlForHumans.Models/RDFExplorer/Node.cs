@@ -21,9 +21,7 @@ namespace SparqlForHumans.Models.RDFExplorer
         }
 
         public int id { get; set; }
-
         public string name { get; set; }
-
         public string[] uris { get; set; } = new string[0];
 
         public override bool Equals(object obj)
@@ -32,12 +30,12 @@ namespace SparqlForHumans.Models.RDFExplorer
             if (y == null) return false;
             if (ReferenceEquals(this, y)) return true;
             if (ReferenceEquals(this, null) || ReferenceEquals(y, null)) return false;
-            return this.id.Equals(y.id) && this.uris.SequenceEqual(y.uris);
+            return id.Equals(y.id) && uris.SequenceEqual(y.uris);
         }
 
         public override int GetHashCode()
         {
-            return this.id.GetHashCode() ^ this.uris.GetHashCode();
+            return id.GetHashCode() ^ uris.GetHashCode();
         }
 
         public override string ToString()

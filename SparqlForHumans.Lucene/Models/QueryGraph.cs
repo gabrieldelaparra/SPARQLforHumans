@@ -19,11 +19,8 @@ namespace SparqlForHumans.Lucene.Models
         }
 
         public SortedDictionary<int, QueryEdge> Edges { get; set; }
-
         [JsonIgnore] public string EntitiesIndexPath { get; set; }
-
         public SortedDictionary<int, QueryNode> Nodes { get; set; }
-
         [JsonIgnore] public string PropertiesIndexPath { get; set; }
 
         public override bool Equals(object obj)

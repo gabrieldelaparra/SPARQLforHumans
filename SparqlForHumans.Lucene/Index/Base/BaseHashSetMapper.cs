@@ -1,9 +1,9 @@
-﻿using SparqlForHumans.Logger;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SparqlForHumans.Logger;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.RDF.Models;
 using SparqlForHumans.Utilities;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace SparqlForHumans.Lucene.Index.Base
 {
@@ -11,7 +11,8 @@ namespace SparqlForHumans.Lucene.Index.Base
     {
         protected BaseHashSetMapper(string inputFilename)
         {
-            RelationIndex = BuildIndex(FileHelper.GetInputLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
+            RelationIndex =
+                BuildIndex(FileHelper.GetInputLines(inputFilename).GroupBySubject().Where(x => x.IsEntityQ()));
         }
 
         protected BaseHashSetMapper(IEnumerable<SubjectGroup> subjectGroups)
@@ -26,8 +27,7 @@ namespace SparqlForHumans.Lucene.Index.Base
             var ticks = 0;
             var hashSet = new HashSet<TValue>();
 
-            foreach (var subjectGroup in subjectGroups)
-            {
+            foreach (var subjectGroup in subjectGroups) {
                 ParseTripleGroup(hashSet, subjectGroup);
                 LogProgress(ticks++);
             }

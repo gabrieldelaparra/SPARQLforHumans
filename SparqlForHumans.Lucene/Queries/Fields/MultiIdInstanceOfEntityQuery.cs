@@ -9,6 +9,10 @@ namespace SparqlForHumans.Lucene.Queries.Fields
             searchString, 20) { }
 
         internal override IQueryParser QueryParser => new InstanceOfQueryParser();
-        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+
+        internal override bool IsInvalidSearchString(string inputString)
+        {
+            return string.IsNullOrEmpty(inputString);
+        }
     }
 }

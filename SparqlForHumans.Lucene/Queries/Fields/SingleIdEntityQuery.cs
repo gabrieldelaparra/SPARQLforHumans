@@ -6,10 +6,13 @@ namespace SparqlForHumans.Lucene.Queries.Fields
     public class SingleIdEntityQuery : BaseEntityQuery
     {
         public SingleIdEntityQuery(string luceneIndexPath, string searchString) :
-            base(luceneIndexPath, searchString, 1) { }
+            base(luceneIndexPath, searchString) { }
 
         internal override IQueryParser QueryParser => new IdQueryParser();
 
-        internal override bool IsInvalidSearchString(string inputString) => string.IsNullOrEmpty(inputString);
+        internal override bool IsInvalidSearchString(string inputString)
+        {
+            return string.IsNullOrEmpty(inputString);
+        }
     }
 }

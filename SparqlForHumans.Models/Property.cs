@@ -21,7 +21,5 @@ namespace SparqlForHumans.Models
             var basic = $"{base.ToString()}";
             return string.IsNullOrWhiteSpace(Value) ? basic : $"{basic} -> {Value}";
         }
-
-        
     }
 }

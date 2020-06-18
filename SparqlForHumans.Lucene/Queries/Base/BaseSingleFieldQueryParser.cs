@@ -7,8 +7,8 @@ namespace SparqlForHumans.Lucene.Queries.Base
     public abstract class BaseSingleFieldQueryParser<TAnalyzer> : IQueryParser<TAnalyzer>
         where TAnalyzer : Analyzer
     {
-        public abstract TAnalyzer Analyzer { get; }
         public abstract Labels FieldLabel { get; }
+        public abstract TAnalyzer Analyzer { get; }
 
         public virtual QueryParser GetQueryParser()
         {

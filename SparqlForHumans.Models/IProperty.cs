@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SparqlForHumans.Models
+﻿namespace SparqlForHumans.Models
 {
     public interface IProperty : ISubject, IHasRank<int>, IHasAltLabel, IHasDescription, IHasDomain, IHasRange
     {

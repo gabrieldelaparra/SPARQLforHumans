@@ -1,7 +1,7 @@
-﻿using Lucene.Net.QueryParsers.Classic;
+﻿using System.Linq;
+using Lucene.Net.QueryParsers.Classic;
 using Lucene.Net.Search;
 using SparqlForHumans.Models.Wikidata;
-using System.Linq;
 
 namespace SparqlForHumans.Lucene.Queries.Parsers
 {
@@ -10,12 +10,10 @@ namespace SparqlForHumans.Lucene.Queries.Parsers
         public static Query ParseQuery(string searchQuery, QueryParser parser)
         {
             Query query;
-            try
-            {
+            try {
                 query = parser.Parse(searchQuery.Trim());
             }
-            catch (ParseException)
-            {
+            catch (ParseException) {
                 query = parser.Parse(QueryParserBase.Escape(searchQuery.Trim()));
             }
 

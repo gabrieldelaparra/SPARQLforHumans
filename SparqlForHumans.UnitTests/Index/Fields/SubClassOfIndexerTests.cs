@@ -1,12 +1,4 @@
-﻿using Lucene.Net.Documents;
-using SparqlForHumans.Lucene.Index.Fields;
-using SparqlForHumans.Models.LuceneIndex;
-using SparqlForHumans.RDF.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
-
-namespace SparqlForHumans.UnitTests.Index.Fields
+﻿namespace SparqlForHumans.UnitTests.Index.Fields
 {
     public class SubClassOfIndexerTests
     {

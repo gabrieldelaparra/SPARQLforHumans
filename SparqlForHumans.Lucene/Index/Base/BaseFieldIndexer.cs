@@ -1,7 +1,7 @@
-﻿using Lucene.Net.Index;
-using SparqlForHumans.RDF.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Lucene.Net.Index;
+using SparqlForHumans.RDF.Models;
 using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Base
@@ -12,7 +12,6 @@ namespace SparqlForHumans.Lucene.Index.Base
         public abstract string FieldName { get; }
         public double Boost { get; set; }
         public abstract IEnumerable<TField> GetField(SubjectGroup tripleGroup);
-
         public abstract bool FilterValidTriples(Triple triple);
         public abstract string SelectTripleValue(Triple triple);
 

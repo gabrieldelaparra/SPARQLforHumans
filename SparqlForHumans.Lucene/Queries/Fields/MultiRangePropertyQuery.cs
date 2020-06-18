@@ -11,9 +11,14 @@ namespace SparqlForHumans.Lucene.Queries.Fields
 
         internal override IQueryParser QueryParser => new RangeQueryParser();
 
-        internal override bool IsInvalidSearchString(string inputString) =>
-            string.IsNullOrEmpty(inputString.ToDigitsOnly());
+        internal override bool IsInvalidSearchString(string inputString)
+        {
+            return string.IsNullOrEmpty(inputString.ToDigitsOnly());
+        }
 
-        internal override string PrepareSearchTerm(string inputString) => inputString.GetUriIdentifier().ToDigitsOnly();
+        internal override string PrepareSearchTerm(string inputString)
+        {
+            return inputString.GetUriIdentifier().ToDigitsOnly();
+        }
     }
 }

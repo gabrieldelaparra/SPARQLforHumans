@@ -39,14 +39,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             return results.GetIds()?.Where(x => x.StartsWith(Constants.EntityPrefix));
         }
 
-        //public static void ResetTraverse(this QueryGraph graph)
-        //{
-        //    foreach (var queryNode in graph.Nodes.Select(x => x.Value))
-        //        queryNode.Traversed = false;
-        //    foreach (var queryEdge in graph.Edges.Select(x => x.Value))
-        //        queryEdge.Traversed = false;
-        //}
-
         public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, string[] variables, int limit = 0)
         {
             var sparqlVariables = variables.Select(x => new SparqlVariable(x)).ToArray();
@@ -59,7 +51,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             return queryBuilder.BuildQuery();
         }
-
 
         public static SparqlQuery ToSparql(this QueryNode node, QueryGraph graph, int limit = 0)
         {

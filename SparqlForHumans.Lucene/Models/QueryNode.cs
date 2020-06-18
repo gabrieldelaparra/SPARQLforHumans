@@ -18,32 +18,17 @@ namespace SparqlForHumans.Lucene.Models
         }
 
         [JsonIgnore] public bool AvoidQuery { get; set; }
-
         [JsonIgnore] public List<string> InferredTypes { get; set; } = new List<string>();
-
         [JsonIgnore] public bool IsConstant { get; set; }
-
         [JsonIgnore] public bool IsInferredDomainType { get; set; } = false;
-
         [JsonIgnore] public bool IsInferredRangeType { get; internal set; }
-
         [JsonIgnore] public bool IsInferredType => IsInferredDomainType || IsInferredRangeType;
-
         [JsonIgnore] public bool IsInstanceOf { get; set; } = false;
-
         [JsonIgnore] public List<string> ParentTypes { get; set; } = new List<string>();
-
         [JsonIgnore] public List<Entity> Results { get; set; } = new List<Entity>();
 
         //[JsonIgnore] public bool Traversed { get; set; } = false;
-
         [JsonIgnore] public List<string> Types { get; set; } = new List<string>();
-
         public Dictionary<string, Result> Values => Results.ToDictionary();
-
-        public override string ToString()
-        {
-            return $"{id}:{name} ({string.Join(";", uris.Select(x => x.GetUriIdentifier()))})";
-        }
     }
 }

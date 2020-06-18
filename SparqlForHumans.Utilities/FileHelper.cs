@@ -35,11 +35,10 @@ namespace SparqlForHumans.Utilities
         {
             var mimeType = MimeGuesser.GuessMimeType(filePath);
 
-            return mimeType switch
-            {
+            return mimeType switch {
                 "text/plain" => FileType.nTriples,
                 "application/x-gzip" => FileType.gZip,
-                _ => FileType.Unknown,
+                _ => FileType.Unknown
             };
         }
 
@@ -52,11 +51,10 @@ namespace SparqlForHumans.Utilities
 
         public static IEnumerable<string> GetInputLines(string inputTriples)
         {
-            return (GetFilenameType(inputTriples)) switch
-            {
+            return GetFilenameType(inputTriples) switch {
                 FileType.nTriples => ReadLines(inputTriples),
                 FileType.gZip => SharpZipHandler.ReadGZip(inputTriples),
-                _ => throw new ArgumentException("Not a valid file"),
+                _ => throw new ArgumentException("Not a valid file")
             };
         }
 
@@ -68,8 +66,7 @@ namespace SparqlForHumans.Utilities
 
             var lines = GetInputLines(filename);
 
-            foreach (var item in lines)
-            {
+            foreach (var item in lines) {
                 lineCount++;
                 if (lineCount % notifyTicks == 0) Logger.Trace($"{stopwatch.ElapsedMilliseconds},{lineCount}");
             }
@@ -89,16 +86,14 @@ namespace SparqlForHumans.Utilities
             return directoryInfo;
         }
 
-
         public static string GetReducedLimitName(int limit)
         {
             if (limit < 0) return "All";
 
-            string[] sizes = { "", "K", "M", "G", "T" };
+            string[] sizes = {"", "K", "M", "G", "T"};
             var order = 0;
             const int splitter = 1000;
-            while (limit >= splitter && order < sizes.Length - 1)
-            {
+            while (limit >= splitter && order < sizes.Length - 1) {
                 order++;
                 limit = limit / splitter;
             }
