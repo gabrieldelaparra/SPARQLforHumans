@@ -17,89 +17,6 @@ using SparqlForHumans.Utilities;
 
 namespace SparqlForHumans.Lucene.Index
 {
-    //public class PropertiesIndexerFromLucene
-    //{
-    //    private Dictionary<int, HashSet<int>> RangeDictionary { get; } = new Dictionary<int, HashSet<int>>();
-    //    private Dictionary<int, HashSet<int>> DomainDictionary { get; } = new Dictionary<int, HashSet<int>>();
-
-    //    public void Index()
-    //    {
-
-    //        ////RANGE:
-    //        //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-    //        //    var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId())
-    //        //        .ToArray();
-    //        //    var reverseProperties = subjectGroup
-    //        //        .Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf()).ToArray();
-    //        //    var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-    //        //    var reverseInstanceOf = subjectGroup.Where(x => x.Predicate.IsReverseInstanceOf()).ToArray();
-
-    //        //    if (reverseInstanceOf.Any())
-    //        //        RangeDictionary.AddSafe(31, instanceOfIds);
-
-    //        //    foreach (var reversePropertyId in reversePropertyIds) {
-    //        //        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
-    //        //    }
-
-    //        //    //LogMessage(readCount++, "Range", false);
-    //        //}
-
-    //        //LogMessage(readCount, "Range");
-    //        //readCount = 0;
-
-
-    //        ////DOMAIN:
-    //        foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-    //            var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty()).ToArray();
-    //            var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
-    //            var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-    //            var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
-    //            DomainDictionary.AddSafe(31, instanceOfIds);
-    //            foreach (var propertyId in propertyIds) {
-    //                DomainDictionary.AddSafe(propertyId, instanceOfIds);
-    //            }
-
-    //            //LogMessage(readCount++, "Domain", false);
-    //        }
-
-    //        //LogMessage(readCount, "Domain");
-    //        //readCount = 0;
-
-
-    //        using var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.EntityIndexPath);
-    //        using var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory);
-    //        var docCount = luceneDirectoryReader.MaxDoc;
-    //        for (var i = 0; i < docCount; i++)
-    //        {
-    //            var doc = luceneDirectoryReader.Document(i);
-    //            var entity = doc.MapEntity();
-    //            var reverseProperties = entity.ReverseProperties.Select(x => x.Id.ToInt());
-    //            var properties = entity.Properties.Select(x => x.Id.ToInt());
-
-    //            //TODO: Use constant:
-    //            var otherProperties = properties.Where(x => !x.Equals(31));
-    //            var types = entity.ParentTypes.Select(x => x.ToInt());
-    //            var isType = entity.IsType;
-
-    //            //TODO: Use constant:
-    //            if (isType)
-    //                RangeDictionary.AddSafe(31, types);
-
-    //            foreach (var reversePropertyId in reverseProperties)
-    //            {
-    //                RangeDictionary.AddSafe(reversePropertyId, types);
-    //            }
-
-    //            DomainDictionary.AddSafe(31, types);
-
-    //            foreach (var propertyId in otherProperties)
-    //            {
-    //                DomainDictionary.AddSafe(propertyId, types);
-    //            }
-    //        }
-    //    }
-    //}
-
     public class PropertiesIndexer : BaseNotifier, IIndexer
     {
         public PropertiesIndexer(string inputFilename, string outputDirectory, string entitiesIndexPath)
@@ -157,6 +74,7 @@ namespace SparqlForHumans.Lucene.Index
                 var types = entity.ParentTypes.Select(x => x.ToInt());
                 var isType = entity.IsType;
 
+                //Range
                 //TODO: Use constant:
                 if (isType)
                     RangeDictionary.AddSafe(31, types);
@@ -166,79 +84,28 @@ namespace SparqlForHumans.Lucene.Index
                     RangeDictionary.AddSafe(reversePropertyId, types);
                 }
 
+                //Domain
                 DomainDictionary.AddSafe(31, types);
 
                 foreach (var propertyId in otherProperties)
                 {
                     DomainDictionary.AddSafe(propertyId, types);
                 }
-                LogMessage(readCount++, "Domain and Range", false);
-            }
-            LogMessage(readCount, "Domain and Range");
-            readCount = 0;
-            ////RANGE:
-            //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-            //    var instanceOfIds = subjectGroup.Where(x => x.Predicate.IsInstanceOf()).Select(x => x.Object.GetIntId())
-            //        .ToArray();
-            //    var reverseProperties = subjectGroup
-            //        .Where(x => x.Predicate.IsReverseProperty() && !x.Predicate.IsReverseInstanceOf()).ToArray();
-            //    var reversePropertyIds = reverseProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-            //    var reverseInstanceOf = subjectGroup.Where(x => x.Predicate.IsReverseInstanceOf()).ToArray();
 
-            //    if (reverseInstanceOf.Any())
-            //        RangeDictionary.AddSafe(31, instanceOfIds);
-
-            //    foreach (var reversePropertyId in reversePropertyIds) {
-            //        RangeDictionary.AddSafe(reversePropertyId, instanceOfIds);
-            //    }
-
-            //    LogMessage(readCount++, "Range", false);
-            //}
-
-            //LogMessage(readCount, "Range");
-            //readCount = 0;
-
-
-            //////DOMAIN:
-            //foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-            //    var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty()).ToArray();
-            //    var (instanceOf, otherProperties) = directProperties.SliceBy(x => x.Predicate.IsInstanceOf());
-            //    var propertyIds = otherProperties.Select(x => x.Predicate.GetIntId()).ToArray();
-            //    var instanceOfIds = instanceOf.Select(x => x.Object.GetIntId()).ToArray();
-            //    DomainDictionary.AddSafe(31, instanceOfIds);
-            //    foreach (var propertyId in propertyIds) {
-            //        DomainDictionary.AddSafe(propertyId, instanceOfIds);
-            //    }
-
-            //    LogMessage(readCount++, "Domain", false);
-            //}
-
-            //LogMessage(readCount, "Domain");
-            //readCount = 0;
-
-
-            ////FREQUENCY
-            foreach (var subjectGroup in subjectGroups.Where(x => x.IsEntityQ())) {
-                var directProperties = subjectGroup.Where(x => x.Predicate.IsProperty()).ToArray();
-
-                foreach (var triple in directProperties) {
-                    var propertyIntId = triple.Predicate.GetIntId();
-
+                //Frequency
+                foreach (var propertyIntId in properties) {
                     if (!FrequencyHashTable.ContainsKey(propertyIntId))
                         FrequencyHashTable.Add(propertyIntId, 0);
-
                     FrequencyHashTable[propertyIntId] = (int) FrequencyHashTable[propertyIntId] + 1;
                 }
 
-                LogMessage(readCount++, "Frequency", false);
+                LogMessage(readCount++, "Frequency, Domain, Range", false);
             }
-
-            LogMessage(readCount, "Frequency");
+            LogMessage(readCount, "Frequency, Domain, Range");
             readCount = 0;
 
-
-            using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
-            using (var writer = new IndexWriter(indexDirectory, indexConfig)) {
+            using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory())) {
+                using var writer = new IndexWriter(indexDirectory, indexConfig);
                 foreach (var subjectGroup in subjectGroups.Where(FilterGroups)) {
                     var document = new Document();
 

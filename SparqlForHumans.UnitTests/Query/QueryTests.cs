@@ -643,10 +643,10 @@ namespace SparqlForHumans.UnitTests.Query
             var actual = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query().ToArray();
 
             Assert.NotEmpty(actual);
-            Assert.Equal("P530", actual[0].Id); //50
-            Assert.Equal("P47", actual[1].Id); //5
-            Assert.Equal("P17", actual[2].Id); //3
-            Assert.Equal("P30", actual[3].Id); //3
+            Assert.Equal("P47", actual[0].Id); //5
+            Assert.Equal("P17", actual[1].Id); //3
+            Assert.Equal("P30", actual[2].Id); //3
+            Assert.Equal("P530", actual[3].Id); //50
 
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();
