@@ -11,6 +11,7 @@ namespace SparqlForHumans.Models
         public IList<string> AltLabels { get; set; } = new List<string>();
         public bool IsType { get; set; } = false;
         public double Rank { get; set; } = 0.0;
+        //public IList<string> ReverseInstanceOf { get; set; } = new List<string>();
         public IList<Property> Properties { get; set; } = new List<Property>();
 
         public string ToRankedString()

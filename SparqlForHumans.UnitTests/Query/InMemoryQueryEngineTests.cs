@@ -20,7 +20,7 @@ namespace SparqlForHumans.UnitTests.Query
             PropertiesIndexPath.DeleteIfExists();
 
             new EntitiesIndexer(Filename, EntitiesIndexPath).Index();
-            new PropertiesIndexer(Filename, PropertiesIndexPath).Index();
+            new PropertiesIndexer(Filename, PropertiesIndexPath, EntitiesIndexPath).Index();
 
             InMemoryQueryEngine.Init(EntitiesIndexPath, PropertiesIndexPath);
         }

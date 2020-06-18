@@ -44,13 +44,16 @@ namespace SparqlForHumans.UnitTests.Index
         public void TestAddDomainToIndex()
         {
             const string filename = @"Resources/PropertyDomain.nt";
-            const string propertyOutputPath = "PropertyDomain-PropertyIndex";
-            propertyOutputPath.DeleteIfExists();
+            const string propertiesIndexPath = "PropertyDomain-PropertyIndex";
+            const string entitiesIndexPath = "PropertyDomain-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath, entitiesIndexPath).Index();
 
-            var properties = new BatchIdPropertyQuery(propertyOutputPath, new List<string> {"P27", "P555", "P777"})
+            var properties = new BatchIdPropertyQuery(propertiesIndexPath, new List<string> {"P27", "P555", "P777"})
                 .Query().ToArray();
 
             //Assert:
@@ -79,7 +82,8 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEmpty(property777.Domain);
             Assert.Equal(17, property777.Domain.ElementAt(0));
 
-            propertyOutputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         /// <summary>
@@ -122,12 +126,15 @@ namespace SparqlForHumans.UnitTests.Index
         {
             //Arrange
             const string filename = "Resources/PropertyRange.nt";
-            const string outputPath = "PropertyRangeIndex";
-            outputPath.DeleteIfExists();
+            const string propertiesIndexPath = "PropertyRangeIndex";
+            const string entitiesIndexPath = "PropertyRangeIndex-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act
-            new PropertiesIndexer(filename, outputPath).Index();
-            var properties = new MultiLabelPropertyQuery(outputPath, "*").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
+            var properties = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query();
 
             //Assert
             Assert.NotEmpty(properties);
@@ -149,7 +156,8 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Equal(8142, property38WithRange[1]);
             Assert.Equal(747699, property38WithRange[2]);
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         /// <summary>
@@ -175,12 +183,15 @@ namespace SparqlForHumans.UnitTests.Index
         {
             //Arrange
             const string filename = "Resources/PropertyRange-P31.nt";
-            const string outputPath = "PropertyRangeIndex_P31";
-            outputPath.DeleteIfExists();
+            const string propertiesIndexPath = "PropertyRangeIndex_P31";
+            const string entitiesIndexPath = "PropertyRangeIndex_P31-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act
-            new PropertiesIndexer(filename, outputPath).Index();
-            var properties = new MultiLabelPropertyQuery(outputPath, "*").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
+            var properties = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query();
 
             //Assert
             Assert.NotEmpty(properties);
@@ -196,21 +207,24 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Contains(200, property31WithRange);
             Assert.DoesNotContain(5, property31WithRange);
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
         public void TestCreatePropertyIndex()
         {
             const string filename = @"Resources/PropertyIndex.nt";
-            const string outputPath = "CreatePropertyIndex";
-
-            outputPath.DeleteIfExists();
+            const string propertiesIndexPath = "CreatePropertyIndex";
+            const string entitiesIndexPath = "CreatePropertyIndex-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act
-            new PropertiesIndexer(filename, outputPath).Index();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath, entitiesIndexPath).Index();
 
-            using (var propertiesDirectory = FSDirectory.Open(outputPath.GetOrCreateDirectory())) {
+            using (var propertiesDirectory = FSDirectory.Open(propertiesIndexPath.GetOrCreateDirectory())) {
                 //Assert
                 using var reader = DirectoryReader.Open(propertiesDirectory);
                 var docCount = reader.MaxDoc;
@@ -241,22 +255,26 @@ namespace SparqlForHumans.UnitTests.Index
                 Assert.Equal("3", doc.GetValue(Labels.Rank));
             }
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
         public void TestCreatePropertyIndexAndMapResults()
         {
             const string filename = "Resources/PropertyIndex5k.nt";
-            const string outputPath = "CreatePropertyIndexMapResults";
+            const string propertiesIndexPath = "CreatePropertyIndexMapResults";
+            const string entitiesIndexPath = "CreatePropertyIndexMapResults-EntitiesIndex";
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
-            new PropertiesIndexer(filename, outputPath).Index();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
 
-            Assert.True(Directory.Exists(outputPath));
+            Assert.True(Directory.Exists(propertiesIndexPath));
 
-            var queryCity = new SingleLabelPropertyQuery(outputPath, "located").Query().ToArray();
+            var queryCity = new SingleLabelPropertyQuery(propertiesIndexPath, "located").Query().ToArray();
 
             Assert.NotEmpty(queryCity);
             var result = queryCity[0];
@@ -268,7 +286,9 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Contains("is in the county of", result.AltLabels);
             Assert.Contains("is in the city of", result.AltLabels);
             Assert.NotEqual(0, result.Rank);
-            outputPath.DeleteIfExists();
+            
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
     }
 }

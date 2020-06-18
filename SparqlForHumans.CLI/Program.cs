@@ -116,7 +116,7 @@ namespace SparqlForHumans.CLI
                     {
                         if (o.Overwrite)
                             propertiesOutputPath.DeleteIfExists();
-                        new PropertiesIndexer(inputFilename, propertiesOutputPath).Index();
+                        new PropertiesIndexer(inputFilename, propertiesOutputPath, entitiesOutputPath).Index();
                     }
                 });
 
@@ -183,18 +183,18 @@ namespace SparqlForHumans.CLI
         //    File.WriteAllLines("PropertyDomainRangeHistogram.csv", list.OrderBy(x=>x, StringComparer.OrdinalIgnoreCase.WithNaturalSort()));
         //}
 
-        public static void CreateEntitiesIndex(string filename, bool overwrite = false)
-        {
-            var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
-            entitiesOutputPath.DeleteIfExists(overwrite);
-            new EntitiesIndexer(filename, entitiesOutputPath).Index();
-        }
-        public static void CreatePropertiesIndex(string filename, bool overwrite = false)
-        {
-            var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
-            propertyOutputPath.DeleteIfExists(overwrite);
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-        }
+        //public static void CreateEntitiesIndex(string filename, bool overwrite = false)
+        //{
+        //    var entitiesOutputPath = LuceneDirectoryDefaults.EntityIndexPath;
+        //    entitiesOutputPath.DeleteIfExists(overwrite);
+        //    new EntitiesIndexer(filename, entitiesOutputPath).Index();
+        //}
+        //public static void CreatePropertiesIndex(string filename, bool overwrite = false)
+        //{
+        //    var propertyOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
+        //    propertyOutputPath.DeleteIfExists(overwrite);
+        //    new PropertiesIndexer(filename, propertyOutputPath).Index();
+        //}
 
         //private static void Filter2MM()
         //{

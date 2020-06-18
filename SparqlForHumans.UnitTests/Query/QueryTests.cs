@@ -425,19 +425,24 @@ namespace SparqlForHumans.UnitTests.Query
              */
 
             const string filename = @"Resources/QueryByDomain.nt";
-            const string propertyOutputPath = "QueryByDomain";
-            propertyOutputPath.DeleteIfExists();
+            const string propertiesIndexPath = "QueryByDomain";
+            const string entitiesIndexPath = "QueryByDomain-EntitiesIndex";
+
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath, entitiesIndexPath).Index();
+            var domainProperties = new MultiDomainPropertyQuery(propertiesIndexPath, "Q5").Query();
 
             Assert.NotEmpty(domainProperties);
             Assert.Equal(2, domainProperties.Count); //P27, P555
             Assert.Equal("P27", domainProperties[0].Id);
             Assert.Equal("P555", domainProperties[1].Id);
 
-            propertyOutputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
@@ -460,18 +465,22 @@ namespace SparqlForHumans.UnitTests.Query
              */
 
             const string filename = @"Resources/QueryByRange.nt";
-            const string propertyOutputPath = "QueryByRange";
-            propertyOutputPath.DeleteIfExists();
+            const string propertiesIndexPath = "QueryByRange";
+            const string entitiesIndexPath = "QueryByRange-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeEntities = new MultiRangePropertyQuery(propertyOutputPath, "Q5").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
+            var rangeEntities = new MultiRangePropertyQuery(propertiesIndexPath, "Q5").Query();
 
             Assert.NotEmpty(rangeEntities);
             Assert.Single(rangeEntities); // P25
             Assert.Equal("P25", rangeEntities[0].Id);
 
-            propertyOutputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
@@ -497,20 +506,24 @@ namespace SparqlForHumans.UnitTests.Query
              */
 
             const string filename = @"Resources/QueryByRangeAndProperty.nt";
-            const string propertyOutputPath = "QueryByRangeAndProperty";
-            propertyOutputPath.DeleteIfExists();
+            const string propertiesIndexPath = "QueryByRangeAndProperty";
+            const string entitiesIndexPath = "QueryByDomain-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
+            var rangeProperties = new MultiRangePropertyQuery(propertiesIndexPath, "Q6256").Query();
+            var domainProperties = new MultiDomainPropertyQuery(propertiesIndexPath, "Q5").Query();
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
             Assert.Single(properties); // P27
             Assert.Equal("P27", properties[0].Id);
 
-            propertyOutputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
@@ -536,14 +549,17 @@ namespace SparqlForHumans.UnitTests.Query
              */
 
             const string filename = @"Resources/QueryByRangeAndProperty-More.nt";
-            const string propertyOutputPath = "QueryByRangeAndPropertyMore";
-            propertyOutputPath.DeleteIfExists();
+            const string propertiesIndexPath = "QueryByRangeAndPropertyMore";
+            const string entitiesIndexPath = "QueryByRangeAndPropertyMore-EntitiesIndex";
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
             //Act:
-            new PropertiesIndexer(filename, propertyOutputPath).Index();
-            var rangeProperties = new MultiRangePropertyQuery(propertyOutputPath, "Q6256").Query();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
+            var rangeProperties = new MultiRangePropertyQuery(propertiesIndexPath, "Q6256").Query();
             Assert.Equal(2, rangeProperties.Count); //P27, P555
-            var domainProperties = new MultiDomainPropertyQuery(propertyOutputPath, "Q5").Query();
+            var domainProperties = new MultiDomainPropertyQuery(propertiesIndexPath, "Q5").Query();
             Assert.Equal(3, domainProperties.Count); // P31, P27, P777
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
@@ -551,7 +567,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Single(properties); // P27
             Assert.Equal("P27", properties[0].Id);
 
-            propertyOutputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
@@ -615,12 +632,15 @@ namespace SparqlForHumans.UnitTests.Query
         public void TestTopQueryPropertiesResults()
         {
             const string filename = @"Resources/QueryPropertyWildcardAllResults.nt";
-            const string outputPath = "AllPropertiesResultsWildcardQueriesFullWord";
+            const string propertiesIndexPath = "AllPropertiesResultsWildcardQueriesFullWord";
+            const string entitiesIndexPath = "AllPropertiesResultsWildcardQueriesFullWord_E";
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
 
-            new PropertiesIndexer(filename, outputPath).Index();
-            var actual = new MultiLabelPropertyQuery(outputPath, "*").Query().ToArray();
+            new EntitiesIndexer(filename, entitiesIndexPath).Index();
+            new PropertiesIndexer(filename, propertiesIndexPath, entitiesIndexPath).Index();
+            var actual = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query().ToArray();
 
             Assert.NotEmpty(actual);
             Assert.Equal("P530", actual[0].Id); //50
@@ -628,7 +648,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Equal("P17", actual[2].Id); //3
             Assert.Equal("P30", actual[3].Id); //3
 
-            outputPath.DeleteIfExists();
+            propertiesIndexPath.DeleteIfExists();
+            entitiesIndexPath.DeleteIfExists();
         }
 
         [Fact]
