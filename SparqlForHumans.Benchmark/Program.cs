@@ -13,8 +13,9 @@ namespace SparqlForHumans.Benchmark
 
             //BenchmarkAnalysis.DoTheAverageRecallF1Thing();
 
-            Console.WriteLine("Press Enter to exit");
             //Console.ReadLine();
+            PropertiesDistribution.CreatePropertiesDistribution();
+            Console.WriteLine("Finished");
         }
 
         

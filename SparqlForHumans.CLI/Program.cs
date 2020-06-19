@@ -93,7 +93,7 @@ namespace SparqlForHumans.CLI
                     var propertiesOutputPath = LuceneDirectoryDefaults.PropertyIndexPath;
                     var outputPreprocessedFile = FileHelper.GetFilteredOutputFilename(o.InputFilename, o.Limit);
                     var inputFilename = o.Filter ? outputPreprocessedFile : o.InputFilename;
-                        
+
                     Logger.Info($"Entities Output Path: {entitiesOutputPath}");
                     Logger.Info($"Properties Output Path: {propertiesOutputPath}");
                     Logger.Info($"Filtered Output filename (when Filter option): {outputPreprocessedFile}");
@@ -106,17 +106,20 @@ namespace SparqlForHumans.CLI
 
                     if (o.IndexEntities)
                     {
-                        
+                        Logger.Info($"Starting entities index...");
                         if (o.Overwrite)
                             entitiesOutputPath.DeleteIfExists();
                         new EntitiesIndexer(inputFilename, entitiesOutputPath).Index();
+                        Logger.Info($"Entities index is done: {entitiesOutputPath}");
                     }
 
                     if (o.IndexProperties)
                     {
+                        Logger.Info($"Starting properties index...");
                         if (o.Overwrite)
                             propertiesOutputPath.DeleteIfExists();
                         new PropertiesIndexer(inputFilename, propertiesOutputPath, entitiesOutputPath).Index();
+                        Logger.Info($"Properties index is done: {propertiesOutputPath}");
                     }
                 });
 
@@ -243,38 +246,38 @@ namespace SparqlForHumans.CLI
         //    var output = @"filtered-All-FilterReorder.nt.gz";
         //    TriplesFilterReorderSort.FilterReorderSort(inputFilename, output);
         //}
-        private static void ReorderAll()
-        {
-            var inputFilename = "filtered-All.nt";
-            TriplesReordering.Reorder(inputFilename);
-        }
+        //private static void ReorderAll()
+        //{
+        //    var inputFilename = "filtered-All.nt";
+        //    TriplesReordering.Reorder(inputFilename);
+        //}
 
 
 
-        private static void QueryEntities(string query)
-        {
-            Console.WriteLine($"Query Entity: {query}\n");
-            //var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
-            var results = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, query).Query();
-            MappingExtensions.AddProperties(results, LuceneDirectoryDefaults.EntityIndexPath);
-            foreach (var result in results)
-            {
-                Console.WriteLine(result.ToRankedString());
-                Console.WriteLine($"     Props: {string.Join(",", result.Properties.OrderBy(x => x.Rank).Select(x => $"{x.Id}:{x.Label}").Distinct())}");
-            }
-        }
+        //private static void QueryEntities(string query)
+        //{
+        //    Console.WriteLine($"Query Entity: {query}\n");
+        //    //var results = MultiDocumentQueries.QueryEntitiesByLabel(query).ToList();
+        //    var results = new MultiLabelEntityQuery(LuceneDirectoryDefaults.EntityIndexPath, query).Query();
+        //    MappingExtensions.AddProperties(results, LuceneDirectoryDefaults.EntityIndexPath);
+        //    foreach (var result in results)
+        //    {
+        //        Console.WriteLine(result.ToRankedString());
+        //        Console.WriteLine($"     Props: {string.Join(",", result.Properties.OrderBy(x => x.Rank).Select(x => $"{x.Id}:{x.Label}").Distinct())}");
+        //    }
+        //}
 
-        private static void QueryProperties(string query)
-        {
-            Console.WriteLine($"Query Property: {query}\n");
-            var results = new MultiLabelPropertyQuery(LuceneDirectoryDefaults.PropertyIndexPath, query).Query();
-            //var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
-            foreach (var result in results)
-            {
-                Console.WriteLine(result.ToRankedString());
-                Console.WriteLine($"     Domains: {string.Join(",", result.Domain.Select(x => $"{x}").Distinct())}");
-            }
-        }
+        //private static void QueryProperties(string query)
+        //{
+        //    Console.WriteLine($"Query Property: {query}\n");
+        //    var results = new MultiLabelPropertyQuery(LuceneDirectoryDefaults.PropertyIndexPath, query).Query();
+        //    //var results = MultiDocumentQueries.QueryPropertiesByLabel(query);
+        //    foreach (var result in results)
+        //    {
+        //        Console.WriteLine(result.ToRankedString());
+        //        Console.WriteLine($"     Domains: {string.Join(",", result.Domain.Select(x => $"{x}").Distinct())}");
+        //    }
+        //}
 
     }
 }

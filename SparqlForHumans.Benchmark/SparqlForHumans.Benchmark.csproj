@@ -22,4 +22,14 @@
     <Folder Include="Queries\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NaturalSort.Extension" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\LuceneBinaries\Lucene.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
