@@ -16,9 +16,8 @@ namespace SparqlForHumans.Benchmark
         public static void CreatePropertiesDistribution()
         {
             var list = new List<string>();
-            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath))
-            using (var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory))
-            {
+            using (var luceneDirectory = FSDirectory.Open(LuceneDirectoryDefaults.PropertyIndexPath)) {
+                using var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory);
                 var docCount = luceneDirectoryReader.MaxDoc;
                 for (var i = 0; i < docCount; i++)
                 {
