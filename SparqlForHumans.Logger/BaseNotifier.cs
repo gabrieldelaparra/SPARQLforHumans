@@ -26,5 +26,10 @@
                 _logger.Info($"{message}, Count: {ticks:N0}");
             }
         }
+
+        public virtual void LogInfo(string message)
+        {
+                _logger.Info(message);
+        }
     }
 }

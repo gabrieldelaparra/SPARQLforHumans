@@ -23,6 +23,12 @@ namespace SparqlForHumans.Lucene.Index
             OutputDirectory = outputDirectory;
             EntitiesIndexPath = entitiesIndexPath;
 
+            if (!System.IO.Directory.Exists(EntitiesIndexPath))
+            {
+                LogInfo("Please build entities index first");
+                return;
+            }
+
             FieldIndexers = new List<IFieldIndexer<IIndexableField>> {
                 new IdIndexer(),
                 new LabelIndexer(),
@@ -91,10 +97,11 @@ namespace SparqlForHumans.Lucene.Index
                 }
 
                 //Frequency
-                foreach (var propertyIntId in properties) {
+                foreach (var propertyIntId in properties)
+                {
                     if (!FrequencyHashTable.ContainsKey(propertyIntId))
                         FrequencyHashTable.Add(propertyIntId, 0);
-                    FrequencyHashTable[propertyIntId] = (int) FrequencyHashTable[propertyIntId] + 1;
+                    FrequencyHashTable[propertyIntId] = (int)FrequencyHashTable[propertyIntId] + 1;
                 }
 
                 LogMessage(readCount++, "Frequency, Domain, Range", false);
@@ -102,34 +109,42 @@ namespace SparqlForHumans.Lucene.Index
             LogMessage(readCount, "Frequency, Domain, Range");
             readCount = 0;
 
-            using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory())) {
+            using (var indexDirectory = FSDirectory.Open(OutputDirectory.GetOrCreateDirectory()))
+            {
                 using var writer = new IndexWriter(indexDirectory, indexConfig);
-                foreach (var subjectGroup in subjectGroups.Where(FilterGroups)) {
+                foreach (var subjectGroup in subjectGroups.Where(FilterGroups))
+                {
                     var document = new Document();
 
-                    foreach (var field in FrequencyGetField(subjectGroup)) {
+                    foreach (var field in FrequencyGetField(subjectGroup))
+                    {
                         document.Add(field);
                     }
 
-                    foreach (var field in DomainGetField(subjectGroup)) {
+                    foreach (var field in DomainGetField(subjectGroup))
+                    {
                         document.Add(field);
                     }
 
-                    foreach (var field in RangeGetField(subjectGroup)) {
+                    foreach (var field in RangeGetField(subjectGroup))
+                    {
                         document.Add(field);
                     }
 
                     var boostField = document.Fields.FirstOrDefault(x => x.Name.Equals(Labels.Rank.ToString()));
                     var boost = 0.0;
                     if (boostField != null)
-                        boost = (double) boostField.GetDoubleValue();
+                        boost = (double)boostField.GetDoubleValue();
 
-                    foreach (var fieldIndexer in FieldIndexers) {
+                    foreach (var fieldIndexer in FieldIndexers)
+                    {
                         fieldIndexer.Boost = boost;
                     }
 
-                    foreach (var fieldIndexer in FieldIndexers) {
-                        foreach (var field in fieldIndexer.GetField(subjectGroup)) {
+                    foreach (var fieldIndexer in FieldIndexers)
+                    {
+                        foreach (var field in fieldIndexer.GetField(subjectGroup))
+                        {
                             document.Add(field);
                         }
                     }

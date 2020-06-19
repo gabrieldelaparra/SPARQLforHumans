@@ -19,6 +19,7 @@ using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.RDF.FilterReorderSort;
 using SparqlForHumans.RDF.Reordering;
 using VDS.RDF;
+using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.CLI
 {
@@ -115,6 +116,10 @@ namespace SparqlForHumans.CLI
 
                     if (o.IndexProperties)
                     {
+                        if (!Directory.Exists(entitiesOutputPath)) {
+                            Logger.Info($"Please build entitites index first"); 
+                            return;
+                        }
                         Logger.Info($"Starting properties index...");
                         if (o.Overwrite)
                             propertiesOutputPath.DeleteIfExists();
