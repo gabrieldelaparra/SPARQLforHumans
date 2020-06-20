@@ -4,8 +4,15 @@
     {
         public const string EntityIRI = "http://www.wikidata.org/entity/";
         public const string EntityPrefix = "Q";
+
+        public const string EntityUriString = "<http://www.wikidata.org/entity/";
+        public const string EntityUriStringQ = "<http://www.wikidata.org/entity/Q";
+        public const string EntityUriStringP = "<http://www.wikidata.org/entity/P";
+        public const string PropertyIRIString = "<http://www.wikidata.org/prop/direct/";
+
         public const string PropertyIRI = "http://www.wikidata.org/prop/direct/";
         public const string PropertyPrefix = "P";
+
         public const string ReversePropertyIRI = "http://www.wikidata.org/prop/reverse/";
         public const string LabelIRI = "http://www.w3.org/2000/01/rdf-schema#label";
 

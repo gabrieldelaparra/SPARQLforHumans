@@ -179,7 +179,7 @@ namespace SparqlForHumans.Benchmark
                 queryBenchmarks.Add(local);
             }
 
-            queryBenchmarks.SerializeJson(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json");
+            queryBenchmarks.SerializeJson(@"benchmark.json");
 
             foreach (var benchmark in queryBenchmarks)
             {
@@ -225,7 +225,7 @@ namespace SparqlForHumans.Benchmark
                 }
             }
 
-            queryBenchmarks.SerializeJson(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json");
+            queryBenchmarks.SerializeJson(@"benchmark.json");
 
             foreach (var benchmark in queryBenchmarks)
             {

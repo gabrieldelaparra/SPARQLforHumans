@@ -11,7 +11,7 @@ namespace SparqlForHumans.Benchmark
     {
         public static void DoTheAverageRecallF1Thing()
         {
-            var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";
+            var filename = @"benchmark.json";
             var benchmarkResults = JsonSerialization.DeserializeJson<List<QueryBenchmark>>(filename);
             var byHashcode = benchmarkResults.GroupBy(x => x.GraphHashCode);
 
@@ -44,11 +44,11 @@ namespace SparqlForHumans.Benchmark
 
                 results.Add($"{benchmark.Key},{localCount},{remoteCount},{TP},{FP},{FN},{precision},{recall},{f1}");
             }
-            File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\metrics.csv", results);
+            File.WriteAllLines(@"metrics.csv", results);
         }
         public static void LogPointByPoint()
         {
-            var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";
+            var filename = @"benchmark.json";
             var benchmarkResults = JsonSerialization.DeserializeJson<List<QueryBenchmark>>(filename);
             var byHashcode = benchmarkResults.GroupBy(x => x.GraphHashCode);
             var results = new List<string>();
@@ -61,12 +61,12 @@ namespace SparqlForHumans.Benchmark
                 var remote = benchmark.First(x => x.BenchmarkType.Equals("Endpoint"));
                 results.Add($"{benchmark.Key},{local.ElapsedTime},{remote.ElapsedTime}");
             }
-            File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\points.csv", results);
+            File.WriteAllLines(@"points.csv", results);
         }
 
         public static void LogBaseMetrics()
         {
-            var filename = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\benchmark.json";
+            var filename = @"benchmark.json";
             var benchmarkResults = JsonSerialization.DeserializeJson<List<QueryBenchmark>>(filename);
             var localResults = benchmarkResults.Where(x => x.BenchmarkType.Equals("Local")).ToArray();
             var endpointResults = benchmarkResults.Where(x => x.BenchmarkType.Equals("Endpoint")).ToArray();
@@ -96,7 +96,7 @@ namespace SparqlForHumans.Benchmark
             results.Add($"Remote Avg: {avgRemote}");
             results.Add($"Remote Med: {medianRemote}");
 
-            File.WriteAllLines(@"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\results.txt", results);
+            File.WriteAllLines(@"results.txt", results);
         }
 
         public static T Median<T>(IEnumerable<T> items)

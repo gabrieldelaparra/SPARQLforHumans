@@ -8,6 +8,32 @@ using VDS.RDF;
 
 namespace SparqlForHumans.Lucene.Index.Relations
 {
+    //public struct PageRankValue
+    //{
+    //    public int Id { get; set; }
+    //    public double Value { get; set; }
+    //}
+
+    //public struct PageRankTuple
+    //{
+    //    public int SourceId { get; set; }
+    //    public int[] TargetIds { get; set; }
+    //}
+
+    //public static class SimpleEntityPageRank
+    //{
+    //    private const double PageRankAlpha = 0.85d;
+    //    private static readonly NLog.Logger Logger = SparqlForHumans.Logger.Logger.Init();
+    //    public static int NotifyTicks { get; } = 100000;
+
+    //    public static IEnumerable<PageRankValue> CalculatePageRank(string inputFilename)
+    //    {
+    //        var lines = FileHelper.GetInputLines(inputFilename)
+    //            .ToSubjects()
+    //            .Where(x=>x.Id.IsEntityQ());
+    //    }
+    //}
+
     public static class EntityPageRank
     {
         private const double PageRankAlpha = 0.85d;
