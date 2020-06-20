@@ -23,6 +23,10 @@ namespace SparqlForHumans.Benchmark
                 {
                     var doc = luceneDirectoryReader.Document(i);
                     var property = doc.MapProperty();
+                    var freq = property.Rank;
+                    var domain = property.Domain.Count;
+                    var range = property.Range.Count;
+                    if(0 == freq && 0 == domain && 0 == range) continue;
                     list.Add($"{property.Id},{property.Label.Replace(',', ' ')},{property.Rank},{property.Domain.Count},{property.Range.Count}");
                 }
             }
