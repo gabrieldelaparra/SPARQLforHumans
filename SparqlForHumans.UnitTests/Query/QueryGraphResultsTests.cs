@@ -1,38 +1,18 @@
-﻿using System;
-using System.Linq;
-using SparqlForHumans.Lucene.Index;
+﻿using System.Linq;
 using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
-using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
-    public class QueryGraphResultsTests : IDisposable
+    public class QueryGraphResultsTests
     {
-        [Collection("Sequential")]
-        public class QueryGraphResultsIsolatedTests : IDisposable
-        {
-            private const string EntitiesIndexPath = "QueryGraphResultsIsolatedTestsEntities";
-            private const string PropertiesIndexPath = "QueryGraphResultsIsolatedTestsProperties";
+        private const string BaseEntitiesIndexPath = "QueryGraphResultsTestsEntities";
+        private const string BasePropertiesIndexPath = "QueryGraphResultsTestsProperties";
+        const string filename = @"Resources/QueryGraphQuerying.nt";
 
-            public QueryGraphResultsIsolatedTests()
-            {
-                const string filename = @"Resources/QueryGraphQuerying.nt";
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-                new PropertiesIndexer(filename, PropertiesIndexPath, EntitiesIndexPath).Index();
-            }
-            public void Dispose()
-            {
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-            }
-
-            /// <summary>
+        /// <summary>
         /// A single node.
         /// Should query for the top Entities.
         /// In the given example QueryGraph.nt, Obama should be in the top values.
@@ -40,6 +20,9 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_1IsolatedNode_1_1Node0Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[] { new Node(0, "?var0") },
@@ -83,6 +66,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_1IsolatedNode_2_GivenType_1Node0Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[] { new Node(0, "?varObama", new[] { "http://www.wikidata.org/entity/Q76" }) },
@@ -104,6 +89,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2IsolatedNodes_1_2Nodes0Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -181,6 +168,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2IsolatedNodes_2_GivenTypes_2Nodes0Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -201,30 +190,8 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.QueryTopEntities, queryGraph.Nodes[1].QueryType);
             Assert.Empty(queryGraph.Nodes[1].Results);
         }
-        }
 
-        [Collection("Sequential")]
-        public class QueryGraphResults2NodesTests : IDisposable
-        {
-            private const string EntitiesIndexPath = "QueryGraphResults2NodesTestsEntities";
-            private const string PropertiesIndexPath = "QueryGraphResults2NodesTestsProperties";
-
-            public QueryGraphResults2NodesTests()
-            {
-                const string filename = @"Resources/QueryGraphQuerying.nt";
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-                new PropertiesIndexer(filename, PropertiesIndexPath, EntitiesIndexPath).Index();
-            }
-
-            public void Dispose()
-            {
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-            }
-
-            /// <summary>
+        /// <summary>
         /// ?var0 ?prop0 ?var1
         /// No given Types for anyone.
         /// All should return Top Entities and Properties;
@@ -232,6 +199,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_01_NoGivenTypes_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename, 
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -319,6 +288,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_02_SourceIsGivenType_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -345,8 +316,8 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q5")); //Instance Of
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q30")); //Country of citizenship
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q6581097")); //Gender
-            //TODO: Only Entities from Obama
-            //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
+                                                                                        //TODO: Only Entities from Obama
+                                                                                        //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q70"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q71"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q72"));
@@ -383,6 +354,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_03_TargetIsGivenType_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -447,6 +420,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_04_SourceTargetAreGivenType_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -493,6 +468,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_05_SourceTargetPredicateAreGivenTypes_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -531,6 +508,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_06_SourceIsInstanceOfType_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -587,6 +566,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_07_SourceToType_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -651,6 +632,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_08_GivenPredicate_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -726,6 +709,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_09_GivenPredicate_GivenSubject_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -768,7 +753,7 @@ namespace SparqlForHumans.UnitTests.Query
             //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q298"));
             Assert.Contains(queryGraph.Nodes[1].Results, x => x.Id.Equals("Q39"));
-            
+
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
         }
@@ -782,6 +767,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_2Nodes_10_GivenPredicate_GivenSubject_2Nodes1Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph()
             {
                 nodes = new[]
@@ -828,29 +815,8 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[0].QueryType);
             Assert.Empty(queryGraph.Edges[0].Results);
         }
-        }
 
-        [Collection("Sequential")]
-        public class QueryGraphResultsMoreNodesTests : IDisposable
-        {
-            private const string EntitiesIndexPath = "QueryGraphResultsMoreNodesTestsEntities";
-            private const string PropertiesIndexPath = "QueryGraphResultsMoreNodesTestsProperties";
-            public QueryGraphResultsMoreNodesTests()
-            {
-                const string filename = @"Resources/QueryGraphQuerying.nt";
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-                new PropertiesIndexer(filename, PropertiesIndexPath, EntitiesIndexPath).Index();
-            }
-
-            public void Dispose()
-            {
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-            }
-
-            /// <summary>
+        /// <summary>
         /// ?var0 P31 ?var1
         /// ?var1 is Human
         /// ?var0 ?prop0 ?var2
@@ -863,6 +829,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_3Nodes_1_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -955,6 +923,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_3Nodes_2_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1047,6 +1017,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_4Nodes_1_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1135,29 +1107,8 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.GivenPredicateTypeNoQuery, queryGraph.Edges[2].QueryType);
             Assert.Empty(queryGraph.Edges[2].Results);
         }
-        }
 
-        [Collection("Sequential")]
-        public class QueryGraphResultsInferredTests : IDisposable
-        {
-            private const string EntitiesIndexPath = "QueryGraphResultsInferredTestsEntities";
-            private const string PropertiesIndexPath = "QueryGraphResultsInferredTestsProperties";
-            public QueryGraphResultsInferredTests()
-            {
-                const string filename = @"Resources/QueryGraphQuerying.nt";
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-                new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-                new PropertiesIndexer(filename, PropertiesIndexPath, EntitiesIndexPath).Index();
-            }
-
-            public void Dispose()
-            {
-                EntitiesIndexPath.DeleteIfExists();
-                PropertiesIndexPath.DeleteIfExists();
-            }
-
-            /// <summary>
+        /// <summary>
         /// ?mother P25 ?son
         /// ?mother ?prop ?son
         ///
@@ -1169,6 +1120,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_Inferred_2ConnectedNodes_1_N0P25N1_E1DomainP25_2Nodes2Edges()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1258,6 +1211,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_Inferred_2ConnectedNodes_2_N0P25N1_E1RangeP25_2Nodes2Edges()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1348,6 +1303,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_Inferred_3ConnectedNodes_1_N0P25N1_E1DomainP25_3Nodes2Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1460,6 +1417,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_Inferred_3ConnectedNodes_2_N0P25N1_E1RangeP25_3Nodes2Edge()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1575,6 +1534,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestResults_Inferred_3ConnectedNodes_3_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
         {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
             var graph = new RDFExplorerGraph
             {
                 nodes = new[]
@@ -1678,33 +1639,6 @@ namespace SparqlForHumans.UnitTests.Query
             //TODO: SHOULD be DoesNotContain(). Eventually these tests will fail if this is fixed:
             Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P6"));
         }
-        }
-
-        public QueryGraphResultsTests()
-        {
-            //const string filename = @"Resources/QueryGraphQuerying.nt";
-            //EntitiesIndexPath.DeleteIfExists();
-            //PropertiesIndexPath.DeleteIfExists();
-            //new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-            //new PropertiesIndexer(filename, PropertiesIndexPath).Index();
-        }
-
-        public void Dispose()
-        {
-            //EntitiesIndexPath.DeleteIfExists();
-            //PropertiesIndexPath.DeleteIfExists();
-        }
-
-        //private const string EntitiesIndexPath = "QueryGraphResultsTestsEntities";
-        //private const string PropertiesIndexPath = "QueryGraphResultsTestsProperties";
-
-        
-
-        
-
-        
-
-        
 
         ///// <summary>
         ///// ?mother P25 ?son

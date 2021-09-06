@@ -1,10 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SparqlForHumans.Lucene.Queries.Graph;
-using SparqlForHumans.Models;
-using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
 using SparqlForHumans.Lucene;
 using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Models.RDFExplorer;
@@ -22,7 +17,7 @@ namespace SparqlForHumans.Server.Controllers
             _logger.Info("Query Start:");
             _logger.Info($"Incoming Graph: {graph}");
             var queryGraph = new QueryGraph(graph);
-            new QueryGraphResults().GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+            StaticQueryGraphResults.QueryGraphResults.GetGraphQueryResults(queryGraph, LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             _logger.Info("Query End");
             return Json(queryGraph);
         }

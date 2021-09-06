@@ -12,7 +12,6 @@ using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests.Index
 {
-    [Collection("Sequential")]
     public class PropertiesIndexerTests
     {
         /// <summary>

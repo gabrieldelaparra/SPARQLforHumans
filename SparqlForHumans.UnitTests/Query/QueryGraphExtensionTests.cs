@@ -7,7 +7,6 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
     public class QueryGraphExtensionTests
     {
         [Fact]

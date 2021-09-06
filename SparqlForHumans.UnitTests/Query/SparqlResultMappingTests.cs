@@ -6,7 +6,6 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
     public class SparqlResultMappingTests
     {
         [Fact]
@@ -70,6 +69,56 @@ LIMIT 10";
             {
                 Assert.True(result.StartsWith("Q") || result.StartsWith("P"));
             }
+        }
+
+        [Fact]
+        public void TestFromGraph_VarToHuman_TimesOut()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1", new[] { "http://www.wikidata.org/entity/Q5"}),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0, 1)
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+
+            GraphApiQueries.QueryTimeoutMs = 2000;
+            var queryGraphResults = new QueryGraphResults();
+            var tasks = queryGraphResults.RunWikidataEndpointQueries(queryGraph);
+            queryGraphResults.AssignEndpointResults(queryGraph, tasks);
+
+            Assert.Empty(queryGraph.Nodes[0].Results);
+        }
+
+        [Fact]
+        public void TestFromGraph_VarEducatedAtCat_EmptyResults()
+        {
+            var graph = new RDFExplorerGraph()
+            {
+                nodes = new[]
+                {
+                    new Node(0, "?var0"),
+                    new Node(1, "?var1", new[] { "http://www.wikidata.org/entity/Q146"}),
+                },
+                edges = new[]
+                {
+                    new Edge(0, "?prop0", 0, 1, new[] { "http://www.wikidata.org/prop/direct/P69"})
+                },
+            };
+            var queryGraph = new QueryGraph(graph);
+
+            GraphApiQueries.QueryTimeoutMs = 2000;
+            var queryGraphResults = new QueryGraphResults();
+            var tasks = queryGraphResults.RunWikidataEndpointQueries(queryGraph);
+            queryGraphResults.AssignEndpointResults(queryGraph, tasks);
+
+            Assert.Empty(queryGraph.Nodes[0].Results);
         }
     }
 }

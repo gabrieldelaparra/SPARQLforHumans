@@ -5,8 +5,10 @@ using SparqlForHumans.Lucene.Queries.Graph;
 
 namespace SparqlForHumans.Benchmark.Models
 {
+
     public class LocalQueryRunner : QueryRunner
     {
+        private QueryGraphResults queryGraphResults = new QueryGraphResults();
         public LocalQueryRunner(QueryGraph graph)
         {
             //graph.ResetTraverse();
@@ -27,7 +29,7 @@ namespace SparqlForHumans.Benchmark.Models
             stopwatch.Start();
 
             //Query
-            new QueryGraphResults().GetGraphQueryResults(QueryGraph, QueryGraph.EntitiesIndexPath, QueryGraph.PropertiesIndexPath, false, false);
+            queryGraphResults.GetGraphQueryResults(QueryGraph, QueryGraph.EntitiesIndexPath, QueryGraph.PropertiesIndexPath, false, false);
 
             // Write result
             stopwatch.Stop();

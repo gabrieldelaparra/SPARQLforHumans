@@ -9,10 +9,8 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    [Collection("Sequential")]
     public class FilterHelperTests
     {
-        [Collection("Sequential")]
         public class FilterTrimmedTests : IDisposable
         {
             public FilterTrimmedTests()

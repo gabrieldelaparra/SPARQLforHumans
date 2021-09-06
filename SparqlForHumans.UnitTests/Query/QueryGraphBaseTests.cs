@@ -5,11 +5,8 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
     public class QueryGraphBaseTests
     {
-
-
         [Fact]
         public void TestEqualGraphs()
         {

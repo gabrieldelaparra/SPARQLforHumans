@@ -1,34 +1,16 @@
-﻿using System;
-using SparqlForHumans.Lucene.Index;
-using SparqlForHumans.Lucene.Models;
+﻿using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.Models.RDFExplorer;
-using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
-    public class QueryGraphTypesTests : IDisposable
+    public class QueryGraphTypesTests
     {
-        public QueryGraphTypesTests()
-        {
-            const string filename = @"Resources/QueryGraphTypes.nt";
-            EntitiesIndexPath.DeleteIfExists();
-            PropertiesIndexPath.DeleteIfExists();
-            new EntitiesIndexer(filename, EntitiesIndexPath).Index();
-            new PropertiesIndexer(filename, PropertiesIndexPath, EntitiesIndexPath).Index();
-        }
-
-        public void Dispose()
-        {
-            EntitiesIndexPath.DeleteIfExists();
-            PropertiesIndexPath.DeleteIfExists();
-        }
-
-        private const string EntitiesIndexPath = "QueryGraphTypesEntities";
-        private const string PropertiesIndexPath = "QueryGraphTypesProperties";
-
+        InMemoryQueryEngine InMemoryQueryEngine = new InMemoryQueryEngine();
+        private const string BaseEntitiesIndexPath = "QueryGraphTypesEntities";
+        private const string BasePropertiesIndexPath = "QueryGraphTypesProperties";
+        const string filename = @"Resources/QueryGraphTypes.nt";
 
         /// <summary>
         /// ?var0 ?prop0 ?var1
@@ -41,7 +23,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_1_SourceIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
                     new Node(1, "?var1")
@@ -55,7 +40,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Types);
@@ -84,7 +69,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_1_TargetIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0"),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q76"})
@@ -98,7 +86,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Empty(queryGraph.Nodes[0].Types);
@@ -127,7 +115,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_2_SourceIsGivenType_TargetIsGivenType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"})
@@ -141,7 +132,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Types);
@@ -173,7 +164,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_3_SourceIsGivenType_TargetIsGivenType_E0N0P27E1_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0", new[] {"http://www.wikidata.org/entity/Q76"}),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q30"})
@@ -187,7 +181,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.NotEmpty(queryGraph.Nodes[0].Types); //Q76
@@ -220,7 +214,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_2ConnectedNodes_4_SubjectIsInstanceOfType_2Nodes1Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0"),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"})
@@ -234,7 +231,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Empty(queryGraph.Nodes[0].Types);
@@ -272,7 +269,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_3ConnectedNodes_1_N0InstanceOfN1_E1DomainN0_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0"),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"}),
@@ -289,7 +289,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Empty(queryGraph.Nodes[0].Types);
@@ -339,7 +339,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_3ConnectedNodes_2_N0InstanceOfN1_E1RangeN0_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?var0"),
                     new Node(1, "?var1", new[] {"http://www.wikidata.org/entity/Q5"}),
@@ -356,7 +359,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Empty(queryGraph.Nodes[0].Types);
@@ -392,7 +395,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("Q5", queryGraph.Edges[1].RangeTypes); //Range of P31
         }
 
-
         /// <summary>
         /// ?human ?prop0 ?country
         /// ?human P31 HUMAN
@@ -406,7 +408,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_4ConnectedNodes_N1InstanceOfN3_N2InstanceOfN4_N1E1N2_E1DomainN1RangeN2_4Nodes3Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?human"),
                     new Node(1, "?country"),
@@ -425,7 +430,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             //?human
@@ -490,7 +495,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_2ConnectedNodes_N0P25N1_N0DRP25N1_2Nodes2Edges()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?human"),
                     new Node(1, "?country")
@@ -506,7 +514,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
@@ -533,7 +541,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_2ConnectedNodes_N0P25N1_N1DRP25N0_2Nodes2Edges()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son")
@@ -549,7 +560,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
@@ -576,7 +587,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
@@ -593,7 +607,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
@@ -623,7 +637,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1DomainP25_E2DomainP25_3Nodes3Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
@@ -641,7 +658,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
@@ -673,7 +690,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_E1RangeP25_3Nodes2Edge()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
@@ -690,7 +710,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);
@@ -720,7 +740,10 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestTypes_Inferred_3ConnectedNodes_N0P25N1_N1P27N2_E1DomainP25RangeP27_3Nodes3Edges()
         {
-            var graph = new RDFExplorerGraph {
+            var (EntitiesIndexPath, PropertiesIndexPath) = TestHelper.CreateIndexPaths(filename,
+                BaseEntitiesIndexPath, BasePropertiesIndexPath);
+            var graph = new RDFExplorerGraph
+            {
                 nodes = new[] {
                     new Node(0, "?mother"),
                     new Node(1, "?son"),
@@ -738,7 +761,7 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Act
             queryGraph.SetIndexPaths(EntitiesIndexPath, PropertiesIndexPath);
-            queryGraph.SetTypesDomainsAndRanges();
+            queryGraph.SetTypesDomainsAndRanges(InMemoryQueryEngine);
 
             //Assert
             Assert.Equal(2, queryGraph.Nodes[0].InferredTypes.Count);

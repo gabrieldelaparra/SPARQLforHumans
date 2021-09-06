@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
-using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Lucene.Queries.Fields;
 using SparqlForHumans.Models;
 using SparqlForHumans.Utilities;
@@ -12,15 +11,13 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
     public class QueryTests
     {
         [Fact]
         public void TestEntityPropertiesQueryResults()
         {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string filename = "Resources/EntityIndexMultipleInstanceQuery.nt";
             const string outputPath = "QueryEntityProperties";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -38,7 +35,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardQueriesFullWord";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -54,7 +50,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QuerySingle.nt";
             const string outputPath = "QueryInstanceOf";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -68,9 +63,8 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestIntersectEntityPropertiesQueryResults()
         {
-            const string filename = "Resources/EntityIndexMultipleInstance.nt";
+            const string filename = "Resources/EntityIndexMultipleInstanceQuery.nt";
             const string outputPath = "QueryEntityProperties";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -88,7 +82,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryMulti.nt";
             const string outputPath = "QueryMultiIndexBarack";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -104,7 +97,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryMulti.nt";
             const string outputPath = "QueryMultiIndexMichelle";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -121,7 +113,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardHalfWord";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -207,7 +198,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/TypeProperties.nt";
             const string outputPath = "CreateIndexIsTypeFields";
-
             outputPath.DeleteIfExists();
             Assert.False(Directory.Exists(outputPath));
 
@@ -303,7 +293,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryRanksAllWithAltLabelsQ1More.nt";
             const string outputPath = "QueryRanksAllWithAltLabelsQ1SortedByPageRank";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -326,7 +315,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryRanksAllWithAltLabels.nt";
             const string outputPath = "QueryRanksAllSameAltLabelsSortedByPageRank";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -348,7 +336,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryRanksOneWithAltLabels.nt";
             const string outputPath = "QueryRanksOneAltLabelsSortedByPageRank";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -371,7 +358,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryRanksOnlyAltLabels.nt";
             const string outputPath = "QueryRanksSortedByPageRankOnlyAltLabels";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -393,7 +379,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryRanksOnlyLabels.nt";
             const string outputPath = "QueryRanksSortedByPageRankOnlyLabels";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -576,7 +561,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QuerySingle.nt";
             const string outputPath = "QuerySingleIndexBarack";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -593,7 +577,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QuerySingle.nt";
             const string outputPath = "QuerySingleIndexMichelle";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -610,7 +593,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryEntityWildcardAllResults.nt";
             const string outputPath = "AllEntitiesResultsWildcardQueriesFullWord";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();
@@ -634,7 +616,6 @@ namespace SparqlForHumans.UnitTests.Query
             const string filename = @"Resources/QueryPropertyWildcardAllResults.nt";
             const string propertiesIndexPath = "AllPropertiesResultsWildcardQueriesFullWord";
             const string entitiesIndexPath = "AllPropertiesResultsWildcardQueriesFullWord_E";
-
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();
 
@@ -657,7 +638,6 @@ namespace SparqlForHumans.UnitTests.Query
         {
             const string filename = "Resources/QueryWildcardOnePerLetter.nt";
             const string outputPath = "OneLetterWildcardWithAsterisk";
-
             outputPath.DeleteIfExists();
 
             new EntitiesIndexer(filename, outputPath).Index();

@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-
 using SparqlForHumans.RDF.Reordering;
 using SparqlForHumans.Utilities;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    [Collection("Sequential")]
     public class ReorderingTests
     {
         [Fact]

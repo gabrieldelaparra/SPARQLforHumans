@@ -7,15 +7,16 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests.Query
 {
-    [Collection("Sequential")]
     public class InMemoryQueryEngineTests : IDisposable
     {
         private const string Filename = @"Resources/QueryGraphInMemoryEngine.nt";
         private const string EntitiesIndexPath = "QueryGraphInMemoryEngineEntities";
         private const string PropertiesIndexPath = "QueryGraphInMemoryEngineProperties";
+        private InMemoryQueryEngine InMemoryQueryEngine;
 
         public InMemoryQueryEngineTests()
         {
+            InMemoryQueryEngine = new InMemoryQueryEngine();
             EntitiesIndexPath.DeleteIfExists();
             PropertiesIndexPath.DeleteIfExists();
 

@@ -8,7 +8,6 @@ using Xunit;
 
 namespace SparqlForHumans.UnitTests
 {
-    [Collection("Sequential")]
     public class RDFExtensionsTests
     {
         [Fact]

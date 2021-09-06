@@ -12,14 +12,13 @@ using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.UnitTests.Index.Relations
 {
-    [Collection("Sequential")]
     public class IndexFieldsRanking
     {
         [Fact]
         public void TestIndexHasCorrectRankingFields()
         {
             const string filename = "Resources/EntityIndexPageRank.nt";
-            const string outputPath = "IndexRanks";
+            const string outputPath = "IndexHasCorrectRankingFields";
             outputPath.DeleteIfExists();
 
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
@@ -54,7 +53,7 @@ namespace SparqlForHumans.UnitTests.Index.Relations
         public void TestIndexWithDifferentIdsHasCorrectRankingFields()
         {
             const string filename = "Resources/EntityIndexPageRankDifferentIds.nt";
-            const string outputPath = "IndexRanks";
+            const string outputPath = "IndexWithDifferentIdsHasCorrectRankingFields";
 
             var nodesGraph = EntityPageRank.BuildSimpleNodesGraph(filename);
 

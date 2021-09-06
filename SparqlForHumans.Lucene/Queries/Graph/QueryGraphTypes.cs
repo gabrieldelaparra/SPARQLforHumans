@@ -8,11 +8,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 {
     public static class QueryGraphTypes
     {
-        public static void SetTypesDomainsAndRanges(this QueryGraph graph)
+        //private static readonly InMemoryQueryEngine InMemoryQueryEngine = new InMemoryQueryEngine();
+
+        public static void SetTypesDomainsAndRanges(this QueryGraph graph, InMemoryQueryEngine InMemoryQueryEngine)
         {
             InMemoryQueryEngine.Init(graph.EntitiesIndexPath, graph.PropertiesIndexPath);
             graph.SetBaseNodeTypes();
-            graph.SetBaseEdgeDomainRanges();
+            graph.SetBaseEdgeDomainRanges(InMemoryQueryEngine);
 
             graph.SetInferredNodeTypes();
             graph.SetInferredEdgeTypes();
@@ -20,7 +22,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             graph.SetInferredEdgeTypes();
         }
 
-        internal static void SetBaseEdgeDomainRanges(this QueryGraph graph)
+        internal static void SetBaseEdgeDomainRanges(this QueryGraph graph, InMemoryQueryEngine InMemoryQueryEngine)
         {
             foreach (var edge in graph.Edges.Select(x => x.Value)) {
                 var sourceNode = edge.GetSourceNode(graph);

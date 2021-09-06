@@ -1,14 +1,43 @@
-﻿using System;
-using SparqlForHumans.Wikidata.Models;
-using SparqlForHumans.Wikidata.Services;
-using VDS.RDF.Query;
+﻿using SparqlForHumans.Wikidata.Services;
 using Xunit;
 
 namespace SparqlForHumans.UnitTests.Wikidata
 {
-    [Collection("Sequential")]
     public class WikidataQueriesTest
     {
+        [Fact]
+        public void TestSparqlEndpointWorks_VarToHuman_TimesOut()
+        {
+            var query = @"
+SELECT DISTINCT * WHERE 
+{ 
+  ?var2 ?prop1 <http://www.wikidata.org/entity/Q5> . 
+  FILTER(<http://www.w3.org/2005/xpath-functions#starts-with>(STR(?var2),""http://www.wikidata.org/entity/Q"")) 
+  FILTER(<http://www.w3.org/2005/xpath-functions#starts-with>(STR(?prop1),""http://www.wikidata.org/prop/direct/P"")) 
+}
+LIMIT 10000 
+";
+            GraphApiQueries.QueryTimeoutMs = 2000;
+            var results = GraphApiQueries.RunQuery(query);
+            Assert.Null(results);
+        }
+
+        [Fact]
+        public void TestSparqlEndpointWorks_VarToCat_WorksFine()
+        {
+            var query = @"
+SELECT DISTINCT * WHERE 
+{ 
+  ?var2 ?prop1 <http://www.wikidata.org/entity/Q146> . 
+  FILTER(<http://www.w3.org/2005/xpath-functions#starts-with>(STR(?var2),""http://www.wikidata.org/entity/Q"")) 
+  FILTER(<http://www.w3.org/2005/xpath-functions#starts-with>(STR(?prop1),""http://www.wikidata.org/prop/direct/P"")) 
+}
+LIMIT 10000 
+";
+            var results = GraphApiQueries.RunQuery(query);
+            Assert.NotEmpty(results);
+        }
+
         [Fact]
         public void TestSparqlEndpointWorks_Cats()
         {

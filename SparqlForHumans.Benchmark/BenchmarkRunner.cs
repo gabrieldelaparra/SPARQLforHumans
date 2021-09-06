@@ -14,6 +14,7 @@ namespace SparqlForHumans.Benchmark
     {
         public static void RunQueriesFromProperties()
         {
+            var InMemoryQueryEngine = new InMemoryQueryEngine();
             InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             var queryBenchmarks = new List<QueryBenchmark>();
 
@@ -189,6 +190,7 @@ namespace SparqlForHumans.Benchmark
 
         public static void RunQueriesFromFiles()
         {
+            var InMemoryQueryEngine = new InMemoryQueryEngine();
             InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
             var queryBenchmarks = new List<QueryBenchmark>();
             var path = @"C:\Users\admin\Desktop\DCC\SparqlforHumans\SparqlForHumans.Benchmark\Queries\";

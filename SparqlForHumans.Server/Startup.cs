@@ -13,7 +13,7 @@ namespace SparqlForHumans.Server
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
+            StaticQueryGraphResults.InMemoryQueryEngine.Init(LuceneDirectoryDefaults.EntityIndexPath, LuceneDirectoryDefaults.PropertyIndexPath);
         }
 
         readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
