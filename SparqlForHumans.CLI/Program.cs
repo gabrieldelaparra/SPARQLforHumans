@@ -1,24 +1,11 @@
 ﻿using SparqlForHumans.Lucene;
-using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index;
-using SparqlForHumans.Lucene.Queries;
 using SparqlForHumans.Utilities;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using CommandLine;
-using Lucene.Net.Index;
-using Lucene.Net.Store;
-using NaturalSort.Extension;
 using NLog;
 using NLog.Targets;
-using SparqlForHumans.Logger;
-using SparqlForHumans.Lucene.Queries.Fields;
-using SparqlForHumans.Lucene.Queries.Graph;
 using SparqlForHumans.RDF.FilterReorderSort;
-using SparqlForHumans.RDF.Reordering;
-using VDS.RDF;
 using Directory = System.IO.Directory;
 
 namespace SparqlForHumans.CLI
@@ -78,7 +65,7 @@ namespace SparqlForHumans.CLI
             var logFilename = fileTarget.FileName.Render(logEventInfo);
 
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed<Options>(o =>
+                .WithParsed(o =>
                 {
                     Logger.Info($"Running with the following arguments: {string.Join(',', args)}");
                     Logger.Info($"DisplayOutputPathsOnly: {o.DisplayOutputPathsOnly}");
