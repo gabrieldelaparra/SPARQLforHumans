@@ -41,7 +41,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             AssignEndpointResults(graph, tasks);
         }
 
-        public void AssignEndpointResults(QueryGraph graph, List<Task<SparqlResultSet>> tasks)
+        private void AssignEndpointResults(QueryGraph graph, List<Task<SparqlResultSet>> tasks)
         {
             if (!tasks.Any()) return;
 
@@ -76,12 +76,13 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             foreach (var queryGroup in queryResultsGroup)
             {
                 var itemKey = $"{queryGroup.Key}";
-                var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId());
-                var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey));
+                var itemKeyMark = $"?{itemKey}";
+                var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId()).Distinct().ToList();
+                var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey) || x.name.Equals(itemKeyMark));
                 if (node != null)
                     node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(10000);
 
-                var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey));
+                var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey) || x.name.Equals(itemKeyMark));
                 if (edge != null)
                     edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(10000);
             }
@@ -288,7 +289,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             }
         }
 
-        public List<Task<SparqlResultSet>> RunWikidataEndpointQueries(QueryGraph graph, int limit = 100)
+        private List<Task<SparqlResultSet>> RunWikidataEndpointQueries(QueryGraph graph, int limit = 100)
         {
             var tasks = new List<Task<SparqlResultSet>>();
 
@@ -296,6 +297,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             {
                 //if (node.Traversed) continue;
                 var query = node.ToSparql(graph, limit).ToString().FixQuery();
+                //Somehow it sends some empty queries, not sure why. Easy fix, but not the right one.
+                if(query.Contains("WHERE  { }")) continue;
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }
 
