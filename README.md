@@ -16,13 +16,13 @@ Then some tools for compiling the source code.
 
 - `dotnet SDK` https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-5.0.402-windows-x64-installer
 - `git for windows SDK` https://github.com/git-for-windows/build-extra/releases/latest
-> `Git For Windows SDK` since need an update version of `gzip` to sort the large output files)
+> `Git For Windows SDK` since need an update version of `gzip` to sort the large output files
 
 For the `RDFExplorer` client, we will also need `node` https://nodejs.org/en/download/
 > If your planning on running the benchamarks only, then `node` is not required.
 
 ### Set up gzip
-On the `Git SDK-64` console (`Git for Windows SDK Console`)
+On the `Git SDK-64` console (`Git for Windows SDK Console`)\
 Install `gzip` via `pacman`
 
 ``` bash
@@ -62,7 +62,7 @@ $ dotnet test
 > Passed!  - Failed:     0, Passed:   214, Skipped:     0, Total:   214, Duration: 9 s - SparqlForHumans.UnitTests.dll (netcoreapp3.1)
 ```
 
-If any of the tests do not pass, you can create an issue and I will get in touch with you :)
+If any of the tests do not pass, you can create an issue and I will get in touch with you :)\
 Now we will run the Command Line Interface to filter and index our Wikidata dump.
 
 ## Command line interface
@@ -74,8 +74,8 @@ $ dotnet run -- --version
 > SparqlForHumans.CLI 1.0.0
 ```
 
-For the following sections a given `Sample500.nt` file is given on the root folder of the repository.
-To build the complete index (production), `latest-truthy.nt.gz` should be used.
+For the following sections a given `Sample500.nt` file is given on the root folder of the repository.\
+To build the complete index (production), `latest-truthy.nt.gz` should be used.\
 Please note that filtering and indexing the `latest-truthy.nt.gz` will take some 40~80 hours, depending on your system.
 
 ## Filter
@@ -94,7 +94,7 @@ To filter run:
 $ dotnet run -- -i ../Sample500.nt -f
 ```
 
-The command for `sorting` is given in the console after filtering.
+The command for `sorting` is given in the console after filtering.\
 It will add the `.filterAll.gz` sufix as filtered output and `.filterAll-Sorted.gz` for sorting.
 
 ## Sort
