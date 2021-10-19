@@ -6,7 +6,6 @@ namespace SparqlForHumans.Benchmark
     {
         static void Main(string[] args)
         {
-            //BenchmarkRunner.RunQueries();
             BenchmarkRunner.RunQueriesFromProperties();
             BenchmarkAnalysis.LogBaseMetrics();
             BenchmarkAnalysis.LogPointByPoint();
