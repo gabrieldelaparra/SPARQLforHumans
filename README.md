@@ -168,11 +168,12 @@ With the full index we can compare our results agains the `Wikidata Endpoint`.
   - `?var1 {Prop} ?var2 ; ?var2 ?prop ?var3 ;`
   - `?var1 {Prop} ?var2 ; ?var3 ?prop ?var2 ;`
 - `268` queries are run against our `Local Index` and the `Remote Endpoint`.
+- We will query for `?prop` on both (Local and Remote) and compare the results.
 - Running the benchmarks takes 3 hours, due to the 50 seconds timeout if the query cannot be completed on the Wikidata Endpoint.
 - The details of the runs will be stored at `benchmark.json`.
 - The time results will be summarized at `results.txt`.
 - The time results, for each query, will be exported to a `points.csv`. Each row is a query. The `Id` of the query can be found on the `benchmark.json` file as `HashCode`.
-- A qualitative comparison (`precision`, `recall`, `f1`), for each query, will be exported to `metrics.csv`. Each row is a query.
+- A qualitative comparison (`precision`, `recall`, `f1`), for each query, will be exported to `metrics.csv`. Each row is a query. This will only consider those queries that returned results on the `Remote Wikidata Endpoint`.
 
 ``` bash
 $ cd ../SparqlForHumans.Benchmark/
