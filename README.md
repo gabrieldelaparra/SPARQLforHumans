@@ -18,7 +18,7 @@ Then some tools for compiling the source code.
 - `git for windows SDK` https://github.com/git-for-windows/build-extra/releases/latest
 > `Git For Windows SDK` since need an update version of `gzip` to sort the large output files
 
-For the `RDFExplorer` client, we will also need `node` https://nodejs.org/en/download/
+- For the `RDFExplorer` client, we will also need `node` https://nodejs.org/en/download/
 > If your planning on running the benchamarks only, then `node` is not required.
 
 ### Set up gzip
