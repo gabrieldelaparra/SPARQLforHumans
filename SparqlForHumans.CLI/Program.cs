@@ -59,7 +59,7 @@ namespace SparqlForHumans.CLI
 
         public static void Main(string[] args)
         {
-            Logger.Info("Buckle up...");
+            Logger.Debug("SparqlForHumans");
             var fileTarget = (FileTarget)LogManager.Configuration.FindTargetByName("logfile");
             var logEventInfo = new LogEventInfo { TimeStamp = DateTime.Now };
             var logFilename = fileTarget.FileName.Render(logEventInfo);
