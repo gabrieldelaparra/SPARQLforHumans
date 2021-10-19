@@ -270,3 +270,5 @@ Progress.md
 /500k LuceneEntitiesIndex
 /500k LucenePropertiesIndex
 /SparqlForHumans.CLI/filtered-All.nt
+SparqlForHumans.CLI/Sample500.filterAll-Sorted.gz
+SparqlForHumans.CLI/Sample500.filterAll.gz
