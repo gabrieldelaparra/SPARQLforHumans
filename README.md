@@ -76,7 +76,7 @@ $ dotnet run -- --version
 
 For the following sections a given `Sample500.nt` file is given on the root folder of the repository.\
 To build the complete index (production), `latest-truthy.nt.gz` should be used.\
-**Please note that filtering and indexing the `latest-truthy.nt.gz` will take some 40~80 hours, depending on your system.**
+**Please note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take between 40~80 hours, depending on your system.**
 
 ## Filter
 
@@ -97,11 +97,15 @@ $ dotnet run -- -i ../Sample500.nt -f
 The command for `sorting` is given in the console after filtering.\
 It will add the `.filterAll.gz` sufix as filtered output and `.filterAll-Sorted.gz` for sorting.
 
+> Filter for `latest` takes around `9 hours` on my notebook computer (16GB RAM).
+
 ## Sort
 
 Sorting takes `Sample500.filterAll.gz` as input and outputs `Sample500.filterAll-Sorted.gz`.
 
-> The sorting command process gives no notifications about the status. For the `latest` it should take around 6h.
+> The sorting command process gives no notifications about the status. 
+
+> Sorting `latest` it takes around `6 hours` and requires `3x` the size of `Filtered.gz` disk space (~40GB free for `latest`)
 
 ``` bash
 $ gzip -dc Sample500.filterAll.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > Sample500.filterAll-Sorted.gz
