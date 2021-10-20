@@ -104,7 +104,6 @@ It will add the `.filterAll.gz` sufix as filtered output and `.filterAll-Sorted.
 Sorting takes `Sample500.filterAll.gz` as input and outputs `Sample500.filterAll-Sorted.gz`.
 
 > The sorting command process gives no notifications about the status. 
-
 > Sorting `latest` it takes around `6 hours` and requires `3x` the size of `Filtered.gz` disk space (~40GB free for `latest`)
 
 ``` bash
