@@ -1,5 +1,8 @@
 # SPARQL for Humans
 
+Paper\
+https://aidanhogan.com/docs/sparql-autocompletion.pdf
+
 # Using this repository
 
 You will first need a Wikidata dump.
