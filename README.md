@@ -169,10 +169,10 @@ Now browse to `http://localhost:4200/`
 
 With the full index we can compare our results agains the `Wikidata Endpoint`.
 - `67` Properties (`{Prop}`) have been selected to run `4` type of queries (For a total of `268`)
-  - `?var1 {Prop} ?var2 ; ?var1 ?prop ?var3 ;`
-  - `?var1 {Prop} ?var2 ; ?var3 ?prop ?var1 ;`
-  - `?var1 {Prop} ?var2 ; ?var2 ?prop ?var3 ;`
-  - `?var1 {Prop} ?var2 ; ?var3 ?prop ?var2 ;`
+  - `?var1 {Prop} ?var2 . ?var1 ?prop ?var3 .`
+  - `?var1 {Prop} ?var2 . ?var3 ?prop ?var1 .`
+  - `?var1 {Prop} ?var2 . ?var2 ?prop ?var3 .`
+  - `?var1 {Prop} ?var2 . ?var3 ?prop ?var2 .`
 - `268` queries are run against our `Local Index` and the `Remote Endpoint`.
 - We will query for `?prop` on both (Local and Remote) and compare the results.
 - Running the benchmarks takes `2~3 hours`, due to the 50 seconds timeout if the query cannot be completed on the Wikidata Endpoint.
