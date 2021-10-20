@@ -101,7 +101,7 @@ It will add the `.filterAll.gz` sufix as filtered output and `.filterAll-Sorted.
 
 Sorting takes `Sample500.filterAll.gz` as input and outputs `Sample500.filterAll-Sorted.gz`.
 
-> The sorting command process gives no notifications about the status. Please be patient.
+> The sorting command process gives no notifications about the status. For the `latest` it should take around 6h.
 
 ``` bash
 $ gzip -dc Sample500.filterAll.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > Sample500.filterAll-Sorted.gz
