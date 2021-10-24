@@ -34,7 +34,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 1000) : new List<Task<SparqlResultSet>>();
 
-            if (runNodeQueries) RunNodeQueries(graph);
+            if (runNodeQueries) 
+                RunNodeQueries(graph);
 
             RunEdgeQueries(graph);
 
@@ -231,8 +232,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 if (node.IsInstanceOf)
                 {
                     //Intersect (Not if any, we want only the results of that instance, even if there are none):
-                    var instanceOfResults =
-                        new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 200).Query(20).ToList();
+                    var instanceOfResults = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 200).Query(20).ToList();
                     node.Results = instanceOfResults;
                     //TODO: Not sure if the previous run should consider this:
                     //node.Results = node.Results.Intersect(instanceOfResults).ToList();
