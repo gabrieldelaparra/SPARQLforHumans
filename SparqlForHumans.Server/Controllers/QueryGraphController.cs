@@ -26,14 +26,6 @@ namespace SparqlForHumans.Server.Controllers
             public string Id { get; set; }
             public string Value { get; set; }
         }
-        //public Dictionary<string, Result> ToDictionary(IEnumerable<Property> subjects)
-        //{
-        //    return subjects.ToDictionary(x => x.Id, y => new Result() { Id = $"http://www.wikidata.org/prop/direct/{y.Id}", Value = y.Label });
-        //}
-        //public Dictionary<string, Result> ToDictionary(IEnumerable<Entity> subjects)
-        //{
-        //    return subjects.ToDictionary(x => x.Id, y => new Result() { Id = $"http://www.wikidata.org/entity/{y.Id}", Value = y.Label });
-        //}
     }
 
 
