@@ -78,8 +78,9 @@ $ dotnet run -- --version
 ```
 
 For the following sections a given `Sample500.nt` file is given on the root folder of the repository.\
-To build the complete index (production), `latest-truthy.nt.gz` should be used.\
-**Please note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take between 40~80 hours, depending on your system.**
+To build the complete index (production), `latest-truthy.nt.gz` should be used.
+
+> **Note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take `~40 hours`, depending on your system.**
 
 ## Filter
 
@@ -125,6 +126,8 @@ $ dotnet run -- -i Sample500.filterAll-Sorted.gz -e
 
 If `-p` was not used above, then we need to create the Properties Index.
 
+> Building the Entities Index takes `~30 hours` to complete.
+
 ## Properties Index
 
 ``` bash
@@ -135,6 +138,8 @@ Properties Index will be created by default at `%homepath%\SparqlForHumans\Lucen
 Now our index is ready.
 - We can now run our backend via `SparqlForHumans.Server/` using the `RDFExplorer` client.
 - Or recreate the results from the paper via `SparqlForHumans.Benchmark/`.
+
+> Building the Properties Index takes `~2 hours` to complete.
 
 ## Run Server
 The backend will listen to request from a modified version of `RDFExplorer`. First we will need to get the server running:
