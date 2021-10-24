@@ -79,7 +79,7 @@ $ dotnet run -- --version
 
 For the following sections a given `Sample500.nt` file is given on the root folder of the repository.\
 To build the complete index (production), `latest-truthy.nt.gz` should be used.\
-**Please note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take between 40~80 hours, depending on your system.**
+**Please note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take `~40 hours`, depending on your system.**
 
 ## Filter
 
