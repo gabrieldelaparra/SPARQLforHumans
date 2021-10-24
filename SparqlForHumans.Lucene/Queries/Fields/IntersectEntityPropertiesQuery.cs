@@ -20,7 +20,7 @@ namespace SparqlForHumans.Lucene.Queries.Fields
             this.lotResultsLimit = lotResultsLimit;
         }
 
-        public List<Entity> Query(int totalResultsLimit = 100)
+        public IEnumerable<Entity> Query(int totalResultsLimit = 100)
         {
             var results = new List<Entity>();
             foreach (var searchString in searchStrings)
@@ -30,7 +30,7 @@ namespace SparqlForHumans.Lucene.Queries.Fields
                 results = results.IntersectIfAny(queryResults).ToList();
             }
 
-            return results.OrderByDescending(x => x.Rank).Take(totalResultsLimit).ToList();
+            return results.OrderByDescending(x => x.Rank).Take(totalResultsLimit);
         }
     }
 }

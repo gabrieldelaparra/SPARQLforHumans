@@ -36,7 +36,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
         internal int ResultsLimit { get; set; }
         internal IEnumerable<string> SearchStrings { get; set; }
         public string LuceneIndexPath { get; set; }
-        public abstract List<T> Query(int totalResultsLimit = 100);
+        public abstract IEnumerable<T> Query(int totalResultsLimit = 100);
 
         internal virtual IReadOnlyList<Document> GetDocuments()
         {
@@ -45,18 +45,17 @@ namespace SparqlForHumans.Lucene.Queries.Base
             if (SearchStrings.All(IsInvalidSearchString))
                 return list;
 
-            using (var luceneDirectory = FSDirectory.Open(LuceneIndexPath)) {
-                using var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory);
-                var searcher = new IndexSearcher(luceneDirectoryReader);
+            using var luceneDirectory = FSDirectory.Open(LuceneIndexPath);
+            using var luceneDirectoryReader = DirectoryReader.Open(luceneDirectory);
+            var searcher = new IndexSearcher(luceneDirectoryReader);
 
-                foreach (var searchString in SearchStrings) {
-                    if (IsInvalidSearchString(searchString)) continue;
-                    var preparedSearchTerm = PrepareSearchTerm(searchString);
+            foreach (var searchString in SearchStrings) {
+                if (IsInvalidSearchString(searchString)) continue;
+                var preparedSearchTerm = PrepareSearchTerm(searchString);
 
-                    var query = ParserUtilities.ParseQuery(preparedSearchTerm, queryParser);
-                    var hits = searcher.Search(query, Filter, ResultsLimit).ScoreDocs;
-                    list.AddRange(hits.Select(hit => searcher.Doc(hit.Doc)));
-                }
+                var query = ParserUtilities.ParseQuery(preparedSearchTerm, queryParser);
+                var hits = searcher.Search(query, Filter, ResultsLimit).ScoreDocs;
+                list.AddRange(hits.Select(hit => searcher.Doc(hit.Doc)));
             }
 
             return list;

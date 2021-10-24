@@ -17,7 +17,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
 
         internal override Filter Filter => new PrefixFilter(new Term(Labels.IsTypeEntity.ToString(), true.ToString()));
 
-        public override List<Entity> Query(int totalResultsLimit = 100)
+        public override IEnumerable<Entity> Query(int totalResultsLimit = 100)
         {
             return GetDocuments().ToEntities();
         }

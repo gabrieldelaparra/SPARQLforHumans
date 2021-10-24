@@ -8,7 +8,7 @@ namespace SparqlForHumans.Wikidata.Services
 {
     public static class GraphApiQueries
     {
-        public static int QueryTimeoutMs { get; set; } = 10000;
+        public static int QueryTimeoutMs { get; set; } = 5000;
         public static SparqlResultSet RunQuery(string sparqlQuery, bool runOnEndpoint = true)
         {
             if (!runOnEndpoint)

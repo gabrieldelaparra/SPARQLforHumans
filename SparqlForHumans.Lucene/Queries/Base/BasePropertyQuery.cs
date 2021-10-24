@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Models;
 
@@ -12,9 +13,9 @@ namespace SparqlForHumans.Lucene.Queries.Base
         public BasePropertyQuery(string luceneIndexPath, string searchString, int resultsLimit = 1) : base(
             luceneIndexPath, searchString, resultsLimit) { }
 
-        public override List<Property> Query(int totalResultsLimit = 100)
+        public override IEnumerable<Property> Query(int totalResultsLimit = 100)
         {
-            return GetDocuments().ToProperties();
+            return GetDocuments().ToProperties().Distinct().OrderByDescending(x => x.Rank).Take(totalResultsLimit);
         }
     }
 }

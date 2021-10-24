@@ -12,7 +12,7 @@ namespace SparqlForHumans.Lucene.Queries.Base
         public BaseEntityQuery(string luceneIndexPath, string searchString, int resultsLimit = 1) : base(
             luceneIndexPath, searchString, resultsLimit) { }
 
-        public override List<Entity> Query(int totalResultsLimit = 100)
+        public override IEnumerable<Entity> Query(int totalResultsLimit = 100)
         {
             return GetDocuments().ToEntities();
         }

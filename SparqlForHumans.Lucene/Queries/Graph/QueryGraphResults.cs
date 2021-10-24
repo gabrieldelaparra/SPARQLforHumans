@@ -32,7 +32,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             CheckAvoidQueries(graph);
 
-            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 10000) : new List<Task<SparqlResultSet>>();
+            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 1000) : new List<Task<SparqlResultSet>>();
 
             if (runNodeQueries) RunNodeQueries(graph);
 
@@ -80,11 +80,11 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 var itemResults = queryGroup.Select(x => x.Value).Select(x => x.GetId()).Distinct().ToList();
                 var node = nodes.FirstOrDefault(x => x.name.Equals(itemKey) || x.name.Equals(itemKeyMark));
                 if (node != null)
-                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(10000);
+                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, itemResults).Query(1000).ToList();
 
                 var edge = edges.FirstOrDefault(x => x.name.Equals(itemKey) || x.name.Equals(itemKeyMark));
                 if (edge != null)
-                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(10000);
+                    edge.Results = new BatchIdPropertyQuery(graph.PropertiesIndexPath, itemResults).Query(1000).ToList();
             }
         }
 
@@ -106,7 +106,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                     node.AvoidQuery = true;
                     var rnd = new Random();
                     var randomEntities = Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
-                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
+                    node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query().ToList();
                     //TODO: Temporary, for not getting empty results if there were none.
                     if (node.Results.Count < 20)
                     {
@@ -123,7 +123,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     node.AvoidQuery = true;
                     node.Results =
-                        new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 100).Query();
+                        new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 100).Query().ToList();
                 }
             }
 
@@ -216,8 +216,8 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
 
                 edge.Results = !possibleProperties.Any()
-                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*").Query()
-                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query(10000);
+                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*",100000).Query(1000).ToList()
+                    : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query(10000).ToList();
             }
         }
 
@@ -232,7 +232,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 {
                     //Intersect (Not if any, we want only the results of that instance, even if there are none):
                     var instanceOfResults =
-                        new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 200).Query(20);
+                        new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, node.ParentTypes, 200).Query(20).ToList();
                     node.Results = instanceOfResults;
                     //TODO: Not sure if the previous run should consider this:
                     //node.Results = node.Results.Intersect(instanceOfResults).ToList();
@@ -268,7 +268,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         //TODO: Why sort them randomly? What is wrong with their current sorting?
                         intersectTypes = intersectTypes.TakeRandom(100000).ToList();
                         node.Results = new BatchIdEntityInstanceQuery(graph.EntitiesIndexPath, intersectTypes, 200)
-                            .Query(1000);
+                            .Query(1000).ToList();
                     }
                     else
                     {
@@ -276,7 +276,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                         var rnd = new Random();
                         var randomEntities =
                             Enumerable.Repeat(1, 100).Select(_ => rnd.Next(99999)).Select(x => $"Q{x}");
-                        node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query();
+                        node.Results = new BatchIdEntityQuery(graph.EntitiesIndexPath, randomEntities).Query().ToList();
                         //TODO: Temporary, for not getting empty results if there were none.
                         if (node.Results.Count < 20)
                         {

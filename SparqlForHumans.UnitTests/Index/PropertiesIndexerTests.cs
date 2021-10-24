@@ -133,7 +133,7 @@ namespace SparqlForHumans.UnitTests.Index
             //Act
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
             new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
-            var properties = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query();
+            var properties = new MultiLabelPropertyQuery(propertiesIndexPath, "*").Query().ToList();
 
             //Assert
             Assert.NotEmpty(properties);

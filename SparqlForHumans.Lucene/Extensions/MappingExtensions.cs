@@ -13,7 +13,7 @@ namespace SparqlForHumans.Lucene.Extensions
         public static void AddProperties(this List<Entity> entities, string indexPath)
         {
             var propertiesIds = entities.SelectMany(x => x.Properties).Select(x => x.Id).Distinct();
-            var properties = new BatchIdPropertyQuery(indexPath, propertiesIds).GetDocuments().ToProperties();
+            var properties = new BatchIdPropertyQuery(indexPath, propertiesIds).GetDocuments().ToPropertiesList();
 
             foreach (var entity in entities) {
                 foreach (var property in entity.Properties) {
@@ -133,12 +133,22 @@ namespace SparqlForHumans.Lucene.Extensions
             entity.SubClass = doc.GetValues(Labels.SubClass);
         }
 
-        public static List<Entity> ToEntities(this IReadOnlyList<Document> documents)
+        public static List<Entity> ToEntitiesList(this IReadOnlyList<Document> documents)
         {
             return documents?.Select(MapEntity).ToList();
         }
 
-        public static List<Property> ToProperties(this IReadOnlyList<Document> documents)
+        public static IEnumerable<Entity> ToEntities(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapEntity);
+        }
+
+        public static IEnumerable<Property> ToProperties(this IReadOnlyList<Document> documents)
+        {
+            return documents?.Select(MapProperty);
+        }
+
+        public static List<Property> ToPropertiesList(this IReadOnlyList<Document> documents)
         {
             return documents?.Select(MapProperty).ToList();
         }
