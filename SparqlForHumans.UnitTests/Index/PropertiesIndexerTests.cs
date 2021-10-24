@@ -62,7 +62,7 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.Equal("P555", properties[0].Id);
             Assert.Equal("P27", properties[1].Id);
             Assert.Equal("P777", properties[2].Id);
-
+            
             var property555 = properties[0];
             var property27 = properties[1];
             var property777 = properties[2];
@@ -204,7 +204,7 @@ namespace SparqlForHumans.UnitTests.Index
             Assert.NotEmpty(property31WithRange);
             Assert.Contains(100, property31WithRange);
             Assert.Contains(200, property31WithRange);
-            Assert.DoesNotContain(5, property31WithRange);
+            Assert.Contains(5, property31WithRange);
 
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();

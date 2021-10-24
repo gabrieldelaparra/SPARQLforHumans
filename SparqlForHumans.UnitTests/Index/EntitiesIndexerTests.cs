@@ -114,12 +114,13 @@ namespace SparqlForHumans.UnitTests.Index
             using var reader = DirectoryReader.Open(luceneDirectory);
             var doc = reader.Document(0);
 
-            Assert.Equal(4, doc.GetValues(Labels.Property).Length);
+            Assert.Equal(5, doc.GetValues(Labels.Property).Length);
 
-            Assert.Equal("P17", doc.GetValues(Labels.Property)[0]);
-            Assert.Equal("P47", doc.GetValues(Labels.Property)[1]);
-            Assert.Equal("P279", doc.GetValues(Labels.Property)[2]);
-            Assert.Equal("P131", doc.GetValues(Labels.Property)[3]);
+            Assert.Equal("P31", doc.GetValues(Labels.Property)[0]);
+            Assert.Equal("P17", doc.GetValues(Labels.Property)[1]);
+            Assert.Equal("P47", doc.GetValues(Labels.Property)[2]);
+            Assert.Equal("P279", doc.GetValues(Labels.Property)[3]);
+            Assert.Equal("P131", doc.GetValues(Labels.Property)[4]);
         }
  
         [Fact]

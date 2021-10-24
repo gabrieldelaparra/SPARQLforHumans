@@ -998,7 +998,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
-            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
@@ -1094,7 +1094,7 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.KnownSubjectAndObjectTypesIntersectDomainRangeProperties, queryGraph.Edges[0].QueryType);
             Assert.NotEmpty(queryGraph.Edges[0].Results);
             Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P27"));
-            Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P31"));
+            Assert.Contains(queryGraph.Edges[0].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P25"));
             Assert.DoesNotContain(queryGraph.Edges[0].Results, x => x.Id.Equals("P22"));
@@ -1191,12 +1191,12 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.NotEmpty(queryGraph.Edges[1].Results);
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
-            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
         }
 
         /// <summary>
@@ -1282,10 +1282,10 @@ namespace SparqlForHumans.UnitTests.Query
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[1].QueryType);
             Assert.NotEmpty(queryGraph.Edges[1].Results);
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
         }
@@ -1512,7 +1512,7 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P6"));
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P22"));
             Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P25"));
-            Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
+            Assert.Contains(queryGraph.Edges[1].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[1].Results, x => x.Id.Equals("P530"));
@@ -1630,9 +1630,9 @@ namespace SparqlForHumans.UnitTests.Query
 
             //Assert.Equal(QueryType.InferredDomainAndRangeTypeProperties, queryGraph.Edges[2].QueryType);
             Assert.NotEmpty(queryGraph.Edges[2].Results);
+            Assert.Contains(queryGraph.Edges[2].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P22"));
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P25"));
-            Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P31"));
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P21"));
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P27"));
             Assert.DoesNotContain(queryGraph.Edges[2].Results, x => x.Id.Equals("P530"));

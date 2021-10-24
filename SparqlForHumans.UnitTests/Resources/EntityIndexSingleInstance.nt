@@ -6,6 +6,7 @@
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "NIR"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "UKN"@en .
 <http://www.wikidata.org/entity/Q26> <http://www.w3.org/2004/02/skos/core#altLabel> "North Ireland"@en .
+<http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P31> <http://www.wikidata.org/entity/Q6256> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P17> <http://www.wikidata.org/entity/Q145> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P47> <http://www.wikidata.org/entity/Q27> .
 <http://www.wikidata.org/entity/Q26> <http://www.wikidata.org/prop/direct/P279> <http://www.wikidata.org/entity/Q46> .

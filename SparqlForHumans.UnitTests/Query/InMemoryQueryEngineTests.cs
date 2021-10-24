@@ -40,7 +40,6 @@ namespace SparqlForHumans.UnitTests.Query
             Assert.Contains("P25", actual);
             Assert.Contains("P27", actual);
             Assert.Contains("P777", actual);
-
         }
 
         [Fact]
@@ -52,10 +51,31 @@ namespace SparqlForHumans.UnitTests.Query
         }
 
         [Fact]
+        public void TestDomainEntitiesInstanceOf()
+        {
+            var actual = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(new[] { "http://www.wikidata.org/prop/direct/P31" }).ToArray();
+
+            Assert.Equal(8, actual.Length);
+            Assert.Contains("Q5", actual);
+            Assert.Contains("Q49088", actual);
+        }
+
+        [Fact]
+        public void TestRangeEntitiesInstanceOf()
+        {
+            var actual = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(new[] { "http://www.wikidata.org/prop/direct/P31" }).ToArray();
+
+            Assert.Equal(8, actual.Length);
+            Assert.Contains("Q100", actual);
+            Assert.Contains("Q300", actual);
+        }
+
+        [Fact]
         public void TestDomainEntities()
         {
             var actual = InMemoryQueryEngine.BatchPropertyIdDomainTypesQuery(new[] { "http://www.wikidata.org/prop/direct/P25" }).ToArray();
 
+            Assert.Equal(2, actual.Length);
             Assert.Contains("Q5", actual);
             Assert.Contains("Q49088", actual);
         }
@@ -63,8 +83,9 @@ namespace SparqlForHumans.UnitTests.Query
         [Fact]
         public void TestRangeEntities()
         {
-            var actual = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(new[] { "http://www.wikidata.org/prop/direct/P27" });
+            var actual = InMemoryQueryEngine.BatchPropertyIdRangeTypesQuery(new[] { "http://www.wikidata.org/prop/direct/P27" }).ToArray();
 
+            Assert.Single(actual);
             Assert.Contains("Q6256", actual);
         }
 

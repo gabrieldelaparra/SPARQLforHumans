@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 using Lucene.Net.Documents;
 using Lucene.Net.Index;
 using Lucene.Net.Store;
+
 using SparqlForHumans.Logger;
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Index.Base;
@@ -70,18 +72,18 @@ namespace SparqlForHumans.Lucene.Index
             {
                 var doc = luceneDirectoryReader.Document(i);
                 var entity = doc.MapEntity();
-                var reverseProperties = entity.ReverseProperties.Select(x => x.Id.ToInt());
-                var properties = entity.Properties.Select(x => x.Id.ToInt());
+                var reverseProperties = entity.ReverseProperties.Select(x => x.Id.ToInt()).ToList();
+                var properties = entity.Properties.Select(x => x.Id.ToInt()).ToList();
 
                 //TODO: Use constant:
-                var otherProperties = properties.Where(x => !x.Equals(31));
-                var types = entity.ParentTypes.Select(x => x.ToInt());
+                var otherProperties = properties.Where(x => !x.Equals(31)).ToList();
+                var types = entity.ParentTypes.Select(x => x.ToInt()).ToList();
                 var isType = entity.IsType;
 
                 //Range
                 //TODO: Use constant:
-                if (isType)
-                    RangeDictionary.AddSafe(31, types);
+                //if (isType)
+                RangeDictionary.AddSafe(31, types);
 
                 foreach (var reversePropertyId in reverseProperties)
                 {

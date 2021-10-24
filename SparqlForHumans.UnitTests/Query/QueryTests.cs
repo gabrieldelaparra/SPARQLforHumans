@@ -461,8 +461,9 @@ namespace SparqlForHumans.UnitTests.Query
             var rangeEntities = new MultiRangePropertyQuery(propertiesIndexPath, "Q5").Query().ToList();
 
             Assert.NotEmpty(rangeEntities);
-            Assert.Single(rangeEntities); // P25
-            Assert.Equal("P25", rangeEntities[0].Id);
+            Assert.Equal(2, rangeEntities.Count); // P25, P31
+            Assert.Equal("P31", rangeEntities[0].Id);
+            Assert.Equal("P25", rangeEntities[1].Id);
 
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();
@@ -503,9 +504,16 @@ namespace SparqlForHumans.UnitTests.Query
             var domainProperties = new MultiDomainPropertyQuery(propertiesIndexPath, "Q5").Query();
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
+            var entity = new SingleIdEntityQuery(entitiesIndexPath, "Q76").Query().ToList();
+
             Assert.NotEmpty(properties);
-            Assert.Single(properties); // P27
-            Assert.Equal("P27", properties[0].Id);
+            Assert.Equal(2, properties.Length); // P27, P31
+            Assert.Equal("P31", properties[0].Id);
+            Assert.Equal("P27", properties[1].Id);
+
+            Assert.NotEmpty(entity);
+            Assert.Equal("P27", entity[0].Properties[0].Id);
+            Assert.Equal("P31", entity[0].Properties[1].Id);
 
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();
@@ -543,14 +551,15 @@ namespace SparqlForHumans.UnitTests.Query
             new EntitiesIndexer(filename, entitiesIndexPath).Index();
             new PropertiesIndexer(filename, propertiesIndexPath,entitiesIndexPath).Index();
             var rangeProperties = new MultiRangePropertyQuery(propertiesIndexPath, "Q6256").Query().ToList();
-            Assert.Equal(2, rangeProperties.Count); //P27, P555
+            Assert.Equal(3, rangeProperties.Count); //P31, P27, P555
             var domainProperties = new MultiDomainPropertyQuery(propertiesIndexPath, "Q5").Query().ToList();
             Assert.Equal(3, domainProperties.Count); // P31, P27, P777
             var properties = rangeProperties.Intersect(domainProperties, new PropertyComparer()).ToArray();
 
             Assert.NotEmpty(properties);
-            Assert.Single(properties); // P27
-            Assert.Equal("P27", properties[0].Id);
+            Assert.Equal(2, properties.Length); // P31, P27
+            Assert.Equal("P31", properties[0].Id);
+            Assert.Equal("P27", properties[1].Id);
 
             propertiesIndexPath.DeleteIfExists();
             entitiesIndexPath.DeleteIfExists();
