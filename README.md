@@ -125,6 +125,8 @@ $ dotnet run -- -i Sample500.filterAll-Sorted.gz -e
 
 If `-p` was not used above, then we need to create the Properties Index.
 
+> Building the Entities Index takes `~30 hours` to complete.
+
 ## Properties Index
 
 ``` bash
@@ -135,6 +137,8 @@ Properties Index will be created by default at `%homepath%\SparqlForHumans\Lucen
 Now our index is ready.
 - We can now run our backend via `SparqlForHumans.Server/` using the `RDFExplorer` client.
 - Or recreate the results from the paper via `SparqlForHumans.Benchmark/`.
+
+> Building the Properties Index takes `~2 hours` to complete.
 
 ## Run Server
 The backend will listen to request from a modified version of `RDFExplorer`. First we will need to get the server running:
