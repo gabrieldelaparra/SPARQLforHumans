@@ -1,5 +1,8 @@
 # SPARQL for Humans
 
+Paper\
+https://aidanhogan.com/docs/sparql-autocompletion.pdf
+
 # Using this repository
 
 You will first need a Wikidata dump.
@@ -76,7 +79,7 @@ $ dotnet run -- --version
 
 For the following sections a given `Sample500.nt` file is given on the root folder of the repository.\
 To build the complete index (production), `latest-truthy.nt.gz` should be used.\
-**Please note that filtering and indexing the `latest-truthy.nt.gz` will take some 40~80 hours, depending on your system.**
+**Please note that filtering, sorting and indexing the `latest-truthy.nt.gz` will take between 40~80 hours, depending on your system.**
 
 ## Filter
 
@@ -97,11 +100,14 @@ $ dotnet run -- -i ../Sample500.nt -f
 The command for `sorting` is given in the console after filtering.\
 It will add the `.filterAll.gz` sufix as filtered output and `.filterAll-Sorted.gz` for sorting.
 
+> Filter for `latest` takes `~10 hours` on my notebook computer (16GB RAM).
+
 ## Sort
 
 Sorting takes `Sample500.filterAll.gz` as input and outputs `Sample500.filterAll-Sorted.gz`.
 
-> The sorting command process gives no notifications about the status. Please be patient.
+> The sorting command process gives no notifications about the status.\
+> Sorting `latest` takes `~5 hours` and requires `3x` the size of `Filtered.gz` disk space (`~40GB` free for `latest`)
 
 ``` bash
 $ gzip -dc Sample500.filterAll.gz | LANG=C sort -S 200M --parallel=4 -T tmp/ --compress-program=gzip | gzip > Sample500.filterAll-Sorted.gz
@@ -163,13 +169,13 @@ Now browse to `http://localhost:4200/`
 
 With the full index we can compare our results agains the `Wikidata Endpoint`.
 - `67` Properties (`{Prop}`) have been selected to run `4` type of queries (For a total of `268`)
-  - `?var1 {Prop} ?var2 ; ?var1 ?prop ?var3 ;`
-  - `?var1 {Prop} ?var2 ; ?var3 ?prop ?var1 ;`
-  - `?var1 {Prop} ?var2 ; ?var2 ?prop ?var3 ;`
-  - `?var1 {Prop} ?var2 ; ?var3 ?prop ?var2 ;`
+  - `?var1 {Prop} ?var2 . ?var1 ?prop ?var3 .`
+  - `?var1 {Prop} ?var2 . ?var3 ?prop ?var1 .`
+  - `?var1 {Prop} ?var2 . ?var2 ?prop ?var3 .`
+  - `?var1 {Prop} ?var2 . ?var3 ?prop ?var2 .`
 - `268` queries are run against our `Local Index` and the `Remote Endpoint`.
 - We will query for `?prop` on both (Local and Remote) and compare the results.
-- Running the benchmarks takes 3 hours, due to the 50 seconds timeout if the query cannot be completed on the Wikidata Endpoint.
+- Running the benchmarks takes `2~3 hours`, due to the 50 seconds timeout if the query cannot be completed on the Wikidata Endpoint.
 - The details of the runs will be stored at `benchmark.json`.
 - The time results will be summarized at `results.txt`.
 - The time results, for each query, will be exported to a `points.csv`. Each row is a query. The `Id` of the query can be found on the `benchmark.json` file as `HashCode`.
