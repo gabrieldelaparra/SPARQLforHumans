@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+
 using SparqlForHumans.Lucene.Extensions;
 using SparqlForHumans.Lucene.Models;
 using SparqlForHumans.Lucene.Queries.Fields;
@@ -9,6 +11,7 @@ using SparqlForHumans.Models;
 using SparqlForHumans.RDF.Extensions;
 using SparqlForHumans.Utilities;
 using SparqlForHumans.Wikidata.Services;
+
 using VDS.RDF.Query;
 
 namespace SparqlForHumans.Lucene.Queries.Graph
@@ -32,9 +35,9 @@ namespace SparqlForHumans.Lucene.Queries.Graph
 
             CheckAvoidQueries(graph);
 
-            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 1000) : new List<Task<SparqlResultSet>>();
+            var tasks = runOnEndpoint ? RunWikidataEndpointQueries(graph, 200) : new List<Task<SparqlResultSet>>();
 
-            if (runNodeQueries) 
+            if (runNodeQueries)
                 RunNodeQueries(graph);
 
             RunEdgeQueries(graph);
@@ -64,13 +67,6 @@ namespace SparqlForHumans.Lucene.Queries.Graph
             var nodes = graph.Nodes.Select(x => x.Value);
             var edges = graph.Edges.Select(x => x.Value);
 
-            if (!resultsSet.IsEmpty)
-            {
-                foreach (var edge in edges.Where(x => x.Traversed))
-                {
-                    edge.Results = new List<Property>();
-                }
-            }
 
             var queryResultsGroup = resultsSet.Results.SelectMany(x => x).GroupBy(x => x.Key);
 
@@ -217,7 +213,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 }
 
                 edge.Results = !possibleProperties.Any()
-                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*",100000).Query(1000).ToList()
+                    ? new MultiLabelPropertyQuery(graph.PropertiesIndexPath, "*", 100000).Query(1000).ToList()
                     : new BatchIdPropertyQuery(graph.PropertiesIndexPath, possibleProperties).Query(10000).ToList();
             }
         }
@@ -298,7 +294,7 @@ namespace SparqlForHumans.Lucene.Queries.Graph
                 //if (node.Traversed) continue;
                 var query = node.ToSparql(graph, limit).ToString().FixQuery();
                 //Somehow it sends some empty queries, not sure why. Easy fix, but not the right one.
-                if(query.Contains("WHERE  { }")) continue;
+                if (query.Contains("WHERE  { }")) continue;
                 tasks.Add(GraphApiQueries.RunQueryAsync(query));
             }
 
